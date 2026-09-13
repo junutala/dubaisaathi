@@ -47,14 +47,23 @@ Nothing else (rule 1).
 
 ## 1.1 · रास्ता › कहाँ जाना है?
 
-| Field                       | Why it is there                                                                  |
-| --------------------------- | -------------------------------------------------------------------------------- |
-| Big mic + "बोलिए" + example | The primary way to answer the one question; the example shows the phrasing works |
-| या जगह का नाम लिखिए         | The mic fails in a loud taxi                                                     |
-| मेरा होटल · एयरपोर्ट        | The two places every tourist goes back to                                        |
-| हाल में (two recent places) | Tourists repeat destinations; saves typing on day two                            |
+| Field                                                         | Why it is there                                                                  |
+| ------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| First open only: "रास्ता बताने के लिए साथी को आपकी जगह चाहिए" | The reason, before the phone's own permission prompt                             |
+| Big mic + "बोलिए" + example                                   | The primary way to answer the one question; the example shows the phrasing works |
+| या जगह का नाम लिखिए                                           | The mic fails in a loud taxi                                                     |
+| मेरा होटल · एयरपोर्ट                                          | The two places every tourist goes back to                                        |
+| हाल में (two recent places)                                   | Tourists repeat destinations; saves typing on day two                            |
 
 Not asked: "where from". The phone knows; a tourist often does not know the street name.
+
+## 1.1b · रास्ता › जगह की इजाज़त नहीं
+
+| Field                                                            | Why it is there                                                  |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------- |
+| "बिना location के रास्ता, आस-पास खाना और होटल का पिन नहीं चलेगा" | Says plainly what was lost                                       |
+| सेटिंग खोलें                                                     | The only way to fix it                                           |
+| "बाक़ी सब चलेगा"                                                 | So they carry on with बोलना and the documents instead of leaving |
 
 ## 1.2 · रास्ता › सुन रहा हूँ
 
@@ -180,22 +189,31 @@ Not asked: "where from". The phone knows; a tourist often does not know the stre
 | Added date · "सिर्फ़ इस फ़ोन में" | Reassurance while a stranger is looking at the screen |
 | हटाएँ                             | The tourist decides when it goes                      |
 
-## घर.1 · पास
+## घर.1 · पास (three states on one screen)
 
-| Field                                          | Why it is there                                                              |
-| ---------------------------------------------- | ---------------------------------------------------------------------------- |
-| Trial countdown                                | How long the free day has left                                               |
-| अकेले ₹199 · परिवार ₹399                       | The two things you can buy; the family saving stated                         |
-| ख़रीदने के लिए इंटरनेट ज़रूरी                  | Honest: this one screen needs a connection                                   |
-| The buy button                                 | The action                                                                   |
-| UPI या कार्ड · भारत से भी                      | Removes two questions before tapping                                         |
-| पास ख़त्म होने पर भी ज़रूरी जानकारी चालू रहेगी | Removes the fear that paying is the only way to keep the hotel and documents |
+| Field                                                    | Why it is there                                                                      |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| The countdown / the pass and its end / पास ख़त्म         | Which state you are in, in one glance                                                |
+| 1 · 2 · 3 · 4 डिवाइस — ₹199 / ₹299 / ₹399 / ₹499, 14 दिन | The ladder, one rule: ₹100 per extra phone; the traveller can check it in their head |
+| "4 से ज़्यादा? हमसे बात करें"                            | Groups and tour operators — a lead, not a tier                                       |
+| 14 दिन और बढ़ाएँ (pass active)                           | Recharge extends, it does not restart                                                |
+| ख़रीदने के लिए इंटरनेट ज़रूरी                            | Honest: this one screen needs a connection                                           |
+| UPI से दें (same phone) · QR दिखाएँ (someone else pays)  | The two ways money arrives; both are the same order                                  |
+| पास ख़त्म होने पर भी ज़रूरी जानकारी चालू रहेगी           | Removes the fear that paying is the only way to keep the hotel and documents         |
+| परिवार row (multi-device pass active)                    | Into घर.2                                                                            |
 
-## घर.2 · पास › परिवार
+## घर.1c · पास चालू
 
-| Field                          | Why it is there                                    |
-| ------------------------------ | -------------------------------------------------- |
-| QR + "scan on the other phone" | The whole mechanism                                |
-| "expires in 2 minutes"         | Why the QR cannot simply be forwarded              |
-| Devices 2/4, with हटाएँ        | Who is on the pass, and how to remove a lost phone |
-| Shared expiry date             | Everyone's pass ends together                      |
+| Field                            | Why it is there          |
+| -------------------------------- | ------------------------ |
+| What was bought, valid till when | The receipt, in one line |
+| डिवाइस जोड़ें (multi-device)     | Straight to the QR codes |
+
+## घर.2 · पास › डिवाइस
+
+| Field                                                 | Why it is there                                                                |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------ |
+| One QR per extra device, each marked free / used      | The passes; a member scans one and is in, offline, same end time as the master |
+| "साथ हों तो स्कैन करें, दूर हों तो WhatsApp पर भेजें" | The two ways a QR reaches a member                                             |
+| Who is on which slot, with हटाएँ                      | Who is on the pass, and how to take a lost phone off at its next sync          |
+| Shared Counter Off Time                               | Everyone's pass ends together                                                  |

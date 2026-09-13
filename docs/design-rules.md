@@ -35,6 +35,22 @@ new rule is agreed, it is added here before the screen is drawn.
 | 15  | Documents: any document, one photo, one name. On the device only, never uploaded, kept until the tourist deletes it. Persistent storage requested. | review      |
 | 16  | ज़रूरी जानकारी stays usable after the pass expires.                                                                                                | review      |
 
+## Money
+
+| #   | Rule                                                                                                                                                                                                                                                    | Enforced by |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 25  | The strip's validity area carries a रिचार्ज button in the trial, last-day and expired states, and no button in the days-left state.                                                                                                                     | checker     |
+| 26  | घर.1 has three states — before purchase, pass active (14 दिन और बढ़ाएँ), expired — on one screen, with the four tiers ₹199 / ₹299 / ₹399 / ₹499 for 1–4 named devices and "contact us" above four. Payment itself is the aggregator's page, never ours. | review      |
+| 27  | घर.2 shows one QR per extra device, each marked used or free; a member scans and is in, offline, ending at the master Counter Off Time.                                                                                                                 | review      |
+| 28  | UPI first. Every payment is an order tied to the device; no raw VPA QR anywhere.                                                                                                                                                                        | review      |
+| 29  | One number runs entitlement, the Counter Off Time: install +365 days, landing +24 hours, payment +14 days from landing, never from payment. A paid pass extinguishes the trial; recharge adds 14 days to a running counter.                             | review      |
+
+## Permissions
+
+| #   | Rule                                                                                                                                                                           | Enforced by |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
+| 30  | Location is asked at first need (1.1) with the reason on screen; denied gets one screen saying what will not work and a button to settings, then no nagging. Never on landing. | review      |
+
 ## Fields and copy
 
 | #   | Rule                                                                                                                                            | Enforced by |

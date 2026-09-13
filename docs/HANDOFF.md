@@ -37,11 +37,14 @@ Remaining, in one pass:
   plus `canvas.json` with the title "Dubai Saathi Screens", then publish with
   `url: https://claude.ai/code/artifact/3e0e153e-76fe-4a9d-bf95-a5ca966848c5`,
   `contract: "0.1.31"`, favicon 🚕. Never create a new artifact.
-- **Money screens (rules 25–28, decision 005).** The strip gains the रिचार्ज button in three
-  of its four states. घर.1 becomes three states on one screen (before purchase / pass active
-  with 7 दिन और बढ़ाएँ / expired) with UPI-same-phone and QR-someone-else-pays as the two
-  ways to pay; add घर.1c पास चालू as the return from the aggregator. घर.2 becomes the three
-  family QR codes, each marked free or used, with the WhatsApp line and the slot list.
+- **Location screens (rule 30).** The one-line reason on 1.1's first open, and 1.1b — the
+  denied state: what will not work, a settings button, "बाक़ी सब चलेगा".
+- **Money screens (rules 25–29, decisions 005–006).** The strip gains the रिचार्ज button in
+  three of its four states. घर.1 becomes three states on one screen — before purchase / pass
+  active with 14 दिन और बढ़ाएँ / expired — with the four tiers ₹199 / ₹299 / ₹399 / ₹499 for
+  1–4 named devices, "contact us" above four, and UPI-same-phone / QR-someone-else-pays as
+  the two ways to pay; add घर.1c पास चालू as the return from the aggregator. घर.2 becomes one
+  QR per extra device, each marked free or used, with the WhatsApp line and the slot list.
 - **Ledger and rules** are already written for the final state; if a screen ends up differing
   from the ledger, the screen is wrong, not the ledger.
 - Commit with `npm run verify` green; push to `claude/affectionate-bohr-ppyrd3`.
