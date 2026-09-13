@@ -2,6 +2,28 @@
 # runs in production, because there is nothing else to run. The app is a static bundle and the
 # backend is Supabase edge functions.
 
+# The offline Hindi speech model.
+#
+# This runs on the build machine, which has open internet — the container this repository is
+# edited from does not, and that limitation was mistaken for the feature being impossible. The
+# model is baked into the image and served from our own origin, so the traveller never depends on
+# a research host being up, the page's CSP stays 'self', and the download can be cached like any
+# other asset.
+#
+# vosk-browser wants a .tar.gz; alphacephei publishes a .zip, so it is repacked here.
+FROM alpine:3.20 AS model
+ARG VOSK_MODEL=vosk-model-small-hi-0.22
+RUN apk add --no-cache curl unzip tar
+RUN set -eux; \
+    curl -fsSL --retry 3 -o /tmp/model.zip \
+      "https://alphacephei.com/vosk/models/${VOSK_MODEL}.zip"; \
+    unzip -q /tmp/model.zip -d /tmp/unpacked; \
+    echo "--- what the archive contains ---"; \
+    find /tmp/unpacked -maxdepth 2 | head -40; \
+    du -sh "/tmp/unpacked/${VOSK_MODEL}"; \
+    tar -C /tmp/unpacked -czf /model.tar.gz "${VOSK_MODEL}"; \
+    ls -la /model.tar.gz
+
 FROM node:22-alpine AS build
 WORKDIR /repo
 
@@ -31,3 +53,6 @@ ENV NGINX_ENVSUBST_FILTER=PORT
 ENV PORT=8080
 COPY deploy/nginx.conf /etc/nginx/templates/default.conf.template
 COPY --from=build /repo/apps/pwa/dist /usr/share/nginx/html
+# Served, not precached: 40-odd megabytes has no business in the service worker's install step.
+# It is fetched deliberately, once, and cached by the app.
+COPY --from=model /model.tar.gz /usr/share/nginx/html/models/vosk-hi.tar.gz
