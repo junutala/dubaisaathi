@@ -43,6 +43,15 @@ This file is the working summary; the concept doc wins on any detail it covers.
 - **A fallback that is never reached is not a fallback.** If a preferred path can fail, something
   must walk to the next one. Writing the alternative and not wiring it in is worse than not
   writing it, because it reads as handled.
+- **A way out is not a way through.** A screen with buttons on it can still make the task
+  impossible: the microphone screen offered रद्द करें and "type it instead" — two live controls,
+  both of which threw the speech away — and no way to say "I have finished speaking" at all. When
+  checking that a screen works, ask what finishes the task, not what leaves it.
+- **A release never takes something away from a phone.** A traveller's 42 MB voice download was
+  deleted by our own deployments: it shared a cache with a chunk whose name changes every build,
+  under a four-entry limit. Five releases in an hour evicted it, and the app then told the owner
+  his phone could not recognise Hindi. Anything a traveller waited for — a model, a document, a
+  pass — is theirs until they delete it. Shipping is not a reason to reclaim storage.
 
 ## The product, as decided
 
@@ -53,6 +62,19 @@ The reasoning for each deviation is in `docs/decisions/`.
   ज़रूरी जानकारी, plus the mic. Every other screen belongs to a tile and is numbered
   `tile.child` (1.3, 4.2); the two screens the status strip opens are `घर.1` पास and
   `घर.2` परिवार. Screen names use the tile names, never invented labels.
+- **Typing is the front door; voice fills the box (decision 014, 13 September).** A traveller tells
+  Saathi what they want by typing it, in Hindi or Hinglish, and speaking is a faster way to fill the
+  same box — allowed to fail, never depended on. Offline recognition mangles exactly what this
+  product must hear (place names), there is no bigger model worth a traveller's megabytes, and every
+  measurement so far was taken in a quiet room rather than on a Dubai street. The keyboard needs no
+  permission, no model, no download and no network. Speech and typing are already one path: speech
+  does not open a screen, it fills a box the traveller checks and sends.
+- **Where the home-screen mic points is an OPEN question, not a decided one (decision 014).** "I
+  have to go to Discovery Gardens" is either "show me the transport" or "tell the driver" depending
+  on whether the tourist is in a hotel room or at a taxi door — which is not in the words, so no
+  parser recovers it. The mics on 1.1, 2.1 and 3.1 are unambiguous because the screen supplies the
+  context; the home one has to guess, and today it guesses route (`le chalo` is filed as a route
+  keyword). Settle this before building tile 1.
 - **The mic is the AI agent, and it is one thing everywhere.** On home and in the bar of every
   child screen the mic means _ask Saathi anything_: speech → local intent → the right screen
   with the answer already on it. "Dubai Marina Mall jaana hai" opens 1.3 with the options;
@@ -365,6 +387,44 @@ The screens are the design source of truth and live in `design/`:
 - The reviewed canvas: https://claude.ai/code/artifact/3e0e153e-76fe-4a9d-bf95-a5ca966848c5
   — republish to that URL, never a new one.
 
+## Start here tomorrow (written 13 September, end of day)
+
+**The decision: build the three unbuilt tiles, with typing at the front.** रास्ता, खाना and
+ज़रूरी जानकारी have entry screens that say they are being built. That is the work. Voice
+recognition is not developed further until those tiles exist (decision 014).
+
+**Settle this before writing tile 1.** Where does the four-tile home screen's microphone — and its
+text box — point? "I have to go to Discovery Gardens" is either _show me the transport_ or _tell the
+driver_, and which one depends on where the tourist is standing, not on the words. Today it opens
+रास्ता, because `le chalo` is filed as a route keyword. Decision 014 sets out the two shapes worth
+weighing and recommends neither over the other; the owner raised it and the owner decides.
+
+**What happened today, so it is not rediscovered.** Nine hours produced one feature and five
+defects of mine, three of which the owner found by holding a phone:
+
+1. Grammar biasing built (decision 013) — the offline recogniser now decodes against our own 205
+   words with the model's unbiased decoder beside it. **Never tested on a phone.** The ten sentences
+   that would test it are in `docs/spikes/002`, ready to run if it is ever worth ten minutes.
+2. Nothing is acted on until the traveller agrees with it: what was heard goes into an editable box
+   with आगे बढ़िए under it. This is what makes the typing-first pivot cost no rework — speech and
+   typing were already one path by the end of the day.
+3. The microphone listened for ever: `stop()` was written and nothing called it. Fixed with an
+   end-of-speech clock and a हो गया button.
+4. The browser recogniser cut travellers off mid-sentence (`continuous = false`, there from the
+   start, invisible until the box showed people their own words).
+5. Our deployments were deleting the traveller's 42 MB model. See the rule above; it is the worst
+   defect this project has had.
+6. A one-off Arabic speech hiccup was being latched as "this phone has no Arabic voice".
+
+**The pattern worth breaking.** Every one of those was found by the owner on a phone, not by a
+test — including on a day when two test harnesses were built specifically to prevent that. The
+harnesses asserted properties that were true while the product was broken. Prefer a check that
+fails on the actual reported symptom over one that describes the design.
+
+**State of the owner's phone.** The voice model was evicted and must be downloaded once more; after
+the 13 September build a deploy can no longer take it. Testing offline is the only way to know which
+engine answered.
+
 ## Current state
 
 The screens are final and saved to the canvas — 25 artboards, all passing
@@ -437,10 +497,10 @@ the GTM follows from whichever it is. Biasing is built (decision 013) and waitin
 
 ### Not built yet
 
-- Tiles 1, 2 and 4 beyond their entry screens.
+- Tiles 1, 2 and 4 beyond their entry screens — which is tomorrow's work (decision 014).
 - The backend's **code**. The five tables are written and verified against a real Postgres
-  (`supabase/migrations/`, `supabase/tests/`), but **no Supabase project has been created** —
-  that costs money and is the owner's call. Nothing syncs yet: the `VoiceEvent` queue sits on the
+  (`supabase/migrations/`, `supabase/tests/`). The Supabase project exists (`pixlnjmpksmfqheotinp`)
+  but **no migration has been applied to it**, so the tables are still only in the repository. Nothing syncs yet: the `VoiceEvent` queue sits on the
   device at `synced: false` with no server to send it to. No IP address is stored anywhere, which
   is an argued default the owner has not yet ruled on (decision 011).
 - PWA install icons: the manifest declares none, so an installed home-screen icon is the
