@@ -54,11 +54,11 @@ export function ArabicScreen({
 
   if (!phrase) return null;
 
-  // Offered unless the browser has no speech synthesis at all, or this phone has already tried
-  // and failed. A missing voice in the list is not the same as a phone that cannot speak: many
-  // Android engines say Arabic perfectly well from the language tag alone, and being ruled out
-  // by a list is how a working phone gets told it is broken.
-  const canSpeak = support !== null && support.kind !== 'unsupported' && !refused;
+  // Offered from the moment the screen paints. Waiting on the voice probe was the bug: Android
+  // does not populate its voice list until the user has touched the page, so the probe sits
+  // unresolved and the button sits disabled — until some unrelated tap wakes it. The tap on this
+  // button is that gesture, so it must be pressable before the probe has said anything.
+  const canSpeak = support?.kind !== 'unsupported' && !refused;
 
   return (
     <>

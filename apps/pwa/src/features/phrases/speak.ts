@@ -22,6 +22,17 @@ function describe(voice: SpeechSynthesisVoice): ArabicVoice {
   return { name: voice.name, lang: voice.lang, localService: voice.localService };
 }
 
+/**
+ * The best voice found so far, remembered across calls.
+ *
+ * This exists so speaking can start in the same tick as the tap. Android will not populate its
+ * voice list until the user has interacted with the page, and it treats an `await` before
+ * `speak()` as breaking the user gesture — so a handler that waits for the probe before speaking
+ * says nothing at all. The probe fills this in whenever it can; speaking reads it and never
+ * waits for it.
+ */
+let known: SpeechSupport | null = null;
+
 /** Picks the best Arabic voice out of a list, or reports that the list has none. */
 function choose(voices: readonly SpeechSynthesisVoice[]): SpeechSupport {
   const arabic = voices.filter((v) => v.lang.toLowerCase().startsWith('ar'));
@@ -52,12 +63,16 @@ export async function findArabicVoice(timeoutMs = 2500): Promise<SpeechSupport> 
   const synth = window.speechSynthesis;
 
   const ready = choose(synth.getVoices());
-  if (ready.kind === 'ready') return ready;
+  if (ready.kind === 'ready') {
+    known = ready;
+    return ready;
+  }
 
   return new Promise<SpeechSupport>((resolve) => {
     const settle = (support: SpeechSupport) => {
       window.clearTimeout(timer);
       synth.removeEventListener('voiceschanged', onChange);
+      known = support;
       resolve(support);
     };
     const onChange = () => {
@@ -80,7 +95,9 @@ export function watchArabicVoices(onChange: (support: SpeechSupport) => void): (
   if (typeof window === 'undefined' || !('speechSynthesis' in window)) return () => undefined;
   const synth = window.speechSynthesis;
   const handler = () => {
-    onChange(choose(synth.getVoices()));
+    const support = choose(synth.getVoices());
+    if (support.kind === 'ready') known = support;
+    onChange(support);
   };
   synth.addEventListener('voiceschanged', handler);
   return () => {
@@ -94,29 +111,38 @@ export interface SpeakResult {
   readonly ms: number;
 }
 
-/** Speaks the Arabic. Resolves when the phone has finished, or immediately if it cannot. */
-export async function speakArabic(text: string, rate = 0.85): Promise<SpeakResult> {
+/**
+ * Speaks the Arabic, starting in the same tick it is called.
+ *
+ * Nothing is awaited before `speak()`: Android treats a gesture handler that awaits as no longer
+ * being a gesture, and refuses. So this uses whatever voice the probe has already found, and asks
+ * for Gulf Arabic by language tag when it has found none — because a voice list is not a promise
+ * of what the engine can say, and the phone should get to answer rather than be ruled out.
+ *
+ * Call it directly from the tap. The returned promise resolves when the phone has finished, or
+ * with `spoken: false` if it refused.
+ */
+export function speakArabic(text: string, rate = 0.85): Promise<SpeakResult> {
   const started = performance.now();
   if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
-    return { spoken: false, ms: performance.now() - started };
+    return Promise.resolve({ spoken: false, ms: performance.now() - started });
   }
-  const support = await findArabicVoice();
 
   const synth = window.speechSynthesis;
   synth.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
-  // Ask for Gulf Arabic even when no voice was listed. Android's voice list is not a promise of
-  // what the engine can say — plenty of phones speak from the language tag alone — so the
-  // attempt is made and the phone gets to answer, rather than being ruled out by a list.
-  utterance.lang = support.kind === 'ready' ? support.voice.lang : 'ar-AE';
+  // Read into a local so the narrowing survives into the callback below.
+  const found = known;
+  const voice =
+    found?.kind === 'ready'
+      ? synth.getVoices().find((v) => v.name === found.voice.name)
+      : undefined;
+  utterance.lang = voice?.lang ?? 'ar-AE';
   // Slower than default: the driver is hearing it once, over traffic.
   utterance.rate = rate;
-  if (support.kind === 'ready') {
-    const match = synth.getVoices().find((v) => v.name === support.voice.name);
-    if (match) utterance.voice = match;
-  }
+  if (voice) utterance.voice = voice;
 
-  const spoken = await new Promise<boolean>((resolve) => {
+  const finished = new Promise<boolean>((resolve) => {
     utterance.addEventListener('end', () => {
       resolve(true);
     });
@@ -124,14 +150,14 @@ export async function speakArabic(text: string, rate = 0.85): Promise<SpeakResul
     utterance.addEventListener('error', () => {
       resolve(false);
     });
-    synth.speak(utterance);
   });
+  synth.speak(utterance);
 
-  return {
+  return finished.then((spoken) => ({
     spoken,
-    ...(support.kind === 'ready' ? { voiceName: support.voice.name } : {}),
+    ...(voice ? { voiceName: voice.name } : {}),
     ms: performance.now() - started,
-  };
+  }));
 }
 
 export function stopSpeaking(): void {
