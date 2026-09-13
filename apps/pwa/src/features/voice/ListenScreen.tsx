@@ -105,24 +105,49 @@ export function ListenScreen({
    */
   const [modelState, setModelState] = useState<ModelState | null>(null);
 
-  /** One path for every transcript, spoken or typed: parse, record, then go or ask. */
+  /**
+   * One path for every transcript, spoken or typed: parse, record, then go or ask.
+   *
+   * An engine may hand over more than one reading of the same seconds of audio — the offline one
+   * does, because it runs a recogniser biased toward our own words alongside the model's own
+   * unbiased vocabulary. They are competing readings, never two halves of a sentence, so each is
+   * parsed on its own and the first one that yields something actionable wins. The order the
+   * engine gave them in is its own judgement of which is likelier and is not second-guessed here.
+   *
+   * Both readings are recorded. The one that was acted on is the transcript; the unbiased one is
+   * kept beside it, because it is the only place a word nobody has curated yet can appear, and
+   * that is what grows `data/intents/`.
+   */
   const handle = useCallback(
-    (transcript: string, engineId: string) => {
-      const intent = parseIntent(transcript, intentCorpus);
-      const route = landingFor(intent);
+    (
+      result: Readonly<{ transcript: string; alternatives?: readonly string[] }>,
+      engineId: string,
+    ) => {
+      const readings = [result.transcript, ...(result.alternatives ?? [])].filter(
+        (text) => text.trim() !== '',
+      );
+      const parsed = readings.map((text) => ({ text, intent: parseIntent(text, intentCorpus) }));
+      // The first reading that can be acted on; failing that, the engine's own first choice, so
+      // the screen asks about what it actually heard rather than about an also-ran.
+      const chosen = parsed.find((p) => isConfident(p.intent)) ?? parsed[0];
+      if (!chosen) return;
+
+      const route = landingFor(chosen.intent);
+      const unbiased = result.alternatives?.[0];
       void recordVoiceEvent({
-        transcript,
-        intent: intent.kind,
-        confidence: intent.confidence,
+        transcript: chosen.text,
+        ...(unbiased === undefined ? {} : { unconstrainedTranscript: unbiased }),
+        intent: chosen.intent.kind,
+        confidence: chosen.intent.confidence,
         landedOn: route === 'ask' ? 'listen' : route.screen,
-        failure: parseFailure(intent),
+        failure: parseFailure(chosen.intent),
         sttEngine: engineId,
       });
       if (route === 'ask') {
-        setPhase({ at: 'ask', intent });
+        setPhase({ at: 'ask', intent: chosen.intent });
         return;
       }
-      onHeard(intent);
+      onHeard(chosen.intent);
       navigate(route);
     },
     [onHeard],
@@ -169,7 +194,7 @@ export function ListenScreen({
       },
       onFinal: (result) => {
         setPhase({ at: 'thinking' });
-        handle(result.transcript, engine.id);
+        handle(result, engine.id);
       },
       onFailure: (failure) => {
         void recordVoiceEvent({
@@ -247,7 +272,7 @@ export function ListenScreen({
   const submitTyped = () => {
     if (typed.trim() === '') return;
     setPhase({ at: 'thinking' });
-    handle(typed.trim(), typedStt.id);
+    handle({ transcript: typed.trim() }, typedStt.id);
   };
 
   return (

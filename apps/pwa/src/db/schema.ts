@@ -21,6 +21,16 @@ export class SaathiDb extends Dexie {
       // `synced` is indexed because the only query that matters is "what is still queued".
       voiceEvents: 'id, at, synced',
     });
+    // v2: `VoiceEvent` gained `unconstrainedTranscript` — what the offline model heard with
+    // nothing constraining its vocabulary. No index changes, because nothing queries it: the
+    // review reads it off rows the failure index already found. The version exists so the shape
+    // change is recorded here rather than discovered in a row, and so a phone carrying v1 rows
+    // opens without complaint (the field is optional; old rows simply do not have it).
+    this.version(2).stores({
+      phrases: 'id, situation',
+      contentVersions: 'id, version',
+      voiceEvents: 'id, at, synced',
+    });
   }
 }
 

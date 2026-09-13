@@ -388,6 +388,12 @@ The mic, as built (`apps/pwa/src/features/voice/`, decisions 009 and 010):
   the Arabic already on it.
 - **`stt.ts`** is the `SttEngine` seam: the phone's recogniser with `processLocally` first, the
   cloud one second, the keyboard always. Vosk or sherpa-onnx drops in without touching a screen.
+- **`speechGrammar.ts` + `voskStt.ts`** are the offline recogniser. It runs **two** decoders on one
+  model: one biased toward the 205 Devanagari words in `data/intents/` — which is what makes it
+  hear place names rather than the commoner words that sound like them — and the model's own
+  unconstrained one beside it, because a grammar is deaf to any word it does not hold and the
+  learning loop lives on words we have not seen. Both readings reach the screen, which parses each
+  separately and acts on the first it can act on. Decision 013; unmeasured on a phone.
 - **`ListenScreen.tsx`** is 1.2. Every failure — permission, no model, nothing heard, nothing
   understood — ends on a screen with a way forward.
 - **`benchmark.test.ts`** is rule 5's KPI, gating `npm run verify` at 64/64 sentences.
@@ -420,9 +426,14 @@ the same approach should work there because nothing in it depends on the OS.
 
 What is open is no longer the architecture but the **model**. Vosk small gets ordinary sentences
 right and proper nouns wrong — "Mall of the Emirates" came back as "माला एमरेट्स" — and place
-names are most of what this product must hear correctly. A larger Vosk model or sherpa-onnx with
-IndicConformer is the next thing to measure, against the size a cost-conscious traveller will
-actually download.
+names are most of what this product must hear correctly. A larger model is not the answer: between
+Vosk's 42 MB Hindi model and its 1489 MB one there is nothing, and 1.5 GB is not a download a
+traveller accepts.
+
+So the agreed plan is, in order: **grammar-bias the model we have** and test it on a phone; if that
+fails, measure **sherpa-onnx**; if that fails too, Hinglish typing with **Sarvam online only**; then
+the GTM follows from whichever it is. Biasing is built (decision 013) and waiting on a phone —
+`docs/spikes/002` says what to say into it, in order, and which three sentences decide it.
 
 ### Not built yet
 

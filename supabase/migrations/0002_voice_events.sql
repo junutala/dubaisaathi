@@ -30,6 +30,11 @@ create table voice_events (
   -- What they said. No name, no location, no contact details — just the sentence, which is the
   -- only thing that can teach the parser anything.
   transcript text not null,
+  -- What the offline model heard with nothing constraining its vocabulary, when it differs from
+  -- the transcript. The transcript comes from a recogniser biased toward the words in
+  -- data/intents/, which is how it hears place names at all; this is the unbiased reading, and
+  -- the only place a word nobody has curated yet can turn up. Null for every other engine.
+  unconstrained_transcript text,
   script transcript_script not null,
   -- What the parser made of it, and how sure it was.
   intent text not null,

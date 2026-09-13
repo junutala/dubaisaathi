@@ -186,3 +186,55 @@ and reports `unknown` rather than `no` on every other browser.
 Inside a shared artifact link the app runs in a cross-origin frame with no `allow="microphone"`,
 so speech cannot start there however good the phone is. The keyboard path is how that link is
 tested; real speech needs the app served from its own origin or installed to the home screen.
+
+## The grammar round (13 September, decision 013)
+
+The offline recogniser now decodes against our own 205-word list, with the model's unconstrained
+recogniser running beside it on the same audio. Nothing about this has been measured on a phone —
+it cannot be, from here — so this is the round that decides whether step 2 of the plan passes.
+
+### Before you start
+
+Offline voice has to be on the phone already: open the mic screen on wifi, tap **download the
+voice**, wait for 100%, then turn the radio off. The offer disappears once the model is cached.
+
+### Say these, in this order, with the network off
+
+The first column is what to say. The second is what the app must do — not what it must print.
+
+| Say                                          | Must                                               |
+| -------------------------------------------- | -------------------------------------------------- |
+| मॉल ऑफ़ द एमिरेट्स जाना है                   | open रास्ता — **this is the sentence that failed** |
+| मुझे करामा जाना है                           | open रास्ता                                        |
+| मेट्रो से दुबई मॉल जाना है                   | open रास्ता                                        |
+| बुर्ज ख़लीफ़ा कैसे पहुँचूँ                   | open रास्ता                                        |
+| ग्लोबल विलेज ले चलो                          | open रास्ता                                        |
+| ड्राइवर को कहो मीटर चालू करे                 | open the Arabic for the meter                      |
+| जैन खाना कहाँ मिलेगा                         | open खाना                                          |
+| **आज मौसम कैसा रहेगा**                       | **ask — must NOT open a place**                    |
+| **मेरी पत्नी को फ़ोन लगाओ**                  | **ask — must NOT open a place**                    |
+| a place we have never curated — say अल क़ूज़ | ask, and the event must carry what it heard        |
+
+The last three are the ones that decide it. The first seven only confirm the gain; those three
+measure the cost.
+
+### What a pass looks like
+
+1. **The place names arrive.** Line 1 opens रास्ता. If it still comes back as "माला एमरेट्स" and
+   opens nothing, grammar biasing has not solved the problem and step 3 (sherpa-onnx) is next.
+2. **Nothing is invented.** Lines 8 and 9 must land on the two-button question, not on a screen.
+   A place name appearing in either is biasing attracting rather than filtering, and it is worse
+   than the defect it was meant to fix: a wrong location delivered confidently.
+3. **The uncurated place is still heard.** Line 10 will not route — nothing knows अल क़ूज़ — but the
+   unconstrained recogniser should have heard something like it, and that is what teaches the pack.
+
+### What to send back
+
+The `VoiceEvent` queue, which is on the device at `synced: false`. Each row now carries both
+readings: `transcript` is what the app acted on, `unconstrainedTranscript` is what the model heard
+with nothing constraining it, and they are only both present when they differ. Ten rows answer the
+question that cannot be answered from here — for each command, what each recogniser heard and which
+one the app believed.
+
+Also worth noting by hand, because no event carries it: how long the mic takes to come up on the
+first tap after a cold start (two decoders instead of one), and whether the phone gets warm.

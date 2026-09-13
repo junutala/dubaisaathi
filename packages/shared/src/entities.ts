@@ -282,6 +282,13 @@ export interface VoiceEvent {
   readonly sttEngine: string;
   readonly sttModel: string;
   readonly transcript: string;
+  /**
+   * What the offline model heard with nothing constraining its vocabulary, when it differs from
+   * the transcript above. The transcript comes from a recogniser biased toward the words in
+   * `data/intents/`, which is what makes it hear place names; this is the unbiased reading, and
+   * it is the only place a word we have never curated can appear. Absent for every other engine.
+   */
+  readonly unconstrainedTranscript?: string;
   /** Whether the transcript was Devanagari, Roman, or mixed — Hinglish is the common case. */
   readonly script: 'devanagari' | 'roman' | 'mixed';
   readonly intent: string;

@@ -55,4 +55,14 @@ export interface SpeechResult {
   /** 0–1 as reported by the engine, when it reports one. */
   readonly confidence?: number;
   readonly latencyMs?: number;
+  /**
+   * Other readings of the same utterance, best first, for the caller to parse if the primary
+   * transcript yields nothing it can act on. The offline engine returns one: what the model heard
+   * with no grammar constraining it, which is the only reading that can contain a word the
+   * grammar does not hold — a new place name, or a sentence this product has never seen.
+   *
+   * Whoever consumes this must parse, not concatenate: these are competing readings of the same
+   * seconds of audio, not more of the sentence.
+   */
+  readonly alternatives?: readonly string[];
 }

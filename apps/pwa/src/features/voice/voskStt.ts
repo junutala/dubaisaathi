@@ -1,4 +1,9 @@
+// Types only, so this does not pull the 6 MB WASM runtime into the initial bundle; the module
+// itself is still imported dynamically, below.
+import type { KaldiRecognizer, Model } from 'vosk-browser';
 import type { SttEngine, SttHandlers, SttSession } from './stt.js';
+import { withoutUnknownWords } from './speechGrammar.js';
+import { speechGrammar } from './intentPacks.js';
 
 /**
  * Hindi speech recognition that runs on the phone, with no network and no Google.
@@ -17,8 +22,13 @@ const VOSK_MODEL_URL = '/models/vosk-hi.tar.gz';
 /** Named so a later model can be added without evicting this one mid-trip. */
 const MODEL_CACHE = 'saathi-speech-v1';
 
-/** Reported with every `VoiceEvent`, so a model regression is visible in the data. */
-const VOSK_ENGINE_ID = 'vosk-hi-0.22';
+/**
+ * Reported with every `VoiceEvent`, so a model regression is visible in the data. The suffix is
+ * part of the identity on purpose: the same model decoding against our word list is a different
+ * recogniser from the same model decoding against fifty thousand words, and the learning loop has
+ * to be able to tell the two apart when it compares what travellers were heard to say.
+ */
+const VOSK_ENGINE_ID = 'vosk-hi-0.22+grammar';
 
 export type ModelState = 'cached' | 'fetchable' | 'unavailable';
 
@@ -110,6 +120,23 @@ function loadModel() {
   return loading;
 }
 
+/**
+ * A recogniser that decodes against our word list instead of the model's whole vocabulary.
+ *
+ * Returns null rather than throwing, because a missing biased recogniser is a worse transcript
+ * and not a broken microphone — the unbiased one is still there, and it is what shipped before
+ * this existed. The `try` only catches a refusal the constructor makes here; vosk builds the
+ * grammar inside its worker, so a grammar it cannot build shows up instead as that recogniser
+ * returning nothing, which the caller already handles by reading the unbiased one.
+ */
+function tryGrammarRecognizer(model: Model, sampleRate: number): KaldiRecognizer | null {
+  try {
+    return new model.KaldiRecognizer(sampleRate, JSON.stringify(speechGrammar));
+  } catch {
+    return null;
+  }
+}
+
 export const voskStt: SttEngine = {
   id: VOSK_ENGINE_ID,
   source: 'offline-stt',
@@ -154,19 +181,52 @@ export const voskStt: SttEngine = {
 
       const started = Date.now();
       const context = new AudioContext();
-      const recognizer = new model.KaldiRecognizer(context.sampleRate);
-      let best = '';
 
-      recognizer.on('result', (message) => {
-        if ('result' in message && 'text' in message.result) {
-          const text = message.result.text.trim();
-          if (text !== '') best = best === '' ? text : `${best} ${text}`;
-        }
+      /**
+       * Two recognisers on one model, listening to the same audio.
+       *
+       * The first is biased: it decodes against the few hundred words in `data/intents/`, which is
+       * what makes it hear "मॉल ऑफ़ द एमिरेट्स" instead of the commoner words that sound like it.
+       * The second is the model as it comes, decoding against everything it knows.
+       *
+       * Both, and not just the first, because biasing is a trade and this is the side of it that
+       * has to be paid for: a grammar can only return words it holds, so the day a traveller says
+       * a place nobody has curated, the biased recogniser is deaf to it by construction. The
+       * unbiased one still hears it — which keeps the sentence parseable when the biased reading
+       * yields nothing, and keeps the learning loop able to see words we have never seen, which is
+       * the only way the list ever grows. The model, the megabytes and the audio are shared; what
+       * is doubled is the decoding, and the decode of a small model is a fraction of real time.
+       */
+      const biased = tryGrammarRecognizer(model, context.sampleRate);
+      const unbiased = new model.KaldiRecognizer(context.sampleRate);
+
+      let best = '';
+      let heardWithoutGrammar = '';
+
+      const collect = (recognizer: KaldiRecognizer, append: (text: string) => void) => {
+        recognizer.on('result', (message) => {
+          if ('result' in message && 'text' in message.result) {
+            const text = withoutUnknownWords(message.result.text);
+            if (text !== '') append(text);
+          }
+        });
+      };
+      collect(unbiased, (text) => {
+        heardWithoutGrammar = heardWithoutGrammar === '' ? text : `${heardWithoutGrammar} ${text}`;
       });
-      recognizer.on('partialresult', (message) => {
+      // The biased recogniser is the one whose partials the traveller watches, because it is the
+      // one whose words the parser will read. Where it could not be built, the unbiased one is.
+      const primary = biased ?? unbiased;
+      if (biased) {
+        collect(biased, (text) => {
+          best = best === '' ? text : `${best} ${text}`;
+        });
+      }
+      primary.on('partialresult', (message) => {
         if ('result' in message && 'partial' in message.result) {
-          const partial = message.result.partial.trim();
-          handlers.onPartial(best === '' ? partial : `${best} ${partial}`);
+          const partial = withoutUnknownWords(message.result.partial);
+          const shown = biased ? best : heardWithoutGrammar;
+          handlers.onPartial(shown === '' ? partial : `${shown} ${partial}`);
         }
       });
 
@@ -185,10 +245,12 @@ export const voskStt: SttEngine = {
       }
       const node = new AudioWorkletNode(context, 'saathi-mic');
       node.port.onmessage = (event: MessageEvent<Float32Array>) => {
-        try {
-          recognizer.acceptWaveformFloat(event.data, context.sampleRate);
-        } catch {
-          // A dropped frame is not worth ending the sentence over.
+        for (const recognizer of biased ? [biased, unbiased] : [unbiased]) {
+          try {
+            recognizer.acceptWaveformFloat(event.data, context.sampleRate);
+          } catch {
+            // A dropped frame is not worth ending the sentence over.
+          }
         }
       };
       source.connect(node);
@@ -200,7 +262,8 @@ export const voskStt: SttEngine = {
         node.port.onmessage = null;
         source.disconnect();
         node.disconnect();
-        recognizer.remove();
+        biased?.remove();
+        unbiased.remove();
         stream.getTracks().forEach((t) => {
           t.stop();
         });
@@ -212,14 +275,22 @@ export const voskStt: SttEngine = {
       finish = () => {
         cleanup?.();
         cleanup = null;
-        if (best.trim() === '') {
+        const biasedText = best.trim();
+        const plainText = heardWithoutGrammar.trim();
+        // Silence is both of them hearing nothing. One of them hearing nothing is a reading, and
+        // the caller decides which reading to act on.
+        if (biasedText === '' && plainText === '') {
           handlers.onFailure('no-speech');
           return;
         }
         handlers.onFinal({
-          transcript: best.trim(),
+          transcript: biasedText === '' ? plainText : biasedText,
           source: 'offline-stt',
           latencyMs: Date.now() - started,
+          // The unbiased reading, for the caller to fall back to and for the learning loop to
+          // keep. Left off when it is the same string or empty, so nothing downstream has to
+          // decide whether a duplicate means anything.
+          ...(plainText === '' || plainText === biasedText ? {} : { alternatives: [plainText] }),
         });
       };
     };
