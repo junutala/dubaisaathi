@@ -8,6 +8,8 @@ import { db } from '../../db/schema.js';
  */
 export interface VoiceEventInput {
   readonly transcript: string;
+  /** What the engine heard, when the traveller corrected it before sending. See `VoiceEvent`. */
+  readonly correctedFrom?: string;
   /** The unbiased reading of the same audio, when the engine produced one. See `VoiceEvent`. */
   readonly unconstrainedTranscript?: string;
   readonly intent: string;
@@ -45,6 +47,9 @@ export async function recordVoiceEvent(input: VoiceEventInput): Promise<VoiceEve
     sttEngine: input.sttEngine ?? 'none',
     sttModel: input.sttModel ?? 'none',
     transcript: input.transcript,
+    ...(input.correctedFrom === undefined || input.correctedFrom === input.transcript
+      ? {}
+      : { correctedFrom: input.correctedFrom }),
     // Stored only when it differs: a duplicate of the transcript teaches the review nothing and
     // is one more copy of a traveller's sentence than the product needs to keep.
     ...(input.unconstrainedTranscript === undefined ||

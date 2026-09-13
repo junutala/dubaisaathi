@@ -43,7 +43,23 @@ type Phase =
   | { readonly at: 'downloading'; readonly percent: number }
   // One word that could mean two things, or a sentence that meant nothing: ask, do not guess.
   | { readonly at: 'ask'; readonly intent: ParsedIntent }
-  | { readonly at: 'typing' };
+  /**
+   * What was heard, in a box, before anything acts on it — and the same box a traveller types in
+   * from scratch, because they are the same step.
+   *
+   * `spoken` is what the engine produced, or null when nobody spoke. `other` is the reading offered
+   * as a one-tap correction: whichever of the engine's readings is not in the box. `unconstrained`
+   * is specifically the model's unbiased reading, which is what the learning loop keeps — it is
+   * usually the same string as `other` and is not the same idea, because the box may already hold
+   * the unbiased reading and offer the biased one back.
+   */
+  | {
+      readonly at: 'compose';
+      readonly spoken: string | null;
+      readonly other: string | null;
+      readonly unconstrained: string | null;
+      readonly engineId: string;
+    };
 
 /** What the traveller is agreeing to download. Rounded, because 42.4 helps nobody. */
 const VOICE_MB = 42;
@@ -106,51 +122,81 @@ export function ListenScreen({
   const [modelState, setModelState] = useState<ModelState | null>(null);
 
   /**
-   * One path for every transcript, spoken or typed: parse, record, then go or ask.
+   * One path for every sentence, spoken or typed: parse, record, then go or ask.
    *
-   * An engine may hand over more than one reading of the same seconds of audio — the offline one
-   * does, because it runs a recogniser biased toward our own words alongside the model's own
-   * unbiased vocabulary. They are competing readings, never two halves of a sentence, so each is
-   * parsed on its own and the first one that yields something actionable wins. The order the
-   * engine gave them in is its own judgement of which is likelier and is not second-guessed here.
+   * Nothing reaches this until the traveller has pressed आगे बढ़िए, which is the whole point of the
+   * step before it. The recogniser is wrong often enough — "Mall of the Emirates" came back as
+   * "माला एमरेट्स" on a real phone — that acting on a transcript nobody has looked at means sending
+   * someone to the wrong end of Dubai with confidence. Confidence cannot catch it either: the
+   * skeleton matcher is generous by design, so a mangled place name resolves rather than failing.
+   * So the sentence is shown first, and this runs on what the traveller agreed to.
    *
-   * Both readings are recorded. The one that was acted on is the transcript; the unbiased one is
-   * kept beside it, because it is the only place a word nobody has curated yet can appear, and
-   * that is what grows `data/intents/`.
+   * `heard` is what the engine produced, recorded only when the traveller changed it. That pair —
+   * what was heard, and what it should have been, from the one person who knows — is the strongest
+   * thing the learning loop will ever get, and it costs nothing to collect.
    */
   const handle = useCallback(
+    (
+      submitted: Readonly<{ text: string; heard?: string; unconstrained?: string }>,
+      engineId: string,
+    ) => {
+      const transcript = submitted.text.trim();
+      if (transcript === '') return;
+      const intent = parseIntent(transcript, intentCorpus);
+      const route = landingFor(intent);
+      const corrected = submitted.heard !== undefined && submitted.heard !== transcript;
+      void recordVoiceEvent({
+        transcript,
+        ...(corrected ? { correctedFrom: submitted.heard } : {}),
+        ...(submitted.unconstrained === undefined
+          ? {}
+          : { unconstrainedTranscript: submitted.unconstrained }),
+        intent: intent.kind,
+        confidence: intent.confidence,
+        landedOn: route === 'ask' ? 'listen' : route.screen,
+        failure: parseFailure(intent),
+        sttEngine: engineId,
+      });
+      if (route === 'ask') {
+        setPhase({ at: 'ask', intent });
+        return;
+      }
+      onHeard(intent);
+      navigate(route);
+    },
+    [onHeard],
+  );
+
+  /**
+   * Which of an engine's readings to put in the box.
+   *
+   * The offline engine hands over two readings of the same audio: one from a decoder biased toward
+   * the words in `data/intents/`, one from the model's own vocabulary. They are competing readings,
+   * never two halves of a sentence, so each is parsed on its own and the one that yields something
+   * actionable is the one offered. The other is kept and offered as a one-tap correction, because
+   * it is the likeliest correction there is and retyping a sentence on a phone is not.
+   */
+  const review = useCallback(
     (
       result: Readonly<{ transcript: string; alternatives?: readonly string[] }>,
       engineId: string,
     ) => {
-      const readings = [result.transcript, ...(result.alternatives ?? [])].filter(
-        (text) => text.trim() !== '',
-      );
-      const parsed = readings.map((text) => ({ text, intent: parseIntent(text, intentCorpus) }));
-      // The first reading that can be acted on; failing that, the engine's own first choice, so
-      // the screen asks about what it actually heard rather than about an also-ran.
-      const chosen = parsed.find((p) => isConfident(p.intent)) ?? parsed[0];
-      if (!chosen) return;
-
-      const route = landingFor(chosen.intent);
-      const unbiased = result.alternatives?.[0];
-      void recordVoiceEvent({
-        transcript: chosen.text,
-        ...(unbiased === undefined ? {} : { unconstrainedTranscript: unbiased }),
-        intent: chosen.intent.kind,
-        confidence: chosen.intent.confidence,
-        landedOn: route === 'ask' ? 'listen' : route.screen,
-        failure: parseFailure(chosen.intent),
-        sttEngine: engineId,
+      const readings = [result.transcript, ...(result.alternatives ?? [])]
+        .map((text) => text.trim())
+        .filter((text) => text !== '');
+      const best = readings.find((text) => isConfident(parseIntent(text, intentCorpus)));
+      const chosen = best ?? readings[0];
+      if (chosen === undefined) return;
+      setTyped(chosen);
+      setPhase({
+        at: 'compose',
+        spoken: chosen,
+        other: readings.find((text) => text !== chosen) ?? null,
+        unconstrained: result.alternatives?.[0]?.trim() ?? null,
+        engineId,
       });
-      if (route === 'ask') {
-        setPhase({ at: 'ask', intent: chosen.intent });
-        return;
-      }
-      onHeard(chosen.intent);
-      navigate(route);
     },
-    [onHeard],
+    [],
   );
 
   /**
@@ -193,8 +239,7 @@ export function ListenScreen({
         setPartial(text);
       },
       onFinal: (result) => {
-        setPhase({ at: 'thinking' });
-        handle(result, engine.id);
+        review(result, engine.id);
       },
       onFailure: (failure) => {
         void recordVoiceEvent({
@@ -205,16 +250,22 @@ export function ListenScreen({
           failure: SPEECH_FAILURE[failure],
           sttEngine: engine.id,
         });
-        // A refused permission or plain silence is the answer; anything else may just be this
-        // engine, so the next one gets a turn before the traveller sees a failure at all.
+        // A refused permission is the answer; anything else may just be this engine, so the next
+        // one gets a turn before the traveller sees a failure at all.
         if (worthAnotherEngine(failure) && queue.current.length > 0) {
           tryNext();
+          return;
+        }
+        // Nothing heard is not a fault and not a dead end. "Nothing was heard" as a headline gives
+        // the traveller a problem; an empty box gives them the sentence they were about to say.
+        if (failure === 'no-speech') {
+          startTyping();
           return;
         }
         setPhase({ at: 'failed', failure });
       },
     });
-  }, [handle]);
+  }, [review]);
 
   const listen = useCallback(() => {
     setPhase({ at: 'listening' });
@@ -269,16 +320,37 @@ export function ListenScreen({
     window.history.back();
   };
 
-  const submitTyped = () => {
-    if (typed.trim() === '') return;
+  /** Start again with an empty box: the traveller chose the keyboard over the microphone. */
+  const startTyping = () => {
+    session.current?.cancel();
+    setTyped('');
+    setPhase({
+      at: 'compose',
+      spoken: null,
+      other: null,
+      unconstrained: null,
+      engineId: typedStt.id,
+    });
+  };
+
+  /** आगे बढ़िए. The one place a sentence is acted on, whether it was spoken or typed. */
+  const send = () => {
+    if (phase.at !== 'compose' || typed.trim() === '') return;
     setPhase({ at: 'thinking' });
-    handle({ transcript: typed.trim() }, typedStt.id);
+    handle(
+      {
+        text: typed,
+        ...(phase.spoken === null ? {} : { heard: phase.spoken }),
+        ...(phase.unconstrained === null ? {} : { unconstrained: phase.unconstrained }),
+      },
+      phase.engineId,
+    );
   };
 
   return (
     <>
       <ScreenHeader
-        title={t(phase.at === 'typing' ? 'listen.type' : 'listen.title')}
+        title={t(composeTitle(phase))}
         tile={from}
         trail={t('listen.trail')}
         onBack={cancel}
@@ -290,18 +362,27 @@ export function ListenScreen({
             <span className="listen-state">{t('listen.title')}</span>
             <p className="listen-partial">{partial === '' ? '' : `“${partial}”`}</p>
             <p className="muted center">{t('listen.hint')}</p>
-            <button type="button" className="btn btn-ghost" onClick={cancel}>
-              {t('listen.cancel')}
-            </button>
+            {/* The way to FINISH, which for a long time did not exist. The engine also decides for
+                itself when the speaker has stopped, but a traveller who is done should not have to
+                wait to be believed — and without this the offline engine listened for ever, because
+                its stop() was written and nothing called it. Primary, and first. */}
             <button
               type="button"
-              className="linkish"
+              className="btn btn-primary"
               onClick={() => {
-                session.current?.cancel();
-                setPhase({ at: 'typing' });
+                setPhase({ at: 'thinking' });
+                session.current?.stop();
               }}
             >
-              {t('listen.type')}
+              {t('listen.done')}
+            </button>
+            {/* No "type it instead" here any more. It used to be the only way to reach a keyboard
+                from this screen, which is why it was on it — but हो गया now always ends in the box,
+                filled with what was heard or empty when nothing was, so the keyboard is one tap
+                away by the ordinary route. The failure screens keep it, because there the
+                microphone genuinely cannot work and the keyboard is not a second attempt. */}
+            <button type="button" className="btn btn-ghost" onClick={cancel}>
+              {t('listen.cancel')}
             </button>
           </div>
         )}
@@ -332,7 +413,7 @@ export function ListenScreen({
               type="button"
               className="btn btn-primary"
               onClick={() => {
-                setPhase({ at: 'typing' });
+                startTyping();
               }}
             >
               {t('listen.type')}
@@ -358,7 +439,7 @@ export function ListenScreen({
               type="button"
               className="btn btn-ghost"
               onClick={() => {
-                setPhase({ at: 'typing' });
+                startTyping();
               }}
             >
               {t('listen.type')}
@@ -405,7 +486,7 @@ export function ListenScreen({
             }}
             onAgain={listen}
             onType={() => {
-              setPhase({ at: 'typing' });
+              startTyping();
             }}
           />
         )}
@@ -430,38 +511,113 @@ export function ListenScreen({
             </button>
           )}
 
-        {phase.at === 'typing' && (
-          <div className="listen">
-            {/* An ordinary text box, so the phone's own Hindi keyboard does the work. */}
-            <input
-              className="typed"
-              type="text"
-              autoFocus
-              lang="hi"
-              value={typed}
-              placeholder={t('listen.typeHint')}
-              onChange={(event) => {
-                setTyped(event.target.value);
-              }}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter') submitTyped();
-              }}
-              aria-label={t('listen.type')}
-            />
-            <button
-              type="button"
-              className="btn btn-primary"
-              disabled={typed.trim() === ''}
-              onClick={submitTyped}
-            >
-              {t('listen.send')}
-            </button>
-          </div>
+        {phase.at === 'compose' && (
+          <ComposeBox
+            spoken={phase.spoken}
+            other={phase.other}
+            value={typed}
+            onChange={setTyped}
+            onSend={send}
+            onAgain={listen}
+          />
         )}
       </div>
       <QuickBar current={from} onMic={onMic} />
     </>
   );
+}
+
+/**
+ * The sentence, in a box, before anything acts on it.
+ *
+ * One screen with two jobs: checking what the microphone heard, and typing when there was no
+ * microphone. They are the same step, so they are the same component — the traveller presses
+ * आगे बढ़िए either way, and only then does anything happen.
+ *
+ * Why this step exists at all: the offline recogniser is wrong often enough to matter, and wrong in
+ * the worst possible way. "Mall of the Emirates" came back from a real phone as "माला एमरेट्स", and
+ * a mangled place name does not fail — the skeleton matcher is generous by design, so it resolves,
+ * confidently, to somewhere. A traveller cannot be protected from that by a confidence threshold.
+ * They can be protected by being shown the sentence.
+ */
+function ComposeBox({
+  spoken,
+  other,
+  value,
+  onChange,
+  onSend,
+  onAgain,
+}: {
+  readonly spoken: string | null;
+  readonly other: string | null;
+  readonly value: string;
+  readonly onChange: (text: string) => void;
+  readonly onSend: () => void;
+  readonly onAgain: () => void;
+}) {
+  const { t } = useSettings();
+  const heard = spoken !== null;
+  return (
+    <div className="listen">
+      {heard && <span className="listen-state">{t('listen.heard')}</span>}
+      {/* An ordinary text box, so the phone's own keyboard does the work — and because the parser is
+          script-agnostic, a traveller with no Hindi keyboard can correct "माला एमरेट्स" by typing
+          "mall of emirates" and get the same answer. That is what makes this step usable rather
+          than a demand that they own a Devanagari keyboard. */}
+      <input
+        className="typed"
+        type="text"
+        autoFocus
+        lang="hi"
+        value={value}
+        placeholder={t('listen.typeHint')}
+        onChange={(event) => {
+          onChange(event.target.value);
+        }}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter') onSend();
+        }}
+        aria-label={t(heard ? 'listen.check' : 'listen.type')}
+      />
+      <p className="muted center">{t(heard ? 'listen.checkWhy' : 'listen.typeWhy')}</p>
+      <button
+        type="button"
+        className="btn btn-primary"
+        disabled={value.trim() === ''}
+        onClick={onSend}
+      >
+        {t('listen.send')}
+      </button>
+      {/* The two decoders disagreed. The other reading is the likeliest correction there is, so it
+          is one tap rather than a sentence retyped on a phone keyboard in a language whose keyboard
+          this traveller may not have installed. */}
+      {other !== null && other !== value && (
+        <button
+          type="button"
+          className="btn btn-ghost"
+          onClick={() => {
+            onChange(other);
+          }}
+        >
+          {t('listen.orThis', { text: other })}
+        </button>
+      )}
+      {heard && (
+        <button type="button" className="linkish" onClick={onAgain}>
+          {t('listen.again')}
+        </button>
+      )}
+    </div>
+  );
+}
+
+/**
+ * The header. The box is one screen with two jobs, and the crumb has to say which one it is doing:
+ * a sentence to check, or a sentence to type.
+ */
+function composeTitle(phase: Phase): StringKey {
+  if (phase.at !== 'compose') return 'listen.title';
+  return phase.spoken === null ? 'listen.type' : 'listen.check';
 }
 
 /**

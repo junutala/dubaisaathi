@@ -17,6 +17,14 @@ import type { SttEngine, SttFailure, SttHandlers } from './stt.js';
  * **a traveller is never left on a screen with no way forward.** Every state of the microphone
  * screen must offer at least one enabled control. Not the control this author expected — any
  * control, because the failure was always an author's expectation and never a compiler's.
+ *
+ * That property is necessary and it is not sufficient, which this harness learned the hard way.
+ * The listening state offered two enabled controls — रद्द करें and "type it instead" — and passed,
+ * while the one thing a traveller needed was missing: a way to say they had finished speaking.
+ * Both controls it did offer throw the speech away. The offline engine's `stop()`, the only thing
+ * that submits what was heard, was written and called from nowhere, so with Kaldi as the engine the
+ * microphone stayed open for ever. A way out is not a way through; the last block here asserts the
+ * difference.
  */
 
 const navigate = vi.fn();
@@ -239,5 +247,75 @@ describe('the offer to download the offline voice', () => {
       expect(wayForward(view).length).toBeGreaterThan(0);
     });
     expect(downloadButton(view)).toBeNull();
+  });
+});
+
+describe('finishing, which is not the same as escaping', () => {
+  /**
+   * An engine that reports nothing, so the screen stays in `listening` and can be looked at. Its
+   * session records which of the two endings it was asked for: `stop` reports what was heard,
+   * `cancel` throws it away.
+   */
+  function heldListening() {
+    const stop = vi.fn();
+    const cancel = vi.fn();
+    const engine: SttEngine = {
+      id: 'held',
+      source: 'offline-stt',
+      worksOffline: true,
+      available: () => true,
+      listen: () => ({ stop, cancel }),
+    };
+    return { engine, stop, cancel };
+  }
+
+  it('offers a control that submits what was heard, not only ones that discard it', async () => {
+    // The defect, stated as a test: every control on the listening screen discarded the speech.
+    // Asserted by pressing each one in turn rather than by looking for a label, because the bug
+    // was an author's expectation about which control existed.
+    const labels: string[] = [];
+    {
+      const { engine } = heldListening();
+      engines = [engine];
+      const view = show(mount());
+      await waitFor(() => {
+        expect(wayForward(view).length).toBeGreaterThan(0);
+      });
+      labels.push(...wayForward(view));
+      cleanup();
+    }
+
+    const submitted: string[] = [];
+    for (const label of labels) {
+      const { engine, stop } = heldListening();
+      engines = [engine];
+      const view = show(mount());
+      await waitFor(() => {
+        expect(wayForward(view).length).toBeGreaterThan(0);
+      });
+      const button = [...view.querySelectorAll('.flow button')].find(
+        (b) => b.textContent.trim() === label,
+      );
+      (button as HTMLButtonElement | undefined)?.click();
+      if (stop.mock.calls.length > 0) submitted.push(label);
+      cleanup();
+    }
+
+    expect(submitted.length).toBeGreaterThan(0);
+  });
+
+  it('does not lose the sentence to the control that finishes it', async () => {
+    const { engine, stop, cancel } = heldListening();
+    engines = [engine];
+    const view = show(mount());
+    await waitFor(() => {
+      expect(wayForward(view).length).toBeGreaterThan(0);
+    });
+    const finishing = [...view.querySelectorAll('.flow button')].find((b) =>
+      /हो गया|done/i.test(b.textContent),
+    );
+    (finishing as HTMLButtonElement | undefined)?.click();
+    expect(stop).toHaveBeenCalled();
+    expect(cancel).not.toHaveBeenCalled();
   });
 });

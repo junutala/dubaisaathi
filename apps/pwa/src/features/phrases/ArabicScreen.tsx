@@ -8,6 +8,7 @@ import { Icon } from '../../app/shell/icons.js';
 import { phraseById } from '../../db/content.js';
 import {
   findArabicVoice,
+  meansNoVoice,
   speakArabic,
   stopSpeaking,
   watchArabicVoices,
@@ -32,8 +33,15 @@ export function ArabicScreen({
   const [phrase, setPhrase] = useState<Phrase | null>(null);
   const [support, setSupport] = useState<SpeechSupport | null>(null);
   const [speaking, setSpeaking] = useState(false);
-  /** Set only once the phone has actually refused to say it. A voice list is not proof. */
+  /**
+   * Set only once the phone has refused **for a reason that means the voice is not there**. A
+   * voice list is not proof, and neither is any old error: an interrupted utterance or a busy
+   * audio device is a moment, not a verdict, and latching on one is how a phone with a perfectly
+   * good Arabic voice got told it had none.
+   */
   const [refused, setRefused] = useState(false);
+  /** What the phone said the last time it would not speak, shown so it can be acted on. */
+  const [trouble, setTrouble] = useState<string | null>(null);
 
   useEffect(() => {
     void phraseById(phraseId).then((row) => {
@@ -88,9 +96,14 @@ export function ArabicScreen({
           disabled={!canSpeak}
           onClick={() => {
             setSpeaking(true);
+            setTrouble(null);
             void speakArabic(phrase.ar)
               .then((result) => {
-                if (!result.spoken) setRefused(true);
+                if (result.spoken) return;
+                // Only a reason that actually means "no such voice" closes the door. Anything
+                // else leaves the button live, because the next tap very often works.
+                if (meansNoVoice(result.reason)) setRefused(true);
+                setTrouble(result.reason ?? 'unknown');
               })
               .finally(() => {
                 setSpeaking(false);
@@ -101,9 +114,16 @@ export function ArabicScreen({
           {speaking ? t('arabic.speaking') : t('arabic.listen')}
         </button>
 
-        {/* Said only after the phone has been asked and declined — never on a guess. */}
+        {/* Said only after the phone has been asked and declined for a reason that means it —
+            never on a guess, and never on an interruption we caused ourselves. */}
         {(refused || support?.kind === 'unsupported') && (
           <p className="muted small">{t('arabic.noVoice')}</p>
+        )}
+        {/* It would not speak, but it did not say the voice is missing. Say so plainly and let
+            them tap again, rather than deciding the phone is incapable on one bad moment. The
+            reason is on the screen because a bug report that carries it is worth ten that do not. */}
+        {!refused && trouble !== null && (
+          <p className="muted small">{t('arabic.tryAgain', { reason: trouble })}</p>
         )}
 
         <div className="grow" />

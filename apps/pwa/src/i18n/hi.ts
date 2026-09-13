@@ -52,6 +52,7 @@ export const hi = {
   'arabic.listen': 'अरबी में सुनाएँ',
   'arabic.speaking': 'बोल रहा हूँ…',
   'arabic.noVoice': 'इस फ़ोन में अरबी आवाज़ नहीं है — दिखाकर काम चल जाएगा',
+  'arabic.tryAgain': 'इस बार आवाज़ नहीं आई ({reason})। फिर दबाइए।',
   'arabic.show': 'ड्राइवर को दिखाएँ',
 
   // 3.3 · बोलना › ड्राइवर को दिखाएँ
@@ -62,10 +63,15 @@ export const hi = {
   // 1.2 · रास्ता › सुन रहा हूँ — the mic, reachable from every screen
   'listen.title': 'सुन रहा हूँ…',
   'listen.trail': 'साथी से पूछिए',
-  'listen.hint': 'हिंदी और हिंग्लिश — दोनों चलेंगे',
+  'listen.hint': 'हिंदी और हिंग्लिश — दोनों चलेंगे। कहकर रुक जाइए।',
+  'listen.done': 'हो गया',
   'listen.cancel': 'रद्द करें',
   'listen.heard': 'आपने कहा',
+  'listen.check': 'यही कहा था?',
+  'listen.checkWhy': 'ग़लत हो तो सुधार लीजिए — हिंदी या अंग्रेज़ी, जो जल्दी टाइप हो।',
   'listen.type': 'टाइप करके बताइए',
+  'listen.typeWhy': 'हिंदी और हिंग्लिश — दोनों चलेंगे।',
+  'listen.orThis': 'या: “{text}”',
   'listen.typeHint': 'जैसे — “मरीना मॉल जाना है”',
   'listen.send': 'आगे बढ़िए',
   'listen.again': 'फिर बोलिए',

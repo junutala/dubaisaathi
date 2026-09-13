@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, render, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
 import type { SpeechResult } from '@saathi/shared';
 import { SettingsProvider } from '../../app/settings.js';
 import { ListenScreen } from './ListenScreen.js';
@@ -11,9 +11,11 @@ import type { SttEngine } from './stt.js';
  * biased reading is what makes it hear place names; the unbiased one is the only reading that can
  * contain a word nobody has curated.
  *
- * This is about what the screen does with the pair — which is the whole safety net under grammar
- * biasing. Without a fallback, the day the biased recogniser hears nothing useful is the day the
- * traveller is told their phone did not understand, while the model sitting next to it did.
+ * This is about what the screen does with the pair. Nothing is acted on until the traveller presses
+ * आगे बढ़िए, so what the pair decides is which sentence is waiting in the box — and the box is the
+ * safety net under grammar biasing, because a mangled place name does not fail, it resolves. These
+ * tests therefore always press the button: a reading that only reaches the box has changed nothing
+ * until someone agrees with it.
  */
 
 const navigate = vi.fn();
@@ -58,6 +60,19 @@ function engineSaying(result: SpeechResult): SttEngine {
   };
 }
 
+/** The sentence sitting in the box, which is what a reading actually decides. */
+function inTheBox(container: HTMLElement): string {
+  return container.querySelector<HTMLInputElement>('input.typed')?.value ?? '';
+}
+
+/** Presses आगे बढ़िए. Nothing in this app happens until a traveller does. */
+function pressSend(container: HTMLElement) {
+  const send = [...container.querySelectorAll<HTMLButtonElement>('.flow button')].find(
+    (b) => !b.disabled && /आगे बढ़िए|^Go$/.test(b.textContent),
+  );
+  send?.click();
+}
+
 const noop = () => undefined;
 function show() {
   return render(
@@ -78,7 +93,7 @@ afterEach(() => {
 });
 
 describe('two readings of one sentence', () => {
-  it('acts on the biased reading when it is the one that makes sense', async () => {
+  it('puts the biased reading in the box when it is the one that makes sense', async () => {
     engines = [
       engineSaying({
         transcript: 'मुझे करामा जाना है',
@@ -88,13 +103,19 @@ describe('two readings of one sentence', () => {
         alternatives: ['मुझे करम जाना है'],
       }),
     ];
-    show();
+    const view = show();
+    await waitFor(() => {
+      expect(inTheBox(view)).toBe('मुझे करामा जाना है');
+    });
+    // Still nothing acted on: that is the point of the step.
+    expect(navigate).not.toHaveBeenCalled();
+    pressSend(view);
     await waitFor(() => {
       expect(navigate).toHaveBeenCalledWith({ screen: 'soon', tile: 'transport' });
     });
   });
 
-  it('falls back to the unbiased reading when the biased one yields nothing to act on', async () => {
+  it('offers the unbiased reading when the biased one yields nothing to act on', async () => {
     // The cost of a small vocabulary: a sentence made of words the grammar does not hold comes
     // back as fragments. The model's own reading is still there, and it is still a sentence.
     engines = [
@@ -104,7 +125,11 @@ describe('two readings of one sentence', () => {
         alternatives: ['ड्राइवर को कहो मीटर चालू करे'],
       }),
     ];
-    show();
+    const view = show();
+    await waitFor(() => {
+      expect(inTheBox(view)).toBe('ड्राइवर को कहो मीटर चालू करे');
+    });
+    pressSend(view);
     await waitFor(() => {
       expect(navigate).toHaveBeenCalledWith({ screen: 'arabic', phraseId: 'taxi-meter' });
     });
@@ -120,12 +145,34 @@ describe('two readings of one sentence', () => {
         alternatives: ['मुझे देरा जाना है'],
       }),
     ];
-    show();
+    const view = show();
     await waitFor(() => {
-      expect(recorded).toHaveBeenCalled();
+      expect(inTheBox(view)).not.toBe('');
     });
-    const event = recorded.mock.calls[0]?.[0] as { transcript: string };
-    expect(event.transcript).toBe('मुझे करामा जाना है');
+    expect(inTheBox(view)).toBe('मुझे करामा जाना है');
+  });
+
+  it('lets the other reading be taken in one tap rather than retyped', async () => {
+    // A phone keyboard in a script the traveller may not have installed is not a correction path.
+    engines = [
+      engineSaying({
+        transcript: 'मुझे करामा जाना है',
+        source: 'offline-stt',
+        alternatives: ['मुझे देरा जाना है'],
+      }),
+    ];
+    const view = show();
+    await waitFor(() => {
+      expect(inTheBox(view)).toBe('मुझे करामा जाना है');
+    });
+    const other = [...view.querySelectorAll<HTMLButtonElement>('.flow button')].find((b) =>
+      b.textContent.includes('देरा'),
+    );
+    expect(other).toBeDefined();
+    other?.click();
+    await waitFor(() => {
+      expect(inTheBox(view)).toBe('मुझे देरा जाना है');
+    });
   });
 
   it('records the unbiased reading, because that is where an uncurated word shows up', async () => {
@@ -136,7 +183,11 @@ describe('two readings of one sentence', () => {
         alternatives: ['मुझे अल क़ूज़ जाना है'],
       }),
     ];
-    show();
+    const view = show();
+    await waitFor(() => {
+      expect(inTheBox(view)).not.toBe('');
+    });
+    pressSend(view);
     await waitFor(() => {
       expect(recorded).toHaveBeenCalled();
     });
@@ -146,7 +197,11 @@ describe('two readings of one sentence', () => {
 
   it('still works for an engine that offers only one reading', async () => {
     engines = [engineSaying({ transcript: 'मुझे करामा जाना है', source: 'browser-stt' })];
-    show();
+    const view = show();
+    await waitFor(() => {
+      expect(inTheBox(view)).toBe('मुझे करामा जाना है');
+    });
+    pressSend(view);
     await waitFor(() => {
       expect(navigate).toHaveBeenCalledWith({ screen: 'soon', tile: 'transport' });
     });
@@ -154,7 +209,7 @@ describe('two readings of one sentence', () => {
     expect(event.unconstrainedTranscript).toBeUndefined();
   });
 
-  it('asks rather than guessing when neither reading is confident', async () => {
+  it('asks rather than guessing when the sentence sent is still ambiguous', async () => {
     engines = [
       engineSaying({
         transcript: 'करामा',
@@ -164,8 +219,67 @@ describe('two readings of one sentence', () => {
     ];
     const view = show();
     await waitFor(() => {
-      expect(view.querySelector('.flow')?.textContent ?? '').not.toBe('');
+      expect(inTheBox(view)).not.toBe('');
+    });
+    pressSend(view);
+    await waitFor(() => {
+      expect(recorded).toHaveBeenCalled();
     });
     expect(navigate).not.toHaveBeenCalled();
+  });
+});
+
+describe('a sentence the traveller corrected', () => {
+  it('is what gets acted on, not what was heard', async () => {
+    // The whole reason this step exists: "माला एमरेट्स" resolves rather than failing, so a
+    // confidence threshold cannot save anyone. A traveller looking at it can.
+    engines = [engineSaying({ transcript: 'माला एमरेट्स', source: 'offline-stt' })];
+    const view = show();
+    await waitFor(() => {
+      expect(inTheBox(view)).toBe('माला एमरेट्स');
+    });
+    const box = view.querySelector<HTMLInputElement>('input.typed');
+    if (box) fireEvent.change(box, { target: { value: 'mall of emirates jaana hai' } });
+    pressSend(view);
+    await waitFor(() => {
+      expect(navigate).toHaveBeenCalled();
+    });
+    const event = recorded.mock.calls[0]?.[0] as {
+      transcript: string;
+      correctedFrom?: string;
+    };
+    expect(event.transcript).toBe('mall of emirates jaana hai');
+    // The pair that teaches the packs: what was heard, and what it should have been.
+    expect(event.correctedFrom).toBe('माला एमरेट्स');
+  });
+
+  it('is recorded without a correction when the traveller changed nothing', async () => {
+    engines = [engineSaying({ transcript: 'मुझे करामा जाना है', source: 'offline-stt' })];
+    const view = show();
+    await waitFor(() => {
+      expect(inTheBox(view)).not.toBe('');
+    });
+    pressSend(view);
+    await waitFor(() => {
+      expect(recorded).toHaveBeenCalled();
+    });
+    const event = recorded.mock.calls[0]?.[0] as { correctedFrom?: string };
+    expect(event.correctedFrom).toBeUndefined();
+  });
+
+  it('can be typed in Roman letters, because a Hindi keyboard is not a requirement', async () => {
+    // CLAUDE.md rule 4: Hinglish is first-class. A traveller with no Devanagari keyboard must be
+    // able to fix a mangled place name, or this step is a demand rather than a help.
+    engines = [engineSaying({ transcript: 'माला एमरेट्स', source: 'offline-stt' })];
+    const view = show();
+    await waitFor(() => {
+      expect(inTheBox(view)).not.toBe('');
+    });
+    const box = view.querySelector<HTMLInputElement>('input.typed');
+    if (box) fireEvent.change(box, { target: { value: 'karama jaana hai' } });
+    pressSend(view);
+    await waitFor(() => {
+      expect(navigate).toHaveBeenCalledWith({ screen: 'soon', tile: 'transport' });
+    });
   });
 });

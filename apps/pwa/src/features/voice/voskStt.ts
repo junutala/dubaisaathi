@@ -2,6 +2,7 @@
 // itself is still imported dynamically, below.
 import type { KaldiRecognizer, Model } from 'vosk-browser';
 import type { SttEngine, SttHandlers, SttSession } from './stt.js';
+import { startSpeechClock, type SpeechClock } from './endOfSpeech.js';
 import { withoutUnknownWords } from './speechGrammar.js';
 import { speechGrammar } from './intentPacks.js';
 
@@ -146,7 +147,28 @@ export const voskStt: SttEngine = {
   available: () => typeof Worker !== 'undefined' && 'caches' in window,
   listen: (handlers: SttHandlers): SttSession => {
     let stopped = false;
+    /**
+     * Asked rather than read, because `stopped` is set from the session handles this function
+     * returns — during an `await` in the middle of setup, from a tap the traveller made while the
+     * model was still unpacking. A compiler analysing this function alone cannot see that happen
+     * and concludes the flag never changes; a call it cannot inline is the honest way to ask.
+     */
+    const abandoned = () => stopped;
     let cleanup: (() => void) | null = null;
+    /** Reports what was heard. Assigned once the graph is up; null once the session has ended. */
+    let finish: (() => void) | null = null;
+    /** Decides on its own that the sentence is over, because Kaldi never will. */
+    let clock: SpeechClock | null = null;
+
+    /** Ends the session exactly once, whoever asked — a tap, the clock, or the cap. */
+    const settle = () => {
+      stopped = true;
+      clock?.stop();
+      clock = null;
+      const report = finish;
+      finish = null;
+      report?.();
+    };
 
     const run = async () => {
       let stream: MediaStream;
@@ -158,7 +180,7 @@ export const voskStt: SttEngine = {
         handlers.onFailure('no-permission');
         return;
       }
-      if (stopped) {
+      if (abandoned()) {
         stream.getTracks().forEach((t) => {
           t.stop();
         });
@@ -176,6 +198,14 @@ export const voskStt: SttEngine = {
           t.stop();
         });
         handlers.onFailure('no-engine');
+        return;
+      }
+      // Cancelled while the model was unpacking. Without this the session carries on building the
+      // audio graph nobody asked for and leaves the microphone open behind a screen that has gone.
+      if (abandoned()) {
+        stream.getTracks().forEach((t) => {
+          t.stop();
+        });
         return;
       }
 
@@ -213,6 +243,7 @@ export const voskStt: SttEngine = {
       };
       collect(unbiased, (text) => {
         heardWithoutGrammar = heardWithoutGrammar === '' ? text : `${heardWithoutGrammar} ${text}`;
+        clock?.heard();
       });
       // The biased recogniser is the one whose partials the traveller watches, because it is the
       // one whose words the parser will read. Where it could not be built, the unbiased one is.
@@ -220,11 +251,15 @@ export const voskStt: SttEngine = {
       if (biased) {
         collect(biased, (text) => {
           best = best === '' ? text : `${best} ${text}`;
+          clock?.heard();
         });
       }
       primary.on('partialresult', (message) => {
         if ('result' in message && 'partial' in message.result) {
           const partial = withoutUnknownWords(message.result.partial);
+          // A changing partial is the surest sign someone is still talking: Kaldi emits a final
+          // result only at the end of an utterance, which can be the whole sentence.
+          if (partial !== '') clock?.heard();
           const shown = biased ? best : heardWithoutGrammar;
           handlers.onPartial(shown === '' ? partial : `${shown} ${partial}`);
         }
@@ -270,8 +305,6 @@ export const voskStt: SttEngine = {
         void context.close();
       };
 
-      // Nothing here ends on its own: Kaldi keeps listening until told to stop, which is what
-      // the रद्द करें button and the stop below are for.
       finish = () => {
         cleanup?.();
         cleanup = null;
@@ -293,19 +326,20 @@ export const voskStt: SttEngine = {
           ...(plainText === '' || plainText === biasedText ? {} : { alternatives: [plainText] }),
         });
       };
+
+      // Only now, with something able to report a result, is there any point counting down.
+      clock = startSpeechClock(settle);
     };
 
-    let finish: (() => void) | null = null;
     void run();
 
     return {
-      stop: () => {
-        stopped = true;
-        finish?.();
-        finish = null;
-      },
+      // Tapped हो गया, or walked off the screen. Both mean: report what you have.
+      stop: settle,
       cancel: () => {
         stopped = true;
+        clock?.stop();
+        clock = null;
         finish = null;
         cleanup?.();
         cleanup = null;

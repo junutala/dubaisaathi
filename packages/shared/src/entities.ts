@@ -283,6 +283,13 @@ export interface VoiceEvent {
   readonly sttModel: string;
   readonly transcript: string;
   /**
+   * What the engine heard, when the traveller corrected it before pressing send. The transcript is
+   * then what they meant and this is what was recognised — a labelled pair, from the one person who
+   * knows the right answer. It is the strongest signal in this table: every row with this field set
+   * is a recogniser error with its own correction attached.
+   */
+  readonly correctedFrom?: string;
+  /**
    * What the offline model heard with nothing constraining its vocabulary, when it differs from
    * the transcript above. The transcript comes from a recogniser biased toward the words in
    * `data/intents/`, which is what makes it hear place names; this is the unbiased reading, and

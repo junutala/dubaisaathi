@@ -30,6 +30,10 @@ create table voice_events (
   -- What they said. No name, no location, no contact details — just the sentence, which is the
   -- only thing that can teach the parser anything.
   transcript text not null,
+  -- What the engine heard, when the traveller corrected it before pressing send. The transcript is
+  -- then what they meant; this is what was recognised. A labelled pair from the one person who
+  -- knows the right answer, and the strongest signal in this table.
+  corrected_from text,
   -- What the offline model heard with nothing constraining its vocabulary, when it differs from
   -- the transcript. The transcript comes from a recogniser biased toward the words in
   -- data/intents/, which is how it hears place names at all; this is the unbiased reading, and

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { findArabicVoice } from './speak.js';
+import { findArabicVoice, meansNoVoice } from './speak.js';
 
 /**
  * The rule under test is the one that broke on a real phone: a voice list without Arabic in it
@@ -68,5 +68,32 @@ describe('findArabicVoice', () => {
     // by removing the property outright.
     Reflect.deleteProperty(window, 'speechSynthesis');
     await expect(findArabicVoice(10)).resolves.toMatchObject({ kind: 'unsupported' });
+  });
+});
+
+describe('what a refusal actually means', () => {
+  /**
+   * The regression this pins. "This phone has no Arabic voice" was printed, and the button
+   * permanently greyed, on *any* error the synthesiser reported — including `interrupted`, which
+   * `speakArabic` used to cause itself by cancelling an idle engine before every utterance. A
+   * phone with a working Arabic voice was told it had none, twice, in the same file.
+   */
+  it.each([['language-unavailable'], ['voice-unavailable'], ['synthesis-unavailable']])(
+    'treats %s as the voice genuinely not being there',
+    (reason) => {
+      expect(meansNoVoice(reason)).toBe(true);
+    },
+  );
+
+  it.each([['interrupted'], ['canceled'], ['audio-busy'], ['synthesis-failed'], ['unknown']])(
+    'treats %s as a moment, not a verdict about the device',
+    (reason) => {
+      // The next tap very often works. Closing the door on these is how the winnings get lost.
+      expect(meansNoVoice(reason)).toBe(false);
+    },
+  );
+
+  it('says nothing about the device when it was never asked', () => {
+    expect(meansNoVoice(undefined)).toBe(false);
   });
 });

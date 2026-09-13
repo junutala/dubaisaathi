@@ -108,7 +108,28 @@ export function watchArabicVoices(onChange: (support: SpeechSupport) => void): (
 export interface SpeakResult {
   readonly spoken: boolean;
   readonly voiceName?: string;
+  /** What the phone said when it refused, verbatim from the error event. */
+  readonly reason?: string;
   readonly ms: number;
+}
+
+/**
+ * The phone refusing once is not the phone being unable.
+ *
+ * `SpeechSynthesisErrorEvent.error` says which it was, and the difference is the whole thing. Two
+ * of these mean the voice is genuinely not there. The rest are a moment in time: `interrupted` and
+ * `canceled` are usually *us*, because `speakArabic` cancels anything still speaking before it
+ * starts; `audio-busy` is a phone taking a call or playing something; `synthesis-failed` is an
+ * engine that hiccuped and will very likely work on the next tap.
+ *
+ * Treating all of them alike is how a working phone gets told it has no Arabic voice — which it
+ * was, and which is exactly the mistake CLAUDE.md exists to stop: never tell a traveller their
+ * phone cannot do something until it has refused, and a refusal means what it says, not more.
+ */
+const TERMINAL = new Set(['language-unavailable', 'voice-unavailable', 'synthesis-unavailable']);
+
+export function meansNoVoice(reason: string | undefined): boolean {
+  return reason !== undefined && TERMINAL.has(reason);
 }
 
 /**
@@ -129,7 +150,9 @@ export function speakArabic(text: string, rate = 0.85): Promise<SpeakResult> {
   }
 
   const synth = window.speechSynthesis;
-  synth.cancel();
+  // Only cancel something that is actually speaking. Cancelling an idle engine still fires an
+  // `interrupted` error on some Android builds, which is a refusal we manufactured ourselves.
+  if (synth.speaking || synth.pending) synth.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
   // Read into a local so the narrowing survives into the callback below.
   const found = known;
@@ -142,20 +165,22 @@ export function speakArabic(text: string, rate = 0.85): Promise<SpeakResult> {
   utterance.rate = rate;
   if (voice) utterance.voice = voice;
 
-  const finished = new Promise<boolean>((resolve) => {
+  const finished = new Promise<string | null>((resolve) => {
     utterance.addEventListener('end', () => {
-      resolve(true);
+      resolve(null);
     });
-    // The phone telling us it cannot say this. Reported honestly rather than as silence.
-    utterance.addEventListener('error', () => {
-      resolve(false);
+    // The phone telling us something went wrong. Which thing is carried out of here rather than
+    // flattened to "no", because only two of the reasons are about the voice existing at all.
+    utterance.addEventListener('error', (event) => {
+      resolve(event.error);
     });
   });
   synth.speak(utterance);
 
-  return finished.then((spoken) => ({
-    spoken,
+  return finished.then((reason) => ({
+    spoken: reason === null,
     ...(voice ? { voiceName: voice.name } : {}),
+    ...(reason === null ? {} : { reason }),
     ms: performance.now() - started,
   }));
 }
