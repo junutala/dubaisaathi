@@ -87,7 +87,47 @@ language pack that has to be downloaded first, and nothing downloads Hindi by de
 **What this does and does not settle.** It settles that we cannot _assume_ offline Hindi speech
 on Android. It does not settle the gate, because of the next section.
 
-### The one thing that could keep this a pure PWA
+### RESOLVED, 13 September: offline Hindi speech works in a pure PWA
+
+Vosk's small Hindi model, compiled to WebAssembly, served from our own origin and downloaded once
+by the traveller. Measured on the same Android phone, in aeroplane mode:
+
+| Test                                         | Result                                 |
+| -------------------------------------------- | -------------------------------------- |
+| Download the voice (42 MB) on wifi           | **Works**, with progress               |
+| Aeroplane mode: mic → Hindi transcript       | **Works.** "मुझे माला एमरेट्स तक जाना" |
+| Aeroplane mode: transcript → intent → screen | **Works**                              |
+
+**The PWA gate is passed.** No native wrapper, no app store, no OS language pack, no Google. The
+stack table's "sherpa-onnx primary, Vosk baseline" now has a measured baseline.
+
+### What it costs: accuracy on proper nouns
+
+Vosk is markedly worse than Google's cloud recogniser, and it fails in a specific, predictable way.
+Spoken "Mall of the Emirates" came back as **माला एमरेट्स**, and "तक जाना है" lost its auxiliary
+and came back as **तक जाना**.
+
+The second is the more interesting failure. It meant no route verb matched at all, so an ordinary
+sentence parsed as `unknown` — not as the wrong destination. **The confidence model held**: a
+mangled proper noun produced no route rather than a confident wrong one, which is the behaviour the
+whole design exists to guarantee. A traveller sent to the wrong mall is worse than a traveller
+asked to repeat themselves.
+
+That is not a guarantee, though, and the residual risk should be stated plainly: if Vosk mishears
+one corpus place as **another corpus place**, the parser will route confidently and wrongly. The
+mitigations are already in the design — _आपने कहा: …_ on every landing screen with back one tap
+away — and they matter more now than they did when the transcript came from Google.
+
+The fix for both failures is data, not code, which is what the corpus is for: what the phone
+actually heard is now an alias, and auxiliary-dropped route verbs are now keywords. Both are in
+`benchmark.v1.json` as verbatim transcripts, so a later corpus change cannot quietly undo them.
+
+**What this means for the model choice.** Vosk small is proof the architecture works, not proof it
+is the right model to ship. The next question is whether a larger Vosk model or sherpa-onnx with
+IndicConformer gets proper nouns right at an acceptable size — and place names are most of what
+this product needs to hear correctly.
+
+### The other thing that could have kept this a pure PWA
 
 Chrome 138+ exposes an install path alongside the availability probe the app already calls —
 asking the browser to download the on-device model for a language. If that works for `hi-IN`,

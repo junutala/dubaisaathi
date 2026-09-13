@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "publishedAt": "2026-09-13T00:00:00Z",
-  "comment": "The intent benchmark (CLAUDE.md rule 5: the KPI is the intent, not the transcript). Each case is a sentence a traveller would actually say, and the slots that have to come out of it. Both scripts, freely mixed, including sentences that MUST come out ambiguous and sentences that MUST come out unknown — a parser that guesses on those is worse than one that asks. Every failure the learning loop finds is added here before the pack is changed, so a fix that breaks something else cannot land quietly.",
+  "comment": "The intent benchmark (CLAUDE.md rule 5: the KPI is the intent, not the transcript). Each case is a sentence a traveller would actually say, and the slots that have to come out of it. Both scripts, freely mixed, including sentences that MUST come out ambiguous and sentences that MUST come out unknown — a parser that guesses on those is worse than one that asks. Every failure the learning loop finds is added here before the pack is changed, so a fix that breaks something else cannot land quietly. The four cases ending this list are verbatim transcripts from a real phone on 13 September — two of them from Vosk running offline, which mangles proper nouns and drops the auxiliary verb. They are here because a benchmark written only from imagined sentences measures the author, not the traveller.",
   "cases": [
     {
       "said": "मुझे करामा जाना है",
@@ -323,6 +323,26 @@
     {
       "said": "dollar ka rate kya hai",
       "kind": "unknown"
+    },
+    {
+      "said": "मुझे माला एमरेट्स तक जाना",
+      "kind": "route",
+      "destination": "mall-of-emirates"
+    },
+    {
+      "said": "मुझे मरीना तक जाना है",
+      "kind": "route",
+      "destination": "dubai-marina"
+    },
+    {
+      "said": "मुझे आज दुबई मॉल तक जाना है कैसे जाऊं मै",
+      "kind": "route",
+      "destination": "dubai-mall"
+    },
+    {
+      "said": "एमरेट्स तक जाना",
+      "kind": "route",
+      "destination": "mall-of-emirates"
     }
   ]
 }

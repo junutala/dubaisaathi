@@ -220,6 +220,9 @@ export function ListenScreen({
         setPhase({ at: 'failed', failure: 'failed' });
         return;
       }
+      // The model is on the phone now, so the offer has to stop being offered. Without this it
+      // sat there inviting a second 42 MB download of something already downloaded.
+      setModelState('cached');
       // Straight back to listening: the traveller asked a question a minute ago.
       listen();
     });

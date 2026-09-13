@@ -397,9 +397,10 @@ Two interface catalogues, a sixteen-phrase pack in IndexedDB, self-hosted fonts,
 
 ### The spike
 
-1. Android Chrome PWA, no internet: Hindi speech → intent — **measured, and it fails**: the app
-   runs fully offline but the phone has no on-device Hindi model, so the mic cannot hear. Online
-   speech works, via Google's servers. See `docs/spikes/002`.
+1. Android Chrome PWA, no internet: Hindi speech → intent — **WORKS**, with Vosk's Hindi model
+   compiled to WebAssembly and downloaded once (42 MB). Measured in aeroplane mode on a real
+   phone. The phone's own recogniser still cannot: it needs an OS language pack nothing installs.
+   Accuracy on proper nouns is markedly worse than Google's — see `docs/spikes/002`.
 2. iPhone Safari PWA, no internet: Hindi speech → intent — **needs a phone**
 3. Intent → Arabic phrase, locally — **done**, `apps/pwa` 3.1–3.2
 4. Arabic phrase → Arabic voice, locally — **done and confirmed on a real Android phone with the
@@ -413,14 +414,15 @@ network off, and it cannot be measured in this container: Vosk's and Hugging Fac
 blocked by the proxy, and there is no microphone. `docs/spikes/002-hindi-intent.md` says exactly
 what to measure on a phone, in order.
 
-**PWA decision gate:** stay pure PWA only if browser offline Hindi STT is good enough on both
-Android and iOS. If it is not, a thin native speech wrapper is acceptable — the USP beats
-architectural purity. Do not treat "must remain 100% PWA" as settled.
+**PWA decision gate: passed on Android.** Offline Hindi speech works in the browser, with our own
+model rather than the phone's. No native wrapper is needed. iPhone Safari is still unmeasured, and
+the same approach should work there because nothing in it depends on the OS.
 
-The Android half is now measured and it fails as things stand. Before concluding anything, try
-the one path that could still save it: Chrome 138+ can be asked to **download** the on-device
-model for a language, and the landing page already downloads an offline pack with progress shown.
-If a one-time Hindi speech download works, the gate is passed with no native code. Untested.
+What is open is no longer the architecture but the **model**. Vosk small gets ordinary sentences
+right and proper nouns wrong — "Mall of the Emirates" came back as "माला एमरेट्स" — and place
+names are most of what this product must hear correctly. A larger Vosk model or sherpa-onnx with
+IndicConformer is the next thing to measure, against the size a cost-conscious traveller will
+actually download.
 
 ### Not built yet
 

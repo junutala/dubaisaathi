@@ -11,7 +11,10 @@
         "aliases": ["karama", "करामा", "karma", "qarama", "al karama", "kaarama"]
       },
       "kind": "neighbourhood",
-      "location": { "lat": 25.2451, "lng": 55.3047 }
+      "location": {
+        "lat": 25.2451,
+        "lng": 55.3047
+      }
     },
     {
       "id": "bur-dubai",
@@ -22,7 +25,10 @@
         "aliases": ["bur dubai", "बुर दुबई", "burdubai", "bur", "old dubai"]
       },
       "kind": "neighbourhood",
-      "location": { "lat": 25.2637, "lng": 55.2972 }
+      "location": {
+        "lat": 25.2637,
+        "lng": 55.2972
+      }
     },
     {
       "id": "deira",
@@ -33,7 +39,10 @@
         "aliases": ["deira", "देरा", "देइरा", "dera", "diera"]
       },
       "kind": "neighbourhood",
-      "location": { "lat": 25.2697, "lng": 55.3095 }
+      "location": {
+        "lat": 25.2697,
+        "lng": 55.3095
+      }
     },
     {
       "id": "dubai-mall",
@@ -44,7 +53,10 @@
         "aliases": ["dubai mall", "दुबई मॉल", "the dubai mall", "dubaimall", "mall"]
       },
       "kind": "mall",
-      "location": { "lat": 25.1975, "lng": 55.2796 }
+      "location": {
+        "lat": 25.1975,
+        "lng": 55.2796
+      }
     },
     {
       "id": "marina-mall",
@@ -55,7 +67,10 @@
         "aliases": ["marina mall", "मरीना मॉल", "dubai marina mall", "marinamall"]
       },
       "kind": "mall",
-      "location": { "lat": 25.0772, "lng": 55.1401 }
+      "location": {
+        "lat": 25.0772,
+        "lng": 55.1401
+      }
     },
     {
       "id": "mall-of-emirates",
@@ -68,11 +83,22 @@
           "mall of emirates",
           "मॉल ऑफ़ द एमिरेट्स",
           "moe",
-          "emirates mall"
+          "emirates mall",
+          "माला एमरेट्स",
+          "mala emarets",
+          "एमरेट्स",
+          "एमिरेट्स",
+          "emirates",
+          "मॉल ऑफ एमिरेट्स",
+          "mall emirates",
+          "माल ऑफ एमिरेट्स"
         ]
       },
       "kind": "mall",
-      "location": { "lat": 25.1181, "lng": 55.2003 }
+      "location": {
+        "lat": 25.1181,
+        "lng": 55.2003
+      }
     },
     {
       "id": "dubai-marina",
@@ -80,10 +106,13 @@
         "en": "Dubai Marina",
         "hi": "दुबई मरीना",
         "ar": "دبي مارينا",
-        "aliases": ["dubai marina", "दुबई मरीना", "marina", "मरीना"]
+        "aliases": ["dubai marina", "दुबई मरीना", "marina", "मरीना", "मरीना तक", "marina tak"]
       },
       "kind": "neighbourhood",
-      "location": { "lat": 25.0805, "lng": 55.1403 }
+      "location": {
+        "lat": 25.0805,
+        "lng": 55.1403
+      }
     },
     {
       "id": "burj-khalifa",
@@ -94,7 +123,10 @@
         "aliases": ["burj khalifa", "बुर्ज ख़लीफ़ा", "बुर्ज खलीफा", "burj", "khalifa tower"]
       },
       "kind": "landmark",
-      "location": { "lat": 25.1972, "lng": 55.2744 }
+      "location": {
+        "lat": 25.1972,
+        "lng": 55.2744
+      }
     },
     {
       "id": "jumeirah",
@@ -105,7 +137,10 @@
         "aliases": ["jumeirah", "जुमेरा", "jumera", "jumeira"]
       },
       "kind": "neighbourhood",
-      "location": { "lat": 25.2048, "lng": 55.2429 }
+      "location": {
+        "lat": 25.2048,
+        "lng": 55.2429
+      }
     },
     {
       "id": "global-village",
@@ -116,7 +151,10 @@
         "aliases": ["global village", "ग्लोबल विलेज", "globalvillage"]
       },
       "kind": "landmark",
-      "location": { "lat": 25.0699, "lng": 55.3095 }
+      "location": {
+        "lat": 25.0699,
+        "lng": 55.3095
+      }
     },
     {
       "id": "dxb-airport",
@@ -136,7 +174,10 @@
         ]
       },
       "kind": "airport",
-      "location": { "lat": 25.2532, "lng": 55.3657 }
+      "location": {
+        "lat": 25.2532,
+        "lng": 55.3657
+      }
     },
     {
       "id": "gold-souk",
@@ -147,7 +188,10 @@
         "aliases": ["gold souk", "गोल्ड सूक", "sona bazaar", "सोना बाज़ार", "goldsouk"]
       },
       "kind": "souk",
-      "location": { "lat": 25.2697, "lng": 55.2963 }
+      "location": {
+        "lat": 25.2697,
+        "lng": 55.2963
+      }
     }
   ]
 }
