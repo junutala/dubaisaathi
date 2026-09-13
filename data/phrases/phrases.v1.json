@@ -1,0 +1,150 @@
+{
+  "contentVersion": 1,
+  "publishedAt": "2026-09-13T00:00:00Z",
+  "phrases": [
+    {
+      "id": "taxi-address",
+      "situation": "taxi",
+      "hi": "इस पते पर ले चलो",
+      "hinglish": "is pate par le chalo",
+      "en": "Take me to this address",
+      "ar": "خذني إلى هذا العنوان",
+      "arTranslit": "khudhni ila hadha al-unwan"
+    },
+    {
+      "id": "taxi-hotel",
+      "situation": "taxi",
+      "hi": "इस होटल तक ले चलो, कितना लगेगा?",
+      "hinglish": "is hotel tak le chalo, kitna lagega",
+      "en": "Take me to this hotel — how much will it cost?",
+      "ar": "خذني إلى هذا الفندق، كم الأجرة؟",
+      "arTranslit": "khudhni ila hadha al-funduq, kam al-ujra"
+    },
+    {
+      "id": "taxi-meter",
+      "situation": "taxi",
+      "hi": "मीटर चालू कीजिए",
+      "hinglish": "meter chaalu kijiye",
+      "en": "Please start the meter",
+      "ar": "شغّل العدّاد من فضلك",
+      "arTranslit": "shaghghil al-addad min fadlik"
+    },
+    {
+      "id": "taxi-stop",
+      "situation": "taxi",
+      "hi": "यहीं रोक दीजिए",
+      "hinglish": "yahin rok dijiye",
+      "en": "Please stop here",
+      "ar": "توقف هنا من فضلك",
+      "arTranslit": "tawaqqaf huna min fadlik"
+    },
+    {
+      "id": "taxi-card",
+      "situation": "taxi",
+      "hi": "कार्ड से पेमेंट हो जाएगा?",
+      "hinglish": "card se payment ho jayega",
+      "en": "Can I pay by card?",
+      "ar": "هل أستطيع الدفع بالبطاقة؟",
+      "arTranslit": "hal astati al-daf bil-bitaqa"
+    },
+    {
+      "id": "taxi-metro",
+      "situation": "taxi",
+      "hi": "मेट्रो स्टेशन ले चलो",
+      "hinglish": "metro station le chalo",
+      "en": "Take me to the metro station",
+      "ar": "خذني إلى محطة المترو",
+      "arTranslit": "khudhni ila mahattat al-metro"
+    },
+    {
+      "id": "hotel-room",
+      "situation": "hotel",
+      "hi": "मेरा कमरा किस मंज़िल पर है?",
+      "hinglish": "mera kamra kis manzil par hai",
+      "en": "Which floor is my room on?",
+      "ar": "في أي طابق غرفتي؟",
+      "arTranslit": "fi ayy tabiq ghurfati"
+    },
+    {
+      "id": "hotel-luggage",
+      "situation": "hotel",
+      "hi": "सामान यहीं रख सकते हैं?",
+      "hinglish": "samaan yahin rakh sakte hain",
+      "en": "Can I leave my luggage here?",
+      "ar": "هل يمكنني ترك حقائبي هنا؟",
+      "arTranslit": "hal yumkinuni tark haqaibi huna"
+    },
+    {
+      "id": "hotel-wifi",
+      "situation": "hotel",
+      "hi": "वाई-फ़ाई का पासवर्ड क्या है?",
+      "hinglish": "wifi ka password kya hai",
+      "en": "What is the wifi password?",
+      "ar": "ما هي كلمة سر الواي فاي؟",
+      "arTranslit": "ma hiya kalimat sirr al-wai fai"
+    },
+    {
+      "id": "shop-price",
+      "situation": "shopping",
+      "hi": "इसका दाम क्या है?",
+      "hinglish": "iska daam kya hai",
+      "en": "What does this cost?",
+      "ar": "كم سعر هذا؟",
+      "arTranslit": "kam sir hadha"
+    },
+    {
+      "id": "shop-less",
+      "situation": "shopping",
+      "hi": "थोड़ा कम कीजिए",
+      "hinglish": "thoda kam kijiye",
+      "en": "Can you reduce the price a little?",
+      "ar": "هل يمكن تخفيض السعر قليلاً؟",
+      "arTranslit": "hal yumkin takhfid al-sir qalilan"
+    },
+    {
+      "id": "shop-bag",
+      "situation": "shopping",
+      "hi": "एक थैला मिलेगा?",
+      "hinglish": "ek thaila milega",
+      "en": "Could I have a bag?",
+      "ar": "هل يمكنني الحصول على كيس؟",
+      "arTranslit": "hal yumkinuni al-husul ala kis"
+    },
+    {
+      "id": "food-veg",
+      "situation": "restaurant",
+      "hi": "यह पूरी तरह शाकाहारी है?",
+      "hinglish": "yeh puri tarah shakahari hai",
+      "en": "Is this completely vegetarian?",
+      "ar": "هل هذا نباتي تماماً؟",
+      "arTranslit": "hal hadha nabati tamaman"
+    },
+    {
+      "id": "food-jain",
+      "situation": "restaurant",
+      "hi": "प्याज़ और लहसुन के बिना बना सकते हैं?",
+      "hinglish": "pyaaz aur lehsun ke bina bana sakte hain",
+      "en": "Can you make it without onion and garlic?",
+      "ar": "هل يمكن تحضيره بدون بصل وثوم؟",
+      "arTranslit": "hal yumkin tahdiruhu bidun basal wa thum"
+    },
+    {
+      "id": "food-egg",
+      "situation": "restaurant",
+      "hi": "इसमें अंडा तो नहीं है?",
+      "hinglish": "isme anda to nahi hai",
+      "en": "Does this contain egg?",
+      "ar": "هل يحتوي هذا على بيض؟",
+      "arTranslit": "hal yahtawi hadha ala bayd"
+    },
+    {
+      "id": "food-spice",
+      "situation": "restaurant",
+      "hi": "कम तीखा बनाइए",
+      "hinglish": "kam teekha banaiye",
+      "en": "Please make it less spicy",
+      "ar": "أقل حرارة من فضلك",
+      "arTranslit": "aqall harara min fadlik"
+    }
+  ]
+}

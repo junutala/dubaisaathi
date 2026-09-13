@@ -138,8 +138,13 @@ export interface Route {
 
 // --- Communication and emergency ----------------------------------------------------------
 
-/** Where a phrase is used — drives the phrasebook grouping. */
-export type PhraseSituation = 'taxi' | 'restaurant' | 'shopping' | 'hotel' | 'emergency';
+/**
+ * Where a phrase is used — drives the grouping on 3.1. There is no emergency situation:
+ * the app has no emergency feature (decision 002).
+ */
+export const PHRASE_SITUATIONS = ['taxi', 'hotel', 'shopping', 'restaurant'] as const;
+
+export type PhraseSituation = (typeof PHRASE_SITUATIONS)[number];
 
 export interface LocalisedText {
   readonly hi: string;

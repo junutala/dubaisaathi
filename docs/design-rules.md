@@ -55,16 +55,17 @@ new rule is agreed, it is added here before the screen is drawn.
 
 ## Fields and copy
 
-| #   | Rule                                                                                                                                            | Enforced by |
-| --- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 17  | Every field has a one-line justification in `docs/field-ledger.md`, written from the tourist's seat, before it is added. No line, no field.     | review      |
-| 18  | Nothing tech-facing reaches the tourist: no model names, sizes, version numbers, percentages of unseen things. Time left, and what still works. | review      |
-| 19  | No colour value, template token or markup ever renders as visible text.                                                                         | checker     |
-| 20  | Every control is at least 48px. Controls declare themselves with `data-tap`.                                                                    | checker     |
-| 21  | Marigold means "press here"; on light grounds it uses the darker tone. Teal means offline-and-ready.                                            | review      |
-| 22  | The offline status is on the strip. The pass screen says the opposite — _ख़रीदने के लिए इंटरनेट ज़रूरी_ — because paying needs a connection.    | review      |
-| 23  | Dark screens carry no light surfaces. Theme follows the phone; the switch is on the strip.                                                      | checker     |
-| 24  | The canvas and the files on disk agree.                                                                                                         | checker     |
+| #   | Rule                                                                                                                                                                                                 | Enforced by |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 17  | Every field has a one-line justification in `docs/field-ledger.md`, written from the tourist's seat, before it is added. No line, no field.                                                          | review      |
+| 18  | Nothing tech-facing reaches the tourist: no model names, sizes, version numbers, percentages of unseen things. Time left, and what still works.                                                      | review      |
+| 19  | No colour value, template token or markup ever renders as visible text.                                                                                                                              | checker     |
+| 20  | Every control is at least 48px. Controls declare themselves with `data-tap`.                                                                                                                         | checker     |
+| 21  | Marigold means "press here"; on light grounds it uses the darker tone. Teal means offline-and-ready.                                                                                                 | review      |
+| 22  | The offline status is on the strip. The pass screen says the opposite — _ख़रीदने के लिए इंटरनेट ज़रूरी_ — because paying needs a connection.                                                         | review      |
+| 23  | Dark screens carry no light surfaces. Theme follows the phone; the switch is on the strip.                                                                                                           | checker     |
+| 23a | Devanagari line boxes are 1.35 or looser wherever overflow is hidden or clamped. Matras sit above and below the Latin line box, and a tight box silently eats them — "अरबी में" renders as "अरबा म". | review      |
+| 24  | The canvas and the files on disk agree.                                                                                                                                                              | checker     |
 
 ## Dropped, so they are not proposed again
 

@@ -1,0 +1,479 @@
+/* The screens' vocabulary, as CSS. Colours are custom properties set by applyTheme(), so a
+   theme switch is one attribute flip and nothing re-renders. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Mukta', 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: var(--sand);
+  color: var(--ink);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: inherit;
+}
+
+/* Every control clears 48px — a taxi is a moving vehicle (rule 20). */
+button:not(:disabled) {
+  touch-action: manipulation;
+}
+
+.screen {
+  min-height: 100dvh;
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background: var(--sand);
+}
+
+.flow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px 20px 20px;
+  min-height: 0;
+}
+
+.grow {
+  flex: 1;
+}
+.center {
+  text-align: center;
+}
+.center-all {
+  align-items: center;
+  justify-content: center;
+}
+.muted {
+  color: var(--muted);
+}
+.small {
+  font-size: 13.5px;
+}
+.stack-sm {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.lbl {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.pad {
+  padding: 14px 15px;
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+/* ---- status strip ------------------------------------------------------------------ */
+
+.strip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 6px 0 16px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+
+.strip-net {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.strip-validity {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 0;
+}
+
+.strip-validity-label {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.strip-track {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line);
+  display: block;
+}
+.strip-track > span {
+  display: block;
+  height: 4px;
+  border-radius: 2px;
+}
+
+.strip-recharge {
+  min-height: 48px;
+  padding: 0 12px;
+  border-radius: 14px;
+  background: var(--marigold);
+  color: var(--onMarigold);
+  font-size: 13.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.strip-btn {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+/* ---- header ------------------------------------------------------------------------ */
+
+.hdr {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 16px 10px;
+}
+
+.hdr-btn {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.hdr-btn:first-child {
+  margin-left: -12px;
+}
+.hdr-btn:last-child {
+  margin-right: -10px;
+}
+
+.hdr-titles {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hdr-crumb {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.hdr-sep {
+  color: var(--chev);
+}
+.hdr-trail {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.hdr-title {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 23px;
+  font-weight: 600;
+  /* Devanagari carries matras above the baseline and below it, so a line box sized for
+     Latin clips them. Any element that clamps or hides overflow needs 1.35 or more —
+     at 1.15 "अरबी में" renders as "अरबा म". */
+  line-height: 1.35;
+  /* English titles run longer than Hindi. A title that truncates cannot say where you are,
+     so it wraps to a second line instead. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---- bottom bar --------------------------------------------------------------------- */
+
+.bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+  background: var(--card);
+  padding: 9px 6px 14px;
+}
+
+.bar-tab {
+  flex: 1;
+  min-height: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.bar-mic-slot {
+  width: 62px;
+  height: 62px;
+  display: flex;
+  justify-content: center;
+  margin-top: -26px;
+  flex-shrink: 0;
+}
+
+.bar-mic,
+.mic-lg,
+.mic-xl {
+  border-radius: 50%;
+  background: var(--marigold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 0 2.5px var(--card),
+    0 10px 30px rgb(232 135 30 / 0.3),
+    0 0 46px rgb(232 135 30 / 0.22);
+}
+.bar-mic {
+  width: 58px;
+  height: 58px;
+}
+.mic-lg {
+  width: 62px;
+  height: 62px;
+}
+.mic-xl {
+  width: 96px;
+  height: 96px;
+}
+
+/* ---- home --------------------------------------------------------------------------- */
+
+.tiles {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.tile {
+  min-height: 48px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.tile-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: var(--marigoldSoft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tile-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.tile-name {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.tile-blurb {
+  font-size: 13.5px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.home-mic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0 4px;
+}
+
+/* ---- speaking ------------------------------------------------------------------------ */
+
+.say-mic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0 2px;
+}
+.say-mic-label {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  height: 48px;
+  padding: 0 16px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 500;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--line);
+}
+.chip-on {
+  background: var(--marigold);
+  color: var(--onMarigold);
+  font-weight: 600;
+  border-color: var(--marigold);
+}
+
+.phrase-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 13px 9px 13px 15px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.phrase-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.phrase-hi {
+  font-size: 16.5px;
+  font-weight: 500;
+}
+.phrase-ar {
+  font-family: 'Noto Naskh Arabic', 'Mukta', serif;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.arabic-card {
+  background: var(--indigo);
+  border-radius: 18px;
+  padding: 22px 20px;
+}
+.arabic-lg {
+  margin: 0;
+  font-family: 'Noto Naskh Arabic', 'Mukta', serif;
+  font-size: 34px;
+  line-height: 1.55;
+  color: #f7f3ec;
+}
+
+.driver {
+  justify-content: center;
+}
+.arabic-xl {
+  margin: 0;
+  font-family: 'Noto Naskh Arabic', 'Mukta', serif;
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: right;
+}
+.arabic-btn {
+  font-family: 'Noto Naskh Arabic', 'Mukta', serif;
+  font-size: 22px;
+}
+
+/* ---- buttons -------------------------------------------------------------------------- */
+
+.btn {
+  min-height: 54px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 17px;
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.btn-primary {
+  background: var(--marigold);
+  color: var(--onMarigold);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--indigo);
+  border: 1.25px solid var(--muted);
+}
+.btn-indigo {
+  background: var(--indigo);
+  color: #f7f3ec;
+  min-height: 62px;
+  font-size: 19px;
+}
+.bottom {
+  margin-bottom: 4px;
+}
