@@ -392,7 +392,10 @@ Two interface catalogues, a sixteen-phrase pack in IndexedDB, self-hosted fonts,
    speech works, via Google's servers. See `docs/spikes/002`.
 2. iPhone Safari PWA, no internet: Hindi speech → intent — **needs a phone**
 3. Intent → Arabic phrase, locally — **done**, `apps/pwa` 3.1–3.2
-4. Arabic phrase → Arabic voice, locally — **done**, device TTS, honest when absent
+4. Arabic phrase → Arabic voice, locally — **done and confirmed on a real Android phone with the
+   radio off**. The "no Arabic voice" seen at first was two bugs, not the device: a voice list
+   read before it was complete, and a button gated on a probe that could not resolve until the
+   user tapped something. See `docs/spikes/001`.
 5. Hindi/Hinglish text → intent, locally — **done and measured**, `docs/spikes/002`
 
 Half of item 1 and 2 is now text → intent, which is done. What is left is speech → text with the
