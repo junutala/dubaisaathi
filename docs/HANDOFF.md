@@ -49,6 +49,17 @@ Per `CLAUDE.md` "Current state": Android Chrome and iPhone Safari, no internet �
 speech → `ParsedIntent` → Arabic phrase → Arabic voice. Scaffold `apps/pwa` with the gate
 green from the first commit. Do not start feature screens until the spike has a result.
 
+## Step 3 — the learning loop and the field app (after the spike)
+
+- `VoiceEvent` and `FieldReport` are already typed in `packages/shared/src/entities.ts`; the
+  rules are in `CLAUDE.md` under "Learning loop" and "Field collection".
+- The learning loop is part of the voice pipeline from day one: every parse writes a
+  `VoiceEvent` to the device, a sync job uploads when online, `packages/content-tools` mines
+  them into new aliases and intents in `data/`.
+- `apps/field` is a separate PWA for collectors, with accounts (the only place they exist),
+  an offline queue, and photo capture. Its screens are designed the same way as the tourist
+  app's — generator, ledger, checker — but it is a staff tool, so density over delight.
+
 ## How to work
 
 - A list of instructions is a checklist, not a menu.

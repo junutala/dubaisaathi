@@ -223,3 +223,77 @@ export interface ContentVersion {
   readonly publishedAt: Timestamp;
   readonly downloadedAt?: Timestamp;
 }
+
+// --- Learning loop and field collection ---------------------------------------------------
+
+/** Why a voice interaction is worth looking at. Successes carry `null`. */
+export type VoiceFailure =
+  | 'unknown-intent'
+  | 'low-confidence'
+  | 'clarifier-shown'
+  | 'unresolved-place'
+  | 'unresolved-dish'
+  | 'unresolved-document'
+  | 'backed-out'
+  | 'retried';
+
+/**
+ * One voice interaction, recorded on the device and synced when online. Keyed to the device
+ * only. The failures are what retrain the aliases and intents in `data/`.
+ */
+export interface VoiceEvent {
+  readonly id: string;
+  readonly deviceId: string;
+  readonly at: Timestamp;
+  /** Which engine and model produced the transcript, so a regression is visible. */
+  readonly sttEngine: string;
+  readonly sttModel: string;
+  readonly transcript: string;
+  /** Whether the transcript was Devanagari, Roman, or mixed — Hinglish is the common case. */
+  readonly script: 'devanagari' | 'roman' | 'mixed';
+  readonly intent: string;
+  readonly confidence: number;
+  /** The screen the parser routed to, e.g. `1.3`, or `clarifier`. */
+  readonly landedOn: string;
+  readonly failure: VoiceFailure | null;
+  /** Which clarifier option was picked, when one was shown. */
+  readonly clarifierChoice?: string;
+  /** Short clip kept only for failures, only with consent, deleted after sync. */
+  readonly audioClipId?: string;
+  readonly synced: boolean;
+}
+
+export type FieldReportKind = 'restaurant' | 'place' | 'pharmacy' | 'hotel';
+
+export type FieldReportStatus = 'draft' | 'queued' | 'uploaded' | 'approved' | 'rejected';
+
+/**
+ * What a collector captures standing in the restaurant. Reviewed in content-tools before it
+ * becomes a Restaurant + Menu in the next ContentVersion.
+ */
+export interface FieldReport {
+  readonly id: string;
+  readonly kind: FieldReportKind;
+  readonly collectorId: string;
+  readonly capturedAt: Timestamp;
+  readonly location: LatLng;
+  readonly name: string;
+  readonly nameHi?: string;
+  readonly areaName?: string;
+  /** Asked in person, not read off a sign. */
+  readonly dietary: {
+    readonly jain: boolean | 'on-request';
+    readonly vrat: boolean | 'on-request';
+    readonly sattvik: boolean | 'on-request';
+    readonly noOnionGarlic: boolean | 'on-request';
+    readonly eggless: boolean | 'on-request';
+  };
+  readonly deliveryPhone?: string;
+  readonly hours?: string;
+  readonly priceForOneAed?: number;
+  readonly frontPhotoIds: readonly string[];
+  readonly menuPhotoIds: readonly string[];
+  readonly notes?: string;
+  readonly status: FieldReportStatus;
+  readonly reviewNote?: string;
+}

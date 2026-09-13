@@ -79,6 +79,14 @@ The reasoning for each deviation is in `docs/decisions/`.
   plan, outgoing SMS is not available, and the product's promise is offline).
 - **Drivers.** Many Dubai taxi drivers now speak only Arabic (Egyptian and African drivers are
   common; South Asian drivers less so). Spoken Arabic (TTS) matters as much as the text.
+- **Every command the app could not understand or fulfil is captured.** The learning loop:
+  transcript, script, what the parser produced and how confident it was, which screen opened,
+  and what the tourist did next (backed out within seconds, retried, picked the other option
+  in a clarifier). Queued on the device, synced when online, keyed to the device only. This is
+  the data that retrains aliases and intents — see "Learning loop" below.
+- **Content is collected in the field by our own people**, with a small separate app
+  (`apps/field`): restaurant photo, menu photos, Jain / vrat / Sattvik availability asked in
+  person, delivery number, hours, price band, GPS. Reviewed, then published into the pack.
 
 ## Non-negotiable rules
 
@@ -147,8 +155,36 @@ it is a cost and failure surface, not a dependency of the core experience.
 ## Data entities
 
 `User`, `Device`, `Pass`, `Family`, `FamilyDevice`, `DubaiPlace`, `Restaurant`, `FoodTag`,
-`Menu`, `TransportNode`, `TransportEdge`, `Route`, `Phrase`, `EmergencyPoint`, `ContentVersion`.
+`Menu`, `TransportNode`, `TransportEdge`, `Route`, `Phrase`, `EmergencyPoint`, `ContentVersion`,
+plus `VoiceEvent` (the learning loop) and `FieldReport` (field collection, pre-review).
 Reuse these names in code and schema rather than inventing synonyms.
+
+## Learning loop
+
+The intent parser will be wrong, and the only way to make it less wrong is to see where.
+Every voice interaction produces a `VoiceEvent`; the ones that matter are the failures:
+
+- `intent = unknown`, or confidence below the routing threshold
+- a clarifier was shown (and which option was picked, or none)
+- the tourist backed out of the landing screen within a few seconds, or retried immediately
+- a destination, dish or document name that resolved to nothing
+
+Rules: stored on the device first, synced when online, never blocks the tourist. Keyed to the
+device id only. Transcript text always; a short audio clip only for failures, only with a
+one-time consent line, deleted from the device after sync. The STT engine and model version
+travel with every event so a regression is visible. Reviewed in `packages/content-tools`;
+the output is new aliases, new phrases and new intents in `data/`, versioned like any content.
+
+## Field collection
+
+`apps/field` is a second, separate PWA for our own collectors — not tourists. It is the one
+place accounts exist (collectors are staff). Offline-capable, because collectors roam: a
+`FieldReport` is filled in at the restaurant (photos of the front and the menu, the dietary
+questions asked in person — Jain, vrat, Sattvik, no onion/garlic, eggless — delivery number,
+hours, price for one, GPS captured on the spot), queued, and uploaded when online. Nothing a
+collector submits reaches the tourist pack unreviewed: a report is approved in
+`packages/content-tools`, becomes a `Restaurant` + `Menu`, and ships in the next
+`ContentVersion`. The same form covers places, pharmacies and hotels with fewer fields.
 
 ## MVP features (the whole scope)
 
@@ -226,10 +262,11 @@ dubaisaathi/
 │   └── emergency/         # EmergencyPoint
 ├── apps/
 │   ├── pwa/               # the React + TS + Vite client — the product
-│   └── api/               # thin Node + TS backend (accounts, pass, entitlement, content)
+│   ├── field/             # collectors' PWA: FieldReport capture, offline queue, upload
+│   └── api/               # thin Node + TS backend (entitlement, content, voice events, field)
 └── packages/
     ├── shared/            # entity types shared by pwa and api — one definition, imported twice
-    └── content-tools/     # build/validate/version the offline data pack
+    └── content-tools/     # build/validate/version the pack; review FieldReports; mine VoiceEvents
 ```
 
 Inside `apps/pwa/src/`, organise by domain, not by technical layer:
