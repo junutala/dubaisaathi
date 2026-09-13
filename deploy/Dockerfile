@@ -14,6 +14,22 @@
 FROM alpine:3.20 AS model
 ARG VOSK_MODEL=vosk-model-small-hi-0.22
 RUN apk add --no-cache curl unzip tar
+
+# What the alternatives actually weigh, asked rather than assumed. A HEAD costs nothing and the
+# answer decides whether a bigger model is a product option at all: a traveller on hotel wifi
+# will not fetch a gigabyte, and a cheap phone will not hold one in memory.
+RUN set -eux; \
+    for m in vosk-model-small-hi-0.22 vosk-model-hi-0.22 vosk-model-small-en-in-0.4 \
+             vosk-model-en-in-0.5; do \
+      size=$(curl -fsSLI "https://alphacephei.com/vosk/models/$m.zip" 2>/dev/null \
+             | tr -d '\r' | awk 'tolower($1)=="content-length:"{print $2}' | tail -1); \
+      if [ -n "$size" ]; then \
+        echo "MODEL SIZE  $m  $(( size / 1048576 )) MB"; \
+      else \
+        echo "MODEL SIZE  $m  not published"; \
+      fi; \
+    done
+
 RUN set -eux; \
     curl -fsSL --retry 3 -o /tmp/model.zip \
       "https://alphacephei.com/vosk/models/${VOSK_MODEL}.zip"; \
