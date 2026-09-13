@@ -11,6 +11,11 @@ COPY apps/pwa/package.json apps/pwa/
 COPY packages/shared/package.json packages/shared/
 RUN npm ci
 
+# Both workspaces' tsconfigs extend this one, and esbuild reads it to find the path alias for
+# @saathi/shared. Without it `vite build` transforms zero modules and fails on index.html — which
+# is a confusing way to be told a file is missing, so it is copied on its own line.
+COPY tsconfig.base.json ./
+
 # The PWA imports content straight from data/ — the phrase pack, the places and the keywords —
 # so those are build inputs, not runtime files.
 COPY packages/ packages/
