@@ -192,14 +192,26 @@ export type PassKind = 'trial' | 'solo' | 'family';
 
 export type PassStatus = 'inactive' | 'active' | 'expired';
 
+/**
+ * A pass is a token signed by the server and verified on the device with the public key
+ * shipped in the app. Validity is read from the signature, never from a live check.
+ * A family pass issues four of these at purchase: slot 0 on the buyer's phone, slots 1–3 as
+ * QR codes; a member scans one and installs it offline. See docs/decisions/005.
+ */
 export interface Pass {
   readonly id: string;
   readonly kind: PassKind;
   readonly status: PassStatus;
+  /** 0 for a solo pass or the family owner; 1–3 for the family QR slots. */
+  readonly slot: number;
+  readonly familyId?: string;
   /** Set only once arrival in Dubai is confirmed — never from a single GPS fix. */
   readonly activatedAt?: Timestamp;
   readonly expiresAt?: Timestamp;
-  readonly ownerUserId?: string;
+  /** The server's signature over {id, kind, slot, familyId, expiresAt}. */
+  readonly signature: string;
+  /** Filled in when a device installs the pass; reported to the server on next sync. */
+  readonly deviceId?: string;
 }
 
 export interface Family {

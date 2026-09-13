@@ -62,8 +62,27 @@ The reasoning for each deviation is in `docs/decisions/`.
   deletes it. The app requests persistent storage (`navigator.storage.persist()`) so the
   browser does not evict it under storage pressure. ज़रूरी जानकारी stays usable after the pass
   ends, because all of it is local.
-- **No login, no account, no gate.** Entitlement is keyed to the device; family devices join by
-  a short-lived QR token. Nothing in the app asks for a phone number or email.
+- **No login, no account, no gate.** Entitlement is keyed to the device. Nothing in the app
+  asks for a phone number or email.
+- **A pass is a signed token on the device.** The server signs `{pass id, kind, slot, expiry}`;
+  the app verifies it offline with the public key shipped in the app. Validity is never checked
+  against the server — the strip reads the signature.
+- **Paying: UPI first, by order, not by VPA.** The app asks the server for an order carrying the
+  device id; the aggregator returns a UPI intent (same phone — the tourist's UPI app opens with
+  the amount) and an order QR (someone else pays — the son in Pune scans it). The aggregator's
+  webhook marks the order paid; the server issues the signed pass; the app, polling the order,
+  flips the strip. Creating the order needs the tourist's phone online for a moment. A raw UPI
+  QR (a VPA) is never used: it cannot be tied to a device.
+- **Family pass = four signed passes at purchase.** One installs on the buyer's phone; the
+  other three are QR codes on घर.2, each carrying `family id · slot · master expiry ·
+signature`. A member scans one — **fully offline** — the app verifies the signature and
+  installs the pass with the same end date. A QR can be sent as an image on WhatsApp to a
+  member arriving separately; the website sells the same one or four QRs for someone in India
+  buying for people already in Dubai. Reconciliation on sync: each phone reports its slot; a
+  second phone reporting an already-bound slot is rejected at its next sync. हटाएँ on घर.2
+  drops a binding server-side and kills that phone's pass at its next sync.
+- **Recharge adds seven days to the current expiry.** The strip carries a **रिचार्ज** button in
+  the trial, last-day and expired states; in the days-left state it stays quiet.
 - **The landing page gates on the pack.** First open downloads the whole offline pack with time
   remaining shown; _शुरू करें_ enables only when complete. Updates download silently while the
   app is open and apply on the landing page at the next launch — never mid-trip.
@@ -137,7 +156,7 @@ The reasoning for each deviation is in `docs/decisions/`.
 | Backend      | Node.js + TypeScript                                                                             |
 | Database     | PostgreSQL + PostGIS                                                                             |
 | Auth         | None. Entitlement keyed to the device; family devices join by short-lived QR token               |
-| Payments     | INR gateway (UPI + cards)                                                                        |
+| Payments     | UPI-first INR aggregator (Razorpay / Cashfree / PhonePe PG): order → intent or QR → webhook      |
 | Hindi STT    | sherpa-onnx / IndicConformer (primary); Vosk Hindi (baseline); Whisper (accuracy reference only) |
 | TTS          | Device TTS first; sherpa-onnx if device TTS is inadequate                                        |
 
@@ -203,8 +222,9 @@ The mic is not a feature on this list because it is the way into all of them.
 
 Entitlement facts that affect code: trial starts on **confirmed arrival in Dubai** (repeated
 GPS readings / geofence confidence, never a single fix); the product is fully usable in India
-for testing before purchase; family devices share one expiry; QR carries a token, never
-entitlement.
+for testing before purchase; family devices share one expiry; a family QR carries a signed
+pass for one slot, bounded by the master expiry and reconciled on sync (see
+`docs/decisions/005`).
 
 ## Working conventions
 

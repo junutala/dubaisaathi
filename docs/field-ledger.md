@@ -7,11 +7,12 @@ written, the field is not added.
 
 ## On every screen after landing — the status strip
 
-| Field                               | Why it is there                                                                     |
-| ----------------------------------- | ----------------------------------------------------------------------------------- |
-| ऑफ़लाइन / ऑनलाइन                    | The status this product lives on; a tourist with no data needs to see it is fine    |
-| Validity line + label (four states) | This is the money: how long the offline functions last, on every screen. Tap → घर.1 |
-| Theme switch                        | One tap, never hunted for                                                           |
+| Field                                          | Why it is there                                                                     |
+| ---------------------------------------------- | ----------------------------------------------------------------------------------- |
+| ऑफ़लाइन / ऑनलाइन                               | The status this product lives on; a tourist with no data needs to see it is fine    |
+| Validity line + label (four states)            | This is the money: how long the offline functions last, on every screen. Tap → घर.1 |
+| रिचार्ज button (trial, last day, expired only) | The money, made obvious exactly when it matters, and quiet otherwise                |
+| Theme switch                                   | One tap, never hunted for                                                           |
 
 ## On every child screen — header and bar
 
