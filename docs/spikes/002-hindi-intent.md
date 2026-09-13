@@ -69,7 +69,45 @@ All four were fixed in `data/`, which is where a parser failure should be fixabl
 
 ## Half two: speech → text, offline
 
-**This cannot be answered in this container, and was not faked.**
+### Measured on a real phone, 13 September 2026
+
+Android, Chrome, 5G, on `https://dubai.saafarsaathi.in` — the first real-device run.
+
+| Test                           | Result                                                                                                   |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| Online: mic → Hindi transcript | **Works.** "मुझे आज दुबई मॉल तक जाना है कैसे जाऊं मै"                                                    |
+| Online: transcript → intent    | **Works.** `route`, destination `dubai-mall` at confidence 1.0, landed on the tile with _आपने कहा_ on it |
+| **Aeroplane mode: app opens**  | **Works.** Shell, tiles, strip showing offline — the whole app with the radio off                        |
+| **Aeroplane mode: mic**        | **Fails.** No on-device Hindi model on this phone                                                        |
+
+So the online transcript came from Google's servers, not the handset. That is the expected state
+of most Android phones today: Chrome 138+ can run speech recognition locally, but only against a
+language pack that has to be downloaded first, and nothing downloads Hindi by default.
+
+**What this does and does not settle.** It settles that we cannot _assume_ offline Hindi speech
+on Android. It does not settle the gate, because of the next section.
+
+### The one thing that could keep this a pure PWA
+
+Chrome 138+ exposes an install path alongside the availability probe the app already calls —
+asking the browser to download the on-device model for a language. If that works for `hi-IN`,
+offline Hindi speech becomes a one-time download rather than a missing capability, and it fits
+the product exactly: the landing page already downloads the offline pack with progress shown
+before _शुरू करें_ enables. The speech model would be part of that same download.
+
+Untested. It needs a phone, a network, and a willing tester; it cannot be checked here. It is the
+next thing to try, and it is worth trying before anyone writes a native wrapper.
+
+### Still open
+
+- iPhone Safari, aeroplane mode. iOS on-device dictation may behave differently from Chrome's,
+  and Safari has no `processLocally` to ask about.
+- Whether an installed on-device model, once present, reaches the right intent often enough
+  (rule 5's KPI) when the speech is real rather than typed.
+
+### Why this was not measured earlier
+
+**Not in this container, and not faked.**
 
 - `alphacephei.com` (Vosk) and `huggingface.co` (Whisper, IndicConformer) both return 403 through
   the proxy, so no model can be downloaded, let alone benchmarked.
