@@ -32,7 +32,7 @@
   .btn { min-height: 54px; border-radius: 14px; display: flex; align-items: center;
          justify-content: center; gap: 10px; font-weight: 600; font-size: 17px;
          font-family: 'Mukta', sans-serif; }
-  .chip { height: 38px; padding: 0 14px; border-radius: 19px; display: flex;
+  .chip { height: 48px; padding: 0 16px; border-radius: 24px; display: flex;
           align-items: center; gap: 6px; font-size: 15px; font-weight: 500;
           white-space: nowrap; }
   .ar { font-family: 'Noto Naskh Arabic', 'Mukta', serif; direction: rtl;
@@ -64,7 +64,7 @@
 </style>
 </helmet>
 <div class="screen">
-  <div class="row" style="gap: 6px; padding: 14px 16px 10px; align-items: center"><div style="width: 48px; height: 48px; margin-left: -12px; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.4 5.8 8.6 12l5.8 6.2"/></svg></div><div class="col" style="flex: 1; gap: 2px; min-width: 0"><div class="row" style="gap: 5px; color: #1A2456"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1A2456" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.6 12 4.2l8 6.4"/><path d="M6.2 9.8v9.9h11.6V9.8"/></svg><span style="font-size: 13px; font-weight: 700; letter-spacing: 0.02em">घर</span><span style="font-size: 13px; color: #8A8F9E">›</span><span style="font-size: 13px; font-weight: 600; color: #5B6070">पास</span></div><span style="font-family: 'Anek Devanagari', sans-serif; font-size: 23px; font-weight: 600; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">पास</span></div><div style="width: 48px; height: 48px; margin-right: -10px; display: flex; align-items: center; justify-content: center"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#1A2456" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.6 12 4.2l8 6.4"/><path d="M6.2 9.8v9.9h11.6V9.8"/></svg></div></div>
+  <div class="row" style="gap: 6px; padding: 14px 16px 10px; align-items: center"><div style="width: 48px; height: 48px; margin-left: -12px; display: flex; align-items: center; justify-content: center" data-tap="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.4 5.8 8.6 12l5.8 6.2"/></svg></div><div class="col" style="flex: 1; gap: 2px; min-width: 0"><div class="row" style="gap: 5px; color: #1A2456"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1A2456" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.6 12 4.2l8 6.4"/><path d="M6.2 9.8v9.9h11.6V9.8"/></svg><span style="font-size: 13px; font-weight: 700; letter-spacing: 0.02em">घर</span><span style="font-size: 13px; color: #8A8F9E">›</span><span style="font-size: 13px; font-weight: 600; color: #5B6070">पास</span></div><span style="font-family: 'Anek Devanagari', sans-serif; font-size: 23px; font-weight: 600; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">पास</span></div><div style="width: 48px; height: 48px; margin-right: -10px; display: flex; align-items: center; justify-content: center" data-tap="home"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#1A2456" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.6 12 4.2l8 6.4"/><path d="M6.2 9.8v9.9h11.6V9.8"/></svg></div></div>
   <div class="flow">
     <div class="col" style="gap: 10px; background: #1A2456; border-radius: 18px;
                             padding: 20px; color: #F7F3EC; align-items: center">
@@ -85,7 +85,7 @@
     <div style="flex: 1"></div>
     <div class="col" style="gap: 11px; padding-bottom: 16px">
       <div class="row" style="justify-content: center"><div class="row" style="gap: 6px; background: #FDF0DC; color: #7A4A0C; border: 1px solid #F2C795; border-radius: 16px; height: 32px; padding: 0 12px; font-size: 13.5px; font-weight: 600; width: fit-content"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.2v10"/><path d="M8 10.4 12 14.4l4-4"/><path d="M5 19.2h14"/></svg><span>ख़रीदने के लिए इंटरनेट ज़रूरी</span></div></div>
-      <div class="btn" style="background: #E8871E; color: #231403;"><span>परिवार पास लें · ₹399</span></div>
+      <div class="btn" style="min-height: 54px; background: #E8871E; color: #231403;" data-tap="button"><span>परिवार पास लें · ₹399</span></div>
       <span class="muted" style="font-size: 13.5px; text-align: center; line-height: 1.45">
         UPI या कार्ड · भारत से भी ख़रीद सकते हैं<br>
         पास ख़त्म होने पर मदद और ज़रूरी वाक्य चालू रहेंगे</span>

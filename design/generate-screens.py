@@ -68,7 +68,7 @@ CSS_TMPL = '''
   .btn { min-height: 54px; border-radius: 14px; display: flex; align-items: center;
          justify-content: center; gap: 10px; font-weight: 600; font-size: 17px;
          font-family: 'Mukta', sans-serif; }
-  .chip { height: 38px; padding: 0 14px; border-radius: 19px; display: flex;
+  .chip { height: 48px; padding: 0 16px; border-radius: 24px; display: flex;
           align-items: center; gap: 6px; font-size: 15px; font-weight: 500;
           white-space: nowrap; }
   .ar { font-family: 'Noto Naskh Arabic', 'Mukta', serif; direction: rtl;
@@ -211,15 +211,15 @@ def quickbar(current):
     for label, icon, danger in slots:
         col = C['red'] if danger else C['muted']
         cells.append(
-            '<div class="tab" style="color: %s">%s'
+            '<div class="tab" style="min-height: 48px; color: %s" data-tap="nav">%s'
             '<span style="color: %s">%s</span></div>'
             % (col, svg(I[icon], 23, '1.7'), C['muted'], label))
     ring = glow('<div style="width: 54px; height: 54px; border-radius: 27px; background: %s; '
                 'display: flex; align-items: center; justify-content: center">%s</div>'
                 % (C['marigold'], svg(I['mic'], 27, '1.6', C['onMarigold'])),
                 radius=29, surface=C['marigold'], pad='2.5px')
-    mic = ('<div style="width: 62px; display: flex; justify-content: center; '
-           'margin-top: -26px">%s</div>' % ring)
+    mic = ('<div style="width: 62px; height: 62px; display: flex; justify-content: center; '
+           'margin-top: -26px" data-tap="mic">%s</div>' % ring)
     cells.insert(2, mic)
     return ('<div class="row" style="border-top: 1px solid %s; background: %s; '
             'padding: 9px 6px 14px; align-items: flex-end; justify-content: space-between">'
@@ -252,13 +252,13 @@ def hdr(title, tile='home', trail=None, offline=True):
     crumb += '</div>'
     return ('<div class="row" style="gap: 6px; padding: 14px 16px 10px; align-items: center">'
             '<div style="width: 48px; height: 48px; margin-left: -12px; display: flex; '
-            'align-items: center; justify-content: center">%s</div>'
+            'align-items: center; justify-content: center" data-tap="back">%s</div>'
             '<div class="col" style="flex: 1; gap: 2px; min-width: 0">%s'
             '<span style="font-family: \'Anek Devanagari\', sans-serif; font-size: 23px; '
             'font-weight: 600; line-height: 1.15; white-space: nowrap; overflow: hidden; '
             'text-overflow: ellipsis">%s</span></div>'
             '<div style="width: 48px; height: 48px; margin-right: -10px; display: flex; '
-            'align-items: center; justify-content: center">%s</div></div>'
+            'align-items: center; justify-content: center" data-tap="home">%s</div></div>'
             % (svg(I['left'], 24), crumb, title, svg(I['home'], 23, '1.8', C['indigo'])))
 
 
@@ -283,7 +283,8 @@ def btn(text, kind='primary', icon=None):
     else:
         style = 'background: %s; color: %s;' % (C['card'], C['indigo'])
     ic = svg(I[icon], 21, '1.9') if icon else ''
-    return '<div class="btn" style="%s">%s<span>%s</span></div>' % (style, ic, text)
+    return ('<div class="btn" style="min-height: 54px; %s" data-tap="button">%s'
+            '<span>%s</span></div>' % (style, ic, text))
 
 
 print('helpers ready')
@@ -431,8 +432,8 @@ def tile(key, label, danger=False):
     icon = dict(FUNCS_BY_KEY)[key]
     bg = C['redSoft'] if danger else C['marigoldSoft']
     fg = C['red'] if danger else C['marigoldText']
-    return ('<div class="card col" style="padding: 18px 16px; gap: 12px; '
-            'justify-content: space-between">'
+    return ('<div class="card col" style="min-height: 48px; padding: 18px 16px; gap: 12px; '
+            'justify-content: space-between" data-tap="tile">'
             '<div style="width: 46px; height: 46px; border-radius: 14px; background: %s; '
             'display: flex; align-items: center; justify-content: center">%s</div>'
             '<div class="col" style="gap: 4px">'
@@ -446,7 +447,7 @@ def tile(key, label, danger=False):
 def counter(kind):
     if kind == 'trial':
         return ('<div class="row" style="gap: 9px; background: %s; border: 1px solid %s; '
-                'border-radius: 14px; min-height: 50px; padding: 0 14px">%s'
+                'border-radius: 14px; min-height: 50px; padding: 0 14px" data-tap="counter">%s'
                 '<div class="col" style="flex: 1; gap: 0">'
                 '<span style="font-size: 15px; font-weight: 600; color: %s">'
                 'मुफ़्त ट्रायल · 18 घंटे 24 मिनट बाकी</span>'
@@ -458,7 +459,7 @@ def counter(kind):
                    svg(I['right'], 19, '1.8', C['marigoldText'])))
 
     return ('<div class="row" style="gap: 9px; background: %s; border: 1px solid %s; '
-            'border-radius: 14px; min-height: 50px; padding: 0 14px">%s'
+            'border-radius: 14px; min-height: 50px; padding: 0 14px" data-tap="counter">%s'
             '<div class="col" style="flex: 1; gap: 0">'
             '<span style="font-size: 15px; font-weight: 600; color: %s">'
             'परिवार पास · 5 दिन बाकी</span>'
@@ -499,7 +500,7 @@ HOME = '''<div class="screen" style="position: relative">
 # the traveller is in the app.
 mic_btn = glow(
     '<div style="width: 62px; height: 62px; border-radius: 31px; background: %s; '
-    'display: flex; align-items: center; justify-content: center">%s</div>'
+    'display: flex; align-items: center; justify-content: center" data-tap="mic">%s</div>'
     % (C['marigold'], svg(I['mic'], 30, '1.6', C['onMarigold'])),
     radius=33, surface=C['marigold'], pad='2.5px')
 
@@ -696,11 +697,13 @@ POI_CATS = [('चाय', 'कड़क चाय'), ('झटपट', 'झटप
 
 
 def poi_chip(text, on=False):
-    inner = ('<div class="chip" style="background: %s; color: %s; font-weight: 600; '
-             'border: none">%s</div>' % (C['marigold'], C['onMarigold'], text))
+    inner = ('<div class="chip" style="height: 48px; background: %s; color: %s; '
+             'font-weight: 600; border: none" data-tap="chip">%s</div>'
+             % (C['marigold'], C['onMarigold'], text))
     if on:
-        return glow(inner, radius=19, surface=C['marigold'], pad='2px')
-    return ('<div class="chip" style="background: %s; color: %s; border: 1px solid %s">%s</div>'
+        return glow(inner, radius=24, surface=C['marigold'], pad='2px')
+    return ('<div class="chip" style="height: 48px; background: %s; color: %s; '
+            'border: 1px solid %s" data-tap="chip">%s</div>'
             % (C['card'], C['ink'], C['line'], text))
 
 
@@ -840,12 +843,13 @@ write('Map', body)
 # ------------------------------------------------------------------ 7. FoodList
 def fchip(text, on=False):
     if on:
-        return ('<div class="chip" style="background: %s; color: %s; font-weight: 600">'
-                '%s<span>%s</span></div>'
+        return ('<div class="chip" style="height: 48px; background: %s; color: %s; '
+                'font-weight: 600" data-tap="chip">%s<span>%s</span></div>'
                 % (C['marigold'], C['onMarigold'],
                    svg(I['check'], 15, '2.4', C['onMarigold']), text))
-    return ('<div class="chip" style="background: %s; color: %s; border: 1px solid %s">'
-            '<span>%s</span></div>' % (C['card'], C['ink'], C['line'], text))
+    return ('<div class="chip" style="height: 48px; background: %s; color: %s; '
+            'border: 1px solid %s" data-tap="chip"><span>%s</span></div>'
+            % (C['card'], C['ink'], C['line'], text))
 
 
 def tag(text):
@@ -1025,10 +1029,12 @@ write('ShowDriver', body)
 # ---------------------------------------------------------------- 11. Phrasebook
 def ptab(text, on=False):
     if on:
-        return ('<div class="chip" style="background: %s; color: %s; font-weight: 600">'
-                '<span>%s</span></div>' % (C['marigold'], C['onMarigold'], text))
-    return ('<div class="chip" style="background: transparent; color: %s; '
-            'border: 1px solid %s"><span>%s</span></div>' % (C['muted'], C['line'], text))
+        return ('<div class="chip" style="height: 48px; background: %s; color: %s; '
+                'font-weight: 600" data-tap="chip"><span>%s</span></div>'
+                % (C['marigold'], C['onMarigold'], text))
+    return ('<div class="chip" style="height: 48px; background: transparent; color: %s; '
+            'border: 1px solid %s" data-tap="chip"><span>%s</span></div>'
+            % (C['muted'], C['line'], text))
 
 
 def prow(hi, ar):
@@ -1283,9 +1289,10 @@ def segment(options, selected):
     cells = []
     for opt in options:
         on = opt == selected
-        cells.append('<div style="flex: 1; min-height: 40px; border-radius: 10px; '
+        cells.append('<div style="flex: 1; min-height: 48px; border-radius: 10px; '
                      'display: flex; align-items: center; justify-content: center; '
-                     'background: %s; color: %s; font-size: 14.5px; font-weight: 600">%s</div>'
+                     'background: %s; color: %s; font-size: 14.5px; font-weight: 600" '
+                     'data-tap="segment">%s</div>'
                      % (C['card'] if on else 'transparent',
                         C['ink'] if on else C['muted'], opt))
     return ('<div class="row" style="gap: 4px; background: %s; border: 1px solid %s; '
