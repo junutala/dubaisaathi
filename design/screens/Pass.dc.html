@@ -42,10 +42,28 @@
   .tab { display: flex; flex-direction: column; align-items: center; gap: 4px;
          font-size: 12px; font-weight: 600; color: #5B6070; min-height: 48px;
          justify-content: center; }
+
+  /* Motion is transform/opacity only: GPU-composited, a few hundred bytes of CSS, and no
+     asset to download. Anything heavier than this does not belong in an offline app. */
+  @keyframes rise { from { opacity: 0; transform: translate3d(0, 18px, 0); }
+                    to   { opacity: 1; transform: none; } }
+  @keyframes glow { 0%, 100% { opacity: 0.5; transform: scale(1); }
+                    50%      { opacity: 0.9; transform: scale(1.06); } }
+  @keyframes skyline { from { opacity: 0; transform: translate3d(0, 40px, 0); }
+                       to   { opacity: 1; transform: none; } }
+  .rise { animation: rise 900ms cubic-bezier(0.16, 0.84, 0.28, 1) both; }
+  .d1 { animation-delay: 80ms; }  .d2 { animation-delay: 220ms; }
+  .d3 { animation-delay: 360ms; } .d4 { animation-delay: 500ms; }
+  .d5 { animation-delay: 660ms; }
+  .glow { animation: glow 5.5s ease-in-out 1.2s infinite; }
+  .skyline { animation: skyline 1400ms cubic-bezier(0.16, 0.84, 0.28, 1) 160ms both; }
+  @media (prefers-reduced-motion: reduce) {
+    .rise, .glow, .skyline { animation: none; opacity: 1; transform: none; }
+  }
 </style>
 </helmet>
 <div class="screen">
-  <div class="hdr"><h1 class="t1" style="flex: 1">पास</h1></div>
+  <div class="hdr"><div style="width: 48px; height: 48px; margin-left: -12px; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.4 5.8 8.6 12l5.8 6.2"/></svg></div><h1 class="t1" style="flex: 1">पास</h1></div>
   <div class="flow">
     <div class="col" style="gap: 10px; background: #1A2456; border-radius: 18px;
                             padding: 20px; color: #F7F3EC; align-items: center">
@@ -65,13 +83,13 @@
 
     <div style="flex: 1"></div>
     <div class="col" style="gap: 11px; padding-bottom: 16px">
+      <div class="row" style="justify-content: center"><div class="row" style="gap: 6px; background: #FDF0DC; color: #7A4A0C; border: 1px solid #F2C795; border-radius: 16px; height: 32px; padding: 0 12px; font-size: 13.5px; font-weight: 600; width: fit-content"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.2v10"/><path d="M8 10.4 12 14.4l4-4"/><path d="M5 19.2h14"/></svg><span>ख़रीदने के लिए इंटरनेट ज़रूरी</span></div></div>
       <div class="btn" style="background: #E8871E; color: #231403;"><span>परिवार पास लें · ₹399</span></div>
       <span class="muted" style="font-size: 13.5px; text-align: center; line-height: 1.45">
         UPI या कार्ड · भारत से भी ख़रीद सकते हैं<br>
         पास ख़त्म होने पर मदद और ज़रूरी वाक्य चालू रहेंगे</span>
     </div>
   </div>
-  <div class="tabbar"><div class="tab" style="color: #E8871E"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.6 12 4.2l8 6.4"/><path d="M6.2 9.8v9.9h11.6V9.8"/></svg><span style="color: #141826">घर</span></div><div class="tab" style="color: #5B6070"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20v-7.8A4.2 4.2 0 0 1 11.2 8H17"/><path d="M14 4.8 17.4 8 14 11.2"/></svg><span style="color: #5B6070">जाना</span></div><div class="tab" style="color: #5B6070"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.2h16"/><path d="M5.2 11.2a6.8 6.8 0 0 0 13.6 0"/><path d="M12 4.2c1.5 1 1.5 2.5 0 3.5"/></svg><span style="color: #5B6070">खाना</span></div><div class="tab" style="color: #5B6070"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.2c0 3.4-3.6 6.2-8 6.2a9.9 9.9 0 0 1-2.5-.3L5.2 19.8l1-3A6 6 0 0 1 4 12.2C4 8.8 7.6 6 12 6s8 2.8 8 6.2Z"/></svg><span style="color: #5B6070">बोलना</span></div><div class="tab" style="color: #5B6070"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.2 5.2 6.7v5.4c0 3.5 2.8 6.2 6.8 7.7 4-1.5 6.8-4.2 6.8-7.7V6.7L12 4.2Z"/><path d="M12 9.4v5"/><path d="M9.5 11.9h5"/></svg><span style="color: #5B6070">मदद</span></div></div>
 </div>
 </x-dc>
 </body>
