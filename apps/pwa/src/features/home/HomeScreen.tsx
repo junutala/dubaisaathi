@@ -47,8 +47,10 @@ export function HomeScreen({ onMic }: { readonly onMic: () => void }) {
               navigate(tile.route);
             }}
           >
+            {/* Size and stroke come from the stylesheet: the icon is a share of the tile, not
+                a fixed number of pixels. */}
             <span className="tile-icon">
-              <Icon name={tile.icon} size={24} strokeWidth={1.8} color="var(--marigoldText)" />
+              <Icon name={tile.icon} color="var(--marigoldText)" />
             </span>
             <span className="tile-text">
               <span className="tile-name">{t(tile.key)}</span>

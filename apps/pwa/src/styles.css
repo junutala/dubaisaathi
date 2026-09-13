@@ -311,14 +311,28 @@ button:not(:disabled) {
   border-radius: 16px;
 }
 
+/* The icon owns the empty half of the tile rather than sitting in a chip in the corner. No
+   background: on a tile this size the chip added a second rounded rectangle inside a rounded
+   rectangle and said nothing the icon was not already saying. */
 .tile-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  background: var(--marigoldSoft);
+  flex: 1;
+  min-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Sized in CSS rather than through the component's `size` prop, because the target is a share
+   of the tile — which only the layout knows — not a number of pixels. Both rules beat the
+   svg's own width/height and stroke-width attributes. */
+.tile-icon svg {
+  width: 66%;
+  height: auto;
+  max-height: 100%;
+  /* The stroke scales with the viewBox, so the small-icon weight would render as a 9px slab at
+     this size. This keeps the drawn line at roughly 4% of the icon, which is what the artwork
+     looks like at 24px. */
+  stroke-width: 0.95;
 }
 
 .tile-text {

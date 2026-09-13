@@ -149,7 +149,11 @@ export function Icon({ name, size = 24, strokeWidth = 1.7, color = 'currentColor
       height={size}
       viewBox="0 0 24 24"
       fill="none"
-      stroke={color}
+      // The colour is set as the CSS `color` property, not the stroke attribute, because some
+      // shapes are filled with `currentColor` — the train's headlights, for one. Setting only
+      // `stroke` would leave those resolving to the surrounding text colour instead.
+      style={{ color }}
+      stroke="currentColor"
       strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
