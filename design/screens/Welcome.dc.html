@@ -37,8 +37,6 @@
           white-space: nowrap; }
   .ar { font-family: 'Noto Naskh Arabic', 'Mukta', serif; direction: rtl;
         line-height: 1.6; }
-  .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
-            border-top: 1px solid #E6DED2; background: #FFFDF9; padding: 9px 4px 14px; }
   .tab { display: flex; flex-direction: column; align-items: center; gap: 4px;
          font-size: 12px; font-weight: 600; color: #5B6070; min-height: 48px;
          justify-content: center; }
@@ -57,74 +55,58 @@
   .d5 { animation-delay: 660ms; }
   .glow { animation: glow 5.5s ease-in-out 1.2s infinite; }
   .skyline { animation: skyline 1400ms cubic-bezier(0.16, 0.84, 0.28, 1) 160ms both; }
+  @keyframes drift { 0%, 100% { translate: 0 0; } 50% { translate: 0 -11px; } }
+  .drift { animation-name: drift; animation-timing-function: ease-in-out;
+           animation-iteration-count: infinite; }
   @media (prefers-reduced-motion: reduce) {
-    .rise, .glow, .skyline { animation: none; opacity: 1; transform: none; }
+    .rise, .glow, .skyline, .drift { animation: none; opacity: 1; transform: none; }
   }
 </style>
 </helmet>
-<div class="screen" style="background: #0F1530; color: #F7F3EC;
-            position: relative; overflow: hidden">
-
-  <svg width="390" height="844" viewBox="0 0 390 844" style="position: absolute; inset: 0;
-       pointer-events: none" aria-hidden="true">
-    <defs>
-      <radialGradient id="dusk" cx="50%" cy="76%" r="58%">
-        <stop offset="0%" stop-color="#E8871E" stop-opacity="0.34"/>
-        <stop offset="55%" stop-color="#8A4A1E" stop-opacity="0.12"/>
-        <stop offset="100%" stop-color="#0F1530" stop-opacity="0"/>
-      </radialGradient>
-      <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9"
-        numOctaves="3"/><feColorMatrix type="saturate" values="0"/></filter>
-    </defs>
-    <ellipse class="glow" cx="195" cy="642" rx="230" ry="190" fill="url(#dusk)"/>
-    <rect width="390" height="844" filter="url(#grain)" opacity="0.045"/>
+<div class="screen" style="position: relative; overflow: hidden">
+  <svg width="390" height="470" viewBox="0 0 390 470" style="position: absolute; top: 0;
+       left: 0; pointer-events: none" aria-hidden="true">
+    <defs><radialGradient id="warm" cx="50%" cy="18%" r="82%">
+      <stop offset="0%" stop-color="#FDF0DC" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#F7F3EC" stop-opacity="0"/>
+    </radialGradient></defs>
+    <rect width="390" height="470" fill="url(#warm)"/>
   </svg>
 
-  <div style="position: absolute; left: 0; right: 0; bottom: 208px" class="skyline">
-    <svg width="390" height="260" viewBox="0 0 390 260" aria-hidden="true">
-      <circle cx="195" cy="196" r="58" fill="#E8871E" opacity="0.2"/>
-      <circle cx="195" cy="196" r="34" fill="#E8871E" opacity="0.28"/>
-      <rect x="14" y="132" width="26" height="108" rx="3" fill="#0A0F24"/><rect x="48" y="100" width="20" height="140" rx="3" fill="#0A0F24"/><rect x="76" y="150" width="30" height="90" rx="3" fill="#0A0F24"/><rect x="176" y="112" width="22" height="128" rx="3" fill="#0A0F24"/><rect x="206" y="146" width="26" height="94" rx="3" fill="#0A0F24"/><rect x="248" y="96" width="18" height="144" rx="3" fill="#0A0F24"/><rect x="272" y="136" width="30" height="104" rx="3" fill="#0A0F24"/><rect x="310" y="118" width="20" height="122" rx="3" fill="#0A0F24"/><rect x="336" y="158" width="34" height="82" rx="3" fill="#0A0F24"/> <path d="M132 240 L140 44 L148 240 Z" fill="#0A0F24"/><path d="M140 44 L140 20" stroke="#0A0F24" stroke-width="2.4"/> <rect x="54" y="122" width="3" height="4" rx="1" fill="#E8871E" opacity="0.55"/><rect x="54" y="138" width="3" height="4" rx="1" fill="#E8871E" opacity="0.3"/><rect x="60" y="130" width="3" height="4" rx="1" fill="#E8871E" opacity="0.45"/><rect x="182" y="132" width="3" height="4" rx="1" fill="#E8871E" opacity="0.5"/><rect x="188" y="150" width="3" height="4" rx="1" fill="#E8871E" opacity="0.32"/><rect x="254" y="118" width="3" height="4" rx="1" fill="#E8871E" opacity="0.5"/><rect x="254" y="136" width="3" height="4" rx="1" fill="#E8871E" opacity="0.28"/><rect x="260" y="128" width="3" height="4" rx="1" fill="#E8871E" opacity="0.42"/><rect x="316" y="140" width="3" height="4" rx="1" fill="#E8871E" opacity="0.45"/><rect x="322" y="158" width="3" height="4" rx="1" fill="#E8871E" opacity="0.3"/><rect x="20" y="152" width="3" height="4" rx="1" fill="#E8871E" opacity="0.4"/><rect x="30" y="168" width="3" height="4" rx="1" fill="#E8871E" opacity="0.28"/>
-      <rect x="0" y="238" width="390" height="22" fill="#0A0F24"/>
-    </svg>
-  </div>
+  <div style="position: absolute; top: 0; left: 0; width: 390px; height: 440px;
+              pointer-events: none"><div class="drift" style="position: absolute; left: -16px; top: 62px; width: 98px; height: 98px; border-radius: 20px; background: #FFFDF9; border: 1px solid #E6DED2; box-shadow: 0 10px 26px rgba(20, 24, 38, 0.10); transform: rotate(-9deg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; animation-delay: 0ms; animation-duration: 7200ms"><svg width="48" height="48" viewBox="0 0 48 48"><rect x="3" y="6" width="42" height="34" rx="4" fill="#EFE8DB"/><path d="M3 20h42M18 6v34" stroke="#D6CCBA" stroke-width="3"/><path d="M8 36 20 24l8 6 12-14" stroke="#E8871E" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="8" cy="36" r="3.4" fill="#1A2456"/></svg><span style="font-size: 11.5px; font-weight: 600; color: #5B6070">नक्शा</span></div><div class="drift" style="position: absolute; left: 104px; top: 24px; width: 92px; height: 92px; border-radius: 20px; background: #FFFDF9; border: 1px solid #E6DED2; box-shadow: 0 10px 26px rgba(20, 24, 38, 0.10); transform: rotate(5deg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; animation-delay: 900ms; animation-duration: 8100ms"><svg width="48" height="48" viewBox="0 0 48 48"><ellipse cx="24" cy="40" rx="21" ry="4.5" fill="#E6DED2"/><circle cx="13" cy="30" r="9" fill="#D9A25C"/><circle cx="24" cy="26" r="9.5" fill="#E0AE68"/><circle cx="35" cy="30" r="9" fill="#D9A25C"/><circle cx="24" cy="22" r="2.4" fill="#0B7A6B"/><circle cx="12" cy="27" r="2" fill="#0B7A6B"/><circle cx="36" cy="27" r="2" fill="#0B7A6B"/></svg><span style="font-size: 11.5px; font-weight: 600; color: #5B6070">पानी पूरी</span></div><div class="drift" style="position: absolute; left: 232px; top: 58px; width: 98px; height: 98px; border-radius: 20px; background: #FFFDF9; border: 1px solid #E6DED2; box-shadow: 0 10px 26px rgba(20, 24, 38, 0.10); transform: rotate(-6deg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; animation-delay: 400ms; animation-duration: 7600ms"><svg width="48" height="48" viewBox="0 0 48 48"><path d="M24 4 28 40H20L24 4Z" fill="#1A2456"/><path d="M24 4v-2" stroke="#1A2456" stroke-width="2"/><rect x="6" y="20" width="9" height="20" rx="2" fill="#3B4680"/><rect x="33" y="16" width="10" height="24" rx="2" fill="#3B4680"/><rect x="2" y="40" width="44" height="4" rx="2" fill="#1A2456"/></svg><span style="font-size: 11.5px; font-weight: 600; color: #5B6070">घूमने की जगह</span></div><div class="drift" style="position: absolute; left: 320px; top: 168px; width: 92px; height: 92px; border-radius: 20px; background: #FFFDF9; border: 1px solid #E6DED2; box-shadow: 0 10px 26px rgba(20, 24, 38, 0.10); transform: rotate(8deg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; animation-delay: 1400ms; animation-duration: 8600ms"><svg width="48" height="48" viewBox="0 0 48 48"><path d="M13 14h22l-3 24H16L13 14Z" fill="#C97A2B"/><path d="M13 14h22l-1 8H14l-1-8Z" fill="#8A4A1E"/><path d="M10 42h28" stroke="#5B6070" stroke-width="2.6" stroke-linecap="round"/><path d="M20 9c2-3 0-5 0-5M28 9c2-3 0-5 0-5" stroke="#8A8F9E" stroke-width="2" stroke-linecap="round" fill="none"/></svg><span style="font-size: 11.5px; font-weight: 600; color: #5B6070">कड़क चाय</span></div><div class="drift" style="position: absolute; left: -22px; top: 214px; width: 92px; height: 92px; border-radius: 20px; background: #FFFDF9; border: 1px solid #E6DED2; box-shadow: 0 10px 26px rgba(20, 24, 38, 0.10); transform: rotate(7deg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; animation-delay: 1900ms; animation-duration: 7900ms"><svg width="48" height="48" viewBox="0 0 48 48"><rect x="4" y="12" width="16" height="12" rx="3" fill="#E8C28A"/><rect x="4" y="26" width="16" height="12" rx="3" fill="#E8C28A"/><path d="M22 24a13 13 0 0 0 24 0Z" fill="#C0392B"/><ellipse cx="34" cy="24" rx="13" ry="3.4" fill="#E05A3C"/><circle cx="31" cy="23" r="1.8" fill="#0B7A6B"/><circle cx="38" cy="24" r="1.6" fill="#F2C795"/></svg><span style="font-size: 11.5px; font-weight: 600; color: #5B6070">पाव भाजी</span></div><div class="drift" style="position: absolute; left: 268px; top: 300px; width: 92px; height: 92px; border-radius: 20px; background: #FFFDF9; border: 1px solid #E6DED2; box-shadow: 0 10px 26px rgba(20, 24, 38, 0.10); transform: rotate(-7deg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; animation-delay: 700ms; animation-duration: 8300ms"><svg width="48" height="48" viewBox="0 0 48 48"><path d="M6 34 32 10l10 6-22 20-14-2Z" fill="#E3B36A"/><path d="M6 34 32 10l4 2.4L12 35l-6-1Z" fill="#F0CE97"/><circle cx="38" cy="34" r="7" fill="#0B7A6B" opacity="0.85"/></svg><span style="font-size: 11.5px; font-weight: 600; color: #5B6070">डोसा</span></div><div class="drift" style="position: absolute; left: 118px; top: 178px; width: 88px; height: 88px; border-radius: 20px; background: #FFFDF9; border: 1px solid #E6DED2; box-shadow: 0 10px 26px rgba(20, 24, 38, 0.10); transform: rotate(-4deg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; animation-delay: 2300ms; animation-duration: 7400ms"><svg width="48" height="48" viewBox="0 0 48 48"><rect x="10" y="6" width="28" height="26" rx="7" fill="#1A2456"/><rect x="14" y="11" width="20" height="8" rx="2" fill="#9FB0E0"/><circle cx="17" cy="26" r="2.2" fill="#E8871E"/><circle cx="31" cy="26" r="2.2" fill="#E8871E"/><path d="M15 40l4-6M33 40l-4-6" stroke="#1A2456" stroke-width="2.6" stroke-linecap="round"/></svg><span style="font-size: 11.5px; font-weight: 600; color: #5B6070">मेट्रो</span></div><div class="drift" style="position: absolute; left: 34px; top: 168px; background: #FFFDF9; border: 1px solid #E6DED2; border-radius: 16px; padding: 7px 13px; box-shadow: 0 8px 20px rgba(20, 24, 38, 0.08); transform: rotate(-12deg); font-family: 'Mukta', sans-serif; font-size: 16px; font-weight: 600; color: #1A2456; animation-delay: 1200ms; animation-duration: 6800ms">नमस्ते</div><div class="drift" style="position: absolute; left: 214px; top: 218px; background: #FFFDF9; border: 1px solid #E6DED2; border-radius: 16px; padding: 7px 13px; box-shadow: 0 8px 20px rgba(20, 24, 38, 0.08); transform: rotate(9deg); font-family: 'Noto Naskh Arabic', serif; font-size: 16px; font-weight: 600; color: #1A2456; animation-delay: 300ms; animation-duration: 7100ms">مرحبا</div><div class="drift" style="position: absolute; left: 150px; top: 330px; background: #FFFDF9; border: 1px solid #E6DED2; border-radius: 16px; padding: 7px 13px; box-shadow: 0 8px 20px rgba(20, 24, 38, 0.08); transform: rotate(-5deg); font-family: 'Mukta', sans-serif; font-size: 16px; font-weight: 600; color: #1A2456; animation-delay: 1700ms; animation-duration: 7700ms">Hello</div></div>
 
   <div style="position: relative; flex: 1; display: flex; flex-direction: column;
-              padding: 0 24px">
-    <div class="row rise d1" style="padding-top: 30px">
-      <div class="row" style="gap: 7px; background: rgba(247, 243, 236, 0.1);
-                  border-radius: 17px; height: 34px; padding: 0 13px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#E8871E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.4a12.6 12.6 0 0 1 5.6-2.3"/><path d="M14.8 6.3A12.6 12.6 0 0 1 20 8.4"/><path d="M7.2 11.9a8.8 8.8 0 0 1 2.6-1.5"/><path d="M16.8 11.9a8.8 8.8 0 0 0-1.8-1.1"/><path d="M11.9 17.6h.1"/><path d="M4.2 4.2l15.6 15.6"/></svg>
-        <span style="font-size: 13.5px; font-weight: 600">बिना इंटरनेट चलता है</span>
-      </div>
-    </div>
-
-    <div class="col" style="gap: 15px; margin-top: 54px">
-      <div class="row rise d2" style="gap: 12px">
-        <div style="width: 50px; height: 50px; border-radius: 15px; background: #E8871E;
+              justify-content: flex-end; padding: 0 24px 30px">
+    <div class="col rise d2" style="gap: 13px">
+      <div class="row" style="gap: 9px">
+        <div style="width: 38px; height: 38px; border-radius: 11px; background: #1A2456;
                     display: flex; align-items: center; justify-content: center;
-                    font-family: 'Anek Devanagari', sans-serif; color: #231403;
-                    font-size: 28px; font-weight: 700;
-                    box-shadow: 0 10px 30px rgba(232, 135, 30, 0.35)">सा</div>
+                    font-family: 'Anek Devanagari', sans-serif; color: #E8871E;
+                    font-size: 21px; font-weight: 700">सा</div>
+        <span style="font-family: 'Anek Devanagari', sans-serif; font-size: 23px;
+                     font-weight: 700; letter-spacing: -0.01em">दुबई साथी</span>
       </div>
-      <h1 class="rise d3" style="margin: 0; font-family: 'Anek Devanagari', sans-serif;
-             font-size: 52px; font-weight: 700; line-height: 1.02;
-             letter-spacing: -0.025em">दुबई<br>साथी</h1>
-      <p class="rise d4" style="margin: 0; font-family: 'Anek Devanagari', sans-serif;
-            font-size: 23px; font-weight: 500; line-height: 1.35; color: #E8871E">
-        दुबई. आपकी भाषा में.<br>ऑफ़लाइन.</p>
+
+      <h1 style="margin: 0; font-family: 'Anek Devanagari', sans-serif; font-size: 40px;
+                 font-weight: 700; line-height: 1.08; letter-spacing: -0.025em">
+        दुबई में नेटवर्क<br>नहीं चलेगा?</h1>
+      <p style="margin: 0; font-family: 'Anek Devanagari', sans-serif; font-size: 25px;
+                font-weight: 600; line-height: 1.25; color: #9A5B10">
+        साथी बिना इंटरनेट चलता है.</p>
+      <p style="margin: 2px 0 0; font-size: 16.5px; line-height: 1.5; color: #5B6070">
+        रास्ता पूछिए, जैन खाना ढूँढिए, ड्राइवर से अरबी में बात कीजिए —
+        सब हिंदी में, बिना नेटवर्क, बिना रोमिंग.</p>
     </div>
 
-    <div style="flex: 1"></div>
+    <div class="row rise d3" style="gap: 7px; flex-wrap: wrap; margin-top: 18px">
+      <div class="row" style="gap: 6px; background: #FFFDF9; color: #0B7A6B; border: 1px solid #E6DED2; border-radius: 16px; height: 32px; padding: 0 12px; font-size: 13.5px; font-weight: 600; width: fit-content"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.4a12.6 12.6 0 0 1 5.6-2.3"/><path d="M14.8 6.3A12.6 12.6 0 0 1 20 8.4"/><path d="M7.2 11.9a8.8 8.8 0 0 1 2.6-1.5"/><path d="M16.8 11.9a8.8 8.8 0 0 0-1.8-1.1"/><path d="M11.9 17.6h.1"/><path d="M4.2 4.2l15.6 15.6"/></svg><span>नक्शा फ़ोन में</span></div> <div class="row" style="gap: 6px; background: #FFFDF9; color: #0B7A6B; border: 1px solid #E6DED2; border-radius: 16px; height: 32px; padding: 0 12px; font-size: 13.5px; font-weight: 600; width: fit-content"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.5a2.8 2.8 0 0 1 2.8 2.8v4a2.8 2.8 0 0 1-5.6 0v-4A2.8 2.8 0 0 1 12 4.5Z"/><path d="M5.8 11.4a6.2 6.2 0 0 0 12.4 0"/><path d="M12 17.8v2.7"/></svg><span>हिंदी बोलिए</span></div> <div class="row" style="gap: 6px; background: #FFFDF9; color: #0B7A6B; border: 1px solid #E6DED2; border-radius: 16px; height: 32px; padding: 0 12px; font-size: 13.5px; font-weight: 600; width: fit-content"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.2c0 3.4-3.6 6.2-8 6.2a9.9 9.9 0 0 1-2.5-.3L5.2 19.8l1-3A6 6 0 0 1 4 12.2C4 8.8 7.6 6 12 6s8 2.8 8 6.2Z"/></svg><span>अरबी दिखाइए</span></div>
+    </div>
 
-    <div class="col rise d5" style="gap: 15px; padding-bottom: 32px">
-      <p style="margin: 0; font-size: 16px; line-height: 1.5;
-                color: rgba(247, 243, 236, 0.74)">
-        रास्ता, खाना और बोलना — तीनों आपके फ़ोन में,<br>बिना नेटवर्क, बिना रोमिंग.</p>
-      <div class="btn" style="background: #E8871E; color: #231403; min-height: 58px;
-                  font-size: 18px; box-shadow: 0 12px 34px rgba(232, 135, 30, 0.3)">
-        शुरू करें</div>
-      <span style="font-size: 13.5px; text-align: center;
-                   color: rgba(247, 243, 236, 0.52)">अकाउंट ज़रूरी नहीं</span>
+    <div class="col rise d4" style="gap: 11px; margin-top: 20px">
+      <div class="btn" style="background: #E8871E; color: #231403;"><span>शुरू करें — मुफ़्त</span></div>
+      <span style="font-size: 13.5px; text-align: center; color: #5B6070">
+        कोई लॉगिन नहीं · कोई अकाउंट नहीं · सीधे शुरू</span>
     </div>
   </div>
 </div>
