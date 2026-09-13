@@ -89,10 +89,11 @@ def main() -> int:
         stem = artboard['file'][: -len('.dc.html')]
         if stem in ('Brand',):
             continue
-        if not re.match(r'^(\d+|D\d+) · ', title):
+        number = r'^(D?\d+(\.\d+)?|घर\.\d+) · '
+        if not re.match(number, title):
             failures.append('canvas.json: %s has no screen number' % stem)
-        body = re.sub(r'^(\d+|D\d+) · ', '', title)
-        if body.split(' ›')[0].split(' (')[0] not in TILES + ['स्प्लैश']:
+        body = re.sub(number, '', title)
+        if body.split(' ›')[0].split(' (')[0] not in TILES + ['स्प्लैश', 'पास']:
             failures.append(
                 'canvas.json: %s is named "%s" — screen names use the four tiles' % (stem, body))
 
