@@ -162,20 +162,20 @@ Off Time · signature`. A member scans one — **fully offline** — the app ver
 
 ## Stack
 
-| Layer        | Choice                                                                                           |
-| ------------ | ------------------------------------------------------------------------------------------------ |
-| Frontend     | React + TypeScript, Vite                                                                         |
-| PWA          | Service Worker + Workbox                                                                         |
-| Local DB     | IndexedDB via Dexie.js                                                                           |
-| Local search | FlexSearch or MiniSearch                                                                         |
-| Maps         | MapLibre GL JS, offline vector tiles (OSM-derived)                                               |
-| Routing      | Local precomputed routing graph (no routing API at runtime)                                      |
-| Backend      | Node.js + TypeScript                                                                             |
-| Database     | PostgreSQL + PostGIS                                                                             |
-| Auth         | None. Entitlement keyed to the device; family devices join by short-lived QR token               |
-| Payments     | UPI-first INR aggregator (Razorpay / Cashfree / PhonePe PG): order → intent or QR → webhook      |
-| Hindi STT    | sherpa-onnx / IndicConformer (primary); Vosk Hindi (baseline); Whisper (accuracy reference only) |
-| TTS          | Device TTS first; sherpa-onnx if device TTS is inadequate                                        |
+| Layer        | Choice                                                                                            |
+| ------------ | ------------------------------------------------------------------------------------------------- |
+| Frontend     | React + TypeScript, Vite                                                                          |
+| PWA          | Service Worker + Workbox                                                                          |
+| Local DB     | IndexedDB via Dexie.js                                                                            |
+| Local search | FlexSearch or MiniSearch                                                                          |
+| Maps         | MapLibre GL JS, offline vector tiles (OSM-derived)                                                |
+| Routing      | Local precomputed routing graph (no routing API at runtime)                                       |
+| Backend      | Supabase edge functions (Deno) — decision 011, replaces a Node service                            |
+| Database     | Supabase Postgres. PostGIS not enabled: place data ships in the pack and is queried on the device |
+| Auth         | None. Entitlement keyed to the device; family devices join by short-lived QR token                |
+| Payments     | UPI-first INR aggregator (Razorpay / Cashfree / PhonePe PG): order → intent or QR → webhook       |
+| Hindi STT    | sherpa-onnx / IndicConformer (primary); Vosk Hindi (baseline); Whisper (accuracy reference only)  |
+| TTS          | Device TTS first; sherpa-onnx if device TTS is inadequate                                         |
 
 Deviating from this table needs a reason recorded in `docs/decisions/`.
 
@@ -300,8 +300,11 @@ dubaisaathi/
 │   └── emergency/         # EmergencyPoint
 ├── apps/
 │   ├── pwa/               # the React + TS + Vite client — the product
-│   ├── field/             # collectors' PWA: FieldReport capture, offline queue, upload
-│   └── api/               # thin Node + TS backend (entitlement, content, voice events, field)
+│   └── field/             # collectors' PWA: FieldReport capture, offline queue, upload
+├── supabase/              # the backend (decision 011) — replaces apps/api
+│   ├── migrations/        # the five tables: devices, families, passes, orders, voice_events
+│   ├── functions/         # edge functions: sign a pass, bind a slot, take a webhook, take a queue
+│   └── tests/             # SQL that checks what the schema must refuse
 └── packages/
     ├── shared/            # entity types shared by pwa and api — one definition, imported twice
     └── content-tools/     # build/validate/version the pack; review FieldReports; mine VoiceEvents
@@ -402,7 +405,10 @@ architectural purity. Do not treat "must remain 100% PWA" as settled.
 ### Not built yet
 
 - Tiles 1, 2 and 4 beyond their entry screens.
-- The backend: `devices`, `passes`, `families`, `orders`, `voice_events`. Nothing syncs yet — the
-  `VoiceEvent` queue is on the device with `synced: false` and no server to send it to.
+- The backend's **code**. The five tables are written and verified against a real Postgres
+  (`supabase/migrations/`, `supabase/tests/`), but **no Supabase project has been created** —
+  that costs money and is the owner's call. Nothing syncs yet: the `VoiceEvent` queue sits on the
+  device at `synced: false` with no server to send it to. No IP address is stored anywhere, which
+  is an argued default the owner has not yet ruled on (decision 011).
 - PWA install icons: the manifest declares none, so an installed home-screen icon is the
   browser's default.
