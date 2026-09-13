@@ -5,6 +5,9 @@ import { VitePWA } from 'vite-plugin-pwa';
 // Offline-first is not a plugin setting, but this is where it starts: everything the shell
 // needs is precached, so a cold start with the radio off still paints.
 export default defineConfig({
+  // Relative, so the build runs from any path — a subfolder, a preview host, a phone opening
+  // a shared link — and not only from a site root.
+  base: './',
   plugins: [
     react(),
     VitePWA({
