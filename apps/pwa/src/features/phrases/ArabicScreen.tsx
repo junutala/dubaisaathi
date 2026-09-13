@@ -6,7 +6,13 @@ import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { QuickBar } from '../../app/shell/QuickBar.js';
 import { Icon } from '../../app/shell/icons.js';
 import { phraseById } from '../../db/content.js';
-import { findArabicVoice, speakArabic, stopSpeaking, type SpeechSupport } from './speak.js';
+import {
+  findArabicVoice,
+  speakArabic,
+  stopSpeaking,
+  watchArabicVoices,
+  type SpeechSupport,
+} from './speak.js';
 
 /**
  * 3.2 — the Arabic, big, on a dark card so it reads across a taxi. Check what it heard, hear
@@ -26,6 +32,8 @@ export function ArabicScreen({
   const [phrase, setPhrase] = useState<Phrase | null>(null);
   const [support, setSupport] = useState<SpeechSupport | null>(null);
   const [speaking, setSpeaking] = useState(false);
+  /** Set only once the phone has actually refused to say it. A voice list is not proof. */
+  const [refused, setRefused] = useState(false);
 
   useEffect(() => {
     void phraseById(phraseId).then((row) => {
@@ -35,12 +43,22 @@ export function ArabicScreen({
 
   useEffect(() => {
     void findArabicVoice().then(setSupport);
-    return stopSpeaking;
+    // Android hands its voices over in pieces, so the answer can change after this screen has
+    // already asked. Without this, a voice that loads a second late is never noticed.
+    const unwatch = watchArabicVoices(setSupport);
+    return () => {
+      unwatch();
+      stopSpeaking();
+    };
   }, []);
 
   if (!phrase) return null;
 
-  const canSpeak = support?.kind === 'ready';
+  // Offered unless the browser has no speech synthesis at all, or this phone has already tried
+  // and failed. A missing voice in the list is not the same as a phone that cannot speak: many
+  // Android engines say Arabic perfectly well from the language tag alone, and being ruled out
+  // by a list is how a working phone gets told it is broken.
+  const canSpeak = support !== null && support.kind !== 'unsupported' && !refused;
 
   return (
     <>
@@ -70,16 +88,23 @@ export function ArabicScreen({
           disabled={!canSpeak}
           onClick={() => {
             setSpeaking(true);
-            void speakArabic(phrase.ar).finally(() => {
-              setSpeaking(false);
-            });
+            void speakArabic(phrase.ar)
+              .then((result) => {
+                if (!result.spoken) setRefused(true);
+              })
+              .finally(() => {
+                setSpeaking(false);
+              });
           }}
         >
           <Icon name="speak" size={21} strokeWidth={1.9} />
           {speaking ? t('arabic.speaking') : t('arabic.listen')}
         </button>
 
-        {support !== null && !canSpeak && <p className="muted small">{t('arabic.noVoice')}</p>}
+        {/* Said only after the phone has been asked and declined — never on a guess. */}
+        {(refused || support?.kind === 'unsupported') && (
+          <p className="muted small">{t('arabic.noVoice')}</p>
+        )}
 
         <div className="grow" />
         <button
