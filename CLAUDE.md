@@ -33,6 +33,16 @@ This file is the working summary; the concept doc wins on any detail it covers.
 - **Every screen must be self-explanatory in isolation.** A traveller arriving at any screen
   must be able to tell where they are and how they got there without being told. If a screen
   only makes sense because someone explained it, the screen is wrong.
+- **Never tell a traveller their phone cannot do something until it has refused.** A capability
+  query is not an answer. Browser APIs report partial lists, answer only after a user gesture,
+  and hide themselves on insecure origins — so "the API did not say yes" is not the same as "the
+  device cannot". Attempt the operation, let the device answer, and say what it actually said.
+  This cost most of a day: five separate bugs on 13 September, every one of them the app deciding
+  something was impossible instead of trying it, and every one of them found by a person holding
+  a phone rather than by a test.
+- **A fallback that is never reached is not a fallback.** If a preferred path can fail, something
+  must walk to the next one. Writing the alternative and not wiring it in is worse than not
+  writing it, because it reads as handled.
 
 ## The product, as decided
 
