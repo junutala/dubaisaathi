@@ -73,16 +73,30 @@ The reasoning for each deviation is in `docs/decisions/`.
   webhook marks the order paid; the server issues the signed pass; the app, polling the order,
   flips the strip. Creating the order needs the tourist's phone online for a moment. A raw UPI
   QR (a VPA) is never used: it cannot be tied to a device.
-- **Family pass = four signed passes at purchase.** One installs on the buyer's phone; the
-  other three are QR codes on घर.2, each carrying `family id · slot · master expiry ·
-signature`. A member scans one — **fully offline** — the app verifies the signature and
+- **A multi-device pass = one signed pass per device at purchase.** One installs on the
+  buyer's phone; the others are QR codes on घर.2, each carrying `family id · slot · Counter
+Off Time · signature`. A member scans one — **fully offline** — the app verifies the signature and
   installs the pass with the same end date. A QR can be sent as an image on WhatsApp to a
   member arriving separately; the website sells the same one or four QRs for someone in India
   buying for people already in Dubai. Reconciliation on sync: each phone reports its slot; a
   second phone reporting an already-bound slot is rejected at its next sync. हटाएँ on घर.2
   drops a binding server-side and kills that phone's pass at its next sync.
-- **Recharge adds seven days to the current expiry.** The strip carries a **रिचार्ज** button in
-  the trial, last-day and expired states; in the days-left state it stays quiet.
+- **One number runs entitlement: the Counter Off Time.** Install → +365 days (free in India for
+  a year of trying). **Land in Dubai** → +24 hours. Pay → +14 days **from landing** — the counter
+  never starts outside Dubai; a pass bought in India waits for landing. A paid pass extinguishes
+  the trial. Recharge on a running counter adds 14 days to it; on an expired one, starts now.
+  Landing is detected offline: the GPS geofence, or the phone's clock switching to Gulf time.
+- **Pricing (overrides the concept doc, decision 006):** ₹199 / ₹299 / ₹399 / ₹499 for 1 / 2 /
+  3 / 4 named devices, 14 days — ₹199 plus ₹100 per extra phone; no combination of smaller
+  packs beats a bigger one. Above four: _contact us_ (a WhatsApp link; this is the tour-operator
+  lead). The multi-device passes issue one signed QR per extra device at purchase, all with the
+  master Counter Off Time. The strip carries a **रिचार्ज** button in the trial, last-day and
+  expired states; in the days-left state it stays quiet.
+- **Location is the one permission the app needs, and the design says so.** Asked at first
+  need — the first time 1.1 opens — with the reason on the screen: _रास्ता बताने के लिए साथी को
+  आपकी जगह चाहिए._ Denied: one screen saying what will not work (रास्ता from here, आस-पास,
+  hotel pin, landing) with a button to the phone's settings, then the rest of the app carries
+  on without nagging. GPS never overrides the phone's permission; nothing does.
 - **The landing page gates on the pack.** First open downloads the whole offline pack with time
   remaining shown; _शुरू करें_ enables only when complete. Updates download silently while the
   app is open and apply on the landing page at the next launch — never mid-trip.
@@ -215,8 +229,9 @@ collector submits reaches the tourist pack unreviewed: a report is approved in
 5. Offline map — location and route context with no network
 6. ज़रूरी जानकारी — hotel (pin / card photo / entrance photo), documents (on-device),
    consulate, numbers; usable after expiry
-7. Trip pass — 24h Dubai trial; ₹199 solo / 7 days; ₹399 family / 7 days / 4 devices
-8. Family QR — short-lived one-time activation token, shared expiry, revocable devices
+7. Trip pass — free in India; 24h free on landing; ₹199 / ₹299 / ₹399 / ₹499 for 1–4 named
+   devices, 14 days from landing; contact us above four
+8. Device QRs — one signed pass per extra device, same Counter Off Time, scanned offline
 
 The mic is not a feature on this list because it is the way into all of them.
 
