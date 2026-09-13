@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="pinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF9100"/>
+      <stop offset="60%" stop-color="#E65100"/>
+      <stop offset="100%" stop-color="#BF360C"/>
+    </linearGradient>
+    <linearGradient id="bgLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFDF9"/>
+      <stop offset="100%" stop-color="#FFF3E0"/>
+    </linearGradient>
+    <filter id="softShadow2" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#E65100" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <!-- PWA Squircle Base -->
+  <rect width="512" height="512" rx="112" fill="url(#bgLight)"/>
+  <rect width="504" height="504" x="4" y="4" rx="108" fill="none" stroke="#FFE0B2" stroke-width="4"/>
+
+  <g filter="url(#softShadow2)">
+    <!-- Outer Location Marker Silhouette -->
+    <path d="M 256 60
+             C 160 60, 96 132, 96 226
+             C 96 324, 230 424, 256 448
+             C 282 424, 416 324, 416 226
+             C 416 132, 352 60, 256 60 Z"
+          fill="url(#pinGrad)"/>
+
+    <!-- Top Crescent (Traveler Arc) -->
+    <path d="M 315 150
+             C 230 140, 180 180, 180 225
+             C 180 260, 215 275, 256 280
+             C 210 270, 210 215, 265 200
+             C 305 190, 325 170, 315 150 Z"
+          fill="#FFFDF9"/>
+
+    <!-- Bottom Crescent: Shifted downwards with inner tip meeting the upper curve's edge at (256, 276) -->
+    <path d="M 197 342
+             C 282 352, 332 312, 332 267
+             C 332 232, 297 217, 256 212
+             C 302 222, 302 277, 247 292
+             C 207 302, 187 322, 197 342 Z"
+          fill="#FFFDF9"/>
+
+    <!-- Voice dot in upper arc -->
+    <circle cx="285" cy="175" r="9" fill="#FFFDF9"/>
+  </g>
+</svg>
