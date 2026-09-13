@@ -54,20 +54,25 @@ export interface DubaiPlace {
   readonly areaId?: string;
 }
 
-/** Dietary tags an Indian traveller actually filters on. */
-export type FoodTag =
-  | 'vegetarian'
-  | 'jain'
-  | 'sattvik'
-  | 'no-onion'
-  | 'no-garlic'
-  | 'eggless'
-  | 'vrat'
-  | 'indian-vegetarian'
-  | 'quick-snack'
-  | 'south-indian'
-  | 'gujarati'
-  | 'thali';
+/**
+ * Dietary tags an Indian traveller actually filters on. A runtime list as well as a type,
+ * because the intent keyword pack is JSON and has to be checked against something.
+ */
+export const FOOD_TAGS = [
+  'vegetarian',
+  'jain',
+  'sattvik',
+  'no-onion',
+  'no-garlic',
+  'eggless',
+  'vrat',
+  'indian-vegetarian',
+  'quick-snack',
+  'south-indian',
+  'gujarati',
+  'thali',
+] as const;
+export type FoodTag = (typeof FOOD_TAGS)[number];
 
 export interface Restaurant {
   readonly id: string;
@@ -97,7 +102,8 @@ export interface MenuItem {
 
 // --- Transport ----------------------------------------------------------------------------
 
-export type TransportMode = 'walk' | 'metro' | 'tram' | 'bus' | 'taxi';
+export const TRANSPORT_MODES = ['walk', 'metro', 'tram', 'bus', 'taxi'] as const;
+export type TransportMode = (typeof TRANSPORT_MODES)[number];
 
 export interface TransportNode {
   readonly id: string;
@@ -245,6 +251,13 @@ export interface ContentVersion {
 
 /** Why a voice interaction is worth looking at. Successes carry `null`. */
 export type VoiceFailure =
+  // The speech never arrived. These decide the PWA-vs-native gate: how often a traveller taps
+  // the mic and the phone simply cannot hear Hindi.
+  | 'no-permission'
+  | 'no-speech'
+  | 'no-engine'
+  | 'stt-error'
+  // The speech arrived and the parser could not use it. These retrain the packs in `data/`.
   | 'unknown-intent'
   | 'low-confidence'
   | 'clarifier-shown'

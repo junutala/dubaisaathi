@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Phrase } from '@saathi/shared';
+import type { ParsedIntent, Phrase } from '@saathi/shared';
 import { useSettings } from '../../app/settings.js';
 import { navigate } from '../../app/routes.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
@@ -15,9 +15,12 @@ import { findArabicVoice, speakArabic, stopSpeaking, type SpeechSupport } from '
 export function ArabicScreen({
   phraseId,
   onMic,
+  heard,
 }: {
   readonly phraseId: string;
   readonly onMic: () => void;
+  /** Set when the mic chose this sentence, so they can see it chose the right one (rule 10). */
+  readonly heard?: ParsedIntent | undefined;
 }) {
   const { t } = useSettings();
   const [phrase, setPhrase] = useState<Phrase | null>(null);
@@ -43,9 +46,13 @@ export function ArabicScreen({
     <>
       <ScreenHeader title={t('arabic.title')} tile="talk" trail={t('say.title')} />
       <div className="flow">
+        {/* One block, whichever way they arrived. Tapping a sentence shows that sentence; the
+            mic shows their own words and which sentence it picked, because that is the thing
+            worth checking before handing the phone to a driver. */}
         <div className="stack-sm">
           <p className="lbl">{t('arabic.youSaid')}</p>
-          <div className="card pad">{phrase.hi}</div>
+          <div className="card pad">{heard ? heard.transcript : phrase.hi}</div>
+          {heard && <p className="muted">→ {phrase.hi}</p>}
         </div>
 
         <div className="stack-sm">

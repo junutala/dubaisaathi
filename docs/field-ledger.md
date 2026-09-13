@@ -67,12 +67,18 @@ Not asked: "where from". The phone knows; a tourist often does not know the stre
 
 ## 1.2 · रास्ता › सुन रहा हूँ
 
-| Field                            | Why it is there                                                               |
-| -------------------------------- | ----------------------------------------------------------------------------- |
-| Waveform + "सुन रहा हूँ…"        | Proof the mic is live                                                         |
-| Partial transcript               | Proof it heard them — without it, a tourist does not trust the second attempt |
-| हिंदी और हिंग्लिश — दोनों चलेंगे | Permission to speak naturally, for a first-time user                          |
-| रद्द करें                        | A big stop while the mic is live; the back arrow is too small for that moment |
+Numbered under रास्ता because that is where it was first drawn, but this is the mic's screen and
+the mic means the same thing everywhere. The crumb shows whichever tile it was tapped from.
+
+| Field                                    | Why it is there                                                                                                                                                   |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Waveform + "सुन रहा हूँ…"                | Proof the mic is live                                                                                                                                             |
+| Partial transcript                       | Proof it heard them — without it, a tourist does not trust the second attempt                                                                                     |
+| हिंदी और हिंग्लिश — दोनों चलेंगे         | Permission to speak naturally, for a first-time user                                                                                                              |
+| रद्द करें                                | A big stop while the mic is live; the back arrow is too small for that moment                                                                                     |
+| टाइप करके बताइए                          | Not every phone can hear Hindi offline, and some refuse the mic. Without it the mic is a dead end on those phones — and the sentence still reaches all four tiles |
+| आपने कहा — "…" (on the screen it opened) | The one check worth making: did it understand what I actually said? Back is one tap away                                                                          |
+| "…" — क्या करना है? + two buttons        | One word can mean two things. Asking costs one tap; guessing wrong costs their trust                                                                              |
 
 ## 1.3 · रास्ता › विकल्प
 

@@ -59,6 +59,35 @@ export const hi = {
   'driver.youSaid': 'आपने कहा — “{text}”',
   'driver.listenArabic': 'اسمع',
 
+  // 1.2 · रास्ता › सुन रहा हूँ — the mic, reachable from every screen
+  'listen.title': 'सुन रहा हूँ…',
+  'listen.trail': 'साथी से पूछिए',
+  'listen.hint': 'हिंदी और हिंग्लिश — दोनों चलेंगे',
+  'listen.cancel': 'रद्द करें',
+  'listen.heard': 'आपने कहा',
+  'listen.type': 'टाइप करके बताइए',
+  'listen.typeHint': 'जैसे — “मरीना मॉल जाना है”',
+  'listen.send': 'आगे बढ़िए',
+  'listen.again': 'फिर बोलिए',
+  'listen.thinking': 'समझ रहा हूँ…',
+
+  // When the mic cannot do its job — every one of these ends in a way out, never a dead end
+  'listen.noPermission': 'माइक की इजाज़त नहीं मिली',
+  'listen.noPermissionWhy': 'फ़ोन की सेटिंग में माइक चालू कीजिए, या टाइप करके बताइए.',
+  'listen.noSpeech': 'कुछ सुनाई नहीं दिया',
+  'listen.noEngine': 'इस फ़ोन में हिंदी आवाज़ पहचान नहीं है',
+  'listen.noEngineWhy': 'टाइप करके बताइए — बाक़ी सब वैसे ही चलेगा.',
+  'listen.network': 'आवाज़ पहचानने के लिए इंटरनेट चाहिए था',
+  'listen.networkWhy': 'यह फ़ोन आवाज़ ऑफ़लाइन नहीं पहचानता. टाइप करके बताइए.',
+  'listen.failed': 'माइक से कुछ गड़बड़ हुई',
+
+  // 1.2 › the two-button question, when one word could mean two things
+  'listen.whichOne': '“{text}” — क्या करना है?',
+  'listen.askRoute': 'वहाँ कैसे जाएँ',
+  'listen.askFood': 'वहाँ खाना ढूँढें',
+  'listen.notUnderstood': 'यह समझ नहीं आया',
+  'listen.notUnderstoodWhy': 'फिर बोलिए, या नीचे से चुन लीजिए.',
+
   // Screens still to be built, named so the shell can route to them honestly
   'soon.title': 'अभी बन रहा है',
   'soon.body': 'यह हिस्सा अगले हफ़्ते आएगा. तब तक बोलना चलता है.',

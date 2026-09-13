@@ -477,3 +477,130 @@ button:not(:disabled) {
 .bottom {
   margin-bottom: 4px;
 }
+
+/* ---- 1.2 · सुन रहा हूँ ------------------------------------------------------------------ */
+
+.listen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin: auto 0;
+  width: 100%;
+}
+.listen > .btn {
+  width: 100%;
+}
+.listen-state {
+  font-weight: 700;
+  font-size: 19px;
+  color: var(--marigoldText);
+  text-align: center;
+}
+/* Reserves its two lines so the screen does not jump as words arrive. Line-height 1.35 keeps
+   Devanagari matras inside the box (design rule 23a). */
+.listen-partial {
+  margin: 0;
+  min-height: 2.7em;
+  font-size: 18px;
+  line-height: 1.35;
+  text-align: center;
+  color: var(--ink);
+}
+
+/* Five bars, no audio analysis: this only has to say "the mic is on". */
+.wave {
+  display: flex;
+  align-items: flex-end;
+  gap: 7px;
+  height: 68px;
+}
+.wave-bar {
+  width: 10px;
+  border-radius: 5px;
+  background: var(--marigold);
+  animation: wave 1s ease-in-out infinite;
+}
+.wave-bar-0 {
+  animation-delay: 0s;
+}
+.wave-bar-1 {
+  animation-delay: 0.15s;
+}
+.wave-bar-2 {
+  animation-delay: 0.3s;
+}
+.wave-bar-3 {
+  animation-delay: 0.45s;
+}
+.wave-bar-4 {
+  animation-delay: 0.6s;
+}
+@keyframes wave {
+  0%,
+  100% {
+    height: 18px;
+  }
+  50% {
+    height: 64px;
+  }
+}
+/* A traveller who turns animation off still needs to see the mic is live, so the bars stay. */
+@media (prefers-reduced-motion: reduce) {
+  .wave-bar {
+    animation: none;
+    height: 40px;
+  }
+}
+
+/* The keyboard path. A plain text box, so the phone's own Hindi keyboard does the work. */
+.typed {
+  width: 100%;
+  min-height: 54px;
+  padding: 0 14px;
+  font-size: 18px;
+  font-family: inherit;
+  color: var(--ink);
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+}
+.typed:focus {
+  outline: 2px solid var(--marigold);
+  border-color: var(--marigold);
+}
+
+/* "टाइप करके बताइए" as a quiet way out while the mic is still live — 48px, like every control. */
+.linkish {
+  min-height: 48px;
+  padding: 0 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--indigo);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---- "आपने कहा: …", wherever the mic landed (design rule 10) ---------------------------- */
+
+.heard {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 13px;
+  border-radius: 12px;
+  background: var(--sand);
+  border: 1.25px solid var(--line);
+  width: 100%;
+}
+.heard-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--marigoldText);
+}
+.heard-text {
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--ink);
+}

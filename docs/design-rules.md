@@ -22,11 +22,15 @@ new rule is agreed, it is added here before the screen is drawn.
 
 ## The mic
 
-| #   | Rule                                                                                                                                                           | Enforced by |
-| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 10  | The mic is one thing everywhere: ask Saathi anything. Speech → local intent → the right screen with the answer on it. Home has exactly one; so does every bar. | checker     |
-| 11  | Ambiguity gets a two-button question, never a dead end. The landing screen shows _आपने कहा: …_ with back one tap away.                                         | review      |
-| 12  | Intent accuracy is the KPI, not the transcript. Hinglish is first-class input.                                                                                 | review      |
+| #   | Rule                                                                                                                                                                                         | Enforced by |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 10  | The mic is one thing everywhere: ask Saathi anything. Speech → local intent → the right screen with the answer on it. Home has exactly one; so does every bar.                               | checker     |
+| 11  | Ambiguity gets a two-button question, never a dead end. The landing screen shows _आपने कहा: …_ with back one tap away.                                                                       | review      |
+| 12  | Intent accuracy is the KPI, not the transcript. Hinglish is first-class input.                                                                                                               | review      |
+| 12a | Every way the mic can fail ends on a screen with a way forward: permission refused, no Hindi model, nothing heard, nothing understood. A spinner that stops is a dead end.                   | review      |
+| 12b | 1.2 always offers _टाइप करके बताइए_. It is the only input that works on every phone with no network and no permission, and it reaches the same parser and the same screens.                  | review      |
+| 12c | Nothing on 1.2 names an engine, a model, a language code or a confidence number. "इस फ़ोन में हिंदी आवाज़ पहचान नहीं है" is what a tourist needs; the engine id belongs in the `VoiceEvent`. | review      |
+| 12d | The parser shows the traveller their own words back, never its normalised form. "करामा", never "karama".                                                                                     | review      |
 
 ## ज़रूरी जानकारी
 

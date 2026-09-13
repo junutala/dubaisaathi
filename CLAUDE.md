@@ -357,22 +357,52 @@ The screens are the design source of truth and live in `design/`:
 The screens are final and saved to the canvas — 25 artboards, all passing
 `design/check-screens.py`.
 
-`apps/pwa` runs. The shell (status strip, four tiles, shared header, quick bar with the mic)
-and the whole of tile 3 — 3.1 say it or pick a sentence, 3.2 the Arabic, 3.3 show the driver —
-work end to end with the network off, with the phone's own Arabic voice. रास्ता, खाना and
-ज़रूरी जानकारी open a screen that says they are being built. Two interface catalogues, a
-sixteen-phrase pack in IndexedDB, self-hosted fonts, and the `VoiceEvent` log running from
-day one.
+`apps/pwa` runs. The shell (status strip, four tiles, shared header, quick bar with the mic),
+the whole of tile 3 — 3.1 say it or pick a sentence, 3.2 the Arabic, 3.3 show the driver — and
+**the mic** work end to end with the network off. रास्ता, खाना and ज़रूरी जानकारी open a screen
+that says they are being built; the mic still routes there, with _आपने कहा: …_ on it.
 
-Next, and still the thing that decides the architecture, is the rest of the **spike**:
+The mic, as built (`apps/pwa/src/features/voice/`, decisions 009 and 010):
 
-1. Android Chrome PWA, no internet: Hindi speech → intent — **not started**
-2. iPhone Safari PWA, no internet: Hindi speech → intent — **not started**
+- **`normalise.ts`** folds Devanagari, Roman and the mix into one comparison form, and a
+  consonant skeleton for the near-misses. Never branches on script.
+- **`corpus.ts` + `data/intents/`** are the vocabulary: 12 places with 59 aliases, 170+ intent,
+  mode, diet, document and phrase keywords, in both scripts. Content, not code.
+- **`parseIntent.ts`** produces `ParsedIntent`. Confidence decides: above `ROUTING_CONFIDENCE`
+  it opens a screen, below it asks a two-button question, and an out-of-scope sentence is never
+  routed anywhere.
+- **`micRouting.ts`** maps an intent to a screen. "driver ko bolo hotel le chalo" opens 3.2 with
+  the Arabic already on it.
+- **`stt.ts`** is the `SttEngine` seam: the phone's recogniser with `processLocally` first, the
+  cloud one second, the keyboard always. Vosk or sherpa-onnx drops in without touching a screen.
+- **`ListenScreen.tsx`** is 1.2. Every failure — permission, no model, nothing heard, nothing
+  understood — ends on a screen with a way forward.
+- **`benchmark.test.ts`** is rule 5's KPI, gating `npm run verify` at 64/64 sentences.
+
+Two interface catalogues, a sixteen-phrase pack in IndexedDB, self-hosted fonts, and the
+`VoiceEvent` log carrying the engine id on every event.
+
+### The spike
+
+1. Android Chrome PWA, no internet: Hindi speech → intent — **needs a phone**
+2. iPhone Safari PWA, no internet: Hindi speech → intent — **needs a phone**
 3. Intent → Arabic phrase, locally — **done**, `apps/pwa` 3.1–3.2
 4. Arabic phrase → Arabic voice, locally — **done**, device TTS, honest when absent
+5. Hindi/Hinglish text → intent, locally — **done and measured**, `docs/spikes/002`
 
-Findings so far are in `docs/spikes/`.
+Half of item 1 and 2 is now text → intent, which is done. What is left is speech → text with the
+network off, and it cannot be measured in this container: Vosk's and Hugging Face's hosts are both
+blocked by the proxy, and there is no microphone. `docs/spikes/002-hindi-intent.md` says exactly
+what to measure on a phone, in order.
 
 **PWA decision gate:** stay pure PWA only if browser offline Hindi STT is good enough on both
 Android and iOS. If it is not, a thin native speech wrapper is acceptable — the USP beats
 architectural purity. Do not treat "must remain 100% PWA" as settled.
+
+### Not built yet
+
+- Tiles 1, 2 and 4 beyond their entry screens.
+- The backend: `devices`, `passes`, `families`, `orders`, `voice_events`. Nothing syncs yet — the
+  `VoiceEvent` queue is on the device with `synced: false` and no server to send it to.
+- PWA install icons: the manifest declares none, so an installed home-screen icon is the
+  browser's default.

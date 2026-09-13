@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import type { Phrase, PhraseSituation } from '@saathi/shared';
+import type { ParsedIntent, Phrase, PhraseSituation } from '@saathi/shared';
 import { useSettings } from '../../app/settings.js';
 import { navigate } from '../../app/routes.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { QuickBar } from '../../app/shell/QuickBar.js';
 import { Icon } from '../../app/shell/icons.js';
 import { phrasesFor } from '../../db/content.js';
+import { HeardBanner } from '../voice/HeardBanner.js';
 import type { StringKey } from '../../i18n/index.js';
 
 const SITUATIONS: readonly { readonly id: PhraseSituation; readonly key: StringKey }[] = [
@@ -19,7 +20,14 @@ const SITUATIONS: readonly { readonly id: PhraseSituation; readonly key: StringK
  * 3.1 — say it, or pick a ready sentence when the taxi is too loud to be heard. One screen,
  * because they are the same job: get Arabic out of your mouth or your phone.
  */
-export function SayEntryScreen({ onMic }: { readonly onMic: () => void }) {
+export function SayEntryScreen({
+  onMic,
+  heard,
+}: {
+  readonly onMic: () => void;
+  /** Set when the mic understood "बोलो" but not which sentence — so they pick one from here. */
+  readonly heard?: ParsedIntent | undefined;
+}) {
   const { t } = useSettings();
   const [situation, setSituation] = useState<PhraseSituation>('taxi');
   const [phrases, setPhrases] = useState<readonly Phrase[]>([]);
@@ -38,6 +46,7 @@ export function SayEntryScreen({ onMic }: { readonly onMic: () => void }) {
     <>
       <ScreenHeader title={t('say.title')} tile="talk" />
       <div className="flow">
+        {heard && <HeardBanner intent={heard} />}
         <div className="say-mic">
           <button type="button" className="mic-xl" onClick={onMic} aria-label={t('nav.mic')}>
             <Icon name="mic" size={44} strokeWidth={1.5} color="var(--onMarigold)" />

@@ -1,0 +1,328 @@
+{
+  "contentVersion": 1,
+  "publishedAt": "2026-09-13T00:00:00Z",
+  "comment": "The intent benchmark (CLAUDE.md rule 5: the KPI is the intent, not the transcript). Each case is a sentence a traveller would actually say, and the slots that have to come out of it. Both scripts, freely mixed, including sentences that MUST come out ambiguous and sentences that MUST come out unknown — a parser that guesses on those is worse than one that asks. Every failure the learning loop finds is added here before the pack is changed, so a fix that breaks something else cannot land quietly.",
+  "cases": [
+    {
+      "said": "मुझे करामा जाना है",
+      "kind": "route",
+      "destination": "karama"
+    },
+    {
+      "said": "बुर दुबई कैसे जाऊँ",
+      "kind": "route",
+      "destination": "bur-dubai"
+    },
+    {
+      "said": "मेट्रो से दुबई मॉल जाना है",
+      "kind": "route",
+      "destination": "dubai-mall",
+      "mode": "metro"
+    },
+    {
+      "said": "टैक्सी से एयरपोर्ट ले चलो",
+      "kind": "route",
+      "destination": "dxb-airport",
+      "mode": "taxi"
+    },
+    {
+      "said": "करामा से देरा जाना है",
+      "kind": "route",
+      "origin": "karama",
+      "destination": "deira"
+    },
+    {
+      "said": "बुर्ज ख़लीफ़ा कैसे पहुँचूँ",
+      "kind": "route",
+      "destination": "burj-khalifa"
+    },
+    {
+      "said": "ग्लोबल विलेज जाना है",
+      "kind": "route",
+      "destination": "global-village"
+    },
+    {
+      "said": "गोल्ड सूक का रास्ता बताओ",
+      "kind": "route",
+      "destination": "gold-souk"
+    },
+    {
+      "said": "पैदल जुमेरा जा सकते हैं",
+      "kind": "route",
+      "destination": "jumeirah",
+      "mode": "walk"
+    },
+    {
+      "said": "बस से मरीना मॉल जाना है",
+      "kind": "route",
+      "destination": "marina-mall",
+      "mode": "bus"
+    },
+    {
+      "said": "mujhe Karama jaana hai",
+      "kind": "route",
+      "destination": "karama"
+    },
+    {
+      "said": "Bhai mujhe Karama jaana hai, metro se kaise jaaun?",
+      "kind": "route",
+      "destination": "karama",
+      "mode": "metro"
+    },
+    {
+      "said": "Marina Mall jaana hai",
+      "kind": "route",
+      "destination": "marina-mall"
+    },
+    {
+      "said": "Dubai Mall kaise jaun taxi se",
+      "kind": "route",
+      "destination": "dubai-mall",
+      "mode": "taxi"
+    },
+    {
+      "said": "mujhe airport pahunchna hai",
+      "kind": "route",
+      "destination": "dxb-airport"
+    },
+    {
+      "said": "Qarama jaana hai",
+      "kind": "route",
+      "destination": "karama"
+    },
+    {
+      "said": "mall of emirates le chalo",
+      "kind": "route",
+      "destination": "mall-of-emirates"
+    },
+    {
+      "said": "मुझे Deira जाना है",
+      "kind": "route",
+      "destination": "deira"
+    },
+    {
+      "said": "global village kaise pahunchu",
+      "kind": "route",
+      "destination": "global-village"
+    },
+    {
+      "said": "sona bazaar jaana hai",
+      "kind": "route",
+      "destination": "gold-souk"
+    },
+    {
+      "said": "raasta batao",
+      "kind": "route"
+    },
+    {
+      "said": "kahan hai burj khalifa",
+      "kind": "route",
+      "destination": "burj-khalifa"
+    },
+    {
+      "said": "जैन खाना कहाँ मिलेगा",
+      "kind": "food",
+      "foodTags": ["jain"]
+    },
+    {
+      "said": "शाकाहारी खाना कहाँ मिलेगा",
+      "kind": "food",
+      "foodTags": ["vegetarian"]
+    },
+    {
+      "said": "बिना प्याज़ लहसुन का खाना चाहिए",
+      "kind": "food",
+      "foodTags": ["no-onion", "no-garlic"]
+    },
+    {
+      "said": "व्रत का खाना कहाँ मिलता है",
+      "kind": "food",
+      "foodTags": ["vrat"]
+    },
+    {
+      "said": "करामा में वेज खाना",
+      "kind": "food",
+      "foodTags": ["vegetarian"],
+      "destination": "karama"
+    },
+    {
+      "said": "भूख लगी है",
+      "kind": "food"
+    },
+    {
+      "said": "Jain khana kahaan milega",
+      "kind": "food",
+      "foodTags": ["jain"]
+    },
+    {
+      "said": "veg restaurant Karama mein",
+      "kind": "food",
+      "foodTags": ["vegetarian"],
+      "destination": "karama"
+    },
+    {
+      "said": "sattvik khana chahiye",
+      "kind": "food",
+      "foodTags": ["sattvik"]
+    },
+    {
+      "said": "eggless cake kahan milega",
+      "kind": "food",
+      "foodTags": ["eggless"]
+    },
+    {
+      "said": "dosa kahan milta hai",
+      "kind": "food",
+      "foodTags": ["south-indian"]
+    },
+    {
+      "said": "थाली कहाँ मिलेगी",
+      "kind": "food",
+      "foodTags": ["thali"]
+    },
+    {
+      "said": "kadak chai aur jhatpat nashta",
+      "kind": "food",
+      "foodTags": ["quick-snack"]
+    },
+    {
+      "said": "khane ki jagah batao",
+      "kind": "food"
+    },
+    {
+      "said": "ड्राइवर को बोलो होटल ले चलो",
+      "kind": "phrase",
+      "phraseId": "taxi-hotel"
+    },
+    {
+      "said": "driver ko bolo hotel le chalo",
+      "kind": "phrase",
+      "phraseId": "taxi-hotel"
+    },
+    {
+      "said": "ड्राइवर को कहो मीटर चालू करे",
+      "kind": "phrase",
+      "phraseId": "taxi-meter"
+    },
+    {
+      "said": "driver ko bolo yahin rok do",
+      "kind": "phrase",
+      "phraseId": "taxi-stop"
+    },
+    {
+      "said": "अरबी में बोलो — दाम क्या है",
+      "kind": "phrase",
+      "phraseId": "shop-price"
+    },
+    {
+      "said": "arabi mein kaise bolun thoda kam karo",
+      "kind": "phrase",
+      "phraseId": "shop-less"
+    },
+    {
+      "said": "wifi ka password kaise poochun",
+      "kind": "phrase",
+      "phraseId": "hotel-wifi"
+    },
+    {
+      "said": "वाई-फ़ाई का पासवर्ड पूछो",
+      "kind": "phrase",
+      "phraseId": "hotel-wifi"
+    },
+    {
+      "said": "बोलो कि यह शाकाहारी है या नहीं",
+      "kind": "phrase",
+      "phraseId": "food-veg"
+    },
+    {
+      "said": "driver ko bolo metro station le chalo",
+      "kind": "phrase",
+      "phraseId": "taxi-metro"
+    },
+    {
+      "said": "bolo ki anda to nahi hai",
+      "kind": "phrase",
+      "phraseId": "food-egg"
+    },
+    {
+      "said": "कम तीखा बनाने को कहो",
+      "kind": "phrase",
+      "phraseId": "food-spice"
+    },
+    {
+      "said": "samaan yahin rakh sakte hain poochho",
+      "kind": "phrase",
+      "phraseId": "hotel-luggage"
+    },
+    {
+      "said": "arabi mein bolo",
+      "kind": "phrase"
+    },
+    {
+      "said": "बीमा दिखाओ",
+      "kind": "document",
+      "documentName": "insurance"
+    },
+    {
+      "said": "beema dikhao",
+      "kind": "document",
+      "documentName": "insurance"
+    },
+    {
+      "said": "passport nikalo",
+      "kind": "document",
+      "documentName": "passport"
+    },
+    {
+      "said": "पासपोर्ट दिखा दो",
+      "kind": "document",
+      "documentName": "passport"
+    },
+    {
+      "said": "वापसी की फ़्लाइट दिखाओ",
+      "kind": "document",
+      "documentName": "flight"
+    },
+    {
+      "said": "return ticket dikhao",
+      "kind": "document",
+      "documentName": "flight"
+    },
+    {
+      "said": "insurance policy dikhao",
+      "kind": "document",
+      "documentName": "insurance"
+    },
+    {
+      "said": "करामा",
+      "kind": "place",
+      "destination": "karama"
+    },
+    {
+      "said": "Marina Mall",
+      "kind": "place",
+      "destination": "marina-mall"
+    },
+    {
+      "said": "बुर्ज ख़लीफ़ा",
+      "kind": "place",
+      "destination": "burj-khalifa"
+    },
+    {
+      "said": "आज मौसम कैसा रहेगा",
+      "kind": "unknown"
+    },
+    {
+      "said": "kal ka cricket score kya tha",
+      "kind": "unknown"
+    },
+    {
+      "said": "मेरी पत्नी को फ़ोन लगाओ",
+      "kind": "unknown"
+    },
+    {
+      "said": "dollar ka rate kya hai",
+      "kind": "unknown"
+    }
+  ]
+}

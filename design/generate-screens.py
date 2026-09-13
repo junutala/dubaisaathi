@@ -662,9 +662,14 @@ body = '''<div class="screen">
     </div>
   </div>
 
-  <div class="col" style="gap: 14px; padding: 0 20px 34px; align-items: center">
+  <div class="col" style="gap: 12px; padding: 0 20px 30px; align-items: center">
     <span class="muted" style="font-size: 14.5px">हिंदी और हिंग्लिश — दोनों चलेंगे</span>
     %(cancel)s
+    <!-- Not every phone can hear Hindi with the network off, and some will not give the mic
+         permission at all. Without this line the mic is a dead end on those phones. -->
+    <span data-tap="type" style="min-height: 48px; display: flex; align-items: center;
+                 font-size: 15.5px; font-weight: 600; color: %(indigo)s;
+                 text-decoration: underline; text-underline-offset: 3px">टाइप करके बताइए</span>
   </div>
 </div>''' % dict(C, hdr=hdr('सुन रहा हूँ…', 'transport', 'कहाँ जाना है?'), bars=bars,
                  cancel=btn('रद्द करें', 'ghost'))

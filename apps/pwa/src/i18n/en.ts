@@ -55,6 +55,32 @@ export const en: Record<StringKey, string> = {
   'driver.youSaid': 'You said — “{text}”',
   'driver.listenArabic': 'اسمع',
 
+  'listen.title': 'Listening…',
+  'listen.trail': 'Ask Saathi',
+  'listen.hint': 'Hindi or Hinglish — both work',
+  'listen.cancel': 'Cancel',
+  'listen.heard': 'You said',
+  'listen.type': 'Type it instead',
+  'listen.typeHint': 'Like — “Marina Mall jaana hai”',
+  'listen.send': 'Go',
+  'listen.again': 'Say it again',
+  'listen.thinking': 'Working it out…',
+
+  'listen.noPermission': 'The mic was not allowed',
+  'listen.noPermissionWhy': 'Turn the mic on in your phone settings, or type it instead.',
+  'listen.noSpeech': 'Nothing was heard',
+  'listen.noEngine': 'This phone cannot recognise Hindi speech',
+  'listen.noEngineWhy': 'Type it instead — everything else works the same.',
+  'listen.network': 'Recognising speech needed the internet',
+  'listen.networkWhy': 'This phone cannot do it offline. Type it instead.',
+  'listen.failed': 'Something went wrong with the mic',
+
+  'listen.whichOne': '“{text}” — what would you like?',
+  'listen.askRoute': 'How to get there',
+  'listen.askFood': 'Find food there',
+  'listen.notUnderstood': 'That did not come through',
+  'listen.notUnderstoodWhy': 'Say it again, or pick from below.',
+
   'soon.title': 'Being built',
   'soon.body': 'This part lands next week. Speaking works today.',
 };
