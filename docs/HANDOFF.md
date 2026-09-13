@@ -49,13 +49,19 @@ Remaining, in one pass:
   from the ledger, the screen is wrong, not the ledger.
 - Commit with `npm run verify` green; push to `claude/affectionate-bohr-ppyrd3`.
 
-Then stop and hand the canvas back for review by screen number.
+Hand the canvas link back with a report by screen number, then continue straight into
+Step 2 without waiting — the screens and the code proceed together.
 
-## Step 2 — the technical spike (only after the screens are signed off)
+## Step 2 — scaffold and the technical spike
 
-Per `CLAUDE.md` "Current state": Android Chrome and iPhone Safari, no internet — Hindi/Hinglish
-speech → `ParsedIntent` → Arabic phrase → Arabic voice. Scaffold `apps/pwa` with the gate
-green from the first commit. Do not start feature screens until the spike has a result.
+Scaffold `apps/pwa` (React + TypeScript + Vite, Workbox, Dexie) inside the existing workspace
+with `npm run verify` green from the first commit — the app shell, the status strip, the four
+tiles, the shared header and bar, wired to the screens as designed, with placeholder data
+from `data/`. Then the spike, per `CLAUDE.md` "Current state": Android Chrome and iPhone
+Safari, no internet — Hindi/Hinglish speech → `ParsedIntent` → Arabic phrase → Arabic voice,
+with the `VoiceEvent` log from day one. Write the findings to `docs/spikes/`. Feature depth
+(routing graph, food search, payments) starts only after the spike has a result, because
+its outcome decides the PWA-versus-native question.
 
 ## Step 3 — the learning loop and the field app (after the spike)
 
