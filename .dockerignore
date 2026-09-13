@@ -1,0 +1,10 @@
+# Everything the image does not need. design/ and docs/ are the largest of these and are not
+# build inputs — the app reads content from data/, never from the artboards.
+node_modules
+**/node_modules
+**/dist
+.git
+design
+docs
+supabase
+.github
