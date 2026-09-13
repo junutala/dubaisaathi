@@ -20,8 +20,8 @@ import { speechGrammar } from './intentPacks.js';
 /** Served by nginx with a one-year immutable header; the name changes when the model does. */
 const VOSK_MODEL_URL = '/models/vosk-hi.tar.gz';
 
-/** Named so a later model can be added without evicting this one mid-trip. */
-const MODEL_CACHE = 'saathi-speech-v1';
+// One definition, shared with the service worker configuration — see `modelCache.ts` for why.
+import { LEGACY_MODEL_CACHES, MODEL_CACHE } from './modelCache.js';
 
 /**
  * Reported with every `VoiceEvent`, so a model regression is visible in the data. The suffix is
@@ -42,10 +42,35 @@ export async function voskModelState(online: boolean): Promise<ModelState> {
   try {
     const cache = await caches.open(MODEL_CACHE);
     if (await cache.match(VOSK_MODEL_URL)) return 'cached';
+    if (await rescueFromOldCache(cache)) return 'cached';
   } catch {
     return 'unavailable';
   }
   return online ? 'fetchable' : 'unavailable';
+}
+
+/**
+ * Moves a model downloaded under an older cache name into the current one.
+ *
+ * Asking a traveller to fetch 42 MB again because we reorganised our own storage is not something
+ * this product gets to do — least of all in Dubai, on roaming, to someone who waited for it on
+ * hotel wifi before the trip.
+ */
+async function rescueFromOldCache(target: Cache): Promise<boolean> {
+  for (const name of LEGACY_MODEL_CACHES) {
+    try {
+      if (!(await caches.has(name))) continue;
+      const old = await caches.open(name);
+      const found = await old.match(VOSK_MODEL_URL);
+      if (!found) continue;
+      await target.put(VOSK_MODEL_URL, found.clone());
+      await old.delete(VOSK_MODEL_URL);
+      return true;
+    } catch {
+      // An unreadable old cache is not worth failing over: the download offer is the fallback.
+    }
+  }
+  return false;
 }
 
 /**

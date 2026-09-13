@@ -1,4 +1,5 @@
 import type { SpeechResult, SpeechSource } from '@saathi/shared';
+import { startSpeechClock } from './endOfSpeech.js';
 
 /**
  * The seam between speech and the parser.
@@ -143,7 +144,19 @@ function browserEngine(processLocally: boolean): SttEngine {
 
       const recognition = new Recognition();
       recognition.lang = SPEECH_LANG;
-      recognition.continuous = false;
+      /**
+       * Kept listening until something says stop, which is the traveller or the clock below.
+       *
+       * `false` here was a real defect and a quiet one: it makes the browser end at the speaker's
+       * first pause, so "यह बुर दुबई से discovery gardens जाना है" came back as "यह बर दुबई से" —
+       * cut off mid-sentence, in under a second, on a phone in Dubai. It went unnoticed for as long
+       * as a truncated sentence went straight to a screen; it became obvious the moment the words
+       * were shown to the person who had said them.
+       *
+       * A traveller pauses to think, and pauses again because the place has four words in it. The
+       * end of a sentence is silence, not a breath, and both engines now judge it the same way.
+       */
+      recognition.continuous = true;
       recognition.interimResults = true;
       recognition.maxAlternatives = 1;
       if (processLocally) recognition.processLocally = true;
@@ -152,31 +165,41 @@ function browserEngine(processLocally: boolean): SttEngine {
       let best = '';
       let confidence: number | undefined;
       let settled = false;
+      const clock = startSpeechClock(() => {
+        recognition.stop();
+      });
 
       recognition.onresult = (event) => {
+        // Continuous recognition reports the sentence in pieces, so the final ones are collected
+        // rather than overwritten — assigning here kept only the last fragment of a long sentence.
         let partial = '';
+        const finals: string[] = [];
         for (let i = 0; i < event.results.length; i++) {
           const result = event.results.item(i);
           const alternative = result.item(0);
           if (result.isFinal) {
-            best = alternative.transcript;
+            finals.push(alternative.transcript.trim());
             confidence = alternative.confidence;
           } else {
             partial += alternative.transcript;
           }
         }
-        handlers.onPartial(best === '' ? partial : best);
+        best = finals.filter((text) => text !== '').join(' ');
+        if (best !== '' || partial.trim() !== '') clock.heard();
+        handlers.onPartial([best, partial].filter((text) => text.trim() !== '').join(' '));
       };
 
       recognition.onerror = (event) => {
         if (settled) return;
         settled = true;
+        clock.stop();
         handlers.onFailure(failureOf(event.error));
       };
 
       recognition.onend = () => {
         if (settled) return;
         settled = true;
+        clock.stop();
         if (best.trim() === '') {
           handlers.onFailure('no-speech');
           return;
@@ -202,6 +225,7 @@ function browserEngine(processLocally: boolean): SttEngine {
         },
         cancel: () => {
           settled = true;
+          clock.stop();
           recognition.abort();
         },
       };

@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import { MODEL_CACHE } from './src/features/voice/modelCache.js';
 
 // Offline-first is not a plugin setting, but this is where it starts: everything the shell
 // needs is precached, so a cold start with the radio off still paints.
@@ -54,14 +55,35 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
         runtimeCaching: [
           {
-            // Both are immutable and named by content, so once fetched they are kept for good —
-            // which is what makes the mic work with the radio off on the next launch.
-            urlPattern: ({ url }) =>
-              /\/assets\/vosk-[^/]+\.js$/.test(url.pathname) || url.pathname.startsWith('/models/'),
+            /**
+             * The model gets a cache of its own, with NO expiry, and this is not a detail.
+             *
+             * It used to share a cache with the Kaldi runtime under a four-entry limit. The runtime
+             * chunk is named by content, so every deployment puts a new entry in — and after four
+             * deployments the least recently used entry was evicted. The least recently used entry
+             * is the model, because a traveller touches it only when they speak. So shipping a
+             * build silently deleted a 42 MB download somebody had waited for on hotel wifi, and
+             * the app then told them their phone could not recognise Hindi. On 13 September that
+             * happened five times in an hour on the owner's own phone.
+             *
+             * One file, named by content, downloaded deliberately, deleted only by the traveller.
+             * Nothing about a new release is a reason to take it away.
+             */
+            urlPattern: ({ url }) => url.pathname.startsWith('/models/'),
             handler: 'CacheFirst',
             options: {
-              cacheName: 'saathi-speech-v1',
-              expiration: { maxEntries: 4 },
+              cacheName: MODEL_CACHE,
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
+            // The Kaldi runtime, which is ~6 MB and genuinely replaced by each build. A small
+            // limit is right here and only here: nothing a traveller waited for lives in it.
+            urlPattern: ({ url }) => /\/assets\/vosk-[^/]+\.js$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'saathi-vosk-runtime-v1',
+              expiration: { maxEntries: 2 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },
