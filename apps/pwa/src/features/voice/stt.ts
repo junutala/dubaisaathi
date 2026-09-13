@@ -28,6 +28,12 @@ export function isSecureOrigin(): boolean {
 }
 
 export interface SttHandlers {
+  /**
+   * The engine is getting ready and is NOT yet hearing anything. An on-device model takes
+   * seconds to unpack, and showing a live waveform through that is a lie the traveller pays for:
+   * they speak, nothing is heard, and they conclude it does not work.
+   */
+  readonly onPreparing?: () => void;
   /** Called as the engine changes its mind, so 1.2 can show that it is hearing something. */
   readonly onPartial: (text: string) => void;
   readonly onFinal: (result: SpeechResult) => void;

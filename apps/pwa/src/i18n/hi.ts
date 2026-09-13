@@ -79,6 +79,8 @@ export const hi = {
   'listen.noEngineWhy': 'टाइप करके बताइए — बाक़ी सब वैसे ही चलेगा.',
   // The one-time voice download. This belongs on the landing page once that screen exists —
   // before the trip, on home wifi — and sits here meanwhile, where the need is discovered.
+  'listen.preparing': 'आवाज़ तैयार हो रही है…',
+  'listen.preparingWhy': 'पहली बार में कुछ सेकंड लगते हैं. अभी बोलिए मत.',
   'listen.getVoice': 'हिंदी आवाज़ डाउनलोड करें',
   'listen.getVoiceWhy': 'एक बार डाउनलोड ({size} MB) — फिर बिना इंटरनेट भी माइक चलेगा.',
   'listen.downloading': 'डाउनलोड हो रहा है… {percent}%',

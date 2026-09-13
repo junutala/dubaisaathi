@@ -33,6 +33,9 @@ import { downloadVoskModel, voskModelState } from './voskStt.js';
 
 type Phase =
   | { readonly at: 'listening' }
+  // The engine is loading and is not yet hearing. Said plainly, because a waveform here would be
+  // a lie: the traveller would speak into a mic that is not on.
+  | { readonly at: 'preparing' }
   | { readonly at: 'thinking' }
   | { readonly at: 'failed'; readonly failure: SttFailure }
   // The one-time voice download: offered when the phone has no offline model but could fetch one.
@@ -147,7 +150,15 @@ export function ListenScreen({
     setPhase({ at: 'listening' });
 
     session.current = engine.listen({
-      onPartial: setPartial,
+      onPreparing: () => {
+        setPhase({ at: 'preparing' });
+      },
+      onPartial: (text) => {
+        // The first partial is proof the engine is actually hearing, so the screen stops
+        // claiming to be getting ready and starts claiming to be listening.
+        setPhase({ at: 'listening' });
+        setPartial(text);
+      },
       onFinal: (result) => {
         setPhase({ at: 'thinking' });
         handle(result.transcript, engine.id);
@@ -242,6 +253,17 @@ export function ListenScreen({
               }}
             >
               {t('listen.type')}
+            </button>
+          </div>
+        )}
+
+        {phase.at === 'preparing' && (
+          <div className="listen">
+            <Waveform />
+            <span className="listen-state">{t('listen.preparing')}</span>
+            <p className="muted center">{t('listen.preparingWhy')}</p>
+            <button type="button" className="btn btn-ghost" onClick={cancel}>
+              {t('listen.cancel')}
             </button>
           </div>
         )}

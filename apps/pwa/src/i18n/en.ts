@@ -71,6 +71,8 @@ export const en: Record<StringKey, string> = {
   'listen.noSpeech': 'Nothing was heard',
   'listen.noEngine': 'This phone cannot recognise Hindi speech',
   'listen.noEngineWhy': 'Type it instead — everything else works the same.',
+  'listen.preparing': 'Getting the voice ready…',
+  'listen.preparingWhy': 'A few seconds the first time. Do not speak yet.',
   'listen.getVoice': 'Download the Hindi voice',
   'listen.getVoiceWhy': 'One download ({size} MB) — then the mic works with no internet.',
   'listen.downloading': 'Downloading… {percent}%',

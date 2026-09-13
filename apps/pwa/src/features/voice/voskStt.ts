@@ -137,6 +137,9 @@ export const voskStt: SttEngine = {
 
       let model;
       try {
+        // Unpacking 78 MB of acoustic model into the WASM filesystem is not instant, and on the
+        // first run after a download it is the slowest thing the app ever does.
+        handlers.onPreparing?.();
         model = await loadModel();
       } catch {
         stream.getTracks().forEach((t) => {
