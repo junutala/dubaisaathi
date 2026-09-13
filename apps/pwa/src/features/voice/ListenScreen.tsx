@@ -8,7 +8,7 @@ import type { StringKey } from '../../i18n/index.js';
 import { intentCorpus } from './intentPacks.js';
 import { isConfident, parseIntent } from './parseIntent.js';
 import { landingFor } from './micRouting.js';
-import { pickEngine, typedStt, type SttFailure, type SttSession } from './stt.js';
+import { isSecureOrigin, pickEngine, typedStt, type SttFailure, type SttSession } from './stt.js';
 import { recordVoiceEvent } from './voiceEvent.js';
 
 /**
@@ -34,6 +34,7 @@ const FAILURE_TITLE: Record<SttFailure, StringKey> = {
   'no-permission': 'listen.noPermission',
   'no-speech': 'listen.noSpeech',
   'no-engine': 'listen.noEngine',
+  'insecure-context': 'listen.insecure',
   network: 'listen.network',
   failed: 'listen.failed',
 };
@@ -42,6 +43,7 @@ const FAILURE_WHY: Record<SttFailure, StringKey> = {
   'no-permission': 'listen.noPermissionWhy',
   'no-speech': 'listen.hint',
   'no-engine': 'listen.noEngineWhy',
+  'insecure-context': 'listen.insecureWhy',
   network: 'listen.networkWhy',
   failed: 'listen.noEngineWhy',
 };
@@ -51,6 +53,7 @@ const SPEECH_FAILURE: Record<SttFailure, VoiceFailure> = {
   'no-permission': 'no-permission',
   'no-speech': 'no-speech',
   'no-engine': 'no-engine',
+  'insecure-context': 'insecure-context',
   network: 'no-engine',
   failed: 'stt-error',
 };
@@ -119,9 +122,11 @@ export function ListenScreen({
 
   // The mic opens listening, because a traveller who tapped a microphone is already talking.
   useEffect(() => {
-    // A phone with no recogniser at all should not flash a waveform it cannot honour.
+    // A phone with no recogniser should not flash a waveform it cannot honour — but say which
+    // of the two reasons it is. Over plain HTTP the browser hides speech recognition, and
+    // blaming the phone for that is simply wrong.
     if (engine.current === typedStt) {
-      setPhase({ at: 'failed', failure: 'no-engine' });
+      setPhase({ at: 'failed', failure: isSecureOrigin() ? 'no-engine' : 'insecure-context' });
       return;
     }
     listen();
@@ -192,11 +197,13 @@ export function ListenScreen({
             >
               {t('listen.type')}
             </button>
-            {phase.failure !== 'no-engine' && phase.failure !== 'network' && (
-              <button type="button" className="btn btn-ghost" onClick={listen}>
-                {t('listen.again')}
-              </button>
-            )}
+            {phase.failure !== 'no-engine' &&
+              phase.failure !== 'network' &&
+              phase.failure !== 'insecure-context' && (
+                <button type="button" className="btn btn-ghost" onClick={listen}>
+                  {t('listen.again')}
+                </button>
+              )}
           </div>
         )}
 

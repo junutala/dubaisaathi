@@ -256,6 +256,9 @@ export type VoiceFailure =
   | 'no-permission'
   | 'no-speech'
   | 'no-engine'
+  // Not the phone's fault: the page was not served over a secure origin, so the browser hid
+  // speech recognition. Counted apart so it never lands in the gate's numbers.
+  | 'insecure-context'
   | 'stt-error'
   // The speech arrived and the parser could not use it. These retrain the packs in `data/`.
   | 'unknown-intent'

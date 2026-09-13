@@ -14,7 +14,18 @@ import type { SpeechResult, SpeechSource } from '@saathi/shared';
  * mic is never a dead end.
  */
 
-export type SttFailure = 'no-permission' | 'no-speech' | 'no-engine' | 'network' | 'failed';
+export type SttFailure =
+  'no-permission' | 'no-speech' | 'no-engine' | 'insecure-context' | 'network' | 'failed';
+
+/**
+ * Browsers expose speech recognition only on a secure origin. On plain HTTP the constructor is
+ * simply absent — indistinguishable, from the code's point of view, from a phone that cannot do
+ * Hindi at all. Asking this separately is what stops the app telling a traveller their phone is
+ * incapable when the truth is that the certificate had not issued yet.
+ */
+export function isSecureOrigin(): boolean {
+  return window.isSecureContext;
+}
 
 export interface SttHandlers {
   /** Called as the engine changes its mind, so 1.2 can show that it is hearing something. */

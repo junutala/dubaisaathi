@@ -71,6 +71,9 @@ export const en: Record<StringKey, string> = {
   'listen.noSpeech': 'Nothing was heard',
   'listen.noEngine': 'This phone cannot recognise Hindi speech',
   'listen.noEngineWhy': 'Type it instead — everything else works the same.',
+  'listen.insecure': 'This page did not open securely',
+  'listen.insecureWhy':
+    'Open it on the secure (https) address and the mic will work. For now, type it instead.',
   'listen.network': 'Recognising speech needed the internet',
   'listen.networkWhy': 'This phone cannot do it offline. Type it instead.',
   'listen.failed': 'Something went wrong with the mic',
