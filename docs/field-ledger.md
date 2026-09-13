@@ -7,12 +7,12 @@ written, the field is not added.
 
 ## On every screen after landing — the status strip
 
-| Field                                          | Why it is there                                                                     |
-| ---------------------------------------------- | ----------------------------------------------------------------------------------- |
-| ऑफ़लाइन / ऑनलाइन                               | The status this product lives on; a tourist with no data needs to see it is fine    |
-| Validity line + label (four states)            | This is the money: how long the offline functions last, on every screen. Tap → घर.1 |
-| रिचार्ज button (trial, last day, expired only) | The money, made obvious exactly when it matters, and quiet otherwise                |
-| Theme switch                                   | One tap, never hunted for                                                           |
+| Field                                          | Why it is there                                                                                                                                                  |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ऑफ़लाइन / ऑनलाइन                               | The status this product lives on; a tourist with no data needs to see it is fine                                                                                 |
+| Validity line + label                          | This is the money: how long the offline functions last, on every screen. Tap → घर.1. States: before Dubai · trial · just bought · days left · last day · expired |
+| रिचार्ज button (trial, last day, expired only) | The money, made obvious exactly when it matters, and quiet otherwise                                                                                             |
+| Theme switch                                   | One tap, never hunted for                                                                                                                                        |
 
 ## On every child screen — header and bar
 
@@ -59,11 +59,11 @@ Not asked: "where from". The phone knows; a tourist often does not know the stre
 
 ## 1.1b · रास्ता › जगह की इजाज़त नहीं
 
-| Field                                                            | Why it is there                                                  |
-| ---------------------------------------------------------------- | ---------------------------------------------------------------- |
-| "बिना location के रास्ता, आस-पास खाना और होटल का पिन नहीं चलेगा" | Says plainly what was lost                                       |
-| सेटिंग खोलें                                                     | The only way to fix it                                           |
-| "बाक़ी सब चलेगा"                                                 | So they carry on with बोलना and the documents instead of leaving |
+| Field                                                                  | Why it is there                                                    |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| The three things listed: यहाँ से रास्ता · आस-पास का खाना · होटल का पिन | Says plainly what was lost, item by item rather than in a sentence |
+| सेटिंग खोलें                                                           | The only way to fix it                                             |
+| "बाक़ी सब चलेगा"                                                       | So they carry on with बोलना and the documents instead of leaving   |
 
 ## 1.2 · रास्ता › सुन रहा हूँ
 
@@ -112,6 +112,7 @@ Not asked: "where from". The phone knows; a tourist often does not know the stre
 
 | Field                                                    | Why it is there                                              |
 | -------------------------------------------------------- | ------------------------------------------------------------ |
+| आपने कहा: … (when the mic landed here)                   | Check it heard the dish right before trusting the list       |
 | Search "डोसा, थाली, चाय…" with mic                       | Tourists ask for a dish, not a category                      |
 | वेज · जैन · सात्विक · बिना प्याज़/लहसुन · झटपट           | The filters that decide whether the food can be eaten at all |
 | "करामा के 1 km में · 14 जगह"                             | Sets expectation of how far the list reaches                 |
@@ -196,6 +197,7 @@ Not asked: "where from". The phone knows; a tourist often does not know the stre
 | The countdown / the pass and its end / पास ख़त्म         | Which state you are in, in one glance                                                |
 | 1 · 2 · 3 · 4 डिवाइस — ₹199 / ₹299 / ₹399 / ₹499, 14 दिन | The ladder, one rule: ₹100 per extra phone; the traveller can check it in their head |
 | "4 से ज़्यादा? हमसे बात करें"                            | Groups and tour operators — a lead, not a tier                                       |
+| "हर पास 14 दिन का"                                       | Says once what every tier shares, so each row can be just a count and a price        |
 | 14 दिन और बढ़ाएँ (pass active)                           | Recharge extends, it does not restart                                                |
 | ख़रीदने के लिए इंटरनेट ज़रूरी                            | Honest: this one screen needs a connection                                           |
 | UPI से दें (same phone) · QR दिखाएँ (someone else pays)  | The two ways money arrives; both are the same order                                  |
@@ -204,16 +206,18 @@ Not asked: "where from". The phone knows; a tourist often does not know the stre
 
 ## घर.1c · पास चालू
 
-| Field                            | Why it is there          |
-| -------------------------------- | ------------------------ |
-| What was bought, valid till when | The receipt, in one line |
-| डिवाइस जोड़ें (multi-device)     | Straight to the QR codes |
+| Field                            | Why it is there                                     |
+| -------------------------------- | --------------------------------------------------- |
+| What was bought, valid till when | The receipt, in one line                            |
+| डिवाइस जोड़ें (multi-device)     | Straight to the QR codes                            |
+| अभी नहीं                         | The family may not be in the room yet; the QRs keep |
 
 ## घर.2 · पास › डिवाइस
 
 | Field                                                 | Why it is there                                                                |
 | ----------------------------------------------------- | ------------------------------------------------------------------------------ |
 | One QR per extra device, each marked free / used      | The passes; a member scans one and is in, offline, same end time as the master |
+| भेजें (on a free slot)                                | Sends that QR as an image, for a member on a later flight                      |
 | "साथ हों तो स्कैन करें, दूर हों तो WhatsApp पर भेजें" | The two ways a QR reaches a member                                             |
 | Who is on which slot, with हटाएँ                      | Who is on the pass, and how to take a lost phone off at its next sync          |
 | Shared Counter Off Time                               | Everyone's pass ends together                                                  |

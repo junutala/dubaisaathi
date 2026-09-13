@@ -36,7 +36,7 @@ DARK = dict(
 )
 if os.environ.get('SAATHI_THEME') == 'dark':
     C.update(DARK)
-    THEME_SUFFIX, THEME_ONLY = 'Dark', {'Main', 'Emergency', 'FoodList'}
+    THEME_SUFFIX, THEME_ONLY = 'Dark', {'Main', 'FoodList', 'InfoHome'}
 else:
     THEME_SUFFIX, THEME_ONLY = '', None
 
@@ -120,12 +120,15 @@ $body
 ''')
 
 
-def write(name, body):
+def write(name, body, state='trial'):
+    """`state` is the strip's state for this screen. The set tells one story — a tourist on
+    the free day — so only the screens that come after a purchase show a running pass."""
     if THEME_ONLY is not None and name not in THEME_ONLY:
         return
     name += THEME_SUFFIX
     if name.replace('Dark', '') not in ('Welcome', 'Brand'):
-        body = re.sub(r'(<div class="screen"[^>]*>)', lambda m: m.group(1) + strip(), body, 1)
+        body = re.sub(r'(<div class="screen"[^>]*>)',
+                      lambda m: m.group(1) + strip(state), body, 1)
     (OUT / (name + '.dc.html')).write_text(
         DOC.substitute(fonts=FONTS, css=CSS, body=body), encoding='utf-8')
 
@@ -142,7 +145,6 @@ I = dict(
     route='<path d="M7 20v-7.8A4.2 4.2 0 0 1 11.2 8H17"/><path d="M14 4.8 17.4 8 14 11.2"/>',
     food='<path d="M4 11.2h16"/><path d="M5.2 11.2a6.8 6.8 0 0 0 13.6 0"/><path d="M12 4.2c1.5 1 1.5 2.5 0 3.5"/>',
     talk='<path d="M20 12.2c0 3.4-3.6 6.2-8 6.2a9.9 9.9 0 0 1-2.5-.3L5.2 19.8l1-3A6 6 0 0 1 4 12.2C4 8.8 7.6 6 12 6s8 2.8 8 6.2Z"/>',
-    help='<path d="M12 4.2 5.2 6.7v5.4c0 3.5 2.8 6.2 6.8 7.7 4-1.5 6.8-4.2 6.8-7.7V6.7L12 4.2Z"/><path d="M12 9.4v5"/><path d="M9.5 11.9h5"/>',
     speak='<path d="M5 10v4h3l4 3.4V6.6L8 10H5Z"/><path d="M15.4 9.6a3.4 3.4 0 0 1 0 4.8"/><path d="M17.9 7.2a6.8 6.8 0 0 1 0 9.6"/>',
     metro='<rect x="6.2" y="4.2" width="11.6" height="11.6" rx="3"/><path d="M6.2 11h11.6"/><path d="M9.2 19.8 10.6 17"/><path d="M14.8 19.8 13.4 17"/>',
     bus='<rect x="5.2" y="5" width="13.6" height="10.8" rx="2.6"/><path d="M5.2 11h13.6"/><path d="M8.2 19.4v-2.4"/><path d="M15.8 19.4v-2.4"/>',
@@ -170,9 +172,9 @@ I = dict(
 
 
 # The four things the app does. Home shows them as tiles; once the traveller picks one, the
-# other three drop to the bottom bar so switching is one tap. No mic in the bar: on a map or
-# the help screen a spoken word has no single meaning, and a guess is worse than no mic.
-# Speech is offered exactly where it means one thing — 1.1, the search on 2.1, and 3.1.
+# other three drop to the bottom bar so switching is one tap. The mic sits in the middle of
+# that bar and on home, because it is the way into all four: a whole sentence carries its own
+# intent, and the parser lands the traveller on the screen that answers it (decision 004).
 FUNCS = [
     ('transport', 'रास्ता', 'route'),
     ('food', 'खाना', 'food'),
@@ -212,18 +214,26 @@ def glow(inner, tone='action', radius=20, surface=None, pad='1.5px'):
                         surface or C['card'], inner))
 
 
+def barmic(size=54):
+    """The mic, identical wherever it appears: home, the bar, and the three tile entries."""
+    return glow('<div style="width: %dpx; height: %dpx; border-radius: %dpx; background: %s; '
+                'display: flex; align-items: center; justify-content: center" data-tap="mic">'
+                '%s</div>'
+                % (size, size, size // 2, C['marigold'],
+                   svg(I['mic'], int(size * 0.5), '1.6', C['onMarigold'])),
+                radius=size // 2 + 2, surface=C['marigold'], pad='2.5px')
+
+
 def quickbar(current):
-    slots = [('घर', 'home', False)]
-    slots += [(label, icon, False) for key, label, icon in FUNCS if key != current]
-    cells = []
-    for label, icon, danger in slots:
-        col = C['red'] if danger else C['muted']
-        cells.append(
-            '<div class="tab" style="min-height: 48px; color: %s" data-tap="nav">%s'
-            '<span style="color: %s">%s</span></div>'
-            % (col, svg(I[icon], 23, '1.7'), C['muted'], label))
-    return ('<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); '
-            'border-top: 1px solid %s; background: %s; padding: 9px 6px 14px">'
+    labels = [('घर', 'home')] + [(l, i) for k, l, i in FUNCS if k != current]
+    cells = [('<div class="tab" style="min-height: 48px; color: %s" data-tap="nav">%s'
+              '<span style="color: %s">%s</span></div>'
+              % (C['muted'], svg(I[icon], 23, '1.7'), C['muted'], label))
+             for label, icon in labels]
+    cells.insert(2, '<div style="width: 62px; height: 62px; display: flex; '
+                    'justify-content: center; margin-top: -26px">%s</div>' % barmic())
+    return ('<div class="row" style="border-top: 1px solid %s; background: %s; '
+            'padding: 9px 6px 14px; align-items: flex-end; justify-content: space-between">'
             '%s</div>' % (C['line'], C['card'], ''.join(cells)))
 
 
@@ -240,17 +250,25 @@ TILE_ICON = {'transport': 'route', 'food': 'food', 'talk': 'talk', 'info': 'info
 # The status strip. One component, the very top of every screen after the landing page:
 # online/offline on the left, the plan validity in the middle (tap opens घर.1), and the
 # theme switch on the right. Four states for the middle — before Dubai, trial, pass, expired.
+# The four states, and whether each shows the रिचार्ज button. Days-left stays quiet: a
+# traveller with a week in hand does not need to be sold to on every screen.
 STRIP_STATES = {
-    'before': ('दुबई पहुँचने पर 24 घंटे मुफ़्त', 0, 'muted'),
-    'trial': ('18 घंटे बाकी', 76, 'marigold'),
-    'pass': ('5 दिन बाकी', 71, 'teal'),
-    'expired': ('पास ख़त्म · फिर से लें', 0, 'muted'),
+    'before': ('दुबई पहुँचने पर 24 घंटे मुफ़्त', 0, 'muted', False),
+    'trial': ('18 घंटे बाकी', 76, 'marigold', True),
+    'fresh': ('14 दिन बाकी', 100, 'teal', False),
+    'pass': ('5 दिन बाकी', 71, 'teal', False),
+    'lastday': ('1 दिन बाकी', 7, 'marigold', True),
+    'expired': ('पास ख़त्म', 0, 'muted', True),
 }
 
 
 def strip(state='trial', online=False):
-    label, pct, tone = STRIP_STATES[state]
+    label, pct, tone, recharge = STRIP_STATES[state]
     fill = C[tone] if tone != 'muted' else C['line']
+    cta = ('<div class="row" style="min-height: 48px; padding: 0 12px; gap: 5px; '
+           'border-radius: 14px; background: %s; color: %s; font-size: 13.5px; '
+           'font-weight: 700" data-tap="recharge">रिचार्ज</div>'
+           % (C['marigold'], C['onMarigold'])) if recharge else ''
     if online:
         net = ('<div class="row" style="gap: 5px; color: %s">%s'
                '<span style="font-size: 13px; font-weight: 700">ऑनलाइन</span></div>'
@@ -268,9 +286,9 @@ def strip(state='trial', online=False):
             '<div style="height: 4px; border-radius: 2px; background: %s">'
             '<div style="width: %d%%; height: 4px; border-radius: 2px; background: %s"></div>'
             '</div></div>'
-            '<div style="width: 48px; height: 48px; display: flex; align-items: center; '
+            '%s<div style="width: 48px; height: 48px; display: flex; align-items: center; '
             'justify-content: center" data-tap="theme">%s</div></div>'
-            % (C['card'], C['line'], net, label, C['line'], pct, fill,
+            % (C['card'], C['line'], net, label, C['line'], pct, fill, cta,
                svg(I['moon'], 22, '1.8', C['muted'])))
 
 
@@ -469,10 +487,9 @@ write('Welcome', body)
 
 # ---------------------------------------------------------------------- 4. Home
 # Utility app, so it opens straight into the four things it does — no login, no splash gate.
-# The counter at the top is the only chrome: trial countdown before purchase, pass remaining
-# after. No mic here: on home a spoken "करामा" could mean a route or a restaurant, and the
-# guess is a bad first impression of voice. The mic lives where it has context — 1.1, 3.1 and
-# the bar on every child screen — one tap away, no guessing.
+# The strip above carries the only status. Four tiles for the traveller who wants to choose,
+# and the mic for the one who would rather just say it — "Dubai Marina Mall jaana hai" skips
+# the tiles entirely and lands on 1.3 with the options already on screen.
 def tile(key, label):
     icon = dict(FUNCS_BY_KEY)[key]
     bg, fg = C['marigoldSoft'], C['marigoldText']
@@ -493,21 +510,36 @@ FUNCS_BY_KEY = [(k, i) for k, _, i in FUNCS]
 HOME = '''<div class="screen">
   <div class="flow" style="gap: 13px; padding-top: 14px">
     <div style="flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 12px; padding-bottom: 22px">
+                gap: 12px">
       %(t1)s %(t2)s %(t3)s %(t4)s
+    </div>
+    <div class="col" style="align-items: center; gap: 8px; padding: 6px 0 20px">
+      %(mic)s
+      <span class="muted" style="font-size: 13.5px; text-align: center">
+        या बोलकर पूछिए — “मरीना मॉल जाना है”</span>
     </div>
   </div>
 </div>'''
 
-for name, kind in [('Main', 'trial')]:
-    write(name, HOME % dict(
-        C, t1=tile('transport', 'रास्ता'), t2=tile('food', 'खाना'),
-        t3=tile('talk', 'बोलना'), t4=tile('info', 'ज़रूरी जानकारी')))
+write('Main', HOME % dict(
+    C, t1=tile('transport', 'रास्ता'), t2=tile('food', 'खाना'),
+    t3=tile('talk', 'बोलना'), t4=tile('info', 'ज़रूरी जानकारी'), mic=barmic(62)))
 
 # --------------------------------------------------- 1.1 रास्ता › कहाँ जाना है?
 # What the रास्ता tile opens onto. One question, three ways to answer it: say it, type it,
 # or tap the two places a tourist goes back to most. Origin is never asked — the phone knows
 # where it is, and a tourist often does not know the name of where they are standing.
+def heard(text):
+    """Shown at the top of any screen the mic landed on. Intent accuracy is the KPI, so the
+    traveller has to be able to see what was understood and go back in one tap."""
+    return ('<div class="row" style="gap: 9px; background: %s; border: 1px solid %s; '
+            'border-radius: 12px; padding: 9px 13px">%s'
+            '<span style="flex: 1; font-size: 14.5px; color: %s; line-height: 1.35">'
+            '<b style="font-weight: 700">आपने कहा:</b> %s</span></div>'
+            % (C['marigoldSoft'], C['marigoldLine'],
+               svg(I['mic'], 17, '2', C['marigoldText']), C['warmText'], text))
+
+
 def pick(icon, label, sub):
     return ('<div class="card row" style="min-height: 60px; padding: 12px 15px; gap: 12px" '
             'data-tap="pick">'
@@ -520,16 +552,19 @@ def pick(icon, label, sub):
                svg(I['right'], 20, '1.8', C['chev'])))
 
 
-big_mic = glow(
-    '<div style="width: 96px; height: 96px; border-radius: 48px; background: %s; '
-    'display: flex; align-items: center; justify-content: center" data-tap="mic">%s</div>'
-    % (C['marigold'], svg(I['mic'], 44, '1.5', C['onMarigold'])),
-    radius=50, surface=C['marigold'], pad='3px')
+big_mic = barmic(96)
 
 body = '''<div class="screen">
   %(hdr)s
   <div class="flow" style="gap: 16px">
-    <div class="col" style="align-items: center; gap: 12px; padding: 10px 0 4px">
+    <div class="row" style="gap: 11px; background: %(tealSoft)s; border: 1px solid
+                %(tealLine)s; border-radius: 14px; padding: 12px 14px; align-items: flex-start">
+      %(loc)s
+      <span style="flex: 1; font-size: 14.5px; color: %(tealText)s; line-height: 1.45">
+        रास्ता बताने के लिए साथी को आपकी जगह चाहिए.</span>
+    </div>
+
+    <div class="col" style="align-items: center; gap: 12px; padding: 2px 0 4px">
       %(mic)s
       <span style="font-size: 16px; font-weight: 600">बोलिए</span>
       <span class="muted" style="font-size: 14.5px; margin-top: -6px">
@@ -553,6 +588,7 @@ body = '''<div class="screen">
   </div>
   %(bar)s
 </div>''' % dict(C, hdr=hdr('कहाँ जाना है?', 'transport'), mic=big_mic,
+                 loc=svg(I['pin'], 19, '1.9', C['teal']),
                  search=svg(I['pencil'], 20, '1.8', C['muted']),
                  p1=pick('pin', 'मेरा होटल', 'Hotel Rimal, Deira'),
                  p2=pick('route', 'एयरपोर्ट', 'Dubai International · टर्मिनल 1'),
@@ -561,6 +597,46 @@ body = '''<div class="screen">
                  bar=quickbar('transport'))
 write('Destination', body)
 
+
+# --------------------------------- 1.1b रास्ता › जगह की इजाज़त नहीं
+# The phone's permission is the phone's to give, and GPS never overrides it. So this screen
+# says plainly what stopped working, offers the one place that fixes it, and then gets out of
+# the way — a tourist who says no once should not be asked again on every screen.
+body = '''<div class="screen">
+  %(hdr)s
+  <div class="flow" style="gap: 16px">
+    <div class="col" style="gap: 12px; background: %(card)s; border: 1px solid %(line)s;
+                            border-radius: 16px; padding: 18px 16px">
+      <p style="margin: 0; font-family: 'Anek Devanagari', sans-serif; font-size: 21px;
+                font-weight: 600; line-height: 1.3">
+        बिना जगह की इजाज़त के ये नहीं चलेंगे</p>
+      <div class="col" style="gap: 9px">%(l1)s %(l2)s %(l3)s</div>
+    </div>
+
+    %(b)s
+
+    <div class="row" style="gap: 11px; background: %(tealSoft)s; border: 1px solid
+                %(tealLine)s; border-radius: 14px; padding: 12px 14px; align-items: flex-start">
+      %(ok)s
+      <span style="flex: 1; font-size: 14.5px; color: %(tealText)s; line-height: 1.45">
+        बाक़ी सब चलेगा — बोलना, ज़रूरी जानकारी और तैयार वाक्य.</span>
+    </div>
+  </div>
+  %(bar)s
+</div>''' % dict(C, hdr=hdr('जगह की इजाज़त नहीं', 'transport', 'कहाँ जाना है?'),
+                 l1=('<div class="row" style="gap: 10px">%s<span style="font-size: 15.5px">'
+                     'यहाँ से रास्ता</span></div>'
+                     % svg(I['route'], 19, '1.8', C['muted'])),
+                 l2=('<div class="row" style="gap: 10px">%s<span style="font-size: 15.5px">'
+                     'आस-पास का खाना</span></div>'
+                     % svg(I['food'], 19, '1.8', C['muted'])),
+                 l3=('<div class="row" style="gap: 10px">%s<span style="font-size: 15.5px">'
+                     'होटल का पिन</span></div>'
+                     % svg(I['pin'], 19, '1.8', C['muted'])),
+                 b=btn('सेटिंग खोलें', 'primary'),
+                 ok=svg(I['check'], 19, '2.1', C['teal']),
+                 bar=quickbar('transport'))
+write('LocationDenied', body)
 
 # ------------------------------------------ 1.2 रास्ता › कहाँ जाना है? › सुन रहा हूँ
 # Same theme as everywhere else. Listening is a state, not a different app, and a traveller
@@ -631,6 +707,7 @@ def option(icon, name, time, cost, legs, badge=None, lead=False):
 body = '''<div class="screen">
   %(hdr)s
   <div class="flow">
+    %(heard)s
     <div class="row" style="gap: 8px; padding: 2px 2px 0">
       <span class="muted" style="font-size: 15px">यहाँ से</span>%(arrow)s
       <span style="font-size: 16px; font-weight: 600; flex: 1">करामा</span>
@@ -647,6 +724,7 @@ body = '''<div class="screen">
   %(bar)s
 </div>''' % dict(C,
                  hdr=hdr('करामा — कैसे जाएँ?', 'transport', 'कहाँ जाना है? › विकल्प'),
+                 heard=heard('“मुझे करामा जाना है”'),
                  arrow=svg(I['right'], 18, '1.9', C['muted']),
                  o1=option('metro', 'मेट्रो', '32 मिनट', 'AED 5',
                            [('walk', '6 मिनट'), ('metro', 'रेड लाइन · 4 स्टेशन'),
@@ -724,10 +802,6 @@ print('4-5 done')
 # set, so tapping either side highlights the other. This is also where paid placement will
 # live one day, which is exactly why a sponsored card carries a visible प्रायोजित label and
 # still sorts by distance — a traveller who stops trusting the pins stops using the app.
-POI_CATS = [('चाय', 'कड़क चाय'), ('झटपट', 'झटपट खाना'), ('वेज', 'वेज खाना'),
-            ('मिठाई', 'मिठाई'), ('घूमना', 'घूमने की जगह')]
-
-
 def poi_chip(text, on=False):
     inner = ('<div class="chip" style="height: 48px; background: %s; color: %s; '
              'font-weight: 600; border: none" data-tap="chip">%s</div>'
@@ -904,6 +978,7 @@ def fcard(name, sub, dist, cost, tags):
 body = '''<div class="screen">
   %(hdr)s
   <div class="flow" style="gap: 12px">
+    %(heard)s
     <div class="row" style="gap: 10px; min-height: 52px; background: %(card)s;
                 border: 1px solid %(line)s; border-radius: 14px; padding: 0 6px 0 14px"
          data-tap="type">
@@ -922,6 +997,7 @@ body = '''<div class="screen">
   %(bar)s
 </div>''' % dict(C,
                  hdr=hdr('आस-पास वेज खाना', 'food', 'सूची'),
+                 heard=heard('“जैन खाना कहाँ मिलेगा?”'),
                  mic=svg(I['mic'], 24, '1.7', C['marigoldText']),
                  c1=fchip('वेज', True), c2=fchip('जैन'), c3=fchip('सात्विक'),
                  c4=fchip('बिना प्याज़/लहसुन'), c5=fchip('झटपट'),
@@ -1159,8 +1235,9 @@ body = '''<div class="screen">
       %(add)s
     </div>
 
-    <div class="card row" style="padding: 12px 15px; gap: 12px" data-tap="row">
-      <div class="col" style="flex: 1; gap: 1px; min-height: 48px; justify-content: center">
+    <div class="card row" style="min-height: 48px; padding: 12px 15px; gap: 12px"
+         data-tap="row">
+      <div class="col" style="flex: 1; gap: 1px; justify-content: center">
         <span class="muted" style="font-size: 13px">भारतीय कॉन्सुलेट</span>
         <span style="font-size: 15.5px; font-weight: 600">Bur Dubai · सोम–शुक्र 9–5</span>
       </div>%(ph)s
@@ -1170,7 +1247,7 @@ body = '''<div class="screen">
       पुलिस 999 · एम्बुलेंस 998 · दमकल 997</span>
   </div>
   %(bar)s
-</div>''' % dict(C, hdr=hdr('ज़रूरी जानकारी', 'info'),
+</div>''' % dict(C, hdr=hdr('होटल और दस्तावेज़', 'info'),
                  cam=svg(I['camera'], 26, '1.6', C['muted']),
                  b1=btn('होटल वापस जाएँ', 'ghost', 'route'),
                  b2=btn('ड्राइवर को दिखाएँ', 'primary'),
@@ -1272,146 +1349,236 @@ body = '''<div class="screen" style="background: %(card)s">
 </div>''' % dict(C, hdr=hdr('यात्रा बीमा', 'info', 'दस्तावेज़'))
 write('InfoDocView', body)
 
-# ---------------------------------------------------------------------- 13. Pass
-def plan(name, price, sub, note='', on=False):
-    ring = ('<div style="width: 24px; height: 24px; border-radius: 12px; border: 7px solid %s; '
-            'background: %s"></div>' % (C['marigold'], C['card'])) if on else (
-        '<div style="width: 24px; height: 24px; border-radius: 12px; '
+# ------------------------------------------------------------------ घर.1 · पास
+# One rule the traveller can check in their head: ₹199, then ₹100 per extra phone. No
+# combination of smaller packs beats a bigger one, and four people for two weeks stays under
+# ₹500 — less than one airport SIM, which is the comparison they are already making.
+# Three states live on this one screen; the other two are on the brand sheet (decision 006).
+TIERS = [('1 डिवाइस', '₹199', ''), ('2 डिवाइस', '₹299', ''),
+         ('3 डिवाइस', '₹399', ''), ('4 डिवाइस', '₹499', 'सबसे किफ़ायती')]
+
+
+def tier(label, price, note='', on=False):
+    ring = ('<div style="width: 22px; height: 22px; border-radius: 11px; border: 6.5px solid %s; '
+            'background: %s; flex-shrink: 0"></div>' % (C['marigold'], C['card'])) if on else (
+        '<div style="width: 22px; height: 22px; border-radius: 11px; flex-shrink: 0; '
         'border: 2px solid %s"></div>' % C['line'])
-    nt = ('<span style="background: %s; color: %s; border-radius: 8px; padding: 2px 8px; '
-          'font-size: 12.5px; font-weight: 600; width: fit-content">%s</span>'
-          % (C['tealSoft'], C['teal'], note)) if note else ''
-    return ('<div class="card row" style="padding: 16px 15px; gap: 13px; border-color: %s; '
-            'border-width: %s">%s<div class="col" style="flex: 1; gap: 4px">'
-            '<span class="t2">%s</span>'
-            '<span class="muted" style="font-size: 14.5px">%s</span>%s</div>'
-            '<span style="font-family: \'Anek Devanagari\', sans-serif; font-size: 26px; '
+    nt = ('<span style="background: %s; color: %s; border-radius: 7px; padding: 1px 8px; '
+          'font-size: 12px; font-weight: 600">%s</span>' % (C['tealSoft'], C['teal'], note)
+          ) if note else ''
+    return ('<div class="card row" style="min-height: 56px; padding: 12px 14px; gap: 12px; '
+            'border-color: %s; border-width: %s" data-tap="tier">%s'
+            '<span style="flex: 1; font-size: 16.5px; font-weight: 600">%s</span>%s'
+            '<span style="font-family: \'Anek Devanagari\', sans-serif; font-size: 23px; '
             'font-weight: 700">%s</span></div>'
             % (C['marigold'] if on else C['line'], '1.5px' if on else '1px',
-               ring, name, sub, nt, price))
+               ring, label, nt, price))
 
 
-body = '''<div class="screen">
-  %(hdr)s
-  <div class="flow">
-    <div class="col" style="gap: 10px; background: %(indigo)s; border-radius: 18px;
-                            padding: 20px; color: #F7F3EC; align-items: center">
-      <span style="font-size: 14px; font-weight: 600; letter-spacing: 0.05em;
-                   color: %(marigold)s; text-transform: uppercase">मुफ़्त ट्रायल चालू</span>
-      <span style="font-family: 'Anek Devanagari', sans-serif; font-size: 34px;
-                   font-weight: 600; line-height: 1.1">18 घंटे 24 मिनट</span>
-      <span style="font-size: 14.5px; opacity: 0.72; text-align: center; line-height: 1.4">
-        दुबई पहुँचने के बाद पहले 24 घंटे मुफ़्त</span>
-    </div>
+def pass_body(state):
+    """state: 'buy' (trial running), 'active' (pass running), 'over' (expired)."""
+    if state == 'active':
+        head = ('<div class="col" style="gap: 6px; background: %s; border: 1px solid %s; '
+                'border-radius: 18px; padding: 18px; align-items: center">'
+                '<span style="font-size: 13.5px; font-weight: 700; color: %s">पास चालू</span>'
+                '<span style="font-family: \'Anek Devanagari\', sans-serif; font-size: 32px; '
+                'font-weight: 600; color: %s">5 दिन बाकी</span>'
+                '<span style="font-size: 14px; color: %s">19 सित॰ तक · 4 डिवाइस</span></div>'
+                % (C['tealSoft'], C['tealLine'], C['tealText'], C['tealText'], C['tealText']))
+        lead, cta = 'और बढ़ाएँ', btn('14 दिन और बढ़ाएँ · ₹499', 'primary')
+    elif state == 'over':
+        head = ('<div class="col" style="gap: 6px; background: %s; border: 1px solid %s; '
+                'border-radius: 18px; padding: 18px; align-items: center">'
+                '<span style="font-family: \'Anek Devanagari\', sans-serif; font-size: 30px; '
+                'font-weight: 600">पास ख़त्म</span>'
+                '<span style="font-size: 14px; color: %s; text-align: center">'
+                'ज़रूरी जानकारी अब भी चलती है — होटल, दस्तावेज़, कॉन्सुलेट</span></div>'
+                % (C['card'], C['line'], C['muted']))
+        lead, cta = 'फिर से पास लें', btn('पास लें · ₹499', 'primary')
+    else:
+        head = ('<div class="col" style="gap: 6px; background: %s; border-radius: 18px; '
+                'padding: 18px; color: #F7F3EC; align-items: center">'
+                '<span style="font-size: 13.5px; font-weight: 700; color: %s">मुफ़्त ट्रायल</span>'
+                '<span style="font-family: \'Anek Devanagari\', sans-serif; font-size: 32px; '
+                'font-weight: 600">18 घंटे बाकी</span>'
+                '<span style="font-size: 14px; opacity: 0.72; text-align: center">'
+                'दुबई पहुँचने के बाद के पहले 24 घंटे</span></div>'
+                % (C['indigo'], C['marigold']))
+        lead, cta = 'पास लें', btn('पास लें · ₹499', 'primary')
 
-    <div class="col" style="gap: 10px">
-      <p class="lbl">पास लें</p>
-      %(p1)s
-      %(p2)s
+    rows = ''.join(tier(l, pr, n, on=(l == '4 डिवाइस')) for l, pr, n in TIERS)
+    return '''<div class="screen">
+  %%(hdr)s
+  <div class="flow" style="gap: 12px">
+    %(head)s
+
+    <div class="col" style="gap: 8px">
+      <div class="row" style="justify-content: space-between">
+        <p class="lbl">%(lead)s</p>
+        <span class="muted" style="font-size: 13.5px">हर पास 14 दिन का</span>
+      </div>
+      %(rows)s
+      <div class="row" style="min-height: 48px; padding: 0 14px; gap: 10px"
+           data-tap="contact">%%(wa)s
+        <span style="flex: 1; font-size: 14.5px; font-weight: 600; color: %%(indigo)s">
+          4 से ज़्यादा डिवाइस? हमसे बात करें</span>
+      </div>
     </div>
 
     <div style="flex: 1"></div>
-    <div class="col" style="gap: 11px; padding-bottom: 16px">
-      <div class="row" style="justify-content: center">%(net)s</div>
-      %(b)s
-      <span class="muted" style="font-size: 13.5px; text-align: center; line-height: 1.45">
-        UPI या कार्ड · भारत से भी ख़रीद सकते हैं<br>
+    <div class="col" style="gap: 10px; padding-bottom: 16px">
+      <div class="row" style="justify-content: center">%%(net)s</div>
+      %(cta)s
+      <div class="row" style="gap: 10px">
+        <div style="flex: 1">%%(u1)s</div>
+        <div style="flex: 1">%%(u2)s</div>
+      </div>
+      <span class="muted" style="font-size: 13px; text-align: center; line-height: 1.45">
         पास ख़त्म होने पर भी ज़रूरी जानकारी चालू रहेगी</span>
     </div>
   </div>
-</div>''' % dict(C,
-                 hdr=hdr('पास', 'home'),
-                 p1=plan('अकेले', '₹199', '7 दिन · 1 डिवाइस'),
-                 p2=plan('परिवार', '₹399', '7 दिन · 4 डिवाइस तक',
-                         '₹796 की जगह ₹399', on=True),
-                 b=btn('परिवार पास लें · ₹399', 'primary'),
-                 net=pill('ख़रीदने के लिए इंटरनेट ज़रूरी', 'download',
-                          C['marigoldSoft'], C['warmText'], C['marigoldLine']))
-write('Pass', body)
+</div>''' % dict(head=head, lead=lead, rows=rows, cta=cta)
 
-# ------------------------------------------------------------------ 14. FamilyQR
+
+PASS_ARGS = dict(
+    C, wa=svg(I['talk'], 20, '1.8', C['indigo']),
+    net=pill('ख़रीदने के लिए इंटरनेट ज़रूरी', 'download', C['marigoldSoft'], C['warmText'],
+             C['marigoldLine']),
+    u1=btn('UPI से दें', 'ghost', 'rupee'),
+    u2=btn('QR दिखाएँ', 'ghost', 'plus'))
+
+write('Pass', pass_body('buy') % dict(PASS_ARGS, hdr=hdr('पास', 'home')))
+
+# ---------------------------------------------------------- घर.1c · पास चालू
+# The return from the aggregator's page. One line of receipt, and the one thing left to do.
+body = '''<div class="screen">
+  %(hdr)s
+  <div class="flow" style="gap: 18px; justify-content: center">
+    <div class="col" style="align-items: center; gap: 14px">
+      <div style="width: 76px; height: 76px; border-radius: 38px; background: %(teal)s;
+                  display: flex; align-items: center; justify-content: center">%(tick)s</div>
+      <div class="col" style="align-items: center; gap: 6px">
+        <span style="font-family: 'Anek Devanagari', sans-serif; font-size: 30px;
+                     font-weight: 600">पास चालू हो गया</span>
+        <span style="font-size: 16px; color: %(muted)s; text-align: center; line-height: 1.45">
+          4 डिवाइस · ₹499<br>19 सितंबर तक चलेगा</span>
+      </div>
+    </div>
+  </div>
+  <div class="col" style="gap: 10px; padding: 0 20px 24px">
+    %(b1)s
+    %(b2)s
+  </div>
+</div>''' % dict(C, hdr=hdr('पास चालू', 'home', 'पास'),
+                 tick=svg(I['check'], 36, '2.2', '#FFFFFF'),
+                 b1=btn('बाक़ी डिवाइस जोड़ें', 'primary', 'plus'),
+                 b2=btn('अभी नहीं', 'ghost'))
+write('PassDone', body, state='fresh')
+
+# --------------------------------------------------- घर.2 · पास › डिवाइस
+# Buying a four-device pass issues four signed passes at once: one installs here, three are
+# these QR codes. A member scans one with no connection at all and ends at the same Counter
+# Off Time (decision 005). Sent as an image on WhatsApp, it works for someone on a later
+# flight — which is why the line says both.
 import random
+
 random.seed(7)
-cells = []
-for r in range(21):
-    for c in range(21):
-        corner = ((r < 7 and c < 7) or (r < 7 and c > 13) or (r > 13 and c < 7))
-        if corner:
-            continue
-        if random.random() < 0.47:
-            cells.append('<rect x="%d" y="%d" width="6" height="6" fill="#141826"/>'
-                         % (c * 6, r * 6))
-finder = ''.join(
-    '<rect x="%d" y="%d" width="42" height="42" fill="#141826"/>'
-    '<rect x="%d" y="%d" width="30" height="30" fill="#FFFDF9"/>'
-    '<rect x="%d" y="%d" width="18" height="18" fill="#141826"/>'
-    % (x, y, x + 6, y + 6, x + 12, y + 12)
-    for x, y in [(0, 0), (84, 0), (0, 84)])
-qr = ('<svg width="126" height="126" viewBox="0 0 126 126">%s%s</svg>'
-      % (''.join(cells), finder))
 
 
-def device(name, sub, state):
-    if state == 'owner':
-        badge = ('<span style="background: %s; color: %s; border-radius: 8px; padding: 2px 8px; '
-                 'font-size: 12.5px; font-weight: 600">मालिक</span>'
-                 % (C['marigoldSoft'], C['warmTextDim']))
-        action = ''
-    elif state == 'joined':
-        badge = ''
-        action = ('<div style="min-height: 48px; min-width: 64px; display: flex; '
-                  'align-items: center; justify-content: flex-end">'
-                  '<span style="font-size: 14.5px; font-weight: 600; color: %s; '
-                  'text-decoration: underline">हटाएँ</span></div>' % C['indigo'])
-    else:
-        return ('<div class="row" style="padding: 14px 15px; gap: 12px; border: 1.5px dashed %s; '
-                'border-radius: 16px">%s<span class="muted" style="font-size: 15.5px; flex: 1">'
-                'खाली जगह</span></div>'
-                % (C['line'], svg(I['plus'], 20, '1.9', C['muted'])))
-    return ('<div class="card row" style="padding: 13px 15px; gap: 12px">'
-            '<div style="width: 38px; height: 38px; border-radius: 19px; background: %s; '
-            'display: flex; align-items: center; justify-content: center">%s</div>'
-            '<div class="col" style="flex: 1; gap: 1px">'
-            '<div class="row" style="gap: 7px"><span style="font-size: 16px; '
-            'font-weight: 600">%s</span>%s</div>'
-            '<span class="muted" style="font-size: 13.5px">%s</span></div>%s</div>'
-            % (C['sand'], svg(I['user'], 20, '1.8', C['indigo']), name, badge, sub, action))
+def qrsvg(seed, size=104):
+    rnd = random.Random(seed)
+    cells = ''.join(
+        '<rect x="%d" y="%d" width="6" height="6" fill="%s"/>' % (c * 6, r * 6, C['ink'])
+        for r in range(21) for c in range(21)
+        if not ((r < 7 and c < 7) or (r < 7 and c > 13) or (r > 13 and c < 7))
+        and rnd.random() < 0.47)
+    finder = ''.join(
+        '<rect x="%d" y="%d" width="42" height="42" fill="%s"/>'
+        '<rect x="%d" y="%d" width="30" height="30" fill="%s"/>'
+        '<rect x="%d" y="%d" width="18" height="18" fill="%s"/>'
+        % (x, y, C['ink'], x + 6, y + 6, C['card'], x + 12, y + 12, C['ink'])
+        for x, y in [(0, 0), (84, 0), (0, 84)])
+    return ('<svg width="%d" height="%d" viewBox="0 0 126 126">%s%s</svg>'
+            % (size, size, cells, finder))
+
+
+def slot(n, seed, used_by=None):
+    if used_by:
+        return ('<div class="card col" style="flex: 1; padding: 12px; gap: 9px; '
+                'align-items: center">'
+                '<div style="width: 104px; height: 104px; border-radius: 10px; background: %s; '
+                'display: flex; align-items: center; justify-content: center">%s</div>'
+                '<div class="col" style="gap: 2px; align-items: center">'
+                '<span style="font-size: 14.5px; font-weight: 600">%s</span>'
+                '<span class="muted" style="font-size: 12.5px">जुड़ चुका</span></div>'
+                '<div style="min-height: 48px; display: flex; align-items: center" '
+                'data-tap="revoke"><span style="font-size: 14px; font-weight: 600; color: %s; '
+                'text-decoration: underline">हटाएँ</span></div></div>'
+                % (C['sand'], svg(I['check'], 40, '2.2', C['teal']), used_by, C['indigo']))
+    return ('<div class="card col" style="flex: 1; min-height: 48px; padding: 12px; '
+            'gap: 9px; align-items: center" data-tap="qr">'
+            '<div style="padding: 6px; background: %s; border-radius: 10px">%s</div>'
+            '<div class="col" style="gap: 2px; align-items: center">'
+            '<span style="font-size: 14.5px; font-weight: 600">डिवाइस %d</span>'
+            '<span class="muted" style="font-size: 12.5px">खाली</span></div>'
+            '<div style="min-height: 48px; display: flex; align-items: center" '
+            'data-tap="share"><span style="font-size: 14px; font-weight: 600; color: %s; '
+            'text-decoration: underline">भेजें</span></div></div>'
+            % (C['card'], qrsvg(seed), n, C['indigo']))
 
 
 body = '''<div class="screen">
   %(hdr)s
-  <div class="flow">
-    <div class="col" style="gap: 14px; align-items: center; background: %(card)s;
-                            border: 1px solid %(line)s; border-radius: 18px; padding: 20px">
-      <div style="padding: 12px; background: #FFFDF9; border-radius: 12px">%(qr)s</div>
-      <div class="col" style="gap: 5px; align-items: center">
-        <span style="font-size: 16.5px; font-weight: 600; text-align: center">
-          दूसरे फ़ोन पर साथी खोलकर स्कैन करें</span>
-        <span style="font-size: 14px; color: %(muted)s; font-weight: 600">
-          यह QR 2 मिनट में ख़त्म हो जाएगा</span>
-      </div>
-    </div>
+  <div class="flow" style="gap: 12px">
+    <span style="font-size: 15px; line-height: 1.45">
+      साथ हों तो स्कैन करें, दूर हों तो WhatsApp पर भेजें. स्कैन करते ही पास चालू —
+      इंटरनेट की ज़रूरत नहीं.</span>
 
-    <div class="col" style="gap: 9px">
-      <div class="row" style="justify-content: space-between">
-        <p class="lbl">डिवाइस</p>
-        <span class="muted" style="font-size: 14px">2 / 4</span>
-      </div>
-      %(d1)s %(d2)s %(d3)s
-    </div>
+    <div class="row" style="gap: 10px; align-items: stretch">%(s1)s %(s2)s</div>
+    <div class="row" style="gap: 10px; align-items: stretch">%(s3)s %(s4)s</div>
 
     <div style="flex: 1"></div>
-    <span class="muted" style="font-size: 14px; text-align: center; padding-bottom: 18px">
-      सभी डिवाइस का पास 19 सितंबर तक चलेगा</span>
+    <div class="row" style="gap: 10px; background: %(tealSoft)s; border: 1px solid
+                %(tealLine)s; border-radius: 14px; padding: 12px 14px; margin-bottom: 16px">
+      %(ok)s
+      <span style="flex: 1; font-size: 14px; color: %(tealText)s; line-height: 1.4">
+        सबका पास 19 सितंबर को एक साथ ख़त्म होगा.</span>
+    </div>
   </div>
-</div>''' % dict(C, hdr=hdr('परिवार पास', 'home', 'पास › परिवार'), qr=qr,
-                 d1=device('यह फ़ोन', 'आपका डिवाइस', 'owner'),
-                 d2=device('अंजलि', '12 सित॰ को जुड़ी', 'joined'),
-                 d3=device('', '', 'empty'))
-write('FamilyQR', body)
+</div>''' % dict(C, hdr=hdr('डिवाइस', 'home', 'पास › डिवाइस'),
+                 s1=slot(1, 'a', used_by='यह फ़ोन'),
+                 s2=slot(2, 'b', used_by='अंजलि'),
+                 s3=slot(3, 'c'), s4=slot(4, 'd'),
+                 ok=svg(I['check'], 19, '2.1', C['teal']))
+write('Devices', body, state='fresh')
 
 # --------------------------------------------------------------------- 16. Brand
-def swatch(hexv, name, role, dark=False):
+def pass_state_card(state):
+    """The two घर.1 states that do not get their own artboard, shown on the brand sheet so
+    all three are reviewable without pretending one screen is three."""
+    if state == 'active':
+        return ('<div class="col" style="gap: 8px; background: %s; border: 1px solid %s; '
+                'border-radius: 14px; padding: 16px">'
+                '<span style="font-size: 13px; font-weight: 700; color: %s">पास चालू</span>'
+                '<span style="font-family: \'Anek Devanagari\', sans-serif; font-size: 26px; '
+                'font-weight: 600; color: %s">5 दिन बाकी</span>'
+                '<span style="font-size: 13.5px; color: %s">19 सित॰ तक · 4 डिवाइस</span>'
+                '<div style="height: 1px; background: %s; margin: 4px 0"></div>'
+                '<span style="font-size: 14px; color: %s">बटन: 14 दिन और बढ़ाएँ · ₹499</span>'
+                '</div>' % (C['tealSoft'], C['tealLine'], C['tealText'], C['tealText'],
+                            C['tealText'], C['tealLine'], C['muted']))
+    return ('<div class="col" style="gap: 8px; background: %s; border: 1px solid %s; '
+            'border-radius: 14px; padding: 16px">'
+            '<span style="font-size: 13px; font-weight: 700; color: %s">ख़त्म</span>'
+            '<span style="font-family: \'Anek Devanagari\', sans-serif; font-size: 26px; '
+            'font-weight: 600">पास ख़त्म</span>'
+            '<span style="font-size: 13.5px; color: %s">ज़रूरी जानकारी अब भी चलती है</span>'
+            '<div style="height: 1px; background: %s; margin: 4px 0"></div>'
+            '<span style="font-size: 14px; color: %s">बटन: पास लें · ₹499</span></div>'
+            % (C['card'], C['line'], C['muted'], C['muted'], C['line'], C['muted']))
+
+
+def swatch(hexv, name, role):
     return ('<div class="col" style="gap: 8px">'
             '<div style="height: 76px; border-radius: 12px; background: %s; '
             'border: 1px solid %s"></div>'
@@ -1464,16 +1631,27 @@ brand = '''<div style="width: 900px; min-height: 1620px; background: %(sand)s; c
   </div>
 
   <div class="col" style="gap: 12px">
-    <p class="lbl">स्टेटस पट्टी — हर स्क्रीन के ऊपर, चार हाल</p>
+    <p class="lbl">स्टेटस पट्टी — हर स्क्रीन के ऊपर, पाँच हाल</p>
     <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px">
       <div style="border: 1px solid %(line)s; border-radius: 12px; overflow: hidden">%(st1)s</div>
       <div style="border: 1px solid %(line)s; border-radius: 12px; overflow: hidden">%(st2)s</div>
       <div style="border: 1px solid %(line)s; border-radius: 12px; overflow: hidden">%(st3)s</div>
       <div style="border: 1px solid %(line)s; border-radius: 12px; overflow: hidden">%(st4)s</div>
+      <div style="border: 1px solid %(line)s; border-radius: 12px; overflow: hidden">%(st5)s</div>
     </div>
     <span style="font-size: 14px; color: %(muted)s; line-height: 1.5">
-      बाएँ ऑनलाइन/ऑफ़लाइन, बीच में प्लान की मियाद (दबाने पर पास), दाएँ थीम का स्विच.
-      हर स्क्रीन पर, एक ही जगह — ढूँढना नहीं पड़ता.</span>
+      बाएँ ऑनलाइन/ऑफ़लाइन, बीच में प्लान की मियाद (दबाने पर घर.1), दाएँ थीम का स्विच.
+      रिचार्ज का बटन सिर्फ़ ट्रायल, आख़िरी दिन और ख़त्म होने पर — दिन बचे हों तो चुप रहता है.</span>
+  </div>
+
+  <div class="col" style="gap: 12px">
+    <p class="lbl">घर.1 के बाकी दो हाल</p>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px">
+      %(pa)s %(pe)s
+    </div>
+    <span style="font-size: 14px; color: %(muted)s; line-height: 1.5">
+      एक ही स्क्रीन, तीन हाल. आर्टबोर्ड पर ख़रीदने से पहले वाला हाल है; बाकी दो यहाँ,
+      क्योंकि तीन आर्टबोर्ड एक ही स्क्रीन के तीन नहीं होते.</span>
   </div>
 
   <div class="col" style="gap: 14px">
@@ -1538,7 +1716,7 @@ brand = '''<div style="width: 900px; min-height: 1620px; background: %(sand)s; c
   <div class="col" style="gap: 14px">
     <p class="lbl">नियम</p>
     <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 32px">
-      %(r1)s %(r2)s %(r3)s %(r4)s %(r5)s %(r6)s %(r7)s %(r8)s
+      %(r1)s %(r2)s %(r3)s %(r4)s %(r5)s %(r6)s %(r7)s %(r8)s %(r9)s %(r10)s
     </div>
   </div>
 </div>''' % dict(
@@ -1554,11 +1732,10 @@ brand = '''<div style="width: 900px; min-height: 1620px; background: %(sand)s; c
     s9=swatch(C['tealSoft'], 'Teal soft', 'ऑफ़लाइन बैज'),
     s10=swatch(C['marigoldText'], 'Marigold text', 'हल्के background पर marigold टेक्स्ट/आइकॉन'),
     dark=dark_swatches, st1=strip('before'), st2=strip('trial'),
-    st3=strip('pass', online=True), st4=strip('expired'),
+    st3=strip('pass', online=True), st4=strip('lastday'), st5=strip('expired'),
+    pa=pass_state_card('active'), pe=pass_state_card('over'),
     b1=btn('मुख्य action', 'primary'),
     b2=btn('दूसरा action', 'ghost', 'speak'),
-    # muted is deliberately used for the swatch grid caption, not as a palette entry
-    s11=None,
     ch1=fchip('वेज', True), ch2=fchip('जैन'),
     pl1=pill('ऑफ़लाइन · तैयार', 'wifioff'),
     pl2=pill('ख़रीदने के लिए इंटरनेट ज़रूरी', 'download', C['marigoldSoft'], C['warmText'],
@@ -1577,6 +1754,10 @@ brand = '''<div style="width: 900px; min-height: 1620px; background: %(sand)s; c
     r7=rule('Marigold भरे बटन पर ink टेक्स्ट. हल्के background पर marigold टेक्स्ट या '
             'आइकॉन हो तो गहरा टोन — वरना धूप में पढ़ा नहीं जाएगा.'),
     r8=rule('तीर और borders 3:1 से हल्के नहीं. न दिखने वाला affordance नहीं होता.'),
+    r9=rule('माइक हर जगह एक ही चीज़ है — “साथी से कुछ भी पूछिए”. पूरा वाक्य अपना मतलब '
+            'साथ लाता है, और जवाब वाली स्क्रीन खुलती है.'),
+    r10=rule('जिस स्क्रीन पर माइक से पहुँचे, उसके ऊपर “आपने कहा: …” — ग़लत सुना हो तो '
+             'एक टैप में वापस.'),
 )
 write('Brand', brand)
 
@@ -1585,31 +1766,33 @@ write('Brand', brand)
 # tile. Reading a row tells you the whole of that function.
 GROUPS = [
     ('note-common', 'शुरुआत',
-     'स्प्लैश, फिर घर. घर पर चार टाइल = चार काम.\nबाकी हर स्क्रीन इन्हीं चार में से किसी की\nबच्ची है, और उसी के नंबर से पहचानी जाती है.',
+     'लैंडिंग पैक उतरने तक रोकती है, फिर घर.\nघर पर चार टाइल = चार काम, और माइक.\nबाकी हर स्क्रीन इन्हीं चार में से किसी की बच्ची है.',
      ['Welcome', 'Main']),
     ('note-transport', 'टाइल 1 — रास्ता',
-     '1.1 कहाँ जाना है? → 1.2 सुन रहा हूँ → 1.3 विकल्प\n→ 1.4 क़दम दर क़दम → 1.5 नक्शा → 1.6 रास्ते में.\n“कहाँ से” कभी नहीं पूछते — फ़ोन जानता है.',
-     ['Destination', 'Listening', 'RouteOptions', 'RouteDetail', 'Map', 'MapDiscover']),
+     '1.1 कहाँ जाना है? → 1.2 सुन रहा हूँ → 1.3 विकल्प →\n1.4 क़दम दर क़दम → 1.5 नक्शा → 1.6 रास्ते में.\n“कहाँ से” कभी नहीं पूछते — फ़ोन जानता है.\n1.1b तब, जब जगह की इजाज़त न मिले.',
+     ['Destination', 'LocationDenied', 'Listening', 'RouteOptions', 'RouteDetail', 'Map',
+      'MapDiscover']),
     ('note-food', 'टाइल 2 — खाना',
      '2.1 सूची → 2.2 जगह → “कैसे पहुँचें” सीधे 1.3 पर.\nजैन और सात्विक पहली कतार में.',
      ['FoodList', 'Restaurant']),
     ('note-talk', 'टाइल 3 — बोलना',
-     '3.1 बोलिए या तैयार वाक्य चुनिए → 3.2 अरबी में\n→ 3.3 ड्राइवर को दिखाएँ. एक ही रास्ता, चाहे\nआवाज़ से आएँ या वाक्य चुनकर.',
+     '3.1 बोलिए या तैयार वाक्य चुनिए → 3.2 अरबी में →\n3.3 ड्राइवर को दिखाएँ. एक ही रास्ता, चाहे आवाज़ से\nआएँ या वाक्य चुनकर.',
      ['SayEntry', 'SayIt', 'ShowDriver']),
-    ('note-help', 'टाइल 4 — मदद',
-     '4.1 एक ही स्क्रीन. होटल सबसे ऊपर, फिर तीन\nनंबर. पास ख़त्म होने के बाद भी चलती रहती है.',
-     ['Emergency']),
-    ('note-account', 'घर की पट्टी से',
-     'टाइल नहीं. घर के ऊपर वाली पट्टी से खुलते हैं.\nघर.1 पास → घर.2 परिवार → घर.3 सेटिंग.',
-     ['Pass', 'FamilyQR', 'Settings']),
+    ('note-info', 'टाइल 4 — ज़रूरी जानकारी',
+     'शांत अलमारी, आपातकाल नहीं. होटल पहला SOS,\nफिर दस्तावेज़ (सिर्फ़ इसी फ़ोन में), कॉन्सुलेट, नंबर.\nपास ख़त्म होने के बाद भी चलती रहती है.',
+     ['InfoHome', 'InfoHotelAdd', 'InfoDocAdd', 'InfoDocView']),
+    ('note-money', 'पट्टी की मियाद से',
+     'टाइल नहीं. हर स्क्रीन की पट्टी से खुलते हैं.\nघर.1 पास (₹199 + ₹100 प्रति फ़ोन, 14 दिन) →\nघर.1c चालू → घर.2 डिवाइस के QR.',
+     ['Pass', 'PassDone', 'Devices']),
 ]
-DARK_SCREENS = ['MainDark', 'FoodListDark', 'EmergencyDark']
-# Numbering: 1 and 2 are the splash and home. From there, tile.child — 1.x is रास्ता, 2.x खाना,
-# 3.x बोलना, 4.x मदद — and घर.x for the three screens the home strip opens.
+DARK_SCREENS = ['MainDark', 'FoodListDark', 'InfoHomeDark']
+# Numbering: 1 is the landing page, 2 is home. From there, tile.child — 1.x रास्ता, 2.x खाना,
+# 3.x बोलना, 4.x ज़रूरी जानकारी — and घर.x for the screens the status strip opens.
 TITLES = {
-    'Welcome': '1 · स्प्लैश',
+    'Welcome': '1 · लैंडिंग',
     'Main': '2 · घर',
     'Destination': '1.1 · रास्ता › कहाँ जाना है?',
+    'LocationDenied': '1.1b · रास्ता › जगह की इजाज़त नहीं',
     'Listening': '1.2 · रास्ता › सुन रहा हूँ',
     'RouteOptions': '1.3 · रास्ता › विकल्प',
     'RouteDetail': '1.4 · रास्ता › क़दम दर क़दम',
@@ -1620,13 +1803,16 @@ TITLES = {
     'SayEntry': '3.1 · बोलना › क्या कहना है?',
     'SayIt': '3.2 · बोलना › अरबी में',
     'ShowDriver': '3.3 · बोलना › ड्राइवर को दिखाएँ',
-    'Emergency': '4.1 · मदद',
+    'InfoHome': '4.1 · ज़रूरी जानकारी',
+    'InfoHotelAdd': '4.2 · ज़रूरी जानकारी › होटल जोड़ें',
+    'InfoDocAdd': '4.3 · ज़रूरी जानकारी › दस्तावेज़ जोड़ें',
+    'InfoDocView': '4.4 · ज़रूरी जानकारी › दस्तावेज़',
     'Pass': 'घर.1 · पास',
-    'FamilyQR': 'घर.2 · पास › परिवार',
-    'Settings': 'घर.3 · पास › सेटिंग',
+    'PassDone': 'घर.1c · पास › चालू',
+    'Devices': 'घर.2 · पास › डिवाइस',
     'MainDark': 'D2 · घर (गहरा)',
     'FoodListDark': 'D2.1 · खाना › सूची (गहरा)',
-    'EmergencyDark': 'D4.1 · मदद (गहरा)',
+    'InfoHomeDark': 'D4.1 · ज़रूरी जानकारी (गहरा)',
 }
 artboards, annotations = [], []
 y = 0
@@ -1642,8 +1828,8 @@ for ci, name in enumerate(DARK_SCREENS):
                           title=TITLES[name], page='page-2'))
 annotations.append(dict(
     id='note-dark', x=-400, y=40, w=320, page='page-2',
-    text='गहरी थीम\nवही टोकन, वही नियम. टैक्सी में रात को और OLED\nफ़ोन पर बैटरी के लिए — इसलिए यह अलग स्किन\nनहीं, बराबर की थीम है.'))
-artboards.append(dict(file='Brand.dc.html', x=0, y=0, w=900, h=1640,
+    text='गहरी थीम\nवही टोकन, वही नियम. टैक्सी में रात को और OLED\nफ़ोन पर बैटरी के लिए — इसलिए यह अलग स्किन\nनहीं, बराबर की थीम है. स्विच पट्टी पर है.'))
+artboards.append(dict(file='Brand.dc.html', x=0, y=0, w=900, h=1900,
                       title='ब्रांड — रंग, टाइप, कंपोनेंट', page='page-3'))
 canvas = dict(
     artboards=artboards,

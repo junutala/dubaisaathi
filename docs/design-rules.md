@@ -6,25 +6,27 @@ new rule is agreed, it is added here before the screen is drawn.
 
 ## Structure
 
-| #   | Rule                                                                                                                                                                | Enforced by |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 1   | Home is the status strip, the four tiles and the mic. Nothing else — no brand mark, no profile icon, no settings icon, no counter card.                             | checker     |
-| 2   | The four tiles are रास्ता · खाना · बोलना · ज़रूरी जानकारी. Every other screen is a child of one and is numbered `tile.child`; पास and परिवार are `घर.1` and `घर.2`. | checker     |
-| 3   | Screen names use the tile names. No invented labels. Every screen has a number.                                                                                     | checker     |
-| 4   | Every screen except landing and home carries the shared header: back, the tile trail, home.                                                                         | checker     |
-| 5   | Every screen except landing carries the status strip at the very top: online/offline · validity (tap → घर.1) · theme switch.                                        | checker     |
-| 6   | The bottom bar on child screens is घर + the other three tiles + the mic.                                                                                            | checker     |
-| 7   | The landing page gates on the full pack download. _शुरू करें_ enables only when complete. Updates apply there at the next launch, never mid-trip.                   | review      |
-| 8   | No login, no account, no gate before the app is usable.                                                                                                             | review      |
-| 9   | Permissions at first use: location when 1.1 first opens, mic when first tapped. Never on landing.                                                                   | review      |
+| #   | Rule                                                                                                                                                                                   | Enforced by |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 1   | Home is the status strip, the four tiles and the mic. Nothing else — no brand mark, no profile icon, no settings icon, no counter card.                                                | checker     |
+| 2   | The four tiles are रास्ता · खाना · बोलना · ज़रूरी जानकारी. Every other screen is a child of one and is numbered `tile.child`; पास and परिवार are `घर.1` and `घर.2`.                    | checker     |
+| 3   | Screen names use the tile names. No invented labels. Every screen has a number.                                                                                                        | checker     |
+| 4   | Every screen except landing and home carries the shared header: back, the tile trail, home.                                                                                            | checker     |
+| 5   | Every screen except landing carries the status strip at the very top: online/offline · validity (tap → घर.1) · theme switch.                                                           | checker     |
+| 5a  | घर.1's three states live on one artboard (before purchase); the other two are shown on the brand sheet, because three artboards are not one screen.                                    | review      |
+| 6   | The bottom bar on child screens is घर + the other three tiles + the mic.                                                                                                               | checker     |
+| 6a  | Six screens carry no bar on purpose: 1.2 (the mic is live), 3.3 (the driver is reading it), 4.4 (nothing but the document), and घर.1 / घर.1c / घर.2 (opened by the strip, not a tile). | checker     |
+| 7   | The landing page gates on the full pack download. _शुरू करें_ enables only when complete. Updates apply there at the next launch, never mid-trip.                                      | review      |
+| 8   | No login, no account, no gate before the app is usable.                                                                                                                                | review      |
+| 9   | Permissions at first use: location when 1.1 first opens, mic when first tapped. Never on landing.                                                                                      | review      |
 
 ## The mic
 
-| #   | Rule                                                                                                                   | Enforced by |
-| --- | ---------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 10  | The mic is one thing everywhere: ask Saathi anything. Speech → local intent → the right screen with the answer on it.  | review      |
-| 11  | Ambiguity gets a two-button question, never a dead end. The landing screen shows _आपने कहा: …_ with back one tap away. | review      |
-| 12  | Intent accuracy is the KPI, not the transcript. Hinglish is first-class input.                                         | review      |
+| #   | Rule                                                                                                                                                           | Enforced by |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 10  | The mic is one thing everywhere: ask Saathi anything. Speech → local intent → the right screen with the answer on it. Home has exactly one; so does every bar. | checker     |
+| 11  | Ambiguity gets a two-button question, never a dead end. The landing screen shows _आपने कहा: …_ with back one tap away.                                         | review      |
+| 12  | Intent accuracy is the KPI, not the transcript. Hinglish is first-class input.                                                                                 | review      |
 
 ## ज़रूरी जानकारी
 

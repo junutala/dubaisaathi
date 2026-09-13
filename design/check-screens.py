@@ -14,7 +14,8 @@ SCREENS = pathlib.Path(__file__).parent / 'screens'
 
 # Home and the splash have no parent, and the brand sheet is not a screen.
 NO_HEADER = {'Welcome', 'Main', 'MainDark', 'Brand'}
-TILES = ['रास्ता', 'खाना', 'बोलना', 'मदद', 'घर']
+TILES = ['रास्ता', 'खाना', 'बोलना', 'ज़रूरी जानकारी', 'घर']
+NOT_A_TILE = ['लैंडिंग', 'पास']   # the landing page, and what the strip opens
 
 BACK_ICON = 'M14.4 5.8 8.6 12l5.8 6.2'
 HOME_ICON = 'M4 10.6 12 4.2l8 6.4'
@@ -48,18 +49,41 @@ def main() -> int:
             if HOME_ICON not in text:
                 fail(name, 'no way home')
 
-        # Home is the counter and four tiles, nothing else.
+        # Home is the four tiles and the mic, nothing else (rule 1).
         if name in ('Main', 'MainDark'):
             if text.count('data-tap="tile"') != 4:
                 fail(name, 'home must have exactly four tiles')
-            for extra in ('data-tap="mic"', 'data-tap="button"'):
-                if extra in text:
-                    fail(name, 'home carries a control beyond the tiles and counter: %s' % extra)
+            if text.count('data-tap="mic"') != 1:
+                fail(name, 'home must have exactly one mic')
+            if 'data-tap="button"' in text:
+                fail(name, 'home carries a control beyond the tiles and the mic')
 
-        # Speech is offered only where a spoken word has exactly one meaning.
-        if 'data-tap="mic"' in text and name.replace('Dark', '') not in (
-                'Destination', 'FoodList', 'SayEntry'):
-            fail(name, 'a mic on a screen where speech has no single meaning')
+        # The status strip tops every screen after the landing page (rule 5), and its
+        # validity area is the only route to घर.1.
+        if name.replace('Dark', '') not in ('Welcome', 'Brand'):
+            if 'data-tap="validity"' not in text:
+                fail(name, 'no status strip')
+            if 'data-tap="theme"' not in text:
+                fail(name, 'no theme switch on the strip')
+
+        # Four screens carry no bar on purpose (rule 6a): the mic is live on 1.2, the driver
+        # is reading 3.3, 4.4 is nothing but the document, and the घर.x screens are opened by
+        # the strip rather than by a tile. Everywhere else the bar is required.
+        NO_BAR = {'Listening', 'ShowDriver', 'InfoDocView', 'Pass', 'PassDone', 'Devices'}
+        if name.replace('Dark', '') not in NO_HEADER | NO_BAR \
+                and 'data-tap="nav"' not in text:
+            fail(name, 'no bottom bar')
+
+        # The bar is घर + the other three tiles + the mic (rule 6).
+        if 'data-tap="nav"' in text:
+            if text.count('data-tap="nav"') != 4:
+                fail(name, 'the bar must be घर plus the other three tiles')
+            if text.count('data-tap="mic"') < 1:
+                fail(name, 'the bar has no mic')
+
+        # Red is reserved and appears on no screen (rule 13, decision 002).
+        if name != 'Brand' and '#C62B2B' in text:
+            fail(name, 'red on a screen — red is reserved and belongs to no feature')
 
         # A colour value must never reach the traveller as text.
         if name != 'Brand':
@@ -102,11 +126,11 @@ def main() -> int:
         stem = artboard['file'][: -len('.dc.html')]
         if stem in ('Brand',):
             continue
-        number = r'^(D?\d+(\.\d+)?|घर\.\d+) · '
+        number = r'^(D?\d+(\.\d+)?[a-z]?|घर\.\d+[a-z]?) · '
         if not re.match(number, title):
             failures.append('canvas.json: %s has no screen number' % stem)
         body = re.sub(number, '', title)
-        if body.split(' ›')[0].split(' (')[0] not in TILES + ['स्प्लैश', 'पास']:
+        if body.split(' ›')[0].split(' (')[0] not in TILES + NOT_A_TILE:
             failures.append(
                 'canvas.json: %s is named "%s" — screen names use the four tiles' % (stem, body))
 
