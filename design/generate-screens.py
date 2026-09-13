@@ -385,7 +385,7 @@ body = '''<div class="screen" style="position: relative; overflow: hidden">
     <div class="col rise d4" style="gap: 11px; margin-top: 20px">
       %(cta)s
       <span style="font-size: 13.5px; text-align: center; color: %(muted)s">
-        कोई लॉगिन नहीं · कोई अकाउंट नहीं · सीधे शुरू</span>
+        कोई लॉगिन नहीं · दुबई पैक पीछे-पीछे उतरता रहेगा</span>
     </div>
   </div>
 </div>''' % dict(C, scatter=scatter,
@@ -395,222 +395,6 @@ body = '''<div class="screen" style="position: relative; overflow: hidden">
                  cta=btn('शुरू करें — मुफ़्त', 'primary'))
 write('Welcome', body)
 
-# --------------------------------------------------- 1b. Welcome (night variant)
-# The first thing a traveller sees, straight off a Meta ad. One job: make the offline promise
-# felt in two seconds. Vector + CSS only — no image, no animation library, no Lottie — so the
-# whole screen is a few KB inside the app shell and works with the radio off.
-towers = ''.join(
-    '<rect x="%d" y="%d" width="%d" height="%d" rx="%s" fill="%s"/>' % t
-    for t in [(14, 132, 26, 108, '3', '#0A0F24'), (48, 100, 20, 140, '3', '#0A0F24'),
-              (76, 150, 30, 90, '3', '#0A0F24'), (176, 112, 22, 128, '3', '#0A0F24'),
-              (206, 146, 26, 94, '3', '#0A0F24'), (248, 96, 18, 144, '3', '#0A0F24'),
-              (272, 136, 30, 104, '3', '#0A0F24'), (310, 118, 20, 122, '3', '#0A0F24'),
-              (336, 158, 34, 82, '3', '#0A0F24')])
-spire = ('<path d="M132 240 L140 44 L148 240 Z" fill="#0A0F24"/>'
-         '<path d="M140 44 L140 20" stroke="#0A0F24" stroke-width="2.4"/>')
-windows = ''.join(
-    '<rect x="%d" y="%d" width="3" height="4" rx="1" fill="#E8871E" opacity="%s"/>' % w
-    for w in [(54, 122, '0.55'), (54, 138, '0.3'), (60, 130, '0.45'), (182, 132, '0.5'),
-              (188, 150, '0.32'), (254, 118, '0.5'), (254, 136, '0.28'), (260, 128, '0.42'),
-              (316, 140, '0.45'), (322, 158, '0.3'), (20, 152, '0.4'), (30, 168, '0.28')])
-
-body = '''<div class="screen" style="background: %(indigoDeep)s; color: #F7F3EC;
-            position: relative; overflow: hidden">
-
-  <svg width="390" height="844" viewBox="0 0 390 844" style="position: absolute; inset: 0;
-       pointer-events: none" aria-hidden="true">
-    <defs>
-      <radialGradient id="dusk" cx="50%%" cy="76%%" r="58%%">
-        <stop offset="0%%" stop-color="#E8871E" stop-opacity="0.34"/>
-        <stop offset="55%%" stop-color="#8A4A1E" stop-opacity="0.12"/>
-        <stop offset="100%%" stop-color="#0F1530" stop-opacity="0"/>
-      </radialGradient>
-      <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9"
-        numOctaves="3"/><feColorMatrix type="saturate" values="0"/></filter>
-    </defs>
-    <ellipse class="glow" cx="195" cy="642" rx="230" ry="190" fill="url(#dusk)"/>
-    <rect width="390" height="844" filter="url(#grain)" opacity="0.045"/>
-  </svg>
-
-  <div style="position: absolute; left: 0; right: 0; bottom: 208px" class="skyline">
-    <svg width="390" height="260" viewBox="0 0 390 260" aria-hidden="true">
-      <circle cx="195" cy="196" r="58" fill="#E8871E" opacity="0.2"/>
-      <circle cx="195" cy="196" r="34" fill="#E8871E" opacity="0.28"/>
-      %(towers)s %(spire)s %(windows)s
-      <rect x="0" y="238" width="390" height="22" fill="#0A0F24"/>
-    </svg>
-  </div>
-
-  <div style="position: relative; flex: 1; display: flex; flex-direction: column;
-              padding: 0 24px">
-    <div class="row rise d1" style="padding-top: 30px">
-      <div class="row" style="gap: 7px; background: rgba(247, 243, 236, 0.1);
-                  border-radius: 17px; height: 34px; padding: 0 13px">%(wifi)s
-        <span style="font-size: 13.5px; font-weight: 600">बिना इंटरनेट चलता है</span>
-      </div>
-    </div>
-
-    <div class="col" style="gap: 15px; margin-top: 54px">
-      <div class="row rise d2" style="gap: 12px">
-        <div style="width: 50px; height: 50px; border-radius: 15px; background: %(marigold)s;
-                    display: flex; align-items: center; justify-content: center;
-                    font-family: 'Anek Devanagari', sans-serif; color: %(onMarigold)s;
-                    font-size: 28px; font-weight: 700;
-                    box-shadow: 0 10px 30px rgba(232, 135, 30, 0.35)">सा</div>
-      </div>
-      <h1 class="rise d3" style="margin: 0; font-family: 'Anek Devanagari', sans-serif;
-             font-size: 52px; font-weight: 700; line-height: 1.02;
-             letter-spacing: -0.025em">दुबई<br>साथी</h1>
-      <p class="rise d4" style="margin: 0; font-family: 'Anek Devanagari', sans-serif;
-            font-size: 23px; font-weight: 500; line-height: 1.35; color: %(marigold)s">
-        दुबई. आपकी भाषा में.<br>ऑफ़लाइन.</p>
-    </div>
-
-    <div style="flex: 1"></div>
-
-    <div class="col rise d5" style="gap: 15px; padding-bottom: 32px">
-      <p style="margin: 0; font-size: 16px; line-height: 1.5;
-                color: rgba(247, 243, 236, 0.74)">
-        रास्ता, खाना और बोलना — तीनों आपके फ़ोन में,<br>बिना नेटवर्क, बिना रोमिंग.</p>
-      <div class="btn" style="background: %(marigold)s; color: %(onMarigold)s; min-height: 58px;
-                  font-size: 18px; box-shadow: 0 12px 34px rgba(232, 135, 30, 0.3)">
-        शुरू करें</div>
-      <span style="font-size: 13.5px; text-align: center;
-                   color: rgba(247, 243, 236, 0.52)">अकाउंट ज़रूरी नहीं</span>
-    </div>
-  </div>
-</div>''' % dict(C, towers=towers, spire=spire, windows=windows,
-                 wifi=svg(I['wifioff'], 17, '2', '#E8871E'))
-write('WelcomeNight', body)
-
-# ---------------------------------------------------------------- 2. Onboarding
-def pack_row(label, sub, state, pct=None):
-    if state == 'done':
-        mark = ('<div style="width: 26px; height: 26px; border-radius: 13px; background: %s; '
-                'display: flex; align-items: center; justify-content: center">%s</div>'
-                % (C['tealSoft'], svg(I['check'], 15, '2.4', C['teal'])))
-    elif state == 'now':
-        mark = ('<div style="width: 26px; height: 26px; border-radius: 13px; background: %s; '
-                'display: flex; align-items: center; justify-content: center">%s</div>'
-                % (C['tealSoft'], svg(I['download'], 15, '2.2', C['teal'])))
-    else:
-        mark = ('<div style="width: 26px; height: 26px; border-radius: 13px; '
-                'border: 1.5px dashed %s"></div>' % C['line'])
-    bar = ''
-    if pct is not None:
-        bar = ('<div style="height: 5px; border-radius: 3px; background: %s; margin-top: 7px">'
-               '<div style="width: %d%%; height: 5px; border-radius: 3px; background: %s"></div>'
-               '</div>' % (C['line'], pct, C['indigo']))
-    return ('<div class="row" style="align-items: flex-start; gap: 12px">%s'
-            '<div class="col" style="flex: 1; gap: 1px">'
-            '<div class="row" style="justify-content: space-between">'
-            '<span style="font-size: 16px; font-weight: 500">%s</span>'
-            '<span class="muted" style="font-size: 14px">%s</span></div>%s</div></div>'
-            % (mark, label, sub, bar))
-
-
-body = '''<div class="screen">
-  <div class="flow" style="gap: 18px; padding-top: 44px">
-    <div class="col" style="gap: 8px">
-      <div class="row" style="gap: 10px">
-        <div style="width: 42px; height: 42px; border-radius: 12px; background: %(indigo)s;
-                    display: flex; align-items: center; justify-content: center;
-                    font-family: 'Anek Devanagari', sans-serif; color: %(marigold)s;
-                    font-size: 24px; font-weight: 700">सा</div>
-        <span style="font-family: 'Anek Devanagari', sans-serif; font-size: 30px;
-                     font-weight: 700; letter-spacing: -0.01em">दुबई साथी</span>
-      </div>
-      <p style="margin: 0; font-family: 'Anek Devanagari', sans-serif; font-size: 21px;
-                font-weight: 500; color: %(indigo)s; line-height: 1.35">
-        दुबई. आपकी भाषा में. ऑफ़लाइन.</p>
-    </div>
-
-    <div class="card" style="padding: 18px 16px">
-      <div class="row" style="justify-content: space-between; margin-bottom: 14px">
-        <span class="t2">दुबई पैक</span>
-        <span class="muted" style="font-size: 14px">84 MB</span>
-      </div>
-      <div class="col" style="gap: 14px">
-        %(r1)s %(r2)s %(r3)s %(r4)s
-      </div>
-    </div>
-
-    <div class="row" style="gap: 10px">
-      <div style="flex: 1">%(pause)s</div>
-    </div>
-
-    <div class="col" style="gap: 10px; background: #ECE6DB; border: 1px solid %(line)s;
-                            border-radius: 18px; padding: 18px">
-      <div class="row" style="gap: 8px; color: %(muted)s">%(wifi)s
-        <span style="font-size: 14px; font-weight: 600; letter-spacing: 0.03em">आगे यह आएगा</span>
-      </div>
-      <p style="margin: 0; font-family: 'Anek Devanagari', sans-serif; font-size: 20px;
-                font-weight: 600; line-height: 1.3; color: %(muted)s">
-        डाउनलोड पूरा होने पर — इंटरनेट बंद करके आज़मा सकेंगे.</p>
-    </div>
-
-    <p class="muted" style="margin: 0; font-size: 14px; text-align: center">
-      शुरू करने के लिए अकाउंट ज़रूरी नहीं</p>
-  </div>
-</div>''' % dict(C,
-                 r1=pack_row('नक्शा', '31 MB', 'done'),
-                 r2=pack_row('मेट्रो, ट्राम, बस', '4 MB', 'done'),
-                 r3=pack_row('खाना और ज़रूरी वाक्य', '9 MB', 'done'),
-                 r4=pack_row('हिंदी आवाज़', '62%', 'now', 62),
-                 pause=btn('डाउनलोड रोकें', 'ghost'),
-                 wifi=svg(I['wifioff'], 18, '2', C['muted']))
-write('Onboarding', body)
-
-# ------------------------------------------------------- 2. Onboarding, pack ready
-body = '''<div class="screen">
-  <div class="flow" style="gap: 18px; padding-top: 44px">
-    <div class="col" style="gap: 8px">
-      <div class="row" style="gap: 10px">
-        <div style="width: 42px; height: 42px; border-radius: 12px; background: %(indigo)s;
-                    display: flex; align-items: center; justify-content: center;
-                    font-family: 'Anek Devanagari', sans-serif; color: %(marigold)s;
-                    font-size: 24px; font-weight: 700">सा</div>
-        <span style="font-family: 'Anek Devanagari', sans-serif; font-size: 30px;
-                     font-weight: 700; letter-spacing: -0.01em">दुबई साथी</span>
-      </div>
-      <p style="margin: 0; font-family: 'Anek Devanagari', sans-serif; font-size: 21px;
-                font-weight: 500; color: %(indigo)s; line-height: 1.35">
-        दुबई. आपकी भाषा में. ऑफ़लाइन.</p>
-    </div>
-
-    <div class="card row" style="padding: 16px; gap: 13px; border-color: %(tealLine)s;
-                                 background: %(tealSoft)s">
-      <div style="width: 40px; height: 40px; border-radius: 20px; background: %(teal)s;
-                  display: flex; align-items: center; justify-content: center">%(check)s</div>
-      <div class="col" style="flex: 1; gap: 1px">
-        <span style="font-size: 16.5px; font-weight: 600; color: %(tealText)s">
-          दुबई पैक तैयार है</span>
-        <span style="font-size: 14px; color: %(tealText)s; opacity: 0.8">
-          नक्शा, मेट्रो, खाना, वाक्य, हिंदी आवाज़ · 84 MB</span>
-      </div>
-    </div>
-
-    <div class="col" style="gap: 12px; background: %(indigo)s; border-radius: 18px;
-                            padding: 22px 18px; color: #F7F3EC">
-      <div class="row" style="gap: 8px; color: %(marigold)s">%(wifi)s
-        <span style="font-size: 14px; font-weight: 600; letter-spacing: 0.03em">अभी आज़माएँ</span>
-      </div>
-      <p style="margin: 0; font-family: 'Anek Devanagari', sans-serif; font-size: 24px;
-                font-weight: 600; line-height: 1.3">इंटरनेट बंद करके देखिए —<br>साथी फिर भी चलेगा.</p>
-      <span style="font-size: 14.5px; color: rgba(247, 243, 236, 0.68); line-height: 1.45">
-        वाई-फ़ाई और मोबाइल डेटा बंद कर दें, फिर नीचे दबाएँ.</span>
-      <div class="btn" style="background: %(marigold)s; color: %(onMarigold)s; margin-top: 4px">
-        बिना इंटरनेट आज़माएँ</div>
-    </div>
-
-    <div style="flex: 1"></div>
-    <p class="muted" style="margin: 0 0 20px; font-size: 14px; text-align: center">
-      शुरू करने के लिए अकाउंट ज़रूरी नहीं</p>
-  </div>
-</div>''' % dict(C, check=svg(I['check'], 21, '2.3', '#FFFFFF'),
-                 wifi=svg(I['wifioff'], 18, '2'))
-write('OnboardingReady', body)
-
 # ---------------------------------------------------------------------- 4. Home
 # Utility app, so it opens straight into the four things it does — no login, no splash gate.
 # The counter at the top is the only chrome: trial countdown before purchase, pass remaining
@@ -619,12 +403,12 @@ def tile(key, label, danger=False):
     icon = dict(FUNCS_BY_KEY)[key]
     bg = C['redSoft'] if danger else C['marigoldSoft']
     fg = C['red'] if danger else C['marigoldText']
-    return ('<div class="card col" style="flex: 1; padding: 16px 15px; gap: 10px; '
-            'min-height: 152px; justify-content: space-between">'
+    return ('<div class="card col" style="padding: 18px 16px; gap: 12px; '
+            'justify-content: space-between">'
             '<div style="width: 46px; height: 46px; border-radius: 14px; background: %s; '
             'display: flex; align-items: center; justify-content: center">%s</div>'
-            '<div class="col" style="gap: 3px">'
-            '<span style="font-family: \'Anek Devanagari\', sans-serif; font-size: 23px; '
+            '<div class="col" style="gap: 4px">'
+            '<span style="font-family: \'Anek Devanagari\', sans-serif; font-size: 25px; '
             'font-weight: 600; line-height: 1.1">%s</span>'
             '<span class="muted" style="font-size: 13.5px; line-height: 1.35">%s</span>'
             '</div></div>'
@@ -658,7 +442,7 @@ def counter(kind):
 
 FUNCS_BY_KEY = [(k, i) for k, _, i in FUNCS]
 
-HOME = '''<div class="screen">
+HOME = '''<div class="screen" style="position: relative">
   <div class="row" style="justify-content: space-between; padding: 18px 16px 8px">
     <div class="row" style="gap: 9px; padding-left: 4px">
       <div style="width: 34px; height: 34px; border-radius: 10px; background: %(indigo)s;
@@ -674,30 +458,28 @@ HOME = '''<div class="screen">
   <div class="flow" style="gap: 13px; padding-top: 4px">
     %(counter)s
 
-    <div class="col" style="gap: 12px">
-      <div class="row" style="gap: 12px; align-items: stretch">%(t1)s %(t2)s</div>
-      <div class="row" style="gap: 12px; align-items: stretch">%(t3)s %(t4)s</div>
+    <div style="flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px; padding-bottom: 96px">
+      %(t1)s %(t2)s %(t3)s %(t4)s
     </div>
+  </div>
 
-    <div style="flex: 1"></div>
-
-    <div class="col" style="gap: 9px; padding-bottom: 22px">
-      %(mic)s
-      <span class="muted" style="font-size: 14px; text-align: center">
-        जैसे — “मुझे करामा जाना है” या “Jain khana kahaan milega?”</span>
-    </div>
+  <div style="position: absolute; left: 0; right: 0; bottom: 26px; display: flex;
+              flex-direction: column; align-items: center; gap: 7px">
+    %(mic)s
+    <span class="muted" style="font-size: 13.5px">या बोलकर पूछिए</span>
   </div>
 </div>'''
 
+# Same size and same place as the mic in the quick bar, so the gesture is identical wherever
+# the traveller is in the app.
 mic_btn = glow(
-    '<div class="row" style="min-height: 60px; justify-content: center; gap: 11px; '
-    'background: %s; color: %s; font-size: 19px; font-weight: 600">%s'
-    '<span style="font-family: \'Anek Devanagari\', sans-serif; font-size: 24px">'
-    'बोलिए</span></div>'
-    % (C['marigold'], C['onMarigold'], svg(I['mic'], 26, '1.7', C['onMarigold'])),
-    radius=18, surface=C['marigold'], pad='2px')
+    '<div style="width: 62px; height: 62px; border-radius: 31px; background: %s; '
+    'display: flex; align-items: center; justify-content: center">%s</div>'
+    % (C['marigold'], svg(I['mic'], 30, '1.6', C['onMarigold'])),
+    radius=33, surface=C['marigold'], pad='2.5px')
 
-for name, kind in [('Main', 'trial'), ('MainPass', 'pass')]:
+for name, kind in [('Main', 'pass')]:
     write(name, HOME % dict(
         C, offline=pill('ऑफ़लाइन · तैयार', 'wifioff', border=C['line']),
         trip=svg(I['user'], 24, '1.8', C['indigo']), counter=counter(kind),
@@ -1487,6 +1269,24 @@ body = '''<div class="screen">
 write('FamilyQR', body)
 
 # -------------------------------------------------------------------- 15. MyTrip
+def packrow():
+    """The pack downloads behind the app instead of gating it, so this is where its state
+    lives — and the only place a traveller needs to look if they are waiting on it."""
+    return ('<div class="card col" style="padding: 14px 15px; gap: 9px">'
+            '<div class="row" style="gap: 12px">'
+            '<div class="col" style="flex: 1; gap: 2px">'
+            '<span class="muted" style="font-size: 13.5px">दुबई पैक</span>'
+            '<span style="font-size: 16px; font-weight: 600">'
+            'हिंदी आवाज़ उतर रही है · 62%%</span></div>'
+            '<span style="font-size: 14px; font-weight: 600; color: %s">रोकें</span></div>'
+            '<div style="height: 5px; border-radius: 3px; background: %s">'
+            '<div style="width: 62%%; height: 5px; border-radius: 3px; background: %s"></div>'
+            '</div>'
+            '<span class="muted" style="font-size: 13px">'
+            'नक्शा, मेट्रो, खाना और वाक्य तैयार · v12 · 84 MB</span></div>'
+            % (C['indigo'], C['line'], C['indigo']))
+
+
 def segment(options, selected):
     cells = []
     for opt in options:
@@ -1529,7 +1329,7 @@ body = '''<div class="screen">
                  r1=srow('मेरा होटल', 'Hotel Rimal, Deira', 'pencil'),
                  r2=srow('पास', 'परिवार पास · 19 सित॰ तक'),
                  r3=srow('परिवार', '2 / 4 डिवाइस'),
-                 r4=srow('दुबई पैक', 'v12 · 12 सित॰ · 84 MB'),
+                 r4=packrow(),
                  r5=srow('आवाज़', 'माइक जाँचें', 'mic'),
                  r6=srow('भाषा', 'हिंदी'),
                  theme=segment(['हल्का', 'गहरा', 'अपने आप'], 'अपने आप'),
@@ -1588,6 +1388,16 @@ brand = '''<div style="width: 900px; min-height: 1620px; background: %(sand)s; c
     <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px">
       %(s6)s %(s7)s %(s8)s %(s9)s %(s10)s
     </div>
+  </div>
+
+  <div class="col" style="gap: 12px">
+    <p class="lbl">घर का काउंटर — दो हाल</p>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px">
+      %(ctrial)s %(cpass)s
+    </div>
+    <span style="font-size: 14px; color: %(muted)s; line-height: 1.5">
+      एक ही जगह, एक ही ऊँचाई. ख़रीदने से पहले उलटी गिनती, ख़रीदने के बाद बचे दिन —
+      घर पर यही अकेली चीज़ है जो टाइल नहीं है.</span>
   </div>
 
   <div class="col" style="gap: 14px">
@@ -1667,7 +1477,7 @@ brand = '''<div style="width: 900px; min-height: 1620px; background: %(sand)s; c
     s8=swatch(C['marigoldSoft'], 'Marigold soft', 'action का हल्का background'),
     s9=swatch(C['tealSoft'], 'Teal soft', 'ऑफ़लाइन बैज'),
     s10=swatch(C['marigoldText'], 'Marigold text', 'हल्के background पर marigold टेक्स्ट/आइकॉन'),
-    dark=dark_swatches,
+    dark=dark_swatches, ctrial=counter('trial'), cpass=counter('pass'),
     b1=btn('मुख्य action', 'primary'),
     b2=btn('दूसरा action', 'ghost', 'speak'),
     # muted is deliberately used for the swatch grid caption, not as a palette entry
@@ -1695,48 +1505,53 @@ brand = '''<div style="width: 900px; min-height: 1620px; background: %(sand)s; c
 write('Brand', brand)
 
 # ---------------------------------------------------------------------- canvas
-SCREENS = [
-    ['Welcome', 'WelcomeNight', 'Onboarding', 'OnboardingReady'],
-    ['Main', 'MainPass', 'Listening', 'RouteOptions'],
-    ['RouteDetail', 'Map', 'MapDiscover', 'FoodList'],
-    ['Restaurant', 'SayIt', 'ShowDriver', 'Phrasebook'],
-    ['Emergency', 'Pass', 'FamilyQR', 'MyTrip'],
+# The canvas is grouped the way the app is: everything common at the top, then one row per
+# tile. Reading a row tells you the whole of that function.
+GROUPS = [
+    ('note-common', 'हर जगह',
+     'पहली स्क्रीन, घर और आवाज़.\nघर पर चार टाइल = चार काम. माइक हर स्क्रीन पर\nएक ही जगह — नीचे बीच में.',
+     ['Welcome', 'Main', 'Listening']),
+    ('note-transport', 'टाइल 1 — रास्ता',
+     'विकल्प → क़दम दर क़दम → नक्शा.\nडिफ़ॉल्ट नक्शा सिर्फ़ रास्ता दिखाता है; “रास्ते में\nक्या है” अलग मोड है.',
+     ['RouteOptions', 'RouteDetail', 'Map', 'MapDiscover']),
+    ('note-food', 'टाइल 2 — खाना',
+     'छानिए, चुनिए, फिर सीधे रास्ता.\nजैन और सात्विक पहली कतार में, क्योंकि यही\nतय करता है कि खाना है या नहीं.',
+     ['FoodList', 'Restaurant']),
+    ('note-talk', 'टाइल 3 — बोलना',
+     'हिंदी अंदर, अरबी बाहर.\nदिखाने वाली स्क्रीन अलग है — उसे ड्राइवर पढ़ता\nहै, आप नहीं. वाक्य तब के लिए जब आवाज़ न चले.',
+     ['SayIt', 'ShowDriver', 'Phrasebook']),
+    ('note-help', 'टाइल 4 — मदद',
+     'पास ख़त्म होने के बाद भी चलती रहती है.\nतीन नंबर, नज़दीकी अस्पताल-दवाख़ाना, होटल.',
+     ['Emergency']),
+    ('note-account', 'पास और सेटिंग',
+     'टाइल नहीं — घर के ऊपर-दाएँ से खुलती हैं.\nट्रायल → पास → परिवार QR. पैक और थीम\nमेरी ट्रिप में.',
+     ['Pass', 'FamilyQR', 'MyTrip']),
 ]
 DARK_SCREENS = ['MainDark', 'FoodListDark', 'EmergencyDark']
 TITLES = {
-    'Welcome': '1 · स्प्लैश', 'WelcomeNight': '1b · स्प्लैश (रात वाला रूप)',
-    'Onboarding': '2 · पैक डाउनलोड', 'OnboardingReady': '3 · पैक तैयार',
-    'Main': '4 · घर — ट्रायल', 'MainPass': '4b · घर — पास चालू',
-    'Listening': '5 · सुन रहा हूँ', 'RouteOptions': '6 · रास्ते के विकल्प',
-    'RouteDetail': '7 · रास्ता — क़दम दर क़दम', 'Map': '8 · नक्शा (डिफ़ॉल्ट)',
-    'MapDiscover': '8b · नक्शा — रास्ते में क्या है', 'FoodList': '9 · खाना',
-    'Restaurant': '10 · रेस्टोरेंट', 'SayIt': '11 · बोलना है',
-    'ShowDriver': '12 · ड्राइवर को दिखाएँ', 'Phrasebook': '13 · ज़रूरी वाक्य',
-    'Emergency': '14 · मदद', 'Pass': '15 · पास', 'FamilyQR': '16 · परिवार QR',
-    'MyTrip': '17 · मेरी ट्रिप',
+    'Welcome': 'स्प्लैश', 'Main': 'घर — चार टाइल', 'Listening': 'सुन रहा हूँ',
+    'RouteOptions': 'रास्ते के विकल्प', 'RouteDetail': 'क़दम दर क़दम',
+    'Map': 'नक्शा (डिफ़ॉल्ट)', 'MapDiscover': 'नक्शा — रास्ते में क्या है',
+    'FoodList': 'खाना ढूँढिए', 'Restaurant': 'रेस्टोरेंट',
+    'SayIt': 'बोलिए → अरबी', 'ShowDriver': 'ड्राइवर को दिखाएँ', 'Phrasebook': 'ज़रूरी वाक्य',
+    'Emergency': 'मदद', 'Pass': 'पास', 'FamilyQR': 'परिवार QR', 'MyTrip': 'मेरी ट्रिप',
     'MainDark': 'घर — गहरा', 'FoodListDark': 'खाना — गहरा', 'EmergencyDark': 'मदद — गहरा',
 }
-ROW_NOTES = [
-    ('note-row-1', 'पहला मिनट\nस्प्लैश USP बोलती है: नेटवर्क नहीं? फिर भी चलेगा.\nकोई लॉगिन नहीं — सीधे पैक डाउनलोड, फिर\n“इंटरनेट बंद करके देखिए” वाला सबूत.'),
-    ('note-row-2', 'घर और आवाज़\nचार टाइल = चार काम. ऊपर काउंटर: ट्रायल या पास.\nमाइक टाइल्स के नीचे, और हर फ़ीचर स्क्रीन के\nनीचे बार के बीच में.'),
-    ('note-row-3', 'जाना है\nडिफ़ॉल्ट नक्शा सिर्फ़ रास्ता दिखाता है.\n“रास्ते में क्या है” एक अलग मोड है — चलते\nआदमी के सामने दुकानें नहीं फैलानी चाहिए.'),
-    ('note-row-4', 'खाना और बोलना\nहिंदी अंदर, अरबी बाहर. दिखाने वाली स्क्रीन अलग\nहै क्योंकि उसे ड्राइवर पढ़ता है, आप नहीं.'),
-    ('note-row-5', 'मदद, पैसा, सेटिंग\nमदद पास ख़त्म होने के बाद भी चलती है.\nथीम स्विच मेरी ट्रिप में — डिफ़ॉल्ट “अपने आप”.'),
-]
 artboards, annotations = [], []
-for ri, row in enumerate(SCREENS):
-    y = ri * 1040
-    annotations.append(dict(id=ROW_NOTES[ri][0], x=-400, y=y + 40, w=320,
-                            text=ROW_NOTES[ri][1], page='page-1'))
+y = 0
+for note_id, heading, note, row in GROUPS:
+    annotations.append(dict(id=note_id, x=-400, y=y + 40, w=320, page='page-1',
+                            text=heading + '\n' + note))
     for ci, name in enumerate(row):
         artboards.append(dict(file=name + '.dc.html', x=ci * 480, y=y, w=390, h=844,
                               title=TITLES[name], page='page-1'))
+    y += 1040
 for ci, name in enumerate(DARK_SCREENS):
     artboards.append(dict(file=name + '.dc.html', x=ci * 480, y=0, w=390, h=844,
                           title=TITLES[name], page='page-2'))
 annotations.append(dict(
     id='note-dark', x=-400, y=40, w=320, page='page-2',
-    text='गहरी थीम\nवही टोकन, वही नियम. टैक्सी में रात को और\nOLED फ़ोन पर बैटरी के लिए — इसलिए यह\nअलग स्किन नहीं, बराबर की थीम है.'))
+    text='गहरी थीम\nवही टोकन, वही नियम. टैक्सी में रात को और OLED\nफ़ोन पर बैटरी के लिए — इसलिए यह अलग स्किन\nनहीं, बराबर की थीम है.'))
 artboards.append(dict(file='Brand.dc.html', x=0, y=0, w=900, h=1640,
                       title='ब्रांड — रंग, टाइप, कंपोनेंट', page='page-3'))
 canvas = dict(
@@ -1748,4 +1563,4 @@ canvas = dict(
 )
 (OUT / 'canvas.json').write_text(json.dumps(canvas, ensure_ascii=False, indent=2),
                                  encoding='utf-8')
-print('%d artboards' % len(artboards))
+print('%d artboards in %d groups' % (len(artboards), len(GROUPS)))
