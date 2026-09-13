@@ -18,7 +18,7 @@ import {
   type SttSession,
 } from './stt.js';
 import { recordVoiceEvent } from './voiceEvent.js';
-import { downloadVoskModel, voskModelState } from './voskStt.js';
+import { downloadVoskModel, voskModelState, type ModelState } from './voskStt.js';
 
 /**
  * 1.2 · सुन रहा हूँ — the mic, wherever it was tapped from.
@@ -96,6 +96,12 @@ export function ListenScreen({
   const used = useRef<SttEngine>(typedStt);
   /** Set once a download has failed, so the offer is not shown again in a loop. */
   const [downloadFailed, setDownloadFailed] = useState(false);
+  /**
+   * Whether the offline voice is on this phone. Asked on arrival rather than only after every
+   * engine has failed: online, the cloud recogniser succeeds, so a last-resort offer is an offer
+   * nobody is ever shown — which is exactly what happened.
+   */
+  const [modelState, setModelState] = useState<ModelState | null>(null);
 
   /** One path for every transcript, spoken or typed: parse, record, then go or ask. */
   const handle = useCallback(
@@ -191,6 +197,10 @@ export function ListenScreen({
     });
   }, [online, tryNext]);
 
+  useEffect(() => {
+    void voskModelState(online).then(setModelState);
+  }, [online]);
+
   // The mic opens listening, because a traveller who tapped a microphone is already talking.
   useEffect(() => {
     listen();
@@ -254,6 +264,20 @@ export function ListenScreen({
             >
               {t('listen.type')}
             </button>
+            {/* Offered here, in the open, because the traveller who needs it is the one who will
+                be in a taxi with no signal tomorrow — not the one whose mic has just failed. */}
+            {modelState === 'fetchable' && !downloadFailed && (
+              <button
+                type="button"
+                className="linkish"
+                onClick={() => {
+                  session.current?.cancel();
+                  getVoice();
+                }}
+              >
+                {t('listen.getVoice')} · {String(VOICE_MB)} MB
+              </button>
+            )}
           </div>
         )}
 
