@@ -131,8 +131,11 @@ Off Time · signature`. A member scans one — **fully offline** — the app ver
 3. **No LLM in the core path.** Predictable traveller commands are handled by local intent
    parsing + structured local data + rules + local search. Cloud LLM is an optional
    online-only fallback for out-of-intent questions. Never make a core screen depend on it.
-4. **Hindi-Hinglish only for the MVP.** One language surface, and **Hinglish is first-class,
-   not a fallback** — real travellers say "Mujhe Karama jaana hai, metro se kaise jaaun?", not
+4. **Speech is Hindi-Hinglish only for the MVP; the interface is Hindi and English**
+   (decision 007). The parser understands Hindi and Hinglish and nothing else. The interface
+   has two catalogues, every key in both, switched on the status strip and following the
+   phone by default. What the app _produces_ for a Dubai local is always Arabic.
+   **Hinglish is first-class, not a fallback** — real travellers say "Mujhe Karama jaana hai, metro se kaise jaaun?", not
    textbook Hindi. So:
    - Accept Devanagari and Roman-script Hindi interchangeably, freely mixed with English words
      (`metro`, `taxi`, `mall`, `vegetarian`, `restaurant`, `airport`).
@@ -144,8 +147,8 @@ Off Time · signature`. A member scans one — **fully offline** — the app ver
      does not reflect a real user.
    - Responses go out in Hindi. Input is wherever the user actually lives.
 
-   Do not add Telugu/Tamil/Malayalam/etc. Keep language handling pluggable, but ship
-   Hindi-Hinglish only.
+   Do not add Telugu/Tamil/Malayalam/etc. Adding a third interface language is now a
+   catalogue rather than a refactor — which is not a licence to add one.
 
 5. **Intent accuracy > transcription accuracy.** For voice, the KPI is correct
    `{intent, destination, mode, dietary}` extraction, not a perfect transcript.
@@ -351,21 +354,24 @@ The screens are the design source of truth and live in `design/`:
 
 ## Current state
 
-Tooling and the quality gate are in place (`npm run verify`, CI). `packages/shared` holds the
-entity types and the `ParsedIntent` contract. No app code yet.
+The screens are final and saved to the canvas — 25 artboards, all passing
+`design/check-screens.py`.
 
-The screen set is mid-rework in `design/generate-screens.py` (see the last commit): the
-fourth tile, status strip, landing gate and home are applied; the universal mic, the canvas
-layout for the 4.x screens, the checker and the docs are the remaining steps before the
-screens are regenerated and republished.
+`apps/pwa` runs. The shell (status strip, four tiles, shared header, quick bar with the mic)
+and the whole of tile 3 — 3.1 say it or pick a sentence, 3.2 the Arabic, 3.3 show the driver —
+work end to end with the network off, with the phone's own Arabic voice. रास्ता, खाना and
+ज़रूरी जानकारी open a screen that says they are being built. Two interface catalogues, a
+sixteen-phrase pack in IndexedDB, self-hosted fonts, and the `VoiceEvent` log running from
+day one.
 
-After the screens are final, the priority is the **technical spike**, before broad feature
-work:
+Next, and still the thing that decides the architecture, is the rest of the **spike**:
 
-1. Android Chrome PWA, no internet: Hindi speech → intent
-2. iPhone Safari PWA, no internet: Hindi speech → intent
-3. Intent → Arabic phrase, locally
-4. Arabic phrase → Arabic voice, locally
+1. Android Chrome PWA, no internet: Hindi speech → intent — **not started**
+2. iPhone Safari PWA, no internet: Hindi speech → intent — **not started**
+3. Intent → Arabic phrase, locally — **done**, `apps/pwa` 3.1–3.2
+4. Arabic phrase → Arabic voice, locally — **done**, device TTS, honest when absent
+
+Findings so far are in `docs/spikes/`.
 
 **PWA decision gate:** stay pure PWA only if browser offline Hindi STT is good enough on both
 Android and iOS. If it is not, a thin native speech wrapper is acceptable — the USP beats
