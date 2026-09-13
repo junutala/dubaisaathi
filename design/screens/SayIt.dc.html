@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Devanagari:wght@500;600;700&family=Mukta:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap">
+  <style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Mukta', 'Segoe UI', system-ui, sans-serif;
+         -webkit-font-smoothing: antialiased; }
+  a { color: #B96A12; text-decoration: none; }
+  a:hover { color: #8F5009; }
+  .screen { width: 390px; height: 844px; background: #F7F3EC; color: #141826;
+            display: flex; flex-direction: column; overflow: hidden; }
+  .flow { flex: 1; display: flex; flex-direction: column; gap: 14px;
+          padding: 0 20px; overflow: hidden; }
+  .hdr { display: flex; align-items: center; gap: 12px; padding: 20px 20px 10px; }
+  .t1 { font-family: 'Anek Devanagari', 'Mukta', sans-serif; font-weight: 600;
+        font-size: 26px; line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+  .t2 { font-family: 'Anek Devanagari', 'Mukta', sans-serif; font-weight: 600;
+        font-size: 19px; line-height: 1.2; margin: 0; }
+  .lbl { font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+         text-transform: uppercase; color: #5B6070; margin: 0; }
+  .muted { color: #5B6070; }
+  .card { background: #FFFDF9; border: 1px solid #E6DED2; border-radius: 16px; }
+  .row { display: flex; align-items: center; gap: 12px; }
+  .col { display: flex; flex-direction: column; }
+  .btn { min-height: 54px; border-radius: 14px; display: flex; align-items: center;
+         justify-content: center; gap: 10px; font-weight: 600; font-size: 17px;
+         font-family: 'Mukta', sans-serif; }
+  .chip { height: 38px; padding: 0 14px; border-radius: 19px; display: flex;
+          align-items: center; gap: 6px; font-size: 15px; font-weight: 500;
+          white-space: nowrap; }
+  .ar { font-family: 'Noto Naskh Arabic', 'Mukta', serif; direction: rtl;
+        line-height: 1.6; }
+  .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+            border-top: 1px solid #E6DED2; background: #FFFDF9; padding: 9px 4px 14px; }
+  .tab { display: flex; flex-direction: column; align-items: center; gap: 4px;
+         font-size: 12px; font-weight: 600; color: #5B6070; min-height: 48px;
+         justify-content: center; }
+</style>
+</helmet>
+<div class="screen">
+  <div class="hdr"><div style="width: 40px; height: 40px; display: flex; align-items: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.4 5.8 8.6 12l5.8 6.2"/></svg></div><h1 class="t1" style="flex: 1">बोलना है</h1></div>
+  <div class="flow">
+    <div class="col" style="gap: 7px">
+      <p class="lbl">आपने कहा</p>
+      <div class="card row" style="padding: 14px 15px; gap: 10px">
+        <span style="flex: 1; font-size: 17px; line-height: 1.4">
+          इस होटल ले चलो, कितना लगेगा?</span>
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#5B6070" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.5a2.8 2.8 0 0 1 2.8 2.8v4a2.8 2.8 0 0 1-5.6 0v-4A2.8 2.8 0 0 1 12 4.5Z"/><path d="M5.8 11.4a6.2 6.2 0 0 0 12.4 0"/><path d="M12 17.8v2.7"/></svg>
+      </div>
+    </div>
+
+    <div class="col" style="gap: 7px">
+      <p class="lbl">ड्राइवर को यह दिखाएँ</p>
+      <div class="col" style="gap: 14px; background: #1A2456; border-radius: 18px;
+                              padding: 22px 20px; color: #F7F3EC">
+        <p class="ar" style="margin: 0; font-size: 34px; font-weight: 400; line-height: 1.55">
+          خذني إلى هذا الفندق، كم الأجرة؟</p>
+        <div style="height: 1px; background: rgba(247, 243, 236, 0.18)"></div>
+        <span style="font-size: 14.5px; color: rgba(247, 243, 236, 0.66); line-height: 1.4">
+          khudhni ila hadha al-funduq, kam al-ujra?</span>
+      </div>
+    </div>
+
+    <div class="row" style="gap: 10px">
+      <div style="flex: 1"><div class="btn" style="background: transparent; color: #1A2456; border: 1.5px solid #E6DED2;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10v4h3l4 3.4V6.6L8 10H5Z"/><path d="M15.4 9.6a3.4 3.4 0 0 1 0 4.8"/><path d="M17.9 7.2a6.8 6.8 0 0 1 0 9.6"/></svg><span>अरबी में सुनाएँ</span></div></div>
+    </div>
+
+    <div style="flex: 1"></div>
+    <div class="col" style="gap: 10px; padding-bottom: 16px">
+      <div class="btn" style="background: #E8871E; color: #231403;"><span>ड्राइवर को दिखाएँ</span></div>
+      <div class="btn" style="background: transparent; color: #1A2456; border: 1.5px solid #E6DED2;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.5a2.8 2.8 0 0 1 2.8 2.8v4a2.8 2.8 0 0 1-5.6 0v-4A2.8 2.8 0 0 1 12 4.5Z"/><path d="M5.8 11.4a6.2 6.2 0 0 0 12.4 0"/><path d="M12 17.8v2.7"/></svg><span>दूसरा वाक्य बोलें</span></div>
+    </div>
+  </div>
+  <div class="tabbar"><div class="tab" style="color: #5B6070"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.6 12 4.2l8 6.4"/><path d="M6.2 9.8v9.9h11.6V9.8"/></svg><span style="color: #5B6070">घर</span></div><div class="tab" style="color: #5B6070"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20v-7.8A4.2 4.2 0 0 1 11.2 8H17"/><path d="M14 4.8 17.4 8 14 11.2"/></svg><span style="color: #5B6070">जाना</span></div><div class="tab" style="color: #5B6070"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.2h16"/><path d="M5.2 11.2a6.8 6.8 0 0 0 13.6 0"/><path d="M12 4.2c1.5 1 1.5 2.5 0 3.5"/></svg><span style="color: #5B6070">खाना</span></div><div class="tab" style="color: #E8871E"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.2c0 3.4-3.6 6.2-8 6.2a9.9 9.9 0 0 1-2.5-.3L5.2 19.8l1-3A6 6 0 0 1 4 12.2C4 8.8 7.6 6 12 6s8 2.8 8 6.2Z"/></svg><span style="color: #141826">बोलना</span></div><div class="tab" style="color: #5B6070"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.2 5.2 6.7v5.4c0 3.5 2.8 6.2 6.8 7.7 4-1.5 6.8-4.2 6.8-7.7V6.7L12 4.2Z"/><path d="M12 9.4v5"/><path d="M9.5 11.9h5"/></svg><span style="color: #5B6070">मदद</span></div></div>
+</div>
+</x-dc>
+</body>
+</html>

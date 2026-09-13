@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Devanagari:wght@500;600;700&family=Mukta:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap">
+  <style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Mukta', 'Segoe UI', system-ui, sans-serif;
+         -webkit-font-smoothing: antialiased; }
+  a { color: #B96A12; text-decoration: none; }
+  a:hover { color: #8F5009; }
+  .screen { width: 390px; height: 844px; background: #F7F3EC; color: #141826;
+            display: flex; flex-direction: column; overflow: hidden; }
+  .flow { flex: 1; display: flex; flex-direction: column; gap: 14px;
+          padding: 0 20px; overflow: hidden; }
+  .hdr { display: flex; align-items: center; gap: 12px; padding: 20px 20px 10px; }
+  .t1 { font-family: 'Anek Devanagari', 'Mukta', sans-serif; font-weight: 600;
+        font-size: 26px; line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+  .t2 { font-family: 'Anek Devanagari', 'Mukta', sans-serif; font-weight: 600;
+        font-size: 19px; line-height: 1.2; margin: 0; }
+  .lbl { font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+         text-transform: uppercase; color: #5B6070; margin: 0; }
+  .muted { color: #5B6070; }
+  .card { background: #FFFDF9; border: 1px solid #E6DED2; border-radius: 16px; }
+  .row { display: flex; align-items: center; gap: 12px; }
+  .col { display: flex; flex-direction: column; }
+  .btn { min-height: 54px; border-radius: 14px; display: flex; align-items: center;
+         justify-content: center; gap: 10px; font-weight: 600; font-size: 17px;
+         font-family: 'Mukta', sans-serif; }
+  .chip { height: 38px; padding: 0 14px; border-radius: 19px; display: flex;
+          align-items: center; gap: 6px; font-size: 15px; font-weight: 500;
+          white-space: nowrap; }
+  .ar { font-family: 'Noto Naskh Arabic', 'Mukta', serif; direction: rtl;
+        line-height: 1.6; }
+  .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+            border-top: 1px solid #E6DED2; background: #FFFDF9; padding: 9px 4px 14px; }
+  .tab { display: flex; flex-direction: column; align-items: center; gap: 4px;
+         font-size: 12px; font-weight: 600; color: #5B6070; min-height: 48px;
+         justify-content: center; }
+</style>
+</helmet>
+<div class="screen" style="background: #FFFDF9">
+  <div class="row" style="justify-content: space-between; padding: 20px 20px 0">
+    <span class="muted" style="font-size: 14px; font-weight: 600; letter-spacing: 0.04em">
+      ड्राइवर को दिखाएँ</span>
+    <div style="width: 40px; height: 40px; display: flex; align-items: center;
+                justify-content: flex-end"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5B6070" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 6.4 17.6 17.6"/><path d="M17.6 6.4 6.4 17.6"/></svg></div>
+  </div>
+
+  <div class="flow" style="justify-content: center; gap: 30px">
+    <p class="ar" style="margin: 0; font-size: 46px; font-weight: 700; line-height: 1.5;
+                         text-align: right; letter-spacing: 0">
+      خذني إلى هذا الفندق، كم الأجرة؟</p>
+
+    <div class="col" style="gap: 10px; border-top: 1px solid #E6DED2; padding-top: 22px">
+      <p class="ar" style="margin: 0; font-size: 26px; line-height: 1.5; text-align: right;
+                           color: #1A2456">فندق ريمال، ديرة</p>
+      <span class="muted" style="font-size: 15.5px">Hotel Rimal, Deira</span>
+    </div>
+  </div>
+
+  <div class="col" style="gap: 14px; padding: 0 20px 30px">
+    <span class="muted" style="font-size: 14.5px; text-align: center">
+      आपने कहा — “इस होटल ले चलो, कितना लगेगा?”</span>
+    <div class="btn" style="background: #1A2456; color: #F7F3EC; min-height: 62px;
+                            font-size: 19px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E8871E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10v4h3l4 3.4V6.6L8 10H5Z"/><path d="M15.4 9.6a3.4 3.4 0 0 1 0 4.8"/><path d="M17.9 7.2a6.8 6.8 0 0 1 0 9.6"/></svg>
+      <span class="ar" style="font-size: 22px">اسمع</span></div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

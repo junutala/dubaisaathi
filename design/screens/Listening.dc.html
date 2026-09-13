@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Devanagari:wght@500;600;700&family=Mukta:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap">
+  <style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Mukta', 'Segoe UI', system-ui, sans-serif;
+         -webkit-font-smoothing: antialiased; }
+  a { color: #B96A12; text-decoration: none; }
+  a:hover { color: #8F5009; }
+  .screen { width: 390px; height: 844px; background: #F7F3EC; color: #141826;
+            display: flex; flex-direction: column; overflow: hidden; }
+  .flow { flex: 1; display: flex; flex-direction: column; gap: 14px;
+          padding: 0 20px; overflow: hidden; }
+  .hdr { display: flex; align-items: center; gap: 12px; padding: 20px 20px 10px; }
+  .t1 { font-family: 'Anek Devanagari', 'Mukta', sans-serif; font-weight: 600;
+        font-size: 26px; line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+  .t2 { font-family: 'Anek Devanagari', 'Mukta', sans-serif; font-weight: 600;
+        font-size: 19px; line-height: 1.2; margin: 0; }
+  .lbl { font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+         text-transform: uppercase; color: #5B6070; margin: 0; }
+  .muted { color: #5B6070; }
+  .card { background: #FFFDF9; border: 1px solid #E6DED2; border-radius: 16px; }
+  .row { display: flex; align-items: center; gap: 12px; }
+  .col { display: flex; flex-direction: column; }
+  .btn { min-height: 54px; border-radius: 14px; display: flex; align-items: center;
+         justify-content: center; gap: 10px; font-weight: 600; font-size: 17px;
+         font-family: 'Mukta', sans-serif; }
+  .chip { height: 38px; padding: 0 14px; border-radius: 19px; display: flex;
+          align-items: center; gap: 6px; font-size: 15px; font-weight: 500;
+          white-space: nowrap; }
+  .ar { font-family: 'Noto Naskh Arabic', 'Mukta', serif; direction: rtl;
+        line-height: 1.6; }
+  .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+            border-top: 1px solid #E6DED2; background: #FFFDF9; padding: 9px 4px 14px; }
+  .tab { display: flex; flex-direction: column; align-items: center; gap: 4px;
+         font-size: 12px; font-weight: 600; color: #5B6070; min-height: 48px;
+         justify-content: center; }
+</style>
+</helmet>
+<div class="screen" style="background: #0F1530; color: #F7F3EC">
+  <div class="hdr" style="justify-content: flex-end; padding-top: 22px">
+    <div style="width: 44px; height: 44px; border-radius: 22px;
+                background: rgba(247, 243, 236, 0.1); display: flex;
+                align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 6.4 17.6 17.6"/><path d="M17.6 6.4 6.4 17.6"/></svg></div>
+  </div>
+
+  <div class="flow" style="justify-content: center; gap: 34px">
+    <div class="row" style="gap: 5px; height: 130px; justify-content: center;
+                            align-items: center"><div style="width: 7px; height: 18px; border-radius: 4px; background: #F7C88E"></div><div style="width: 7px; height: 38px; border-radius: 4px; background: #E8871E"></div><div style="width: 7px; height: 64px; border-radius: 4px; background: #E8871E"></div><div style="width: 7px; height: 96px; border-radius: 4px; background: #F7C88E"></div><div style="width: 7px; height: 52px; border-radius: 4px; background: #E8871E"></div><div style="width: 7px; height: 78px; border-radius: 4px; background: #E8871E"></div><div style="width: 7px; height: 120px; border-radius: 4px; background: #F7C88E"></div><div style="width: 7px; height: 66px; border-radius: 4px; background: #E8871E"></div><div style="width: 7px; height: 40px; border-radius: 4px; background: #E8871E"></div><div style="width: 7px; height: 86px; border-radius: 4px; background: #F7C88E"></div><div style="width: 7px; height: 58px; border-radius: 4px; background: #E8871E"></div><div style="width: 7px; height: 30px; border-radius: 4px; background: #E8871E"></div><div style="width: 7px; height: 70px; border-radius: 4px; background: #F7C88E"></div><div style="width: 7px; height: 44px; border-radius: 4px; background: #E8871E"></div><div style="width: 7px; height: 22px; border-radius: 4px; background: #E8871E"></div></div>
+
+    <div class="col" style="gap: 14px; align-items: center">
+      <span style="font-size: 15px; font-weight: 600; letter-spacing: 0.06em;
+                   color: #E8871E; text-transform: uppercase">सुन रहा हूँ</span>
+      <p style="margin: 0; font-family: 'Anek Devanagari', sans-serif; font-size: 30px;
+                font-weight: 500; line-height: 1.35; text-align: center">
+        मुझे बुर दुबई से करामा<span style="color: rgba(247, 243, 236, 0.45)"> जाना…</span></p>
+    </div>
+  </div>
+
+  <div class="col" style="gap: 16px; padding: 0 20px 34px; align-items: center">
+    <span style="font-size: 14.5px; color: rgba(247, 243, 236, 0.6)">
+      हिंदी और हिंग्लिश — दोनों चलेंगे</span>
+    <div class="btn" style="background: rgba(247, 243, 236, 0.12); color: #F7F3EC;
+                            width: 100%">रद्द करें</div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

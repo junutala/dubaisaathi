@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Devanagari:wght@500;600;700&family=Mukta:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap">
+  <style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Mukta', 'Segoe UI', system-ui, sans-serif;
+         -webkit-font-smoothing: antialiased; }
+  a { color: #B96A12; text-decoration: none; }
+  a:hover { color: #8F5009; }
+  .screen { width: 390px; height: 844px; background: #F7F3EC; color: #141826;
+            display: flex; flex-direction: column; overflow: hidden; }
+  .flow { flex: 1; display: flex; flex-direction: column; gap: 14px;
+          padding: 0 20px; overflow: hidden; }
+  .hdr { display: flex; align-items: center; gap: 12px; padding: 20px 20px 10px; }
+  .t1 { font-family: 'Anek Devanagari', 'Mukta', sans-serif; font-weight: 600;
+        font-size: 26px; line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+  .t2 { font-family: 'Anek Devanagari', 'Mukta', sans-serif; font-weight: 600;
+        font-size: 19px; line-height: 1.2; margin: 0; }
+  .lbl { font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+         text-transform: uppercase; color: #5B6070; margin: 0; }
+  .muted { color: #5B6070; }
+  .card { background: #FFFDF9; border: 1px solid #E6DED2; border-radius: 16px; }
+  .row { display: flex; align-items: center; gap: 12px; }
+  .col { display: flex; flex-direction: column; }
+  .btn { min-height: 54px; border-radius: 14px; display: flex; align-items: center;
+         justify-content: center; gap: 10px; font-weight: 600; font-size: 17px;
+         font-family: 'Mukta', sans-serif; }
+  .chip { height: 38px; padding: 0 14px; border-radius: 19px; display: flex;
+          align-items: center; gap: 6px; font-size: 15px; font-weight: 500;
+          white-space: nowrap; }
+  .ar { font-family: 'Noto Naskh Arabic', 'Mukta', serif; direction: rtl;
+        line-height: 1.6; }
+  .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+            border-top: 1px solid #E6DED2; background: #FFFDF9; padding: 9px 4px 14px; }
+  .tab { display: flex; flex-direction: column; align-items: center; gap: 4px;
+         font-size: 12px; font-weight: 600; color: #5B6070; min-height: 48px;
+         justify-content: center; }
+</style>
+</helmet>
+<div class="screen">
+  <div style="position: relative; flex: 1; overflow: hidden">
+    <svg width="390" height="760" viewBox="0 0 390 760" style="position: absolute;
+         top: -30px; left: 0"><rect width="390" height="760" fill="#F4EFE4"/>
+      <path d="M-20 620 C 90 570, 150 640, 250 596 C 330 560, 380 590, 410 570 L410 700 L-20 700 Z" fill="#CFE4E0"/> <rect x="20" y="170" width="42" height="60" rx="4" fill="#EFE8DB"/><rect x="120" y="160" width="82" height="66" rx="4" fill="#EFE8DB"/><rect x="262" y="135" width="66" height="84" rx="4" fill="#EFE8DB"/><rect x="20" y="380" width="40" height="92" rx="4" fill="#EFE8DB"/><rect x="168" y="385" width="34" height="88" rx="4" fill="#EFE8DB"/><rect x="262" y="392" width="92" height="74" rx="4" fill="#EFE8DB"/><rect x="30" y="274" width="30" height="44" rx="4" fill="#EFE8DB"/><rect x="272" y="276" width="58" height="40" rx="4" fill="#EFE8DB"/> <path d="M-20 150 L410 120" stroke="#E9E1D4" stroke-width="13" stroke-linecap="round"/><path d="M-20 330 L410 368" stroke="#E9E1D4" stroke-width="11" stroke-linecap="round"/><path d="M-20 520 L410 486" stroke="#E9E1D4" stroke-width="13" stroke-linecap="round"/><path d="M70 -20 L110 700" stroke="#E9E1D4" stroke-width="11" stroke-linecap="round"/><path d="M250 -20 L214 700" stroke="#E9E1D4" stroke-width="13" stroke-linecap="round"/><path d="M340 -20 L368 700" stroke="#E9E1D4" stroke-width="9" stroke-linecap="round"/><path d="M-20 240 L410 258" stroke="#E9E1D4" stroke-width="7" stroke-linecap="round"/><path d="M160 -20 L150 700" stroke="#E9E1D4" stroke-width="7" stroke-linecap="round"/> <path d="M96 470 L150 452 L206 300 L292 214" stroke="#E8871E" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle cx="96" cy="470" r="11" fill="#1A2456" stroke="#FFFDF9" stroke-width="3.5"/>
+      <circle cx="96" cy="470" r="26" fill="#1A2456" opacity="0.12"/>
+    </svg>
+    <div style="position: absolute; left: 274px; top: 152px"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#E8871E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.2s6.2-5.4 6.2-9.7a6.2 6.2 0 0 0-12.4 0c0 4.3 6.2 9.7 6.2 9.7Z"/><circle cx="12" cy="10.5" r="2.2"/></svg></div>
+
+    <div style="position: absolute; top: 20px; left: 20px; right: 20px"><div class="row" style="gap: 6px; background: #FFFDF9; color: #0B7A6B; border: 1px solid #E6DED2; border-radius: 16px; height: 32px; padding: 0 12px; font-size: 13.5px; font-weight: 600; width: fit-content"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.4a12.6 12.6 0 0 1 5.6-2.3"/><path d="M14.8 6.3A12.6 12.6 0 0 1 20 8.4"/><path d="M7.2 11.9a8.8 8.8 0 0 1 2.6-1.5"/><path d="M16.8 11.9a8.8 8.8 0 0 0-1.8-1.1"/><path d="M11.9 17.6h.1"/><path d="M4.2 4.2l15.6 15.6"/></svg><span>ऑफ़लाइन नक्शा · पैक v12</span></div></div>
+  </div>
+
+  <div class="col" style="gap: 14px; background: #FFFDF9; border-top: 1px solid #E6DED2;
+                          border-radius: 20px 20px 0 0; padding: 18px 20px 16px;
+                          margin-top: -20px; position: relative">
+    <div class="row" style="gap: 12px">
+      <div class="col" style="flex: 1; gap: 2px">
+        <span class="t2">करामा सेंटर</span>
+        <span class="muted" style="font-size: 14.5px">6.2 km · मेट्रो से 32 मिनट</span>
+      </div>
+      <div style="width: 46px; height: 46px; border-radius: 14px; background: #FDF0DC;
+                  display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8871E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10v4h3l4 3.4V6.6L8 10H5Z"/><path d="M15.4 9.6a3.4 3.4 0 0 1 0 4.8"/><path d="M17.9 7.2a6.8 6.8 0 0 1 0 9.6"/></svg></div>
+    </div>
+    <div class="btn" style="background: #E8871E; color: #231403;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20v-7.8A4.2 4.2 0 0 1 11.2 8H17"/><path d="M14 4.8 17.4 8 14 11.2"/></svg><span>रास्ता देखें</span></div>
+  </div>
+  <div class="tabbar"><div class="tab" style="color: #5B6070"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.6 12 4.2l8 6.4"/><path d="M6.2 9.8v9.9h11.6V9.8"/></svg><span style="color: #5B6070">घर</span></div><div class="tab" style="color: #E8871E"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20v-7.8A4.2 4.2 0 0 1 11.2 8H17"/><path d="M14 4.8 17.4 8 14 11.2"/></svg><span style="color: #141826">जाना</span></div><div class="tab" style="color: #5B6070"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.2h16"/><path d="M5.2 11.2a6.8 6.8 0 0 0 13.6 0"/><path d="M12 4.2c1.5 1 1.5 2.5 0 3.5"/></svg><span style="color: #5B6070">खाना</span></div><div class="tab" style="color: #5B6070"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.2c0 3.4-3.6 6.2-8 6.2a9.9 9.9 0 0 1-2.5-.3L5.2 19.8l1-3A6 6 0 0 1 4 12.2C4 8.8 7.6 6 12 6s8 2.8 8 6.2Z"/></svg><span style="color: #5B6070">बोलना</span></div><div class="tab" style="color: #5B6070"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.2 5.2 6.7v5.4c0 3.5 2.8 6.2 6.8 7.7 4-1.5 6.8-4.2 6.8-7.7V6.7L12 4.2Z"/><path d="M12 9.4v5"/><path d="M9.5 11.9h5"/></svg><span style="color: #5B6070">मदद</span></div></div>
+</div>
+</x-dc>
+</body>
+</html>
