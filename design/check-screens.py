@@ -56,6 +56,11 @@ def main() -> int:
                 if extra in text:
                     fail(name, 'home carries a control beyond the tiles and counter: %s' % extra)
 
+        # Speech is offered only where a spoken word has exactly one meaning.
+        if 'data-tap="mic"' in text and name.replace('Dark', '') not in (
+                'Destination', 'FoodList', 'SayEntry'):
+            fail(name, 'a mic on a screen where speech has no single meaning')
+
         # A colour value must never reach the traveller as text.
         if name != 'Brand':
             for leak in re.findall(r'>\s*#[0-9A-Fa-f]{6}', text):

@@ -163,8 +163,9 @@ I = dict(
 
 
 # The four things the app does. Home shows them as tiles; once the traveller picks one, the
-# other three drop to the bottom bar so switching is one tap. The mic sits in the middle of
-# that bar because voice is the product, not a feature of one screen.
+# other three drop to the bottom bar so switching is one tap. No mic in the bar: on a map or
+# the help screen a spoken word has no single meaning, and a guess is worse than no mic.
+# Speech is offered exactly where it means one thing — 1.1, the search on 2.1, and 3.1.
 FUNCS = [
     ('transport', 'रास्ता', 'route'),
     ('food', 'खाना', 'food'),
@@ -214,15 +215,8 @@ def quickbar(current):
             '<div class="tab" style="min-height: 48px; color: %s" data-tap="nav">%s'
             '<span style="color: %s">%s</span></div>'
             % (col, svg(I[icon], 23, '1.7'), C['muted'], label))
-    ring = glow('<div style="width: 54px; height: 54px; border-radius: 27px; background: %s; '
-                'display: flex; align-items: center; justify-content: center">%s</div>'
-                % (C['marigold'], svg(I['mic'], 27, '1.6', C['onMarigold'])),
-                radius=29, surface=C['marigold'], pad='2.5px')
-    mic = ('<div style="width: 62px; height: 62px; display: flex; justify-content: center; '
-           'margin-top: -26px" data-tap="mic">%s</div>' % ring)
-    cells.insert(2, mic)
-    return ('<div class="row" style="border-top: 1px solid %s; background: %s; '
-            'padding: 9px 6px 14px; align-items: flex-end; justify-content: space-between">'
+    return ('<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); '
+            'border-top: 1px solid %s; background: %s; padding: 9px 6px 14px">'
             '%s</div>' % (C['line'], C['card'], ''.join(cells)))
 
 
@@ -888,6 +882,13 @@ def fcard(name, sub, dist, cost, tags):
 body = '''<div class="screen">
   %(hdr)s
   <div class="flow" style="gap: 12px">
+    <div class="row" style="gap: 10px; min-height: 52px; background: %(card)s;
+                border: 1px solid %(line)s; border-radius: 14px; padding: 0 6px 0 14px"
+         data-tap="type">
+      <span class="muted" style="font-size: 16px; flex: 1">डोसा, थाली, चाय… बोलिए या लिखिए</span>
+      <div style="width: 48px; height: 48px; border-radius: 14px; display: flex;
+                  align-items: center; justify-content: center" data-tap="mic">%(mic)s</div>
+    </div>
     <div class="row" style="gap: 8px; flex-wrap: wrap">
       %(c1)s %(c2)s %(c3)s %(c4)s %(c5)s
     </div>
@@ -899,6 +900,7 @@ body = '''<div class="screen">
   %(bar)s
 </div>''' % dict(C,
                  hdr=hdr('आस-पास वेज खाना', 'food', 'सूची'),
+                 mic=svg(I['mic'], 24, '1.7', C['marigoldText']),
                  c1=fchip('वेज', True), c2=fchip('जैन'), c3=fchip('सात्विक'),
                  c4=fchip('बिना प्याज़/लहसुन'), c5=fchip('झटपट'),
                  f1=fcard('चप्पन भोग', 'गुजराती थाली · करामा', '700 मी', 'AED 30–45',
@@ -977,7 +979,6 @@ body = '''<div class="screen">
       <div class="card row" style="padding: 14px 15px; gap: 10px">
         <span style="flex: 1; font-size: 17px; line-height: 1.4">
           इस होटल तक ले चलो, कितना लगेगा?</span>
-        %(mic)s
       </div>
     </div>
 
@@ -1002,7 +1003,6 @@ body = '''<div class="screen">
   %(bar)s
 </div>''' % dict(C,
                  hdr=hdr('अरबी में', 'talk', 'क्या कहना है? › अरबी में'),
-                 mic=svg(I['mic'], 21, '1.8', C['muted']),
                  b1=btn('अरबी में सुनाएँ', 'ghost', 'speak'),
                  b2=btn('ड्राइवर को दिखाएँ', 'primary'),
                  bar=quickbar('talk'))
@@ -1113,9 +1113,6 @@ body = '''<div class="screen">
     %(c1)s %(c2)s %(c3)s
     <div style="height: 2px"></div>
     %(e0)s %(e1)s %(e2)s %(e3)s
-    <div style="flex: 1"></div>
-    <span class="muted" style="font-size: 13px; text-align: center; padding-bottom: 8px">
-      बिना इंटरनेट और पास ख़त्म होने के बाद भी चालू</span>
   </div>
   %(bar)s
 </div>''' % dict(C,
@@ -1179,7 +1176,7 @@ body = '''<div class="screen">
       %(b)s
       <span class="muted" style="font-size: 13.5px; text-align: center; line-height: 1.45">
         UPI या कार्ड · भारत से भी ख़रीद सकते हैं<br>
-        पास ख़त्म होने पर मदद और ज़रूरी वाक्य चालू रहेंगे</span>
+        पास ख़त्म होने पर भी मदद चालू रहेगी</span>
       <div class="card row" style="padding: 13px 15px; gap: 11px">%(gear)s
         <span style="flex: 1; font-size: 15.5px; font-weight: 600">
           सेटिंग — होटल, पैक, थीम</span>%(gchev)s</div>
