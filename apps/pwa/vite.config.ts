@@ -46,6 +46,11 @@ export default defineConfig({
         // the ones who only ever tap the tiles. They are cached when the traveller chooses to
         // download the voice, and not before.
         globIgnores: ['**/vosk-*.js', '**/models/**'],
+        // The service worker answers every navigation in its scope with index.html so that a
+        // refresh deep in the app works offline. That is right for screens and wrong for files:
+        // opening the model URL directly returned the app shell, which then tried to load its
+        // assets relative to /models/ and painted a blank page. Real files are exempt.
+        navigateFallbackDenylist: [/^\/models\//, /^\/mic-worklet\.js$/],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
         runtimeCaching: [
           {
