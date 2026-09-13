@@ -164,11 +164,11 @@ Not asked: "where from". The phone knows; a tourist often does not know the stre
 
 ## घर.3 · पास › सेटिंग
 
-| Field               | Why it is there                                              |
-| ------------------- | ------------------------------------------------------------ |
-| मेरा होटल           | Used by 4.1 and 3.3; has to be set somewhere                 |
-| दुबई पैक + progress | The download runs in the background; this is where to see it |
-| थीम                 | Night use in a taxi; defaults to the phone's setting         |
+| Field                                                   | Why it is there                                                                                                                                             |
+| ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| मेरा होटल                                               | Used by 4.1 and 3.3; has to be set somewhere                                                                                                                |
+| "साथी तैयार हो रहा है · 2 मिनट बाकी" + progress + रोकें | Is the app usable now and when is the rest ready — time left, not a percent; what still works, not what is downloading. Pause because hotel wifi is metered |
+| थीम                                                     | Night use in a taxi; defaults to the phone's setting                                                                                                        |
 
 ## Bottom bar (every child screen)
 

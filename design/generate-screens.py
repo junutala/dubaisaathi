@@ -1279,18 +1279,21 @@ write('FamilyQR', body)
 def packrow():
     """The pack downloads behind the app instead of gating it, so this is where its state
     lives — and the only place a traveller needs to look if they are waiting on it."""
+    # What a tourist needs from a download: is the app usable now, and when is the rest
+    # ready. Time left, not a percent; what still works, not what is downloading; no model
+    # names, sizes or version numbers.
     return ('<div class="card col" style="padding: 14px 15px; gap: 9px">'
             '<div class="row" style="gap: 12px">'
-            '<div class="col" style="flex: 1; gap: 2px">'
-            '<span class="muted" style="font-size: 13.5px">दुबई पैक</span>'
-            '<span style="font-size: 16px; font-weight: 600">'
-            'हिंदी आवाज़ उतर रही है · 62%%</span></div>'
-            '<span style="font-size: 14px; font-weight: 600; color: %s">रोकें</span></div>'
+            '<span style="flex: 1; font-size: 16px; font-weight: 600">'
+            'साथी तैयार हो रहा है · 2 मिनट बाकी</span>'
+            '<div style="min-height: 48px; display: flex; align-items: center" '
+            'data-tap="pause"><span style="font-size: 14px; font-weight: 600; color: %s">'
+            'रोकें</span></div></div>'
             '<div style="height: 5px; border-radius: 3px; background: %s">'
             '<div style="width: 62%%; height: 5px; border-radius: 3px; background: %s"></div>'
             '</div>'
-            '<span class="muted" style="font-size: 13px">'
-            'नक्शा, मेट्रो, खाना और वाक्य तैयार · v12 · 84 MB</span></div>'
+            '<span class="muted" style="font-size: 13.5px; line-height: 1.4">'
+            'तब तक लिखकर पूछिए — बोलना थोड़ी देर में चालू होगा</span></div>'
             % (C['indigo'], C['line'], C['indigo']))
 
 
