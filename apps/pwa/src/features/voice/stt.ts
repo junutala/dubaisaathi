@@ -111,13 +111,13 @@ function constructor(): SpeechRecognitionConstructor | undefined {
 }
 
 /** Hindi, because that is the only speech the MVP understands (CLAUDE.md rule 4). */
-export const SPEECH_LANG = 'hi-IN';
+const SPEECH_LANG = 'hi-IN';
 
 /**
  * Has the phone downloaded a Hindi model it can run without a network? Chrome 138+ can answer;
  * every other browser cannot, and "unknown" is reported as such rather than as a yes.
  */
-export async function onDeviceHindi(): Promise<'available' | 'unavailable' | 'unknown'> {
+async function onDeviceHindi(): Promise<'available' | 'unavailable' | 'unknown'> {
   const Recognition = constructor();
   if (!Recognition?.available) return 'unknown';
   try {
@@ -226,10 +226,10 @@ function failureOf(error: string): SttFailure {
 }
 
 /** The phone's own recogniser, told to keep the audio on the device. */
-export const onDeviceStt: SttEngine = browserEngine(true);
+const onDeviceStt: SttEngine = browserEngine(true);
 
 /** The same recogniser without that condition — which usually means a server hears the audio. */
-export const cloudStt: SttEngine = browserEngine(false);
+const cloudStt: SttEngine = browserEngine(false);
 
 // --- the keyboard -------------------------------------------------------------------------
 

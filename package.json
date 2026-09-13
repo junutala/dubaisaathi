@@ -20,7 +20,8 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "verify": "npm run format:check && npm run lint && npm run typecheck && npm run check:design && npm run test && npm run build",
-    "check:design": "python3 design/check-screens.py"
+    "check:design": "python3 design/check-screens.py",
+    "verify:browser": "npm run build --workspace @saathi/pwa && node apps/pwa/test/run-walkthrough.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

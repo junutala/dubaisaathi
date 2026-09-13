@@ -16,7 +16,12 @@ export default tseslint.config(
         projectService: {
           // Root config files sit outside any workspace tsconfig, and so does the audio worklet,
           // which is a static module served from public/ rather than part of the app's build.
-          allowDefaultProject: ['*.config.js', '*.config.ts', 'apps/pwa/public/*.js'],
+          allowDefaultProject: [
+            '*.config.js',
+            '*.config.ts',
+            'apps/pwa/public/*.js',
+            'apps/pwa/test/*.mjs',
+          ],
         },
         tsconfigRootDir: import.meta.dirname,
       },
@@ -48,10 +53,33 @@ export default tseslint.config(
     // The audio worklet is plain JS served as its own module from public/, so it sits outside
     // the TypeScript project on purpose. Type-aware rules cannot run on a file the project does
     // not contain, and it runs in AudioWorkletGlobalScope, which has neither window nor the DOM.
-    files: ['apps/pwa/public/*.js'],
-    ...tseslint.configs.disableTypeChecked,
+    // The browser harness and its server run in Node against a real Chromium, outside the app's
+    // TypeScript project: one drives a browser, one serves files, neither is shipped.
+    files: ['apps/pwa/public/*.js', 'apps/pwa/test/*.mjs'],
+    // `extends`, not a spread: a spread puts disableTypeChecked's `rules` on this object, where
+    // the `rules` below then replaces it wholesale and every type-aware rule comes back on.
+    extends: [tseslint.configs.disableTypeChecked],
     languageOptions: {
-      globals: { AudioWorkletProcessor: 'readonly', registerProcessor: 'readonly' },
+      globals: {
+        ...globals.node,
+        AudioWorkletProcessor: 'readonly',
+        registerProcessor: 'readonly',
+        document: 'readonly',
+        navigator: 'readonly',
+        AudioContext: 'readonly',
+        AudioWorkletNode: 'readonly',
+        WebAssembly: 'readonly',
+        Worker: 'readonly',
+        Blob: 'readonly',
+        URL: 'readonly',
+        fetch: 'readonly',
+        setTimeout: 'readonly',
+      },
+    },
+    rules: {
+      // These are command-line tools: their whole output is what they print. The rule exists to
+      // keep stray logging out of the app, and they are not the app.
+      'no-console': 'off',
     },
   },
   {

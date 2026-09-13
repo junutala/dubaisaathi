@@ -12,13 +12,13 @@ import type { SttEngine, SttHandlers, SttSession } from './stt.js';
  */
 
 /** Served by nginx with a one-year immutable header; the name changes when the model does. */
-export const VOSK_MODEL_URL = '/models/vosk-hi.tar.gz';
+const VOSK_MODEL_URL = '/models/vosk-hi.tar.gz';
 
 /** Named so a later model can be added without evicting this one mid-trip. */
 const MODEL_CACHE = 'saathi-speech-v1';
 
 /** Reported with every `VoiceEvent`, so a model regression is visible in the data. */
-export const VOSK_ENGINE_ID = 'vosk-hi-0.22';
+const VOSK_ENGINE_ID = 'vosk-hi-0.22';
 
 export type ModelState = 'cached' | 'fetchable' | 'unavailable';
 
@@ -84,12 +84,6 @@ export async function downloadVoskModel(
   } catch {
     return false;
   }
-}
-
-/** Frees the space again. The traveller's phone, the traveller's call. */
-export async function removeVoskModel(): Promise<void> {
-  if (!('caches' in window)) return;
-  await caches.delete(MODEL_CACHE);
 }
 
 // --- the engine --------------------------------------------------------------------------

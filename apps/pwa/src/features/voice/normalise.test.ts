@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { fold, foldedWords, skeleton, SKELETON_MIN, transliterate } from './normalise.js';
+import { fold, skeleton, SKELETON_MIN, tokenise, transliterate } from './normalise.js';
 
 describe('transliterate', () => {
   it('drops the inherent vowel at the end of a word, as Hindi does', () => {
@@ -51,7 +51,7 @@ describe('fold', () => {
 
   it('is empty for a sentence with nothing in it', () => {
     expect(fold('  …!!  ')).toBe('');
-    expect(foldedWords('')).toEqual([]);
+    expect(tokenise('')).toEqual([]);
   });
 });
 

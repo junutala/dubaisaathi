@@ -262,8 +262,3 @@ export function tokenise(input: string): readonly Token[] {
   }
   return tokens;
 }
-
-/** The folded transcript, split into words — what the matcher slides its window over. */
-export function foldedWords(input: string): readonly string[] {
-  return tokenise(input).map((token) => token.folded);
-}
