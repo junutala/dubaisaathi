@@ -43,6 +43,12 @@ This file is the working summary; the concept doc wins on any detail it covers.
 - **A fallback that is never reached is not a fallback.** If a preferred path can fail, something
   must walk to the next one. Writing the alternative and not wiring it in is worse than not
   writing it, because it reads as handled.
+- **Never make a traveller learn our phrasing.** _"I cannot teach Hindi to my user."_ If two
+  ordinary sentences mean different things and only one of them reaches the right screen, that is
+  our defect, not their mistake. "Discovery Gardens jaana hai" is _show me the transport_ in a hotel
+  room and _tell the driver_ at a taxi door, and the difference is not in the words — so the answer
+  is never a cleverer rule, and never a required form of words. It is a screen that serves both
+  readings and lets them pick.
 - **A way out is not a way through.** A screen with buttons on it can still make the task
   impossible: the microphone screen offered रद्द करें and "type it instead" — two live controls,
   both of which threw the speech away — and no way to say "I have finished speaking" at all. When
@@ -389,15 +395,34 @@ The screens are the design source of truth and live in `design/`:
 
 ## Start here tomorrow (written 13 September, end of day)
 
+**The nucleus is that it works with no internet — not that it hears you.** That is the USP, in the
+owner's words on 13 September, and it is what the next days are for. Voice is on the second bench. A
+day spent making the offline experience complete beats a day spent making recognition slightly less
+wrong.
+
 **The decision: build the three unbuilt tiles, with typing at the front.** रास्ता, खाना and
 ज़रूरी जानकारी have entry screens that say they are being built. That is the work. Voice
 recognition is not developed further until those tiles exist (decision 014).
 
-**Settle this before writing tile 1.** Where does the four-tile home screen's microphone — and its
-text box — point? "I have to go to Discovery Gardens" is either _show me the transport_ or _tell the
-driver_, and which one depends on where the tourist is standing, not on the words. Today it opens
-रास्ता, because `le chalo` is filed as a route keyword. Decision 014 sets out the two shapes worth
-weighing and recommends neither over the other; the owner raised it and the owner decides.
+**Settle this before writing tile 1.** "Discovery Gardens jaana hai" is _show me the transport_ in
+a hotel room and _tell the driver_ at a taxi door. Today it opens रास्ता, and "Discovery Gardens le
+chalo" does too, because `le chalo` is filed as a route keyword — so the sentence said leaning into
+a taxi never reaches the Arabic.
+
+The owner's constraint decides the shape: **the traveller is not going to be taught a phrasing.** So
+do not infer — serve both readings on one screen. A resolved destination lands on रास्ता carrying
+_how to get there_ and _show this to the driver_ together. That dissolves the mic-placement question
+too, because the home input stops having to guess. Decision 014 has the reasoning; what is left is
+the screen design, which is the owner's call.
+
+**Tomorrow also: a fresh look at the tile icons.** The owner likes the tile treatment — icon, name,
+and a line saying what it does — and wants the artwork revisited. Note two things before starting.
+The subtitle lines already ship (`tile.*.blurb` in both catalogues: _Where do you want to go?_,
+_Veg · Jain · nearby_, _Say it in Hindi, show it in Arabic_, _Hotel · documents · consulate_), so
+what is actually open is the icons. And the reference image the owner shared on 13 September puts a
+**medical cross** behind the passport on ज़रूरी जानकारी — which design rule 16a and decision 002
+forbid, on the owner's own instruction: this app conveys nothing medical, because it is not. Any new
+artwork for that tile keeps the cross off.
 
 **What happened today, so it is not rediscovered.** Nine hours produced one feature and five
 defects of mine, three of which the owner found by holding a phone:

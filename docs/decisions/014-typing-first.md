@@ -65,14 +65,21 @@ standing** — a hotel room or a taxi door — and that is not in the words. No 
 The mics on 1.1, 2.1 and 3.1 are unambiguous, because the screen supplies the context. **The mic on
 the four-tile home screen is the one that has to guess**, and it is the one the owner flagged.
 
-Recorded, not decided. Two shapes worth weighing tomorrow:
+**The owner's constraint settles the shape:** _"I cannot teach Hindi to my user."_ Requiring
+"ड्राइवर को कहो Discovery Gardens ले चलो" to reach the Arabic is teaching a traveller our grammar,
+and a traveller who says the ordinary thing gets the wrong screen with no idea why. A required form
+of words is our defect wearing their clothes.
 
-1. **Serve both readings instead of choosing.** The route landing carries _show the driver_ as a
-   visible action, so a wrong guess costs one tap rather than being wrong. This is the same
-   principle as the confirm box: never guess irreversibly, show the traveller and let them redirect.
-2. **Make the home input mean one thing by putting it somewhere.** If the home box is "where do you
-   want to go", it is not ambiguous; "say it to a driver" then belongs to बोलना and is reached by
-   tapping बोलना.
+So: **do not infer — serve both readings on one screen.** A resolved destination lands on रास्ता
+carrying _how to get there_ and _show this to the driver_ together. Nothing to learn, no guess to get
+wrong, and the mic-placement question dissolves with it because the home input stops having to
+choose. Same principle as the confirm box built the same day: never guess irreversibly; show the
+traveller and let them redirect.
 
-The first is cheaper and loses nothing. The second is cleaner and costs a tap for driver sentences.
-They are not exclusive.
+What is still open is the screen itself — what those two actions look like side by side without
+रास्ता becoming a menu. That is design work and it belongs on the artboards before the code.
+
+Also noticed while answering this: **Discovery Gardens is not in `data/intents/places.v1.json`.**
+Twelve places ship today, and the neighbourhoods a budget Indian traveller actually stays in —
+Discovery Gardens, International City, Al Qusais, Satwa — are mostly missing. That is content, not
+code, and it is probably worth more to a real traveller than any recogniser.
