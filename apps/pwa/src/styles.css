@@ -633,3 +633,10 @@ button:not(:disabled) {
   background: var(--marigold);
   transition: width 0.25s ease-out;
 }
+
+/* The voice download sits below whatever the mic is doing, in every state, so no failure can
+   hide the way out of that failure. */
+.offer {
+  align-self: center;
+  margin-top: auto;
+}

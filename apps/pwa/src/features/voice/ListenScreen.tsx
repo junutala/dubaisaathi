@@ -267,20 +267,6 @@ export function ListenScreen({
             >
               {t('listen.type')}
             </button>
-            {/* Offered here, in the open, because the traveller who needs it is the one who will
-                be in a taxi with no signal tomorrow — not the one whose mic has just failed. */}
-            {modelState === 'fetchable' && !downloadFailed && (
-              <button
-                type="button"
-                className="linkish"
-                onClick={() => {
-                  session.current?.cancel();
-                  getVoice();
-                }}
-              >
-                {t('listen.getVoice')} · {String(VOICE_MB)} MB
-              </button>
-            )}
           </div>
         )}
 
@@ -376,6 +362,26 @@ export function ListenScreen({
             }}
           />
         )}
+
+        {/* Outside the phase switch on purpose. Nested inside "listening" it was invisible in the
+            seven other states — including every state a traveller reaches when the microphone has
+            just let them down, which is exactly when an offline voice is worth having. Three times
+            today a way forward existed in the code and could not be reached from the screen. */}
+        {modelState === 'fetchable' &&
+          !downloadFailed &&
+          phase.at !== 'downloading' &&
+          phase.at !== 'offer-download' && (
+            <button
+              type="button"
+              className="linkish offer"
+              onClick={() => {
+                session.current?.cancel();
+                getVoice();
+              }}
+            >
+              {t('listen.getVoice')} · {String(VOICE_MB)} MB
+            </button>
+          )}
 
         {phase.at === 'typing' && (
           <div className="listen">
