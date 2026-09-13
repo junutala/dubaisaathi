@@ -101,10 +101,92 @@ entitlement.
 - Curated content is fine for the MVP (including menu photographs) — don't block a feature on
   a live data source.
 
+## Code quality gates
+
+**Lints must never accumulate.** A clean checkout runs clean, and every change leaves it clean.
+
+- Before any commit, run the full gate and get zero output:
+  `npm run lint && npm run typecheck && npm run test && npm run build`
+  (`npm run verify` runs all four — use it.)
+- **Zero-warning policy.** ESLint runs with `--max-warnings 0`. A warning is a failure. Do not
+  raise the threshold, and do not commit with a red gate "to fix later".
+- Never silence a finding to get green. `eslint-disable`, `@ts-expect-error` and `as unknown as`
+  need a one-line comment saying *why*, and are only acceptable at a genuine external boundary
+  (a browser API, an untyped dependency). Blanket file-level disables are not acceptable.
+- Fix the lint you touched *and* any lint your change exposes in the same file. Leaving a file
+  dirtier than you found it is a regression.
+- Formatting is not a judgement call: Prettier decides. Never hand-format around it or argue
+  with it in review.
+- CI runs the same gate on every push. If CI is red, that is the task — nothing else lands
+  until it is green.
+- Dead code goes. No commented-out blocks, no unused exports, no `TODO` without an owner and a
+  reason.
+
+## Repository layout
+
+Structured for reference: you should be able to guess where something lives from its name.
+
+```
+dubaisaathi/
+├── CLAUDE.md              # this file — working rules
+├── README.md              # what it is, how to run it
+├── docs/
+│   ├── product-concept.md # source of truth for product scope
+│   ├── decisions/         # one ADR per non-obvious choice: NNN-short-title.md
+│   └── spikes/            # spike findings, incl. the Hindi STT benchmark results
+├── data/                  # CONTENT, not code — seed JSON, versioned, loaded into IndexedDB
+│   ├── places/            # DubaiPlace
+│   ├── restaurants/       # Restaurant, Menu, FoodTag
+│   ├── transport/         # TransportNode, TransportEdge, fares
+│   ├── phrases/           # Phrase: Hindi → Arabic, by situation
+│   └── emergency/         # EmergencyPoint
+├── apps/
+│   ├── pwa/               # the React + TS + Vite client — the product
+│   └── api/               # thin Node + TS backend (accounts, pass, entitlement, content)
+└── packages/
+    ├── shared/            # entity types shared by pwa and api — one definition, imported twice
+    └── content-tools/     # build/validate/version the offline data pack
+```
+
+Inside `apps/pwa/src/`, organise by domain, not by technical layer:
+
+```
+src/
+├── app/            # shell, routing, providers, service-worker registration
+├── features/
+│   ├── ask/        # feature 1 — ask/search entry point
+│   ├── transport/  # feature 2
+│   ├── food/       # feature 3
+│   ├── phrases/    # feature 4 — say-it-for-me / show-to-driver
+│   ├── map/        # feature 5
+│   ├── emergency/  # feature 6
+│   ├── pass/       # features 7 + 8 — trial, purchase, family QR
+│   └── voice/      # mic, STT, intent parser, TTS — used by the features above
+├── db/             # Dexie schema + migrations, one file per version bump
+├── i18n/           # all user-facing strings; nothing hardcoded in components
+└── lib/            # genuinely cross-cutting helpers only, no feature logic
+```
+
+Rules that keep this navigable:
+
+- A feature folder owns its UI, hooks, logic and tests together. Cross-feature imports go
+  through a feature's `index.ts` barrel, never deep into its internals.
+- `lib/` is not a dumping ground. If it is used by one feature, it belongs in that feature.
+- One concept, one home. Before adding a file, check whether the thing already has a place.
+- File names say what they are, not what they are made of: `routePlanner.ts`, not `utils.ts`.
+- Every non-obvious decision gets a short ADR in `docs/decisions/` so the next reader does not
+  have to reverse-engineer the reasoning.
+
 ## Current state
 
-Greenfield. Nothing scaffolded yet. Immediate priority per the concept doc is the
-**technical spike**, before broad feature work:
+Greenfield. Nothing scaffolded yet.
+
+The very first commit of code must land the quality gate with it — ESLint (`--max-warnings 0`),
+Prettier, `tsc --noEmit`, the test runner, an `npm run verify` script and a CI workflow that
+runs it. Gates added after the fact never catch up.
+
+Immediate priority per the concept doc is then the **technical spike**, before broad feature
+work:
 
 1. Android Chrome PWA, no internet: Hindi speech → intent
 2. iPhone Safari PWA, no internet: Hindi speech → intent
