@@ -500,8 +500,8 @@ the GTM follows from whichever it is. Biasing is built (decision 013) and waitin
 - Tiles 1, 2 and 4 beyond their entry screens — which is tomorrow's work (decision 014).
 - The backend's **code**. The five tables are written and verified against a real Postgres
   (`supabase/migrations/`, `supabase/tests/`). The Supabase project exists (`pixlnjmpksmfqheotinp`)
-  but **no migration has been applied to it**, so the tables are still only in the repository. Nothing syncs yet: the `VoiceEvent` queue sits on the
-  device at `synced: false` with no server to send it to. No IP address is stored anywhere, which
-  is an argued default the owner has not yet ruled on (decision 011).
-- PWA install icons: the manifest declares none, so an installed home-screen icon is the
-  browser's default.
+  but **no migration has been applied to it**, so the tables exist only in the repository. Nothing
+  syncs yet: the `VoiceEvent` queue sits on the device at `synced: false` with no server to send it
+  to — which now includes `correctedFrom`, the labelled recogniser errors travellers produce for us
+  by fixing a sentence before sending it. No IP address is stored anywhere; the owner ruled on that
+  on 13 September and reversing it needs a written reason (decision 011).
