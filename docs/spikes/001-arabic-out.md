@@ -38,6 +38,36 @@ ordinary rather than Egyptian-accented, falls back to any on-device Arabic voice
 _इस फ़ोन में अरबी आवाज़ नहीं है — दिखाकर काम चल जाएगा_. Showing the text still works, which is
 why this degrades rather than fails.
 
+## Measured on a real phone, 13 September 2026
+
+Android, Chrome, **aeroplane mode**, on the live domain:
+
+| Test                                   | Result                                                   |
+| -------------------------------------- | -------------------------------------------------------- |
+| Arabic text, radio off                 | **Works.** خذني إلى هذا العنوان, rendered and readable   |
+| Show-the-driver screen, radio off      | **Works**                                                |
+| Interface switched to Hindi, radio off | **Works**                                                |
+| Arabic voice                           | **Absent.** Button disabled, and the app said so plainly |
+
+Not yet distinguished: whether this phone has no Arabic voice at all, or has one that is
+network-only and therefore invisible with the radio off. The same screen with the network on
+answers it, and the answer changes the remedy rather than the design — showing the text works
+either way, which is why this was built to degrade.
+
+## The pattern both spikes found
+
+Speech **in** (Hindi recognition) and speech **out** (Arabic synthesis) failed offline on the
+same phone for the same underlying reason: the operating system can do the job, but the language
+pack was never downloaded, and nothing downloads either by default.
+
+That reframes the problem. It is not "browsers cannot do this" — it is "this phone has not been
+prepared". Both packs are free, both are one-time, both need a network, and the product already
+has the right moment for it: the landing page, where the offline content pack is downloaded
+before _शुरू करें_ enables — while the traveller is still in India on their own Wi-Fi.
+
+Preparing the phone there, rather than discovering the gap in a Dubai taxi, is worth designing
+properly. It may also be what keeps this a pure PWA: see `docs/spikes/002`.
+
 Rate is set to 0.85: the driver hears it once, over traffic.
 
 **To measure on real devices:** what share of target phones have an Arabic voice at all. If it
