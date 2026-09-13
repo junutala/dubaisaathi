@@ -34,12 +34,13 @@ new rule is agreed, it is added here before the screen is drawn.
 
 ## ज़रूरी जानकारी
 
-| #   | Rule                                                                                                                                               | Enforced by |
-| --- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 13  | No emergency feature, no red on any screen. The dialler and the reception desk are better tools; offline clinic hours are a liability.             | checker     |
-| 14  | The hotel is captured by pin, card photo or entrance photo. Never typed. The card photo is what the driver sees.                                   | review      |
-| 15  | Documents: any document, one photo, one name. On the device only, never uploaded, kept until the tourist deletes it. Persistent storage requested. | review      |
-| 16  | ज़रूरी जानकारी stays usable after the pass expires.                                                                                                | review      |
+| #   | Rule                                                                                                                                                                                                                                       | Enforced by |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
+| 13  | No emergency feature, no red on any screen. The dialler and the reception desk are better tools; offline clinic hours are a liability.                                                                                                     | checker     |
+| 14  | The hotel is captured by pin, card photo or entrance photo. Never typed. The card photo is what the driver sees.                                                                                                                           | review      |
+| 15  | Documents: any document, one photo, one name. On the device only, never uploaded, kept until the tourist deletes it. Persistent storage requested.                                                                                         | review      |
+| 16  | ज़रूरी जानकारी stays usable after the pass expires.                                                                                                                                                                                        | review      |
+| 16a | ज़रूरी जानकारी carries no medical cross, red cross, or first-aid symbol — on the tile icon, the screens, or the app icon. The tile holds the traveller's own papers; a cross promises a hospital the product does not have (decision 002). | review      |
 
 ## Money
 

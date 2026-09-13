@@ -59,13 +59,16 @@ const SHAPES: Record<IconName, ReactNode> = {
       <line x1="16" y1="12.5" x2="18" y2="12.5" />
     </>
   ),
-  // ज़रूरी जानकारी
+  // ज़रूरी जानकारी — a booklet with a shield, never a medical cross: this tile holds the
+  // traveller's own papers, and a cross would promise a hospital the product does not have
+  // (decision 002).
   info: (
     <>
       <rect x="5" y="3" width="14" height="18" rx="2.5" />
       <line x1="8" y1="3" x2="8" y2="21" />
-      <line x1="13.5" y1="10" x2="13.5" y2="14" />
-      <line x1="11.5" y1="12" x2="15.5" y2="12" />
+      <line x1="11" y1="7" x2="16" y2="7" />
+      <line x1="11" y1="10" x2="14" y2="10" />
+      <path d="M11 13.5v2.5c0 1.5 1.5 2.5 2.5 3 1-.5 2.5-1.5 2.5-3v-2.5l-2.5-1-2.5 1z" />
     </>
   ),
   mic: (
