@@ -18,40 +18,54 @@ This file is the working summary; the concept doc wins on any detail it covers.
 
 1. **Offline-first, not offline-enabled.** Every core user journey (search, transport, food,
    translation, map, emergency) must complete with the network fully off. Network is for
-   freshness, payments, entitlement, sync and *optional* cloud fallback only.
+   freshness, payments, entitlement, sync and _optional_ cloud fallback only.
    If a feature cannot work offline, it is not a core feature — gate it, don't block on it.
 2. **One app.** No separate online/offline builds or code paths that fork the UX.
 3. **No LLM in the core path.** Predictable traveller commands are handled by local intent
    parsing + structured local data + rules + local search. Cloud LLM is an optional
    online-only fallback for out-of-intent questions. Never make a core screen depend on it.
-4. **Hindi only for the MVP.** Do not add Telugu/Tamil/Malayalam/etc. Keep language handling
-   pluggable, but ship Hindi (and Hinglish input tolerance) only.
+4. **Hindi-Hinglish only for the MVP.** One language surface, and **Hinglish is first-class,
+   not a fallback** — real travellers say "Mujhe Karama jaana hai, metro se kaise jaaun?", not
+   textbook Hindi. So:
+   - Accept Devanagari and Roman-script Hindi interchangeably, freely mixed with English words
+     (`metro`, `taxi`, `mall`, `vegetarian`, `restaurant`, `airport`).
+   - Every place name, food term and intent keyword needs Roman **and** Devanagari aliases, plus
+     common misspellings, in the data — `Karama` / `करामा` / `Karma` / `Qarama` all resolve.
+   - The intent parser is script-agnostic: normalise to a comparison form before matching,
+     never branch on script.
+   - Test fixtures must include mixed-script input. A parser test that only feeds pure Devanagari
+     does not reflect a real user.
+   - Responses go out in Hindi. Input is wherever the user actually lives.
+
+   Do not add Telugu/Tamil/Malayalam/etc. Keep language handling pluggable, but ship
+   Hindi-Hinglish only.
+
 5. **Intent accuracy > transcription accuracy.** For voice, the KPI is correct
    `{intent, destination, mode, dietary}` extraction, not a perfect transcript.
 6. **Emergency layer never disappears.** It stays available offline, after trial expiry, and
    after pass expiry.
 7. **Map/tile licensing.** Never bulk-download public tile services for offline use. Only
    OSM-derived data or tiles whose terms explicitly permit offline/prefetch.
-8. **Scope guard.** Dubai Saathi is *not* hotel/flight booking, food delivery, a restaurant
+8. **Scope guard.** Dubai Saathi is _not_ hotel/flight booking, food delivery, a restaurant
    marketplace, an itinerary planner, a content portal, or a general AI chatbot. Push back on
    requests that drift there.
 
 ## Stack
 
-| Layer | Choice |
-|---|---|
-| Frontend | React + TypeScript, Vite |
-| PWA | Service Worker + Workbox |
-| Local DB | IndexedDB via Dexie.js |
-| Local search | FlexSearch or MiniSearch |
-| Maps | MapLibre GL JS, offline vector tiles (OSM-derived) |
-| Routing | Local precomputed routing graph (no routing API at runtime) |
-| Backend | Node.js + TypeScript |
-| Database | PostgreSQL + PostGIS |
-| Auth | Phone/email OTP |
-| Payments | INR gateway (UPI + cards) |
-| Hindi STT | sherpa-onnx / IndicConformer (primary); Vosk Hindi (baseline); Whisper (accuracy reference only) |
-| TTS | Device TTS first; sherpa-onnx if device TTS is inadequate |
+| Layer        | Choice                                                                                           |
+| ------------ | ------------------------------------------------------------------------------------------------ |
+| Frontend     | React + TypeScript, Vite                                                                         |
+| PWA          | Service Worker + Workbox                                                                         |
+| Local DB     | IndexedDB via Dexie.js                                                                           |
+| Local search | FlexSearch or MiniSearch                                                                         |
+| Maps         | MapLibre GL JS, offline vector tiles (OSM-derived)                                               |
+| Routing      | Local precomputed routing graph (no routing API at runtime)                                      |
+| Backend      | Node.js + TypeScript                                                                             |
+| Database     | PostgreSQL + PostGIS                                                                             |
+| Auth         | Phone/email OTP                                                                                  |
+| Payments     | INR gateway (UPI + cards)                                                                        |
+| Hindi STT    | sherpa-onnx / IndicConformer (primary); Vosk Hindi (baseline); Whisper (accuracy reference only) |
+| TTS          | Device TTS first; sherpa-onnx if device TTS is inadequate                                        |
 
 Deviating from this table needs a reason recorded in `docs/decisions/`.
 
@@ -111,9 +125,9 @@ entitlement.
 - **Zero-warning policy.** ESLint runs with `--max-warnings 0`. A warning is a failure. Do not
   raise the threshold, and do not commit with a red gate "to fix later".
 - Never silence a finding to get green. `eslint-disable`, `@ts-expect-error` and `as unknown as`
-  need a one-line comment saying *why*, and are only acceptable at a genuine external boundary
+  need a one-line comment saying _why_, and are only acceptable at a genuine external boundary
   (a browser API, an untyped dependency). Blanket file-level disables are not acceptable.
-- Fix the lint you touched *and* any lint your change exposes in the same file. Leaving a file
+- Fix the lint you touched _and_ any lint your change exposes in the same file. Leaving a file
   dirtier than you found it is a regression.
 - Formatting is not a judgement call: Prettier decides. Never hand-format around it or argue
   with it in review.
@@ -134,6 +148,7 @@ dubaisaathi/
 │   ├── product-concept.md # source of truth for product scope
 │   ├── decisions/         # one ADR per non-obvious choice: NNN-short-title.md
 │   └── spikes/            # spike findings, incl. the Hindi STT benchmark results
+├── design/                # screen designs (.dc.html artboards) — the design source of truth
 ├── data/                  # CONTENT, not code — seed JSON, versioned, loaded into IndexedDB
 │   ├── places/            # DubaiPlace
 │   ├── restaurants/       # Restaurant, Menu, FoodTag
