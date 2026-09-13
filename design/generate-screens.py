@@ -234,6 +234,15 @@ def hdr(title, back=True, right=''):
             % (left, title, right))
 
 
+def homebtn():
+    """Pass, family and settings sit outside the four tiles, so they get an explicit way
+    home rather than relying on the back arrow alone."""
+    return ('<div class="row" style="gap: 6px; height: 40px; padding: 0 12px; '
+            'border: 1px solid %s; border-radius: 20px; color: %s; font-size: 14.5px; '
+            'font-weight: 600">%s<span>घर</span></div>'
+            % (C['line'], C['indigo'], svg(I['home'], 18, '1.8', C['indigo'])))
+
+
 def pill(text, icon=None, bg=None, fg=None, border=None):
     bg = bg or C['tealSoft']
     fg = fg or C['teal']
@@ -424,8 +433,9 @@ def counter(kind):
                 'मुफ़्त ट्रायल · 18 घंटे 24 मिनट बाकी</span>'
                 '<span style="font-size: 12.5px; color: %s">'
                 'फिर ₹199 से पास लीजिए</span></div>%s</div>'
-                % (C['marigoldSoft'], C['marigoldLine'], C['warmText'], C['warmTextDim'],
+                % (C['marigoldSoft'], C['marigoldLine'],
                    svg(I['clock'], 20, '1.9', C['marigoldText']),
+                   C['warmText'], C['warmTextDim'],
                    svg(I['right'], 19, '1.8', C['marigoldText'])))
 
     return ('<div class="row" style="gap: 9px; background: %s; border: 1px solid %s; '
@@ -435,24 +445,18 @@ def counter(kind):
             'परिवार पास · 5 दिन बाकी</span>'
             '<span style="font-size: 12.5px; color: %s; opacity: 0.8">'
             '19 सित॰ तक · 2/4 डिवाइस</span></div>%s</div>'
-            % (C['tealSoft'], C['tealLine'], C['tealText'], C['tealText'],
-               svg(I['check'], 20, '2.1', C['teal']),
+            % (C['tealSoft'], C['tealLine'], svg(I['check'], 20, '2.1', C['teal']),
+               C['tealText'], C['tealText'],
                svg(I['right'], 19, '1.8', C['teal'])))
 
 
 FUNCS_BY_KEY = [(k, i) for k, _, i in FUNCS]
 
 HOME = '''<div class="screen" style="position: relative">
-  <div class="row" style="justify-content: space-between; padding: 18px 16px 8px">
-    <div class="row" style="gap: 9px; padding-left: 4px">
-      <div style="width: 34px; height: 34px; border-radius: 10px; background: %(indigo)s;
-                  display: flex; align-items: center; justify-content: center;
-                  font-family: 'Anek Devanagari', sans-serif; color: %(marigold)s;
-                  font-size: 19px; font-weight: 700">सा</div>
-      %(offline)s
-    </div>
-    <div style="width: 48px; height: 48px; border-radius: 14px; display: flex;
-                align-items: center; justify-content: center">%(trip)s</div>
+  <div class="row" style="gap: 10px; background: %(tealSoft)s; border-bottom: 1px solid
+              %(tealLine)s; min-height: 46px; padding: 0 18px">%(netIcon)s
+    <span style="flex: 1; font-size: 15px; font-weight: 600; color: %(tealText)s">
+      ऑफ़लाइन — सब कुछ चालू है</span>
   </div>
 
   <div class="flow" style="gap: 13px; padding-top: 4px">
@@ -467,7 +471,8 @@ HOME = '''<div class="screen" style="position: relative">
   <div style="position: absolute; left: 0; right: 0; bottom: 26px; display: flex;
               flex-direction: column; align-items: center; gap: 7px">
     %(mic)s
-    <span class="muted" style="font-size: 13.5px">या बोलकर पूछिए</span>
+    <span class="muted" style="font-size: 13.5px">
+      बोलकर पूछिए — “करामा कैसे जाऊँ?”</span>
   </div>
 </div>'''
 
@@ -481,47 +486,46 @@ mic_btn = glow(
 
 for name, kind in [('Main', 'pass')]:
     write(name, HOME % dict(
-        C, offline=pill('ऑफ़लाइन · तैयार', 'wifioff', border=C['line']),
-        trip=svg(I['user'], 24, '1.8', C['indigo']), counter=counter(kind),
+        C, netIcon=svg(I['wifioff'], 20, '2', C['teal']), counter=counter(kind),
         t1=tile('transport', 'रास्ता'), t2=tile('food', 'खाना'),
         t3=tile('talk', 'बोलना'), t4=tile('help', 'मदद', danger=True),
         mic=mic_btn))
 
-# ----------------------------------------------------------------- 3. Listening
+# ------------------------------------------------------- 3. Home > listening
+# Same theme as everywhere else. Listening is a state, not a different app, and a traveller
+# who chose the light theme should not be thrown into a black screen to say one sentence.
 bars = ''.join(
     '<div style="width: 7px; height: %dpx; border-radius: 4px; background: %s"></div>'
-    % (h, C['marigold'] if i % 3 else '#F7C88E')
+    % (h, C['marigold'] if i % 3 else C['marigoldLine'])
     for i, h in enumerate([18, 38, 64, 96, 52, 78, 120, 66, 40, 86, 58, 30, 70, 44, 22]))
 
-body = '''<div class="screen" style="background: %(indigoDeep)s; color: #F7F3EC">
-  <div class="hdr" style="justify-content: flex-end; padding-top: 22px">
-    <div style="width: 48px; height: 48px; border-radius: 24px;
-                background: rgba(247, 243, 236, 0.12); display: flex;
-                align-items: center; justify-content: center">%(close)s</div>
+body = '''<div class="screen">
+  <div class="row" style="justify-content: flex-end; padding: 16px 16px 0">
+    <div style="width: 48px; height: 48px; border-radius: 24px; background: %(card)s;
+                border: 1px solid %(line)s; display: flex; align-items: center;
+                justify-content: center">%(close)s</div>
   </div>
 
-  <div class="flow" style="justify-content: center; gap: 34px">
+  <div class="flow" style="justify-content: center; gap: 30px">
     <div class="row" style="gap: 5px; height: 130px; justify-content: center;
                             align-items: center">%(bars)s</div>
 
-    <div class="col" style="gap: 14px; align-items: center">
-      <span style="font-size: 15px; font-weight: 600; letter-spacing: 0.06em;
-                   color: %(marigold)s; text-transform: uppercase">सुन रहा हूँ</span>
+    <div class="col" style="gap: 12px; align-items: center">
+      <span style="font-size: 14px; font-weight: 600; letter-spacing: 0.06em;
+                   color: %(marigoldText)s">सुन रहा हूँ…</span>
       <p style="margin: 0; font-family: 'Anek Devanagari', sans-serif; font-size: 30px;
                 font-weight: 500; line-height: 1.35; text-align: center">
-        मुझे बुर दुबई से करामा<span style="color: rgba(247, 243, 236, 0.45)"> जाना…</span></p>
+        मुझे बुर दुबई से करामा<span style="color: %(muted)s"> जाना…</span></p>
     </div>
   </div>
 
-  <div class="col" style="gap: 16px; padding: 0 20px 34px; align-items: center">
-    <span style="font-size: 14.5px; color: rgba(247, 243, 236, 0.6)">
-      हिंदी और हिंग्लिश — दोनों चलेंगे</span>
-    <div class="btn" style="background: rgba(247, 243, 236, 0.12); color: #F7F3EC;
-                            width: 100%%">रद्द करें</div>
+  <div class="col" style="gap: 14px; padding: 0 20px 34px; align-items: center">
+    <span class="muted" style="font-size: 14.5px">हिंदी और हिंग्लिश — दोनों चलेंगे</span>
+    %(cancel)s
   </div>
-</div>''' % dict(C, close=svg(I['close'], 22, '1.9'), bars=bars)
+</div>''' % dict(C, close=svg(I['close'], 22, '1.9', C['ink']), bars=bars,
+                 cancel=btn('रद्द करके घर जाएँ', 'ghost'))
 write('Listening', body)
-print('1-3 done')
 
 # -------------------------------------------------------------- 4. RouteOptions
 def leg_strip(legs):
@@ -1175,14 +1179,19 @@ body = '''<div class="screen">
       <span class="muted" style="font-size: 13.5px; text-align: center; line-height: 1.45">
         UPI या कार्ड · भारत से भी ख़रीद सकते हैं<br>
         पास ख़त्म होने पर मदद और ज़रूरी वाक्य चालू रहेंगे</span>
+      <div class="card row" style="padding: 13px 15px; gap: 11px">%(gear)s
+        <span style="flex: 1; font-size: 15.5px; font-weight: 600">
+          सेटिंग — होटल, पैक, थीम</span>%(gchev)s</div>
     </div>
   </div>
 </div>''' % dict(C,
-                 hdr=hdr('पास'),
+                 hdr=hdr('पास', right=homebtn()),
                  p1=plan('अकेले', '₹199', '7 दिन · 1 डिवाइस'),
                  p2=plan('परिवार', '₹399', '7 दिन · 4 डिवाइस तक',
                          '₹796 की जगह ₹399', on=True),
                  b=btn('परिवार पास लें · ₹399', 'primary'),
+                 gear=svg(I['user'], 21, '1.8', C['indigo']),
+                 gchev=svg(I['right'], 20, '1.8', C['chev']),
                  net=pill('ख़रीदने के लिए इंटरनेट ज़रूरी', 'download',
                           C['marigoldSoft'], C['warmText'], C['marigoldLine']))
 write('Pass', body)
@@ -1262,7 +1271,7 @@ body = '''<div class="screen">
     <span class="muted" style="font-size: 14px; text-align: center; padding-bottom: 18px">
       सभी डिवाइस का पास 19 सितंबर तक चलेगा</span>
   </div>
-</div>''' % dict(C, hdr=hdr('परिवार पास'), qr=qr,
+</div>''' % dict(C, hdr=hdr('परिवार पास', right=homebtn()), qr=qr,
                  d1=device('यह फ़ोन', 'आपका डिवाइस', 'owner'),
                  d2=device('अंजलि', '12 सित॰ को जुड़ी', 'joined'),
                  d3=device('', '', 'empty'))
@@ -1313,7 +1322,7 @@ def srow(label, value, action='right', accent=False):
 body = '''<div class="screen">
   %(hdr)s
   <div class="flow" style="gap: 10px">
-    %(r1)s %(r2)s %(r3)s %(r4)s %(r5)s %(r6)s
+    %(r1)s %(r4)s %(r6)s
     <div class="card col" style="padding: 13px 15px; gap: 9px">
       <span class="muted" style="font-size: 13.5px">थीम</span>
       %(theme)s
@@ -1325,16 +1334,13 @@ body = '''<div class="screen">
     </div>
   </div>
 </div>''' % dict(C,
-                 hdr=hdr('मेरी ट्रिप'),
+                 hdr=hdr('सेटिंग', right=homebtn()),
                  r1=srow('मेरा होटल', 'Hotel Rimal, Deira', 'pencil'),
-                 r2=srow('पास', 'परिवार पास · 19 सित॰ तक'),
-                 r3=srow('परिवार', '2 / 4 डिवाइस'),
                  r4=packrow(),
-                 r5=srow('आवाज़', 'माइक जाँचें', 'mic'),
                  r6=srow('भाषा', 'हिंदी'),
                  theme=segment(['हल्का', 'गहरा', 'अपने आप'], 'अपने आप'),
                  wifi=svg(I['wifioff'], 17, '1.9', C['muted']))
-write('MyTrip', body)
+write('Settings', body)
 print('13-15 done')
 
 # --------------------------------------------------------------------- 16. Brand
@@ -1509,7 +1515,7 @@ write('Brand', brand)
 # tile. Reading a row tells you the whole of that function.
 GROUPS = [
     ('note-common', 'हर जगह',
-     'पहली स्क्रीन, घर और आवाज़.\nघर पर चार टाइल = चार काम. माइक हर स्क्रीन पर\nएक ही जगह — नीचे बीच में.',
+     'स्प्लैश, घर और आवाज़. घर पर चार टाइल = चार काम.\nबाकी हर स्क्रीन इन्हीं चार में से किसी की बच्ची है.\nमाइक हर जगह एक ही जगह — नीचे बीच में.',
      ['Welcome', 'Main', 'Listening']),
     ('note-transport', 'टाइल 1 — रास्ता',
      'विकल्प → क़दम दर क़दम → नक्शा.\nडिफ़ॉल्ट नक्शा सिर्फ़ रास्ता दिखाता है; “रास्ते में\nक्या है” अलग मोड है.',
@@ -1518,24 +1524,38 @@ GROUPS = [
      'छानिए, चुनिए, फिर सीधे रास्ता.\nजैन और सात्विक पहली कतार में, क्योंकि यही\nतय करता है कि खाना है या नहीं.',
      ['FoodList', 'Restaurant']),
     ('note-talk', 'टाइल 3 — बोलना',
-     'हिंदी अंदर, अरबी बाहर.\nदिखाने वाली स्क्रीन अलग है — उसे ड्राइवर पढ़ता\nहै, आप नहीं. वाक्य तब के लिए जब आवाज़ न चले.',
+     'हिंदी अंदर, अरबी बाहर.\nदिखाने वाली स्क्रीन अलग है — उसे ड्राइवर पढ़ता\nहै, आप नहीं. तैयार वाक्य तब के लिए जब आवाज़ न चले.',
      ['SayIt', 'ShowDriver', 'Phrasebook']),
     ('note-help', 'टाइल 4 — मदद',
      'पास ख़त्म होने के बाद भी चलती रहती है.\nतीन नंबर, नज़दीकी अस्पताल-दवाख़ाना, होटल.',
      ['Emergency']),
-    ('note-account', 'पास और सेटिंग',
-     'टाइल नहीं — घर के ऊपर-दाएँ से खुलती हैं.\nट्रायल → पास → परिवार QR. पैक और थीम\nमेरी ट्रिप में.',
-     ['Pass', 'FamilyQR', 'MyTrip']),
+    ('note-account', 'घर का काउंटर से',
+     'टाइल नहीं. घर के ऊपर वाली पट्टी से खुलते हैं.\nपास → परिवार → सेटिंग. तीनों पर “घर” का\nबटन ऊपर-दाएँ.',
+     ['Pass', 'FamilyQR', 'Settings']),
 ]
 DARK_SCREENS = ['MainDark', 'FoodListDark', 'EmergencyDark']
+# Screen names are the tile they belong to, never an invented label. Numbered so they can be
+# referred to directly.
 TITLES = {
-    'Welcome': 'स्प्लैश', 'Main': 'घर — चार टाइल', 'Listening': 'सुन रहा हूँ',
-    'RouteOptions': 'रास्ते के विकल्प', 'RouteDetail': 'क़दम दर क़दम',
-    'Map': 'नक्शा (डिफ़ॉल्ट)', 'MapDiscover': 'नक्शा — रास्ते में क्या है',
-    'FoodList': 'खाना ढूँढिए', 'Restaurant': 'रेस्टोरेंट',
-    'SayIt': 'बोलिए → अरबी', 'ShowDriver': 'ड्राइवर को दिखाएँ', 'Phrasebook': 'ज़रूरी वाक्य',
-    'Emergency': 'मदद', 'Pass': 'पास', 'FamilyQR': 'परिवार QR', 'MyTrip': 'मेरी ट्रिप',
-    'MainDark': 'घर — गहरा', 'FoodListDark': 'खाना — गहरा', 'EmergencyDark': 'मदद — गहरा',
+    'Welcome': '1 · स्प्लैश',
+    'Main': '2 · घर',
+    'Listening': '3 · घर › सुन रहा हूँ',
+    'RouteOptions': '4 · रास्ता › विकल्प',
+    'RouteDetail': '5 · रास्ता › क़दम दर क़दम',
+    'Map': '6 · रास्ता › नक्शा',
+    'MapDiscover': '7 · रास्ता › नक्शा › रास्ते में क्या है',
+    'FoodList': '8 · खाना › सूची',
+    'Restaurant': '9 · खाना › जगह',
+    'SayIt': '10 · बोलना › बोलिए',
+    'ShowDriver': '11 · बोलना › ड्राइवर को दिखाएँ',
+    'Phrasebook': '12 · बोलना › तैयार वाक्य',
+    'Emergency': '13 · मदद',
+    'Pass': '14 · घर › पास',
+    'FamilyQR': '15 · घर › पास › परिवार',
+    'Settings': '16 · घर › पास › सेटिंग',
+    'MainDark': 'D1 · घर (गहरा)',
+    'FoodListDark': 'D2 · खाना › सूची (गहरा)',
+    'EmergencyDark': 'D3 · मदद (गहरा)',
 }
 artboards, annotations = [], []
 y = 0

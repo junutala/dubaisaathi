@@ -64,20 +64,14 @@
 </style>
 </helmet>
 <div class="screen" style="position: relative">
-  <div class="row" style="justify-content: space-between; padding: 18px 16px 8px">
-    <div class="row" style="gap: 9px; padding-left: 4px">
-      <div style="width: 34px; height: 34px; border-radius: 10px; background: #1A2456;
-                  display: flex; align-items: center; justify-content: center;
-                  font-family: 'Anek Devanagari', sans-serif; color: #E8871E;
-                  font-size: 19px; font-weight: 700">सा</div>
-      <div class="row" style="gap: 6px; background: #E1F2EF; color: #0B7A6B; border: 1px solid #E6DED2; border-radius: 16px; height: 32px; padding: 0 12px; font-size: 13.5px; font-weight: 600; width: fit-content"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.4a12.6 12.6 0 0 1 5.6-2.3"/><path d="M14.8 6.3A12.6 12.6 0 0 1 20 8.4"/><path d="M7.2 11.9a8.8 8.8 0 0 1 2.6-1.5"/><path d="M16.8 11.9a8.8 8.8 0 0 0-1.8-1.1"/><path d="M11.9 17.6h.1"/><path d="M4.2 4.2l15.6 15.6"/></svg><span>ऑफ़लाइन · तैयार</span></div>
-    </div>
-    <div style="width: 48px; height: 48px; border-radius: 14px; display: flex;
-                align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A2456" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.6" r="2.9"/><path d="M5.8 19.4a6.2 6.2 0 0 1 12.4 0"/></svg></div>
+  <div class="row" style="gap: 10px; background: #E1F2EF; border-bottom: 1px solid
+              #BFE3DD; min-height: 46px; padding: 0 18px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B7A6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.4a12.6 12.6 0 0 1 5.6-2.3"/><path d="M14.8 6.3A12.6 12.6 0 0 1 20 8.4"/><path d="M7.2 11.9a8.8 8.8 0 0 1 2.6-1.5"/><path d="M16.8 11.9a8.8 8.8 0 0 0-1.8-1.1"/><path d="M11.9 17.6h.1"/><path d="M4.2 4.2l15.6 15.6"/></svg>
+    <span style="flex: 1; font-size: 15px; font-weight: 600; color: #0A5F54">
+      ऑफ़लाइन — सब कुछ चालू है</span>
   </div>
 
   <div class="flow" style="gap: 13px; padding-top: 4px">
-    <div class="row" style="gap: 9px; background: #E1F2EF; border: 1px solid #BFE3DD; border-radius: 14px; min-height: 50px; padding: 0 14px">#0A5F54<div class="col" style="flex: 1; gap: 0"><span style="font-size: 15px; font-weight: 600; color: #0A5F54">परिवार पास · 5 दिन बाकी</span><span style="font-size: 12.5px; color: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B7A6B" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5.2 12.6 9.6 17 18.8 7.2"/></svg>; opacity: 0.8">19 सित॰ तक · 2/4 डिवाइस</span></div><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#0B7A6B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.6 5.8 15.4 12l-5.8 6.2"/></svg></div>
+    <div class="row" style="gap: 9px; background: #E1F2EF; border: 1px solid #BFE3DD; border-radius: 14px; min-height: 50px; padding: 0 14px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B7A6B" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5.2 12.6 9.6 17 18.8 7.2"/></svg><div class="col" style="flex: 1; gap: 0"><span style="font-size: 15px; font-weight: 600; color: #0A5F54">परिवार पास · 5 दिन बाकी</span><span style="font-size: 12.5px; color: #0A5F54; opacity: 0.8">19 सित॰ तक · 2/4 डिवाइस</span></div><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#0B7A6B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.6 5.8 15.4 12l-5.8 6.2"/></svg></div>
 
     <div style="flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
                 gap: 12px; padding-bottom: 96px">
@@ -88,7 +82,8 @@
   <div style="position: absolute; left: 0; right: 0; bottom: 26px; display: flex;
               flex-direction: column; align-items: center; gap: 7px">
     <div style="border-radius: 33px; padding: 2.5px; background: linear-gradient(140deg, #FBD9A4, #E8871E 42%, #B4610F); box-shadow: 0 0 0 1px rgba(232, 135, 30, 0.20), 0 10px 30px rgba(232, 135, 30, 0.30), 0 0 46px rgba(232, 135, 30, 0.22)"><div style="border-radius: 31.5px; background: #E8871E; overflow: hidden"><div style="width: 62px; height: 62px; border-radius: 31px; background: #E8871E; display: flex; align-items: center; justify-content: center"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#231403" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.5a2.8 2.8 0 0 1 2.8 2.8v4a2.8 2.8 0 0 1-5.6 0v-4A2.8 2.8 0 0 1 12 4.5Z"/><path d="M5.8 11.4a6.2 6.2 0 0 0 12.4 0"/><path d="M12 17.8v2.7"/></svg></div></div></div>
-    <span class="muted" style="font-size: 13.5px">या बोलकर पूछिए</span>
+    <span class="muted" style="font-size: 13.5px">
+      बोलकर पूछिए — “करामा कैसे जाऊँ?”</span>
   </div>
 </div>
 </x-dc>
