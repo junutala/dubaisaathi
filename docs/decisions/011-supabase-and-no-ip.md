@@ -1,6 +1,6 @@
 # 011 — Supabase is the backend, and it stores no IP address
 
-**Status:** accepted, with one point open for the owner · **Affects** `supabase/`, the stack table
+**Status:** accepted · **Affects** `supabase/`, the stack table
 
 ## The problem
 
@@ -38,8 +38,8 @@ the device id itself.
 migration, never in this repository. If it ever reaches a phone, every pass in the world is
 forgeable and the product's offline verification is worthless.
 
-**No IP address column, anywhere.** This is the point the owner raised and has not yet ruled on,
-so it is recorded as an argued default rather than a settled decision:
+**No IP address column, anywhere.** The owner raised this and has ruled: no IP is stored. The
+reasoning, for whoever reads this next:
 
 - The product promises no account and nothing collected about the traveller. An IP address is
   personal data under the DPDP Act. Storing it obliges us to a stated purpose, a retention period
@@ -50,9 +50,9 @@ so it is recorded as an argued default rather than a settled decision:
 - Supabase's own request logs hold IPs for their retention window regardless. That is a platform
   log we do not control and do not join to anything.
 
-**If the owner wants IPs, it is one migration** — `add column last_ip inet` plus a retention job —
-and the reason goes in this file. It is not a rewrite, which is exactly why it is safe to leave
-out now and add later if there is a reason.
+Reversing this is one migration — `add column last_ip inet` plus a retention job — so it is not a
+door that closes. But it is now a decision, not a default: reopening it needs a reason written in
+this file, not a shrug.
 
 ## What is verified
 
@@ -61,8 +61,10 @@ The migrations were applied to a real Postgres 16 and the constraints exercised:
 succeed, succeeded — including one phone being refused a second slot of the same family pack, and
 हटाएँ freeing that slot for a different phone.
 
-**No Supabase project has been created.** Provisioning one costs money and is the owner's call,
-and the migrations are ready to apply the moment it is.
+**The project exists.** `dubai-saathi`, ref `pixlnjmpksmfqheotinp`, region `ap-south-1` (Mumbai —
+closest to both the traveller buying in India and the traveller using it in Dubai), $10/month,
+created on the owner's instruction. The project ref is public information and lives in
+`supabase/config.toml`; the service-role key and the pass-signing key do not, and never will.
 
 ## Consequences
 

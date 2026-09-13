@@ -14,13 +14,13 @@ Use these names and nothing has to be guessed about which icon is which tile. Th
 be `.svg`, `.png`, `.jpg` or `.webp` — SVG is better if you have it, because it stays sharp on
 every phone and costs nothing in the offline pack.
 
-| File name          | Tile              | Where it shows                                            |
-| ------------------ | ----------------- | --------------------------------------------------------- |
-| `tile-transport.*` | रास्ता            | Home tile 1, the bottom bar, and the header crumb          |
-| `tile-food.*`      | खाना              | Home tile 2, the bottom bar, and the header crumb          |
-| `tile-talk.*`      | बोलना             | Home tile 3, the bottom bar, and the header crumb          |
-| `tile-info.*`      | ज़रूरी जानकारी    | Home tile 4, the bottom bar, and the header crumb          |
-| `app-icon.*`       | the app itself    | Home-screen icon when installed, browser tab, PWA manifest |
+| File name          | Tile           | Where it shows                                             |
+| ------------------ | -------------- | ---------------------------------------------------------- |
+| `tile-transport.*` | रास्ता         | Home tile 1, the bottom bar, and the header crumb          |
+| `tile-food.*`      | खाना           | Home tile 2, the bottom bar, and the header crumb          |
+| `tile-talk.*`      | बोलना          | Home tile 3, the bottom bar, and the header crumb          |
+| `tile-info.*`      | ज़रूरी जानकारी | Home tile 4, the bottom bar, and the header crumb          |
+| `app-icon.*`       | the app itself | Home-screen icon when installed, browser tab, PWA manifest |
 
 If the file names are awkward to change, upload them as they are and say which is which — the
 names are a convenience, not a requirement.

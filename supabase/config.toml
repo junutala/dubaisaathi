@@ -1,0 +1,11 @@
+# Supabase project configuration.
+#
+# The project ref is not a secret — it is in every API URL the app calls. The service-role key and
+# the pass-signing private key ARE secrets: they live in the dashboard and in edge function
+# secrets, never in this file, never in a migration, never in the client bundle (decision 011).
+
+project_id = "pixlnjmpksmfqheotinp"
+
+# ap-south-1, Mumbai. Closest to the traveller buying a pass in India and the traveller using it
+# in Dubai. Latency barely matters — the app never asks this database whether a pass is valid
+# (decision 005) — but the traveller's one moment online, creating a payment order, does.
