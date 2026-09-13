@@ -5,14 +5,23 @@ seat of a tourist in a taxi, not from ours. A field with no line here does not e
 screen. When a field is proposed, its line gets written here first; if the line cannot be
 written, the field is not added.
 
-Removed in this pass, because no line could be written: the mic in the bottom bar (on a map
-or the help screen a spoken word has no single meaning), a mic glyph on 3.2 that was not a
-control, a sales line on the emergency screen, a "language" row with one language, the
-transliteration a tourist cannot pronounce, the "where from" box, a card that restated the
-timeline, a speaker button on the map with no job, the offline glyph in every header, the
-brand monogram, and the paragraph that repeated the splash pills.
+## On every screen after landing — the status strip
 
-## 1 · स्प्लैश
+| Field                               | Why it is there                                                                     |
+| ----------------------------------- | ----------------------------------------------------------------------------------- |
+| ऑफ़लाइन / ऑनलाइन                    | The status this product lives on; a tourist with no data needs to see it is fine    |
+| Validity line + label (four states) | This is the money: how long the offline functions last, on every screen. Tap → घर.1 |
+| Theme switch                        | One tap, never hunted for                                                           |
+
+## On every child screen — header and bar
+
+| Field                           | Why it is there                                                         |
+| ------------------------------- | ----------------------------------------------------------------------- |
+| ← · tile trail · ⌂              | Where am I, how did I get here, how do I leave — without being told     |
+| Bar: घर + the other three tiles | Switch task in one tap, from anywhere                                   |
+| Bar: mic                        | Ask Saathi anything, from anywhere; lands on the screen with the answer |
+
+## 1 · लैंडिंग
 
 | Field                                                     | Why it is there                                                                 |
 | --------------------------------------------------------- | ------------------------------------------------------------------------------- |
@@ -20,19 +29,20 @@ brand monogram, and the paragraph that repeated the splash pills.
 | दुबई साथी                                                 | Which app this is                                                               |
 | "दुबई में नेटवर्क नहीं चलेगा? साथी बिना इंटरनेट चलता है." | The one reason to install: the USP as a headline                                |
 | नक्शा फ़ोन में · हिंदी बोलिए · अरबी दिखाइए                | The three jobs, scannable in a second                                           |
-| शुरू करें — मुफ़्त                                        | The only action; "मुफ़्त" removes the fear of a paywall                         |
-| कोई लॉगिन नहीं. कोई अकाउंट नहीं.                          | Removes the fear of a signup wall before they tap                               |
+| "साथी तैयार हो रहा है · 2 मिनट बाकी" + progress           | The pack downloading; time left, not a percent of something unseen              |
+| "पूरा होने पर ही शुरू होगा"                               | Why the button is not yet live                                                  |
+| शुरू करें (disabled until complete)                       | The only action; live only when the app can keep its promise                    |
+| कोई लॉगिन नहीं. कोई अकाउंट नहीं.                          | Removes the fear of a signup wall                                               |
 
 ## 2 · घर
 
-| Field                       | Why it is there                                                                  |
-| --------------------------- | -------------------------------------------------------------------------------- |
-| ऑफ़लाइन — सब कुछ चालू है    | The status this product lives on; a tourist with no data needs to see it is fine |
-| Trial / pass counter        | How long they have, and the only route to buying                                 |
-| रास्ता · खाना · बोलना · मदद | The four things the app does; everything else is a child of one                  |
-| Tile blurbs                 | "बोलना" alone does not say speak what; one line under each tile does             |
+| Field                                  | Why it is there                                                      |
+| -------------------------------------- | -------------------------------------------------------------------- |
+| रास्ता · खाना · बोलना · ज़रूरी जानकारी | The four things the app does; everything else is a child of one      |
+| Tile blurbs                            | "बोलना" alone does not say speak what; one line under each tile does |
+| Mic                                    | The fastest path: say the whole thing, land on the answer            |
 
-Nothing else. No mic, no brand mark, no settings icon (rule 15).
+Nothing else (rule 1).
 
 ## 1.1 · रास्ता › कहाँ जाना है?
 
@@ -56,12 +66,12 @@ Not asked: "where from". The phone knows; a tourist often does not know the stre
 
 ## 1.3 · रास्ता › विकल्प
 
-| Field                                 | Why it is there                                                    |
-| ------------------------------------- | ------------------------------------------------------------------ |
-| यहाँ से → करामा                       | Confirms what was heard before they commit to a route              |
-| Three options: mode, time, fare, legs | The decision is time vs cost vs walking; each card shows all three |
-| सबसे आसान / तेज़ / सस्ता              | Makes the trade-off readable without comparing numbers             |
-| किराया और समय अनुमानित                | Honest about what offline data can promise                         |
+| Field                                                  | Why it is there                                                    |
+| ------------------------------------------------------ | ------------------------------------------------------------------ |
+| यहाँ से → करामा (_आपने कहा_ when it came from the mic) | Confirms what was heard before they commit to a route              |
+| Three options: mode, time, fare, legs                  | The decision is time vs cost vs walking; each card shows all three |
+| सबसे आसान / तेज़ / सस्ता                               | Makes the trade-off readable without comparing numbers             |
+| किराया और समय अनुमानित                                 | Honest about what offline data can promise                         |
 
 ## 1.4 · रास्ता › क़दम दर क़दम
 
@@ -90,12 +100,12 @@ Not asked: "where from". The phone knows; a tourist often does not know the stre
 
 ## 2.1 · खाना › सूची
 
-| Field                                                    | Why it is there                                                                             |
-| -------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| Search "डोसा, थाली, चाय…" with mic                       | Tourists ask for a dish, not a category; the one place in खाना where speech means one thing |
-| वेज · जैन · सात्विक · बिना प्याज़/लहसुन · झटपट           | The filters that decide whether the food can be eaten at all                                |
-| "करामा के 1 km में · 14 जगह"                             | Sets expectation of how far the list reaches                                                |
-| Cards: name, cuisine · area, distance, price, extra tags | Enough to choose; tags only beyond the active filter                                        |
+| Field                                                    | Why it is there                                              |
+| -------------------------------------------------------- | ------------------------------------------------------------ |
+| Search "डोसा, थाली, चाय…" with mic                       | Tourists ask for a dish, not a category                      |
+| वेज · जैन · सात्विक · बिना प्याज़/लहसुन · झटपट           | The filters that decide whether the food can be eaten at all |
+| "करामा के 1 km में · 14 जगह"                             | Sets expectation of how far the list reaches                 |
+| Cards: name, cuisine · area, distance, price, extra tags | Enough to choose; tags only beyond the active filter         |
 
 ## 2.2 · खाना › जगह
 
@@ -120,38 +130,65 @@ Not asked: "where from". The phone knows; a tourist often does not know the stre
 | ----------------------------- | ----------------------------------------------------------------- |
 | आपने कहा                      | Check it heard the right sentence before showing it to a stranger |
 | Arabic, large, on a dark card | The output; dark so it reads across a taxi                        |
-| अरबी में सुनाएँ               | Let the phone say it                                              |
+| अरबी में सुनाएँ               | Let the phone say it — many drivers read no Hindi or English      |
 | ड्राइवर को दिखाएँ             | Hand the phone over — opens 3.3                                   |
 
 ## 3.3 · बोलना › ड्राइवर को दिखाएँ
 
-| Field                            | Why it is there                                   |
-| -------------------------------- | ------------------------------------------------- |
-| Arabic at 46px                   | The driver reads it at arm's length               |
-| Hotel name in Arabic and English | "This hotel" needs the hotel                      |
-| "आपने कहा — …" small             | So the tourist knows what the driver is reading   |
-| اسمع                             | The driver can press it; labelled in his language |
+| Field                                         | Why it is there                                   |
+| --------------------------------------------- | ------------------------------------------------- |
+| Arabic at 46px                                | The driver reads it at arm's length               |
+| Hotel card photo / name in Arabic and English | "This hotel" needs the hotel                      |
+| "आपने कहा — …" small                          | So the tourist knows what the driver is reading   |
+| اسمع                                          | The driver can press it; labelled in his language |
 
-## 4.1 · मदद
+## 4.1 · ज़रूरी जानकारी
 
-| Field                                | Why it is there                                         |
-| ------------------------------------ | ------------------------------------------------------- |
-| पुलिस 999 · एम्बुलेंस 998 · दमकल 997 | One tap to call; the numbers shown for a borrowed phone |
-| मेरा होटल — show the driver          | The most common emergency is being lost                 |
-| नज़दीकी अस्पताल · दवाख़ाना           | Where to go, how far, whether it is open                |
-| भारतीय कॉन्सुलेट                     | Lost passport                                           |
+| Field                                   | Why it is there                                        |
+| --------------------------------------- | ------------------------------------------------------ |
+| मेरा होटल: card photo, name, pin status | The tourist's first SOS, one tap from anywhere         |
+| होटल वापस जाएँ · ड्राइवर को दिखाएँ      | The two things you do with a hotel                     |
+| दस्तावेज़ list                          | The documents nobody can find at the desk, found       |
+| दस्तावेज़ जोड़ें                        | Any document — the tourist decides which               |
+| भारतीय कॉन्सुलेट + phone                | Lost passport                                          |
+| पुलिस 999 · एम्बुलेंस 998 · दमकल 997    | Knowledge, not a button: an Indian otherwise dials 100 |
+
+## 4.2 · ज़रूरी जानकारी › होटल जोड़ें
+
+| Field                                  | Why it is there                                              |
+| -------------------------------------- | ------------------------------------------------------------ |
+| "कोई एक काफ़ी है. टाइप कुछ नहीं करना." | Removes the fear of a form                                   |
+| यहीं पिन करें                          | Standing in the lobby is the easiest moment to capture it    |
+| कार्ड की फ़ोटो                         | The reception card is the thing a driver already understands |
+| गेट की फ़ोटो                           | Recognising the building on the way back                     |
+
+## 4.3 · ज़रूरी जानकारी › दस्तावेज़ जोड़ें
+
+| Field                        | Why it is there                                                |
+| ---------------------------- | -------------------------------------------------------------- |
+| फ़ोटो लें                    | The document                                                   |
+| नाम                          | So it can be found and asked for by voice ("beema dikhao")     |
+| "सिर्फ़ इसी फ़ोन में रहेगा…" | Said once, when it matters: never uploaded, kept until deleted |
+| रख लें                       | Save                                                           |
+
+## 4.4 · ज़रूरी जानकारी › दस्तावेज़
+
+| Field                             | Why it is there                                       |
+| --------------------------------- | ----------------------------------------------------- |
+| The document, full width          | The payoff, at the desk, the moment it is needed      |
+| Added date · "सिर्फ़ इस फ़ोन में" | Reassurance while a stranger is looking at the screen |
+| हटाएँ                             | The tourist decides when it goes                      |
 
 ## घर.1 · पास
 
-| Field                               | Why it is there                                           |
-| ----------------------------------- | --------------------------------------------------------- |
-| Trial countdown                     | How long the free day has left                            |
-| अकेले ₹199 · परिवार ₹399            | The two things you can buy; the family saving stated      |
-| ख़रीदने के लिए इंटरनेट ज़रूरी       | Honest: this one screen needs a connection                |
-| The buy button                      | The action                                                |
-| UPI या कार्ड · भारत से भी           | Removes two questions before tapping                      |
-| पास ख़त्म होने पर भी मदद चालू रहेगी | Removes the fear that paying is the only way to stay safe |
-| सेटिंग row                          | The only route to घर.3                                    |
+| Field                                          | Why it is there                                                              |
+| ---------------------------------------------- | ---------------------------------------------------------------------------- |
+| Trial countdown                                | How long the free day has left                                               |
+| अकेले ₹199 · परिवार ₹399                       | The two things you can buy; the family saving stated                         |
+| ख़रीदने के लिए इंटरनेट ज़रूरी                  | Honest: this one screen needs a connection                                   |
+| The buy button                                 | The action                                                                   |
+| UPI या कार्ड · भारत से भी                      | Removes two questions before tapping                                         |
+| पास ख़त्म होने पर भी ज़रूरी जानकारी चालू रहेगी | Removes the fear that paying is the only way to keep the hotel and documents |
 
 ## घर.2 · पास › परिवार
 
@@ -161,19 +198,3 @@ Not asked: "where from". The phone knows; a tourist often does not know the stre
 | "expires in 2 minutes"         | Why the QR cannot simply be forwarded              |
 | Devices 2/4, with हटाएँ        | Who is on the pass, and how to remove a lost phone |
 | Shared expiry date             | Everyone's pass ends together                      |
-
-## घर.3 · पास › सेटिंग
-
-| Field                                                   | Why it is there                                                                                                                                             |
-| ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| मेरा होटल                                               | Used by 4.1 and 3.3; has to be set somewhere                                                                                                                |
-| "साथी तैयार हो रहा है · 2 मिनट बाकी" + progress + रोकें | Is the app usable now and when is the rest ready — time left, not a percent; what still works, not what is downloading. Pause because hotel wifi is metered |
-| थीम                                                     | Night use in a taxi; defaults to the phone's setting                                                                                                        |
-
-## Bottom bar (every child screen)
-
-| Field                      | Why it is there                       |
-| -------------------------- | ------------------------------------- |
-| घर + the other three tiles | Switch task in one tap, from anywhere |
-
-No mic (see 2.1 / rule 16).

@@ -34,6 +34,52 @@ This file is the working summary; the concept doc wins on any detail it covers.
   must be able to tell where they are and how they got there without being told. If a screen
   only makes sense because someone explained it, the screen is wrong.
 
+## The product, as decided
+
+These decisions were made in design review and override the concept doc where they differ.
+The reasoning for each deviation is in `docs/decisions/`.
+
+- **Four tiles, and everything else is a child of one.** Home is रास्ता · खाना · बोलना ·
+  ज़रूरी जानकारी, plus the mic. Every other screen belongs to a tile and is numbered
+  `tile.child` (1.3, 4.2); the two screens the status strip opens are `घर.1` पास and
+  `घर.2` परिवार. Screen names use the tile names, never invented labels.
+- **The mic is the AI agent, and it is one thing everywhere.** On home and in the bar of every
+  child screen the mic means _ask Saathi anything_: speech → local intent → the right screen
+  with the answer already on it. "Dubai Marina Mall jaana hai" opens 1.3 with the options;
+  "driver ko bolo hotel le chalo" opens 3.3 with the hotel card; "Jain khana kahaan milega"
+  opens 2.1 with जैन on. One-word ambiguity gets a two-button question, never a dead end. The
+  landing screen shows what was understood (_आपने कहा: …_) with back one tap away. The mics
+  on 1.1, 2.1 and 3.1 are the same mic biased toward that tile.
+- **No emergency feature.** A tourist in distress reaches for the phone dialler and the hotel
+  reception, not a seven-day app, and offline opening hours for clinics are a liability. The
+  fourth tile is **ज़रूरी जानकारी** — the calm shelf: the hotel, documents, the consulate, and
+  one line of numbers (an Indian otherwise dials 100). Red is reserved and appears on no screen.
+- **मेरा होटल is the tourist's first SOS.** Captured by pinning where they stand, photographing
+  the reception's card, or photographing the entrance — never typed. The card photo _is_ what
+  gets shown to the driver.
+- **Documents: any document, one photo, one name.** Insurance, passport, return flight —
+  the tourist decides. Stored **on the device only**, never uploaded, kept until the tourist
+  deletes it. The app requests persistent storage (`navigator.storage.persist()`) so the
+  browser does not evict it under storage pressure. ज़रूरी जानकारी stays usable after the pass
+  ends, because all of it is local.
+- **No login, no account, no gate.** Entitlement is keyed to the device; family devices join by
+  a short-lived QR token. Nothing in the app asks for a phone number or email.
+- **The landing page gates on the pack.** First open downloads the whole offline pack with time
+  remaining shown; _शुरू करें_ enables only when complete. Updates download silently while the
+  app is open and apply on the landing page at the next launch — never mid-trip.
+- **A status strip tops every screen after landing.** Left: online/offline. Middle: plan
+  validity as a depleting line with four states (before Dubai / trial / pass / expired),
+  tapping it opens घर.1. Right: the theme switch. Same component, same place, every screen.
+- **Theme follows the phone by default**, with the manual switch on the strip. Browsers cannot
+  read the ambient light sensor; the phone's own dark-mode schedule is the automatic path.
+- **Permissions at first use.** Location the first time 1.1 opens, microphone the first time it
+  is tapped. Never on the landing page.
+- **Dropped, and why:** find-my-family (location sharing needs a connection on both phones and
+  a PWA cannot track location in the background); SOS to a contact in India (without a local
+  plan, outgoing SMS is not available, and the product's promise is offline).
+- **Drivers.** Many Dubai taxi drivers now speak only Arabic (Egyptian and African drivers are
+  common; South Asian drivers less so). Spoken Arabic (TTS) matters as much as the text.
+
 ## Non-negotiable rules
 
 1. **Offline-first, not offline-enabled.** Every core user journey (search, transport, food,
@@ -62,8 +108,8 @@ This file is the working summary; the concept doc wins on any detail it covers.
 
 5. **Intent accuracy > transcription accuracy.** For voice, the KPI is correct
    `{intent, destination, mode, dietary}` extraction, not a perfect transcript.
-6. **Emergency layer never disappears.** It stays available offline, after trial expiry, and
-   after pass expiry.
+6. **ज़रूरी जानकारी never disappears.** The hotel, documents, consulate and numbers stay
+   available offline, after trial expiry, and after pass expiry — it is all on the device.
 7. **Map/tile licensing.** Never bulk-download public tile services for offline use. Only
    OSM-derived data or tiles whose terms explicitly permit offline/prefetch.
 8. **Scope guard.** Dubai Saathi is _not_ hotel/flight booking, food delivery, a restaurant
@@ -82,7 +128,7 @@ This file is the working summary; the concept doc wins on any detail it covers.
 | Routing      | Local precomputed routing graph (no routing API at runtime)                                      |
 | Backend      | Node.js + TypeScript                                                                             |
 | Database     | PostgreSQL + PostGIS                                                                             |
-| Auth         | Phone/email OTP                                                                                  |
+| Auth         | None. Entitlement keyed to the device; family devices join by short-lived QR token               |
 | Payments     | INR gateway (UPI + cards)                                                                        |
 | Hindi STT    | sherpa-onnx / IndicConformer (primary); Vosk Hindi (baseline); Whisper (accuracy reference only) |
 | TTS          | Device TTS first; sherpa-onnx if device TTS is inadequate                                        |
@@ -112,9 +158,12 @@ Reuse these names in code and schema rather than inventing synonyms.
 4. Communication — Hindi/Hinglish → Arabic text + optional Arabic speech
    ("Say it for me" / "Show this to the driver")
 5. Offline map — location and route context with no network
-6. Emergency — always available
+6. ज़रूरी जानकारी — hotel (pin / card photo / entrance photo), documents (on-device),
+   consulate, numbers; usable after expiry
 7. Trip pass — 24h Dubai trial; ₹199 solo / 7 days; ₹399 family / 7 days / 4 devices
 8. Family QR — short-lived one-time activation token, shared expiry, revocable devices
+
+The mic is not a feature on this list because it is the way into all of them.
 
 Entitlement facts that affect code: trial starts on **confirmed arrival in Dubai** (repeated
 GPS readings / geofence confidence, never a single fix); the product is fully usable in India
@@ -212,15 +261,33 @@ Rules that keep this navigable:
 - Every non-obvious decision gets a short ADR in `docs/decisions/` so the next reader does not
   have to reverse-engineer the reasoning.
 
+## Design baseline
+
+The screens are the design source of truth and live in `design/`:
+
+- `design/generate-screens.py` generates every screen from one set of tokens, icons and
+  components; `design/screens/*.dc.html` is its output. Edit the generator, never the output.
+  Run it twice: plain for light, `SAATHI_THEME=dark` for the dark variants.
+- `design/check-screens.py` runs inside `npm run verify` and fails the build when a screen
+  breaks an agreed rule. When a rule is agreed, it is added here first.
+- `docs/design-rules.md` — every agreed rule, numbered, marked checker or review.
+- `docs/field-ledger.md` — every field on every screen with the one line that earns its place.
+  A field with no line does not exist. Write the line before adding the field.
+- `docs/decisions/` — why the product deviates from the concept doc where it does.
+- The reviewed canvas: https://claude.ai/code/artifact/3e0e153e-76fe-4a9d-bf95-a5ca966848c5
+  — republish to that URL, never a new one.
+
 ## Current state
 
-Greenfield. Nothing scaffolded yet.
+Tooling and the quality gate are in place (`npm run verify`, CI). `packages/shared` holds the
+entity types and the `ParsedIntent` contract. No app code yet.
 
-The very first commit of code must land the quality gate with it — ESLint (`--max-warnings 0`),
-Prettier, `tsc --noEmit`, the test runner, an `npm run verify` script and a CI workflow that
-runs it. Gates added after the fact never catch up.
+The screen set is mid-rework in `design/generate-screens.py` (see the last commit): the
+fourth tile, status strip, landing gate and home are applied; the universal mic, the canvas
+layout for the 4.x screens, the checker and the docs are the remaining steps before the
+screens are regenerated and republished.
 
-Immediate priority per the concept doc is then the **technical spike**, before broad feature
+After the screens are final, the priority is the **technical spike**, before broad feature
 work:
 
 1. Android Chrome PWA, no internet: Hindi speech → intent
