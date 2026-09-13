@@ -18,6 +18,7 @@ import {
   type SttSession,
 } from './stt.js';
 import { recordVoiceEvent } from './voiceEvent.js';
+import { downloadVoskModel, voskModelState } from './voskStt.js';
 
 /**
  * 1.2 · सुन रहा हूँ — the mic, wherever it was tapped from.
@@ -34,9 +35,15 @@ type Phase =
   | { readonly at: 'listening' }
   | { readonly at: 'thinking' }
   | { readonly at: 'failed'; readonly failure: SttFailure }
+  // The one-time voice download: offered when the phone has no offline model but could fetch one.
+  | { readonly at: 'offer-download' }
+  | { readonly at: 'downloading'; readonly percent: number }
   // One word that could mean two things, or a sentence that meant nothing: ask, do not guess.
   | { readonly at: 'ask'; readonly intent: ParsedIntent }
   | { readonly at: 'typing' };
+
+/** What the traveller is agreeing to download. Rounded, because 42.4 helps nobody. */
+const VOICE_MB = 42;
 
 const FAILURE_TITLE: Record<SttFailure, StringKey> = {
   'no-permission': 'listen.noPermission',
@@ -84,6 +91,8 @@ export function ListenScreen({
   const queue = useRef<readonly SttEngine[]>([]);
   /** The engine that produced whatever happened, for the learning loop. */
   const used = useRef<SttEngine>(typedStt);
+  /** Set once a download has failed, so the offer is not shown again in a loop. */
+  const [downloadFailed, setDownloadFailed] = useState(false);
 
   /** One path for every transcript, spoken or typed: parse, record, then go or ask. */
   const handle = useCallback(
@@ -117,7 +126,19 @@ export function ListenScreen({
   const tryNext = useCallback(() => {
     const [engine, ...rest] = queue.current;
     if (!engine) {
-      setPhase({ at: 'failed', failure: isSecureOrigin() ? 'no-engine' : 'insecure-context' });
+      if (!isSecureOrigin()) {
+        setPhase({ at: 'failed', failure: 'insecure-context' });
+        return;
+      }
+      // Before telling anyone their phone cannot hear Hindi, check whether we can simply give it
+      // the ability. This is the difference between a dead end and a one-time download.
+      void voskModelState(online).then((state) => {
+        setPhase(
+          state === 'fetchable' && !downloadFailed
+            ? { at: 'offer-download' }
+            : { at: 'failed', failure: 'no-engine' },
+        );
+      });
       return;
     }
     queue.current = rest;
@@ -166,6 +187,22 @@ export function ListenScreen({
       session.current?.cancel();
     };
   }, [listen]);
+
+  const getVoice = () => {
+    setDownloadFailed(false);
+    setPhase({ at: 'downloading', percent: 0 });
+    void downloadVoskModel((fraction) => {
+      setPhase({ at: 'downloading', percent: Math.round(fraction * 100) });
+    }).then((ok) => {
+      if (!ok) {
+        setDownloadFailed(true);
+        setPhase({ at: 'failed', failure: 'failed' });
+        return;
+      }
+      // Straight back to listening: the traveller asked a question a minute ago.
+      listen();
+    });
+  };
 
   const cancel = () => {
     session.current?.cancel();
@@ -236,6 +273,35 @@ export function ListenScreen({
                   {t('listen.again')}
                 </button>
               )}
+          </div>
+        )}
+
+        {phase.at === 'offer-download' && (
+          <div className="listen">
+            <p className="listen-state">{t('listen.noEngine')}</p>
+            <p className="muted center">{t('listen.getVoiceWhy', { size: VOICE_MB })}</p>
+            <button type="button" className="btn btn-primary" onClick={getVoice}>
+              {t('listen.getVoice')}
+            </button>
+            <button
+              type="button"
+              className="btn btn-ghost"
+              onClick={() => {
+                setPhase({ at: 'typing' });
+              }}
+            >
+              {t('listen.type')}
+            </button>
+          </div>
+        )}
+
+        {phase.at === 'downloading' && (
+          <div className="listen">
+            <p className="listen-state">{t('listen.downloading', { percent: phase.percent })}</p>
+            <div className="bar-track">
+              <div className="bar-fill" style={{ width: `${String(phase.percent)}%` }} />
+            </div>
+            <p className="muted center">{t('listen.getVoiceWhy', { size: VOICE_MB })}</p>
           </div>
         )}
 

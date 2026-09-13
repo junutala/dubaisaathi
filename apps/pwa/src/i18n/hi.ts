@@ -77,6 +77,12 @@ export const hi = {
   'listen.noSpeech': 'कुछ सुनाई नहीं दिया',
   'listen.noEngine': 'इस फ़ोन में हिंदी आवाज़ पहचान नहीं है',
   'listen.noEngineWhy': 'टाइप करके बताइए — बाक़ी सब वैसे ही चलेगा.',
+  // The one-time voice download. This belongs on the landing page once that screen exists —
+  // before the trip, on home wifi — and sits here meanwhile, where the need is discovered.
+  'listen.getVoice': 'हिंदी आवाज़ डाउनलोड करें',
+  'listen.getVoiceWhy': 'एक बार डाउनलोड ({size} MB) — फिर बिना इंटरनेट भी माइक चलेगा.',
+  'listen.downloading': 'डाउनलोड हो रहा है… {percent}%',
+  'listen.downloadFailed': 'डाउनलोड पूरा नहीं हुआ. दोबारा कोशिश कीजिए.',
   'listen.insecure': 'यह पेज सुरक्षित नहीं खुला',
   'listen.insecureWhy': 'सुरक्षित (https) पते पर खोलिए, तभी माइक चलेगा. अभी टाइप करके बताइए.',
   'listen.network': 'आवाज़ पहचानने के लिए इंटरनेट चाहिए था',

@@ -41,7 +41,26 @@ export default defineConfig({
         // to be there on a phone with the radio off, so they are precached with everything
         // else. The default 2 MiB per-file ceiling is raised for the same reason.
         globPatterns: ['**/*.{js,css,html,woff2,json,png,svg}'],
+        // Everything except speech. The Kaldi runtime is ~6 MB and the Hindi model is 42 MB;
+        // putting either in the install step would make every traveller pay for voice, including
+        // the ones who only ever tap the tiles. They are cached when the traveller chooses to
+        // download the voice, and not before.
+        globIgnores: ['**/vosk-*.js', '**/models/**'],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+        runtimeCaching: [
+          {
+            // Both are immutable and named by content, so once fetched they are kept for good —
+            // which is what makes the mic work with the radio off on the next launch.
+            urlPattern: ({ url }) =>
+              /\/assets\/vosk-[^/]+\.js$/.test(url.pathname) || url.pathname.startsWith('/models/'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'saathi-speech-v1',
+              expiration: { maxEntries: 4 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+        ],
       },
     }),
   ],

@@ -252,9 +252,20 @@ export const typedStt: SttEngine = {
  * An empty list means the keyboard, and the screen says why.
  */
 export async function resolveEngines(online: boolean): Promise<readonly SttEngine[]> {
-  if (!isSecureOrigin() || constructor() === undefined) return [];
+  if (!isSecureOrigin()) return [];
 
   const candidates: SttEngine[] = [];
+
+  // Our own model first when the phone already has it: it needs no network, no Google, and no
+  // OS language pack — the three things that failed on a real phone. Downloading it is never
+  // done here; that is a deliberate choice the traveller makes once, not a side effect of
+  // tapping a microphone.
+  const { voskStt, voskModelState } = await import('./voskStt.js');
+  if (voskStt.available() && (await voskModelState(online)) === 'cached') {
+    candidates.push(voskStt);
+  }
+
+  if (constructor() === undefined) return candidates;
   const local = await onDeviceHindi();
   // 'unknown' is worth an attempt: every browser but Chrome 138+ answers that way, and if it
   // turns out to work with the radio off, the PWA gate is passed with no native wrapper at all.
