@@ -41,9 +41,12 @@ export async function voskModelState(online: boolean): Promise<ModelState> {
  * Downloads the model into the cache, reporting progress. Resolves true once it is on the phone
  * for good — after this the mic works with the radio off.
  */
-export async function downloadVoskModel(onProgress: (fraction: number) => void): Promise<boolean> {
+export async function downloadVoskModel(
+  onProgress: (fraction: number) => void,
+  signal?: AbortSignal,
+): Promise<boolean> {
   try {
-    const response = await fetch(VOSK_MODEL_URL);
+    const response = await fetch(VOSK_MODEL_URL, signal ? { signal } : {});
     if (!response.ok || !response.body) return false;
 
     // Content-Length lets the traveller watch a real bar rather than a spinner that lies.
@@ -55,6 +58,12 @@ export async function downloadVoskModel(onProgress: (fraction: number) => void):
     for (;;) {
       const { done, value } = await reader.read();
       if (done) break;
+      // Abandoned by the traveller: stop reading and keep nothing, so a half-file is never
+      // mistaken for a model later.
+      if (signal?.aborted) {
+        await reader.cancel();
+        return false;
+      }
       chunks.push(value);
       received += value.length;
       if (total > 0) onProgress(received / total);

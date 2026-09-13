@@ -94,6 +94,8 @@ export function ListenScreen({
   const queue = useRef<readonly SttEngine[]>([]);
   /** The engine that produced whatever happened, for the learning loop. */
   const used = useRef<SttEngine>(typedStt);
+  /** Aborts an in-flight model download when the traveller gives up on it. */
+  const download = useRef<AbortController | null>(null);
   /** Set once a download has failed, so the offer is not shown again in a loop. */
   const [downloadFailed, setDownloadFailed] = useState(false);
   /**
@@ -212,9 +214,18 @@ export function ListenScreen({
   const getVoice = () => {
     setDownloadFailed(false);
     setPhase({ at: 'downloading', percent: 0 });
+    const controller = new AbortController();
+    download.current = controller;
     void downloadVoskModel((fraction) => {
       setPhase({ at: 'downloading', percent: Math.round(fraction * 100) });
-    }).then((ok) => {
+    }, controller.signal).then((ok) => {
+      download.current = null;
+      // Abandoning a download is a choice, not a failure: it goes back to the offer rather than
+      // to an error screen, so the traveller can start it again when the wifi is better.
+      if (controller.signal.aborted) {
+        setPhase({ at: 'offer-download' });
+        return;
+      }
       if (!ok) {
         setDownloadFailed(true);
         setPhase({ at: 'failed', failure: 'failed' });
@@ -337,6 +348,17 @@ export function ListenScreen({
               <div className="bar-fill" style={{ width: `${String(phase.percent)}%` }} />
             </div>
             <p className="muted center">{t('listen.getVoiceWhy', { size: VOICE_MB })}</p>
+            {/* 42 MB on a hotel connection is the longest a traveller can be stuck on one
+                screen. Without this they watched a bar with no way off it. */}
+            <button
+              type="button"
+              className="btn btn-ghost"
+              onClick={() => {
+                download.current?.abort();
+              }}
+            >
+              {t('listen.cancel')}
+            </button>
           </div>
         )}
 

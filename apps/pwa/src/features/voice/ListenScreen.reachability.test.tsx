@@ -1,0 +1,243 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { cleanup, render, waitFor } from '@testing-library/react';
+import type { ReactElement } from 'react';
+import { SettingsProvider } from '../../app/settings.js';
+import { ListenScreen } from './ListenScreen.js';
+import type { SttEngine, SttFailure, SttHandlers } from './stt.js';
+
+/**
+ * The reachability harness.
+ *
+ * Six of the nine defects found on a phone on 13 September were not wrong code. They were
+ * correct code nobody could reach: an offer rendered in one of eight states, a download branch
+ * behind a condition that never held, a button waiting on a probe that waited on the button.
+ * Reading the code found none of them, because the code was right.
+ *
+ * So this asserts the one property those bugs all broke, and the rule CLAUDE.md states plainly:
+ * **a traveller is never left on a screen with no way forward.** Every state of the microphone
+ * screen must offer at least one enabled control. Not the control this author expected — any
+ * control, because the failure was always an author's expectation and never a compiler's.
+ */
+
+const navigate = vi.fn();
+vi.mock('../../app/routes.js', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../app/routes.js')>()),
+  navigate: (...args: unknown[]) => {
+    navigate(...args);
+  },
+}));
+
+// The learning loop writes to IndexedDB; it is not what is under test here.
+vi.mock('./voiceEvent.js', () => ({ recordVoiceEvent: () => Promise.resolve(undefined) }));
+
+/** What `resolveEngines` will answer with, per test. */
+let engines: SttEngine[] = [];
+/** What `voskModelState` will answer with, per test. */
+let modelState: 'cached' | 'fetchable' | 'unavailable' = 'unavailable';
+/** How the mocked download behaves: hang there, fail, or succeed. Set per test. */
+let downloadOutcome: 'hangs' | 'fails' | 'succeeds' = 'hangs';
+
+vi.mock('./stt.js', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('./stt.js')>()),
+  resolveEngines: () => Promise.resolve(engines),
+  isSecureOrigin: () => true,
+}));
+
+vi.mock('./voskStt.js', () => ({
+  voskModelState: () => Promise.resolve(modelState),
+  downloadVoskModel: (onProgress: (fraction: number) => void) => {
+    onProgress(0.4);
+    if (downloadOutcome === 'hangs') return new Promise<boolean>(() => undefined);
+    return Promise.resolve(downloadOutcome === 'succeeds');
+  },
+}));
+
+/** An engine that does exactly one thing, so a single state can be held still and looked at. */
+function engineThat(behaviour: (h: SttHandlers) => void, id = 'test'): SttEngine {
+  return {
+    id,
+    source: 'browser-stt',
+    worksOffline: false,
+    available: () => true,
+    listen: (handlers) => {
+      behaviour(handlers);
+      return { stop: () => undefined, cancel: () => undefined };
+    },
+  };
+}
+
+const failsWith = (failure: SttFailure) =>
+  engineThat((h) => {
+    h.onFailure(failure);
+  });
+
+/**
+ * Renders and hands back the screen's own container. Queries go through this rather than the
+ * document, because a query against the document finds the first match anywhere — including a
+ * container left over from an earlier render, which is how this harness first came to pass a
+ * state that had no controls at all.
+ */
+function show(ui: ReactElement): HTMLElement {
+  return render(<SettingsProvider>{ui}</SettingsProvider>).container;
+}
+
+/**
+ * Every control the screen itself offers right now, within this render only.
+ *
+ * Scoped twice over, and both matter. Not the whole document, because a query there finds the
+ * first match anywhere — including a container left over from an earlier test, which is how this
+ * harness first came to pass a state that has no controls at all. And not the bottom bar or the
+ * header, which are present in every state: switching tiles is not a way out of the state the
+ * traveller is stuck in, and counting them would make every state pass and assert nothing.
+ */
+function wayForward(container: HTMLElement): string[] {
+  const flow = container.querySelector('.flow');
+  if (!flow) return [];
+  return [...flow.querySelectorAll('button')]
+    .filter((b) => !b.disabled)
+    .map((b) => b.textContent.trim())
+    .filter((label) => label !== '');
+}
+
+/** The download button, within this render only. */
+function downloadButton(container: HTMLElement): HTMLButtonElement | null {
+  return (
+    [...container.querySelectorAll('button')].find((b) => /download/i.test(b.textContent)) ?? null
+  );
+}
+
+beforeEach(() => {
+  // Deliberately no module reset: the screen and the provider must come from the same module
+  // instance or the React context they share is two different contexts.
+  navigate.mockClear();
+  engines = [];
+  modelState = 'unavailable';
+  downloadOutcome = 'hangs';
+});
+
+afterEach(() => {
+  cleanup();
+});
+
+const noop = () => undefined;
+const mount = () => <ListenScreen from="home" onHeard={noop} onMic={noop} />;
+
+describe('every state of the microphone screen offers a way forward', () => {
+  it.each([
+    ['no-permission'],
+    ['no-speech'],
+    ['no-engine'],
+    ['network'],
+    ['failed'],
+    ['insecure-context'],
+  ] as const)('after a %s failure', async (failure) => {
+    engines = [failsWith(failure)];
+    const view = show(mount());
+    await waitFor(() => {
+      expect(wayForward(view).length).toBeGreaterThan(0);
+    });
+  });
+
+  it('while listening', async () => {
+    engines = [engineThat(() => undefined)];
+    const view = show(mount());
+    await waitFor(() => {
+      expect(wayForward(view).length).toBeGreaterThan(0);
+    });
+  });
+
+  it('when no engine exists at all and no model can be fetched', async () => {
+    engines = [];
+    modelState = 'unavailable';
+    const view = show(mount());
+    await waitFor(() => {
+      expect(wayForward(view).length).toBeGreaterThan(0);
+    });
+  });
+
+  it('when no engine exists but the voice could be downloaded', async () => {
+    engines = [];
+    modelState = 'fetchable';
+    const view = show(mount());
+    await waitFor(() => {
+      expect(wayForward(view).length).toBeGreaterThan(0);
+    });
+  });
+
+  it('while the voice is downloading', async () => {
+    // The state a traveller can be stuck in longest: 42 MB on a hotel connection that stalls.
+    engines = [];
+    modelState = 'fetchable';
+    downloadOutcome = 'hangs';
+    const view = show(mount());
+    await waitFor(() => {
+      expect(downloadButton(view)).not.toBeNull();
+    });
+    downloadButton(view)?.click();
+    await waitFor(() => {
+      expect(view.querySelector('.bar-track')).not.toBeNull();
+    });
+    // A stalled 42 MB download on hotel wifi is the longest a traveller can be held on one
+    // screen. There must be a way off it.
+    expect(wayForward(view).length).toBeGreaterThan(0);
+  });
+
+  it('after a download fails', async () => {
+    engines = [];
+    modelState = 'fetchable';
+    downloadOutcome = 'fails';
+    const view = show(mount());
+    await waitFor(() => {
+      expect(downloadButton(view)).not.toBeNull();
+    });
+    downloadButton(view)?.click();
+    await waitFor(() => {
+      expect(wayForward(view).length).toBeGreaterThan(0);
+    });
+  });
+});
+
+describe('the offer to download the offline voice', () => {
+  it('is reachable while the microphone is working, not only when it has failed', async () => {
+    // The bug: it lived inside the "listening" branch only, so online — where the cloud
+    // recogniser succeeds — it was shown to nobody.
+    engines = [engineThat(() => undefined)];
+    modelState = 'fetchable';
+    const view = show(mount());
+    await waitFor(() => {
+      expect(downloadButton(view)).not.toBeNull();
+    });
+  });
+
+  it.each([['no-permission'], ['no-speech'], ['failed']] as const)(
+    'is reachable after a %s failure, which is exactly when it matters',
+    async (failure) => {
+      engines = [failsWith(failure)];
+      modelState = 'fetchable';
+      const view = show(mount());
+      await waitFor(() => {
+        expect(downloadButton(view)).not.toBeNull();
+      });
+    },
+  );
+
+  it('is not shown once the voice is already on the phone', async () => {
+    engines = [engineThat(() => undefined)];
+    modelState = 'cached';
+    const view = show(mount());
+    await waitFor(() => {
+      expect(wayForward(view).length).toBeGreaterThan(0);
+    });
+    expect(downloadButton(view)).toBeNull();
+  });
+
+  it('is not shown with no network, because it cannot be fetched', async () => {
+    engines = [failsWith('no-engine')];
+    modelState = 'unavailable';
+    const view = show(mount());
+    await waitFor(() => {
+      expect(wayForward(view).length).toBeGreaterThan(0);
+    });
+    expect(downloadButton(view)).toBeNull();
+  });
+});
