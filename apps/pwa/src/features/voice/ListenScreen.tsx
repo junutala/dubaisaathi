@@ -8,7 +8,15 @@ import type { StringKey } from '../../i18n/index.js';
 import { intentCorpus } from './intentPacks.js';
 import { isConfident, parseIntent } from './parseIntent.js';
 import { landingFor } from './micRouting.js';
-import { isSecureOrigin, pickEngine, typedStt, type SttFailure, type SttSession } from './stt.js';
+import {
+  isSecureOrigin,
+  resolveEngines,
+  typedStt,
+  worthAnotherEngine,
+  type SttEngine,
+  type SttFailure,
+  type SttSession,
+} from './stt.js';
 import { recordVoiceEvent } from './voiceEvent.js';
 
 /**
@@ -67,12 +75,15 @@ export function ListenScreen({
   readonly onHeard: (intent: ParsedIntent) => void;
   readonly onMic: () => void;
 }) {
-  const { t } = useSettings();
+  const { t, online } = useSettings();
   const [phase, setPhase] = useState<Phase>({ at: 'listening' });
   const [partial, setPartial] = useState('');
   const [typed, setTyped] = useState('');
   const session = useRef<SttSession | null>(null);
-  const engine = useRef(pickEngine());
+  /** Engines still untried this attempt, best first. Walked down as each one fails. */
+  const queue = useRef<readonly SttEngine[]>([]);
+  /** The engine that produced whatever happened, for the learning loop. */
+  const used = useRef<SttEngine>(typedStt);
 
   /** One path for every transcript, spoken or typed: parse, record, then go or ask. */
   const handle = useCallback(
@@ -97,14 +108,28 @@ export function ListenScreen({
     [onHeard],
   );
 
-  const listen = useCallback(() => {
+  /**
+   * Try the next engine in the queue. The first choice keeps the audio on the phone; if that
+   * engine is not really there — a Hindi model that was never downloaded, say — the next one is
+   * tried before anyone is told anything. Only when the queue runs out does the screen give up,
+   * and then it says which reason it actually was.
+   */
+  const tryNext = useCallback(() => {
+    const [engine, ...rest] = queue.current;
+    if (!engine) {
+      setPhase({ at: 'failed', failure: isSecureOrigin() ? 'no-engine' : 'insecure-context' });
+      return;
+    }
+    queue.current = rest;
+    used.current = engine;
     setPartial('');
     setPhase({ at: 'listening' });
-    session.current = engine.current.listen({
+
+    session.current = engine.listen({
       onPartial: setPartial,
       onFinal: (result) => {
         setPhase({ at: 'thinking' });
-        handle(result.transcript, engine.current.id);
+        handle(result.transcript, engine.id);
       },
       onFailure: (failure) => {
         void recordVoiceEvent({
@@ -113,22 +138,29 @@ export function ListenScreen({
           confidence: 0,
           landedOn: 'listen',
           failure: SPEECH_FAILURE[failure],
-          sttEngine: engine.current.id,
+          sttEngine: engine.id,
         });
+        // A refused permission or plain silence is the answer; anything else may just be this
+        // engine, so the next one gets a turn before the traveller sees a failure at all.
+        if (worthAnotherEngine(failure) && queue.current.length > 0) {
+          tryNext();
+          return;
+        }
         setPhase({ at: 'failed', failure });
       },
     });
   }, [handle]);
 
+  const listen = useCallback(() => {
+    setPhase({ at: 'listening' });
+    void resolveEngines(online).then((engines) => {
+      queue.current = engines;
+      tryNext();
+    });
+  }, [online, tryNext]);
+
   // The mic opens listening, because a traveller who tapped a microphone is already talking.
   useEffect(() => {
-    // A phone with no recogniser should not flash a waveform it cannot honour — but say which
-    // of the two reasons it is. Over plain HTTP the browser hides speech recognition, and
-    // blaming the phone for that is simply wrong.
-    if (engine.current === typedStt) {
-      setPhase({ at: 'failed', failure: isSecureOrigin() ? 'no-engine' : 'insecure-context' });
-      return;
-    }
     listen();
     return () => {
       session.current?.cancel();
@@ -218,7 +250,7 @@ export function ListenScreen({
                 landedOn: choice === 'route' ? 'transport' : 'food',
                 failure: null,
                 clarifierChoice: choice,
-                sttEngine: engine.current.id,
+                sttEngine: used.current.id,
               });
               onHeard(phase.intent);
               navigate({ screen: 'soon', tile: choice === 'route' ? 'transport' : 'food' });

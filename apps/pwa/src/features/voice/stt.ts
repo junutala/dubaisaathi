@@ -241,13 +241,33 @@ export const typedStt: SttEngine = {
 };
 
 /**
- * In order of preference: an engine that keeps the audio on the phone, then one that does not,
- * then the keyboard. Offline first, always — a cloud recogniser is a convenience, never the
- * thing a traveller depends on (CLAUDE.md rule 1).
+ * Which engines this phone should try, best first.
+ *
+ * Offline first, always: an engine that keeps the audio on the phone is preferred, and a cloud
+ * recogniser is a convenience behind it, never the thing a traveller depends on (rule 1). But
+ * preference is not the same as insistence — demanding `processLocally` on a phone with no Hindi
+ * model installed fails, and failing there is not a reason to tell the traveller their phone
+ * cannot hear Hindi. So the caller walks this list until one works.
+ *
+ * An empty list means the keyboard, and the screen says why.
  */
-export const ENGINES: readonly SttEngine[] = [onDeviceStt, cloudStt, typedStt];
+export async function resolveEngines(online: boolean): Promise<readonly SttEngine[]> {
+  if (!isSecureOrigin() || constructor() === undefined) return [];
 
-export function pickEngine(engines: readonly SttEngine[] = ENGINES): SttEngine {
-  const offline = engines.find((e) => e.worksOffline && e.available());
-  return offline ?? engines.find((e) => e.available()) ?? typedStt;
+  const candidates: SttEngine[] = [];
+  const local = await onDeviceHindi();
+  // 'unknown' is worth an attempt: every browser but Chrome 138+ answers that way, and if it
+  // turns out to work with the radio off, the PWA gate is passed with no native wrapper at all.
+  // 'unavailable' is the browser telling us plainly, so the attempt is skipped rather than spent.
+  if (local !== 'unavailable') candidates.push(onDeviceStt);
+  if (online) candidates.push(cloudStt);
+  return candidates;
+}
+
+/**
+ * Whether trying the next engine could plausibly help. A refused permission applies to every
+ * engine and silence means the engine worked, so neither is worth a second attempt.
+ */
+export function worthAnotherEngine(failure: SttFailure): boolean {
+  return failure === 'no-engine' || failure === 'network' || failure === 'failed';
 }
