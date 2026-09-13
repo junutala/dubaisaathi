@@ -14,6 +14,26 @@ Full product concept (source of truth for scope, pricing, GTM, data entities):
 **[`docs/product-concept.md`](docs/product-concept.md)** — consult it before designing a feature.
 This file is the working summary; the concept doc wins on any detail it covers.
 
+## How to work on this project
+
+> **Instructions MUST be followed in their entirety. Do not pick and choose.**
+
+- **Discussion is where ideas belong.** Alternatives, objections and better options go there,
+  before a decision. Say what you think, and say it plainly.
+- **Once the discussion is over, the decision is the spec.** Build it as given. No options,
+  no variants, no "I kept X because I thought it was better". That conversation already
+  happened.
+- **A list of instructions is a checklist, not a menu.** If five things are asked for, five
+  things are done. Partially applying a list is a failure, not a judgement call.
+- **If an instruction cannot be done, say so and stop.** Never silently substitute your own
+  choice for the one you were given.
+- **Fix causes, not instances.** If one screen is wrong for a structural reason, the
+  structure is wrong everywhere — fix it everywhere in the same pass, not one screen per
+  round of review.
+- **Every screen must be self-explanatory in isolation.** A traveller arriving at any screen
+  must be able to tell where they are and how they got there without being told. If a screen
+  only makes sense because someone explained it, the screen is wrong.
+
 ## Non-negotiable rules
 
 1. **Offline-first, not offline-enabled.** Every core user journey (search, transport, food,

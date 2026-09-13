@@ -226,21 +226,40 @@ def quickbar(current):
             '%s</div>' % (C['line'], C['card'], ''.join(cells)))
 
 
-def hdr(title, back=True, right=''):
-    left = ('<div style="width: 48px; height: 48px; margin-left: -12px; display: flex; '
+# One header for every screen that is not home. It answers the three questions a traveller
+# has on arriving anywhere: which of the four tiles am I in, what is this screen, and how do
+# I get out. Nothing here is decoration — the trail is the only thing telling someone who
+# opened the mic from खाना that they are still in खाना.
+TILE_LABEL = {'transport': 'रास्ता', 'food': 'खाना', 'talk': 'बोलना', 'help': 'मदद',
+              'home': 'घर'}
+TILE_ICON = {'transport': 'route', 'food': 'food', 'talk': 'talk', 'help': 'help',
+             'home': 'home'}
+
+
+def hdr(title, tile='home', trail=None, offline=True):
+    accent = C['red'] if tile == 'help' else (
+        C['indigo'] if tile == 'home' else C['marigoldText'])
+    crumb = ('<div class="row" style="gap: 5px; color: %s">%s'
+             '<span style="font-size: 13px; font-weight: 700; letter-spacing: 0.02em">%s</span>'
+             % (accent, svg(I[TILE_ICON[tile]], 15, '2', accent), TILE_LABEL[tile]))
+    if trail:
+        crumb += ('<span style="font-size: 13px; color: %s">›</span>'
+                  '<span style="font-size: 13px; font-weight: 600; color: %s">%s</span>'
+                  % (C['chev'], C['muted'], trail))
+    if offline:
+        crumb += ('<span style="font-size: 13px; color: %s">·</span>%s'
+                  % (C['chev'], svg(I['wifioff'], 14, '2.2', C['teal'])))
+    crumb += '</div>'
+    return ('<div class="row" style="gap: 6px; padding: 14px 16px 10px; align-items: center">'
+            '<div style="width: 48px; height: 48px; margin-left: -12px; display: flex; '
             'align-items: center; justify-content: center">%s</div>'
-            % svg(I['left'], 24)) if back else ''
-    return ('<div class="hdr">%s<h1 class="t1" style="flex: 1">%s</h1>%s</div>'
-            % (left, title, right))
-
-
-def homebtn():
-    """Pass, family and settings sit outside the four tiles, so they get an explicit way
-    home rather than relying on the back arrow alone."""
-    return ('<div class="row" style="gap: 6px; height: 40px; padding: 0 12px; '
-            'border: 1px solid %s; border-radius: 20px; color: %s; font-size: 14.5px; '
-            'font-weight: 600">%s<span>घर</span></div>'
-            % (C['line'], C['indigo'], svg(I['home'], 18, '1.8', C['indigo'])))
+            '<div class="col" style="flex: 1; gap: 2px; min-width: 0">%s'
+            '<span style="font-family: \'Anek Devanagari\', sans-serif; font-size: 23px; '
+            'font-weight: 600; line-height: 1.15; white-space: nowrap; overflow: hidden; '
+            'text-overflow: ellipsis">%s</span></div>'
+            '<div style="width: 48px; height: 48px; margin-right: -10px; display: flex; '
+            'align-items: center; justify-content: center">%s</div></div>'
+            % (svg(I['left'], 24), crumb, title, svg(I['home'], 23, '1.8', C['indigo'])))
 
 
 def pill(text, icon=None, bg=None, fg=None, border=None):
@@ -500,11 +519,7 @@ bars = ''.join(
     for i, h in enumerate([18, 38, 64, 96, 52, 78, 120, 66, 40, 86, 58, 30, 70, 44, 22]))
 
 body = '''<div class="screen">
-  <div class="row" style="justify-content: flex-end; padding: 16px 16px 0">
-    <div style="width: 48px; height: 48px; border-radius: 24px; background: %(card)s;
-                border: 1px solid %(line)s; display: flex; align-items: center;
-                justify-content: center">%(close)s</div>
-  </div>
+  %(hdr)s
 
   <div class="flow" style="justify-content: center; gap: 30px">
     <div class="row" style="gap: 5px; height: 130px; justify-content: center;
@@ -515,7 +530,7 @@ body = '''<div class="screen">
                    color: %(marigoldText)s">सुन रहा हूँ…</span>
       <p style="margin: 0; font-family: 'Anek Devanagari', sans-serif; font-size: 30px;
                 font-weight: 500; line-height: 1.35; text-align: center">
-        मुझे बुर दुबई से करामा<span style="color: %(muted)s"> जाना…</span></p>
+        जैन खाना कहाँ<span style="color: %(muted)s"> मिलेगा…</span></p>
     </div>
   </div>
 
@@ -523,8 +538,8 @@ body = '''<div class="screen">
     <span class="muted" style="font-size: 14.5px">हिंदी और हिंग्लिश — दोनों चलेंगे</span>
     %(cancel)s
   </div>
-</div>''' % dict(C, close=svg(I['close'], 22, '1.9', C['ink']), bars=bars,
-                 cancel=btn('रद्द करके घर जाएँ', 'ghost'))
+</div>''' % dict(C, hdr=hdr('सुन रहा हूँ…', 'food', 'बोलकर पूछिए'), bars=bars,
+                 cancel=btn('रद्द करें', 'ghost'))
 write('Listening', body)
 
 # -------------------------------------------------------------- 4. RouteOptions
@@ -589,7 +604,7 @@ body = '''<div class="screen">
   </div>
   %(bar)s
 </div>''' % dict(C,
-                 hdr=hdr('करामा जाना है', right=pill('ऑफ़लाइन', 'wifioff')),
+                 hdr=hdr('करामा जाना है', 'transport', 'विकल्प'),
                  arrow=svg(I['right'], 18, '1.9', C['muted']),
                  pencil=svg(I['pencil'], 20, '1.7', C['muted']),
                  o1=option('metro', 'मेट्रो', '32 मिनट', 'AED 5',
@@ -661,7 +676,7 @@ body = '''<div class="screen">
   </div>
   %(bar)s
 </div>''' % dict(C,
-                 hdr=hdr('मेट्रो से करामा', right=pill('ऑफ़लाइन', 'wifioff')),
+                 hdr=hdr('मेट्रो से करामा', 'transport', 'क़दम दर क़दम'),
                  l1=leg('walk', 'पैदल चलिए', 'BurJuman मेट्रो स्टेशन तक', '6 मिनट'),
                  l2=leg('metro', 'रेड लाइन', 'BurJuman → ADCB · 4 स्टेशन', '18 मिनट'),
                  l3=leg('walk', 'पैदल चलिए', 'करामा सेंटर तक', '8 मिनट', last=True),
@@ -740,16 +755,7 @@ dots = ''.join('<circle cx="%d" cy="%d" r="5.5" fill="#FFFDF9" stroke="#E8871E" 
                'stroke-width="2.6"/>' % d for d in [(142, 286), (196, 168), (236, 136)])
 
 body = '''<div class="screen">
-  <div class="row" style="gap: 10px; padding: 16px 16px 10px">
-    <div style="width: 48px; height: 48px; margin-left: -12px; display: flex;
-                align-items: center; justify-content: center">%(back)s</div>
-    <div class="col" style="flex: 1; gap: 0">
-      <span style="font-size: 17px; font-weight: 600">करामा तक</span>
-      <span class="muted" style="font-size: 13.5px">मेट्रो · 32 मिनट · रास्ते में 6 जगह</span>
-    </div>
-    %(off)s
-  </div>
-
+  %(hdr)s
   <div class="row" style="gap: 8px; padding: 0 16px 10px; flex-wrap: wrap">
     %(c1)s %(c2)s %(c3)s %(c4)s %(c5)s
   </div>
@@ -774,9 +780,8 @@ body = '''<div class="screen">
     </div>
   </div>
   %(bar)s
-</div>''' % dict(C, back=svg(I['left'], 24), creek=creek, blocks=blocks, roads=roads,
-                 routeline=routeline, dots=dots,
-                 off=pill('ऑफ़लाइन', 'wifioff'),
+</div>''' % dict(C, creek=creek, blocks=blocks, roads=roads, routeline=routeline, dots=dots,
+                 hdr=hdr('रास्ते में क्या है', 'transport', 'नक्शा › रास्ते में'),
                  c1=poi_chip('कड़क चाय', True), c2=poi_chip('झटपट खाना'),
                  c3=poi_chip('वेज खाना'), c4=poi_chip('मिठाई'), c5=poi_chip('घूमने की जगह'),
                  p1=pin(96, 250, 'चाय · 400 मी', True), p2=pin(190, 128, 'चाय · 1.2 km'),
@@ -793,15 +798,7 @@ write('MapDiscover', body)
 # at the bottom is the whole entry point to discovery — it states what is there and gets out
 # of the way. Browsing is a mode you choose, never the thing between you and your directions.
 body = '''<div class="screen">
-  <div class="row" style="gap: 10px; padding: 16px 16px 10px">
-    <div style="width: 48px; height: 48px; margin-left: -12px; display: flex;
-                align-items: center; justify-content: center">%(back)s</div>
-    <div class="col" style="flex: 1; gap: 0">
-      <span style="font-size: 17px; font-weight: 600">करामा तक</span>
-      <span class="muted" style="font-size: 13.5px">मेट्रो · 32 मिनट · 14 मिनट पैदल</span>
-    </div>
-    %(off)s
-  </div>
+  %(hdr)s
 
   <div style="position: relative; flex: 1; overflow: hidden">
     <svg width="390" height="470" viewBox="0 0 390 420" style="position: absolute; top: -10px">
@@ -831,8 +828,8 @@ body = '''<div class="screen">
     </div>
   </div>
   %(bar)s
-</div>''' % dict(C, back=svg(I['left'], 24), creek=creek, blocks=blocks, roads=roads,
-                 routeline=routeline, off=pill('ऑफ़लाइन नक्शा', 'wifioff'),
+</div>''' % dict(C, creek=creek, blocks=blocks, roads=roads, routeline=routeline,
+                 hdr=hdr('करामा तक — नक्शा', 'transport', 'नक्शा'),
                  dest=pin(0, 0, 'करामा सेंटर', True),
                  spk=svg(I['speak'], 22, '1.8', C['marigoldText']),
                  cup=svg(I['food'], 21, '1.8', C['marigoldText']),
@@ -870,10 +867,7 @@ def fcard(name, sub, dist, cost, tags):
 
 
 body = '''<div class="screen">
-  <div class="row" style="justify-content: space-between; padding: 20px 20px 8px">
-    <h1 class="t1">खाना</h1>
-    %(pill)s
-  </div>
+  %(hdr)s
   <div class="flow" style="gap: 12px">
     <div class="row" style="gap: 8px; flex-wrap: wrap">
       %(c1)s %(c2)s %(c3)s %(c4)s %(c5)s
@@ -885,7 +879,7 @@ body = '''<div class="screen">
   </div>
   %(bar)s
 </div>''' % dict(C,
-                 pill=pill('ऑफ़लाइन', 'wifioff'),
+                 hdr=hdr('आस-पास वेज खाना', 'food', 'सूची'),
                  c1=fchip('वेज', True), c2=fchip('जैन'), c3=fchip('सात्विक'),
                  c4=fchip('बिना प्याज़/लहसुन'), c5=fchip('झटपट'),
                  f1=fcard('चप्पन भोग', 'गुजराती थाली · करामा', '700 मी', 'AED 30–45',
@@ -947,7 +941,7 @@ body = '''<div class="screen">
   </div>
   %(bar)s
 </div>''' % dict(C,
-                 hdr=hdr('चप्पन भोग', right=pill('ऑफ़लाइन', 'wifioff')),
+                 hdr=hdr('चप्पन भोग', 'food', 'जगह'),
                  t1=tag('वेज'), t2=tag('जैन'), t3=tag('बिना प्याज़/लहसुन'),
                  p=photo, ic=svg(I['talk'], 19, '1.9', C['marigoldText']),
                  b1=btn('कैसे पहुँचें', 'primary', 'route'),
@@ -993,7 +987,7 @@ body = '''<div class="screen">
   </div>
   %(bar)s
 </div>''' % dict(C,
-                 hdr=hdr('बोलना है', right=pill('ऑफ़लाइन', 'wifioff')),
+                 hdr=hdr('इस होटल तक ले चलो', 'talk', 'बोलिए'),
                  mic=svg(I['mic'], 21, '1.8', C['muted']),
                  b1=btn('अरबी में सुनाएँ', 'ghost', 'speak'),
                  b2=btn('ड्राइवर को दिखाएँ', 'primary'),
@@ -1003,12 +997,7 @@ write('SayIt', body)
 
 # ---------------------------------------------------------------- 10. ShowDriver
 body = '''<div class="screen" style="background: %(card)s">
-  <div class="row" style="justify-content: space-between; padding: 20px 20px 0">
-    <span class="muted" style="font-size: 14px; font-weight: 600; letter-spacing: 0.04em">
-      ड्राइवर को दिखाएँ</span>
-    <div style="width: 48px; height: 48px; margin-right: -12px; display: flex;
-                align-items: center; justify-content: center">%(close)s</div>
-  </div>
+  %(hdr)s
 
   <div class="flow" style="justify-content: center; gap: 30px">
     <p class="ar" style="margin: 0; font-size: 46px; font-weight: 700; line-height: 1.5;
@@ -1029,7 +1018,7 @@ body = '''<div class="screen" style="background: %(card)s">
                             font-size: 19px">%(spk)s
       <span class="ar" style="font-size: 22px">اسمع</span></div>
   </div>
-</div>''' % dict(C, close=svg(I['close'], 22, '1.9', C['muted']),
+</div>''' % dict(C, hdr=hdr('ड्राइवर को दिखाएँ', 'talk', 'बोलिए › दिखाएँ', offline=False),
                  spk=svg(I['speak'], 24, '1.8', C['marigold']))
 write('ShowDriver', body)
 
@@ -1053,10 +1042,7 @@ def prow(hi, ar):
 
 
 body = '''<div class="screen">
-  <div class="row" style="justify-content: space-between; padding: 20px 20px 8px">
-    <h1 class="t1">ज़रूरी वाक्य</h1>
-    %(pill)s
-  </div>
+  %(hdr)s
   <div class="flow" style="gap: 12px">
     <div class="row" style="gap: 8px; flex-wrap: wrap">
       %(t1)s %(t2)s %(t3)s %(t4)s %(t5)s
@@ -1067,7 +1053,7 @@ body = '''<div class="screen">
   </div>
   %(bar)s
 </div>''' % dict(C,
-                 pill=pill('ऑफ़लाइन', 'wifioff'),
+                 hdr=hdr('तैयार वाक्य', 'talk', 'तैयार वाक्य'),
                  t1=ptab('टैक्सी', True), t2=ptab('होटल'), t3=ptab('दुकान'),
                  t4=ptab('खाना'), t5=ptab('आपात'),
                  r1=prow('इस पते पर ले चलो', 'خذني إلى هذا العنوان'),
@@ -1099,10 +1085,7 @@ def erow(label, name, sub, action):
 
 
 body = '''<div class="screen">
-  <div class="row" style="justify-content: space-between; padding: 20px 20px 8px">
-    <h1 class="t1">मदद</h1>
-    %(pill)s
-  </div>
+  %(hdr)s
   <div class="flow" style="gap: 11px">
     %(c1)s %(c2)s %(c3)s
     <div style="height: 2px"></div>
@@ -1117,7 +1100,7 @@ body = '''<div class="screen">
   </div>
   %(bar)s
 </div>''' % dict(C,
-                 pill=pill('ऑफ़लाइन भी · पास के बाद भी', 'wifioff'),
+                 hdr=hdr('मदद — पास के बाद भी चालू', 'help'),
                  c1=callbtn('पुलिस', '999'),
                  c2=callbtn('एम्बुलेंस', '998'),
                  c3=callbtn('दमकल', '997'),
@@ -1185,7 +1168,7 @@ body = '''<div class="screen">
     </div>
   </div>
 </div>''' % dict(C,
-                 hdr=hdr('पास', right=homebtn()),
+                 hdr=hdr('पास', 'home', 'पास', offline=False),
                  p1=plan('अकेले', '₹199', '7 दिन · 1 डिवाइस'),
                  p2=plan('परिवार', '₹399', '7 दिन · 4 डिवाइस तक',
                          '₹796 की जगह ₹399', on=True),
@@ -1271,7 +1254,7 @@ body = '''<div class="screen">
     <span class="muted" style="font-size: 14px; text-align: center; padding-bottom: 18px">
       सभी डिवाइस का पास 19 सितंबर तक चलेगा</span>
   </div>
-</div>''' % dict(C, hdr=hdr('परिवार पास', right=homebtn()), qr=qr,
+</div>''' % dict(C, hdr=hdr('परिवार पास', 'home', 'पास › परिवार', offline=False), qr=qr,
                  d1=device('यह फ़ोन', 'आपका डिवाइस', 'owner'),
                  d2=device('अंजलि', '12 सित॰ को जुड़ी', 'joined'),
                  d3=device('', '', 'empty'))
@@ -1334,7 +1317,7 @@ body = '''<div class="screen">
     </div>
   </div>
 </div>''' % dict(C,
-                 hdr=hdr('सेटिंग', right=homebtn()),
+                 hdr=hdr('सेटिंग', 'home', 'पास › सेटिंग', offline=False),
                  r1=srow('मेरा होटल', 'Hotel Rimal, Deira', 'pencil'),
                  r4=packrow(),
                  r6=srow('भाषा', 'हिंदी'),
