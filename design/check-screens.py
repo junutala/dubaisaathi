@@ -48,6 +48,14 @@ def main() -> int:
             if HOME_ICON not in text:
                 fail(name, 'no way home')
 
+        # Home is the counter and four tiles, nothing else.
+        if name in ('Main', 'MainDark'):
+            if text.count('data-tap="tile"') != 4:
+                fail(name, 'home must have exactly four tiles')
+            for extra in ('data-tap="mic"', 'data-tap="button"'):
+                if extra in text:
+                    fail(name, 'home carries a control beyond the tiles and counter: %s' % extra)
+
         # A colour value must never reach the traveller as text.
         if name != 'Brand':
             for leak in re.findall(r'>\s*#[0-9A-Fa-f]{6}', text):

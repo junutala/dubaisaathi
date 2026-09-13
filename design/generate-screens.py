@@ -418,7 +418,9 @@ write('Welcome', body)
 # ---------------------------------------------------------------------- 4. Home
 # Utility app, so it opens straight into the four things it does — no login, no splash gate.
 # The counter at the top is the only chrome: trial countdown before purchase, pass remaining
-# after. Voice sits under the tiles because it is the fastest route into any of them.
+# after. No mic here: on home a spoken "करामा" could mean a route or a restaurant, and the
+# guess is a bad first impression of voice. The mic lives where it has context — 1.1, 3.1 and
+# the bar on every child screen — one tap away, no guessing.
 def tile(key, label, danger=False):
     icon = dict(FUNCS_BY_KEY)[key]
     bg = C['redSoft'] if danger else C['marigoldSoft']
@@ -474,33 +476,17 @@ HOME = '''<div class="screen" style="position: relative">
     %(counter)s
 
     <div style="flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 12px; padding-bottom: 96px">
+                gap: 12px; padding-bottom: 22px">
       %(t1)s %(t2)s %(t3)s %(t4)s
     </div>
   </div>
-
-  <div style="position: absolute; left: 0; right: 0; bottom: 26px; display: flex;
-              flex-direction: column; align-items: center; gap: 7px">
-    %(mic)s
-    <span class="muted" style="font-size: 13.5px">
-      बोलकर पूछिए — “करामा कैसे जाऊँ?”</span>
-  </div>
 </div>'''
-
-# Same size and same place as the mic in the quick bar, so the gesture is identical wherever
-# the traveller is in the app.
-mic_btn = glow(
-    '<div style="width: 62px; height: 62px; border-radius: 31px; background: %s; '
-    'display: flex; align-items: center; justify-content: center" data-tap="mic">%s</div>'
-    % (C['marigold'], svg(I['mic'], 30, '1.6', C['onMarigold'])),
-    radius=33, surface=C['marigold'], pad='2.5px')
 
 for name, kind in [('Main', 'trial')]:
     write(name, HOME % dict(
         C, netIcon=svg(I['wifioff'], 20, '2', C['teal']), counter=counter(kind),
         t1=tile('transport', 'रास्ता'), t2=tile('food', 'खाना'),
-        t3=tile('talk', 'बोलना'), t4=tile('help', 'मदद', danger=True),
-        mic=mic_btn))
+        t3=tile('talk', 'बोलना'), t4=tile('help', 'मदद', danger=True)))
 
 # --------------------------------------------------- 1.1 रास्ता › कहाँ जाना है?
 # What the रास्ता tile opens onto. One question, three ways to answer it: say it, type it,
