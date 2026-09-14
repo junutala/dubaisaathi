@@ -69,21 +69,54 @@ export const FOOD_TAGS = [
   'indian-vegetarian',
   'quick-snack',
   'south-indian',
+  'north-indian',
   'gujarati',
+  'punjabi',
+  'chinese',
+  'arabic',
   'thali',
 ] as const;
 export type FoodTag = (typeof FOOD_TAGS)[number];
+
+/**
+ * What kind of kitchen it is — the first thing an Indian traveller needs to know and the first
+ * thing a card says. Its own field rather than a tag because every outlet has exactly one, and
+ * because the distinction a tag array cannot make is the one that matters: `pure-veg` is a
+ * kitchen with no meat in it, `mixed` serves vegetarian food cooked alongside meat. For a great
+ * many travellers those are not the same answer, and "vegetarian options available" hides it.
+ */
+export const KITCHEN_KINDS = ['pure-veg', 'mixed', 'non-veg'] as const;
+export type KitchenKind = (typeof KITCHEN_KINDS)[number];
 
 export interface Restaurant {
   readonly id: string;
   readonly name: LocalisedName;
   readonly location: LatLng;
   readonly areaId?: string;
+  readonly kitchen: KitchenKind;
   readonly tags: readonly FoodTag[];
   /** Indicative cost for one person, in AED. */
   readonly approxCostAed?: number;
   readonly phone?: string;
   readonly notes?: LocalisedText;
+  /**
+   * What was asked in person, per `FieldReport.dietary`. Absent means nobody has asked yet —
+   * which is shown as "पूछिए", never as a no. Claiming a kitchen cannot feed a Jain traveller
+   * when nobody checked is the same defect as claiming it can.
+   */
+  readonly dietary?: Readonly<Record<string, 'yes' | 'on-request' | 'no'>>;
+  /** Named dishes a collector confirmed, e.g. a Jain sambar. Worth more than a kitchen-level flag. */
+  readonly confirmedDishes?: readonly ConfirmedDish[];
+}
+
+/**
+ * One dish, named, that a collector was told this kitchen will make to a dietary constraint.
+ * "यहाँ जैन सांबर मिलता है" is specific, checkable and useful; "जैन: पूछिए" is neither.
+ */
+export interface ConfirmedDish {
+  readonly name: LocalisedName;
+  readonly tags: readonly FoodTag[];
+  readonly priceAed?: number;
 }
 
 export interface Menu {
