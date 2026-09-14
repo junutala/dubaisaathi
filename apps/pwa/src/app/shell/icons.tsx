@@ -24,6 +24,15 @@ export type IconName =
   | 'bus'
   | 'taxi'
   | 'walk'
+  /**
+   * The tiles' own artwork, from the reference the owner approved on 14 September. They are
+   * illustrations at 56px rather than glyphs at 23px, which is why they are separate from the
+   * `route` / `food` / `info` marks the quick bar uses: this much line would be mush in a
+   * navigation bar, and a bar glyph is thin and empty on a tile.
+   */
+  | 'routeTile'
+  | 'foodTile'
+  | 'infoTile'
   // Shared: the map mark and the tick, wanted by both tiles.
   | 'pin'
   | 'check';
@@ -200,6 +209,56 @@ const SHAPES: Record<IconName, ReactNode> = {
       <path d="M13.4 3.8v4.6H18" />
       <path d="M8.6 12.4h6.8" />
       <path d="M8.6 15.6h6.8" />
+    </>
+  ),
+  // रास्ता — a compass beside a metro car, the two halves of getting somewhere in Dubai.
+  routeTile: (
+    <>
+      <circle cx="8" cy="10.4" r="5.3" />
+      <circle cx="8" cy="3.5" r="1.25" />
+      <path d="M8 4.75v1.3" />
+      <path d="M10.3 8.1 6.6 9.7 5.7 12.7l3.7-1.6Z" />
+      <rect x="13.6" y="6.6" width="8" height="9.2" rx="2.4" />
+      <path d="M13.6 10.6h8" />
+      <circle cx="15.9" cy="13.2" r="0.75" fill="currentColor" stroke="none" />
+      <circle cx="19.3" cy="13.2" r="0.75" fill="currentColor" stroke="none" />
+      <path d="M12.2 18.9h10.6" />
+      <path d="M14.6 15.8 13 18.9" />
+      <path d="M20.6 15.8 22.2 18.9" />
+    </>
+  ),
+  // खाना — a covered thali beside a glass of chai. Nothing on it says which cuisine.
+  foodTile: (
+    <>
+      <path d="M2.9 13.4a5.5 5.5 0 0 1 11 0" />
+      <circle cx="8.4" cy="6.5" r="1.05" />
+      <path d="M8.4 7.55v0.4" />
+      <path d="M1.8 13.4h13.2" />
+      <path d="M16.9 10.2h4.9l-0.75 8.4a1.5 1.5 0 0 1-1.5 1.35h-0.4a1.5 1.5 0 0 1-1.5-1.35Z" />
+      <path d="M18 12.6v5" />
+      <path d="M20.7 12.6v5" />
+      <path d="M18.4 8.2c0.7-0.8-0.7-1.5 0-2.3" />
+      <path d="M20.5 8.2c0.7-0.8-0.7-1.5 0-2.3" />
+    </>
+  ),
+  /**
+   * ज़रूरी जानकारी — the passport and the shield that keeps it safe.
+   *
+   * The reference artwork puts a **medical cross** behind the passport. It is not here and must
+   * never be: design rule 16a and decision 002 forbid it on the owner's own instruction, because
+   * this app conveys nothing medical and a cross on a travel document promises help we do not
+   * give. Red appears on no screen for the same reason.
+   */
+  infoTile: (
+    <>
+      <rect x="3.6" y="2.8" width="11.6" height="15.8" rx="1.9" />
+      <circle cx="9.4" cy="8.6" r="2.9" />
+      <path d="M6.5 8.6h5.8" />
+      <path d="M9.4 5.7c1.45 1.6 1.45 4.2 0 5.8" />
+      <path d="M9.4 5.7c-1.45 1.6-1.45 4.2 0 5.8" />
+      <path d="M6.4 14.1h6" />
+      <path d="M6.4 16.2h3.8" />
+      <path d="M17.3 12.4 20.4 11.2l3.1 1.2v3.1c0 2.1-1.7 3.5-3.1 4.1-1.4-0.6-3.1-2-3.1-4.1Z" />
     </>
   ),
   check: (

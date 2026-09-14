@@ -27,16 +27,16 @@ const TILES: readonly TileDef[] = [
   {
     key: 'tile.transport',
     blurb: 'tile.transport.blurb',
-    icon: 'route',
+    icon: 'routeTile',
     route: { screen: 'transport' },
   },
   {
     key: 'tile.food',
     blurb: 'tile.food.blurb',
-    icon: 'food',
+    icon: 'foodTile',
     route: { screen: 'food' },
   },
-  { key: 'tile.info', blurb: 'tile.info.blurb', icon: 'info', route: { screen: 'info' } },
+  { key: 'tile.info', blurb: 'tile.info.blurb', icon: 'infoTile', route: { screen: 'info' } },
 ];
 
 /**
@@ -87,7 +87,7 @@ export function HomeScreen({
             {/* Size and stroke come from the stylesheet: the icon is a share of the tile, not
                 a fixed number of pixels. */}
             <span className="tile-icon">
-              <Icon name={tile.icon} color="var(--marigoldText)" />
+              <Icon name={tile.icon} color="var(--marigold)" />
             </span>
             <span className="tile-text">
               <span className="tile-name">{t(tile.key)}</span>

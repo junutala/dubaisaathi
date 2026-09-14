@@ -12,6 +12,8 @@ export default tseslint.config(
       '**/node_modules/**',
       // A checkout of this repo made for an agent to work in, not source of its own.
       '.claude/worktrees/**',
+      // Deno, not the app: different runtime, different globals, its own type-checking.
+      'supabase/functions/**',
     ],
   },
   js.configs.recommended,

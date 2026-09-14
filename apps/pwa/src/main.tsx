@@ -6,6 +6,7 @@ import { loadPhrasePack, loadTransportPack, parsePhrasePack } from './db/content
 import { parseTransportPack } from './features/transport/index.js';
 import { requestPersistentStorage } from './db/schema.js';
 import { applyPendingUpdate } from './app/updates.js';
+import { startVoiceEventSync } from './features/voice/sync.js';
 import pack from '../../../data/phrases/phrases.v1.json';
 import transport from '../../../data/transport/network.v1.json';
 import './fonts.css';
@@ -23,6 +24,10 @@ await applyPendingUpdate();
 void requestPersistentStorage();
 void loadPhrasePack(parsePhrasePack(pack));
 void loadTransportPack(parseTransportPack(transport));
+
+// The learning loop leaves the phone here, and only here. Nothing waits on it: it tries once on
+// boot and again when the phone says it is back online, and a failure leaves the queue intact.
+startVoiceEventSync();
 
 createRoot(root).render(
   <StrictMode>

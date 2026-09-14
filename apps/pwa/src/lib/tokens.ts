@@ -22,6 +22,12 @@ export const LIGHT = {
   tealLine: '#BFE3DD',
   sand: '#F7F3EC',
   card: '#FFFDF9',
+  /**
+   * The tiles sit on plain white rather than the card's cream, on the owner's instruction after
+   * seeing the artwork: the marigold line drawings read as washed out against a warm ground.
+   * In dark it is the card colour — white tiles at night would be a torch.
+   */
+  tile: '#FFFFFF',
   line: '#E6DED2',
   muted: '#5B6070',
   chev: '#8A8F9E',
@@ -43,6 +49,7 @@ export const DARK: Record<keyof typeof LIGHT, string> = {
   tealLine: '#1E4A44',
   sand: '#14161F',
   card: '#1D202C',
+  tile: '#1D202C',
   line: '#2D3242',
   muted: '#9AA1B3',
   chev: '#7B8397',
