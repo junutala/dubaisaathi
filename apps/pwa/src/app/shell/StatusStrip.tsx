@@ -1,6 +1,7 @@
 import { useSettings } from '../settings.js';
 import { LOCALES, LOCALE_LABEL } from '../../i18n/index.js';
 import { Icon } from './icons.js';
+import { navigate } from '../routes.js';
 
 /**
  * The status strip: on every screen after the landing page, always in the same place.
@@ -37,7 +38,14 @@ export function StatusStrip({ validity }: { validity: Validity }) {
         {t(online ? 'strip.online' : 'strip.offline')}
       </span>
 
-      <button type="button" className="strip-validity" aria-label={label}>
+      <button
+        type="button"
+        className="strip-validity"
+        aria-label={label}
+        onClick={() => {
+          navigate({ screen: 'pass' });
+        }}
+      >
         <span className="strip-validity-label">{label}</span>
         <span className="strip-track">
           <span style={{ width: `${String(validity.percent)}%`, background: fill }} />
@@ -45,7 +53,13 @@ export function StatusStrip({ validity }: { validity: Validity }) {
       </button>
 
       {RECHARGE_STATES.has(validity.state) && (
-        <button type="button" className="strip-recharge">
+        <button
+          type="button"
+          className="strip-recharge"
+          onClick={() => {
+            navigate({ screen: 'pass' });
+          }}
+        >
           {t('strip.recharge')}
         </button>
       )}

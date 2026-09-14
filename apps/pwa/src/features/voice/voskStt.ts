@@ -105,6 +105,17 @@ export async function downloadVoskModel(
       if (total > 0) onProgress(received / total);
     }
 
+    /**
+     * It must actually be the model. A server that 404s, a captive portal that answers every
+     * request with a login page, or a navigation fallback that hands back the app shell all
+     * return 200 with a body — and caching any of them stores something that will never load,
+     * in a cache with no expiry, which the traveller would then have to be told to clear.
+     *
+     * A gzip archive starts 0x1f 0x8b. Two bytes, and the whole class of silent failure goes.
+     */
+    const first = chunks[0];
+    if (first?.[0] !== 0x1f || first[1] !== 0x8b) return false;
+
     const body = new Blob(chunks as BlobPart[], { type: 'application/gzip' });
     const cache = await caches.open(MODEL_CACHE);
     await cache.put(VOSK_MODEL_URL, new Response(body));

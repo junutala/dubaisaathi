@@ -196,6 +196,35 @@ check(
   mic.error ?? mic.text,
 );
 
+/**
+ * The landing page, which is the first thing a traveller ever sees and the only place the
+ * offline pack is fetched (owner's instruction, 14 September). It gates on the download so the
+ * 42 MB is never being fetched at the moment somebody needs it.
+ */
+await page.goto(`${base}/`, { waitUntil: 'domcontentloaded' }).catch(() => undefined);
+await page.waitForTimeout(2500);
+const landing = await probe(page, () => ({
+  brand: document.querySelector('.landing-name')?.textContent ?? null,
+  start: document.querySelector('.landing ~ button, .landing button.btn-primary') !== null,
+  started: localStorage.getItem('saathi.started'),
+}));
+check(
+  'the first open is the landing page, not the tiles',
+  !landing.error && landing.brand !== null && landing.started === null,
+  JSON.stringify(landing),
+);
+
+// Past it, the way a traveller goes past it: by pressing the button once it is live.
+await probe(page, async () => {
+  const start = document.querySelector('.landing button.btn-primary');
+  for (let i = 0; i < 40 && start?.disabled; i += 1) {
+    await new Promise((done) => setTimeout(done, 250));
+  }
+  document.querySelector('.landing button.btn-primary')?.click();
+  await new Promise((done) => setTimeout(done, 300));
+  return true;
+});
+
 await context.setOffline(true);
 await page.goto(`${base}/`, { waitUntil: 'domcontentloaded' }).catch(() => undefined);
 await page.waitForTimeout(1500);

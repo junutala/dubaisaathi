@@ -1,10 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { ParsedIntent } from '@saathi/shared';
 import { href, navigate, parseRoute, type Route } from './routes.js';
-import { StatusStrip, type Validity } from './shell/StatusStrip.js';
+import { StatusStrip } from './shell/StatusStrip.js';
 import type { Tile } from './shell/ScreenHeader.js';
 import { HomeScreen } from '../features/home/HomeScreen.js';
 import { FoodListScreen } from '../features/food/index.js';
+import { PassScreen } from '../features/pass/PassScreen.js';
+import { LandingScreen } from '../features/landing/LandingScreen.js';
+import { noteLocationReading, validity } from '../features/pass/entitlement.js';
+import { currentLocation } from '../lib/location.js';
 import { SayEntryScreen } from '../features/phrases/SayEntryScreen.js';
 import { ArabicScreen } from '../features/phrases/ArabicScreen.js';
 import { ShowDriverScreen } from '../features/phrases/ShowDriverScreen.js';
@@ -23,12 +27,6 @@ import {
 } from '../features/transport/index.js';
 import { landingHref } from '../features/voice/micRouting.js';
 
-/**
- * Until the spike lands, the counter is a placeholder: the trial state a tourist sees on their
- * free day. The real value comes from the Counter Off Time on the device.
- */
-const PLACEHOLDER_VALIDITY: Validity = { state: 'trial', percent: 76, hours: 18 };
-
 /** Which tile's mic was tapped, so 1.2 shows the crumb of where the traveller came from. */
 function tileOf(route: Route): Tile {
   switch (route.screen) {
@@ -43,6 +41,8 @@ function tileOf(route: Route): Tile {
       return 'info';
     case 'food':
       return 'food';
+    case 'pass':
+      return 'home';
     case 'transport':
     case 'nolocation':
     case 'options':
@@ -55,7 +55,22 @@ function tileOf(route: Route): Tile {
   }
 }
 
+/**
+ * The landing page is shown once, on the first open, and never again — it is where the whole
+ * offline pack comes down (owner's instruction, 14 September). Recorded in localStorage rather
+ * than in the database because it is read before the first paint.
+ */
+const STARTED_KEY = 'saathi.started';
+
 export function App() {
+  const [started, setStarted] = useState(() => {
+    try {
+      return localStorage.getItem(STARTED_KEY) !== null;
+    } catch {
+      // Private mode: better to show the app than to trap someone on a landing page for ever.
+      return true;
+    }
+  });
   const [route, setRoute] = useState<Route>(() => parseRoute(window.location.hash));
   /**
    * What the mic understood, and which screen it sent them to. Kept together so "आपने कहा: …"
@@ -84,6 +99,29 @@ export function App() {
     navigate({ screen: 'listen', from: tileOf(parseRoute(window.location.hash)) });
   }, []);
 
+  /**
+   * The counter, recomputed on a minute's tick. It is the money on every screen, so it may not
+   * be a value captured once at boot that quietly goes stale over an afternoon.
+   */
+  const [clock, setClock] = useState(() => Date.now());
+  useEffect(() => {
+    const tick = setInterval(() => {
+      setClock(Date.now());
+    }, 60_000);
+    return () => {
+      clearInterval(tick);
+    };
+  }, []);
+
+  /**
+   * Has this phone arrived? Asked on every boot and on every tick, from whatever fix the app
+   * already holds — never by waking the GPS, and never concluded from a single reading.
+   */
+  useEffect(() => {
+    const here = currentLocation();
+    noteLocationReading(here.kind === 'here' ? here.at : undefined);
+  }, [clock]);
+
   const banner = heard?.at === href(route) ? heard.intent : undefined;
   /**
    * The mic lands on 1.1, because a destination is two questions and the traveller answers one
@@ -96,9 +134,26 @@ export function App() {
       ? heard.intent
       : undefined;
 
+  if (!started) {
+    return (
+      <div className="screen">
+        <LandingScreen
+          onReady={() => {
+            try {
+              localStorage.setItem(STARTED_KEY, new Date().toISOString());
+            } catch {
+              /* it will simply be shown once more */
+            }
+            setStarted(true);
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="screen">
-      <StatusStrip validity={PLACEHOLDER_VALIDITY} />
+      <StatusStrip validity={validity(new Date(clock))} />
       {route.screen === 'home' && <HomeScreen />}
       {route.screen === 'listen' && (
         <ListenScreen from={route.from} onHeard={onHeard} onMic={onMic} />
@@ -123,6 +178,7 @@ export function App() {
       {route.screen === 'docAdd' && <DocumentAddScreen onMic={onMic} />}
       {route.screen === 'docView' && <DocumentScreen docId={route.docId} />}
       {route.screen === 'food' && <FoodListScreen onMic={onMic} heard={banner} />}
+      {route.screen === 'pass' && <PassScreen onMic={onMic} />}
     </div>
   );
 }

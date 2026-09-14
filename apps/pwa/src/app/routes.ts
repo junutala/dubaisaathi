@@ -27,7 +27,9 @@ export type Route =
   | { readonly screen: 'docAdd' }
   | { readonly screen: 'docView'; readonly docId: string }
   // 2.1
-  | { readonly screen: 'food' };
+  | { readonly screen: 'food' }
+  // घर.1
+  | { readonly screen: 'pass' };
 
 function isOptionId(value: string | undefined): value is RouteOptionId {
   return value === 'metro' || value === 'bus' || value === 'walk' || value === 'taxi';
@@ -68,6 +70,8 @@ export function parseRoute(hash: string): Route {
       return arg ? { screen: 'docView', docId: arg } : { screen: 'info' };
     case 'food':
       return { screen: 'food' };
+    case 'pass':
+      return { screen: 'pass' };
     default:
       return { screen: 'home' };
   }
@@ -103,6 +107,8 @@ export function href(route: Route): string {
       return `#/doc/${route.docId}`;
     case 'food':
       return '#/food';
+    case 'pass':
+      return '#/pass';
   }
 }
 

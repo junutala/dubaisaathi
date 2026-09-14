@@ -1228,3 +1228,54 @@ button:not(:disabled) {
   border: 1px solid var(--line);
   border-radius: 24px;
 }
+
+/* ---- 1 · लैंडिंग ----------------------------------------------------------------------
+   The first open, and the only place the offline pack is fetched. Shown once. */
+.landing {
+  text-align: center;
+  align-items: stretch;
+}
+.landing-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 28px 0 6px;
+}
+.landing-name {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.1;
+  margin: 0;
+}
+.landing-usp {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+.landing-jobs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 15px;
+  color: var(--muted);
+}
+/* The bar is a real fraction of a real file, never a spinner that lies. */
+.landing-track {
+  display: block;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--line);
+  overflow: hidden;
+}
+.landing-track > span {
+  display: block;
+  height: 100%;
+  background: var(--marigold);
+  transition: width 0.3s ease;
+}

@@ -1,0 +1,152 @@
+import type { LatLng } from '@saathi/shared';
+import type { Validity } from '../../app/shell/StatusStrip.js';
+import { CONFIRMATIONS_NEEDED, readingSaysDubai } from './dubai.js';
+
+/**
+ * The Counter Off Time — the one number entitlement runs on (decision 006).
+ *
+ * The rule, as the owner stated it:
+ *
+ * - **Nothing counts while the traveller is in India.** The app is free there so it can be tried
+ *   before the trip; a pass bought in India waits for the plane.
+ * - **Landing in Dubai starts 24 hours.** That is the free day.
+ * - **Paying adds 14 days — 336 hours — from landing, not from payment.** Whether they paid in
+ *   Dubai or had already paid in India, the counter is the same one and it starts on arrival.
+ * - **A group subscription shares one cut-off.** Every device on a family pass ends at the
+ *   master's time, carried on the pass itself rather than recomputed per phone.
+ *
+ * It lives in localStorage rather than IndexedDB because the status strip reads it on every
+ * screen, synchronously, before anything has had a chance to open a database.
+ */
+
+const KEY = 'saathi.entitlement';
+
+export const TRIAL_HOURS = 24;
+export const PAID_HOURS = 336;
+
+const HOUR = 3600_000;
+
+export interface Entitlement {
+  /** First open. Kept for "free in India for a year", which is a fact about this install. */
+  readonly installedAt: string;
+  /** Confirmed arrival. Absent until enough readings agree — never set on one fix. */
+  readonly landedAt?: string;
+  /** Readings that have said Dubai so far. Reset to nothing once landing is recorded. */
+  readonly sightings?: number;
+  /** A pass has been paid for. It may have been bought in India, before landing. */
+  readonly paid?: boolean;
+  /**
+   * A group pass carries the master's cut-off, so four phones end together even though they
+   * landed at different times. When set it wins over everything computed here.
+   */
+  readonly groupEndsAt?: string;
+  /** True when the traveller asked to try the app as though they were in Dubai. */
+  readonly pretendingDubai?: boolean;
+}
+
+function read(): Entitlement {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw !== null) return JSON.parse(raw) as Entitlement;
+  } catch {
+    // Private mode, or something that is not ours. A fresh install is the safe reading.
+  }
+  const fresh: Entitlement = { installedAt: new Date().toISOString() };
+  write(fresh);
+  return fresh;
+}
+
+function write(next: Entitlement): void {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(next));
+  } catch {
+    /* nothing we can do, and nothing a traveller should see */
+  }
+}
+
+export function entitlement(): Entitlement {
+  return read();
+}
+
+export function updateEntitlement(patch: Partial<Entitlement>): Entitlement {
+  const next = { ...read(), ...patch };
+  write(next);
+  return next;
+}
+
+/** For tests and for a traveller who wants to start again. */
+export function forgetEntitlement(): void {
+  try {
+    localStorage.removeItem(KEY);
+  } catch {
+    /* nothing to forget */
+  }
+}
+
+/**
+ * One reading of where the phone is. Called wherever the app already has a fix, and on boot.
+ * Returns the entitlement as it now stands, so a caller can see whether this reading landed.
+ */
+export function noteLocationReading(at: LatLng | undefined): Entitlement {
+  const current = read();
+  if (current.landedAt !== undefined) return current;
+  if (!readingSaysDubai(at)) return current;
+
+  const sightings = (current.sightings ?? 0) + 1;
+  if (sightings < CONFIRMATIONS_NEEDED) return updateEntitlement({ sightings });
+  // Confirmed. This is the moment the counter starts, and it never restarts.
+  return updateEntitlement({ landedAt: new Date().toISOString(), sightings: 0 });
+}
+
+/** Testing from India: the counter behaves exactly as it would on arrival. */
+export function pretendLanded(): Entitlement {
+  return updateEntitlement({ pretendingDubai: true, landedAt: new Date().toISOString() });
+}
+
+export function stopPretending(): Entitlement {
+  // The pretend landing goes with it: the traveller is back in India and the clock stops. Built
+  // field by field rather than by deleting one, so a future field cannot ride along by accident.
+  const current = read();
+  const next: Entitlement = {
+    installedAt: current.installedAt,
+    sightings: 0,
+    pretendingDubai: false,
+    ...(current.paid === undefined ? {} : { paid: current.paid }),
+    ...(current.groupEndsAt === undefined ? {} : { groupEndsAt: current.groupEndsAt }),
+  };
+  write(next);
+  return next;
+}
+
+/** Paying. The hours are added to the landing, never to the moment money changed hands. */
+export function recordPayment(groupEndsAt?: string): Entitlement {
+  return updateEntitlement({ paid: true, ...(groupEndsAt === undefined ? {} : { groupEndsAt }) });
+}
+
+/** When the counter runs out, or `null` while the traveller has not landed. */
+export function endsAt(state: Entitlement = read()): Date | null {
+  if (state.groupEndsAt !== undefined) return new Date(state.groupEndsAt);
+  if (state.landedAt === undefined) return null;
+  const hours = state.paid === true ? PAID_HOURS : TRIAL_HOURS;
+  return new Date(new Date(state.landedAt).getTime() + hours * HOUR);
+}
+
+/**
+ * What the status strip shows. The depleting line is the money, so it is never hidden and never
+ * guessed at: before landing there is nothing to depute, so the bar is full and says so.
+ */
+export function validity(now: Date = new Date(), state: Entitlement = read()): Validity {
+  const end = endsAt(state);
+  if (end === null) return { state: 'before', percent: 100 };
+
+  const total = (state.paid === true ? PAID_HOURS : TRIAL_HOURS) * HOUR;
+  const left = end.getTime() - now.getTime();
+  if (left <= 0) return { state: 'expired', percent: 0 };
+
+  const percent = Math.max(0, Math.min(100, Math.round((left / total) * 100)));
+  if (state.paid === true || state.groupEndsAt !== undefined) {
+    // Days, rounded up: "1 day left" must not appear while there are still twenty hours of it.
+    return { state: 'pass', percent, days: Math.ceil(left / (24 * HOUR)) };
+  }
+  return { state: 'trial', percent, hours: Math.ceil(left / HOUR) };
+}

@@ -215,6 +215,37 @@ export const en: Record<StringKey, string> = {
   'info.docView.delete': 'Delete',
   'info.docView.gone': 'This document is no longer on this phone.',
 
+  'landing.usp': 'No network in Dubai? Saathi works without the internet.',
+  'landing.job1': 'The map on your phone',
+  'landing.job2': 'Say it or type it in Hindi',
+  'landing.job3': 'Show it in Arabic',
+  'landing.preparing': 'Getting Saathi ready…',
+  'landing.preparingMinutes': 'Getting Saathi ready · {minutes} min left',
+  'landing.ready': 'Saathi is ready',
+  'landing.gateWhy':
+    'It starts once this finishes — so everything works in Dubai with no internet.',
+  'landing.failed': 'The voice part did not arrive',
+  'landing.failedWhy': 'Everything else works — just type. Voice will come down later on wifi.',
+  'landing.start': 'Start',
+  'landing.noLogin': 'No login. No account.',
+
+  'pass.title': 'Your pass',
+  'pass.state.before': 'Starts when you land in Dubai',
+  'pass.state.trial': 'Your free day is running',
+  'pass.state.pass': 'Pass is active',
+  'pass.state.expired': 'Pass has ended',
+  'pass.notStarted': 'Nothing is counting yet',
+  'pass.over': 'Time is up',
+  'pass.until': 'Until {when}',
+  'pass.rule':
+    'The clock does not run in India. Landing in Dubai starts 24 free hours, and a pass gives 14 days from that same landing.',
+  'pass.infoSurvives':
+    'Important info keeps working after the pass ends — the hotel, the documents and the numbers are on this phone.',
+  'pass.tryTitle': 'Try it from India',
+  'pass.tryWhy': 'The clock behaves exactly as it will in Dubai, so you can check it.',
+  'pass.tryOn': 'I am in Dubai (test)',
+  'pass.tryOff': 'Turn the test off',
+
   // ---- 2 · खाना -------------------------------------------------------------------------
   'food.title': 'Food',
   'food.label': 'What do you want to eat?',
