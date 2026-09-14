@@ -1,0 +1,27 @@
+{
+  "contentVersion": 1,
+  "publishedAt": "2026-09-14T00:00:00Z",
+  "consulate": {
+    "id": "consulate-india-dubai",
+    "kind": "consulate",
+    "name": {
+      "en": "Indian Consulate",
+      "hi": "भारतीय कॉन्सुलेट",
+      "ar": "القنصلية الهندية",
+      "aliases": [
+        "indian consulate",
+        "भारतीय कॉन्सुलेट",
+        "consulate",
+        "कॉन्सुलेट",
+        "embassy",
+        "दूतावास",
+        "indian embassy"
+      ]
+    },
+    "phone": "+97143971222",
+    "where": {
+      "hi": "Bur Dubai · सोम–शुक्र 9–5",
+      "en": "Bur Dubai · Mon–Fri 9–5"
+    }
+  }
+}

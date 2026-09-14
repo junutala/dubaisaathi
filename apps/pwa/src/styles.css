@@ -677,3 +677,283 @@ button:not(:disabled) {
   align-self: center;
   margin-top: auto;
 }
+
+/* ---- 4 · ज़रूरी जानकारी ------------------------------------------------------------------
+
+   The calm shelf and its three children. Marigold for the things to press, teal for the
+   on-this-phone promise, indigo for हटाएँ — and no red anywhere on this tile, which is the
+   whole point of decision 002 (design rules 13 and 16a). */
+
+.info-hotel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 15px;
+}
+
+/* The identity block is the control: empty it invites the capture, filled it opens 4.2 again
+   so a pin made in the lobby can gain the card photo a driver actually needs. */
+.info-hotel-id {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 58px;
+  text-align: left;
+}
+
+.info-hotel-thumb {
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--sand);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.info-hotel-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info-hotel-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  /* Devanagari matras sit above and below the Latin line box (design rule 23a). */
+  line-height: 1.35;
+}
+.info-hotel-name {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.info-hotel-actions {
+  display: flex;
+  gap: 9px;
+}
+.info-hotel-actions > .btn {
+  flex: 1;
+  min-width: 0;
+  font-size: 15.5px;
+  padding: 0 10px;
+  text-align: center;
+}
+
+/* ---- the document list ---- */
+
+.doc-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 10px 15px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.doc-row-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--sand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doc-row-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  line-height: 1.35;
+}
+.doc-row-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Dashed, so it reads as a slot waiting to be filled rather than one more row of content. */
+.add-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 0 15px;
+  border: 1.5px dashed var(--line);
+  border-radius: 14px;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--marigoldText);
+}
+
+/* ---- the consulate, and the numbers ---- */
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px 15px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.info-row-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  line-height: 1.35;
+}
+.info-row-detail {
+  font-size: 15.5px;
+  font-weight: 600;
+}
+
+/* Knowledge, not a button — so it is text, with nothing that invites a tap. */
+.info-numbers {
+  padding-bottom: 6px;
+}
+
+/* ---- 4.2 · होटल जोड़ें ---- */
+
+.info-anyone {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* A label when it wraps a file input and a button when it asks the phone for a fix; the same
+   row either way, because to a traveller they are three ways of doing one thing. */
+.pick-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 72px;
+  padding: 14px 15px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pick-icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 13px;
+  background: var(--marigoldSoft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pick-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.35;
+}
+.pick-title {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+/* ---- 4.3 · दस्तावेज़ जोड़ें ---- */
+
+.shot {
+  height: 236px;
+  border-radius: 16px;
+  background: var(--sand);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.shot-label {
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.shot-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* The file input itself is never seen — the row or the box around it is the control. It is
+   clipped rather than `display: none`, so a phone's own picker still opens from the label. */
+.photo-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* The on-this-phone promise, in teal: offline-and-ready, said once where it matters. */
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 12px 14px;
+  background: var(--tealSoft);
+  border: 1px solid var(--tealLine);
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--tealText);
+}
+
+/* ---- 4.4 · दस्तावेज़ ---- */
+
+.doc-view {
+  padding-bottom: 16px;
+  gap: 12px;
+}
+
+.doc-full {
+  flex: 1;
+  min-height: 0;
+  border-radius: 14px;
+  background: var(--sand);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.doc-full img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.doc-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.doc-foot > .muted {
+  flex: 1;
+  min-width: 0;
+}

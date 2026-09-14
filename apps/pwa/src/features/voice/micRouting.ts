@@ -22,7 +22,7 @@ export function landingFor(intent: ParsedIntent): Route | 'ask' {
         ? { screen: 'say' }
         : { screen: 'arabic', phraseId: intent.phraseId };
     case 'document':
-      return { screen: 'soon', tile: 'info' };
+      return { screen: 'info' };
     case 'place':
     case 'unknown':
       return 'ask';

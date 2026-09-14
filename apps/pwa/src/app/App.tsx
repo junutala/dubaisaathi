@@ -8,6 +8,12 @@ import { SoonScreen } from '../features/home/SoonScreen.js';
 import { SayEntryScreen } from '../features/phrases/SayEntryScreen.js';
 import { ArabicScreen } from '../features/phrases/ArabicScreen.js';
 import { ShowDriverScreen } from '../features/phrases/ShowDriverScreen.js';
+import {
+  DocumentAddScreen,
+  DocumentScreen,
+  HotelAddScreen,
+  InfoHomeScreen,
+} from '../features/info/index.js';
 import { ListenScreen } from '../features/voice/ListenScreen.js';
 import { landingHref } from '../features/voice/micRouting.js';
 
@@ -24,6 +30,11 @@ function tileOf(route: Route): Tile {
     case 'arabic':
     case 'driver':
       return 'talk';
+    case 'info':
+    case 'hotelAdd':
+    case 'docAdd':
+    case 'docView':
+      return 'info';
     case 'soon':
       return route.tile;
     case 'listen':
@@ -76,6 +87,10 @@ export function App() {
         <ArabicScreen phraseId={route.phraseId} onMic={onMic} heard={banner} />
       )}
       {route.screen === 'driver' && <ShowDriverScreen phraseId={route.phraseId} />}
+      {route.screen === 'info' && <InfoHomeScreen onMic={onMic} heard={banner} />}
+      {route.screen === 'hotelAdd' && <HotelAddScreen onMic={onMic} />}
+      {route.screen === 'docAdd' && <DocumentAddScreen onMic={onMic} />}
+      {route.screen === 'docView' && <DocumentScreen docId={route.docId} />}
       {route.screen === 'soon' && <SoonScreen tile={route.tile} onMic={onMic} heard={banner} />}
     </div>
   );

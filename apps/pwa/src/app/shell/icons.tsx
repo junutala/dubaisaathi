@@ -14,7 +14,13 @@ export type IconName =
   | 'moon'
   | 'wifi'
   | 'wifioff'
-  | 'language';
+  | 'language'
+  | 'camera'
+  | 'pin'
+  | 'plus'
+  | 'phone'
+  | 'doc'
+  | 'check';
 
 /**
  * The shapes themselves, not path strings: the four tile icons are drawn with rects, lines and
@@ -122,6 +128,44 @@ const SHAPES: Record<IconName, ReactNode> = {
       <path d="M16.8 11.9a8.8 8.8 0 0 0-1.8-1.1" />
       <path d="M11.9 17.6h.1" />
       <path d="M4.2 4.2l15.6 15.6" />
+    </>
+  ),
+  // ज़रूरी जानकारी's own four, plus the tick that marks the on-this-phone promise. Nothing
+  // here is a cross, and nothing here is red (design rule 16a).
+  camera: (
+    <>
+      <path d="M4.2 8.6a1.8 1.8 0 0 1 1.8-1.8h2.2l1.3-2h5l1.3 2H18a1.8 1.8 0 0 1 1.8 1.8v8.2a1.8 1.8 0 0 1-1.8 1.8H6a1.8 1.8 0 0 1-1.8-1.8V8.6Z" />
+      <circle cx="12" cy="12.6" r="3.2" />
+    </>
+  ),
+  pin: (
+    <>
+      <path d="M12 20.2s6.2-5.4 6.2-9.7a6.2 6.2 0 0 0-12.4 0c0 4.3 6.2 9.7 6.2 9.7Z" />
+      <circle cx="12" cy="10.5" r="2.2" />
+    </>
+  ),
+  plus: (
+    <>
+      <path d="M12 6.2v11.6" />
+      <path d="M6.2 12h11.6" />
+    </>
+  ),
+  phone: (
+    <>
+      <path d="M6.6 4.6h3.2l1.5 3.9-2.1 1.5a9.2 9.2 0 0 0 4.8 4.8l1.5-2.1 3.9 1.5v3.2c0 1-.9 1.8-1.9 1.7C11.2 18.9 5.1 12.8 4.9 6.5 4.8 5.5 5.6 4.6 6.6 4.6Z" />
+    </>
+  ),
+  doc: (
+    <>
+      <path d="M7 3.8h6.6L18 8.2v10.4a1.6 1.6 0 0 1-1.6 1.6H7a1.6 1.6 0 0 1-1.6-1.6V5.4A1.6 1.6 0 0 1 7 3.8Z" />
+      <path d="M13.4 3.8v4.6H18" />
+      <path d="M8.6 12.4h6.8" />
+      <path d="M8.6 15.6h6.8" />
+    </>
+  ),
+  check: (
+    <>
+      <path d="M5.2 12.6 9.6 17 18.8 7.2" />
     </>
   ),
   language: (

@@ -1,5 +1,6 @@
 import Dexie, { type EntityTable } from 'dexie';
 import type { ContentVersion, Phrase, VoiceEvent } from '@saathi/shared';
+import type { SavedHotel, TravellerDocument } from '../features/info/records.js';
 
 /**
  * The local database. Everything the traveller needs lives here, because the network is for
@@ -12,6 +13,8 @@ export class SaathiDb extends Dexie {
   phrases!: EntityTable<Phrase, 'id'>;
   contentVersions!: EntityTable<ContentVersion, 'id'>;
   voiceEvents!: EntityTable<VoiceEvent, 'id'>;
+  hotels!: EntityTable<SavedHotel, 'id'>;
+  documents!: EntityTable<TravellerDocument, 'id'>;
 
   constructor(name = 'saathi') {
     super(name);
@@ -30,6 +33,22 @@ export class SaathiDb extends Dexie {
       phrases: 'id, situation',
       contentVersions: 'id, version',
       voiceEvents: 'id, at, synced',
+    });
+    // v3: ज़रूरी जानकारी gets its two tables — the hotel and the traveller's documents, both
+    // carrying photographs as Blobs (decision 003). The three tables above are re-declared
+    // unchanged, which is what tells Dexie to carry their rows across untouched: a phone that
+    // has waited for a 42 MB voice model and photographed a passport must not lose either to a
+    // release of ours. Nothing is dropped and no index is rewritten, so no upgrade function is
+    // needed — `migration.test.ts` opens a v2 database and proves the rows survive.
+    //
+    // `documents` is indexed by `addedAt` because the only ordering 4.1 asks for is newest
+    // first; `hotels` needs no secondary index, since there is one hotel and it has one key.
+    this.version(3).stores({
+      phrases: 'id, situation',
+      contentVersions: 'id, version',
+      voiceEvents: 'id, at, synced',
+      hotels: 'id',
+      documents: 'id, addedAt',
     });
   }
 }

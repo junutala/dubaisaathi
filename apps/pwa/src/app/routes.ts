@@ -12,7 +12,11 @@ export type Route =
   | { readonly screen: 'say' }
   | { readonly screen: 'arabic'; readonly phraseId: string }
   | { readonly screen: 'driver'; readonly phraseId: string }
-  | { readonly screen: 'soon'; readonly tile: 'transport' | 'food' | 'info' };
+  | { readonly screen: 'info' }
+  | { readonly screen: 'hotelAdd' }
+  | { readonly screen: 'docAdd' }
+  | { readonly screen: 'docView'; readonly docId: string }
+  | { readonly screen: 'soon'; readonly tile: 'transport' | 'food' };
 
 function isTile(value: string | undefined): value is Tile {
   return value === 'transport' || value === 'food' || value === 'talk' || value === 'info';
@@ -29,8 +33,16 @@ export function parseRoute(hash: string): Route {
       return arg ? { screen: 'arabic', phraseId: arg } : { screen: 'say' };
     case 'driver':
       return arg ? { screen: 'driver', phraseId: arg } : { screen: 'say' };
+    case 'info':
+      return { screen: 'info' };
+    case 'hotel-add':
+      return { screen: 'hotelAdd' };
+    case 'doc-add':
+      return { screen: 'docAdd' };
+    case 'doc':
+      return arg ? { screen: 'docView', docId: arg } : { screen: 'info' };
     case 'soon':
-      return arg === 'transport' || arg === 'food' || arg === 'info'
+      return arg === 'transport' || arg === 'food'
         ? { screen: 'soon', tile: arg }
         : { screen: 'home' };
     default:
@@ -50,6 +62,14 @@ export function href(route: Route): string {
       return `#/arabic/${route.phraseId}`;
     case 'driver':
       return `#/driver/${route.phraseId}`;
+    case 'info':
+      return '#/info';
+    case 'hotelAdd':
+      return '#/hotel-add';
+    case 'docAdd':
+      return '#/doc-add';
+    case 'docView':
+      return `#/doc/${route.docId}`;
     case 'soon':
       return `#/soon/${route.tile}`;
   }

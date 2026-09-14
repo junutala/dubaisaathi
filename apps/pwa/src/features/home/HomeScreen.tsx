@@ -35,12 +35,7 @@ const TILES: readonly TileDef[] = [
     icon: 'food',
     route: { screen: 'soon', tile: 'food' },
   },
-  {
-    key: 'tile.info',
-    blurb: 'tile.info.blurb',
-    icon: 'info',
-    route: { screen: 'soon', tile: 'info' },
-  },
+  { key: 'tile.info', blurb: 'tile.info.blurb', icon: 'info', route: { screen: 'info' } },
 ];
 
 /**

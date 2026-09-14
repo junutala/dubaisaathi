@@ -16,7 +16,7 @@ describe('where the mic lands', () => {
     ['Jain khana kahaan milega', '#/soon/food'],
     ['ड्राइवर को बोलो होटल ले चलो', '#/arabic/taxi-hotel'],
     ['driver ko bolo meter chalu karo', '#/arabic/taxi-meter'],
-    ['beema dikhao', '#/soon/info'],
+    ['beema dikhao', '#/info'],
   ])('sends "%s" to %s', (said, hash) => {
     const route = landing(said);
     expect(route).not.toBe('ask');
@@ -42,6 +42,8 @@ describe('where the mic lands', () => {
 
 function hashOf(route: Exclude<ReturnType<typeof landingFor>, 'ask'>): string {
   switch (route.screen) {
+    case 'info':
+      return '#/info';
     case 'soon':
       return `#/soon/${route.tile}`;
     case 'arabic':
