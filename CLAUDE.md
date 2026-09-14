@@ -27,6 +27,8 @@ This file is the working summary; the concept doc wins on any detail it covers.
   things are done. Partially applying a list is a failure, not a judgement call.
 - **If an instruction cannot be done, say so and stop.** Never silently substitute your own
   choice for the one you were given.
+- **Delivered means deployed.** Work that is committed, merged or "pushed" has reached nobody.
+  See "Shipping" below: take it to production, and say plainly when it did not get there.
 - **Fix causes, not instances.** If one screen is wrong for a structural reason, the
   structure is wrong everywhere — fix it everywhere in the same pass, not one screen per
   round of review.
@@ -316,6 +318,37 @@ pass for one slot, bounded by the master expiry and reconciled on sync (see
   until it is green.
 - Dead code goes. No commented-out blocks, no unused exports, no `TODO` without an owner and a
   reason.
+
+## Shipping — "done" means live, or it means nothing
+
+**A change is not delivered until it is running at `dubai.saafarsaathi.in` and the owner can
+open it on his phone.** Commits, branches, merges and green CI are steps on the way; none of
+them is the destination. Saying "pushed" or "done" about work that is sitting on a branch reads
+as delivery and is not — it cost this project ten days once, and an owner testing yesterday's
+build while being told today's was shipped.
+
+So, every time:
+
+- **Take the change to production.** A pull request's logical end is a deployment, not a merge.
+  If it is merged and not deployed, the task is not finished.
+- **Say where it actually got to, every time, in plain words.** Not "pushed". Either
+  _"live at dubai.saafarsaathi.in, deployed «when», open it and look"_, or _"NOT deployed —
+  «reason»"_. If the deployment did not happen, or failed, or was skipped, **say so first and
+  plainly**, before anything else in the message. An unmentioned non-deployment is a false
+  report of completion.
+- **Check, do not assume.** Read the deployment's status and the commit it actually built. A
+  deploy that was triggered is not a deploy that succeeded, and a service can be building from
+  a branch nobody has pushed to for a week.
+- **Know which branch production builds from.** Railway's `pwa` service deploys
+  `junutala/dubaisaathi` on one branch into the `production` environment; work on any other
+  branch reaches nobody until it lands there. Check the service source rather than trusting
+  this line to stay current.
+- **If deploying needs the owner, ask for that decision on its own** and do not bury it under a
+  summary of the code. It is the only part he cannot do for himself by reading.
+
+A release also never takes something away from a phone (see the rule above): a deploy must not
+evict a traveller's voice model, documents or hotel. That is a property of what is shipped, and
+it is checked before shipping, not after.
 
 ## Repository layout
 
