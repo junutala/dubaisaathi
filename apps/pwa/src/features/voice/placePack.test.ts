@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { intentCorpus } from './intentPacks.js';
 import { parseIntent } from './parseIntent.js';
+import { carriesMoreThanThePlace } from '../transport/destinations.js';
 import {
   typedDestinationPhrase,
   typedDestinationPhraseId,
@@ -145,5 +146,24 @@ describe('a place we will never have still gets the traveller there', () => {
 
   it('has nothing to say about an empty box', () => {
     expect(typedDestinationPhrase('   ')).toBeNull();
+  });
+});
+
+describe('an address inside a place we know keeps the part that says which door', () => {
+  /**
+   * The residual half of the owner's Satwa objection. Satwa is in the pack now, so
+   * "Satwa, Al Hudaiba Building" resolves — and resolving it is exactly how the building gets
+   * thrown away. A driver shown خذني إلى السطوة has been told the neighbourhood and nothing
+   * about the door, which is the bare-"mall" defect one level down.
+   */
+  it('knows when the traveller wrote more than the place name', () => {
+    expect(carriesMoreThanThePlace('Satwa Al Hudaiba Building', 'Satwa')).toBe(true);
+    expect(carriesMoreThanThePlace('karama mein Zabeel House', 'Karama')).toBe(true);
+  });
+
+  it('knows when they wrote only the place, in either script', () => {
+    expect(carriesMoreThanThePlace('करामा जाना है', 'करामा')).toBe(false);
+    expect(carriesMoreThanThePlace('mujhe karama jaana hai', 'karama')).toBe(false);
+    expect(carriesMoreThanThePlace('metro se dubai mall le chalo', 'dubai mall')).toBe(false);
   });
 });

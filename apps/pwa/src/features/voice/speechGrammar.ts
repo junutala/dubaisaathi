@@ -44,7 +44,7 @@ export const GRAMMAR_UNKNOWN = '[unk]';
  * them, because a grammar that forbids "मुझे" hears something else in its place and that
  * something else is a word the parser does read.
  */
-const GLUE: readonly string[] = [
+export const GLUE: readonly string[] = [
   'मुझे',
   'मैं',
   'मै',
@@ -118,6 +118,66 @@ const GLUE: readonly string[] = [
   'अभी',
   'एक',
   'तीन',
+];
+
+/**
+ * The same glue as typed rather than spoken. Folding unifies most pairs — "मुझे" and "mujhe"
+ * both become `muje` — but not all of them, and typing is the front door now (decision 014).
+ * Only the Devanagari list above goes into the recogniser's grammar; this one exists for
+ * reading what someone wrote.
+ */
+export const ROMAN_GLUE: readonly string[] = [
+  'mujhe',
+  'main',
+  'mai',
+  'hum',
+  'humein',
+  'aap',
+  'mera',
+  'meri',
+  'mere',
+  'yahan',
+  'wahan',
+  'is',
+  'us',
+  'yeh',
+  'woh',
+  'ko',
+  'ka',
+  'ki',
+  'ke',
+  'mein',
+  'me',
+  'se',
+  'tak',
+  'par',
+  'aur',
+  'ya',
+  'bhi',
+  'hi',
+  'nahi',
+  'haan',
+  'kya',
+  'kahan',
+  'kaise',
+  'kitna',
+  'chalo',
+  'jaana',
+  'jana',
+  'hai',
+  'hain',
+  'wala',
+  'wali',
+  'paas',
+  'pass',
+  'near',
+  'the',
+  'a',
+  'to',
+  'at',
+  'in',
+  'on',
+  'of',
 ];
 
 /** Devanagari, and nothing Roman mixed in — see the note on the lexicon above. */

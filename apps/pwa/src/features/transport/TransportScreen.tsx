@@ -4,7 +4,7 @@ import { useSettings } from '../../app/settings.js';
 import { navigate } from '../../app/routes.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { QuickBar } from '../../app/shell/QuickBar.js';
-import { Icon } from '../../app/shell/icons.js';
+import { Icon, type IconName } from '../../app/shell/icons.js';
 import { AskBar } from '../ask/AskBar.js';
 import { HeardBanner } from '../voice/HeardBanner.js';
 import {
@@ -18,7 +18,9 @@ import {
   hasBeenAsked,
   type Location,
 } from '../../lib/location.js';
-import { localName, placeById, placeFromText } from './destinations.js';
+import { carriesMoreThanThePlace, localName, placeById, placeFromText } from './destinations.js';
+import { recentPlaces, rememberPlace } from './recentPlaces.js';
+import { readHotel, type SavedHotel } from '../info/index.js';
 
 /**
  * 1.1 — रास्ता › कहाँ जाना है?
@@ -61,6 +63,19 @@ export function TransportScreen({
   const [location, setLocation] = useState<Location>(currentLocation);
   /** The reason goes on the screen before the phone's prompt, and only the first time (rule 9). */
   const [explaining] = useState(() => !hasBeenAsked());
+  /** Read once on arrival, so the shortcuts reflect what this phone has actually done. */
+  const [recent] = useState(() => recentPlaces());
+  const [hotel, setHotel] = useState<SavedHotel | null>(null);
+
+  useEffect(() => {
+    let live = true;
+    void readHotel().then((row) => {
+      if (live) setHotel(row ?? null);
+    });
+    return () => {
+      live = false;
+    };
+  }, []);
 
   // A destination handed in arrives already filled: the traveller sees the place in the box and
   // can correct it, rather than being sent onward by a screen they never touched.
@@ -118,6 +133,7 @@ export function TransportScreen({
       navigate({ screen: 'nolocation' });
       return;
     }
+    rememberPlace(place.id);
     navigate({ screen: 'options', placeId: place.id });
   };
 
@@ -138,10 +154,17 @@ export function TransportScreen({
       navigate({ screen: 'arabic', phraseId: typedDestinationPhraseId(words) });
       return;
     }
-    if (destinationPhrase(place) === null) {
-      navigate({ screen: 'arabic', phraseId: typedDestinationPhraseId(place.name.en) });
+    // The place resolved, but they wrote more than its name — a building, a street, a flat.
+    // Showing the driver only the neighbourhood throws away the part that says which door.
+    if (destinationPhrase(place) === null || carriesMoreThanThePlace(words, place.name.en)) {
+      rememberPlace(place.id);
+      navigate({
+        screen: 'arabic',
+        phraseId: typedDestinationPhraseId(words === '' ? place.name.en : words),
+      });
       return;
     }
+    rememberPlace(place.id);
     navigate({ screen: 'arabic', phraseId: destinationPhraseId(place.id) });
   };
 
@@ -198,9 +221,64 @@ export function TransportScreen({
           </button>
         </div>
 
+        {/* A tourist's week is four or five places over and over, so the screen offers the ones
+            this phone has actually used rather than half a screen of nothing. These FILL THE BOX
+            and do not navigate: which of the two buttons is right still depends on whether the
+            traveller is in a hotel room or at a taxi door, and that is not ours to decide.
+            Nothing here is ranked by what we imagine they would like — it is their own history
+            and their own hotel. */}
+        {(hotel?.area?.placeId !== undefined || recent.length > 0) && (
+          <div className="stack-sm">
+            <p className="lbl">{t('transport.quick')}</p>
+            <div className="chips">
+              {hotel?.area?.placeId !== undefined && (
+                <QuickPick
+                  label={t('transport.hotel')}
+                  icon="pin"
+                  onPick={() => {
+                    const place = placeById(hotel.area?.placeId ?? '');
+                    if (place) setTyped(localName(place.name, locale));
+                  }}
+                />
+              )}
+              {recent.map((place) => (
+                <QuickPick
+                  key={place.id}
+                  label={localName(place.name, locale)}
+                  onPick={() => {
+                    setTyped(localName(place.name, locale));
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="grow" />
       </div>
       <QuickBar current="transport" onMic={onMic} />
     </>
+  );
+}
+
+/**
+ * One shortcut. It is a control, so it is 48px like every other (design rule 20), and it fills
+ * the box rather than acting — a shortcut that decided for the traveller would be the same
+ * mistake as a mall alias that decided which mall.
+ */
+function QuickPick({
+  label,
+  icon,
+  onPick,
+}: {
+  readonly label: string;
+  readonly icon?: IconName;
+  readonly onPick: () => void;
+}) {
+  return (
+    <button type="button" className="chip" data-tap onClick={onPick}>
+      {icon && <Icon name={icon} size={17} strokeWidth={1.9} />}
+      {label}
+    </button>
   );
 }

@@ -6,3 +6,5 @@ export { InfoHomeScreen } from './InfoHomeScreen.js';
 export { HotelAddScreen } from './HotelAddScreen.js';
 export { DocumentAddScreen } from './DocumentAddScreen.js';
 export { DocumentScreen } from './DocumentScreen.js';
+export { readHotel } from './storage.js';
+export type { SavedHotel } from './records.js';
