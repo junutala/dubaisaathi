@@ -339,10 +339,11 @@ So, every time:
 - **Check, do not assume.** Read the deployment's status and the commit it actually built. A
   deploy that was triggered is not a deploy that succeeded, and a service can be building from
   a branch nobody has pushed to for a week.
-- **Know which branch production builds from.** Railway's `pwa` service deploys
-  `junutala/dubaisaathi` on one branch into the `production` environment; work on any other
-  branch reaches nobody until it lands there. Check the service source rather than trusting
-  this line to stay current.
+- **Know which branch production builds from.** `main` is production: Railway's `pwa` service
+  builds `junutala/dubaisaathi` on `main` into the `production` environment, and a push to it
+  deploys. Work on any other branch reaches nobody until it is merged there. It built from a
+  working branch until 14 September, which is how a day's work went live to no one — check the
+  service source rather than trusting this line to stay current.
 - **If deploying needs the owner, ask for that decision on its own** and do not bury it under a
   summary of the code. It is the only part he cannot do for himself by reading.
 
@@ -426,72 +427,80 @@ The screens are the design source of truth and live in `design/`:
 - The reviewed canvas: https://claude.ai/code/artifact/3e0e153e-76fe-4a9d-bf95-a5ca966848c5
   — republish to that URL, never a new one.
 
-## Start here tomorrow (written 13 September, end of day)
+## Start here (written 14 September, end of day)
 
-**The nucleus is that it works with no internet — not that it hears you.** That is the USP, in the
-owner's words on 13 September, and it is what the next days are for. Voice is on the second bench. A
-day spent making the offline experience complete beats a day spent making recognition slightly less
-wrong.
+**All four tiles are built, `main` is production, and the schema is applied.** What is left is
+not screens — it is the server, and the content.
 
-**The decision: build the three unbuilt tiles, with typing at the front.** रास्ता, खाना and
-ज़रूरी जानकारी have entry screens that say they are being built. That is the work. Voice
-recognition is not developed further until those tiles exist (decision 014).
+**1. The edge functions.** This is the one that blocks everything else. Five tables exist in the
+real Supabase project and **not one row has ever reached them**, because nothing receives the
+device's queue. Until a function takes it, there is no learning loop, no pass, no order, and
+none of the numbers the owner wants for negotiating with outlets and attractions. Everything
+else on this list is smaller than this.
 
-**Settle this before writing tile 1.** "Discovery Gardens jaana hai" is _show me the transport_ in
-a hotel room and _tell the driver_ at a taxi door. Today it opens रास्ता, and "Discovery Gardens le
-chalo" does too, because `le chalo` is filed as a route keyword — so the sentence said leaning into
-a taxi never reaches the Arabic.
+**2. Content, which is worth more than any feature.** Two cheap things and one big one:
 
-The owner's constraint decides the shape: **the traveller is not going to be taught a phrasing.** So
-do not infer — serve both readings on one screen. A resolved destination lands on रास्ता carrying
-_how to get there_ and _show this to the driver_ together. That dissolves the mic-placement question
-too, because the home input stops having to guess. Decision 014 has the reasoning; what is left is
-the screen design, which is the owner's call.
+- Discovery Gardens, International City, Al Qusais and Satwa into `places.v1.json` — the
+  neighbourhoods Indian travellers actually stay in, missing since the start.
+- `data/restaurants/restaurants.dev.json` replaced by collected outlets. It is a fixture and it
+  says so; खाना is only as good as it.
+- The collectors' app, `docs/field-app-plan.md`. Five decisions in it are open for the owner,
+  including whether to build it before खाना or hand-seed to develop against.
 
-**Tomorrow also: a fresh look at the tile icons.** The owner likes the tile treatment — icon, name,
-and a line saying what it does — and wants the artwork revisited. Note two things before starting.
-The subtitle lines already ship (`tile.*.blurb` in both catalogues: _Where do you want to go?_,
-_Veg · Jain · nearby_, _Say it in Hindi, show it in Arabic_, _Hotel · documents · consulate_), so
-what is actually open is the icons. And the reference image the owner shared on 13 September puts a
-**medical cross** behind the passport on ज़रूरी जानकारी — which design rule 16a and decision 002
-forbid, on the owner's own instruction: this app conveys nothing medical, because it is not. Any new
-artwork for that tile keeps the cross off.
+**3. What the owner asked for and has not got yet.**
 
-**What happened today, so it is not rediscovered.** Nine hours produced one feature and five
-defects of mine, three of which the owner found by holding a phone:
+- **Aggregate demand and dwell.** Place demand is recorded exactly (`resolved_place_id`) and is
+  a query away once sync works. Dwell is agreed in principle and not built: a PWA gets no GPS in
+  the background, so the agreed approach is the gap between interactions plus coarse area on app
+  open, never a trail. The open question is the identifier — a per-place pseudonym counts unique
+  visitors without letting anyone chain places into an itinerary.
+- **The tile icons.** Still open from 13 September, still wanted, and the reference image the
+  owner shared puts a medical cross back on ज़रूरी जानकारी, which rule 16a and decision 002
+  forbid on his own instruction. Any new artwork keeps the cross off.
+- **Where the sixteen ready sentences belong.** Settled in principle: the phrase pack is for
+  moments where both people are standing in the same place — taxi sentences on रास्ता, food
+  sentences on the outlet card, and never attached to a phone number, because a call is two-way
+  and a phrase card is one-way.
 
-1. Grammar biasing built (decision 013) — the offline recogniser now decodes against our own 205
-   words with the model's unbiased decoder beside it. **Never tested on a phone.** The ten sentences
-   that would test it are in `docs/spikes/002`, ready to run if it is ever worth ten minutes.
-2. Nothing is acted on until the traveller agrees with it: what was heard goes into an editable box
-   with आगे बढ़िए under it. This is what makes the typing-first pivot cost no rework — speech and
-   typing were already one path by the end of the day.
-3. The microphone listened for ever: `stop()` was written and nothing called it. Fixed with an
-   end-of-speech clock and a हो गया button.
-4. The browser recogniser cut travellers off mid-sentence (`continuous = false`, there from the
-   start, invisible until the box showed people their own words).
-5. Our deployments were deleting the traveller's 42 MB model. See the rule above; it is the worst
-   defect this project has had.
-6. A one-off Arabic speech hiccup was being latched as "this phone has no Arabic voice".
+**4. The artboards are now behind the app.** 1.1 in `design/generate-screens.py` still shows the
+superseded screen with the big mic as the offer. The app is right and the artboard is stale;
+decision 015 and the ledger both say so. Regenerate before treating a screen as the truth.
 
-**The pattern worth breaking.** Every one of those was found by the owner on a phone, not by a
-test — including on a day when two test harnesses were built specifically to prevent that. The
-harnesses asserted properties that were true while the product was broken. Prefer a check that
-fails on the actual reported symptom over one that describes the design.
-
-**State of the owner's phone.** The voice model was evicted and must be downloaded once more; after
-the 13 September build a deploy can no longer take it. Testing offline is the only way to know which
-engine answered.
+**What today cost, so it is not repeated.** A full day's work — four tiles — went live to nobody,
+because Railway built from a working branch and "pushed" was reported as if it meant shipped.
+The owner found out by asking. Read the **Shipping** section above; it exists because of this.
+The second lesson is the same one as 13 September wearing different clothes: two harness defects
+today (a Blob the fake database silently discarded, a race that passed alone and failed in a full
+suite) both produced green tests over broken behaviour.
 
 ## Current state
 
 The screens are final and saved to the canvas — 25 artboards, all passing
 `design/check-screens.py`.
 
-`apps/pwa` runs. The shell (status strip, four tiles, shared header, quick bar with the mic),
-the whole of tile 3 — 3.1 say it or pick a sentence, 3.2 the Arabic, 3.3 show the driver — and
-**the mic** work end to end with the network off. रास्ता, खाना and ज़रूरी जानकारी open a screen
-that says they are being built; the mic still routes there, with _आपने कहा: …_ on it.
+**All four tiles are built and work with the network off** (14 September). Nothing stands on a
+placeholder — the "being built" screen and its route are gone.
+
+- **घर** is three tiles and the ask bar. बोलना came off the tiles and the quick bar on the
+  owner's instruction: it is not a place a traveller goes, it is something they do about a place
+  they are already going to. Every screen of tile 3 still works and still holds the sixteen ready
+  sentences — reached now from the destination that needs them, not from a front-page tile.
+- **The front door is a text box with a small ink mic at the end of it** (decision 014).
+  `features/ask/` holds it: `AskBar` is used by घर, रास्ता and खाना, and `submitSentence` is the
+  one path every sentence takes, typed or spoken, so the keyboard and the mic cannot drift apart.
+- **रास्ता** — 1.1 opens with the box and two ways out, कैसे जाएँ and ड्राइवर को दिखाएँ, because
+  the same sentence means the transport in a hotel room and the Arabic at a taxi door. 1.3 and
+  1.4 plan a real journey from the pack on the device. 1.5/1.6 are **not built**: see below.
+- **खाना** — 2.1 is the box over everything nearby, nearest first, with the kitchen kind on every
+  card. No preference learning, by the owner's rule: a constraint the traveller stated is
+  honoured, a taste is never predicted.
+- **ज़रूरी जानकारी** — the hotel (pinned or photographed, never typed), documents on the device,
+  the consulate and the numbers. Rule 6 holds: none of it touches the network, the trial or the
+  pass.
+- **बोलना** — 3.1, 3.2, 3.3 unchanged, plus "take me to «place»" composed in Arabic for any place
+  carrying an Arabic name (`features/phrases/destinationPhrase.ts`).
+
+The one thing a traveller cannot do yet is anything needing the server: see "Not built yet".
 
 The mic, as built (`apps/pwa/src/features/voice/`, decisions 009 and 010):
 
@@ -555,11 +564,22 @@ the GTM follows from whichever it is. Biasing is built (decision 013) and waitin
 
 ### Not built yet
 
-- Tiles 1, 2 and 4 beyond their entry screens — which is tomorrow's work (decision 014).
-- The backend's **code**. The five tables are written and verified against a real Postgres
-  (`supabase/migrations/`, `supabase/tests/`). The Supabase project exists (`pixlnjmpksmfqheotinp`)
-  but **no migration has been applied to it**, so the tables exist only in the repository. Nothing
-  syncs yet: the `VoiceEvent` queue sits on the device at `synced: false` with no server to send it
-  to — which now includes `correctedFrom`, the labelled recogniser errors travellers produce for us
-  by fixing a sentence before sending it. No IP address is stored anywhere; the owner ruled on that
-  on 13 September and reversing it needs a written reason (decision 011).
+- **The edge functions — the biggest gap.** The schema is now applied to the real Supabase
+  project (`pixlnjmpksmfqheotinp`): `devices`, `families`, `passes`, `orders`, `voice_events`,
+  RLS on with no policies by design. But **nothing writes to it**, because no function exists to
+  receive the device's queue. Every event is still sitting on phones at `synced: false`. Until a
+  function takes that queue, the learning loop, the pass, the order and every number the owner
+  wants to negotiate with are all theoretical. No IP address is stored anywhere; the owner ruled
+  on that on 13 September and reversing it needs a written reason (decision 011).
+- **1.5 and 1.6, the map screens.** Not a scheduling decision: every OSM source is blocked from
+  the build container, and rule 7 forbids bulk-downloading the tile services that are not. So
+  नक्शे पर देखें is not on 1.4 either — a button to a screen that does not exist is worse than no
+  button. Recorded in the ledger with that reason.
+- **Restaurant content.** `data/restaurants/restaurants.dev.json` is a **development fixture and
+  not collected content** — its own `warning` field says so, no dietary answer in it was asked of
+  a person, and every outlet shows पूछिए rather than a claim we cannot stand behind. खाना is only
+  as good as this file, and filling it is `docs/field-app-plan.md`: ~400 outlets, 20–25
+  collector-days.
+- **Places a budget traveller actually stays in.** Discovery Gardens, International City,
+  Al Qusais and Satwa are still missing from `data/intents/places.v1.json`. The owner's own
+  example sentence gets the honest "we do not know this place". Content, and cheap.
