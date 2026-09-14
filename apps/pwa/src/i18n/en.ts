@@ -43,6 +43,8 @@ export const en: Record<StringKey, string> = {
   'transport.locationWhy': 'Saathi needs your location to work out the way from here.',
   'transport.placeholder': 'Type a place name…',
   'transport.label': 'Where you want to go',
+  'transport.areaIsBig':
+    '{area} is a large area. Add the building or a nearby landmark if you can — it makes the driver’s job possible.',
   'transport.quick': 'Quick picks',
   'transport.hotel': 'My hotel',
   'transport.recent': 'Recent',

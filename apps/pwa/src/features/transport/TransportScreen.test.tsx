@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { SettingsProvider } from '../../app/settings.js';
-import { placeIdInPhrase } from '../phrases/destinationPhrase.js';
+import { typedTextInPhrase } from '../phrases/destinationPhrase.js';
 import { TransportScreen } from './TransportScreen.js';
 import { LocationDeniedScreen } from './LocationDeniedScreen.js';
 import { forgetLocation, hasBeenAsked } from '../../lib/location.js';
@@ -89,19 +89,26 @@ describe('1.1 — where do you want to go', () => {
     expect(navigate).toHaveBeenCalledWith({ screen: 'options', placeId: 'karama' });
   });
 
-  it('sends the same typed destination to the Arabic for a driver', () => {
+  /**
+   * The driver path no longer consults the place pack at all. It exists to bound the
+   * recogniser's vocabulary, and using it here is what turned "Satwa, Al Hudaiba Building" into
+   * "take me to Satwa" — a neighbourhood of eighty thousand handed over as an address.
+   */
+  it('sends the traveller’s own words to the Arabic for a driver, unchanged', () => {
     show();
     type('करामा जाना है');
     tap(DRIVER);
-    expect(navigate).toHaveBeenCalledWith({ screen: 'arabic', phraseId: 'go-to:karama' });
+    const [[route]] = navigate.mock.calls as [[{ screen: string; phraseId: string }]];
+    expect(route.screen).toBe('arabic');
+    expect(typedTextInPhrase(route.phraseId)).toBe('करामा जाना है');
   });
 
   /**
-   * The whole point of the screen: one sentence, two readings, and the app never guesses which.
-   * If the two buttons ever disagreed about the place, a traveller would be shown a driver the
-   * Arabic for somewhere they are not going — which is worse than showing nothing.
+   * One sentence, two readings, and the app never substitutes its own words for the
+   * traveller's on either. The route needs a coordinate so it resolves; the driver gets what
+   * was actually typed. Nothing is silently replaced on the way to either.
    */
-  it('does not let the two buttons disagree about which place was meant', () => {
+  it('resolves for the route and carries the words verbatim to the driver', () => {
     show();
     type('mujhe marina mall jaana hai');
     tap(OPTIONS);
@@ -111,7 +118,23 @@ describe('1.1 — where do you want to go', () => {
       [{ phraseId: string }],
     ];
     expect(toOptions.placeId).toBe('marina-mall');
-    expect(placeIdInPhrase(toArabic.phraseId)).toBe(toOptions.placeId);
+    expect(typedTextInPhrase(toArabic.phraseId)).toBe('mujhe marina mall jaana hai');
+  });
+
+  /** The owner's objection, as a test: a whole neighbourhood is not an address. */
+  it('says a neighbourhood is too big to be an address, and still lets them go', () => {
+    show();
+    type('Satwa');
+    expect(screen.getByText(/large area/i)).toBeTruthy();
+    tap(DRIVER);
+    const [[route]] = navigate.mock.calls as [[{ phraseId: string }]];
+    expect(typedTextInPhrase(route.phraseId)).toBe('Satwa');
+  });
+
+  it('stops saying it once they add the building', () => {
+    show();
+    type('Satwa Al Hudaiba Building');
+    expect(screen.queryByText(/large area/i)).toBeNull();
   });
 
   /** Rule 4: Hinglish is first-class input, not a fallback. */
@@ -185,7 +208,9 @@ describe('1.1 — where do you want to go', () => {
     type('करामा');
     await waitFor(() => {
       tap(DRIVER);
-      expect(navigate).toHaveBeenCalledWith({ screen: 'arabic', phraseId: 'go-to:karama' });
+      const [[route]] = navigate.mock.calls as [[{ screen: string; phraseId: string }]];
+      expect(route.screen).toBe('arabic');
+      expect(typedTextInPhrase(route.phraseId)).toBe('करामा');
     });
   });
 

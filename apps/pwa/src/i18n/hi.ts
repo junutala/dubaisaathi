@@ -44,6 +44,8 @@ export const hi = {
   'transport.locationWhy': 'रास्ता बताने के लिए साथी को आपकी जगह चाहिए.',
   'transport.placeholder': 'जगह का नाम लिखिए…',
   'transport.label': 'कहाँ जाना है',
+  'transport.areaIsBig':
+    '{area} काफ़ी बड़ा इलाक़ा है. इमारत या पास की कोई मशहूर जगह भी लिख दीजिए — ड्राइवर को आसानी होगी.',
   'transport.quick': 'जल्दी से',
   'transport.hotel': 'मेरा होटल',
   'transport.recent': 'हाल में',

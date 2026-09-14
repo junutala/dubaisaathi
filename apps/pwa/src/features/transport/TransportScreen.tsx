@@ -7,11 +7,7 @@ import { QuickBar } from '../../app/shell/QuickBar.js';
 import { Icon, type IconName } from '../../app/shell/icons.js';
 import { AskBar } from '../ask/AskBar.js';
 import { HeardBanner } from '../voice/HeardBanner.js';
-import {
-  destinationPhrase,
-  destinationPhraseId,
-  typedDestinationPhraseId,
-} from '../phrases/destinationPhrase.js';
+import { typedDestinationPhraseId } from '../phrases/destinationPhrase.js';
 import {
   askForLocation,
   currentLocation,
@@ -65,6 +61,19 @@ export function TransportScreen({
   const [explaining] = useState(() => !hasBeenAsked());
   /** Read once on arrival, so the shortcuts reflect what this phone has actually done. */
   const [recent] = useState(() => recentPlaces());
+  /**
+   * They have typed the name of a whole neighbourhood and nothing else. Satwa is eighty thousand
+   * people; a driver shown "take me to Satwa" concludes that somebody is wasting his time. So
+   * the screen asks for the building or the landmark — advice, never a gate: both buttons stay
+   * live, because a traveller who only knows the area still has to be able to go there.
+   */
+  const areaOnly = (() => {
+    const words = typed.trim();
+    if (words === '') return null;
+    const place = placeFromText(words);
+    if (place?.kind !== 'neighbourhood') return null;
+    return carriesMoreThanThePlace(words, place.name.en) ? null : localName(place.name, locale);
+  })();
   const [hotel, setHotel] = useState<SavedHotel | null>(null);
 
   useEffect(() => {
@@ -138,34 +147,28 @@ export function TransportScreen({
   };
 
   /**
-   * Showing a driver never needed the pack. A curated list holds the destinations tourists
-   * share; it can never hold a friend's flat in Satwa, which is often the reason they came. The
-   * driver already knows the city — so an address we cannot resolve still goes in front of him,
-   * in the traveller's own words, under an Arabic sentence he can read.
+   * Showing a driver never needed the pack, so it no longer consults it.
    *
-   * Only the route options genuinely need a coordinate, and they say so separately.
+   * The curated place list exists to bound the **recogniser's** vocabulary — a grammar has to
+   * know which words it may hear (decision 013). Voice went to the second bench (decision 014)
+   * and the list stayed on as a gatekeeper for a path that never needed one, which is how
+   * "Satwa, Al Hudaiba Building" became "take me to Satwa": a neighbourhood of eighty thousand
+   * people, handed to a driver as if it were an address.
+   *
+   * The driver knows the city. Our one job is to put the traveller's own words in front of him
+   * under a sentence he can read, changed in no way at all. What is left for the pack is
+   * coordinates for route planning, which genuinely need one.
    */
   const showDriver = () => {
     const words = typed.trim();
-    const place = resolve();
-    if (!place) {
-      if (words === '') return;
-      setTrouble(null);
-      navigate({ screen: 'arabic', phraseId: typedDestinationPhraseId(words) });
+    if (words === '') {
+      setTrouble({ kind: 'empty' });
       return;
     }
-    // The place resolved, but they wrote more than its name — a building, a street, a flat.
-    // Showing the driver only the neighbourhood throws away the part that says which door.
-    if (destinationPhrase(place) === null || carriesMoreThanThePlace(words, place.name.en)) {
-      rememberPlace(place.id);
-      navigate({
-        screen: 'arabic',
-        phraseId: typedDestinationPhraseId(words === '' ? place.name.en : words),
-      });
-      return;
-    }
-    rememberPlace(place.id);
-    navigate({ screen: 'arabic', phraseId: destinationPhraseId(place.id) });
+    setTrouble(null);
+    const place = placeFromText(words);
+    if (place) rememberPlace(place.id);
+    navigate({ screen: 'arabic', phraseId: typedDestinationPhraseId(words) });
   };
 
   return (
@@ -194,6 +197,10 @@ export function TransportScreen({
           placeholder="transport.placeholder"
           label="transport.label"
         />
+
+        {areaOnly !== null && (
+          <p className="muted small">{t('transport.areaIsBig', { area: areaOnly })}</p>
+        )}
 
         {trouble !== null && (
           <div className="stack-sm">
