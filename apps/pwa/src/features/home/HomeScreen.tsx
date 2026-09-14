@@ -1,7 +1,13 @@
+import { useState } from 'react';
+import type { ParsedIntent } from '@saathi/shared';
 import { useSettings } from '../../app/settings.js';
 import { navigate, type Route } from '../../app/routes.js';
 import { Icon, type IconName } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
+import { AskBar } from '../ask/AskBar.js';
+import { Clarifier } from '../ask/Clarifier.js';
+import { recordClarifierChoice, submitSentence } from '../ask/askSubmit.js';
+import { typedStt } from '../voice/stt.js';
 
 interface TileDef {
   readonly key: StringKey;
@@ -10,6 +16,12 @@ interface TileDef {
   readonly route: Route;
 }
 
+/**
+ * Three tiles, not four. बोलना came off: it is not a place a traveller goes, it is something
+ * they do about a place they are already going to — and now that रास्ता carries both readings of
+ * a destination, "say it in Arabic" is one tap from the sentence that needs it rather than a
+ * front-page errand of its own. A tile that has to be explained has not earned its place.
+ */
 const TILES: readonly TileDef[] = [
   {
     key: 'tile.transport',
@@ -23,7 +35,6 @@ const TILES: readonly TileDef[] = [
     icon: 'food',
     route: { screen: 'soon', tile: 'food' },
   },
-  { key: 'tile.talk', blurb: 'tile.talk.blurb', icon: 'talk', route: { screen: 'say' } },
   {
     key: 'tile.info',
     blurb: 'tile.info.blurb',
@@ -32,9 +43,38 @@ const TILES: readonly TileDef[] = [
   },
 ];
 
-/** Four tiles and the mic. Nothing else (rule 1). */
-export function HomeScreen({ onMic }: { readonly onMic: () => void }) {
+/**
+ * घर — the tiles, and the box that reaches all of them (decision 014).
+ *
+ * The box is the front door. A whole sentence carries its own intent, so "करामा जाना है" does not
+ * need the traveller to have picked a tile first; the tiles are for the times they would rather
+ * browse than say what they want.
+ */
+export function HomeScreen({
+  onMic,
+  onHeard,
+}: {
+  readonly onMic: () => void;
+  readonly onHeard: (intent: ParsedIntent) => void;
+}) {
   const { t } = useSettings();
+  const [typed, setTyped] = useState('');
+  /** Set only when the sentence was genuinely two questions — never as a way of stalling. */
+  const [asking, setAsking] = useState<ParsedIntent | null>(null);
+
+  const send = () => {
+    const outcome = submitSentence({ text: typed }, typedStt.id);
+    if (outcome === null) return;
+    if (outcome.at === 'ask') {
+      setAsking(outcome.intent);
+      return;
+    }
+    setAsking(null);
+    setTyped('');
+    onHeard(outcome.intent);
+    navigate(outcome.route);
+  };
+
   return (
     <div className="flow home">
       <div className="tiles">
@@ -43,6 +83,7 @@ export function HomeScreen({ onMic }: { readonly onMic: () => void }) {
             key={tile.key}
             type="button"
             className="tile"
+            data-tap
             onClick={() => {
               navigate(tile.route);
             }}
@@ -60,12 +101,43 @@ export function HomeScreen({ onMic }: { readonly onMic: () => void }) {
         ))}
       </div>
 
-      <div className="home-mic">
-        <button type="button" className="mic-lg" onClick={onMic} aria-label={t('nav.mic')}>
-          <Icon name="mic" size={31} strokeWidth={1.6} color="var(--onMarigold)" />
-        </button>
-        <span className="muted center">{t('home.micHint')}</span>
-      </div>
+      {asking !== null ? (
+        <Clarifier
+          intent={asking}
+          onPick={(choice) => {
+            recordClarifierChoice(asking, choice, typedStt.id);
+            onHeard(asking);
+            setAsking(null);
+            setTyped('');
+            navigate({ screen: 'soon', tile: choice === 'route' ? 'transport' : 'food' });
+          }}
+          actions={
+            // They typed it, so another go at the keyboard is the way forward — not "type it
+            // instead", which is where they already are.
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => {
+                setAsking(null);
+              }}
+            >
+              {t('ask.rewrite')}
+            </button>
+          }
+        />
+      ) : (
+        <div className="home-ask">
+          <AskBar
+            value={typed}
+            onChange={setTyped}
+            onSend={send}
+            onMic={onMic}
+            placeholder="ask.placeholder"
+            label="ask.label"
+          />
+          <span className="muted center">{t('ask.hint')}</span>
+        </div>
+      )}
     </div>
   );
 }

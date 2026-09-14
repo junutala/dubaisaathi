@@ -20,13 +20,13 @@ const SLOTS: readonly Slot[] = [
     route: { screen: 'soon', tile: 'transport' },
   },
   { tile: 'food', key: 'tile.food', icon: 'food', route: { screen: 'soon', tile: 'food' } },
-  { tile: 'talk', key: 'tile.talk', icon: 'talk', route: { screen: 'say' } },
   { tile: 'info', key: 'tile.info', icon: 'info', route: { screen: 'soon', tile: 'info' } },
 ];
 
 /**
- * Pick a tile and the other three drop here, so switching is one tap. The mic sits in the
- * middle because it is the way into all four: a whole sentence carries its own intent.
+ * Pick a tile and the others drop here, so switching is one tap. बोलना is not among them: it
+ * stopped being a tile when रास्ता began carrying both readings of a destination, and the bar
+ * lists tiles.
  */
 export function QuickBar({
   current,

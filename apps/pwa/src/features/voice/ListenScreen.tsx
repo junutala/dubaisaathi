@@ -7,7 +7,6 @@ import { QuickBar } from '../../app/shell/QuickBar.js';
 import type { StringKey } from '../../i18n/index.js';
 import { intentCorpus } from './intentPacks.js';
 import { isConfident, parseIntent } from './parseIntent.js';
-import { landingFor } from './micRouting.js';
 import {
   isSecureOrigin,
   resolveEngines,
@@ -18,6 +17,8 @@ import {
   type SttSession,
 } from './stt.js';
 import { recordVoiceEvent } from './voiceEvent.js';
+import { Clarifier } from '../ask/Clarifier.js';
+import { recordClarifierChoice, submitSentence } from '../ask/askSubmit.js';
 import { downloadVoskModel, voskModelState, type ModelState } from './voskStt.js';
 
 /**
@@ -140,29 +141,14 @@ export function ListenScreen({
       submitted: Readonly<{ text: string; heard?: string; unconstrained?: string }>,
       engineId: string,
     ) => {
-      const transcript = submitted.text.trim();
-      if (transcript === '') return;
-      const intent = parseIntent(transcript, intentCorpus);
-      const route = landingFor(intent);
-      const corrected = submitted.heard !== undefined && submitted.heard !== transcript;
-      void recordVoiceEvent({
-        transcript,
-        ...(corrected ? { correctedFrom: submitted.heard } : {}),
-        ...(submitted.unconstrained === undefined
-          ? {}
-          : { unconstrainedTranscript: submitted.unconstrained }),
-        intent: intent.kind,
-        confidence: intent.confidence,
-        landedOn: route === 'ask' ? 'listen' : route.screen,
-        failure: parseFailure(intent),
-        sttEngine: engineId,
-      });
-      if (route === 'ask') {
-        setPhase({ at: 'ask', intent });
+      const outcome = submitSentence(submitted, engineId);
+      if (outcome === null) return;
+      if (outcome.at === 'ask') {
+        setPhase({ at: 'ask', intent: outcome.intent });
         return;
       }
-      onHeard(intent);
-      navigate(route);
+      onHeard(outcome.intent);
+      navigate(outcome.route);
     },
     [onHeard],
   );
@@ -472,22 +458,26 @@ export function ListenScreen({
           <Clarifier
             intent={phase.intent}
             onPick={(choice) => {
-              void recordVoiceEvent({
-                transcript: phase.intent.transcript,
-                intent: choice,
-                confidence: phase.intent.confidence,
-                landedOn: choice === 'route' ? 'transport' : 'food',
-                failure: null,
-                clarifierChoice: choice,
-                sttEngine: used.current.id,
-              });
+              recordClarifierChoice(phase.intent, choice, used.current.id);
               onHeard(phase.intent);
               navigate({ screen: 'soon', tile: choice === 'route' ? 'transport' : 'food' });
             }}
-            onAgain={listen}
-            onType={() => {
-              startTyping();
-            }}
+            actions={
+              <>
+                <button type="button" className="btn btn-primary" onClick={listen}>
+                  {t('listen.again')}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  onClick={() => {
+                    startTyping();
+                  }}
+                >
+                  {t('listen.type')}
+                </button>
+              </>
+            }
           />
         )}
 
@@ -618,78 +608,6 @@ function ComposeBox({
 function composeTitle(phase: Phase): StringKey {
   if (phase.at !== 'compose') return 'listen.title';
   return phase.spoken === null ? 'listen.type' : 'listen.check';
-}
-
-/**
- * What the learning loop should call a sentence the parser could not act on. A place with no
- * verb became a question; anything else was simply not understood, and the transcript is the
- * only thing that can teach the packs otherwise.
- */
-function parseFailure(intent: ParsedIntent): VoiceFailure | null {
-  if (intent.kind === 'unknown') return 'unknown-intent';
-  if (intent.kind === 'place') return 'clarifier-shown';
-  return isConfident(intent) ? null : 'low-confidence';
-}
-
-/**
- * The two-button question. A bare place name could be a route or a restaurant; a sentence that
- * parsed to nothing gets the same treatment. Either way the traveller taps once and moves on.
- */
-function Clarifier({
-  intent,
-  onPick,
-  onAgain,
-  onType,
-}: {
-  readonly intent: ParsedIntent;
-  readonly onPick: (choice: 'route' | 'food') => void;
-  readonly onAgain: () => void;
-  readonly onType: () => void;
-}) {
-  const { t } = useSettings();
-  const known = intent.kind === 'place';
-
-  return (
-    <div className="listen">
-      <p className="listen-state">
-        {known
-          ? t('listen.whichOne', { text: intent.destination?.spoken ?? intent.transcript })
-          : t('listen.notUnderstood')}
-      </p>
-      {known ? (
-        <>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => {
-              onPick('route');
-            }}
-          >
-            {t('listen.askRoute')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-ghost"
-            onClick={() => {
-              onPick('food');
-            }}
-          >
-            {t('listen.askFood')}
-          </button>
-        </>
-      ) : (
-        <>
-          <p className="muted center">{t('listen.notUnderstoodWhy')}</p>
-          <button type="button" className="btn btn-primary" onClick={onAgain}>
-            {t('listen.again')}
-          </button>
-          <button type="button" className="btn btn-ghost" onClick={onType}>
-            {t('listen.type')}
-          </button>
-        </>
-      )}
-    </div>
-  );
 }
 
 /** Proof the mic is live. Five bars, no library, no audio analysis — it only has to say "on". */

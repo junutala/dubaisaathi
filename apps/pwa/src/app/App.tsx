@@ -67,7 +67,7 @@ export function App() {
   return (
     <div className="screen">
       <StatusStrip validity={PLACEHOLDER_VALIDITY} />
-      {route.screen === 'home' && <HomeScreen onMic={onMic} />}
+      {route.screen === 'home' && <HomeScreen onMic={onMic} onHeard={onHeard} />}
       {route.screen === 'listen' && (
         <ListenScreen from={route.from} onHeard={onHeard} onMic={onMic} />
       )}

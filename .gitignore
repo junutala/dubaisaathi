@@ -10,3 +10,6 @@ coverage/
 *.tsbuildinfo
 .vite/
 dist/models/
+
+# Agent worktrees — a checkout of this repo, not source of its own.
+.claude/worktrees/

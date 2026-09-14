@@ -32,7 +32,11 @@ export const en: Record<StringKey, string> = {
   'tile.talk.blurb': 'Say it in Hindi, show it in Arabic',
   'tile.info': 'Important info',
   'tile.info.blurb': 'Hotel · documents · consulate',
-  'home.micHint': 'Or just say it — “Marina Mall jaana hai”',
+  'ask.label': 'Ask Saathi',
+  'ask.placeholder': 'Ask Saathi…',
+  'ask.hint': 'Type in Hindi or Hinglish — “Karama jaana hai”',
+  'ask.mic': 'Fill it by speaking',
+  'ask.rewrite': 'Type it again',
 
   'say.title': 'What do you want to say?',
   'say.speak': 'Say it in Hindi',
