@@ -374,6 +374,26 @@ export interface VoiceEvent {
   readonly synced: boolean;
 }
 
+/**
+ * Opening hours, in the only shape that can answer "is it open now?" on a phone with no
+ * network. `closes` earlier than `opens` means past midnight: a 03:00 close belongs to the day
+ * that opened, not to the next one.
+ */
+export interface DayHours {
+  readonly opens: string;
+  readonly closes: string;
+}
+
+export interface OpeningHours {
+  /** The common case by far: the same times every day, so the collector answers once. */
+  readonly everyDay?: DayHours;
+  /** Sunday is 0. Only present when the outlet genuinely differs by day. */
+  readonly byDay?: Readonly<Record<number, DayHours>>;
+  /** Said plainly rather than derived at read time, because it is the 2am query. */
+  readonly openLate?: boolean;
+  readonly open24?: boolean;
+}
+
 export type FieldReportKind = 'restaurant' | 'place' | 'pharmacy' | 'hotel';
 
 export type FieldReportStatus = 'draft' | 'queued' | 'uploaded' | 'approved' | 'rejected';
@@ -399,10 +419,27 @@ export interface FieldReport {
     readonly noOnionGarlic: boolean | 'on-request';
     readonly eggless: boolean | 'on-request';
   };
+  /** What kind of kitchen it is — the first thing a card says, so it is one of the four required. */
+  readonly kitchen?: KitchenKind;
   /** Asked, not assumed — a number on a signboard does not mean they will bring it to a hotel. */
   readonly delivers?: 'yes' | 'no';
   readonly deliveryPhone?: string;
-  readonly hours?: string;
+  /**
+   * When it opens and closes, structured rather than written out.
+   *
+   * The owner insisted this stays, and was right to: Dubai does not sleep, and a traveller at
+   * 2am after a party is the moment this app becomes the reason they tell someone about it. The
+   * late places have no web presence, so nobody else can answer it. Free text cannot — "11am to
+   * late" computes nothing — so it is times, and `opens` may be later than `closes` when a
+   * kitchen runs past midnight.
+   */
+  readonly hours?: OpeningHours;
+  /** When a person last confirmed those hours, so a card can say "checked in March" honestly. */
+  readonly hoursConfirmedAt?: Timestamp;
+  /** Who answered the questions — "Suresh, manager". Makes a dietary claim checkable later. */
+  readonly spokeTo?: string;
+  /** Named dishes this kitchen said it will make to a constraint. The Jain sambar. */
+  readonly confirmedDishes?: readonly ConfirmedDish[];
   readonly priceForOneAed?: number;
   readonly frontPhotoIds: readonly string[];
   readonly menuPhotoIds: readonly string[];

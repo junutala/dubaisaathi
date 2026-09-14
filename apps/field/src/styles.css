@@ -1,0 +1,212 @@
+/*
+  The collectors' app. Plain on purpose: this is a tool for two people standing in a shop, not
+  something a traveller judges the product by. Big targets, one column, nothing decorative.
+*/
+:root {
+  --ink: #141826;
+  --muted: #5b6275;
+  --line: #e2ddd3;
+  --card: #fff;
+  --page: #f6f3ee;
+  --marigold: #e8871e;
+  --teal: #0b7a6b;
+  --trouble: #8a3a12;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.wrap {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 14px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.who {
+  font-weight: 600;
+}
+.queue {
+  font-size: 14px;
+  color: var(--teal);
+}
+/* Amber, not red: work that is waiting is not work that is lost. */
+.queue.waiting {
+  color: var(--marigold);
+  font-weight: 600;
+}
+
+.title {
+  font-size: 26px;
+  margin: 18px 0 0;
+}
+
+.saved {
+  margin: 0;
+  padding: 10px 12px;
+  background: #e1f2ef;
+  border-radius: 10px;
+  color: #0a5f54;
+}
+
+.sec {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sec h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.req {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--marigold);
+}
+
+input,
+textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 12px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+textarea {
+  min-height: 72px;
+}
+input[type='checkbox'] {
+  width: auto;
+  min-height: 0;
+}
+input[type='time'] {
+  flex: 1;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.row > span {
+  font-size: 15px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chip {
+  min-height: 44px;
+  padding: 0 14px;
+  font: inherit;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  color: var(--ink);
+}
+.chip.on {
+  background: var(--marigold);
+  border-color: var(--marigold);
+  color: #fff;
+  font-weight: 600;
+}
+
+.btn {
+  min-height: 48px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font: inherit;
+  font-weight: 600;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--ink);
+}
+.btn.primary {
+  background: var(--marigold);
+  border-color: var(--marigold);
+  color: #fff;
+}
+.btn.big {
+  min-height: 56px;
+  font-size: 17px;
+}
+.btn:disabled {
+  opacity: 0.5;
+}
+/* The file input is the button; the real control is hidden behind it. */
+.btn.file input {
+  display: none;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+
+.hint {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.hint.center {
+  text-align: center;
+}
+.trouble {
+  margin: 0;
+  font-size: 14px;
+  color: var(--trouble);
+}

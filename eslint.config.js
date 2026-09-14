@@ -14,6 +14,8 @@ export default tseslint.config(
       '.claude/worktrees/**',
       // Deno, not the app: different runtime, different globals, its own type-checking.
       'supabase/functions/**',
+      // A screenshot tool for looking at the collectors' app; it holds no product logic.
+      'apps/field/test/**',
     ],
   },
   js.configs.recommended,

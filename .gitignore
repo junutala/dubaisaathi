@@ -16,3 +16,5 @@ dist/models/
 
 # Photographs from `npm run screens` — look at them, do not commit them.
 apps/pwa/screenshots/
+
+apps/field/screenshots/
