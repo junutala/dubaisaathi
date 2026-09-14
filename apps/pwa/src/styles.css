@@ -288,10 +288,9 @@ button:not(:disabled) {
 /* ---- home --------------------------------------------------------------------------- */
 
 .tiles {
-  /* Share the spare height rather than either stretching to fill it or leaving a hole under it:
-     capped, so a tall screen gives comfortable tiles and a short one shrinks them to fit. */
+  /* The tiles are the whole screen now that the box has gone, so they take the height rather
+     than leaving a third of the phone empty under them. */
   flex: 1 1 auto;
-  max-height: 440px;
   grid-auto-rows: 1fr;
   display: grid;
   /* One column, sized to its content. It was two columns while there were four tiles; with
@@ -320,8 +319,8 @@ button:not(:disabled) {
    rectangle inside a rounded rectangle and said nothing the icon was not already saying. */
 .tile-icon {
   flex: 0 0 auto;
-  width: 68px;
-  height: 68px;
+  width: 76px;
+  height: 76px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -365,7 +364,6 @@ button:not(:disabled) {
 /* Pushed to the bottom: the tiles are a comfortable height now rather than stretched, and the
    box belongs under the thumb rather than floating halfway up the screen. */
 .home-ask {
-  margin-top: auto;
   display: flex;
   flex-direction: column;
   align-items: stretch;

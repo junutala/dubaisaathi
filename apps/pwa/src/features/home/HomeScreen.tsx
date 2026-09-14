@@ -1,14 +1,7 @@
-import { useState } from 'react';
-import type { ParsedIntent } from '@saathi/shared';
 import { useSettings } from '../../app/settings.js';
 import { navigate, type Route } from '../../app/routes.js';
 import { Icon, type IconName } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
-import { AskBar } from '../ask/AskBar.js';
-import { Clarifier } from '../ask/Clarifier.js';
-import { recordClarifierChoice, submitSentence } from '../ask/askSubmit.js';
-import { transportLanding } from '../voice/micRouting.js';
-import { typedStt } from '../voice/stt.js';
 
 interface TileDef {
   readonly key: StringKey;
@@ -19,9 +12,8 @@ interface TileDef {
 
 /**
  * Three tiles, not four. बोलना came off: it is not a place a traveller goes, it is something
- * they do about a place they are already going to — and now that रास्ता carries both readings of
- * a destination, "say it in Arabic" is one tap from the sentence that needs it rather than a
- * front-page errand of its own. A tile that has to be explained has not earned its place.
+ * they do about a place they are already going to, and now रास्ता carries both readings of a
+ * destination. A tile that has to be explained has not earned its place.
  */
 const TILES: readonly TileDef[] = [
   {
@@ -30,47 +22,26 @@ const TILES: readonly TileDef[] = [
     icon: 'routeTile',
     route: { screen: 'transport' },
   },
-  {
-    key: 'tile.food',
-    blurb: 'tile.food.blurb',
-    icon: 'foodTile',
-    route: { screen: 'food' },
-  },
+  { key: 'tile.food', blurb: 'tile.food.blurb', icon: 'foodTile', route: { screen: 'food' } },
   { key: 'tile.info', blurb: 'tile.info.blurb', icon: 'infoTile', route: { screen: 'info' } },
 ];
 
 /**
- * घर — the tiles, and the box that reaches all of them (decision 014).
+ * घर — the tiles, and nothing else.
  *
- * The box is the front door. A whole sentence carries its own intent, so "करामा जाना है" does not
- * need the traveller to have picked a tile first; the tiles are for the times they would rather
- * browse than say what they want.
+ * There is no box here, and that is the decision rather than an omission. A sentence needs a
+ * screen to give it meaning: "Discovery Gardens jaana hai" is *show me the transport* in a hotel
+ * room and *tell the driver* at a taxi door, and the difference is where the traveller is
+ * standing, not anything in the words (decision 014). रास्ता can serve both readings because it
+ * asks — कैसे जाएँ or ड्राइवर को दिखाएँ — and खाना can, because a sentence typed there is about
+ * food. Home can do neither: it would have to guess, and guessing was never settled because it
+ * cannot be.
+ *
+ * So the tiles are the front door, each one opening a screen whose box already knows what the
+ * words are for.
  */
-export function HomeScreen({
-  onMic,
-  onHeard,
-}: {
-  readonly onMic: () => void;
-  readonly onHeard: (intent: ParsedIntent) => void;
-}) {
+export function HomeScreen() {
   const { t } = useSettings();
-  const [typed, setTyped] = useState('');
-  /** Set only when the sentence was genuinely two questions — never as a way of stalling. */
-  const [asking, setAsking] = useState<ParsedIntent | null>(null);
-
-  const send = () => {
-    const outcome = submitSentence({ text: typed }, typedStt.id);
-    if (outcome === null) return;
-    if (outcome.at === 'ask') {
-      setAsking(outcome.intent);
-      return;
-    }
-    setAsking(null);
-    setTyped('');
-    onHeard(outcome.intent);
-    navigate(outcome.route);
-  };
-
   return (
     <div className="flow home">
       <div className="tiles">
@@ -96,48 +67,6 @@ export function HomeScreen({
           </button>
         ))}
       </div>
-
-      {asking !== null ? (
-        <Clarifier
-          intent={asking}
-          onPick={(choice) => {
-            recordClarifierChoice(asking, choice, typedStt.id);
-            onHeard(asking);
-            setAsking(null);
-            setTyped('');
-            navigate(
-              choice === 'route'
-                ? transportLanding(asking.destination?.placeId)
-                : { screen: 'food' },
-            );
-          }}
-          actions={
-            // They typed it, so another go at the keyboard is the way forward — not "type it
-            // instead", which is where they already are.
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => {
-                setAsking(null);
-              }}
-            >
-              {t('ask.rewrite')}
-            </button>
-          }
-        />
-      ) : (
-        <div className="home-ask">
-          <AskBar
-            value={typed}
-            onChange={setTyped}
-            onSend={send}
-            onMic={onMic}
-            placeholder="ask.placeholder"
-            label="ask.label"
-          />
-          <span className="muted center">{t('ask.hint')}</span>
-        </div>
-      )}
     </div>
   );
 }
