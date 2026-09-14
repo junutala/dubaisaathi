@@ -105,7 +105,10 @@ const browser = await chromium.launch({
 });
 const context = await browser.newContext({
   viewport: { width: 390, height: 844 },
-  permissions: ['microphone'],
+  // Location is granted here because 1.1 asks for it at first use and the routing screens need
+  // an answer; a hotel in Bur Dubai is where this product's traveller actually wakes up.
+  permissions: ['microphone', 'geolocation'],
+  geolocation: { latitude: 25.2637, longitude: 55.2972 },
 });
 const page = await context.newPage();
 
@@ -197,7 +200,40 @@ await context.setOffline(true);
 await page.goto(`${base}/`, { waitUntil: 'domcontentloaded' }).catch(() => undefined);
 await page.waitForTimeout(1500);
 const tiles = await probe(page, () => document.querySelectorAll('.tile').length);
-check('the app opens with the network off', tiles === 4, `tiles=${JSON.stringify(tiles)}`);
+// Three, not four: बोलना stopped being a tile when रास्ता began carrying both readings of a
+// destination (decision 014). This said four for a day after that shipped, which is the harness
+// asserting a design rather than the product.
+check('the app opens with the network off', tiles === 3, `tiles=${JSON.stringify(tiles)}`);
+
+/**
+ * रास्ता, end to end, in a real browser with the radio off — the closest this container gets to
+ * a person holding a phone. Type a destination, ask how to get there, and count the cards. If
+ * the pack, IndexedDB, the planner or the permission dance breaks, this is what reports it.
+ */
+await page.goto(`${base}/#/transport`, { waitUntil: 'domcontentloaded' }).catch(() => undefined);
+await page.waitForTimeout(1200);
+const planned = await probe(page, async () => {
+  const box = document.querySelector('input.askbar-input');
+  if (!box) return { error: 'no box on 1.1' };
+  const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set;
+  setter?.call(box, 'करामा जाना है');
+  box.dispatchEvent(new Event('input', { bubbles: true }));
+  await new Promise((done) => setTimeout(done, 100));
+  const buttons = [...document.querySelectorAll('.flow > .rows > button')];
+  buttons[0]?.click();
+  await new Promise((done) => setTimeout(done, 1200));
+  return {
+    hash: location.hash,
+    options: document.querySelectorAll('.opt').length,
+    fares: [...document.querySelectorAll('.opt')].filter((c) => /AED|\d/.test(c.textContent ?? ''))
+      .length,
+  };
+});
+check(
+  'रास्ता plans a real journey with the network off',
+  !planned.error && planned.hash === '#/options/karama' && planned.options > 0,
+  JSON.stringify(planned),
+);
 await context.setOffline(false);
 
 check('no page or CSP errors', errors.length === 0, errors.slice(0, 3).join(' | '));

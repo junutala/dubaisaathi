@@ -47,15 +47,24 @@ Nothing else (rule 1).
 
 ## 1.1 · रास्ता › कहाँ जाना है?
 
-| Field                                                         | Why it is there                                                                  |
-| ------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| First open only: "रास्ता बताने के लिए साथी को आपकी जगह चाहिए" | The reason, before the phone's own permission prompt                             |
-| Big mic + "बोलिए" + example                                   | The primary way to answer the one question; the example shows the phrasing works |
-| या जगह का नाम लिखिए                                           | The mic fails in a loud taxi                                                     |
-| मेरा होटल · एयरपोर्ट                                          | The two places every tourist goes back to                                        |
-| हाल में (two recent places)                                   | Tourists repeat destinations; saves typing on day two                            |
+Rewritten 14 September to the screen the owner decided on; `docs/decisions/015` has the
+reasoning. The artboard still shows the superseded version — a big mic as the offer — and is the
+thing now out of date.
+
+| Field                                                         | Why it is there                                                                                                                |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| First open only: "रास्ता बताने के लिए साथी को आपकी जगह चाहिए" | The reason, before the phone's own permission prompt                                                                           |
+| The box, with a small mic at the end of it                    | Typing works on every phone, in a loud taxi, with no download and no permission; speaking is a faster way to fill the same box |
+| कैसे जाएँ                                                     | "Karama jaana hai" said in a hotel room means show me the transport                                                            |
+| ड्राइवर को दिखाएँ                                             | The same sentence at a taxi door means tell the driver — and which one it is is not in the words, so the traveller picks       |
+| "यह जगह अभी साथी के पास नहीं है", with the box still there    | A traveller who typed a real Dubai neighbourhood we have not curated deserves to be told, not left at a blank                  |
 
 Not asked: "where from". The phone knows; a tourist often does not know the street name.
+
+Not built, and why: **मेरा होटल** needs tile 4's hotel, which does not exist yet — a quick pick to
+a hotel nobody has saved is a button that does nothing. **एयरपोर्ट** and **हाल में** are quick
+picks that save typing; the box and the two buttons replaced the screen's shape, and they can come
+back above the box once there is a recent-destination store to fill them from.
 
 ## 1.1b · रास्ता › जगह की इजाज़त नहीं
 
@@ -82,20 +91,21 @@ the mic means the same thing everywhere. The crumb shows whichever tile it was t
 
 ## 1.3 · रास्ता › विकल्प
 
-| Field                                                  | Why it is there                                                    |
-| ------------------------------------------------------ | ------------------------------------------------------------------ |
-| यहाँ से → करामा (_आपने कहा_ when it came from the mic) | Confirms what was heard before they commit to a route              |
-| Three options: mode, time, fare, legs                  | The decision is time vs cost vs walking; each card shows all three |
-| सबसे आसान / तेज़ / सस्ता                               | Makes the trade-off readable without comparing numbers             |
-| किराया और समय अनुमानित                                 | Honest about what offline data can promise                         |
+| Field                                                  | Why it is there                                                                                                     |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| यहाँ से → करामा (_आपने कहा_ when it came from the mic) | Confirms what was heard before they commit to a route                                                               |
+| Three options: mode, time, fare, legs                  | The decision is time vs cost vs walking; each card shows all three                                                  |
+| सबसे आसान / तेज़ / सस्ता                               | Makes the trade-off readable without comparing numbers                                                              |
+| किराया और समय अनुमानित                                 | Honest about what offline data can promise                                                                          |
+| "यहाँ से रास्ता नहीं निकल पाया" + ड्राइवर को दिखाएँ    | When there is no location there is no route from here — but the Arabic needs none, so the screen still has a way on |
 
 ## 1.4 · रास्ता › क़दम दर क़दम
 
-| Field                                | Why it is there                   |
-| ------------------------------------ | --------------------------------- |
-| Total time · fare · walking          | What to expect before starting    |
-| The legs, in order, with a time each | The instructions themselves       |
-| नक्शे पर देखें                       | For when the words are not enough |
+| Field                                | Why it is there                                                                                                           |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| Total time · fare · walking          | What to expect before starting                                                                                            |
+| The legs, in order, with a time each | The instructions themselves                                                                                               |
+| नक्शे पर देखें                       | For when the words are not enough. **Not built:** 1.5 does not exist yet, and a button to nowhere is worse than no button |
 
 ## 1.5 · रास्ता › नक्शा
 

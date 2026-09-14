@@ -1,0 +1,1373 @@
+{
+  "contentVersion": 1,
+  "publishedAt": "2026-09-14T00:00:00Z",
+  "source": "Curated for the MVP. Station and line sequences from the RTA's published Dubai Metro network (Red and Green lines); bus routes C7, 8, 29, 102, 103 and 104 from the RTA's public route list; coordinates rounded from OpenStreetMap. Nothing here is fetched at runtime and no tiles are downloaded (CLAUDE.md rule 7). Times and fares are estimates and every screen that shows them says so.",
+  "walkingMetresPerMinute": 75,
+  "fares": {
+    "transitBandsAed": [
+      {
+        "maxKm": 3,
+        "aed": 3
+      },
+      {
+        "maxKm": 13,
+        "aed": 5
+      },
+      {
+        "maxKm": 1000,
+        "aed": 7.5
+      }
+    ],
+    "taxi": {
+      "flagFallAed": 12,
+      "perKmAed": 2.2,
+      "minimumAed": 12,
+      "spreadPercent": 15
+    }
+  },
+  "waitSeconds": {
+    "metro": 240,
+    "bus": 600
+  },
+  "lines": [
+    {
+      "id": "red",
+      "mode": "metro",
+      "name": {
+        "en": "Red Line",
+        "hi": "रेड लाइन",
+        "aliases": ["red line", "रेड लाइन"]
+      }
+    },
+    {
+      "id": "green",
+      "mode": "metro",
+      "name": {
+        "en": "Green Line",
+        "hi": "ग्रीन लाइन",
+        "aliases": ["green line", "ग्रीन लाइन"]
+      }
+    },
+    {
+      "id": "C7",
+      "mode": "bus",
+      "name": {
+        "en": "Bus C7",
+        "hi": "बस C7",
+        "aliases": ["C7"]
+      }
+    },
+    {
+      "id": "8",
+      "mode": "bus",
+      "name": {
+        "en": "Bus 8",
+        "hi": "बस 8",
+        "aliases": ["8"]
+      }
+    },
+    {
+      "id": "102",
+      "mode": "bus",
+      "name": {
+        "en": "Bus 102",
+        "hi": "बस 102",
+        "aliases": ["102"]
+      }
+    },
+    {
+      "id": "29",
+      "mode": "bus",
+      "name": {
+        "en": "Bus 29",
+        "hi": "बस 29",
+        "aliases": ["29"]
+      }
+    },
+    {
+      "id": "103",
+      "mode": "bus",
+      "name": {
+        "en": "Bus 103",
+        "hi": "बस 103",
+        "aliases": ["103"]
+      }
+    },
+    {
+      "id": "104",
+      "mode": "bus",
+      "name": {
+        "en": "Bus 104",
+        "hi": "बस 104",
+        "aliases": ["104"]
+      }
+    }
+  ],
+  "nodes": [
+    {
+      "id": "centrepoint",
+      "name": {
+        "en": "Centrepoint",
+        "hi": "सेंटरपॉइंट",
+        "aliases": ["rashidiya", "रशीदिया"]
+      },
+      "location": {
+        "lat": 25.2419,
+        "lng": 55.3773
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "emirates",
+      "name": {
+        "en": "Emirates",
+        "hi": "एमिरेट्स",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2477,
+        "lng": 55.381
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "airport-t3",
+      "name": {
+        "en": "Airport Terminal 3",
+        "hi": "एयरपोर्ट टर्मिनल 3",
+        "aliases": ["terminal 3", "टर्मिनल 3"]
+      },
+      "location": {
+        "lat": 25.2479,
+        "lng": 55.3617
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "airport-t1",
+      "name": {
+        "en": "Airport Terminal 1",
+        "hi": "एयरपोर्ट टर्मिनल 1",
+        "aliases": ["terminal 1", "टर्मिनल 1"]
+      },
+      "location": {
+        "lat": 25.2486,
+        "lng": 55.352
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "ggico",
+      "name": {
+        "en": "GGICO",
+        "hi": "जीजीको",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2529,
+        "lng": 55.3402
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "deira-city-centre",
+      "name": {
+        "en": "Deira City Centre",
+        "hi": "देरा सिटी सेंटर",
+        "aliases": ["city centre", "सिटी सेंटर"]
+      },
+      "location": {
+        "lat": 25.2524,
+        "lng": 55.3322
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "al-rigga",
+      "name": {
+        "en": "Al Rigga",
+        "hi": "अल रिग्गा",
+        "aliases": ["rigga", "रिग्गा"]
+      },
+      "location": {
+        "lat": 25.2639,
+        "lng": 55.3222
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "union",
+      "name": {
+        "en": "Union",
+        "hi": "यूनियन",
+        "aliases": ["al ittihad", "अल इत्तिहाद"]
+      },
+      "location": {
+        "lat": 25.2661,
+        "lng": 55.3163
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "burjuman",
+      "name": {
+        "en": "BurJuman",
+        "hi": "बुरजुमान",
+        "aliases": ["bur juman", "बुर जुमान"]
+      },
+      "location": {
+        "lat": 25.2548,
+        "lng": 55.3043
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "adcb",
+      "name": {
+        "en": "ADCB",
+        "hi": "एडीसीबी",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2466,
+        "lng": 55.2947
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "al-jafiliya",
+      "name": {
+        "en": "Al Jafiliya",
+        "hi": "अल जाफ़िलिया",
+        "aliases": ["jafiliya", "जाफ़िलिया"]
+      },
+      "location": {
+        "lat": 25.24,
+        "lng": 55.2861
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "world-trade-centre",
+      "name": {
+        "en": "World Trade Centre",
+        "hi": "वर्ल्ड ट्रेड सेंटर",
+        "aliases": ["wtc", "ट्रेड सेंटर"]
+      },
+      "location": {
+        "lat": 25.2288,
+        "lng": 55.283
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "emirates-towers",
+      "name": {
+        "en": "Emirates Towers",
+        "hi": "एमिरेट्स टावर्स",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2177,
+        "lng": 55.2795
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "financial-centre",
+      "name": {
+        "en": "Financial Centre",
+        "hi": "फ़ाइनेंशियल सेंटर",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2114,
+        "lng": 55.2793
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "burj-khalifa-dubai-mall",
+      "name": {
+        "en": "Burj Khalifa / Dubai Mall",
+        "hi": "बुर्ज ख़लीफ़ा / दुबई मॉल",
+        "aliases": ["dubai mall", "दुबई मॉल", "burj khalifa", "बुर्ज ख़लीफ़ा"]
+      },
+      "location": {
+        "lat": 25.2019,
+        "lng": 55.279
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "business-bay",
+      "name": {
+        "en": "Business Bay",
+        "hi": "बिज़नेस बे",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.1867,
+        "lng": 55.2637
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "onpassive",
+      "name": {
+        "en": "Onpassive",
+        "hi": "ऑनपैसिव",
+        "aliases": ["noor bank", "नूर बैंक"]
+      },
+      "location": {
+        "lat": 25.1718,
+        "lng": 55.2449
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "equiti",
+      "name": {
+        "en": "Equiti",
+        "hi": "इक्विटी",
+        "aliases": ["al safa", "अल सफ़ा"]
+      },
+      "location": {
+        "lat": 25.1553,
+        "lng": 55.2318
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "mall-of-the-emirates",
+      "name": {
+        "en": "Mall of the Emirates",
+        "hi": "मॉल ऑफ़ द एमिरेट्स",
+        "aliases": ["moe", "एमिरेट्स मॉल"]
+      },
+      "location": {
+        "lat": 25.1201,
+        "lng": 55.2004
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "mashreq",
+      "name": {
+        "en": "Mashreq",
+        "hi": "मशरिक़",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.1105,
+        "lng": 55.1913
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "dubai-internet-city",
+      "name": {
+        "en": "Dubai Internet City",
+        "hi": "दुबई इंटरनेट सिटी",
+        "aliases": ["internet city", "इंटरनेट सिटी"]
+      },
+      "location": {
+        "lat": 25.0992,
+        "lng": 55.175
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "al-khail",
+      "name": {
+        "en": "Al Khail",
+        "hi": "अल ख़ैल",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.09,
+        "lng": 55.161
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "sobha-realty",
+      "name": {
+        "en": "Sobha Realty",
+        "hi": "शोभा रियल्टी",
+        "aliases": ["dubai marina", "दुबई मरीना", "damac properties"]
+      },
+      "location": {
+        "lat": 25.077,
+        "lng": 55.1465
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "dmcc",
+      "name": {
+        "en": "DMCC",
+        "hi": "डीएमसीसी",
+        "aliases": ["jlt", "jumeirah lakes towers"]
+      },
+      "location": {
+        "lat": 25.0685,
+        "lng": 55.1405
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "jabal-ali",
+      "name": {
+        "en": "Jabal Ali",
+        "hi": "जबल अली",
+        "aliases": ["jebel ali", "जेबल अली"]
+      },
+      "location": {
+        "lat": 25.047,
+        "lng": 55.1215
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "ibn-battuta",
+      "name": {
+        "en": "Ibn Battuta",
+        "hi": "इब्न बतूता",
+        "aliases": ["ibn batuta", "इब्न बतूता मॉल"]
+      },
+      "location": {
+        "lat": 25.0448,
+        "lng": 55.1189
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "energy",
+      "name": {
+        "en": "Energy",
+        "hi": "एनर्जी",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.033,
+        "lng": 55.108
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "danube",
+      "name": {
+        "en": "Danube",
+        "hi": "डैन्यूब",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.023,
+        "lng": 55.099
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "uae-exchange",
+      "name": {
+        "en": "UAE Exchange",
+        "hi": "यूएई एक्सचेंज",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.0148,
+        "lng": 55.0908
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "etisalat",
+      "name": {
+        "en": "Etisalat",
+        "hi": "एतिसालात",
+        "aliases": ["etisalat by e&"]
+      },
+      "location": {
+        "lat": 25.2941,
+        "lng": 55.3811
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "al-qusais",
+      "name": {
+        "en": "Al Qusais",
+        "hi": "अल क़ुसैस",
+        "aliases": ["qusais", "क़ुसैस"]
+      },
+      "location": {
+        "lat": 25.2874,
+        "lng": 55.3733
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "dubai-airport-free-zone",
+      "name": {
+        "en": "Dubai Airport Free Zone",
+        "hi": "दुबई एयरपोर्ट फ़्री ज़ोन",
+        "aliases": ["dafza"]
+      },
+      "location": {
+        "lat": 25.2818,
+        "lng": 55.367
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "al-nahda",
+      "name": {
+        "en": "Al Nahda",
+        "hi": "अल नहदा",
+        "aliases": ["nahda", "नहदा"]
+      },
+      "location": {
+        "lat": 25.2793,
+        "lng": 55.3604
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "stadium",
+      "name": {
+        "en": "Stadium",
+        "hi": "स्टेडियम",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.274,
+        "lng": 55.3512
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "al-qiyadah",
+      "name": {
+        "en": "Al Qiyadah",
+        "hi": "अल क़ियादा",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2732,
+        "lng": 55.3435
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "abu-hail",
+      "name": {
+        "en": "Abu Hail",
+        "hi": "अबू हैल",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2795,
+        "lng": 55.3355
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "abu-baker-al-siddique",
+      "name": {
+        "en": "Abu Baker Al Siddique",
+        "hi": "अबू बकर अल सिद्दीक़",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2783,
+        "lng": 55.3275
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "salah-al-din",
+      "name": {
+        "en": "Salah Al Din",
+        "hi": "सलाह अल दीन",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.274,
+        "lng": 55.3232
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "baniyas-square",
+      "name": {
+        "en": "Baniyas Square",
+        "hi": "बनियास स्क्वायर",
+        "aliases": ["baniyas", "बनियास"]
+      },
+      "location": {
+        "lat": 25.2673,
+        "lng": 55.3093
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "gold-souq",
+      "name": {
+        "en": "Gold Souq",
+        "hi": "गोल्ड सूक",
+        "aliases": ["sona bazaar", "सोना बाज़ार"]
+      },
+      "location": {
+        "lat": 25.2706,
+        "lng": 55.299
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "al-ras",
+      "name": {
+        "en": "Al Ras",
+        "hi": "अल रास",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2679,
+        "lng": 55.2937
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "al-ghubaiba",
+      "name": {
+        "en": "Al Ghubaiba",
+        "hi": "अल ग़ुबैबा",
+        "aliases": ["ghubaiba", "ग़ुबैबा"]
+      },
+      "location": {
+        "lat": 25.2637,
+        "lng": 55.293
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "sharaf-dg",
+      "name": {
+        "en": "Sharaf DG",
+        "hi": "शराफ़ डीजी",
+        "aliases": ["al fahidi", "अल फ़हीदी"]
+      },
+      "location": {
+        "lat": 25.2591,
+        "lng": 55.2965
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "oud-metha",
+      "name": {
+        "en": "Oud Metha",
+        "hi": "ऊद मेथा",
+        "aliases": ["oudmetha", "ऊद मेथा"]
+      },
+      "location": {
+        "lat": 25.2456,
+        "lng": 55.3121
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "dubai-healthcare-city",
+      "name": {
+        "en": "Dubai Healthcare City",
+        "hi": "दुबई हेल्थकेयर सिटी",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.236,
+        "lng": 55.3235
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "al-jadaf",
+      "name": {
+        "en": "Al Jadaf",
+        "hi": "अल जदफ़",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2245,
+        "lng": 55.3306
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "creek",
+      "name": {
+        "en": "Creek",
+        "hi": "क्रीक",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2178,
+        "lng": 55.3388
+      },
+      "modes": ["metro"]
+    },
+    {
+      "id": "bus-gold-souq",
+      "name": {
+        "en": "Gold Souq Bus Station",
+        "hi": "गोल्ड सूक बस स्टेशन",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.271,
+        "lng": 55.297
+      },
+      "modes": ["bus"]
+    },
+    {
+      "id": "bus-al-sabkha",
+      "name": {
+        "en": "Al Sabkha",
+        "hi": "अल सबखा",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.269,
+        "lng": 55.304
+      },
+      "modes": ["bus"]
+    },
+    {
+      "id": "bus-al-ghubaiba",
+      "name": {
+        "en": "Al Ghubaiba Bus Station",
+        "hi": "अल ग़ुबैबा बस स्टेशन",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.264,
+        "lng": 55.2925
+      },
+      "modes": ["bus"]
+    },
+    {
+      "id": "bus-al-karama",
+      "name": {
+        "en": "Karama, Kuwait Road",
+        "hi": "करामा, कुवैत रोड",
+        "aliases": ["karama", "करामा"]
+      },
+      "location": {
+        "lat": 25.2455,
+        "lng": 55.304
+      },
+      "modes": ["bus"]
+    },
+    {
+      "id": "bus-satwa",
+      "name": {
+        "en": "Satwa Bus Station",
+        "hi": "सतवा बस स्टेशन",
+        "aliases": ["satwa", "सतवा"]
+      },
+      "location": {
+        "lat": 25.227,
+        "lng": 55.274
+      },
+      "modes": ["bus"]
+    },
+    {
+      "id": "bus-jumeirah-beach",
+      "name": {
+        "en": "Jumeirah Beach Road",
+        "hi": "जुमेरा बीच रोड",
+        "aliases": ["jumeirah", "जुमेरा"]
+      },
+      "location": {
+        "lat": 25.205,
+        "lng": 55.243
+      },
+      "modes": ["bus"]
+    },
+    {
+      "id": "bus-mall-of-the-emirates",
+      "name": {
+        "en": "Mall of the Emirates Bus Station",
+        "hi": "मॉल ऑफ़ द एमिरेट्स बस स्टेशन",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.1195,
+        "lng": 55.2
+      },
+      "modes": ["bus"]
+    },
+    {
+      "id": "bus-marina-towers",
+      "name": {
+        "en": "Marina Towers",
+        "hi": "मरीना टावर्स",
+        "aliases": ["marina", "मरीना"]
+      },
+      "location": {
+        "lat": 25.079,
+        "lng": 55.141
+      },
+      "modes": ["bus"]
+    },
+    {
+      "id": "bus-ibn-battuta",
+      "name": {
+        "en": "Ibn Battuta Bus Station",
+        "hi": "इब्न बतूता बस स्टेशन",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.045,
+        "lng": 55.119
+      },
+      "modes": ["bus"]
+    },
+    {
+      "id": "bus-rashidiya",
+      "name": {
+        "en": "Rashidiya Bus Station",
+        "hi": "रशीदिया बस स्टेशन",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.242,
+        "lng": 55.377
+      },
+      "modes": ["bus"]
+    },
+    {
+      "id": "bus-global-village",
+      "name": {
+        "en": "Global Village",
+        "hi": "ग्लोबल विलेज",
+        "aliases": ["global village", "ग्लोबल विलेज"]
+      },
+      "location": {
+        "lat": 25.07,
+        "lng": 55.309
+      },
+      "modes": ["bus"]
+    },
+    {
+      "id": "bus-dubai-mall",
+      "name": {
+        "en": "Dubai Mall Bus Stop",
+        "hi": "दुबई मॉल बस स्टॉप",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.198,
+        "lng": 55.28
+      },
+      "modes": ["bus"]
+    }
+  ],
+  "edges": [
+    {
+      "id": "red:centrepoint:emirates",
+      "fromNodeId": "centrepoint",
+      "toNodeId": "emirates",
+      "mode": "metro",
+      "durationSeconds": 120,
+      "line": "red"
+    },
+    {
+      "id": "red:emirates:airport-t3",
+      "fromNodeId": "emirates",
+      "toNodeId": "airport-t3",
+      "mode": "metro",
+      "durationSeconds": 205,
+      "line": "red"
+    },
+    {
+      "id": "red:airport-t3:airport-t1",
+      "fromNodeId": "airport-t3",
+      "toNodeId": "airport-t1",
+      "mode": "metro",
+      "durationSeconds": 120,
+      "line": "red"
+    },
+    {
+      "id": "red:airport-t1:ggico",
+      "fromNodeId": "airport-t1",
+      "toNodeId": "ggico",
+      "mode": "metro",
+      "durationSeconds": 145,
+      "line": "red"
+    },
+    {
+      "id": "red:ggico:deira-city-centre",
+      "fromNodeId": "ggico",
+      "toNodeId": "deira-city-centre",
+      "mode": "metro",
+      "durationSeconds": 120,
+      "line": "red"
+    },
+    {
+      "id": "red:deira-city-centre:al-rigga",
+      "fromNodeId": "deira-city-centre",
+      "toNodeId": "al-rigga",
+      "mode": "metro",
+      "durationSeconds": 176,
+      "line": "red"
+    },
+    {
+      "id": "red:al-rigga:union",
+      "fromNodeId": "al-rigga",
+      "toNodeId": "union",
+      "mode": "metro",
+      "durationSeconds": 120,
+      "line": "red"
+    },
+    {
+      "id": "red:union:burjuman",
+      "fromNodeId": "union",
+      "toNodeId": "burjuman",
+      "mode": "metro",
+      "durationSeconds": 187,
+      "line": "red"
+    },
+    {
+      "id": "red:burjuman:adcb",
+      "fromNodeId": "burjuman",
+      "toNodeId": "adcb",
+      "mode": "metro",
+      "durationSeconds": 150,
+      "line": "red"
+    },
+    {
+      "id": "red:adcb:al-jafiliya",
+      "fromNodeId": "adcb",
+      "toNodeId": "al-jafiliya",
+      "mode": "metro",
+      "durationSeconds": 132,
+      "line": "red"
+    },
+    {
+      "id": "red:al-jafiliya:world-trade-centre",
+      "fromNodeId": "al-jafiliya",
+      "toNodeId": "world-trade-centre",
+      "mode": "metro",
+      "durationSeconds": 146,
+      "line": "red"
+    },
+    {
+      "id": "red:world-trade-centre:emirates-towers",
+      "fromNodeId": "world-trade-centre",
+      "toNodeId": "emirates-towers",
+      "mode": "metro",
+      "durationSeconds": 146,
+      "line": "red"
+    },
+    {
+      "id": "red:emirates-towers:financial-centre",
+      "fromNodeId": "emirates-towers",
+      "toNodeId": "financial-centre",
+      "mode": "metro",
+      "durationSeconds": 120,
+      "line": "red"
+    },
+    {
+      "id": "red:financial-centre:burj-khalifa-dubai-mall",
+      "fromNodeId": "financial-centre",
+      "toNodeId": "burj-khalifa-dubai-mall",
+      "mode": "metro",
+      "durationSeconds": 125,
+      "line": "red"
+    },
+    {
+      "id": "red:burj-khalifa-dubai-mall:business-bay",
+      "fromNodeId": "burj-khalifa-dubai-mall",
+      "toNodeId": "business-bay",
+      "mode": "metro",
+      "durationSeconds": 236,
+      "line": "red"
+    },
+    {
+      "id": "red:business-bay:onpassive",
+      "fromNodeId": "business-bay",
+      "toNodeId": "onpassive",
+      "mode": "metro",
+      "durationSeconds": 256,
+      "line": "red"
+    },
+    {
+      "id": "red:onpassive:equiti",
+      "fromNodeId": "onpassive",
+      "toNodeId": "equiti",
+      "mode": "metro",
+      "durationSeconds": 233,
+      "line": "red"
+    },
+    {
+      "id": "red:equiti:mall-of-the-emirates",
+      "fromNodeId": "equiti",
+      "toNodeId": "mall-of-the-emirates",
+      "mode": "metro",
+      "durationSeconds": 483,
+      "line": "red"
+    },
+    {
+      "id": "red:mall-of-the-emirates:mashreq",
+      "fromNodeId": "mall-of-the-emirates",
+      "toNodeId": "mashreq",
+      "mode": "metro",
+      "durationSeconds": 157,
+      "line": "red"
+    },
+    {
+      "id": "red:mashreq:dubai-internet-city",
+      "fromNodeId": "mashreq",
+      "toNodeId": "dubai-internet-city",
+      "mode": "metro",
+      "durationSeconds": 216,
+      "line": "red"
+    },
+    {
+      "id": "red:dubai-internet-city:al-khail",
+      "fromNodeId": "dubai-internet-city",
+      "toNodeId": "al-khail",
+      "mode": "metro",
+      "durationSeconds": 187,
+      "line": "red"
+    },
+    {
+      "id": "red:al-khail:sobha-realty",
+      "fromNodeId": "al-khail",
+      "toNodeId": "sobha-realty",
+      "mode": "metro",
+      "durationSeconds": 215,
+      "line": "red"
+    },
+    {
+      "id": "red:sobha-realty:dmcc",
+      "fromNodeId": "sobha-realty",
+      "toNodeId": "dmcc",
+      "mode": "metro",
+      "durationSeconds": 131,
+      "line": "red"
+    },
+    {
+      "id": "red:dmcc:jabal-ali",
+      "fromNodeId": "dmcc",
+      "toNodeId": "jabal-ali",
+      "mode": "metro",
+      "durationSeconds": 306,
+      "line": "red"
+    },
+    {
+      "id": "red:jabal-ali:ibn-battuta",
+      "fromNodeId": "jabal-ali",
+      "toNodeId": "ibn-battuta",
+      "mode": "metro",
+      "durationSeconds": 120,
+      "line": "red"
+    },
+    {
+      "id": "red:ibn-battuta:energy",
+      "fromNodeId": "ibn-battuta",
+      "toNodeId": "energy",
+      "mode": "metro",
+      "durationSeconds": 184,
+      "line": "red"
+    },
+    {
+      "id": "red:energy:danube",
+      "fromNodeId": "energy",
+      "toNodeId": "danube",
+      "mode": "metro",
+      "durationSeconds": 159,
+      "line": "red"
+    },
+    {
+      "id": "red:danube:uae-exchange",
+      "fromNodeId": "danube",
+      "toNodeId": "uae-exchange",
+      "mode": "metro",
+      "durationSeconds": 141,
+      "line": "red"
+    },
+    {
+      "id": "green:etisalat:al-qusais",
+      "fromNodeId": "etisalat",
+      "toNodeId": "al-qusais",
+      "mode": "metro",
+      "durationSeconds": 132,
+      "line": "green"
+    },
+    {
+      "id": "green:al-qusais:dubai-airport-free-zone",
+      "fromNodeId": "al-qusais",
+      "toNodeId": "dubai-airport-free-zone",
+      "mode": "metro",
+      "durationSeconds": 120,
+      "line": "green"
+    },
+    {
+      "id": "green:dubai-airport-free-zone:al-nahda",
+      "fromNodeId": "dubai-airport-free-zone",
+      "toNodeId": "al-nahda",
+      "mode": "metro",
+      "durationSeconds": 120,
+      "line": "green"
+    },
+    {
+      "id": "green:al-nahda:stadium",
+      "fromNodeId": "al-nahda",
+      "toNodeId": "stadium",
+      "mode": "metro",
+      "durationSeconds": 134,
+      "line": "green"
+    },
+    {
+      "id": "green:stadium:al-qiyadah",
+      "fromNodeId": "stadium",
+      "toNodeId": "al-qiyadah",
+      "mode": "metro",
+      "durationSeconds": 120,
+      "line": "green"
+    },
+    {
+      "id": "green:al-qiyadah:abu-hail",
+      "fromNodeId": "al-qiyadah",
+      "toNodeId": "abu-hail",
+      "mode": "metro",
+      "durationSeconds": 131,
+      "line": "green"
+    },
+    {
+      "id": "green:abu-hail:abu-baker-al-siddique",
+      "fromNodeId": "abu-hail",
+      "toNodeId": "abu-baker-al-siddique",
+      "mode": "metro",
+      "durationSeconds": 120,
+      "line": "green"
+    },
+    {
+      "id": "green:abu-baker-al-siddique:salah-al-din",
+      "fromNodeId": "abu-baker-al-siddique",
+      "toNodeId": "salah-al-din",
+      "mode": "metro",
+      "durationSeconds": 120,
+      "line": "green"
+    },
+    {
+      "id": "green:salah-al-din:union",
+      "fromNodeId": "salah-al-din",
+      "toNodeId": "union",
+      "mode": "metro",
+      "durationSeconds": 136,
+      "line": "green"
+    },
+    {
+      "id": "green:union:baniyas-square",
+      "fromNodeId": "union",
+      "toNodeId": "baniyas-square",
+      "mode": "metro",
+      "durationSeconds": 120,
+      "line": "green"
+    },
+    {
+      "id": "green:baniyas-square:gold-souq",
+      "fromNodeId": "baniyas-square",
+      "toNodeId": "gold-souq",
+      "mode": "metro",
+      "durationSeconds": 134,
+      "line": "green"
+    },
+    {
+      "id": "green:gold-souq:al-ras",
+      "fromNodeId": "gold-souq",
+      "toNodeId": "al-ras",
+      "mode": "metro",
+      "durationSeconds": 120,
+      "line": "green"
+    },
+    {
+      "id": "green:al-ras:al-ghubaiba",
+      "fromNodeId": "al-ras",
+      "toNodeId": "al-ghubaiba",
+      "mode": "metro",
+      "durationSeconds": 120,
+      "line": "green"
+    },
+    {
+      "id": "green:al-ghubaiba:sharaf-dg",
+      "fromNodeId": "al-ghubaiba",
+      "toNodeId": "sharaf-dg",
+      "mode": "metro",
+      "durationSeconds": 120,
+      "line": "green"
+    },
+    {
+      "id": "green:sharaf-dg:burjuman",
+      "fromNodeId": "sharaf-dg",
+      "toNodeId": "burjuman",
+      "mode": "metro",
+      "durationSeconds": 120,
+      "line": "green"
+    },
+    {
+      "id": "green:burjuman:oud-metha",
+      "fromNodeId": "burjuman",
+      "toNodeId": "oud-metha",
+      "mode": "metro",
+      "durationSeconds": 152,
+      "line": "green"
+    },
+    {
+      "id": "green:oud-metha:dubai-healthcare-city",
+      "fromNodeId": "oud-metha",
+      "toNodeId": "dubai-healthcare-city",
+      "mode": "metro",
+      "durationSeconds": 178,
+      "line": "green"
+    },
+    {
+      "id": "green:dubai-healthcare-city:al-jadaf",
+      "fromNodeId": "dubai-healthcare-city",
+      "toNodeId": "al-jadaf",
+      "mode": "metro",
+      "durationSeconds": 169,
+      "line": "green"
+    },
+    {
+      "id": "green:al-jadaf:creek",
+      "fromNodeId": "al-jadaf",
+      "toNodeId": "creek",
+      "mode": "metro",
+      "durationSeconds": 135,
+      "line": "green"
+    },
+    {
+      "id": "C7:bus-gold-souq:bus-al-sabkha",
+      "fromNodeId": "bus-gold-souq",
+      "toNodeId": "bus-al-sabkha",
+      "mode": "bus",
+      "durationSeconds": 180,
+      "line": "C7"
+    },
+    {
+      "id": "C7:bus-al-sabkha:bus-al-ghubaiba",
+      "fromNodeId": "bus-al-sabkha",
+      "toNodeId": "bus-al-ghubaiba",
+      "mode": "bus",
+      "durationSeconds": 276,
+      "line": "C7"
+    },
+    {
+      "id": "C7:bus-al-ghubaiba:bus-al-karama",
+      "fromNodeId": "bus-al-ghubaiba",
+      "toNodeId": "bus-al-karama",
+      "mode": "bus",
+      "durationSeconds": 470,
+      "line": "C7"
+    },
+    {
+      "id": "C7:bus-al-karama:bus-satwa",
+      "fromNodeId": "bus-al-karama",
+      "toNodeId": "bus-satwa",
+      "mode": "bus",
+      "durationSeconds": 702,
+      "line": "C7"
+    },
+    {
+      "id": "8:bus-gold-souq:bus-al-ghubaiba",
+      "fromNodeId": "bus-gold-souq",
+      "toNodeId": "bus-al-ghubaiba",
+      "mode": "bus",
+      "durationSeconds": 207,
+      "line": "8"
+    },
+    {
+      "id": "8:bus-al-ghubaiba:bus-satwa",
+      "fromNodeId": "bus-al-ghubaiba",
+      "toNodeId": "bus-satwa",
+      "mode": "bus",
+      "durationSeconds": 858,
+      "line": "8"
+    },
+    {
+      "id": "8:bus-satwa:bus-jumeirah-beach",
+      "fromNodeId": "bus-satwa",
+      "toNodeId": "bus-jumeirah-beach",
+      "mode": "bus",
+      "durationSeconds": 758,
+      "line": "8"
+    },
+    {
+      "id": "8:bus-jumeirah-beach:bus-mall-of-the-emirates",
+      "fromNodeId": "bus-jumeirah-beach",
+      "toNodeId": "bus-mall-of-the-emirates",
+      "mode": "bus",
+      "durationSeconds": 1925,
+      "line": "8"
+    },
+    {
+      "id": "8:bus-mall-of-the-emirates:bus-marina-towers",
+      "fromNodeId": "bus-mall-of-the-emirates",
+      "toNodeId": "bus-marina-towers",
+      "mode": "bus",
+      "durationSeconds": 1387,
+      "line": "8"
+    },
+    {
+      "id": "8:bus-marina-towers:bus-ibn-battuta",
+      "fromNodeId": "bus-marina-towers",
+      "toNodeId": "bus-ibn-battuta",
+      "mode": "bus",
+      "durationSeconds": 834,
+      "line": "8"
+    },
+    {
+      "id": "102:bus-rashidiya:bus-global-village",
+      "fromNodeId": "bus-rashidiya",
+      "toNodeId": "bus-global-village",
+      "mode": "bus",
+      "durationSeconds": 3701,
+      "line": "102"
+    },
+    {
+      "id": "29:bus-al-ghubaiba:bus-al-karama",
+      "fromNodeId": "bus-al-ghubaiba",
+      "toNodeId": "bus-al-karama",
+      "mode": "bus",
+      "durationSeconds": 470,
+      "line": "29"
+    },
+    {
+      "id": "29:bus-al-karama:bus-dubai-mall",
+      "fromNodeId": "bus-al-karama",
+      "toNodeId": "bus-dubai-mall",
+      "mode": "bus",
+      "durationSeconds": 1090,
+      "line": "29"
+    },
+    {
+      "id": "103:bus-al-ghubaiba:bus-global-village",
+      "fromNodeId": "bus-al-ghubaiba",
+      "toNodeId": "bus-global-village",
+      "mode": "bus",
+      "durationSeconds": 3939,
+      "line": "103"
+    },
+    {
+      "id": "104:bus-ibn-battuta:bus-global-village",
+      "fromNodeId": "bus-ibn-battuta",
+      "toNodeId": "bus-global-village",
+      "mode": "bus",
+      "durationSeconds": 3526,
+      "line": "104"
+    }
+  ]
+}

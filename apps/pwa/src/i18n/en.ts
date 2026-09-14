@@ -38,6 +38,68 @@ export const en: Record<StringKey, string> = {
   'ask.mic': 'Fill it by speaking',
   'ask.rewrite': 'Type it again',
 
+  // 1.1 · रास्ता › कहाँ जाना है? — the front door of the tile (decision 014)
+  'transport.title': 'Where do you want to go?',
+  'transport.locationWhy': 'Saathi needs your location to work out the way from here.',
+  'transport.placeholder': 'Type a place name…',
+  'transport.label': 'Where you want to go',
+  'transport.options': 'How to get there',
+  'transport.translate': 'Show the driver',
+  'transport.unknownPlace': '“{text}” — Saathi does not know this place yet.',
+  'transport.unknownPlaceWhy': 'Try another name — for example “Karama” or “Dubai Mall”.',
+  'transport.noArabic': 'Saathi has no Arabic name for this place. The options still work.',
+
+  // 1.1b · रास्ता › जगह की इजाज़त नहीं
+  'noLocation.title': 'No location permission',
+  'noLocation.heading': 'These will not work without location',
+  'noLocation.route': 'The way from here',
+  'noLocation.food': 'Food nearby',
+  'noLocation.hotel': 'The hotel pin',
+  'noLocation.settings': 'Open settings',
+  'noLocation.stillRefused':
+    'The phone still said no. Turn Saathi on under Settings › Site › Location, then press this button again.',
+  'noLocation.rest': 'Everything else works — speaking, important info and the ready sentences.',
+
+  // 1.3 · रास्ता › विकल्प
+  'options.trail': 'Where to? › Options',
+  'options.title': '{place} — how to get there?',
+  'options.from': 'From here',
+  'options.estimate': 'Fares and times are estimates',
+  'options.easiest': 'Easiest',
+  'options.fastest': 'Fastest',
+  'options.cheapest': 'Cheapest',
+  'options.planning': 'Working out the way…',
+  'options.noRoute': 'No way could be worked out from here',
+  'options.noRouteWhy': 'Saathi could not find where you are, or you are outside Dubai.',
+  'options.showDriver': 'Show the driver',
+
+  // 1.4 · रास्ता › क़दम दर क़दम
+  'steps.trail': 'Options › Step by step',
+  'steps.title': '{place} by {mode}',
+  'steps.totalTime': 'Total time',
+  'steps.fare': 'Fare',
+  'steps.walking': 'Walking',
+  'steps.walk': 'Walk',
+  'steps.ride': 'Take the {line}',
+  'steps.taxiRide': 'Take a taxi',
+  'steps.toPlace': 'to {place}',
+  'steps.between': '{from} → {to} · {count}',
+  'steps.here': 'from here',
+
+  // Shared by 1.3 and 1.4 — the words a journey is measured in
+  'mode.metro': 'Metro',
+  'mode.bus': 'Bus',
+  'mode.tram': 'Tram',
+  'mode.taxi': 'Taxi',
+  'mode.walk': 'Walk',
+  'unit.minutes': '{count} min',
+  'unit.fare': 'AED {amount}',
+  'unit.fareRange': 'AED {min}–{max}',
+  'unit.noFare': 'No fare',
+  'unit.stations': '{count} stations',
+  'unit.stops': '{count} stops',
+  'unit.direct': 'direct · {km} km',
+
   'say.title': 'What do you want to say?',
   'say.speak': 'Say it in Hindi',
   'say.example': 'Like — “is hotel tak le chalo”',

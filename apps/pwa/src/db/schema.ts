@@ -1,5 +1,12 @@
 import Dexie, { type EntityTable } from 'dexie';
-import type { ContentVersion, Phrase, VoiceEvent } from '@saathi/shared';
+import type {
+  ContentVersion,
+  Phrase,
+  TransportEdge,
+  TransportNode,
+  VoiceEvent,
+} from '@saathi/shared';
+import type { TransportMeta } from '../features/transport/network.js';
 
 /**
  * The local database. Everything the traveller needs lives here, because the network is for
@@ -12,6 +19,9 @@ export class SaathiDb extends Dexie {
   phrases!: EntityTable<Phrase, 'id'>;
   contentVersions!: EntityTable<ContentVersion, 'id'>;
   voiceEvents!: EntityTable<VoiceEvent, 'id'>;
+  transportNodes!: EntityTable<TransportNode, 'id'>;
+  transportEdges!: EntityTable<TransportEdge, 'id'>;
+  transportMeta!: EntityTable<TransportMeta, 'id'>;
 
   constructor(name = 'saathi') {
     super(name);
@@ -30,6 +40,19 @@ export class SaathiDb extends Dexie {
       phrases: 'id, situation',
       contentVersions: 'id, version',
       voiceEvents: 'id, at, synced',
+    });
+    // v3: the transport pack — the stations, the links between them, and the fares and walking
+    // speed that turn a path into a journey. Three tables rather than one blob because
+    // `TransportNode` and `TransportEdge` are entities in their own right (CLAUDE.md, "Data
+    // entities"), and because the planner reads the whole graph at once and nothing else does.
+    // No migration is needed: the tables start empty and the pack fills them on the next boot.
+    this.version(3).stores({
+      phrases: 'id, situation',
+      contentVersions: 'id, version',
+      voiceEvents: 'id, at, synced',
+      transportNodes: 'id',
+      transportEdges: 'id, fromNodeId, toNodeId',
+      transportMeta: 'id',
     });
   }
 }

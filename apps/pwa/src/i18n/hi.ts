@@ -39,6 +39,68 @@ export const hi = {
   'ask.mic': 'बोलकर भरिए',
   'ask.rewrite': 'फिर से लिखिए',
 
+  // 1.1 · रास्ता › कहाँ जाना है? — the front door of the tile (decision 014)
+  'transport.title': 'कहाँ जाना है?',
+  'transport.locationWhy': 'रास्ता बताने के लिए साथी को आपकी जगह चाहिए.',
+  'transport.placeholder': 'जगह का नाम लिखिए…',
+  'transport.label': 'कहाँ जाना है',
+  'transport.options': 'कैसे जाएँ',
+  'transport.translate': 'ड्राइवर को दिखाएँ',
+  'transport.unknownPlace': '“{text}” — यह जगह अभी साथी के पास नहीं है.',
+  'transport.unknownPlaceWhy': 'दूसरा नाम लिखकर देखिए — जैसे “करामा” या “दुबई मॉल”.',
+  'transport.noArabic': 'इस जगह का अरबी नाम साथी के पास नहीं है. विकल्प फिर भी दिखेंगे.',
+
+  // 1.1b · रास्ता › जगह की इजाज़त नहीं
+  'noLocation.title': 'जगह की इजाज़त नहीं',
+  'noLocation.heading': 'बिना जगह की इजाज़त के ये नहीं चलेंगे',
+  'noLocation.route': 'यहाँ से रास्ता',
+  'noLocation.food': 'आस-पास का खाना',
+  'noLocation.hotel': 'होटल का पिन',
+  'noLocation.settings': 'सेटिंग खोलें',
+  'noLocation.stillRefused':
+    'फ़ोन ने अभी भी मना किया. फ़ोन की सेटिंग › साइट › जगह में साथी को चालू कीजिए, फिर यही बटन दबाइए.',
+  'noLocation.rest': 'बाक़ी सब चलेगा — बोलना, ज़रूरी जानकारी और तैयार वाक्य.',
+
+  // 1.3 · रास्ता › विकल्प
+  'options.trail': 'कहाँ जाना है? › विकल्प',
+  'options.title': '{place} — कैसे जाएँ?',
+  'options.from': 'यहाँ से',
+  'options.estimate': 'किराया और समय अनुमानित',
+  'options.easiest': 'सबसे आसान',
+  'options.fastest': 'सबसे तेज़',
+  'options.cheapest': 'सबसे सस्ता',
+  'options.planning': 'रास्ता देख रहा हूँ…',
+  'options.noRoute': 'यहाँ से रास्ता नहीं निकल पाया',
+  'options.noRouteWhy': 'साथी को आपकी जगह नहीं मिली, या आप दुबई से बाहर हैं.',
+  'options.showDriver': 'ड्राइवर को दिखाएँ',
+
+  // 1.4 · रास्ता › क़दम दर क़दम
+  'steps.trail': 'विकल्प › क़दम दर क़दम',
+  'steps.title': '{mode} से {place}',
+  'steps.totalTime': 'कुल समय',
+  'steps.fare': 'किराया',
+  'steps.walking': 'पैदल',
+  'steps.walk': 'पैदल चलिए',
+  'steps.ride': '{line} लीजिए',
+  'steps.taxiRide': 'टैक्सी लीजिए',
+  'steps.toPlace': '{place} तक',
+  'steps.between': '{from} → {to} · {count}',
+  'steps.here': 'यहाँ से',
+
+  // Shared by 1.3 and 1.4 — the words a journey is measured in
+  'mode.metro': 'मेट्रो',
+  'mode.bus': 'बस',
+  'mode.tram': 'ट्राम',
+  'mode.taxi': 'टैक्सी',
+  'mode.walk': 'पैदल',
+  'unit.minutes': '{count} मिनट',
+  'unit.fare': 'AED {amount}',
+  'unit.fareRange': 'AED {min}–{max}',
+  'unit.noFare': 'कोई किराया नहीं',
+  'unit.stations': '{count} स्टेशन',
+  'unit.stops': '{count} स्टॉप',
+  'unit.direct': 'सीधे · {km} km',
+
   // 3.1 · बोलना › क्या कहना है?
   'say.title': 'क्या कहना है?',
   'say.speak': 'हिंदी में बोलिए',
