@@ -5,7 +5,7 @@ import { navigate } from '../../app/routes.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { QuickBar } from '../../app/shell/QuickBar.js';
 import { Icon } from '../../app/shell/icons.js';
-import { phraseById } from '../../db/content.js';
+import { resolvePhrase } from './resolvePhrase.js';
 import {
   findArabicVoice,
   meansNoVoice,
@@ -44,7 +44,7 @@ export function ArabicScreen({
   const [trouble, setTrouble] = useState<string | null>(null);
 
   useEffect(() => {
-    void phraseById(phraseId).then((row) => {
+    void resolvePhrase(phraseId).then((row) => {
       setPhrase(row ?? null);
     });
   }, [phraseId]);

@@ -3,7 +3,7 @@ import type { Phrase } from '@saathi/shared';
 import { useSettings } from '../../app/settings.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { Icon } from '../../app/shell/icons.js';
-import { phraseById } from '../../db/content.js';
+import { resolvePhrase } from './resolvePhrase.js';
 import { findArabicVoice, speakArabic, stopSpeaking } from './speak.js';
 
 /**
@@ -16,7 +16,7 @@ export function ShowDriverScreen({ phraseId }: { readonly phraseId: string }) {
   const [canSpeak, setCanSpeak] = useState(false);
 
   useEffect(() => {
-    void phraseById(phraseId).then((row) => {
+    void resolvePhrase(phraseId).then((row) => {
       setPhrase(row ?? null);
     });
   }, [phraseId]);
