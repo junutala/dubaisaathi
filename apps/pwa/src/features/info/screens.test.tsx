@@ -98,7 +98,9 @@ describe('4.1 · ज़रूरी जानकारी, with the radio off an
     expect(navigate).toHaveBeenCalledWith({ screen: 'driver', phraseId: 'taxi-hotel' });
 
     fireEvent.click(screen.getByText('होटल वापस जाएँ'));
-    expect(navigate).toHaveBeenCalledWith({ screen: 'soon', tile: 'transport' });
+    // A hotel photographed but never pinned has no area, so रास्ता opens with an empty box
+    // rather than a destination invented for it.
+    expect(navigate).toHaveBeenCalledWith({ screen: 'transport' });
   });
 
   it('takes a traveller with no hotel yet straight to capturing one', async () => {

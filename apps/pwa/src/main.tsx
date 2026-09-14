@@ -2,10 +2,12 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './app/App.js';
 import { SettingsProvider } from './app/settings.js';
-import { loadPhrasePack, parsePhrasePack } from './db/content.js';
+import { loadPhrasePack, loadTransportPack, parsePhrasePack } from './db/content.js';
+import { parseTransportPack } from './features/transport/index.js';
 import { requestPersistentStorage } from './db/schema.js';
 import { applyPendingUpdate } from './app/updates.js';
 import pack from '../../../data/phrases/phrases.v1.json';
+import transport from '../../../data/transport/network.v1.json';
 import './fonts.css';
 import './styles.css';
 
@@ -20,6 +22,7 @@ await applyPendingUpdate();
 // phone running low on space, so ask for persistence on the way in (decision 003).
 void requestPersistentStorage();
 void loadPhrasePack(parsePhrasePack(pack));
+void loadTransportPack(parseTransportPack(transport));
 
 createRoot(root).render(
   <StrictMode>

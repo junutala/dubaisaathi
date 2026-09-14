@@ -53,17 +53,22 @@ describe('the home screen front door', () => {
     expect(screen.getByRole('textbox')).toBeTruthy();
   });
 
-  it('sends a typed destination to रास्ता', () => {
+  /**
+   * रास्ता now exists, and it carries the destination in with it. The screen it opens offers
+   * both readings of the sentence — the transport, and the Arabic for a driver — because which
+   * one was meant depends on where the traveller is standing (decision 014).
+   */
+  it('sends a typed destination to रास्ता, with the place already in the box', () => {
     show();
     type('करामा जाना है');
-    expect(navigate).toHaveBeenCalledWith({ screen: 'soon', tile: 'transport' });
+    expect(navigate).toHaveBeenCalledWith({ screen: 'transport', placeId: 'karama' });
   });
 
   /** Rule 4: Hinglish is first-class, not a fallback. Same sentence, Roman script, same screen. */
   it('sends the same sentence in Hinglish to the same place', () => {
     show();
     type('karama jaana hai');
-    expect(navigate).toHaveBeenCalledWith({ screen: 'soon', tile: 'transport' });
+    expect(navigate).toHaveBeenCalledWith({ screen: 'transport', placeId: 'karama' });
   });
 
   it('sends a food sentence to खाना', () => {

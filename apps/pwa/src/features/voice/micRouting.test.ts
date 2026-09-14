@@ -11,8 +11,12 @@ const landing = (said: string) => landingFor(parseIntent(said, intentCorpus));
  */
 describe('where the mic lands', () => {
   it.each([
-    ['Bhai mujhe Karama jaana hai, metro se kaise jaaun?', '#/soon/transport'],
-    ['मुझे मरीना मॉल जाना है', '#/soon/transport'],
+    // रास्ता, with the destination already in the box — not the options. "Karama jaana hai" is
+    // *show me the transport* in a hotel room and *tell the driver* at a taxi door, and the
+    // difference is where the traveller is standing rather than anything in the words. The app
+    // never guesses between the two; 1.1 offers both and one tap settles it (decision 014).
+    ['Bhai mujhe Karama jaana hai, metro se kaise jaaun?', '#/transport/karama'],
+    ['मुझे मरीना मॉल जाना है', '#/transport/marina-mall'],
     ['Jain khana kahaan milega', '#/soon/food'],
     ['ड्राइवर को बोलो होटल ले चलो', '#/arabic/taxi-hotel'],
     ['driver ko bolo meter chalu karo', '#/arabic/taxi-meter'],
@@ -32,6 +36,14 @@ describe('where the mic lands', () => {
     expect(landing('aaj mausam kaisa rahega')).toBe('ask');
   });
 
+  /** A journey with nowhere named still opens रास्ता, with an empty box rather than a shrug. */
+  it('opens रास्ता with an empty box when it heard a journey but no place', () => {
+    const route = landing('metro se kaise jaaun');
+    expect(route).not.toBe('ask');
+    if (route === 'ask') return;
+    expect(hashOf(route)).toBe('#/transport');
+  });
+
   it('falls back to the sentence list when it heard "बोलो" but not what', () => {
     const route = landing('arabi mein bolo');
     expect(route).not.toBe('ask');
@@ -44,6 +56,8 @@ function hashOf(route: Exclude<ReturnType<typeof landingFor>, 'ask'>): string {
   switch (route.screen) {
     case 'info':
       return '#/info';
+    case 'transport':
+      return route.placeId === undefined ? '#/transport' : `#/transport/${route.placeId}`;
     case 'soon':
       return `#/soon/${route.tile}`;
     case 'arabic':

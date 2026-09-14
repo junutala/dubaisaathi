@@ -7,6 +7,7 @@ import type { StringKey } from '../../i18n/index.js';
 import { AskBar } from '../ask/AskBar.js';
 import { Clarifier } from '../ask/Clarifier.js';
 import { recordClarifierChoice, submitSentence } from '../ask/askSubmit.js';
+import { transportLanding } from '../voice/micRouting.js';
 import { typedStt } from '../voice/stt.js';
 
 interface TileDef {
@@ -27,7 +28,7 @@ const TILES: readonly TileDef[] = [
     key: 'tile.transport',
     blurb: 'tile.transport.blurb',
     icon: 'route',
-    route: { screen: 'soon', tile: 'transport' },
+    route: { screen: 'transport' },
   },
   {
     key: 'tile.food',
@@ -104,7 +105,11 @@ export function HomeScreen({
             onHeard(asking);
             setAsking(null);
             setTyped('');
-            navigate({ screen: 'soon', tile: choice === 'route' ? 'transport' : 'food' });
+            navigate(
+              choice === 'route'
+                ? transportLanding(asking.destination?.placeId)
+                : { screen: 'soon', tile: 'food' },
+            );
           }}
           actions={
             // They typed it, so another go at the keyboard is the way forward — not "type it

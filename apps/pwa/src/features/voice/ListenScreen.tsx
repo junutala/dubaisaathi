@@ -6,6 +6,7 @@ import { ScreenHeader, type Tile } from '../../app/shell/ScreenHeader.js';
 import { QuickBar } from '../../app/shell/QuickBar.js';
 import type { StringKey } from '../../i18n/index.js';
 import { intentCorpus } from './intentPacks.js';
+import { transportLanding } from './micRouting.js';
 import { isConfident, parseIntent } from './parseIntent.js';
 import {
   isSecureOrigin,
@@ -460,7 +461,11 @@ export function ListenScreen({
             onPick={(choice) => {
               recordClarifierChoice(phase.intent, choice, used.current.id);
               onHeard(phase.intent);
-              navigate({ screen: 'soon', tile: choice === 'route' ? 'transport' : 'food' });
+              navigate(
+                choice === 'route'
+                  ? transportLanding(phase.intent.destination?.placeId)
+                  : { screen: 'soon', tile: 'food' },
+              );
             }}
             actions={
               <>

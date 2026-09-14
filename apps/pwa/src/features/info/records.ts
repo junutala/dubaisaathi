@@ -14,6 +14,12 @@ export const HOTEL_ID = 'hotel';
 export interface AreaName {
   readonly hi: string;
   readonly en: string;
+  /**
+   * The place it was resolved from, so होटल वापस जाएँ can hand रास्ता a destination rather than
+   * an empty box. Optional because a hotel saved before tile 1 existed has no id on it, and a
+   * traveller does not re-pin their hotel to get a release of ours working.
+   */
+  readonly placeId?: string;
 }
 
 /**

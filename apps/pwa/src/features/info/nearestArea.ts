@@ -41,5 +41,5 @@ export function areaFor(pin: LatLng): AreaName | undefined {
     if (!closest || km < closest.km) closest = { place, km };
   }
   if (!closest || closest.km > AREA_RADIUS_KM) return undefined;
-  return { hi: closest.place.name.hi, en: closest.place.name.en };
+  return { hi: closest.place.name.hi, en: closest.place.name.en, placeId: closest.place.id };
 }

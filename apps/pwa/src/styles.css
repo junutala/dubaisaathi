@@ -957,3 +957,238 @@ button:not(:disabled) {
   flex: 1;
   min-width: 0;
 }
+
+/* ---- रास्ता ----------------------------------------------------------------------------- */
+
+/* The reason before the phone's own prompt (1.1), and "बाक़ी सब चलेगा" (1.1b). Teal, because
+   teal means offline-and-ready and neither of these is an error (design rule 21). */
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--tealSoft);
+  border: 1px solid var(--tealLine);
+  color: var(--tealText);
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+.note svg {
+  flex-shrink: 0;
+}
+
+/* An honest answer, not an alarm: red is reserved and appears on no screen (design rule 13). */
+.trouble {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--marigoldText);
+}
+
+.lost-heading {
+  margin: 0;
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.lost-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15.5px;
+}
+
+.from-to {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+}
+.from-to-place {
+  flex: 1;
+  min-width: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ---- 1.3 · विकल्प ------------------------------------------------------------------------ */
+
+.opt {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  min-height: 48px;
+  padding: 15px 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.opt-top {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.opt-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 11px;
+  background: var(--tealSoft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.opt-what {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.opt-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.opt-name {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.opt-badge {
+  padding: 3px 9px;
+  border-radius: 11px;
+  background: var(--marigoldSoft);
+  color: var(--warmText);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.opt-time {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.opt-legs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+}
+.opt-leg {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.opt-sep {
+  font-size: 13px;
+  padding-right: 2px;
+}
+
+/* ---- 1.4 · क़दम दर क़दम -------------------------------------------------------------------- */
+
+.totals {
+  display: flex;
+  align-items: stretch;
+  border-radius: 16px;
+  padding: 15px 6px;
+  background: var(--indigo);
+  color: #f7f3ec;
+}
+.total {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+.total-value {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: center;
+}
+.total-label {
+  font-size: 12.5px;
+  opacity: 0.72;
+}
+.total-rule {
+  width: 1px;
+  background: rgb(247 243 236 / 0.2);
+}
+
+.legs {
+  display: flex;
+  flex-direction: column;
+  padding-top: 4px;
+}
+.leg {
+  position: relative;
+  display: flex;
+  gap: 14px;
+  padding-bottom: 18px;
+}
+.leg-last {
+  padding-bottom: 0;
+}
+/* The thread down the left, so the legs read as one journey rather than three cards. */
+.leg:not(.leg-last)::before {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 44px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--line);
+}
+.leg-icon {
+  position: relative;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.leg-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 3px;
+}
+.leg-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.leg-title {
+  font-size: 16.5px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.leg-time {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+}

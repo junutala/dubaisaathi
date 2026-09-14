@@ -59,12 +59,17 @@ export function InfoHomeScreen({
           {hotel && (
             <div className="info-hotel-actions">
               {/* Getting back is रास्ता's job, so it hands over to that tile rather than
-                  growing a second route screen inside this one. */}
+                  growing a second route screen inside this one — carrying the hotel's area as
+                  the destination, so the traveller does not retype where they live. */}
               <button
                 type="button"
                 className="btn btn-ghost"
                 onClick={() => {
-                  navigate({ screen: 'soon', tile: 'transport' });
+                  navigate(
+                    hotel.area?.placeId === undefined
+                      ? { screen: 'transport' }
+                      : { screen: 'transport', placeId: hotel.area.placeId },
+                  );
                 }}
               >
                 <Icon name="route" size={20} strokeWidth={1.8} />

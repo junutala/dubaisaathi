@@ -16,9 +16,10 @@ describe('every way into ज़रूरी जानकारी', () => {
     expect(href({ screen: 'info' })).toBe('#/info');
   });
 
-  it('leaves the two tiles that really are being built alone', () => {
-    expect(parseRoute('#/soon/transport')).toEqual({ screen: 'soon', tile: 'transport' });
+  it('leaves the one tile that really is being built alone', () => {
     expect(parseRoute('#/soon/food')).toEqual({ screen: 'soon', tile: 'food' });
+    // रास्ता is built now, and its own route is the only way in.
+    expect(parseRoute('#/transport')).toEqual({ screen: 'transport' });
   });
 
   it('lands "beema dikhao" on the document list', () => {

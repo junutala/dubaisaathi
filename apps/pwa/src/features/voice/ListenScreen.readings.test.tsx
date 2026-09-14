@@ -111,7 +111,7 @@ describe('two readings of one sentence', () => {
     expect(navigate).not.toHaveBeenCalled();
     pressSend(view);
     await waitFor(() => {
-      expect(navigate).toHaveBeenCalledWith({ screen: 'soon', tile: 'transport' });
+      expect(navigate).toHaveBeenCalledWith({ screen: 'transport', placeId: 'karama' });
     });
   });
 
@@ -203,7 +203,7 @@ describe('two readings of one sentence', () => {
     });
     pressSend(view);
     await waitFor(() => {
-      expect(navigate).toHaveBeenCalledWith({ screen: 'soon', tile: 'transport' });
+      expect(navigate).toHaveBeenCalledWith({ screen: 'transport', placeId: 'karama' });
     });
     const event = recorded.mock.calls[0]?.[0] as { unconstrainedTranscript?: string };
     expect(event.unconstrainedTranscript).toBeUndefined();
@@ -279,7 +279,7 @@ describe('a sentence the traveller corrected', () => {
     if (box) fireEvent.change(box, { target: { value: 'karama jaana hai' } });
     pressSend(view);
     await waitFor(() => {
-      expect(navigate).toHaveBeenCalledWith({ screen: 'soon', tile: 'transport' });
+      expect(navigate).toHaveBeenCalledWith({ screen: 'transport', placeId: 'karama' });
     });
   });
 });

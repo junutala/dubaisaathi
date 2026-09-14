@@ -8,11 +8,26 @@ import { isConfident } from './parseIntent.js';
  *
  * It is a pure function so the mapping can be tested without a microphone, a browser or a tap.
  */
+/**
+ * 1.1, with the destination filled in when there is one.
+ *
+ * Wherever a traveller has said where they want to go but not which of the two things they want
+ * done about it, this is where they land. "Discovery Gardens jaana hai" is *show me the
+ * transport* in a hotel room and *tell the driver* at a taxi door; the difference is where they
+ * are standing, it is not in the words, and no parser recovers it — so the app never guesses,
+ * it opens the screen that offers both (decision 014).
+ */
+export function transportLanding(placeId: string | undefined): Route {
+  return placeId === undefined ? { screen: 'transport' } : { screen: 'transport', placeId };
+}
+
 export function landingFor(intent: ParsedIntent): Route | 'ask' {
   if (!isConfident(intent)) return 'ask';
   switch (intent.kind) {
     case 'route':
-      return { screen: 'soon', tile: 'transport' };
+      // 1.1, not the options: the destination is only half of what the traveller wants, and the
+      // other half is a tap rather than a guess. The place goes with them, so the box is filled.
+      return transportLanding(intent.destination?.placeId);
     case 'food':
       return { screen: 'soon', tile: 'food' };
     case 'phrase':

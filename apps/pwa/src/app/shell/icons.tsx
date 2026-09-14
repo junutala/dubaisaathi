@@ -16,10 +16,16 @@ export type IconName =
   | 'wifioff'
   | 'language'
   | 'camera'
-  | 'pin'
   | 'plus'
   | 'phone'
   | 'doc'
+  // रास्ता: the modes a journey is made of.
+  | 'metro'
+  | 'bus'
+  | 'taxi'
+  | 'walk'
+  // Shared: the map mark and the tick, wanted by both tiles.
+  | 'pin'
   | 'check';
 
 /**
@@ -136,6 +142,39 @@ const SHAPES: Record<IconName, ReactNode> = {
     <>
       <path d="M4.2 8.6a1.8 1.8 0 0 1 1.8-1.8h2.2l1.3-2h5l1.3 2H18a1.8 1.8 0 0 1 1.8 1.8v8.2a1.8 1.8 0 0 1-1.8 1.8H6a1.8 1.8 0 0 1-1.8-1.8V8.6Z" />
       <circle cx="12" cy="12.6" r="3.2" />
+    </>
+  ),
+  metro: (
+    <>
+      <rect x="6.2" y="4.2" width="11.6" height="11.6" rx="3" />
+      <path d="M6.2 11h11.6" />
+      <path d="M9.2 19.8 10.6 17" />
+      <path d="M14.8 19.8 13.4 17" />
+    </>
+  ),
+  bus: (
+    <>
+      <rect x="5.2" y="5" width="13.6" height="10.8" rx="2.6" />
+      <path d="M5.2 11h13.6" />
+      <path d="M8.2 19.4v-2.4" />
+      <path d="M15.8 19.4v-2.4" />
+    </>
+  ),
+  taxi: (
+    <>
+      <path d="M4 15.4h16" />
+      <path d="M5.8 15.4v-3.6l1.7-3.9h9l1.7 3.9v3.6" />
+      <path d="M7.8 18.6v-3.2" />
+      <path d="M16.2 18.6v-3.2" />
+      <path d="M9.8 7.9V6.2h4.4v1.7" />
+    </>
+  ),
+  walk: (
+    <>
+      <circle cx="12.8" cy="5.2" r="1.7" />
+      <path d="M12.8 8.4 10.4 12.6l2.1 1.5.9 5.5" />
+      <path d="M10.4 12.6 7.8 16.2" />
+      <path d="M12.8 8.4l3 3 2.4.6" />
     </>
   ),
   pin: (

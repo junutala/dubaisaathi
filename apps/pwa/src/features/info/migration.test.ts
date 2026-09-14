@@ -65,7 +65,7 @@ afterEach(async () => {
 });
 
 describe('upgrading a phone that already has the app', () => {
-  it('keeps the phrase pack and the unsynced voice events across the v3 bump', async () => {
+  it('keeps the phrase pack and the unsynced voice events across the bumps', async () => {
     const old = openV2();
     await old.open();
     await old.table('phrases').put(PHRASE);
@@ -80,7 +80,7 @@ describe('upgrading a phone that already has the app', () => {
     const upgraded = new SaathiDb(NAME);
     await upgraded.open();
 
-    expect(upgraded.verno).toBe(3);
+    expect(upgraded.verno).toBe(4);
     expect((await upgraded.phrases.get('taxi-hotel'))?.ar).toBe(PHRASE.ar);
     expect((await upgraded.contentVersions.get('phrases'))?.version).toBe(1);
     // The queue is what the learning loop is: losing it loses labelled recogniser errors that

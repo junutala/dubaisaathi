@@ -1,6 +1,13 @@
 import Dexie, { type EntityTable } from 'dexie';
-import type { ContentVersion, Phrase, VoiceEvent } from '@saathi/shared';
+import type {
+  ContentVersion,
+  Phrase,
+  TransportEdge,
+  TransportNode,
+  VoiceEvent,
+} from '@saathi/shared';
 import type { SavedHotel, TravellerDocument } from '../features/info/records.js';
+import type { TransportMeta } from '../features/transport/network.js';
 
 /**
  * The local database. Everything the traveller needs lives here, because the network is for
@@ -15,6 +22,9 @@ export class SaathiDb extends Dexie {
   voiceEvents!: EntityTable<VoiceEvent, 'id'>;
   hotels!: EntityTable<SavedHotel, 'id'>;
   documents!: EntityTable<TravellerDocument, 'id'>;
+  transportNodes!: EntityTable<TransportNode, 'id'>;
+  transportEdges!: EntityTable<TransportEdge, 'id'>;
+  transportMeta!: EntityTable<TransportMeta, 'id'>;
 
   constructor(name = 'saathi') {
     super(name);
@@ -49,6 +59,25 @@ export class SaathiDb extends Dexie {
       voiceEvents: 'id, at, synced',
       hotels: 'id',
       documents: 'id, addedAt',
+    });
+    // v4: the transport pack — the stations, the links between them, and the fares and walking
+    // speed that turn a path into a journey. Three tables rather than one blob because
+    // `TransportNode` and `TransportEdge` are entities in their own right (CLAUDE.md, "Data
+    // entities"), and because the planner reads the whole graph at once and nothing else does.
+    //
+    // This is a version of its own rather than a second helping of v3: tile 1 and tile 4 were
+    // built side by side and both reached for v3, and a phone that has already opened v3 would
+    // never be told about tables added to it after the fact. Everything above is re-declared
+    // unchanged, so a saved hotel and a photographed passport carry across.
+    this.version(4).stores({
+      phrases: 'id, situation',
+      contentVersions: 'id, version',
+      voiceEvents: 'id, at, synced',
+      hotels: 'id',
+      documents: 'id, addedAt',
+      transportNodes: 'id',
+      transportEdges: 'id, fromNodeId, toNodeId',
+      transportMeta: 'id',
     });
   }
 }

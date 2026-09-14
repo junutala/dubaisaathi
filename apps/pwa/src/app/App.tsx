@@ -15,6 +15,12 @@ import {
   InfoHomeScreen,
 } from '../features/info/index.js';
 import { ListenScreen } from '../features/voice/ListenScreen.js';
+import {
+  LocationDeniedScreen,
+  RouteOptionsScreen,
+  RouteStepsScreen,
+  TransportScreen,
+} from '../features/transport/index.js';
 import { landingHref } from '../features/voice/micRouting.js';
 
 /**
@@ -37,6 +43,11 @@ function tileOf(route: Route): Tile {
       return 'info';
     case 'soon':
       return route.tile;
+    case 'transport':
+    case 'nolocation':
+    case 'options':
+    case 'steps':
+      return 'transport';
     case 'listen':
       return route.from;
     case 'home':
@@ -74,6 +85,16 @@ export function App() {
   }, []);
 
   const banner = heard?.at === href(route) ? heard.intent : undefined;
+  /**
+   * The mic lands on 1.1, because a destination is two questions and the traveller answers one
+   * of them by tapping (decision 014). The words follow them one screen further on, so 1.3 can
+   * still show "आपने कहा: …" — that is the field the ledger asks for on 1.3, and it is the one
+   * check worth making before committing to a route.
+   */
+  const carried =
+    route.screen === 'options' && heard?.intent.destination?.placeId === route.placeId
+      ? heard.intent
+      : undefined;
 
   return (
     <div className="screen">
@@ -87,6 +108,16 @@ export function App() {
         <ArabicScreen phraseId={route.phraseId} onMic={onMic} heard={banner} />
       )}
       {route.screen === 'driver' && <ShowDriverScreen phraseId={route.phraseId} />}
+      {route.screen === 'transport' && (
+        <TransportScreen placeId={route.placeId} onMic={onMic} heard={banner} />
+      )}
+      {route.screen === 'nolocation' && <LocationDeniedScreen onMic={onMic} />}
+      {route.screen === 'options' && (
+        <RouteOptionsScreen placeId={route.placeId} onMic={onMic} heard={carried} />
+      )}
+      {route.screen === 'steps' && (
+        <RouteStepsScreen placeId={route.placeId} optionId={route.optionId} onMic={onMic} />
+      )}
       {route.screen === 'info' && <InfoHomeScreen onMic={onMic} heard={banner} />}
       {route.screen === 'hotelAdd' && <HotelAddScreen onMic={onMic} />}
       {route.screen === 'docAdd' && <DocumentAddScreen onMic={onMic} />}
