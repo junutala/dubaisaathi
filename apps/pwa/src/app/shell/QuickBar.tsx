@@ -21,7 +21,7 @@ const SLOTS: readonly Slot[] = [
   },
   { tile: 'food', key: 'tile.food', icon: 'food', route: { screen: 'soon', tile: 'food' } },
   { tile: 'talk', key: 'tile.talk', icon: 'talk', route: { screen: 'say' } },
-  { tile: 'info', key: 'tile.info', icon: 'info', route: { screen: 'soon', tile: 'info' } },
+  { tile: 'info', key: 'tile.info', icon: 'info', route: { screen: 'info' } },
 ];
 
 /**

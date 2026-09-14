@@ -12,6 +12,10 @@ export type Route =
   | { readonly screen: 'say' }
   | { readonly screen: 'arabic'; readonly phraseId: string }
   | { readonly screen: 'driver'; readonly phraseId: string }
+  | { readonly screen: 'info' }
+  | { readonly screen: 'hotelAdd' }
+  | { readonly screen: 'docAdd' }
+  | { readonly screen: 'docView'; readonly docId: string }
   | { readonly screen: 'soon'; readonly tile: 'transport' | 'food' | 'info' };
 
 function isTile(value: string | undefined): value is Tile {
@@ -29,8 +33,19 @@ export function parseRoute(hash: string): Route {
       return arg ? { screen: 'arabic', phraseId: arg } : { screen: 'say' };
     case 'driver':
       return arg ? { screen: 'driver', phraseId: arg } : { screen: 'say' };
+    case 'info':
+      return { screen: 'info' };
+    case 'hotel-add':
+      return { screen: 'hotelAdd' };
+    case 'doc-add':
+      return { screen: 'docAdd' };
+    case 'doc':
+      return arg ? { screen: 'docView', docId: arg } : { screen: 'info' };
     case 'soon':
-      return arg === 'transport' || arg === 'food' || arg === 'info'
+      // ज़रूरी जानकारी is built, so `#/soon/info` is a bookmark and a mic landing that predate
+      // it. Both open the real screen rather than being told it is still being made.
+      if (arg === 'info') return { screen: 'info' };
+      return arg === 'transport' || arg === 'food'
         ? { screen: 'soon', tile: arg }
         : { screen: 'home' };
     default:
@@ -50,8 +65,18 @@ export function href(route: Route): string {
       return `#/arabic/${route.phraseId}`;
     case 'driver':
       return `#/driver/${route.phraseId}`;
+    case 'info':
+      return '#/info';
+    case 'hotelAdd':
+      return '#/hotel-add';
+    case 'docAdd':
+      return '#/doc-add';
+    case 'docView':
+      return `#/doc/${route.docId}`;
     case 'soon':
-      return `#/soon/${route.tile}`;
+      // The same redirect as the parser's, so "did the mic land me here?" compares equal on
+      // the screen the traveller actually reached.
+      return route.tile === 'info' ? '#/info' : `#/soon/${route.tile}`;
   }
 }
 

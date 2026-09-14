@@ -104,6 +104,58 @@ export const hi = {
   'listen.notUnderstood': 'यह समझ नहीं आया',
   'listen.notUnderstoodWhy': 'फिर बोलिए, या नीचे से चुन लीजिए.',
 
+  // 4.1 · ज़रूरी जानकारी — the calm shelf. Nothing here is medical and nothing here is red
+  // (design rule 16a); the numbers line is knowledge, not a button.
+  'info.title': 'होटल और दस्तावेज़',
+  'info.hotel': 'मेरा होटल',
+  'info.hotel.add': 'जोड़ लीजिए — पिन, कार्ड या गेट की फ़ोटो',
+  'info.hotel.card': 'कार्ड की फ़ोटो',
+  'info.hotel.gate': 'गेट की फ़ोटो',
+  'info.hotel.pinned': 'पिन लगा है',
+  'info.hotel.back': 'होटल वापस जाएँ',
+  'info.hotel.show': 'ड्राइवर को दिखाएँ',
+  'info.docs': 'दस्तावेज़',
+  'info.docs.none': 'अभी कोई नहीं — बीमा, पासपोर्ट, वापसी की फ़्लाइट, जो ज़रूरी लगे',
+  'info.docs.add': 'दस्तावेज़ जोड़ें',
+  'info.docs.added': 'जोड़ा {date}',
+  'info.consulate.call': 'कॉन्सुलेट को फ़ोन करें',
+  'info.numbers': 'पुलिस 999 · एम्बुलेंस 998 · दमकल 997',
+
+  // 4.2 · ज़रूरी जानकारी › होटल जोड़ें — captured, never typed (design rule 14)
+  'info.hotelAdd.title': 'होटल जोड़ें',
+  'info.hotelAdd.trail': 'होटल',
+  'info.hotelAdd.anyOne': 'कोई एक काफ़ी है. टाइप कुछ नहीं करना.',
+  'info.hotelAdd.pin': 'यहीं पिन करें',
+  'info.hotelAdd.pinWhy': 'होटल में खड़े होकर दबाएँ — GPS से जगह याद रहेगी',
+  'info.hotelAdd.pinning': 'जगह ढूँढ रहा हूँ…',
+  'info.hotelAdd.pinDenied':
+    'जगह की इजाज़त नहीं मिली. फ़ोन की सेटिंग में चालू कीजिए, या नीचे से फ़ोटो ले लीजिए.',
+  'info.hotelAdd.pinUnavailable': 'अभी जगह नहीं मिली. नीचे से फ़ोटो ले लीजिए — वह भी काफ़ी है.',
+  'info.hotelAdd.pinTimeout': 'जगह मिलने में देर लगी. फिर दबाइए, या नीचे से फ़ोटो ले लीजिए.',
+  'info.hotelAdd.card': 'कार्ड की फ़ोटो',
+  'info.hotelAdd.cardWhy': 'रिसेप्शन का बिज़नेस कार्ड — यही ड्राइवर को दिखेगा',
+  'info.hotelAdd.gate': 'गेट की फ़ोटो',
+  'info.hotelAdd.gateWhy': 'सामने से — वापस आते समय पहचान के लिए',
+
+  // 4.3 · ज़रूरी जानकारी › दस्तावेज़ जोड़ें
+  'info.docAdd.title': 'दस्तावेज़ जोड़ें',
+  'info.docAdd.trail': 'दस्तावेज़',
+  'info.docAdd.photo': 'फ़ोटो लें',
+  'info.docAdd.photoAlt': 'दस्तावेज़ की फ़ोटो',
+  'info.docAdd.retake': 'बदलने के लिए फ़ोटो पर दबाइए',
+  'info.docAdd.name': 'नाम',
+  'info.docAdd.nameHint': 'जैसे — यात्रा बीमा',
+  'info.docAdd.onlyHere':
+    'सिर्फ़ इसी फ़ोन में रहेगा — कहीं नहीं भेजा जाएगा, और जब तक आप न हटाएँ, रहेगा.',
+  'info.docAdd.needBoth': 'फ़ोटो लीजिए और नाम लिखिए — फिर रख लेंगे.',
+  'info.docAdd.save': 'रख लें',
+
+  // 4.4 · ज़रूरी जानकारी › दस्तावेज़
+  'info.docView.trail': 'दस्तावेज़',
+  'info.docView.footer': 'जोड़ा {date} · सिर्फ़ इस फ़ोन में',
+  'info.docView.delete': 'हटाएँ',
+  'info.docView.gone': 'यह दस्तावेज़ अब इस फ़ोन में नहीं है.',
+
   // Screens still to be built, named so the shell can route to them honestly
   'soon.title': 'अभी बन रहा है',
   'soon.body': 'यह हिस्सा अगले हफ़्ते आएगा. तब तक बोलना चलता है.',
