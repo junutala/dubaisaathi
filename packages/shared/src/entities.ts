@@ -50,6 +50,12 @@ export interface DubaiPlace {
   readonly name: LocalisedName;
   readonly kind: PlaceKind;
   readonly location: LatLng;
+  /**
+   * Where this sits among the places travellers actually ask for, 1 being the most asked. Absent
+   * for the rest. It is content rather than code so that, once the learning loop is syncing,
+   * real demand sets it instead of anyone's opinion of it (`voice_events.resolved_place_id`).
+   */
+  readonly popularity?: number;
   /** Neighbourhood this sits in, for "near me" grouping. */
   readonly areaId?: string;
 }

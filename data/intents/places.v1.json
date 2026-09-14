@@ -1,5 +1,5 @@
 {
-  "contentVersion": 2,
+  "contentVersion": 3,
   "publishedAt": "2026-09-13T00:00:00Z",
   "places": [
     {
@@ -14,7 +14,8 @@
       "location": {
         "lat": 25.2451,
         "lng": 55.3047
-      }
+      },
+      "popularity": 7
     },
     {
       "id": "bur-dubai",
@@ -28,7 +29,8 @@
       "location": {
         "lat": 25.2637,
         "lng": 55.2972
-      }
+      },
+      "popularity": 8
     },
     {
       "id": "deira",
@@ -42,7 +44,8 @@
       "location": {
         "lat": 25.2697,
         "lng": 55.3095
-      }
+      },
+      "popularity": 9
     },
     {
       "id": "dubai-mall",
@@ -56,7 +59,8 @@
       "location": {
         "lat": 25.1975,
         "lng": 55.2796
-      }
+      },
+      "popularity": 2
     },
     {
       "id": "marina-mall",
@@ -98,7 +102,8 @@
       "location": {
         "lat": 25.1181,
         "lng": 55.2003
-      }
+      },
+      "popularity": 5
     },
     {
       "id": "dubai-marina",
@@ -112,7 +117,8 @@
       "location": {
         "lat": 25.0805,
         "lng": 55.1403
-      }
+      },
+      "popularity": 10
     },
     {
       "id": "burj-khalifa",
@@ -126,7 +132,8 @@
       "location": {
         "lat": 25.1972,
         "lng": 55.2744
-      }
+      },
+      "popularity": 4
     },
     {
       "id": "jumeirah",
@@ -154,7 +161,8 @@
       "location": {
         "lat": 25.0699,
         "lng": 55.3095
-      }
+      },
+      "popularity": 6
     },
     {
       "id": "dxb-airport",
@@ -177,7 +185,8 @@
       "location": {
         "lat": 25.2532,
         "lng": 55.3657
-      }
+      },
+      "popularity": 1
     },
     {
       "id": "gold-souk",
@@ -191,7 +200,8 @@
       "location": {
         "lat": 25.2697,
         "lng": 55.2963
-      }
+      },
+      "popularity": 3
     },
     {
       "id": "burjuman",
@@ -212,7 +222,8 @@
       "location": {
         "lat": 25.2548,
         "lng": 55.3043
-      }
+      },
+      "popularity": 11
     },
     {
       "id": "ibn-battuta-mall",
@@ -226,7 +237,8 @@
       "location": {
         "lat": 25.0448,
         "lng": 55.1189
-      }
+      },
+      "popularity": 12
     },
     {
       "id": "deira-city-centre",

@@ -15,8 +15,8 @@ import {
   type Location,
 } from '../../lib/location.js';
 import { carriesMoreThanThePlace, localName, placeById, placeFromText } from './destinations.js';
-import { recentPlaces, rememberPlace } from './recentPlaces.js';
-import { readHotel, type SavedHotel } from '../info/index.js';
+import { quickPicks, rememberPlace } from './recentPlaces.js';
+import { readHotel } from '../info/index.js';
 
 /**
  * 1.1 — रास्ता › कहाँ जाना है?
@@ -60,7 +60,7 @@ export function TransportScreen({
   /** The reason goes on the screen before the phone's prompt, and only the first time (rule 9). */
   const [explaining] = useState(() => !hasBeenAsked());
   /** Read once on arrival, so the shortcuts reflect what this phone has actually done. */
-  const [recent] = useState(() => recentPlaces());
+  const [hotelPlaceId, setHotelPlaceId] = useState<string | undefined>(undefined);
   /**
    * They have typed the name of a whole neighbourhood and nothing else. Satwa is eighty thousand
    * people; a driver shown "take me to Satwa" concludes that somebody is wasting his time. So
@@ -74,17 +74,18 @@ export function TransportScreen({
     if (place?.kind !== 'neighbourhood') return null;
     return carriesMoreThanThePlace(words, place.name.en) ? null : localName(place.name, locale);
   })();
-  const [hotel, setHotel] = useState<SavedHotel | null>(null);
-
   useEffect(() => {
     let live = true;
     void readHotel().then((row) => {
-      if (live) setHotel(row ?? null);
+      if (live) setHotelPlaceId(row?.area?.placeId);
     });
     return () => {
       live = false;
     };
   }, []);
+
+  // Recomputed when the hotel arrives, so it leads the row rather than appearing at the end.
+  const picks = quickPicks(hotelPlaceId);
 
   // A destination handed in arrives already filled: the traveller sees the place in the box and
   // can correct it, rather than being sent onward by a screen they never touched.
@@ -234,34 +235,24 @@ export function TransportScreen({
             traveller is in a hotel room or at a taxi door, and that is not ours to decide.
             Nothing here is ranked by what we imagine they would like — it is their own history
             and their own hotel. */}
-        {(hotel?.area?.placeId !== undefined || recent.length > 0) && (
+        {picks.length > 0 && (
           <div className="stack-sm">
             <p className="lbl">{t('transport.quick')}</p>
             <div className="chips">
-              {hotel?.area?.placeId !== undefined && (
-                <QuickPick
-                  label={t('transport.hotel')}
-                  icon="pin"
-                  onPick={() => {
-                    const place = placeById(hotel.area?.placeId ?? '');
-                    if (place) setTyped(localName(place.name, locale));
-                  }}
-                />
-              )}
-              {recent.map((place) => (
+              {picks.map((place) => (
                 <QuickPick
                   key={place.id}
                   label={localName(place.name, locale)}
+                  icon={place.id === hotelPlaceId ? 'pin' : undefined}
                   onPick={() => {
                     setTyped(localName(place.name, locale));
+                    setTrouble(null);
                   }}
                 />
               ))}
             </div>
           </div>
         )}
-
-        <div className="grow" />
       </div>
       <QuickBar current="transport" onMic={onMic} />
     </>
@@ -279,7 +270,7 @@ function QuickPick({
   onPick,
 }: {
   readonly label: string;
-  readonly icon?: IconName;
+  readonly icon?: IconName | undefined;
   readonly onPick: () => void;
 }) {
   return (

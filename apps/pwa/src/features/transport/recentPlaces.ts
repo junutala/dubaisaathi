@@ -1,4 +1,5 @@
 import type { DubaiPlace } from '@saathi/shared';
+import { intentCorpus } from '../voice/intentPacks.js';
 import { placeById } from './destinations.js';
 
 /**
@@ -57,4 +58,40 @@ export function forgetPlaces(): void {
   } catch {
     /* nothing to forget */
   }
+}
+
+/**
+ * Where travellers actually go, most-asked first, from `popularity` in the place pack.
+ *
+ * This is what fills 1.1 on the first day, when the traveller has no history and the screen
+ * would otherwise be a box over half a phone of nothing. Ranked in content rather than in code,
+ * so once the learning loop is syncing the order comes from what people really asked for
+ * (`voice_events.resolved_place_id`) rather than from anyone's guess.
+ *
+ * Like the rest of the shortcuts it fills the box and never acts: going there and showing a
+ * driver are still the traveller's choice, made after they see the name.
+ */
+export function popularPlaces(): readonly DubaiPlace[] {
+  return [...intentCorpus.places.values()]
+    .filter((place) => place.popularity !== undefined)
+    .sort((a, b) => (a.popularity ?? 0) - (b.popularity ?? 0));
+}
+
+/**
+ * The shortcuts as one row: the hotel first because it is the destination a traveller repeats
+ * most, then wherever this phone has already been, then the popular places to fill the rest.
+ * No duplicates, and capped so it stays a row of shortcuts rather than a list to read.
+ */
+export function quickPicks(hotelPlaceId: string | undefined, limit = 8): readonly DubaiPlace[] {
+  const out: DubaiPlace[] = [];
+  const seen = new Set<string>();
+  const add = (place: DubaiPlace | undefined) => {
+    if (!place || seen.has(place.id) || out.length >= limit) return;
+    seen.add(place.id);
+    out.push(place);
+  };
+  add(hotelPlaceId === undefined ? undefined : placeById(hotelPlaceId));
+  for (const place of recentPlaces()) add(place);
+  for (const place of popularPlaces()) add(place);
+  return out;
 }
