@@ -353,6 +353,16 @@ export interface VoiceEvent {
    * `nothing-in-pack` is the row that says what to go and collect. Present on searches only.
    */
   readonly resultCount?: number;
+  /**
+   * The place the parser resolved, when it resolved one. This is what makes an aggregate
+   * countable: "Mall of the Emirates" arrives as `mall of emirates`, `माला एमरेट्स` and `MOE`,
+   * and counting the text would undercount every one of them.
+   *
+   * It is an id, not a position. Nothing anywhere records where a traveller physically went —
+   * only what they asked for — so this aggregates to "40 devices asked the way to Mall of the
+   * Emirates in 30 days" and can never reconstruct one person's trip.
+   */
+  readonly resolvedPlaceId?: string;
   /** Short clip kept only for failures, only with consent, deleted after sync. */
   readonly audioClipId?: string;
   readonly synced: boolean;

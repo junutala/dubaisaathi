@@ -65,6 +65,10 @@ export function submitSentence(submitted: Submission, engineId: string): AskOutc
     confidence: intent.confidence,
     landedOn: route === 'ask' ? 'listen' : route.screen,
     failure: parseFailure(intent),
+    // Counted, never tracked: this is the place they asked about, not a place they went.
+    ...(intent.destination?.placeId === undefined
+      ? {}
+      : { resolvedPlaceId: intent.destination.placeId }),
     sttEngine: engineId,
   });
 
