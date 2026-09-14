@@ -1,6 +1,7 @@
 import type { LatLng } from '@saathi/shared';
 import type { Validity } from '../../app/shell/StatusStrip.js';
-import { CONFIRMATIONS_NEEDED, readingSaysDubai } from './dubai.js';
+import { CONFIRMATIONS_NEEDED, DEPARTURES_NEEDED, readingSaysDubai } from './dubai.js';
+import { verifyPass, type SignedPass } from './signedPass.js';
 
 /**
  * The Counter Off Time — the one number entitlement runs on (decision 006).
@@ -20,6 +21,16 @@ import { CONFIRMATIONS_NEEDED, readingSaysDubai } from './dubai.js';
  */
 
 const KEY = 'saathi.entitlement';
+
+/**
+ * Whether there is any way to buy a pass yet, and therefore whether the gate may close.
+ *
+ * It is a build switch rather than a constant because that is what it actually is: the gate
+ * opens the day the order endpoint and the aggregator key exist, and not before. Turning it on
+ * today would close रास्ता and खाना to every traveller 24 hours after they land with no way on —
+ * a gate in front of a door nobody has built. `VITE_PURCHASE_LIVE=true` at build time.
+ */
+export const PURCHASE_IS_LIVE = import.meta.env.VITE_PURCHASE_LIVE === 'true';
 
 export const TRIAL_HOURS = 24;
 export const PAID_HOURS = 336;
@@ -42,6 +53,17 @@ export interface Entitlement {
   readonly groupEndsAt?: string;
   /** True when the traveller asked to try the app as though they were in Dubai. */
   readonly pretendingDubai?: boolean;
+  /**
+   * Confirmed departure. A paid pass runs until this, however long ago its hours ran out — the
+   * owner's rule: nobody who has paid is ever locked out mid-trip. It is what makes the next
+   * trip a new purchase rather than the pass being a lifetime licence by accident.
+   */
+  readonly leftAt?: string;
+  /** Readings that have said "not Dubai" since landing. */
+  readonly departures?: number;
+  /** The signed pass this device is running on, so a sync can reconcile it against its slot. */
+  readonly passId?: string;
+  readonly slot?: number;
 }
 
 function read(): Entitlement {
@@ -89,13 +111,45 @@ export function forgetEntitlement(): void {
  */
 export function noteLocationReading(at: LatLng | undefined): Entitlement {
   const current = read();
-  if (current.landedAt !== undefined) return current;
-  if (!readingSaysDubai(at)) return current;
+  const here = readingSaysDubai(at);
 
-  const sightings = (current.sightings ?? 0) + 1;
-  if (sightings < CONFIRMATIONS_NEEDED) return updateEntitlement({ sightings });
-  // Confirmed. This is the moment the counter starts, and it never restarts.
-  return updateEntitlement({ landedAt: new Date().toISOString(), sightings: 0 });
+  if (current.landedAt === undefined) {
+    if (!here) return current;
+    const sightings = (current.sightings ?? 0) + 1;
+    if (sightings < CONFIRMATIONS_NEEDED) return updateEntitlement({ sightings });
+    // Confirmed. This is the moment the counter starts, and it never restarts.
+    return updateEntitlement({ landedAt: new Date().toISOString(), sightings: 0 });
+  }
+
+  // Landed already. Now the only question is whether they have gone home, which ends a paid
+  // pass — so it takes more agreeing readings than arriving did, and any reading that says
+  // "still here" wipes the count. A traveller in a basement with no fix is still in Dubai.
+  if (current.pretendingDubai === true) return current;
+  if (here) {
+    return current.departures === undefined ? current : updateEntitlement({ departures: 0 });
+  }
+  const departures = (current.departures ?? 0) + 1;
+  if (departures < DEPARTURES_NEEDED) return updateEntitlement({ departures });
+  return updateEntitlement({ leftAt: new Date().toISOString(), departures: 0 });
+}
+
+/**
+ * Whether the app is closed to this traveller.
+ *
+ * The owner's rule, and the reasoning behind it: a trial that runs out is the conversion moment
+ * and there is no relationship to damage. A paying customer locked out mid-trip, in a country
+ * where they have no data, is the most expensive user this product can create — they do not
+ * merely fail to recharge, they tell everyone. So a paid pass keeps working until they leave
+ * Dubai, however long ago its hours ran out, and the next trip is a new purchase.
+ *
+ * ज़रूरी जानकारी is never gated by this or anything else (rule 6): the hotel, the documents, the
+ * consulate and the numbers are on the device and nothing about them reads a pass.
+ */
+export function isGated(now: Date = new Date(), state: Entitlement = read()): boolean {
+  if (!PURCHASE_IS_LIVE) return false;
+  if (validity(now, state).state !== 'expired') return false;
+  if (state.paid !== true) return true;
+  return state.leftAt !== undefined;
 }
 
 /** Testing from India: the counter behaves exactly as it would on arrival. */
@@ -121,6 +175,25 @@ export function stopPretending(): Entitlement {
 /** Paying. The hours are added to the landing, never to the moment money changed hands. */
 export function recordPayment(groupEndsAt?: string): Entitlement {
   return updateEntitlement({ paid: true, ...(groupEndsAt === undefined ? {} : { groupEndsAt }) });
+}
+
+/**
+ * Installing a pass the server signed — the buyer's own, or one scanned from a family QR with no
+ * connection at all (decision 005).
+ *
+ * `counterOffAt` is the master's cut-off and is carried only when the buyer had already landed.
+ * A pass bought in India arrives without one, and then this phone's own landing starts the
+ * clock — which is the rule that keeps a pass from being spent on the flight.
+ */
+export async function installPass(pass: SignedPass): Promise<boolean> {
+  if (!(await verifyPass(pass))) return false;
+  updateEntitlement({
+    paid: true,
+    passId: pass.claims.passId,
+    slot: pass.claims.slot,
+    ...(pass.claims.counterOffAt === undefined ? {} : { groupEndsAt: pass.claims.counterOffAt }),
+  });
+  return true;
 }
 
 /** When the counter runs out, or `null` while the traveller has not landed. */

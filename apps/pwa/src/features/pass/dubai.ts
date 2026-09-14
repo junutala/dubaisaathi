@@ -31,6 +31,16 @@ const GULF_OFFSET_MINUTES = -240;
 /** How many separate readings agree before the counter starts. */
 export const CONFIRMATIONS_NEEDED = 3;
 
+/**
+ * And how many agree before we accept that they have gone home.
+ *
+ * Higher than arriving, deliberately. Getting an arrival wrong by a few hours costs a traveller
+ * a slice of a free day; getting a departure wrong locks a paying customer out of the app in the
+ * middle of their trip, in a country where they have no data. The two mistakes are not the same
+ * size, so they do not get the same threshold.
+ */
+export const DEPARTURES_NEEDED = 6;
+
 function distanceKm(a: LatLng, b: LatLng): number {
   const radians = Math.PI / 180;
   const earthKm = 6371;

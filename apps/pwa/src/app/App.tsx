@@ -7,7 +7,7 @@ import { HomeScreen } from '../features/home/HomeScreen.js';
 import { FoodListScreen } from '../features/food/index.js';
 import { PassScreen } from '../features/pass/PassScreen.js';
 import { LandingScreen } from '../features/landing/LandingScreen.js';
-import { noteLocationReading, validity } from '../features/pass/entitlement.js';
+import { isGated, noteLocationReading, validity } from '../features/pass/entitlement.js';
 import { currentLocation } from '../lib/location.js';
 import { SayEntryScreen } from '../features/phrases/SayEntryScreen.js';
 import { ArabicScreen } from '../features/phrases/ArabicScreen.js';
@@ -121,6 +121,25 @@ export function App() {
     const here = currentLocation();
     noteLocationReading(here.kind === 'here' ? here.at : undefined);
   }, [clock]);
+
+  /**
+   * The gate, checked **only when a traveller enters a tile** — never on the tick.
+   *
+   * Somebody following step three of four to a metro station must not have the screen taken away
+   * because a counter reached zero while they were reading it. Expiry bites on the way in, not in
+   * the middle of a task somebody is already carrying out.
+   *
+   * ज़रूरी जानकारी is absent from this list and always will be (rule 6): the hotel, the documents,
+   * the consulate and the numbers are on the device and no pass is consulted to show them.
+   */
+  useEffect(() => {
+    const behindTheGate =
+      route.screen === 'transport' ||
+      route.screen === 'options' ||
+      route.screen === 'steps' ||
+      route.screen === 'food';
+    if (behindTheGate && isGated()) navigate({ screen: 'pass' });
+  }, [route]);
 
   const banner = heard?.at === href(route) ? heard.intent : undefined;
   /**
