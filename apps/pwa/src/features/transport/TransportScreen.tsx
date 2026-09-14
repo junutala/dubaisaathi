@@ -8,7 +8,12 @@ import { Icon } from '../../app/shell/icons.js';
 import { AskBar } from '../ask/AskBar.js';
 import { HeardBanner } from '../voice/HeardBanner.js';
 import { destinationPhrase, destinationPhraseId } from '../phrases/destinationPhrase.js';
-import { askForLocation, currentLocation, hasBeenAsked, type Location } from './location.js';
+import {
+  askForLocation,
+  currentLocation,
+  hasBeenAsked,
+  type Location,
+} from '../../lib/location.js';
 import { localName, placeById, placeFromText } from './destinations.js';
 
 /**

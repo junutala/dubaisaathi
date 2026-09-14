@@ -10,6 +10,11 @@ import type { LatLng } from '@saathi/shared';
  * impossible instead of trying it).
  *
  * Asked once. A traveller who says no is not asked again on the next screen, or the next day.
+ *
+ * It lives in `lib/` rather than under रास्ता because two tiles now need it: the route needs to
+ * know where "from" is, and खाना needs to know what is nearby. It holds no feature logic —
+ * only the asking, the answer and a cache so that moving between screens does not wake the GPS
+ * twice.
  */
 
 export type Location =

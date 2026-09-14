@@ -74,7 +74,7 @@ describe('the home screen front door', () => {
   it('sends a food sentence to खाना', () => {
     show();
     type('jain khana kahaan milega');
-    expect(navigate).toHaveBeenCalledWith({ screen: 'soon', tile: 'food' });
+    expect(navigate).toHaveBeenCalledWith({ screen: 'food' });
   });
 
   /**

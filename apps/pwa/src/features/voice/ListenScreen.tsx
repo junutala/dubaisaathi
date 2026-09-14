@@ -464,7 +464,7 @@ export function ListenScreen({
               navigate(
                 choice === 'route'
                   ? transportLanding(phase.intent.destination?.placeId)
-                  : { screen: 'soon', tile: 'food' },
+                  : { screen: 'food' },
               );
             }}
             actions={

@@ -205,7 +205,11 @@ describe('4.4 · दस्तावेज़', () => {
     show(<DocumentScreen docId={doc.id} />);
 
     expect((await screen.findAllByText('यात्रा बीमा')).length).toBeGreaterThan(0);
-    expect(screen.getByRole('img').getAttribute('src')).toBe('blob:photo');
+    // Awaited, not grabbed: the name comes from the row and the src from `useBlobUrl`, which
+    // runs an effect later, so the photograph lands one render after the title. Asserting it
+    // synchronously passed on a quiet machine and failed in a full suite — a harness race, not
+    // a defect in the screen, but the kind that gets called a flake and then ignored.
+    expect((await screen.findByRole('img')).getAttribute('src')).toBe('blob:photo');
   });
 
   it('actually removes the photograph when हटाएँ is pressed', async () => {

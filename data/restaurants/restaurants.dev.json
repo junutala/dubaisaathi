@@ -1,0 +1,160 @@
+{
+  "contentVersion": 0,
+  "status": "development-fixture",
+  "warning": "NOT COLLECTED CONTENT. This file exists so खाना can be built and tested before a collector has visited anything. Coordinates are approximate, prices are indicative, and no dietary answer here was asked of a person — which is why every `dietary` field is absent and shows as पूछिए. It must be replaced wholesale by reviewed FieldReports before anyone relies on it. See docs/field-app-plan.md.",
+  "publishedAt": "2026-09-14T00:00:00.000Z",
+  "restaurants": [
+    {
+      "id": "dev-saravana-karama",
+      "name": { "en": "Saravana Bhavan", "hi": "सारावना भवन" },
+      "location": { "lat": 25.2462, "lng": 55.3042 },
+      "areaId": "karama",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian", "south-indian", "thali"],
+      "approxCostAed": 30,
+      "delivers": "yes"
+    },
+    {
+      "id": "dev-rajdhani-karama",
+      "name": { "en": "Rajdhani Thali", "hi": "राजधानी थाली" },
+      "location": { "lat": 25.2444, "lng": 55.3061 },
+      "areaId": "karama",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian", "gujarati", "thali", "no-onion"],
+      "approxCostAed": 45
+    },
+    {
+      "id": "dev-chaat-corner-karama",
+      "name": { "en": "Karama Chaat Corner", "hi": "करामा चाट कॉर्नर" },
+      "location": { "lat": 25.2455, "lng": 55.3035 },
+      "areaId": "karama",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian", "quick-snack", "north-indian"],
+      "approxCostAed": 15,
+      "delivers": "yes"
+    },
+    {
+      "id": "dev-kerala-mess-karama",
+      "name": { "en": "Kerala Mess", "hi": "केरल मेस" },
+      "location": { "lat": 25.2438, "lng": 55.3029 },
+      "areaId": "karama",
+      "kitchen": "mixed",
+      "tags": ["south-indian", "thali"],
+      "approxCostAed": 20,
+      "delivers": "yes"
+    },
+    {
+      "id": "dev-punjabi-dhaba-karama",
+      "name": { "en": "Punjabi Dhaba", "hi": "पंजाबी ढाबा" },
+      "location": { "lat": 25.2471, "lng": 55.3055 },
+      "areaId": "karama",
+      "kitchen": "mixed",
+      "tags": ["north-indian", "punjabi"],
+      "approxCostAed": 35
+    },
+    {
+      "id": "dev-sattvik-kitchen-karama",
+      "name": { "en": "Sattvik Kitchen", "hi": "सात्विक रसोई" },
+      "location": { "lat": 25.2449, "lng": 55.307 },
+      "areaId": "karama",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian", "sattvik", "no-onion", "no-garlic", "eggless"],
+      "approxCostAed": 40
+    },
+    {
+      "id": "dev-bikanervala-burdubai",
+      "name": { "en": "Bikanervala", "hi": "बीकानेरवाला" },
+      "location": { "lat": 25.2628, "lng": 55.2965 },
+      "areaId": "bur-dubai",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian", "north-indian", "quick-snack", "eggless"],
+      "approxCostAed": 35,
+      "delivers": "yes"
+    },
+    {
+      "id": "dev-meena-bazaar-thali",
+      "name": { "en": "Meena Bazaar Thali House", "hi": "मीना बाज़ार थाली हाउस" },
+      "location": { "lat": 25.264, "lng": 55.2951 },
+      "areaId": "bur-dubai",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian", "gujarati", "thali", "jain"],
+      "approxCostAed": 28
+    },
+    {
+      "id": "dev-dosa-plaza-burdubai",
+      "name": { "en": "Dosa Plaza", "hi": "डोसा प्लाज़ा" },
+      "location": { "lat": 25.2651, "lng": 55.2988 },
+      "areaId": "bur-dubai",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian", "south-indian", "quick-snack"],
+      "approxCostAed": 25,
+      "delivers": "yes"
+    },
+    {
+      "id": "dev-al-ustad-burdubai",
+      "name": { "en": "Al Ustad Special", "hi": "अल उस्ताद स्पेशल" },
+      "location": { "lat": 25.2619, "lng": 55.2941 },
+      "areaId": "bur-dubai",
+      "kitchen": "non-veg",
+      "tags": ["arabic"],
+      "approxCostAed": 40
+    },
+    {
+      "id": "dev-vrat-bhojnalaya-burdubai",
+      "name": { "en": "Vrat Bhojnalaya", "hi": "व्रत भोजनालय" },
+      "location": { "lat": 25.2646, "lng": 55.2979 },
+      "areaId": "bur-dubai",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian", "vrat", "sattvik", "no-onion", "no-garlic"],
+      "approxCostAed": 22
+    },
+    {
+      "id": "dev-deira-udupi",
+      "name": { "en": "Deira Udupi", "hi": "देरा उडुपी" },
+      "location": { "lat": 25.2688, "lng": 55.3101 },
+      "areaId": "deira",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian", "south-indian", "thali", "quick-snack"],
+      "approxCostAed": 18,
+      "delivers": "yes"
+    },
+    {
+      "id": "dev-golden-fork-deira",
+      "name": { "en": "Golden Fork", "hi": "गोल्डन फ़ोर्क" },
+      "location": { "lat": 25.2705, "lng": 55.3088 },
+      "areaId": "deira",
+      "kitchen": "non-veg",
+      "tags": ["chinese", "arabic"],
+      "approxCostAed": 45
+    },
+    {
+      "id": "dev-lucky-restaurant-deira",
+      "name": { "en": "Lucky Restaurant", "hi": "लकी रेस्टोरेंट" },
+      "location": { "lat": 25.2712, "lng": 55.311 },
+      "areaId": "deira",
+      "kitchen": "mixed",
+      "tags": ["north-indian", "chinese"],
+      "approxCostAed": 32,
+      "delivers": "yes"
+    },
+    {
+      "id": "dev-jain-rasoi-deira",
+      "name": { "en": "Jain Rasoi", "hi": "जैन रसोई" },
+      "location": { "lat": 25.2679, "lng": 55.3079 },
+      "areaId": "deira",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian", "jain", "no-onion", "no-garlic", "gujarati", "thali"],
+      "approxCostAed": 38
+    },
+    {
+      "id": "dev-shawarma-point-deira",
+      "name": { "en": "Shawarma Point", "hi": "शवर्मा पॉइंट" },
+      "location": { "lat": 25.2694, "lng": 55.3117 },
+      "areaId": "deira",
+      "kitchen": "mixed",
+      "tags": ["arabic", "quick-snack"],
+      "approxCostAed": 12,
+      "delivers": "yes"
+    }
+  ]
+}

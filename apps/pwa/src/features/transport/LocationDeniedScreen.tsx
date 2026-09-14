@@ -5,7 +5,7 @@ import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { QuickBar } from '../../app/shell/QuickBar.js';
 import { Icon, type IconName } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
-import { askForLocation, forgetLocation } from './location.js';
+import { askForLocation, forgetLocation } from '../../lib/location.js';
 
 /**
  * 1.1b — रास्ता › जगह की इजाज़त नहीं

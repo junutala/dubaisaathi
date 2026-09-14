@@ -4,7 +4,7 @@ import { href, navigate, parseRoute, type Route } from './routes.js';
 import { StatusStrip, type Validity } from './shell/StatusStrip.js';
 import type { Tile } from './shell/ScreenHeader.js';
 import { HomeScreen } from '../features/home/HomeScreen.js';
-import { SoonScreen } from '../features/home/SoonScreen.js';
+import { FoodListScreen } from '../features/food/index.js';
 import { SayEntryScreen } from '../features/phrases/SayEntryScreen.js';
 import { ArabicScreen } from '../features/phrases/ArabicScreen.js';
 import { ShowDriverScreen } from '../features/phrases/ShowDriverScreen.js';
@@ -41,8 +41,8 @@ function tileOf(route: Route): Tile {
     case 'docAdd':
     case 'docView':
       return 'info';
-    case 'soon':
-      return route.tile;
+    case 'food':
+      return 'food';
     case 'transport':
     case 'nolocation':
     case 'options':
@@ -122,7 +122,7 @@ export function App() {
       {route.screen === 'hotelAdd' && <HotelAddScreen onMic={onMic} />}
       {route.screen === 'docAdd' && <DocumentAddScreen onMic={onMic} />}
       {route.screen === 'docView' && <DocumentScreen docId={route.docId} />}
-      {route.screen === 'soon' && <SoonScreen tile={route.tile} onMic={onMic} heard={banner} />}
+      {route.screen === 'food' && <FoodListScreen onMic={onMic} heard={banner} />}
     </div>
   );
 }

@@ -19,6 +19,8 @@ export interface VoiceEventInput {
   readonly sttEngine?: string;
   readonly sttModel?: string;
   readonly clarifierChoice?: string;
+  /** How many results were shown. Zero is the row that says what to go and collect. */
+  readonly resultCount?: number;
 }
 
 /** Devanagari, Roman, or the mix a real traveller actually speaks. */
@@ -62,6 +64,9 @@ export async function recordVoiceEvent(input: VoiceEventInput): Promise<VoiceEve
     landedOn: input.landedOn,
     failure: input.failure ?? null,
     ...(input.clarifierChoice === undefined ? {} : { clarifierChoice: input.clarifierChoice }),
+    // Recorded for every search, serviced or not — the owner's rule for version 1: a record of
+    // all interactions, so version 2 is decided by what travellers actually asked for.
+    ...(input.resultCount === undefined ? {} : { resultCount: input.resultCount }),
     synced: false,
   };
   await db.voiceEvents.add(event);

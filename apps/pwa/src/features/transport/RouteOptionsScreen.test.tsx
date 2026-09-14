@@ -3,7 +3,7 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import { SettingsProvider } from '../../app/settings.js';
 import { RouteOptionsScreen } from './RouteOptionsScreen.js';
 import { RouteStepsScreen } from './RouteStepsScreen.js';
-import { forgetLocation } from './location.js';
+import { forgetLocation } from '../../lib/location.js';
 
 /**
  * 1.3 and 1.4 as a traveller meets them: standing in a Bur Dubai hotel with the radio off,

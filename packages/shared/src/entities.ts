@@ -98,6 +98,12 @@ export interface Restaurant {
   /** Indicative cost for one person, in AED. */
   readonly approxCostAed?: number;
   readonly phone?: string;
+  /**
+   * Whether it delivers, asked of a person like everything else here. Absent means nobody has
+   * asked; it is never shown as a no. A call needs no data and no pack, which makes this the
+   * most offline thing the app can offer a traveller who does not want to walk.
+   */
+  readonly delivers?: 'yes' | 'no';
   readonly notes?: LocalisedText;
   /**
    * What was asked in person, per `FieldReport.dietary`. Absent means nobody has asked yet —
@@ -296,6 +302,10 @@ export type VoiceFailure =
   // The speech arrived and the parser could not use it. These retrain the packs in `data/`.
   | 'unknown-intent'
   | 'low-confidence'
+  // Understood perfectly, and we had nothing to answer with. This is not a parser fault and must
+  // never be counted as one: it is a work order for collection. "Forty-seven people asked for
+  // Jain sambar near Karama" is the most useful row in this table.
+  | 'nothing-in-pack'
   | 'clarifier-shown'
   | 'unresolved-place'
   | 'unresolved-dish'
@@ -338,6 +348,11 @@ export interface VoiceEvent {
   readonly failure: VoiceFailure | null;
   /** Which clarifier option was picked, when one was shown. */
   readonly clarifierChoice?: string;
+  /**
+   * How many results the traveller was shown. Zero with no failure is impossible; zero with
+   * `nothing-in-pack` is the row that says what to go and collect. Present on searches only.
+   */
+  readonly resultCount?: number;
   /** Short clip kept only for failures, only with consent, deleted after sync. */
   readonly audioClipId?: string;
   readonly synced: boolean;
@@ -368,6 +383,8 @@ export interface FieldReport {
     readonly noOnionGarlic: boolean | 'on-request';
     readonly eggless: boolean | 'on-request';
   };
+  /** Asked, not assumed — a number on a signboard does not mean they will bring it to a hotel. */
+  readonly delivers?: 'yes' | 'no';
   readonly deliveryPhone?: string;
   readonly hours?: string;
   readonly priceForOneAed?: number;

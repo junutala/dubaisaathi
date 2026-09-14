@@ -17,7 +17,7 @@ describe('where the mic lands', () => {
     // never guesses between the two; 1.1 offers both and one tap settles it (decision 014).
     ['Bhai mujhe Karama jaana hai, metro se kaise jaaun?', '#/transport/karama'],
     ['मुझे मरीना मॉल जाना है', '#/transport/marina-mall'],
-    ['Jain khana kahaan milega', '#/soon/food'],
+    ['Jain khana kahaan milega', '#/food'],
     ['ड्राइवर को बोलो होटल ले चलो', '#/arabic/taxi-hotel'],
     ['driver ko bolo meter chalu karo', '#/arabic/taxi-meter'],
     ['beema dikhao', '#/info'],
@@ -58,8 +58,8 @@ function hashOf(route: Exclude<ReturnType<typeof landingFor>, 'ask'>): string {
       return '#/info';
     case 'transport':
       return route.placeId === undefined ? '#/transport' : `#/transport/${route.placeId}`;
-    case 'soon':
-      return `#/soon/${route.tile}`;
+    case 'food':
+      return '#/food';
     case 'arabic':
       return `#/arabic/${route.phraseId}`;
     case 'say':

@@ -34,7 +34,7 @@ const TILES: readonly TileDef[] = [
     key: 'tile.food',
     blurb: 'tile.food.blurb',
     icon: 'food',
-    route: { screen: 'soon', tile: 'food' },
+    route: { screen: 'food' },
   },
   { key: 'tile.info', blurb: 'tile.info.blurb', icon: 'info', route: { screen: 'info' } },
 ];
@@ -108,7 +108,7 @@ export function HomeScreen({
             navigate(
               choice === 'route'
                 ? transportLanding(asking.destination?.placeId)
-                : { screen: 'soon', tile: 'food' },
+                : { screen: 'food' },
             );
           }}
           actions={

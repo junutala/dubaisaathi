@@ -5,7 +5,7 @@ import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { QuickBar } from '../../app/shell/QuickBar.js';
 import { Icon } from '../../app/shell/icons.js';
 import { localName, placeById } from './destinations.js';
-import { askForLocation, type Location } from './location.js';
+import { askForLocation, type Location } from '../../lib/location.js';
 import { planRoutes, type RouteOptionId } from './routePlanner.js';
 import { useTransportNetwork } from './useNetwork.js';
 import { fareText, legStep, minutes, modeLabel, type Words } from './describeLeg.js';

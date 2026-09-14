@@ -29,7 +29,7 @@ export function landingFor(intent: ParsedIntent): Route | 'ask' {
       // other half is a tap rather than a guess. The place goes with them, so the box is filled.
       return transportLanding(intent.destination?.placeId);
     case 'food':
-      return { screen: 'soon', tile: 'food' };
+      return { screen: 'food' };
     case 'phrase':
       // The one path that is built end to end today: a named sentence opens with its Arabic on
       // screen, ready to be spoken or shown.

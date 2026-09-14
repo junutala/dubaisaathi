@@ -26,8 +26,8 @@ export type Route =
   | { readonly screen: 'hotelAdd' }
   | { readonly screen: 'docAdd' }
   | { readonly screen: 'docView'; readonly docId: string }
-  // खाना is the last tile still standing on the placeholder.
-  | { readonly screen: 'soon'; readonly tile: 'food' };
+  // 2.1
+  | { readonly screen: 'food' };
 
 function isOptionId(value: string | undefined): value is RouteOptionId {
   return value === 'metro' || value === 'bus' || value === 'walk' || value === 'taxi';
@@ -66,8 +66,8 @@ export function parseRoute(hash: string): Route {
       return { screen: 'docAdd' };
     case 'doc':
       return arg ? { screen: 'docView', docId: arg } : { screen: 'info' };
-    case 'soon':
-      return arg === 'food' ? { screen: 'soon', tile: arg } : { screen: 'home' };
+    case 'food':
+      return { screen: 'food' };
     default:
       return { screen: 'home' };
   }
@@ -101,8 +101,8 @@ export function href(route: Route): string {
       return '#/doc-add';
     case 'docView':
       return `#/doc/${route.docId}`;
-    case 'soon':
-      return `#/soon/${route.tile}`;
+    case 'food':
+      return '#/food';
   }
 }
 

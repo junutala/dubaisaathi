@@ -9,7 +9,7 @@ import { HeardBanner } from '../voice/HeardBanner.js';
 import { destinationPhrase, destinationPhraseId } from '../phrases/destinationPhrase.js';
 import type { StringKey } from '../../i18n/index.js';
 import { localName, placeById } from './destinations.js';
-import { askForLocation, type Location } from './location.js';
+import { askForLocation, type Location } from '../../lib/location.js';
 import { planRoutes, type RouteBadge, type RouteOption } from './routePlanner.js';
 import { useTransportNetwork } from './useNetwork.js';
 import { fareText, legSummary, minutes, modeIcon, modeLabel, type Words } from './describeLeg.js';

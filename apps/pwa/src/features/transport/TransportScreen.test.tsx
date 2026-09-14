@@ -4,7 +4,7 @@ import { SettingsProvider } from '../../app/settings.js';
 import { placeIdInPhrase } from '../phrases/destinationPhrase.js';
 import { TransportScreen } from './TransportScreen.js';
 import { LocationDeniedScreen } from './LocationDeniedScreen.js';
-import { forgetLocation, hasBeenAsked } from './location.js';
+import { forgetLocation, hasBeenAsked } from '../../lib/location.js';
 
 /**
  * 1.1, tested as the things that would actually be reported (CLAUDE.md, 13 September: the
