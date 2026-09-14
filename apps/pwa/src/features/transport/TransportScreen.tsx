@@ -7,7 +7,11 @@ import { QuickBar } from '../../app/shell/QuickBar.js';
 import { Icon } from '../../app/shell/icons.js';
 import { AskBar } from '../ask/AskBar.js';
 import { HeardBanner } from '../voice/HeardBanner.js';
-import { destinationPhrase, destinationPhraseId } from '../phrases/destinationPhrase.js';
+import {
+  destinationPhrase,
+  destinationPhraseId,
+  typedDestinationPhraseId,
+} from '../phrases/destinationPhrase.js';
 import {
   askForLocation,
   currentLocation,
@@ -117,11 +121,25 @@ export function TransportScreen({
     navigate({ screen: 'options', placeId: place.id });
   };
 
+  /**
+   * Showing a driver never needed the pack. A curated list holds the destinations tourists
+   * share; it can never hold a friend's flat in Satwa, which is often the reason they came. The
+   * driver already knows the city — so an address we cannot resolve still goes in front of him,
+   * in the traveller's own words, under an Arabic sentence he can read.
+   *
+   * Only the route options genuinely need a coordinate, and they say so separately.
+   */
   const showDriver = () => {
+    const words = typed.trim();
     const place = resolve();
-    if (!place) return;
+    if (!place) {
+      if (words === '') return;
+      setTrouble(null);
+      navigate({ screen: 'arabic', phraseId: typedDestinationPhraseId(words) });
+      return;
+    }
     if (destinationPhrase(place) === null) {
-      setTrouble({ kind: 'no-arabic' });
+      navigate({ screen: 'arabic', phraseId: typedDestinationPhraseId(place.name.en) });
       return;
     }
     navigate({ screen: 'arabic', phraseId: destinationPhraseId(place.id) });

@@ -290,38 +290,44 @@ button:not(:disabled) {
 .tiles {
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* One column, equal rows. It was two columns while there were four tiles; with three, the
+     third sat alone at half width next to a hole, which is the kind of thing a traveller reads
+     as "unfinished" before they read a word of it. */
+  grid-auto-rows: 1fr;
   gap: 12px;
 }
 
 .tile {
-  min-height: 48px;
-  padding: 18px 16px;
+  min-height: 96px;
+  padding: 16px 18px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 12px;
+  /* A row, not a stack: the icon leads, the name and the line it earns sit beside it. At full
+     width a centred column leaves the tile mostly empty and the name floating. */
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  text-align: start;
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 16px;
 }
 
-/* The icon owns the empty half of the tile rather than sitting in a chip in the corner. No
-   background: on a tile this size the chip added a second rounded rectangle inside a rounded
-   rectangle and said nothing the icon was not already saying. */
+/* The icon leads the row at a fixed size. No background: the chip added a second rounded
+   rectangle inside a rounded rectangle and said nothing the icon was not already saying. */
 .tile-icon {
-  flex: 1;
-  min-height: 0;
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 /* Sized in CSS rather than through the component's `size` prop, because the target is a share
-   of the tile — which only the layout knows — not a number of pixels. Both rules beat the
-   svg's own width/height and stroke-width attributes. */
+   of the icon's box — which only the layout knows — not a number of pixels. Both rules beat
+   the svg's own width/height and stroke-width attributes. */
 .tile-icon svg {
-  width: 66%;
+  width: 100%;
   height: auto;
   max-height: 100%;
   /* The stroke scales with the viewBox, so the small-icon weight would render as a 9px slab at
@@ -331,13 +337,15 @@ button:not(:disabled) {
 }
 
 .tile-text {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 .tile-name {
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
-  font-size: 25px;
+  font-size: 24px;
   font-weight: 600;
   line-height: 1.25;
 }

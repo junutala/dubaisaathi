@@ -129,13 +129,13 @@ describe('1.1 — where do you want to go', () => {
   });
 
   /**
-   * Discovery Gardens is a real neighbourhood full of Indian travellers and it is not in the
-   * pack yet (decision 014 noticed the same thing). Saying so is the honest answer; a blank
-   * screen or a silent button is not.
+   * Discovery Gardens is in the pack now, so this needs a place that genuinely is not. Saying
+   * so is the honest answer; a blank screen or a silent button is not — and neither is quietly
+   * answering with a different place, which is what a bare "mall" alias used to do.
    */
   it('says it does not know a place instead of going blank, and keeps the box', () => {
     show();
-    type('Discovery Gardens');
+    type('Nakheel Mall');
     tap(OPTIONS);
     expect(navigate).not.toHaveBeenCalled();
     expect(screen.getByText(/does not know this place/i)).toBeTruthy();

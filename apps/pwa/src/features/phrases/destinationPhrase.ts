@@ -10,6 +10,8 @@ import type { DubaiPlace, Phrase } from '@saathi/shared';
  */
 
 const PREFIX = 'go-to:';
+/** A destination we could not resolve — the traveller's own words, carried through verbatim. */
+const TYPED_PREFIX = 'go-to-text:';
 
 export function destinationPhraseId(placeId: string): string {
   return `${PREFIX}${placeId}`;
@@ -18,6 +20,46 @@ export function destinationPhraseId(placeId: string): string {
 /** The place id inside a composed phrase id, or `null` for an ordinary pack phrase. */
 export function placeIdInPhrase(phraseId: string): string | null {
   return phraseId.startsWith(PREFIX) ? phraseId.slice(PREFIX.length) : null;
+}
+
+export function typedDestinationPhraseId(text: string): string {
+  return `${TYPED_PREFIX}${encodeURIComponent(text.trim())}`;
+}
+
+/** The traveller's own words out of a composed id, or `null` if it is not one. */
+export function typedTextInPhrase(phraseId: string): string | null {
+  if (!phraseId.startsWith(TYPED_PREFIX)) return null;
+  try {
+    return decodeURIComponent(phraseId.slice(TYPED_PREFIX.length));
+  } catch {
+    // A hash someone edited by hand. Their words are gone, which is better than a crash.
+    return null;
+  }
+}
+
+/**
+ * "Take me to «whatever they wrote»", for a destination that is not in the pack and never will
+ * be — a friend's flat in Satwa, a building name, an office.
+ *
+ * This is the whole answer to a closed list of places. A curated pack can hold the twenty
+ * destinations a tourist shares with every other tourist; it can never hold the one address
+ * that is the reason they came. But the driver already knows the city, so the app does not need
+ * to: it needs to put the traveller's words in front of him under a sentence he can read.
+ *
+ * The words go through untouched. We do not transliterate, correct or resolve them — every one
+ * of those is a chance to change where someone is asking to be taken.
+ */
+export function typedDestinationPhrase(text: string): Phrase | null {
+  const words = text.trim();
+  if (words === '') return null;
+  return {
+    id: typedDestinationPhraseId(words),
+    situation: 'taxi',
+    hi: `${words} ले चलो`,
+    hinglish: `${words} le chalo`,
+    en: `Take me to ${words}`,
+    ar: `خذني إلى ${words}`,
+  };
 }
 
 /**

@@ -39,6 +39,13 @@ export function ShowDriverScreen({ phraseId }: { readonly phraseId: string }) {
         </p>
         <div className="grow" />
         <span className="muted center small">{t('driver.youSaid', { text: phrase.hi })}</span>
+        {/* The Arabic is the whole point of this screen and the traveller cannot read a word of
+            it, so the name they typed is repeated in Roman letters underneath. It is composed
+            from the same place record as the Arabic, so if this says BurJuman the Arabic does
+            too — which is the only check available to someone holding the phone out to a driver.
+            Added after a real report: a mall we did not know resolved to Dubai Mall, and the
+            first the owner knew of it was the Hindi line above. */}
+        <span className="muted center small">{phrase.hinglish}</span>
         {canSpeak && (
           <button
             type="button"

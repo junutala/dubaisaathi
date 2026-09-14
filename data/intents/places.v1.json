@@ -1,5 +1,5 @@
 {
-  "contentVersion": 1,
+  "contentVersion": 2,
   "publishedAt": "2026-09-13T00:00:00Z",
   "places": [
     {
@@ -22,7 +22,7 @@
         "en": "Bur Dubai",
         "hi": "बुर दुबई",
         "ar": "بر دبي",
-        "aliases": ["bur dubai", "बुर दुबई", "burdubai", "bur", "old dubai"]
+        "aliases": ["bur dubai", "बुर दुबई", "burdubai", "old dubai"]
       },
       "kind": "neighbourhood",
       "location": {
@@ -50,7 +50,7 @@
         "en": "Dubai Mall",
         "hi": "दुबई मॉल",
         "ar": "دبي مول",
-        "aliases": ["dubai mall", "दुबई मॉल", "the dubai mall", "dubaimall", "mall"]
+        "aliases": ["dubai mall", "दुबई मॉल", "the dubai mall", "dubaimall"]
       },
       "kind": "mall",
       "location": {
@@ -120,7 +120,7 @@
         "en": "Burj Khalifa",
         "hi": "बुर्ज ख़लीफ़ा",
         "ar": "برج خليفة",
-        "aliases": ["burj khalifa", "बुर्ज ख़लीफ़ा", "बुर्ज खलीफा", "burj", "khalifa tower"]
+        "aliases": ["burj khalifa", "बुर्ज ख़लीफ़ा", "बुर्ज खलीफा", "khalifa tower"]
       },
       "kind": "landmark",
       "location": {
@@ -191,6 +191,144 @@
       "location": {
         "lat": 25.2697,
         "lng": 55.2963
+      }
+    },
+    {
+      "id": "burjuman",
+      "name": {
+        "en": "BurJuman",
+        "hi": "बुरजुमान",
+        "ar": "برجمان",
+        "aliases": [
+          "burjuman",
+          "बुरजुमान",
+          "bur juman",
+          "बुर जुमान",
+          "burjuman mall",
+          "burjuman centre"
+        ]
+      },
+      "kind": "mall",
+      "location": {
+        "lat": 25.2548,
+        "lng": 55.3043
+      }
+    },
+    {
+      "id": "ibn-battuta-mall",
+      "name": {
+        "en": "Ibn Battuta Mall",
+        "hi": "इब्न बतूता मॉल",
+        "ar": "ابن بطوطة",
+        "aliases": ["ibn battuta", "इब्न बतूता", "ibn batuta", "ibn battuta mall", "इब्न बतूता मॉल"]
+      },
+      "kind": "mall",
+      "location": {
+        "lat": 25.0448,
+        "lng": 55.1189
+      }
+    },
+    {
+      "id": "deira-city-centre",
+      "name": {
+        "en": "Deira City Centre",
+        "hi": "देरा सिटी सेंटर",
+        "ar": "سيتي سنتر ديرة",
+        "aliases": [
+          "deira city centre",
+          "देरा सिटी सेंटर",
+          "city centre deira",
+          "deira city center"
+        ]
+      },
+      "kind": "mall",
+      "location": {
+        "lat": 25.2524,
+        "lng": 55.3322
+      }
+    },
+    {
+      "id": "burj-al-arab",
+      "name": {
+        "en": "Burj Al Arab",
+        "hi": "बुर्ज अल अरब",
+        "ar": "برج العرب",
+        "aliases": ["burj al arab", "बुर्ज अल अरब", "burj arab", "सेल होटल"]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.1412,
+        "lng": 55.1853
+      }
+    },
+    {
+      "id": "discovery-gardens",
+      "name": {
+        "en": "Discovery Gardens",
+        "hi": "डिस्कवरी गार्डन्स",
+        "ar": "ديسكفري جاردنز",
+        "aliases": ["discovery gardens", "डिस्कवरी गार्डन्स", "discovery garden", "डिस्कवरी गार्डन"]
+      },
+      "kind": "neighbourhood",
+      "location": {
+        "lat": 25.045,
+        "lng": 55.138
+      }
+    },
+    {
+      "id": "international-city",
+      "name": {
+        "en": "International City",
+        "hi": "इंटरनेशनल सिटी",
+        "ar": "المدينة العالمية",
+        "aliases": ["international city", "इंटरनेशनल सिटी", "intl city", "china cluster"]
+      },
+      "kind": "neighbourhood",
+      "location": {
+        "lat": 25.166,
+        "lng": 55.41
+      }
+    },
+    {
+      "id": "al-qusais",
+      "name": {
+        "en": "Al Qusais",
+        "hi": "अल क़ुसैस",
+        "ar": "القصيص",
+        "aliases": ["al qusais", "अल क़ुसैस", "qusais", "कुसैस", "al qusais"]
+      },
+      "kind": "neighbourhood",
+      "location": {
+        "lat": 25.28,
+        "lng": 55.39
+      }
+    },
+    {
+      "id": "satwa",
+      "name": {
+        "en": "Satwa",
+        "hi": "सतवा",
+        "ar": "السطوة",
+        "aliases": ["satwa", "सतवा", "al satwa", "अल सतवा"]
+      },
+      "kind": "neighbourhood",
+      "location": {
+        "lat": 25.23,
+        "lng": 55.276
+      }
+    },
+    {
+      "id": "al-barsha",
+      "name": {
+        "en": "Al Barsha",
+        "hi": "अल बरशा",
+        "ar": "البرشاء",
+        "aliases": ["al barsha", "अल बरशा", "barsha", "बरशा"]
+      },
+      "kind": "neighbourhood",
+      "location": {
+        "lat": 25.112,
+        "lng": 55.196
       }
     }
   ]
