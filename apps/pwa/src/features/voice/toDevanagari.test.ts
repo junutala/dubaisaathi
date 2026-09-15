@@ -53,3 +53,28 @@ describe('Hindi written in Urdu script', () => {
     expect(shown('مجھے  برجمان')).toBe('मुझे  बुरजुमान');
   });
 });
+
+describe('words the recogniser ran together', () => {
+  /**
+   * From a real phone: "برجمانتاک" — BurJuman and तक with no space between them. A whole-word
+   * lookup found neither, so a place we ship in both alphabets came out letter by letter as
+   * "बरजमान" and the sentence read as nonsense.
+   */
+  it('finds a place inside a joined word', () => {
+    expect(shown('مجھے برجمانتاک جانا ہے')).toBe('मुझे बुरजुमान तक जाना है');
+  });
+
+  it('leaves no seam where it split one', () => {
+    expect(shown('برجمانتاک')).toBe('बुरजुमान तक');
+    expect(shown('برجمانتاک')).not.toContain('  ');
+  });
+
+  /**
+   * Two-letter particles are not scanned for inside a word: کا, کی, کے and the rest occur inside
+   * ordinary words constantly, and splitting on them would break far more than it mended.
+   */
+  it('does not shatter an ordinary word on a particle it happens to contain', () => {
+    expect(shown('کھانا')).toBe('खाना');
+    expect(shown('کہاں')).toBe('कहाँ');
+  });
+});

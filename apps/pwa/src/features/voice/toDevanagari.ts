@@ -114,6 +114,7 @@ const WORDS: ReadonlyMap<string, string> = new Map(
       ['چلو', 'चलो'],
       ['چلیے', 'चलिए'],
       ['تک', 'तक'],
+      ['تاک', 'तक'],
       ['سے', 'से'],
       ['کا', 'का'],
       ['کی', 'की'],
@@ -170,16 +171,39 @@ export function isPersoArabic(text: string): boolean {
   return /[؀-ۿ]/u.test(text);
 }
 
+/**
+ * The shortest run of letters worth recognising inside a longer word.
+ *
+ * The recogniser does not always put spaces between words: a real phone produced "برجمانتاک" —
+ * BurJuman and तक with nothing between them — and a whole-word lookup found neither, so the
+ * place we ship in both alphabets came out letter by letter as "बरजमान". Scanning inside the
+ * word fixes that and would break more than it fixed if it were allowed to match two-letter
+ * particles, which occur inside ordinary words constantly. Three letters and up only.
+ */
+const INSIDE_A_WORD = 3;
+
 /** One word, by the three routes in order: a name we ship, a word we listed, then letters. */
 function wordToDevanagari(word: string, known: ReadonlyMap<string, string>): string {
   const settled = foldArabic(word);
   const named = known.get(settled) ?? WORDS.get(settled);
   if (named !== undefined) return named;
 
+  // Longest first, so "برجمان" is never cut short by a shorter name that opens the same way.
+  const inside = [...known, ...WORDS]
+    .filter(([urdu]) => urdu.length >= INSIDE_A_WORD)
+    .sort((a, b) => b[0].length - a[0].length);
+
   let out = '';
   let rest = settled;
   let first = true;
   while (rest !== '') {
+    const found = inside.find(([urdu]) => rest.startsWith(urdu));
+    if (found) {
+      out += `${found[1]} `;
+      rest = rest.slice(found[0].length);
+      first = true;
+      continue;
+    }
     const pair = PAIRS.find(([urdu]) => rest.startsWith(urdu));
     if (pair) {
       out += pair[1];
@@ -197,7 +221,9 @@ function wordToDevanagari(word: string, known: ReadonlyMap<string, string>): str
     else out += LETTERS.get(letter) ?? letter;
     first = false;
   }
-  return out;
+  // A recognised name inside a longer word becomes a word of its own, which can leave a space at
+  // an edge or two together. The traveller sees words, not the seams of how they were found.
+  return out.replace(/ +/gu, ' ').trim();
 }
 
 /**
