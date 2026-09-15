@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { ROUTING_CONFIDENCE } from '@saathi/shared';
 import { isConfident, parseIntent } from './parseIntent.js';
 import { intentCorpus } from './intentPacks.js';
-import { skeleton, SKELETON_MIN } from './normalise.js';
+import { skeleton, SKELETON_MIN, fold } from './normalise.js';
 
 const parse = (text: string) => parseIntent(text, intentCorpus);
 
@@ -162,5 +162,35 @@ describe('when it is not sure', () => {
 
   it('keeps the transcript verbatim, for the learning loop', () => {
     expect(parse('कुछ भी').transcript).toBe('कुछ भी');
+  });
+});
+
+describe('a place named in the third script', () => {
+  /**
+   * Recorded from the owner's phone, verbatim: whisper-base heard a sentence about BurJuman and
+   * wrote it in Urdu script — "مجھے برجمان والتق جنا ہے". That is a correct hearing in the wrong
+   * alphabet, and the app already ships BurJuman's Arabic name, "برجمان", for the driver's card.
+   * It was not being looked at, and `fold` deleted every Arabic character, so a sentence that
+   * named the place perfectly well matched nothing at all.
+   *
+   * Rule 4: normalise to a comparison form before matching, never branch on script. There are
+   * three scripts now, not two.
+   */
+  it('resolves what the phone actually produced', () => {
+    const intent = parseIntent('مجھے برجمان والتق جنا ہے', intentCorpus);
+    expect(intent.destination?.placeId).toBe('burjuman');
+  });
+
+  it('reaches the same place from all three scripts', () => {
+    for (const said of ['mujhe burjuman jana hai', 'मुझे बुरजुमान जाना है', 'برجمان']) {
+      expect(parseIntent(said, intentCorpus).destination?.placeId).toBe('burjuman');
+    }
+  });
+
+  /** Urdu and Arabic spell the same sounds differently; both have to land on the same place. */
+  it('does not mind which of the two alphabets wrote it', () => {
+    // ک (Urdu keheh) for ك, ہ (Urdu heh goal) for ه — the same word, different code points.
+    expect(fold('الکرامہ')).toBe(fold('الكرامه'));
+    expect(parseIntent('الکرامہ', intentCorpus).destination?.placeId).toBe('karama');
   });
 });

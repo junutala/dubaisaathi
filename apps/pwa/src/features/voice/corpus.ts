@@ -94,7 +94,18 @@ export function buildCorpus(rawPlaces: unknown, rawKeywords: unknown): IntentCor
 
   for (const place of placePack.places) {
     places.set(place.id, place);
-    const aliases = [place.id, place.name.en, place.name.hi, ...place.name.aliases];
+    // The Arabic name is a name, not decoration. It ships for the driver's card, and it is also
+    // what the offline recogniser writes when it hears Hindi as Urdu: "برجمان" came back from a
+    // real phone for a sentence about BurJuman, and we were holding that exact spelling and not
+    // looking at it. Rule 4 says normalise before matching and never branch on script — this is
+    // the third script.
+    const aliases = [
+      place.id,
+      place.name.en,
+      place.name.hi,
+      ...(place.name.ar === undefined ? [] : [place.name.ar]),
+      ...place.name.aliases,
+    ];
     for (const alias of aliases) {
       const folded = fold(alias);
       if (folded === '') continue;

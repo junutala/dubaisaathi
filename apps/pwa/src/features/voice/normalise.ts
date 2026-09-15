@@ -200,14 +200,45 @@ export function transliterate(input: string): string {
  * The confident comparison form: one spelling for every way a traveller might write a word.
  * Order matters — aspirates before doubled letters, doubled letters last.
  */
+/**
+ * Perso-Arabic, in one spelling.
+ *
+ * Whisper writes Hindi in Urdu script often enough that it has to be planned for rather than
+ * argued with: the owner's phone produced "مجھے برجمان ... جنا ہے" for a sentence about BurJuman,
+ * which is a correct hearing in the wrong alphabet. `fold` used to delete every one of those
+ * characters, so a place we hold the Arabic name of matched nothing at all.
+ *
+ * Urdu and Arabic spell the same sounds with different letters — ی and ے for ي, ہ for ه, ک for
+ * ك — and vowel marks are optional everywhere, so two true spellings of one word differ by
+ * characters nobody pronounces. This is the standard normalisation: drop the marks and the
+ * tatweel, then settle on one form of each letter that has several.
+ */
+function arabicOneWay(input: string): string {
+  return (
+    input
+      .normalize('NFC')
+      // Harakat and the other marks, plus the tatweel, which is decoration rather than a letter.
+      .replace(/[\u064B-\u0652\u0670\u0640]/gu, '')
+      .replace(/[\u0622\u0623\u0625\u0671]/gu, '\u0627')
+      .replace(/[\u06CC\u06D2\u0649]/gu, '\u064A')
+      .replace(/[\u06C1\u06C3\u0629]/gu, '\u0647')
+      .replace(/\u06A9/gu, '\u0643')
+      .replace(/\u06BE/gu, '\u0647')
+      .replace(/[\u06AF]/gu, '\u06AF')
+  );
+}
+
 export function fold(input: string): string {
   return (
-    transliterate(input)
+    arabicOneWay(transliterate(input))
       .toLowerCase()
       // Strip accents an English keyboard might produce (ā, é) before dropping punctuation.
       .normalize('NFD')
       .replace(/[̀-ͯ]/g, '')
-      .replace(/[^a-z0-9]+/g, ' ')
+      // Arabic letters survive. They used to be swept away with the punctuation, which meant a
+      // sentence in Urdu script folded to nothing and matched nothing — including place names
+      // whose Arabic spelling this app already ships.
+      .replace(/[^a-z0-9\u0621-\u063A\u0641-\u064A]+/gu, ' ')
       .trim()
       // Letters Indians swap freely: Qarama/Karama, Hawai/Hawai, Bazaar/Bajaar, Taxi/Taksi.
       .replace(/q/g, 'k')
