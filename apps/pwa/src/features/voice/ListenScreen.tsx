@@ -18,6 +18,7 @@ import {
   type SttSession,
 } from './stt.js';
 import { recordVoiceEvent } from './voiceEvent.js';
+import { noteEngine } from './lastEngine.js';
 import { Clarifier } from '../ask/Clarifier.js';
 import { recordClarifierChoice, submitSentence } from '../ask/askSubmit.js';
 import type { ModelState } from './modelCache.js';
@@ -181,6 +182,9 @@ export function ListenScreen({
       result: Readonly<{ transcript: string; alternatives?: readonly string[] }>,
       engineId: string,
     ) => {
+      // Which engine this actually came from, before anything is shown. Engines fall back
+      // silently and should, but then nobody can tell a bad transcript from a bad recogniser.
+      noteEngine(engineId);
       const readings = [result.transcript, ...(result.alternatives ?? [])]
         .map((text) => text.trim())
         .filter((text) => text !== '');

@@ -50,7 +50,7 @@ vi.mock('./whisperModel.js', () => ({
 /** An engine that reports one result the moment it is asked to listen. */
 function engineSaying(result: SpeechResult): SttEngine {
   return {
-    id: 'vosk-hi-0.22+grammar',
+    id: 'test-offline-engine',
     source: 'offline-stt',
     worksOffline: true,
     available: () => true,

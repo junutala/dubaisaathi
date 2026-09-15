@@ -6,7 +6,7 @@ import { startSpeechClock } from './endOfSpeech.js';
  *
  * Everything downstream — the parser, the screens, the learning loop — consumes `SpeechResult`
  * and does not care what produced it. So the engine that decides the PWA-vs-native gate can be
- * swapped without touching a screen: Vosk or sherpa-onnx implements `SttEngine`, is registered
+ * swapped without touching a screen: Whisper or sherpa-onnx implements `SttEngine`, is registered
  * below, and the app picks it because it reports `worksOffline`.
  *
  * Two engines exist today. `browserStt` asks the phone, preferring its on-device model when it
@@ -294,21 +294,6 @@ export async function resolveEngines(online: boolean): Promise<readonly SttEngin
   const { whisperModelState } = await import('./whisperModel.js');
   if (whisperStt.available() && (await whisperModelState(online)) === 'cached') {
     candidates.push(whisperStt);
-  }
-
-  /**
-   * Vosk, second, and only for a phone that already has it.
-   *
-   * It is replaced, not deleted. Vosk got proper nouns wrong — "Mall of the Emirates" came back
-   * as "माला एमरेट्स", and place names are most of what this product must hear — which is why
-   * Whisper is now the offer. But a traveller who waited on hotel wifi for 42 MB has offline
-   * Hindi on their phone today, and a release never takes something away from a phone
-   * (CLAUDE.md). So it keeps working until they download the better one, and is never offered
-   * to anyone who does not already have it.
-   */
-  const { voskStt, voskModelState } = await import('./voskStt.js');
-  if (voskStt.available() && (await voskModelState(online)) === 'cached') {
-    candidates.push(voskStt);
   }
 
   if (constructor() === undefined) return candidates;

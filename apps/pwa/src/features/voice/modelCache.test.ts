@@ -2,12 +2,12 @@ import { describe, expect, it } from 'vitest';
 // Read as text at build time rather than through the filesystem: vitest serves test modules over
 // http, so no path relative to this module resolves on disk.
 import config from '../../../vite.config.ts?raw';
-import { LEGACY_MODEL_CACHES, MODEL_CACHE } from './modelCache.js';
+import { MODEL_CACHE } from './modelCache.js';
 
 /**
  * The regression this exists for, and it is the worst one this project has had.
  *
- * The 42 MB voice model shared a cache with the Kaldi runtime chunk, under `maxEntries: 4`. The
+ * The 42 MB voice model shared a cache with the speech runtime chunk, under `maxEntries: 4`. The
  * runtime chunk is named by content, so every deployment added an entry; after four deployments
  * the least recently used was evicted, and the least recently used was always the model, because a
  * traveller touches it only when they speak. Shipping a build therefore deleted a download someone
@@ -16,6 +16,9 @@ import { LEGACY_MODEL_CACHES, MODEL_CACHE } from './modelCache.js';
  * On 13 September this happened five times in an hour on the owner's own phone. A traveller it
  * happened to would have been in Dubai, on roaming, with no idea why the thing that worked
  * yesterday had stopped.
+ *
+ * Replacing Vosk with Whisper made it worse rather than better: the download is fifteen files now
+ * instead of one, so any entry limit low enough to look tidy would evict most of it mid-trip.
  *
  * So the service worker's configuration is read here as text and checked. It is not TypeScript
  * anyone imports at runtime, no test would otherwise touch it, and a one-word edit in it is enough
@@ -45,15 +48,10 @@ describe('the cache the downloaded voice lives in', () => {
     expect(modelCacheRule()).not.toContain('maxEntries');
   });
 
-  it('is not shared with the runtime chunk, which every build replaces', () => {
-    expect(config).toContain("cacheName: 'saathi-vosk-runtime-v1'");
-    expect(MODEL_CACHE).not.toBe('saathi-vosk-runtime-v1');
-  });
-
-  it('remembers where the model used to live, so nobody re-downloads 42 MB', () => {
-    // The cache was renamed to fix this. A phone holding the model under the old name must keep
-    // it — being made to fetch it again because we reorganised our storage is not acceptable.
-    expect(LEGACY_MODEL_CACHES).toContain('saathi-speech-v1');
-    expect(LEGACY_MODEL_CACHES).not.toContain(MODEL_CACHE);
+  it('never limits how many entries it holds, because the voice is many files', () => {
+    // One file could survive a generous limit by luck. Fifteen cannot, and the encoder surviving
+    // while the decoder is evicted is a voice that reports itself present and does not work.
+    expect(modelCacheRule()).not.toContain('maxAgeSeconds');
+    expect(modelCacheRule()).not.toContain('purgeOnQuotaError');
   });
 });

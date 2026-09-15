@@ -1,5 +1,7 @@
+import { useSyncExternalStore } from 'react';
 import { useSettings } from '../settings.js';
 import { BUILD } from '../version.js';
+import { lastEngine, watchEngine } from '../../features/voice/lastEngine.js';
 import { Icon } from './icons.js';
 import { Logo } from './Logo.js';
 
@@ -30,15 +32,25 @@ import { Logo } from './Logo.js';
  * deliberately made to take the whole height, so it was under the fold of every phone and the
  * one person who needed it could not find it. A version that has to be scrolled to is a version
  * nobody reads. Here it is on every screen, in the one bar that is always at the top.
+ *
+ * Once something has been transcribed, the recogniser that did it is named beside the build.
+ * Engines fall back silently — a model that will not load hands the microphone to whatever the
+ * phone has, without a word — so without this the new engine is blamed for another's output and
+ * the real fault is never looked for. Same question as the build stamp, same 10px grey, same
+ * non-place in a traveller's attention.
  */
 export function BrandBar() {
   const { t, online } = useSettings();
+  const engine = useSyncExternalStore(watchEngine, lastEngine, () => null);
   return (
     <div className="brand">
       <Logo size={24} />
       <span className="brand-id">
         <span className="brand-name">{t('app.name')}</span>
-        <span className="brand-build">{BUILD}</span>
+        <span className="brand-build">
+          {BUILD}
+          {engine === null ? '' : ` · ${engine}`}
+        </span>
       </span>
       {/* Teal when offline, not red: working without a network is what this app is for, so it
           is a statement of fact and never a warning. */}

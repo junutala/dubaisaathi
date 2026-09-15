@@ -7,6 +7,7 @@ import { parseTransportPack } from './features/transport/index.js';
 import { requestPersistentStorage } from './db/schema.js';
 import { applyPendingUpdate, startUpdateChecks } from './app/updates.js';
 import { startVoiceEventSync } from './features/voice/sync.js';
+import { forgetVosk } from './features/voice/modelCache.js';
 import pack from '../../../data/phrases/phrases.v1.json';
 import transport from '../../../data/transport/network.v1.json';
 import './fonts.css';
@@ -33,6 +34,10 @@ void loadTransportPack(parseTransportPack(transport));
 // The learning loop leaves the phone here, and only here. Nothing waits on it: it tries once on
 // boot and again when the phone says it is back online, and a failure leaves the queue intact.
 startVoiceEventSync();
+// Hands back the 42 MB the old recogniser left behind. Nothing can read those bytes any more —
+// the engine is deleted and the archive is no longer served — so they are storage a traveller
+// cannot find and cannot use. Best-effort and silent; a browser that refuses simply keeps them.
+void forgetVosk();
 
 createRoot(root).render(
   <StrictMode>

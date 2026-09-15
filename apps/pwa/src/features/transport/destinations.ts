@@ -2,7 +2,7 @@ import type { DubaiPlace } from '@saathi/shared';
 import type { Locale } from '../../i18n/index.js';
 import { intentCorpus } from '../voice/intentPacks.js';
 import { fold } from '../voice/normalise.js';
-import { GLUE, ROMAN_GLUE } from '../voice/speechGrammar.js';
+import { GLUE, ROMAN_GLUE } from '../voice/glue.js';
 import { parseIntent } from '../voice/parseIntent.js';
 
 /**
