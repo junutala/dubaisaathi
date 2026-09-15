@@ -98,6 +98,20 @@ export function TransportScreen({
     setTyped(localName(place.name, locale));
   }, [placeId, locale]);
 
+  /**
+   * A sentence the mic brought that resolved to no place goes in the box, not above it.
+   *
+   * It was appearing in a read-only card with an empty box underneath asking for a place name —
+   * two boxes where the design has one, and the traveller's own words in the one they cannot
+   * edit. Speech fills the box (decision 014); it does not open a screen and then describe
+   * itself from the sidelines. With the words in the box, a mangled place name is two taps from
+   * being fixed instead of being retyped from nothing.
+   */
+  useEffect(() => {
+    if (placeId !== undefined || heard === undefined) return;
+    setTyped(heard.transcript);
+  }, [placeId, heard]);
+
   useEffect(() => {
     // Rule 30: asked at first need, with the reason already painted. The delay is the point —
     // the phone's own prompt covers this screen, and a prompt with no reason gets refused.
@@ -199,7 +213,10 @@ export function TransportScreen({
     <>
       <ScreenHeader title={t('transport.title')} tile="transport" />
       <div className="flow">
-        {heard && <HeardBanner intent={heard} />}
+        {/* Only when the box holds something else — a place we resolved, or a correction they
+            have started typing. Showing it above their own unedited words was saying the same
+            thing twice, in two different boxes (design rule 10 is about reassurance, not echo). */}
+        {heard && typed !== heard.transcript && <HeardBanner intent={heard} />}
 
         {explaining && (
           <div className="note">

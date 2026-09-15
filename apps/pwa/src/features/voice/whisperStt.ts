@@ -26,6 +26,16 @@ const ENGINE_ID = 'whisper-tiny-q8';
 /** Where the Dockerfile puts the model. Trailing slash matters to the library. */
 const LOCAL_MODELS = '/models/';
 
+/**
+ * The processor's name, as `public/mic-worklet.js` registers it — not the file it lives in.
+ *
+ * These were two different strings and the mismatch cost a test on a real phone. Asking a context
+ * for a processor it has never registered throws `InvalidStateError`, several seconds after the
+ * model has loaded and the microphone has been granted, so it read as "the model is broken" when
+ * the model was fine. The file is `mic-worklet.js`; the processor inside it is `saathi-mic`.
+ */
+export const WORKLET_NAME = 'saathi-mic';
+
 /** Hindi, because that is what the product hears. Whisper needs telling; it will not guess well. */
 const LANGUAGE = 'hindi';
 
@@ -155,7 +165,7 @@ export const whisperStt: SttEngine = {
         context = new AudioContext();
         await context.audioWorklet.addModule('/mic-worklet.js');
         const source = context.createMediaStreamSource(stream);
-        const node = new AudioWorkletNode(context, 'mic-worklet');
+        const node = new AudioWorkletNode(context, WORKLET_NAME);
         node.port.onmessage = (event: MessageEvent<Float32Array>) => {
           chunks.push(new Float32Array(event.data));
         };

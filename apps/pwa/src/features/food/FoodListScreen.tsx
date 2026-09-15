@@ -61,6 +61,16 @@ export function FoodListScreen({
 
   const here = location.kind === 'here' ? location.at : undefined;
 
+  /**
+   * A sentence the mic brought goes in the box and is acted on, rather than sitting in a card
+   * above an empty box beside a list that answered nothing. Speech fills the box (decision 014).
+   */
+  useEffect(() => {
+    if (heard === undefined) return;
+    setTyped(heard.transcript);
+    setResult(searchOutlets(heard.transcript, heard.foodTags ?? [], here));
+  }, [heard, here]);
+
   const send = () => {
     const words = typed.trim();
     if (words === '') {
@@ -91,7 +101,8 @@ export function FoodListScreen({
     <>
       <ScreenHeader title={t('food.title')} tile="food" />
       <div className="flow">
-        {heard && <HeardBanner intent={heard} />}
+        {/* Same rule as 1.1: only when the box holds something other than their own words. */}
+        {heard && typed !== heard.transcript && <HeardBanner intent={heard} />}
 
         <AskBar
           value={typed}
