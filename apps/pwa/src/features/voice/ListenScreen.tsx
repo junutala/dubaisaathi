@@ -191,6 +191,31 @@ export function ListenScreen({
       const best = readings.find((text) => isConfident(parseIntent(text, intentCorpus)));
       const chosen = best ?? readings[0];
       if (chosen === undefined) return;
+      /**
+       * What the recogniser heard, recorded now rather than when the traveller accepts it.
+       *
+       * Until now a transcript reached `voice_events` only if they pressed आगे बढ़िए. So the rows
+       * worth most were exactly the rows we threw away: the owner watched this screen offer him
+       * "मुझे माल का एमिरेट्स जाना है" twice over, backed out, and the database has eleven
+       * failures from that session and not one of the sentences he was actually shown.
+       *
+       * A recogniser that produces something unusable is not a failure the engine reports — it
+       * reports success — so nothing else in this file was ever going to notice. `landedOn` says
+       * `compose`, which is how a reading that was shown and abandoned is told apart from one
+       * that was sent (CLAUDE.md, learning loop: a tourist backing out within seconds is signal).
+       */
+      void recordVoiceEvent({
+        transcript: chosen,
+        ...(result.alternatives?.[0] === undefined
+          ? {}
+          : { unconstrainedTranscript: result.alternatives[0].trim() }),
+        intent: 'unknown',
+        confidence: 0,
+        landedOn: 'compose',
+        failure: null,
+        sttEngine: engineId,
+      });
+
       setTyped(chosen);
       setPhase({
         at: 'compose',

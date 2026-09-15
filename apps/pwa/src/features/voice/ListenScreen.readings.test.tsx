@@ -27,6 +27,20 @@ vi.mock('../../app/routes.js', async (importOriginal) => ({
 }));
 
 const recorded = vi.fn();
+
+/**
+ * A recorded row, by the screen it was recorded from.
+ *
+ * There are two now and they answer different questions. `compose` is what the recogniser heard,
+ * written the moment it is put in front of the traveller — the row that exists because the owner
+ * was shown a mangled sentence, backed out, and the database kept eleven failures and none of the
+ * sentences he had actually been offered. The rest are what was sent.
+ */
+const rowFrom = (screen: string): Record<string, unknown> | undefined =>
+  recorded.mock.calls
+    .map((call) => call[0] as Record<string, unknown>)
+    .find((row) => (screen === 'compose') === (row.landedOn === 'compose'));
+
 vi.mock('./voiceEvent.js', () => ({
   recordVoiceEvent: (input: unknown) => {
     recorded(input);
@@ -192,7 +206,7 @@ describe('two readings of one sentence', () => {
     await waitFor(() => {
       expect(recorded).toHaveBeenCalled();
     });
-    const event = recorded.mock.calls[0]?.[0] as { unconstrainedTranscript?: string };
+    const event = rowFrom('sent') as { unconstrainedTranscript?: string };
     expect(event.unconstrainedTranscript).toBe('मुझे अल क़ूज़ जाना है');
   });
 
@@ -206,7 +220,7 @@ describe('two readings of one sentence', () => {
     await waitFor(() => {
       expect(navigate).toHaveBeenCalledWith({ screen: 'transport', placeId: 'karama' });
     });
-    const event = recorded.mock.calls[0]?.[0] as { unconstrainedTranscript?: string };
+    const event = rowFrom('sent') as { unconstrainedTranscript?: string };
     expect(event.unconstrainedTranscript).toBeUndefined();
   });
 
@@ -230,6 +244,50 @@ describe('two readings of one sentence', () => {
   });
 });
 
+describe('a sentence that was heard but never sent', () => {
+  /**
+   * The gap this closes, found by the owner rather than by anything here.
+   *
+   * He tapped the mic, was shown "मुझे माल का एमिरेट्स जाना है मुझे माल का एमिरेट्स जाना है", and
+   * backed out without pressing आगे बढ़िए. `voice_events` kept eleven failures from that session
+   * and not one of the sentences he had actually been offered — because a transcript was recorded
+   * only when it was accepted.
+   *
+   * That is backwards. A recogniser that produces something unusable reports success, so nothing
+   * else notices; and a reading bad enough to make somebody give up is the most useful row in the
+   * table. It is written the moment it goes on screen.
+   */
+  it('is recorded the moment it is put in front of the traveller', async () => {
+    engines = [engineSaying({ transcript: 'माला एमरेट्स माला एमरेट्स', source: 'offline-stt' })];
+    const view = show();
+    await waitFor(() => {
+      expect(inTheBox(view)).toBe('माला एमरेट्स माला एमरेट्स');
+    });
+    // Nothing sent, nothing tapped — exactly what the owner did.
+    const heard = rowFrom('compose') as { transcript: string; sttEngine: string } | undefined;
+    expect(heard).toBeDefined();
+    expect(heard?.transcript).toBe('माला एमरेट्स माला एमरेट्स');
+    // Which engine produced it, or the row cannot be read back to a recogniser.
+    expect(heard?.sttEngine).not.toBe('');
+  });
+
+  it('is told apart from the sentence that was sent', async () => {
+    // A sentence that routes, so there is a "sent" row to compare against: a bare place name
+    // stops at the two-button question instead, which is a different thing entirely.
+    engines = [engineSaying({ transcript: 'मुझे करामा जाना है', source: 'offline-stt' })];
+    const view = show();
+    await waitFor(() => {
+      expect(inTheBox(view)).toBe('मुझे करामा जाना है');
+    });
+    pressSend(view);
+    await waitFor(() => {
+      expect(navigate).toHaveBeenCalled();
+    });
+    expect((rowFrom('compose') as { landedOn: string }).landedOn).toBe('compose');
+    expect((rowFrom('sent') as { landedOn: string }).landedOn).not.toBe('compose');
+  });
+});
+
 describe('a sentence the traveller corrected', () => {
   it('is what gets acted on, not what was heard', async () => {
     // The whole reason this step exists: "माला एमरेट्स" resolves rather than failing, so a
@@ -245,10 +303,7 @@ describe('a sentence the traveller corrected', () => {
     await waitFor(() => {
       expect(navigate).toHaveBeenCalled();
     });
-    const event = recorded.mock.calls[0]?.[0] as {
-      transcript: string;
-      correctedFrom?: string;
-    };
+    const event = rowFrom('sent') as { transcript: string; correctedFrom?: string };
     expect(event.transcript).toBe('mall of emirates jaana hai');
     // The pair that teaches the packs: what was heard, and what it should have been.
     expect(event.correctedFrom).toBe('माला एमरेट्स');
