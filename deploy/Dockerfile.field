@@ -25,6 +25,10 @@ RUN VITE_BUILD_SHA="$RAILWAY_GIT_COMMIT_SHA" \
 # and a staff tool that stops working when somebody else's host has a bad day. The worker and the
 # wasm come out of the packages already installed above; only the trained data is downloaded, the
 # same arrangement the Hindi speech model uses in deploy/Dockerfile.
+#
+# The `_fast` data, not the standard set: 1.9 MB against 10.9 MB, and quicker on a phone. The
+# accuracy it gives up is on handwriting and damaged scans; a printed menu board is the case it
+# handles well. A collector on mobile data should not fetch 11 MB to read a laminated card.
 FROM node:22-alpine AS ocr
 RUN apk add --no-cache curl
 WORKDIR /ocr
@@ -32,7 +36,7 @@ COPY --from=build /repo/node_modules/tesseract.js/dist/worker.min.js ./
 COPY --from=build /repo/node_modules/tesseract.js-core/ ./core/
 RUN cp core/*.wasm.js core/*.wasm ./ 2>/dev/null || cp core/*.wasm.js ./; \
     curl -fsSL --retry 3 -o eng.traineddata.gz \
-      https://tessdata.projectnaptha.com/4.0.0/eng.traineddata.gz; \
+      https://tessdata.projectnaptha.com/4.0.0_fast/eng.traineddata.gz; \
     rm -rf core; \
     ls -la /ocr
 
