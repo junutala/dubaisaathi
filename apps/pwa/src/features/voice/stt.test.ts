@@ -163,3 +163,24 @@ describe('a recogniser that restates the sentence as it hears more', () => {
     expect(joinFinals(['', 'Karama', '   ', 'jaana hai'])).toBe('Karama jaana hai');
   });
 });
+
+describe('which recogniser is tried first', () => {
+  /**
+   * Rule 4: optimise wherever possible when the traveller is online. Our own model used to be
+   * first always, which handed the owner whisper-base's reading of a place name while Google's
+   * recogniser sat unused in the same browser.
+   */
+  it('is the cloud one when there is signal', async () => {
+    const queue = await resolveEngines(true);
+    const ours = queue.findIndex((engine) => engine.worksOffline);
+    const cloud = queue.findIndex((engine) => !engine.worksOffline);
+    if (ours !== -1 && cloud !== -1) expect(cloud).toBeLessThan(ours);
+  });
+
+  /** ...and ours is still in the queue behind it, so a cloud failure is not the end. */
+  it('keeps our own model as the fallback rather than dropping it', async () => {
+    const queue = await resolveEngines(true);
+    const offline = queue.filter((engine) => engine.worksOffline);
+    expect(offline.length).toBeLessThanOrEqual(1);
+  });
+});

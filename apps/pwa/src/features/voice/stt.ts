@@ -337,23 +337,37 @@ export async function resolveEngines(online: boolean): Promise<readonly SttEngin
 
   const candidates: SttEngine[] = [];
 
-  // Our own model first when the phone already has it: it needs no network, no Google, and no
-  // OS language pack — the three things that failed on a real phone. Downloading it is never
-  // done here; that is a deliberate choice the traveller makes once, not a side effect of
-  // tapping a microphone.
+  /**
+   * Our own model, and where it sits in the queue depends on the radio.
+   *
+   * It used to be first always, which was backwards. Offline it is everything; online it is the
+   * weaker of two recognisers we have, and preferring it meant the owner was handed
+   * whisper-base's reading of a place name while Google's sat unused in the same browser. Rule 4:
+   * wire the whole thing and optimise wherever possible when the traveller is online.
+   *
+   * Neither engine is good at Dubai place names — Google returned "माल का एमिरेट्स" for Mall of
+   * the Emirates on the same phone, which is why the matcher had to get more forgiving rather
+   * than the model bigger. But better is better, and it costs a traveller with signal nothing.
+   */
   const { whisperStt } = await import('./whisperStt.js');
   const { whisperModelState } = await import('./whisperModel.js');
-  if (whisperStt.available() && (await whisperModelState(online)) === 'cached') {
-    candidates.push(whisperStt);
-  }
+  const ours =
+    whisperStt.available() && (await whisperModelState(online)) === 'cached' ? whisperStt : null;
+  if (ours && !online) candidates.push(ours);
 
-  if (constructor() === undefined) return candidates;
+  if (constructor() === undefined) {
+    if (ours && online) candidates.push(ours);
+    return candidates;
+  }
   const local = await onDeviceHindi();
   // 'unknown' is worth an attempt: every browser but Chrome 138+ answers that way, and if it
   // turns out to work with the radio off, the PWA gate is passed with no native wrapper at all.
   // 'unavailable' is the browser telling us plainly, so the attempt is skipped rather than spent.
   if (local !== 'unavailable') candidates.push(onDeviceStt);
   if (online) candidates.push(cloudStt);
+  // Last, not first, when there is signal: a cloud recogniser that fails still leaves the
+  // traveller with the model on their own phone rather than with nothing.
+  if (ours && online) candidates.push(ours);
   return candidates;
 }
 

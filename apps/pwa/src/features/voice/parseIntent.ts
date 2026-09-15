@@ -7,6 +7,7 @@ import {
   type TransportMode,
 } from '@saathi/shared';
 import type { IntentCorpus, Keyword } from './corpus.js';
+import { nearestPlace } from './nearestPlace.js';
 import { skeleton, tokenise, type Token } from './normalise.js';
 
 /**
@@ -70,6 +71,24 @@ function findPlaces(tokens: readonly Token[], corpus: IntentCorpus): readonly Pl
       const near = corpus.placeBySkeleton.get(skeleton(window));
       if (near !== undefined) {
         hits.push({ placeId: near, spoken, confidence: 0.75, from: start, to });
+        continue;
+      }
+      /**
+       * Last, and on purpose: the nearest name in the pack to whatever was heard.
+       *
+       * Nothing transcribes Dubai place names reliably — not our model, and not Google's, which
+       * returned "माल का एमिरेट्स" for Mall of the Emirates on the owner's own phone. But the
+       * answer is never open. A traveller is naming one of about twenty places we ship, so a
+       * hearing two edits away from a name we hold is almost certainly that name, and exact
+       * matching and consonant skeletons were both throwing it away.
+       *
+       * Same confidence as a skeleton match, so it asks the two-button question rather than
+       * acting on it. Being sent to the wrong end of Dubai costs an hour and a fare; being asked
+       * costs one tap.
+       */
+      const closest = nearestPlace(window, corpus.placeByAlias);
+      if (closest !== undefined) {
+        hits.push({ placeId: closest, spoken, confidence: 0.75, from: start, to });
       }
     }
   }
