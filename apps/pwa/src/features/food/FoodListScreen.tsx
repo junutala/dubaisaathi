@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import type { FoodTag, ParsedIntent, Restaurant } from '@saathi/shared';
 import { useSettings } from '../../app/settings.js';
+import { navigate } from '../../app/routes.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { QuickBar } from '../../app/shell/QuickBar.js';
 import { Icon } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
 import { AskBar } from '../ask/AskBar.js';
+import { composedPhraseId } from '../phrases/composeArabic.js';
 import { HeardBanner } from '../voice/HeardBanner.js';
 import { intentCorpus } from '../voice/intentPacks.js';
 import { parseIntent } from '../voice/parseIntent.js';
@@ -100,12 +102,34 @@ export function FoodListScreen({
           label="food.label"
         />
 
-        {/* Said before the list, so a traveller reads the answer knowing what it answered. */}
-        {searched && result.hits.length === 0 && (
+        {/* Said before the list, so a traveller reads the answer knowing what it answered.
+            Split in two on purpose. Nothing in "mera phone charge karna hai" is about food, so
+            nothing filters — and the search returned every outlet we have, which the screen then
+            showed as if it were the answer. A wrong answer delivered confidently is worse than
+            an empty one. Now an unreadable sentence is said to be unreadable whether or not the
+            list below happens to have rows in it. */}
+        {searched && result.unmatchedWords && (
           <div className="stack-sm">
-            <p className="lbl">
-              {result.unmatchedWords ? t('food.notFood', { text: typed }) : t('food.none')}
-            </p>
+            <p className="lbl">{t('food.notFood', { text: typed })}</p>
+            {/* The sentence is still one somebody here can read. A traveller standing at a
+                counter has said something, and "could not read that" is not a reply. */}
+            <button
+              type="button"
+              className="btn btn-ghost"
+              data-tap
+              onClick={() => {
+                navigate({ screen: 'arabic', phraseId: composedPhraseId(typed.trim()) });
+              }}
+            >
+              <Icon name="talk" size={21} strokeWidth={1.8} />
+              {t('food.sayInArabic')}
+            </button>
+          </div>
+        )}
+
+        {searched && !result.unmatchedWords && result.hits.length === 0 && (
+          <div className="stack-sm">
+            <p className="lbl">{t('food.none')}</p>
             <p className="muted small">{t('food.noneWhy')}</p>
           </div>
         )}

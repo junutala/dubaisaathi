@@ -2,7 +2,6 @@ import { useSettings } from '../../app/settings.js';
 import { navigate, type Route } from '../../app/routes.js';
 import { Icon, type IconName } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
-import { BUILD } from '../../app/version.js';
 
 interface TileDef {
   readonly key: StringKey;
@@ -68,10 +67,6 @@ export function HomeScreen() {
           </button>
         ))}
       </div>
-      {/* Which build this is. Deliberately the quietest thing on the screen — a traveller has no
-          use for it, and the two people who need to know a fix actually shipped should not have
-          to read a server log to find out. */}
-      <p className="build">{BUILD}</p>
     </div>
   );
 }

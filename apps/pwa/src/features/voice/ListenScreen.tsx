@@ -467,22 +467,6 @@ export function ListenScreen({
                   : { screen: 'food' },
               );
             }}
-            actions={
-              <>
-                <button type="button" className="btn btn-primary" onClick={listen}>
-                  {t('listen.again')}
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-ghost"
-                  onClick={() => {
-                    startTyping();
-                  }}
-                >
-                  {t('listen.type')}
-                </button>
-              </>
-            }
           />
         )}
 

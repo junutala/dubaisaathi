@@ -1311,9 +1311,27 @@ button:not(:disabled) {
   align-items: center;
   gap: 9px;
   min-height: 40px;
-  padding: 0 16px;
+  padding: 4px 16px;
   background: var(--card);
   border-bottom: 1px solid var(--line);
+}
+.brand-id {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  /* Takes the slack so the network state is pinned to the right edge at every width. */
+  flex: 1;
+  min-width: 0;
+}
+.brand-build {
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  opacity: 0.6;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .brand-name {
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
@@ -1324,8 +1342,6 @@ button:not(:disabled) {
      rather than set, so this stays modest. */
   letter-spacing: 0.01em;
   color: var(--ink);
-  /* Takes the slack so the network state is pinned to the right edge at every width. */
-  flex: 1;
 }
 .brand-net {
   display: flex;
@@ -1504,11 +1520,3 @@ button:not(:disabled) {
 }
 
 /* The build stamp. Quiet enough to ignore, findable when it is the only question that matters. */
-.build {
-  margin: 2px 0 0;
-  text-align: center;
-  font-size: 11px;
-  letter-spacing: 0.03em;
-  color: var(--muted);
-  opacity: 0.55;
-}

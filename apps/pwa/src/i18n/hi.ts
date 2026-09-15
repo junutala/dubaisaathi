@@ -52,6 +52,8 @@ export const hi = {
   'transport.options': 'कैसे जाएँ',
   'transport.translate': 'ड्राइवर को दिखाएँ',
   'transport.unknownPlace': '“{text}” — यह जगह अभी साथी के पास नहीं है.',
+  'transport.unknownButShow': 'वहीं जाना है? “ड्राइवर को दिखाएँ” चलेगा — साथी कहेगा “यहाँ ले चलो”.',
+  'transport.notAPlace': 'जगह नहीं है — बस इसे अरबी में कहिए',
   'transport.unknownPlaceWhy': 'दूसरा नाम लिखकर देखिए — जैसे “करामा” या “दुबई मॉल”.',
   'transport.noArabic': 'इस जगह का अरबी नाम साथी के पास नहीं है. विकल्प फिर भी दिखेंगे.',
 
@@ -124,6 +126,7 @@ export const hi = {
   'arabic.cannotSayWhy': 'नीचे तैयार वाक्य हैं — या इसे दूसरे शब्दों में लिखकर देखिए.',
   'arabic.pickReady': 'तैयार वाक्य देखिए',
   'arabic.youSaid': 'आपने कहा',
+  'arabic.working': 'अरबी में बदल रहा हूँ…',
   'arabic.showThis': 'ड्राइवर को यह दिखाएँ',
   'arabic.listen': 'अरबी में सुनाएँ',
   'arabic.speaking': 'बोल रहा हूँ…',
@@ -177,8 +180,6 @@ export const hi = {
   'listen.whichOne': '“{text}” — क्या करना है?',
   'listen.askRoute': 'वहाँ कैसे जाएँ',
   'listen.askFood': 'वहाँ खाना ढूँढें',
-  'listen.notUnderstood': 'यह समझ नहीं आया',
-  'listen.notUnderstoodWhy': 'फिर बोलिए, या नीचे से चुन लीजिए.',
 
   // 4.1 · ज़रूरी जानकारी — the calm shelf. Nothing here is medical and nothing here is red
   // (design rule 16a); the numbers line is knowledge, not a button.
@@ -273,6 +274,7 @@ export const hi = {
   'food.found': '{count} जगह मिलीं',
   'food.none': 'यह आस-पास नहीं मिला.',
   'food.noneWhy': 'हमारे पास अभी इतनी ही जगहें हैं. नीचे आस-पास की सब जगहें हैं.',
+  'food.sayInArabic': 'इसे अरबी में कहिए',
   'food.notFood': '“{text}” समझ नहीं आया. नीचे आस-पास की सब जगहें हैं.',
   'food.noLocation': 'जगह की इजाज़त नहीं है, इसलिए दूरी नहीं बता सकते.',
   'food.kitchen.pure-veg': 'शुद्ध शाकाहारी',

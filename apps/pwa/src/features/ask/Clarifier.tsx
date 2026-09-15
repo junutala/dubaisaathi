@@ -1,62 +1,52 @@
-import type { ReactNode } from 'react';
 import type { ParsedIntent } from '@saathi/shared';
 import { useSettings } from '../../app/settings.js';
 
 /**
- * The two-button question (design rule 11). A bare place name could be a route or a restaurant;
- * a sentence that parsed to nothing gets the same treatment. Either way the traveller taps once
- * and moves on — ambiguity never becomes a dead end.
+ * The two-button question (design rule 11), and the only place in the app where a sentence stops
+ * to ask something.
  *
- * `actions` is what to offer when nothing was understood at all, because that differs by where
- * the sentence came from: the mic screen offers another attempt at speaking, the ask bar offers
- * the box back. The question itself is the same everywhere, so it lives here once.
+ * It asks about exactly one thing: a bare place name. "Karama" is रास्ता in a hotel room and खाना
+ * at lunchtime, the difference is not in the word, and no parser recovers it — so the traveller
+ * taps once (decision 014).
+ *
+ * It used to have a second face, for a sentence that parsed to nothing: "That did not come
+ * through", with buttons offering to hear it again or take it typed. Both of those threw the
+ * sentence away, and the second was shown to someone who *had* just typed it. A sentence we
+ * cannot parse is not a sentence we cannot use — it now goes to 3.2 and comes out in Arabic
+ * (`micRouting.sayItInArabic`), which is the product's actual promise. Nothing reaches this
+ * component without a place in it any more, so there is nothing here for it.
  */
 export function Clarifier({
   intent,
   onPick,
-  actions,
 }: {
   readonly intent: ParsedIntent;
   readonly onPick: (choice: 'route' | 'food') => void;
-  readonly actions: ReactNode;
 }) {
   const { t } = useSettings();
-  const known = intent.kind === 'place';
-
   return (
     <div className="listen">
       <p className="listen-state">
-        {known
-          ? t('listen.whichOne', { text: intent.destination?.spoken ?? intent.transcript })
-          : t('listen.notUnderstood')}
+        {t('listen.whichOne', { text: intent.destination?.spoken ?? intent.transcript })}
       </p>
-      {known ? (
-        <>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => {
-              onPick('route');
-            }}
-          >
-            {t('listen.askRoute')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-ghost"
-            onClick={() => {
-              onPick('food');
-            }}
-          >
-            {t('listen.askFood')}
-          </button>
-        </>
-      ) : (
-        <>
-          <p className="muted center">{t('listen.notUnderstoodWhy')}</p>
-          {actions}
-        </>
-      )}
+      <button
+        type="button"
+        className="btn btn-primary"
+        onClick={() => {
+          onPick('route');
+        }}
+      >
+        {t('listen.askRoute')}
+      </button>
+      <button
+        type="button"
+        className="btn btn-ghost"
+        onClick={() => {
+          onPick('food');
+        }}
+      >
+        {t('listen.askFood')}
+      </button>
     </div>
   );
 }

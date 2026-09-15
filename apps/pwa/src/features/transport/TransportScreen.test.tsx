@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { SettingsProvider } from '../../app/settings.js';
 import { typedTextInPhrase } from '../phrases/destinationPhrase.js';
+import { composedTextInPhrase } from '../phrases/composeArabic.js';
 import { TransportScreen } from './TransportScreen.js';
 import { LocationDeniedScreen } from './LocationDeniedScreen.js';
 import { forgetLocation, hasBeenAsked } from '../../lib/location.js';
@@ -165,6 +166,38 @@ describe('1.1 — where do you want to go', () => {
     expect(screen.getByRole('textbox')).toBeTruthy();
     // Still a way forward: the box is there and both buttons are still live.
     expect(screen.getByRole('button', { name: OPTIONS })).toBeTruthy();
+  });
+
+  /**
+   * The words were a perfectly good sentence and simply not a destination.
+   *
+   * Until now this screen answered "Saathi does not know this place yet — try another name",
+   * which points at nothing that was going to work, and ड्राइवर को दिखाएँ wrapped the sentence in
+   * a journey it never was: "AC kharab hai theek kar do" reached a driver as خذني إلى AC kharab
+   * hai — *take me to my AC is broken*. Both readings are now offered, and neither is guessed.
+   */
+  it('offers the Arabic for a sentence that was never a destination', () => {
+    show();
+    type('AC kharab hai theek kar do');
+    tap(OPTIONS);
+    expect(screen.getByText(/does not know this place/i)).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: /just say it in Arabic/i }));
+    const call = navigate.mock.calls.at(-1)?.[0] as { screen: string; phraseId: string };
+    expect(call.screen).toBe('arabic');
+    expect(composedTextInPhrase(call.phraseId)).toBe('AC kharab hai theek kar do');
+  });
+
+  /**
+   * ...and the address this screen exists for is untouched by that. A building name is still a
+   * destination and still reaches the driver whole, which is the Satwa fix and must stay.
+   */
+  it('still says "take me to" for an address it does not have in the pack', () => {
+    show();
+    type('Satwa, Al Hudaiba Building 7');
+    tap(DRIVER);
+    const call = navigate.mock.calls.at(-1)?.[0] as { screen: string; phraseId: string };
+    expect(call.screen).toBe('arabic');
+    expect(typedTextInPhrase(call.phraseId)).toBe('Satwa, Al Hudaiba Building 7');
   });
 
   it('says something rather than nothing when the box is empty', () => {

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { landingFor } from './micRouting.js';
 import { parseIntent } from './parseIntent.js';
 import { intentCorpus } from './intentPacks.js';
+import { composedTextInPhrase } from '../phrases/composeArabic.js';
 
 const landing = (said: string) => landingFor(parseIntent(said, intentCorpus));
 
@@ -32,8 +33,29 @@ describe('where the mic lands', () => {
     expect(landing('करामा')).toBe('ask');
   });
 
-  it('asks rather than dead-ends on a sentence it cannot read', () => {
-    expect(landing('aaj mausam kaisa rahega')).toBe('ask');
+  /**
+   * The floor, and the reason this app exists.
+   *
+   * A sentence our parser cannot read is still a sentence somebody in Dubai can. Until now it
+   * landed on "That did not come through" with two buttons that both threw the words away — and
+   * one of them offered to take it typed, to a traveller who had just typed it. Whatever we
+   * cannot act on, we translate.
+   */
+  it.each([
+    'aaj mausam kaisa rahega',
+    'AC kharab hai, theek kar do',
+    'thoda dheere chaliye please',
+    'मेरा फ़ोन चार्ज करना है',
+  ])('translates "%s" rather than dead-ending on it', (said) => {
+    // Nothing here matches a ready sentence — "ye kitne ka hai bhaiya" does, and lands on its
+    // own curated Arabic instead. These are the ones with nowhere else to go.
+    const route = landing(said);
+    expect(route).not.toBe('ask');
+    if (route === 'ask') return;
+    expect(route.screen).toBe('arabic');
+    if (route.screen !== 'arabic') return;
+    // The traveller's own words travel inside the id, so the Arabic survives a reload.
+    expect(composedTextInPhrase(route.phraseId)).toBe(said);
   });
 
   /** A journey with nowhere named still opens रास्ता, with an empty box rather than a shrug. */

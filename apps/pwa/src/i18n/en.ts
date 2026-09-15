@@ -51,6 +51,9 @@ export const en: Record<StringKey, string> = {
   'transport.options': 'How to get there',
   'transport.translate': 'Show the driver',
   'transport.unknownPlace': '“{text}” — Saathi does not know this place yet.',
+  'transport.unknownButShow':
+    'Going there? “Show the driver” still works — Saathi will say “take me to this”.',
+  'transport.notAPlace': 'Not a place — just say it in Arabic',
   'transport.unknownPlaceWhy': 'Try another name — for example “Karama” or “Dubai Mall”.',
   'transport.noArabic': 'Saathi has no Arabic name for this place. The options still work.',
 
@@ -121,6 +124,7 @@ export const en: Record<StringKey, string> = {
   'arabic.cannotSayWhy': 'There are ready sentences below — or try writing it another way.',
   'arabic.pickReady': 'See the ready sentences',
   'arabic.youSaid': 'You said',
+  'arabic.working': 'Putting it into Arabic…',
   'arabic.showThis': 'Show this to the driver',
   'arabic.listen': 'Play it in Arabic',
   'arabic.speaking': 'Speaking…',
@@ -169,8 +173,6 @@ export const en: Record<StringKey, string> = {
   'listen.whichOne': '“{text}” — what would you like?',
   'listen.askRoute': 'How to get there',
   'listen.askFood': 'Find food there',
-  'listen.notUnderstood': 'That did not come through',
-  'listen.notUnderstoodWhy': 'Say it again, or pick from below.',
 
   'info.title': 'Hotel and documents',
   'info.hotel': 'My hotel',
@@ -261,6 +263,7 @@ export const en: Record<StringKey, string> = {
   'food.found': '{count} places found',
   'food.none': 'Not found nearby.',
   'food.noneWhy': 'These are all the places we have so far. Everything nearby is below.',
+  'food.sayInArabic': 'Say it in Arabic instead',
   'food.notFood': 'Could not read “{text}”. Everything nearby is below.',
   'food.noLocation': 'No location permission, so distances cannot be shown.',
   'food.kitchen.pure-veg': 'Pure veg',

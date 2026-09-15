@@ -1,4 +1,5 @@
 import { useSettings } from '../settings.js';
+import { BUILD } from '../version.js';
 import { Icon } from './icons.js';
 import { Logo } from './Logo.js';
 
@@ -24,13 +25,21 @@ import { Logo } from './Logo.js';
  * two belong together: this bar answers "what am I holding, and is it talking to anything", and
  * both halves of that are true of the app rather than of the traveller's plan. It leaves the
  * strip to say one thing — how much of the counter is left — which is the thing worth money.
+ *
+ * The build stamp sits under the wordmark. It was on घर, below the tiles — and the tiles were
+ * deliberately made to take the whole height, so it was under the fold of every phone and the
+ * one person who needed it could not find it. A version that has to be scrolled to is a version
+ * nobody reads. Here it is on every screen, in the one bar that is always at the top.
  */
 export function BrandBar() {
   const { t, online } = useSettings();
   return (
     <div className="brand">
       <Logo size={24} />
-      <span className="brand-name">{t('app.name')}</span>
+      <span className="brand-id">
+        <span className="brand-name">{t('app.name')}</span>
+        <span className="brand-build">{BUILD}</span>
+      </span>
       {/* Teal when offline, not red: working without a network is what this app is for, so it
           is a statement of fact and never a warning. */}
       <span className="brand-net" style={{ color: online ? 'var(--muted)' : 'var(--teal)' }}>

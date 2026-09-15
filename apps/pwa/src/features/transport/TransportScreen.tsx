@@ -6,6 +6,7 @@ import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { QuickBar } from '../../app/shell/QuickBar.js';
 import { Icon, type IconName } from '../../app/shell/icons.js';
 import { AskBar } from '../ask/AskBar.js';
+import { composedPhraseId } from '../phrases/composeArabic.js';
 import { HeardBanner } from '../voice/HeardBanner.js';
 import { typedDestinationPhraseId } from '../phrases/destinationPhrase.js';
 import {
@@ -160,6 +161,28 @@ export function TransportScreen({
    * under a sentence he can read, changed in no way at all. What is left for the pack is
    * coordinates for route planning, which genuinely need one.
    */
+  /**
+   * The same words, but not as a destination.
+   *
+   * ड्राइवर को दिखाएँ wraps whatever is in the box in "take me to", which is exactly right for
+   * the address this screen exists to carry — "Satwa, Al Hudaiba Building" reaches a driver
+   * unchanged and complete. It is nonsense for a sentence that was never a journey: "AC kharab
+   * hai theek kar do" came out as خذني إلى AC kharab hai, *take me to my AC is broken*.
+   *
+   * Which of the two it is cannot be read off the words — an unrecognised string is an address
+   * far more often than not — so this is not a guess the app makes. It is offered beside the
+   * other reading, in the one place we already admit we did not recognise the place, and the
+   * traveller settles it in a tap (decision 014).
+   */
+  const sayItPlainly = () => {
+    const words = typed.trim();
+    if (words === '') {
+      setTrouble({ kind: 'empty' });
+      return;
+    }
+    navigate({ screen: 'arabic', phraseId: composedPhraseId(words) });
+  };
+
   const showDriver = () => {
     const words = typed.trim();
     if (words === '') {
@@ -206,10 +229,21 @@ export function TransportScreen({
         {trouble !== null && (
           <div className="stack-sm">
             {trouble.kind === 'unknown' && (
-              <p className="trouble">{t('transport.unknownPlace', { text: trouble.text })}</p>
+              <>
+                <p className="trouble">{t('transport.unknownPlace', { text: trouble.text })}</p>
+                {/* Never a dead end. The words are still a sentence a driver can read, and the
+                    button that does it is already on this screen — so this points at it. "Try
+                    another name" pointed away from the one thing that was going to work, to a
+                    traveller who had typed a perfectly good sentence that simply was not a
+                    place: "AC kharab hai theek kar do" is not a mistyped Karama. */}
+                <p className="muted small">{t('transport.unknownButShow')}</p>
+                <button type="button" className="linkish" data-tap onClick={sayItPlainly}>
+                  {t('transport.notAPlace')}
+                </button>
+              </>
             )}
             {trouble.kind === 'no-arabic' && <p className="trouble">{t('transport.noArabic')}</p>}
-            {trouble.kind !== 'no-arabic' && (
+            {trouble.kind === 'empty' && (
               <p className="muted small">{t('transport.unknownPlaceWhy')}</p>
             )}
           </div>

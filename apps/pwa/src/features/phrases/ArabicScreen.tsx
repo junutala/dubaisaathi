@@ -125,7 +125,32 @@ export function ArabicScreen({
     };
   }, []);
 
-  if (phrase === undefined) return null;
+  /*
+    Still working. A stored sentence resolves in one tick of IndexedDB and returning nothing is
+    right for it — but a sentence the traveller just wrote has to cross the network before there
+    is any Arabic at all, and `return null` painted a blank white screen for the whole round
+    trip. On hotel wifi, at a taxi door, that is several seconds of a phone that looks broken.
+    Their own words are already on the device, so the screen can be right from the first frame
+    and only the Arabic arrives late.
+  */
+  if (phrase === undefined) {
+    const said = composedTextInPhrase(phraseId);
+    if (said === null || said === '') return null;
+    return (
+      <>
+        <ScreenHeader title={t('arabic.title')} tile="talk" />
+        <div className="flow">
+          {/* Same shape as both screens below, so nothing moves when the Arabic lands. */}
+          <div className="stack-sm">
+            <p className="lbl">{t('arabic.youSaid')}</p>
+            <div className="card pad">{said}</div>
+          </div>
+          <p className="muted center">{t('arabic.working')}</p>
+        </div>
+        <QuickBar current="home" onMic={onMic} />
+      </>
+    );
+  }
 
   /*
     We have no Arabic for this one. Say so, show them their own words so the screen makes sense
