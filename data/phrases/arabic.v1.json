@@ -1,0 +1,142 @@
+{
+  "contentVersion": 1,
+  "publishedAt": "2026-09-15T00:00:00.000Z",
+  "note": "Arabic composed from an intent and its slots, rather than stored sentence by sentence. Sixteen ready phrases are a menu; this is a grammar. Every slot carries all three languages because the traveller has to be able to read what they are about to show a stranger — a Hindi sentence with an Arabic word wedged into it tells them nothing. Meaning over grammar, by the owner's rule.",
+  "food": {
+    "want": {
+      "vegetarian": {
+        "ar": "طعام نباتي",
+        "hi": "शाकाहारी खाना",
+        "en": "vegetarian food"
+      },
+      "indian-vegetarian": {
+        "ar": "طعام نباتي هندي",
+        "hi": "भारतीय शाकाहारी",
+        "en": "Indian vegetarian food"
+      },
+      "jain": {
+        "ar": "طعام جايني",
+        "hi": "जैन खाना",
+        "en": "Jain food"
+      },
+      "sattvik": {
+        "ar": "طعام ساتفيك",
+        "hi": "सात्विक खाना",
+        "en": "Sattvik food"
+      },
+      "vrat": {
+        "ar": "طعام الصيام",
+        "hi": "व्रत का खाना",
+        "en": "vrat food"
+      },
+      "south-indian": {
+        "ar": "طعام هندي جنوبي",
+        "hi": "दक्षिण भारतीय",
+        "en": "South Indian food"
+      },
+      "north-indian": {
+        "ar": "طعام هندي شمالي",
+        "hi": "उत्तर भारतीय",
+        "en": "North Indian food"
+      },
+      "gujarati": {
+        "ar": "طعام غوجاراتي",
+        "hi": "गुजराती खाना",
+        "en": "Gujarati food"
+      },
+      "punjabi": {
+        "ar": "طعام بنجابي",
+        "hi": "पंजाबी खाना",
+        "en": "Punjabi food"
+      },
+      "thali": {
+        "ar": "ثالي",
+        "hi": "थाली",
+        "en": "thali"
+      },
+      "quick-snack": {
+        "ar": "وجبة سريعة",
+        "hi": "जल्दी का नाश्ता",
+        "en": "a quick snack"
+      },
+      "chinese": {
+        "ar": "طعام صيني",
+        "hi": "चाइनीज़ खाना",
+        "en": "Chinese food"
+      },
+      "arabic": {
+        "ar": "طعام عربي",
+        "hi": "अरबी खाना",
+        "en": "Arabic food"
+      }
+    },
+    "avoid": {
+      "no-onion": {
+        "ar": "البصل",
+        "hi": "प्याज़",
+        "en": "onion"
+      },
+      "no-garlic": {
+        "ar": "الثوم",
+        "hi": "लहसुन",
+        "en": "garlic"
+      },
+      "eggless": {
+        "ar": "البيض",
+        "hi": "अंडा",
+        "en": "egg"
+      }
+    }
+  },
+  "templates": {
+    "route": {
+      "ar": "أريد الذهاب إلى {place}",
+      "hi": "{place} जाना है",
+      "en": "I want to go to {place}"
+    },
+    "food.want": {
+      "ar": "أريد {want}",
+      "hi": "मुझे {want} चाहिए",
+      "en": "I want {want}"
+    },
+    "food.avoid": {
+      "ar": "لا أريد {avoid}",
+      "hi": "मुझे {avoid} नहीं चाहिए",
+      "en": "I do not want {avoid}"
+    },
+    "food.wantAvoid": {
+      "ar": "أريد {want} بدون {avoid}",
+      "hi": "मुझे {want} चाहिए, {avoid} के बिना",
+      "en": "I want {want}, without {avoid}"
+    }
+  },
+  "join": {
+    "ar": " و",
+    "hi": " और ",
+    "en": " and "
+  },
+  "routeVerbs": [
+    "जाना है",
+    "जाना हे",
+    "ले चलो",
+    "ले चलिए",
+    "लेकर चलो",
+    "चलो",
+    "पहुँचाओ",
+    "पहुंचाओ",
+    "jaana hai",
+    "jana hai",
+    "janna hai",
+    "jaanaa hai",
+    "le chalo",
+    "le chaloo",
+    "lekar chalo",
+    "chalo",
+    "jaana h",
+    "jana h",
+    "tak le chalo",
+    "tak jaana hai",
+    "ko jaana hai",
+    "ke liye"
+  ]
+}

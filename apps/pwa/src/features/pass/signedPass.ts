@@ -45,7 +45,7 @@ export interface SignedPass {
  * property that matters: nobody can mint a pass for a real traveller with anything in this repo.
  */
 const PUBLIC_KEY_SPKI: string =
-  (import.meta.env.VITE_PASS_PUBLIC_KEY as string | undefined) ??
+  import.meta.env.VITE_PASS_PUBLIC_KEY ??
   'MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE4sULnwiXBPxU4BhxVaIw7n6DXKx0jWAQWkr/8fvdY+bdr1rLvMEDqUUFj/9FtT3pF3l3JocqNZv+Kz1Afv6PAw==';
 
 function fromBase64(value: string): Uint8Array {
