@@ -142,6 +142,28 @@ export interface ConfirmedDish {
   readonly priceAed?: number;
 }
 
+/**
+ * A sentence a traveller asked for and kept.
+ *
+ * The point is offline: a phrase translated once, on hotel wifi or before the flight, is theirs
+ * for the rest of the trip with the radio off. Composed sentences are free — they rebuild from
+ * their own words — but anything that needed a translator has to be kept or it is gone the
+ * moment the signal is.
+ *
+ * It is also how a traveller prepares. Somebody who knows they will need to ask about a
+ * wheelchair, or a SIM card, or their child's medicine can have those sentences ready before
+ * they land, which no phrasebook we write in advance can anticipate.
+ */
+export interface SavedPhrase {
+  readonly id: string;
+  /** What they wrote, in their own words and script. */
+  readonly said: string;
+  readonly ar: string;
+  /** Which engine produced the Arabic, so a bad batch can be found later. */
+  readonly engine: string;
+  readonly savedAt: Timestamp;
+}
+
 export interface Menu {
   readonly id: string;
   readonly restaurantId: string;

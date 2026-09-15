@@ -80,7 +80,7 @@ describe('upgrading a phone that already has the app', () => {
     const upgraded = new SaathiDb(NAME);
     await upgraded.open();
 
-    expect(upgraded.verno).toBe(4);
+    expect(upgraded.verno).toBe(5);
     expect((await upgraded.phrases.get('taxi-hotel'))?.ar).toBe(PHRASE.ar);
     expect((await upgraded.contentVersions.get('phrases'))?.version).toBe(1);
     // The queue is what the learning loop is: losing it loses labelled recogniser errors that
@@ -107,6 +107,18 @@ describe('upgrading a phone that already has the app', () => {
     expect(await upgraded.documents.count()).toBe(1);
     expect(await (await upgraded.documents.get('doc-1'))?.photo.text()).toBe('passport-page');
     expect(await upgraded.hotels.count()).toBe(0);
+
+    // v5 arrived with saved phrases. A traveller mid-trip, upgrading from an older build, must
+    // find the table there and their documents still in place — the upgrade adds, never takes.
+    await upgraded.savedPhrases.add({
+      id: 'said:mera ac kharab hai',
+      said: 'mera AC kharab hai',
+      ar: 'المكيف لا يعمل',
+      engine: 'test',
+      savedAt: '2026-09-15T09:00:00.000Z',
+    });
+    expect(await upgraded.savedPhrases.count()).toBe(1);
+    expect(await upgraded.documents.count()).toBe(1);
     upgraded.close();
   });
 });

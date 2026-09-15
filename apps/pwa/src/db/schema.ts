@@ -2,6 +2,7 @@ import Dexie, { type EntityTable } from 'dexie';
 import type {
   ContentVersion,
   Phrase,
+  SavedPhrase,
   TransportEdge,
   TransportNode,
   VoiceEvent,
@@ -25,6 +26,7 @@ export class SaathiDb extends Dexie {
   transportNodes!: EntityTable<TransportNode, 'id'>;
   transportEdges!: EntityTable<TransportEdge, 'id'>;
   transportMeta!: EntityTable<TransportMeta, 'id'>;
+  savedPhrases!: EntityTable<SavedPhrase, 'id'>;
 
   constructor(name = 'saathi') {
     super(name);
@@ -78,6 +80,24 @@ export class SaathiDb extends Dexie {
       transportNodes: 'id',
       transportEdges: 'id, fromNodeId, toNodeId',
       transportMeta: 'id',
+    });
+    // v5: sentences a traveller asked for and kept. A phrase translated once — on hotel wifi, or
+    // before the flight — is theirs offline for the rest of the trip, and preparing for what they
+    // know they will need is something no phrasebook we write in advance can do for them.
+    //
+    // Indexed by `savedAt` so the list reads newest first without sorting the whole table on a
+    // phone. Everything above is re-declared unchanged, so a saved hotel and a photographed
+    // passport carry across (rule 6, and decision 003).
+    this.version(5).stores({
+      phrases: 'id, situation',
+      contentVersions: 'id, version',
+      voiceEvents: 'id, at, synced',
+      hotels: 'id',
+      documents: 'id, addedAt',
+      transportNodes: 'id',
+      transportEdges: 'id, fromNodeId, toNodeId',
+      transportMeta: 'id',
+      savedPhrases: 'id, savedAt',
     });
   }
 }

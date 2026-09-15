@@ -7,6 +7,8 @@ import { QuickBar } from '../../app/shell/QuickBar.js';
 import { Icon } from '../../app/shell/icons.js';
 import { resolvePhrase } from './resolvePhrase.js';
 import { composedTextInPhrase } from './composeArabic.js';
+import { savePhrase, savedArabicFor } from './savedPhrases.js';
+import { translateToArabic } from './translate.js';
 import {
   findArabicVoice,
   meansNoVoice,
@@ -49,9 +51,67 @@ export function ArabicScreen({
 
   useEffect(() => {
     setPhrase(undefined);
-    void resolvePhrase(phraseId).then((row) => {
-      setPhrase(row ?? null);
-    });
+    // AbortController rather than a boolean: inside an async closure TypeScript follows the
+    // control flow and decides a flag is always true, because the only assignment is in a cleanup
+    // it cannot see running. `signal.aborted` is opaque to that, and it is what this means anyway
+    // — the traveller left the screen and the answer is no longer wanted.
+    const gone = new AbortController();
+    // Read through a call, not directly: after the first check TypeScript narrows the flag to
+    // false and keeps it narrowed across every await, so the later checks read as dead code. A
+    // call is re-evaluated, which is what "has the traveller left yet" actually means.
+    const left = (): boolean => gone.signal.aborted;
+    void (async () => {
+      // 1. A stored phrase, or one composed from intent and slots. Free, instant, offline.
+      const built = await resolvePhrase(phraseId);
+      if (left()) return;
+      if (built !== undefined) {
+        setPhrase(built);
+        return;
+      }
+
+      const said = composedTextInPhrase(phraseId);
+      if (said === null || said === '') {
+        setPhrase(null);
+        return;
+      }
+
+      // 2. Kept from an earlier time. This is what makes a translator useful to an offline
+      //    product: the second time is free, and it works with the radio off.
+      const kept = await savedArabicFor(said);
+      if (left()) return;
+      if (kept !== undefined) {
+        setPhrase({
+          id: phraseId,
+          situation: 'taxi',
+          hi: said,
+          hinglish: said,
+          en: said,
+          ar: kept.ar,
+        });
+        return;
+      }
+
+      // 3. Never seen before, so it needs a translator — which needs signal. Whatever comes back
+      //    is kept immediately, so this sentence never needs the network again.
+      const fresh = await translateToArabic(said);
+      if (left()) return;
+      if (fresh === null) {
+        setPhrase(null);
+        return;
+      }
+      void savePhrase(said, fresh.ar, fresh.engine);
+      setPhrase({
+        id: phraseId,
+        situation: 'taxi',
+        hi: said,
+        hinglish: said,
+        en: said,
+        ar: fresh.ar,
+      });
+    })();
+    return () => {
+      gone.abort();
+    };
   }, [phraseId]);
 
   useEffect(() => {
