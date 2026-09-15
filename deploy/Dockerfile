@@ -59,7 +59,12 @@ COPY tsconfig.base.json ./
 COPY packages/ packages/
 COPY data/ data/
 COPY apps/pwa/ apps/pwa/
-RUN npm run build --workspace @saathi/pwa
+# Which build this is. `.git` is not in the image, so the commit comes from Railway's own build
+# argument; a local build has neither and says "dev", which is exactly what it is.
+ARG RAILWAY_GIT_COMMIT_SHA=""
+RUN VITE_BUILD_SHA="$RAILWAY_GIT_COMMIT_SHA" \
+    VITE_BUILD_TIME="$(date -u '+%d %b %H:%M')" \
+    npm run build --workspace @saathi/pwa
 
 FROM nginx:1.27-alpine
 # nginx cannot read an environment variable from a config file, and Railway hands the port in at

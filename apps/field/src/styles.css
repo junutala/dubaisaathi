@@ -235,3 +235,13 @@ input[type='time'] {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* The build stamp. Quiet enough to ignore, findable when it is the only question that matters. */
+.build {
+  margin: 4px 0 0;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--muted, #6b6257);
+  opacity: 0.55;
+}

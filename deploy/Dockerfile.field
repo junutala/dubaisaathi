@@ -10,7 +10,13 @@ COPY package.json package-lock.json tsconfig.base.json ./
 COPY packages/ packages/
 COPY apps/field/ apps/field/
 RUN npm ci --workspace @saathi/field --include-workspace-root
-RUN npm run build --workspace @saathi/field
+
+# Which build this is. `.git` is not in the image, so the commit comes from Railway's own build
+# argument; a local build has neither and says "dev", which is exactly what it is.
+ARG RAILWAY_GIT_COMMIT_SHA=""
+RUN VITE_BUILD_SHA="$RAILWAY_GIT_COMMIT_SHA" \
+    VITE_BUILD_TIME="$(date -u '+%d %b %H:%M')" \
+    npm run build --workspace @saathi/field
 
 FROM nginx:1.27-alpine
 ENV NGINX_ENVSUBST_FILTER=PORT

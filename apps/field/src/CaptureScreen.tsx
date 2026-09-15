@@ -3,6 +3,8 @@ import type { ConfirmedDish, FieldReport, KitchenKind } from '@saathi/shared';
 import { db, keepOurData } from './db.js';
 import { collectorName, setCollectorName } from './collector.js';
 import { Logo } from './Logo.js';
+import { shrink, FRONT, MENU } from './shrink.js';
+import { BUILD } from './version.js';
 import { startSync, syncReports, type SyncOutcome } from './sync.js';
 
 /**
@@ -42,8 +44,10 @@ export function CaptureScreen() {
   const [name, setName] = useState('');
   const [nameHi, setNameHi] = useState('');
   const [kitchen, setKitchen] = useState<KitchenKind | null>(null);
-  const [front, setFront] = useState<File | null>(null);
-  const [menu, setMenu] = useState<File[]>([]);
+  // Blob rather than File: a photograph is shrunk the moment it is taken, so what sits in the
+  // queue is what will be sent. A day's work then costs the phone's storage once, not twice.
+  const [front, setFront] = useState<Blob | null>(null);
+  const [menu, setMenu] = useState<Blob[]>([]);
 
   const [diet, setDiet] = useState<Record<string, Answer>>({});
   const [dishes, setDishes] = useState<ConfirmedDish[]>([]);
@@ -232,10 +236,14 @@ export function CaptureScreen() {
         <FilePick
           label={front === null ? 'Take the photo' : 'Retake'}
           onPick={(f) => {
-            setFront(f[0] ?? null);
+            const picked = f[0];
+            if (picked === undefined) return;
+            void shrink(picked, FRONT).then(setFront);
           }}
         />
-        {front !== null && <p className="hint">Got it.</p>}
+        {/* The size is shown because it is the collector's own data being spent, and because a
+            number here is the only way anyone can tell the shrinking actually happened. */}
+        {front !== null && <p className="hint">Got it · {kb(front)}</p>}
       </Section>
 
       <Section title="Kind of kitchen" required>
@@ -388,10 +396,16 @@ export function CaptureScreen() {
           label="Menu photos"
           multiple
           onPick={(f) => {
-            setMenu([...menu, ...f]);
+            void Promise.all(f.map((file) => shrink(file, MENU))).then((shrunk) => {
+              setMenu((was) => [...was, ...shrunk]);
+            });
           }}
         />
-        {menu.length > 0 && <p className="hint">{menu.length} menu photo(s).</p>}
+        {menu.length > 0 && (
+          <p className="hint">
+            {menu.length} menu photo(s) · {kb(menu.reduce((sum, m) => sum + m.size, 0))}
+          </p>
+        )}
         <textarea
           value={notes}
           onChange={(e) => {
@@ -413,6 +427,8 @@ export function CaptureScreen() {
         {ready ? 'Save this outlet' : 'Pin, name, photo and kitchen first'}
       </button>
       <p className="hint center">It saves on the phone first. Uploading can wait for signal.</p>
+      {/* Which build this is, so "did my fix reach the phone?" is answerable by looking. */}
+      <p className="build">{BUILD}</p>
     </div>
   );
 }
@@ -500,4 +516,12 @@ function WhoAreYou({ onName }: { readonly onName: (name: string) => void }) {
       </button>
     </div>
   );
+}
+
+/** A size a person can read, so the saving is visible rather than claimed. */
+function kb(value: Blob | number): string {
+  const bytes = typeof value === 'number' ? value : value.size;
+  return bytes >= 1024 * 1024
+    ? `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+    : `${String(Math.round(bytes / 1024))} KB`;
 }
