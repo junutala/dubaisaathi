@@ -174,7 +174,12 @@ export function CaptureScreen() {
   return (
     <div className="wrap" ref={top}>
       <header className="bar">
-        <span className="who">{who}</span>
+        {/* Which app this is, said plainly. On 15 September outlet.saafarsaathi.in served the
+            traveller's app for an hour because a repo-wide Railway config overrode the service's
+            own Dockerfile, and nothing on the page said it was the wrong one. */}
+        <span className="who">
+          Outlets · <strong>{who}</strong>
+        </span>
         <span className={queue.pending > 0 ? 'queue waiting' : 'queue'}>
           {queue.pending > 0 ? `${String(queue.pending)} waiting to upload` : 'all uploaded'}
         </span>
