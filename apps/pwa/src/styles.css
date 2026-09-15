@@ -310,9 +310,30 @@ button:not(:disabled) {
   align-items: center;
   gap: 16px;
   text-align: start;
-  background: var(--tile);
-  border: 1px solid var(--line);
   border-radius: 16px;
+  /*
+    The glowing gradient edge agreed in design/generate-screens.py, in brand colours.
+
+    Two layers rather than a pseudo-element: the surface is painted to the padding box and the
+    gradient to the border box, so a 1.5px transparent border becomes the gradient. No asset, so
+    it costs nothing to download, and no blur, so it costs nothing to paint.
+  */
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--tile), var(--tile)) padding-box,
+    linear-gradient(140deg, var(--edgeFrom), var(--edgeMid) 42%, var(--edgeTo)) border-box;
+}
+
+/*
+  The bloom is the expensive half — a large blur is real GPU work on a cheap phone, and the
+  design note is explicit that it belongs on "the live or selected thing" only. So it is spent
+  on the one tile under the thumb, never on three at once.
+*/
+.tile:active {
+  box-shadow:
+    0 0 0 1px var(--bloom),
+    0 10px 30px var(--bloom),
+    0 0 46px var(--bloom);
 }
 
 /* The icon leads the row at a fixed size. No background: the chip added a second rounded

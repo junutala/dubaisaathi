@@ -28,6 +28,16 @@ export const LIGHT = {
    * In dark it is the card colour — white tiles at night would be a torch.
    */
   tile: '#FFFFFF',
+  /**
+   * The glowing gradient edge (`glow()` in design/generate-screens.py). Brand colours rather
+   * than the neon reference's pink and blue, on the owner's call: marigold carries on both
+   * grounds, where a cool neon would vanish against cream in daylight.
+   */
+  edgeFrom: '#FBD9A4',
+  edgeMid: '#E8871E',
+  edgeTo: '#B4610F',
+  /** The bloom, spent only on the tile being pressed — a blur is the part that costs GPU. */
+  bloom: 'rgb(232 135 30 / 0.34)',
   line: '#E6DED2',
   muted: '#5B6070',
   chev: '#8A8F9E',
@@ -50,6 +60,11 @@ export const DARK: Record<keyof typeof LIGHT, string> = {
   sand: '#14161F',
   card: '#1D202C',
   tile: '#1D202C',
+  // Lifted on a dark ground, where a deep shade of the same hue would read as a smudge.
+  edgeFrom: '#F6B36A',
+  edgeMid: '#F0913A',
+  edgeTo: '#9A5B10',
+  bloom: 'rgb(240 145 58 / 0.42)',
   line: '#2D3242',
   muted: '#9AA1B3',
   chev: '#7B8397',
