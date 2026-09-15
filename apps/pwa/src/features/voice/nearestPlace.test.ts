@@ -4,7 +4,11 @@ import { intentCorpus } from './intentPacks.js';
 import { fold } from './normalise.js';
 import { parseIntent } from './parseIntent.js';
 
-const nearest = (said: string) => nearestPlace(fold(said), intentCorpus.placeByAlias);
+const nearest = (said: string) =>
+  nearestPlace(fold(said), intentCorpus.placeByAlias, intentCorpus.ordinaryWords);
+
+/** No word of the language in the way, for the tests that are only about distance. */
+const nothingOrdinary = new Set<string>();
 
 /**
  * The bet this makes, and why it is a better bet than a bigger model.
@@ -36,10 +40,19 @@ describe('the nearest place to what was actually heard', () => {
     expect(parseIntent('मेरा फ़ोन चार्ज करना है', intentCorpus).destination).toBeUndefined();
   });
 
-  it('leaves short words alone entirely, whatever they are near', () => {
-    expect(fold('करना').length).toBeLessThan(NEAREST_MIN);
-    expect(nearest('बस')).toBeUndefined();
+  /**
+   * Short names are matched now — Deira, Karama and Satwa are short — so the guard has to be the
+   * vocabulary rather than the length. "dhira" is two edits from Deira and was being refused.
+   */
+  it('reaches a short place name that a recogniser fumbled', () => {
+    expect(nearest('dhira')).toBe('deira');
+  });
+
+  it('still leaves words of the language alone, however close they land', () => {
     expect(nearest('खाना')).toBeUndefined();
+    expect(nearest('बस')).toBeUndefined();
+    expect(nearest('milta')).toBeUndefined();
+    expect(fold('बस').length).toBeLessThan(NEAREST_MIN);
   });
 
   /** Two places equally close is two answers. Picking one would be inventing an intention. */
@@ -48,7 +61,7 @@ describe('the nearest place to what was actually heard', () => {
       ['aaaaaaaa', 'first-place'],
       ['aaaaaaab', 'second-place'],
     ]);
-    expect(nearestPlace('aaaaaaac', tied)).toBeUndefined();
+    expect(nearestPlace('aaaaaaac', tied, nothingOrdinary)).toBeUndefined();
   });
 
   it('still prefers the closer of two when there is one', () => {
@@ -56,7 +69,7 @@ describe('the nearest place to what was actually heard', () => {
       ['burajuman', 'burjuman'],
       ['dubai mol', 'dubai-mall'],
     ]);
-    expect(nearestPlace('barajaman', list)).toBe('burjuman');
+    expect(nearestPlace('barajaman', list, nothingOrdinary)).toBe('burjuman');
   });
 
   /** A near match asks rather than acts: the wrong end of Dubai costs an hour, a tap costs one. */

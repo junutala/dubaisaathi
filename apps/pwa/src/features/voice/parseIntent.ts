@@ -86,7 +86,7 @@ function findPlaces(tokens: readonly Token[], corpus: IntentCorpus): readonly Pl
        * acting on it. Being sent to the wrong end of Dubai costs an hour and a fare; being asked
        * costs one tap.
        */
-      const closest = nearestPlace(window, corpus.placeByAlias);
+      const closest = nearestPlace(window, corpus.placeByAlias, corpus.ordinaryWords);
       if (closest !== undefined) {
         hits.push({ placeId: closest, spoken, confidence: 0.75, from: start, to });
       }

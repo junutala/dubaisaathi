@@ -147,3 +147,88 @@ export const ROMAN_GLUE: readonly string[] = [
   'on',
   'of',
 ];
+
+/**
+ * Ordinary words of the language that must never be read as a place.
+ *
+ * A near match over a closed list of names is only safe if the language itself is out of the
+ * running. "करना" — *to do* — folds to `karana`, one edit from `karama`, so "मेरा फ़ोन चार्ज करना
+ * है" was answered with "Karama: रास्ता or खाना?". Keeping short words out entirely was the first
+ * attempt and it cost more than it saved: Deira, Karama and Satwa are short names, and a
+ * recogniser that produced "dhira" for Deira — two edits — was refused a match it should have
+ * had.
+ *
+ * So the guard is the right one. These are verbs and their common forms, the words that carry a
+ * Hindi sentence along without ever naming anything. The function words are in ROMAN_GLUE above;
+ * everything the intent packs already know is added beside this at build time.
+ */
+export const COMMON_VERBS: readonly string[] = [
+  'karna',
+  'karana',
+  'karo',
+  'kare',
+  'karta',
+  'karti',
+  'karenge',
+  'hona',
+  'hota',
+  'hoti',
+  'hoga',
+  'hogi',
+  'dena',
+  'dijiye',
+  'dete',
+  'diya',
+  'lena',
+  'lijiye',
+  'liya',
+  'milna',
+  'milta',
+  'milti',
+  'milega',
+  'milegi',
+  'chalna',
+  'chalta',
+  'chaliye',
+  'dekhna',
+  'dekho',
+  'dekhiye',
+  'bolna',
+  'bolo',
+  'boliye',
+  'khana',
+  'khaana',
+  'peena',
+  'pina',
+  'rakhna',
+  'rakho',
+  'aana',
+  'aana hai',
+  'jaana',
+  'sona',
+  'bataana',
+  'batao',
+  'dikhana',
+  'dikhao',
+  'lagta',
+  'lagega',
+  'sakta',
+  'sakte',
+  'chahiye',
+  'raha',
+  'rahi',
+  'rahe',
+  'gaya',
+  'gayi',
+  'kitne',
+  'thoda',
+  'zyada',
+  'jyada',
+  'accha',
+  'achha',
+  'bura',
+  'bada',
+  'chota',
+  'naya',
+  'purana',
+];

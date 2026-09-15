@@ -7,6 +7,7 @@ import {
   type TransportMode,
 } from '@saathi/shared';
 import { fold, skeleton, SKELETON_MIN } from './normalise.js';
+import { COMMON_VERBS, GLUE, ROMAN_GLUE } from './glue.js';
 
 /**
  * The parser's vocabulary, built once from `data/intents/`. Places and keywords are content,
@@ -41,6 +42,13 @@ export interface Keyword<T extends string> {
 }
 
 export interface IntentCorpus {
+  /**
+   * Words that are the language rather than a name, so a near match never reaches for one.
+   *
+   * Every keyword the packs already know, plus the function words and the common verbs. A
+   * nearest-match over twenty place names is only safe while "करना" cannot be read as "करामा".
+   */
+  readonly ordinaryWords: ReadonlySet<string>;
   readonly places: ReadonlyMap<string, DubaiPlace>;
   /** Folded alias → place id. The confident match. */
   readonly placeByAlias: ReadonlyMap<string, string>;
@@ -130,16 +138,42 @@ export function buildCorpus(rawPlaces: unknown, rawKeywords: unknown): IntentCor
     if (owners.size === 1 && only !== undefined) placeBySkeleton.set(bones, only);
   }
 
+  const intents = keywords<IntentKind>(pack.intents, KEYWORD_INTENTS, 'intent');
+  const modes = keywords<TransportMode>(pack.modes, TRANSPORT_MODES, 'mode');
+  const foodTags = keywords<FoodTag>(pack.foodTags, FOOD_TAGS, 'food tag');
+  const documents = keywords<string>(pack.documents, null, 'document');
+  const phraseIds = keywords<string>(pack.phrases, null, 'phrase');
+  const hotel = keywords<'hotel'>({ hotel: pack.hotel }, ['hotel'], 'hotel');
+
+  /**
+   * Everything that is the language rather than a name, folded once here so a near match can
+   * reject it in a lookup. Every word the packs already know means something else, plus the
+   * function words and the common verbs: "करना" must never be read as "करामा".
+   */
+  const ordinaryWords = new Set<string>(
+    [
+      ...GLUE,
+      ...ROMAN_GLUE,
+      ...COMMON_VERBS,
+      ...[intents, modes, foodTags, documents, phraseIds, hotel].flatMap((list) =>
+        list.map((keyword) => keyword.folded),
+      ),
+    ]
+      .map((word) => fold(word))
+      .filter((word) => word !== '' && !placeByAlias.has(word)),
+  );
+
   return {
     places,
     placeByAlias,
     placeBySkeleton,
     longestPlace,
-    intents: keywords<IntentKind>(pack.intents, KEYWORD_INTENTS, 'intent'),
-    modes: keywords<TransportMode>(pack.modes, TRANSPORT_MODES, 'mode'),
-    foodTags: keywords<FoodTag>(pack.foodTags, FOOD_TAGS, 'food tag'),
-    documents: keywords<string>(pack.documents, null, 'document'),
-    phraseIds: keywords<string>(pack.phrases, null, 'phrase'),
-    hotel: keywords<'hotel'>({ hotel: pack.hotel }, ['hotel'], 'hotel'),
+    ordinaryWords,
+    intents,
+    modes,
+    foodTags,
+    documents,
+    phraseIds,
+    hotel,
   };
 }

@@ -16,6 +16,11 @@
  * Deliberately not confident. A near match answers with the two-button question rather than
  * acting, which is what `placeBySkeleton` already does and for the same reason: being sent to
  * the wrong end of Dubai costs an hour and a fare, and being asked costs one tap.
+ *
+ * And it never reaches for a word that is the language rather than a name — the packs' own
+ * keywords, the function words, the common verbs. Without that guard a nearest-match over twenty
+ * names starts answering questions about neighbourhoods to people who asked about phone
+ * chargers.
  */
 
 /**
@@ -27,25 +32,22 @@ export function allowedEdits(length: number): number {
 }
 
 /**
- * The shortest window worth comparing at all, and the number is measured rather than chosen.
+ * The shortest window worth comparing. Below four almost anything is one edit from anything.
  *
- * Short words collide with the language. "करना" — *to do*, one of the commonest verbs in Hindi —
- * folds to `karana`, which is **one edit** from `karama`. At six characters that is inside any
- * sane threshold, so "मेरा फ़ोन चार्ज करना है" was answered with "Karama: रास्ता or खाना?" — a
- * question about a neighbourhood, asked of somebody who wanted their phone charged.
+ * It was eight, to keep "करना" — *to do* — from being read as "करामा" at one edit. That worked
+ * and cost too much: Deira, Karama and Satwa are short names, and a phone that produced "dhira"
+ * for Deira, two edits away, was refused a match it should have had. Length was the wrong tool.
+ * The language is excluded by name instead (`ordinaryWords`), which is the actual rule.
  *
- * The real hearings that have to survive are longer, and were measured on the transcripts this
- * project actually produced:
+ * Measured against what this project's recognisers really produced:
  *
- *   barajaman      vs burajuman        2 edits at 9 characters   (whisper-base, BurJuman)
+ *   dira           vs dera             2 edits at 4 characters   (whisper-base, Deira)
+ *   bajuman        vs burajuman        2 edits at 7              (whisper-base, BurJuman)
  *   mal ka emirets vs mol of emirets   3 edits at 14             (Google, Mall of the Emirates)
- *   karana         vs karama           1 edit at 6               (must never match)
- *
- * Eight separates them with room on both sides. It gives up one case — Vosk's "माला एमरेट्स" is
- * five edits away, which is far enough that matching it would be a guess rather than a hearing —
- * and Vosk is gone.
+ *   karana         vs karama           1 edit at 6               — refused, as a known verb
+ *   brijamanaval   vs burajuman        7 edits                   — refused, and rightly
  */
-export const NEAREST_MIN = 8;
+export const NEAREST_MIN = 4;
 
 /**
  * Levenshtein distance, stopping as soon as it cannot come in under `limit`.
@@ -89,8 +91,12 @@ export function editsBetween(a: string, b: string, limit: number): number {
 export function nearestPlace(
   window: string,
   aliases: ReadonlyMap<string, string>,
+  ordinaryWords: ReadonlySet<string>,
 ): string | undefined {
   if (window.length < NEAREST_MIN) return undefined;
+  // A word of the language is not a near miss for a name. This is the guard that lets short
+  // names be matched at all, and it is checked before any distance is computed.
+  if (ordinaryWords.has(window)) return undefined;
   const limit = allowedEdits(window.length);
   if (limit === 0) return undefined;
 
