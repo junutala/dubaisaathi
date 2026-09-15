@@ -25,12 +25,14 @@ export default tseslint.config(
     languageOptions: {
       parserOptions: {
         projectService: {
-          // Root config files sit outside any workspace tsconfig, and so does the audio worklet,
-          // which is a static module served from public/ rather than part of the app's build.
+          // Root config files sit outside any workspace tsconfig, and so do the two static
+          // modules served from public/ rather than built with an app: the audio worklet, and the
+          // field app's service worker.
           allowDefaultProject: [
             '*.config.js',
             '*.config.ts',
             'apps/pwa/public/*.js',
+            'apps/field/public/*.js',
             'apps/pwa/test/*.mjs',
           ],
         },
@@ -98,6 +100,16 @@ export default tseslint.config(
     extends: [tseslint.configs.disableTypeChecked],
     languageOptions: {
       globals: { ...globals.node },
+    },
+  },
+  {
+    // The field app's service worker: a plain script in a scope that is neither a window nor node,
+    // where `self` is the worker itself and `clients` and `caches` are globals. It ships as-is from
+    // public/, so there are no build types to check it against.
+    files: ['apps/field/public/sw.js'],
+    extends: [tseslint.configs.disableTypeChecked],
+    languageOptions: {
+      globals: { ...globals.serviceworker },
     },
   },
   {
