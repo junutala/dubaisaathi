@@ -18,9 +18,28 @@ RUN VITE_BUILD_SHA="$RAILWAY_GIT_COMMIT_SHA" \
     VITE_BUILD_TIME="$(date -u '+%d %b %H:%M')" \
     npm run build --workspace @saathi/field
 
+# The menu reader's engine, on our own origin.
+#
+# tesseract.js otherwise fetches its worker, its wasm and its language data from a CDN at the
+# moment a collector taps "Read the menu" — a third-party request from a street in Meena Bazaar,
+# and a staff tool that stops working when somebody else's host has a bad day. The worker and the
+# wasm come out of the packages already installed above; only the trained data is downloaded, the
+# same arrangement the Hindi speech model uses in deploy/Dockerfile.
+FROM node:22-alpine AS ocr
+RUN apk add --no-cache curl
+WORKDIR /ocr
+COPY --from=build /repo/node_modules/tesseract.js/dist/worker.min.js ./
+COPY --from=build /repo/node_modules/tesseract.js-core/ ./core/
+RUN cp core/*.wasm.js core/*.wasm ./ 2>/dev/null || cp core/*.wasm.js ./; \
+    curl -fsSL --retry 3 -o eng.traineddata.gz \
+      https://tessdata.projectnaptha.com/4.0.0/eng.traineddata.gz; \
+    rm -rf core; \
+    ls -la /ocr
+
 FROM nginx:1.27-alpine
 ENV NGINX_ENVSUBST_FILTER=PORT
 ENV PORT=8080
 COPY deploy/nginx.field.conf /etc/nginx/templates/default.conf.template
 COPY --from=build /repo/apps/field/dist /usr/share/nginx/html
+COPY --from=ocr /ocr /usr/share/nginx/html/ocr
 EXPOSE 8080

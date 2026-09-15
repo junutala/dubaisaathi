@@ -5,6 +5,8 @@ import { collectorName, setCollectorName } from './collector.js';
 import { Logo } from './Logo.js';
 import { shrink, FRONT, MENU } from './shrink.js';
 import { BUILD } from './version.js';
+import { readMenu } from './readMenu.js';
+import type { Candidate } from './dishCandidates.js';
 import { startSync, syncReports, type SyncOutcome } from './sync.js';
 
 /**
@@ -51,6 +53,9 @@ export function CaptureScreen() {
 
   const [diet, setDiet] = useState<Record<string, Answer>>({});
   const [dishes, setDishes] = useState<ConfirmedDish[]>([]);
+  // What the camera read off the menu, waiting for a person to say which of it is real.
+  const [candidates, setCandidates] = useState<readonly Candidate[]>([]);
+  const [reading, setReading] = useState<'no' | 'yes' | 'failed'>('no');
   const [dishName, setDishName] = useState('');
 
   const [opens, setOpens] = useState('');
@@ -163,6 +168,8 @@ export function CaptureScreen() {
     setMenu([]);
     setDiet({});
     setDishes([]);
+    setCandidates([]);
+    setReading('no');
     setDishName('');
     setOpens('');
     setCloses('');
@@ -392,6 +399,9 @@ export function CaptureScreen() {
           }}
           placeholder="Who you spoke to — Suresh, manager"
         />
+        {/* Straight-on and filling the frame is worth more to the reader than any setting: a menu
+            shot at an angle loses whole lines. Said where the photo is taken, not in a manual. */}
+        <p className="hint">Hold the menu straight and fill the frame — it reads far better.</p>
         <FilePick
           label="Menu photos"
           multiple
@@ -405,6 +415,67 @@ export function CaptureScreen() {
           <p className="hint">
             {menu.length} menu photo(s) · {kb(menu.reduce((sum, m) => sum + m.size, 0))}
           </p>
+        )}
+
+        {/*
+          The camera does the typing; the collector does the knowing. Nothing here becomes a dish
+          until it is tapped, because the person holding the phone is standing in front of the
+          board and is the only one who can tell whether it says Sabudana or Sambudana. Read three
+          days later, nobody can.
+        */}
+        {menu.length > 0 && (
+          <button
+            type="button"
+            className="btn"
+            disabled={reading === 'yes'}
+            onClick={() => {
+              setReading('yes');
+              void readMenu(menu).then((found) => {
+                setCandidates(found.candidates);
+                setReading(found.failed ? 'failed' : 'no');
+              });
+            }}
+          >
+            {reading === 'yes' ? 'Reading the menu…' : 'Read the menu'}
+          </button>
+        )}
+        {reading === 'failed' && (
+          <p className="hint">Could not read it. Type the dishes above instead.</p>
+        )}
+        {candidates.length > 0 && (
+          <>
+            <p className="hint">
+              Tap the ones they actually serve. Do it here, with the board in front of you — nobody
+              can check this later.
+            </p>
+            <div className="chips">
+              {candidates.map((candidate) => {
+                const on = dishes.some((d) => d.name.en === candidate.text);
+                return (
+                  <button
+                    key={candidate.text}
+                    type="button"
+                    className={on ? 'chip on' : 'chip'}
+                    onClick={() => {
+                      setDishes((was) =>
+                        on
+                          ? was.filter((d) => d.name.en !== candidate.text)
+                          : [
+                              ...was,
+                              {
+                                name: { en: candidate.text, hi: candidate.text, aliases: [] },
+                                tags: [],
+                              },
+                            ],
+                      );
+                    }}
+                  >
+                    {candidate.text}
+                  </button>
+                );
+              })}
+            </div>
+          </>
         )}
         <textarea
           value={notes}
