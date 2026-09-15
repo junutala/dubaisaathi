@@ -17,6 +17,7 @@ import { manifestFrom } from './whisperModel.js';
  */
 
 const MANIFEST = {
+  version: 'abc123def456',
   files: [
     { path: '/models/whisper-tiny/config.json', bytes: 100 },
     { path: '/models/whisper-tiny/onnx/decoder_model_merged_quantized.onnx', bytes: 900 },
@@ -70,13 +71,21 @@ describe('reading the manifest', () => {
   it.each([
     ['not an object', 'hello'],
     ['null', null],
-    ['no files', { files: [], totalBytes: 10 }],
-    ['no total', { files: MANIFEST.files }],
-    ['a zero total', { files: MANIFEST.files, totalBytes: 0 }],
-    ['an entry with no size', { files: [{ path: '/models/a.json' }], totalBytes: 10 }],
+    ['no files', { version: 'v1', files: [], totalBytes: 10 }],
+    // Without it the app cannot ask past a service worker holding an older set of files.
+    ['no version', { files: MANIFEST.files, totalBytes: 1000 }],
+    ['no total', { version: 'v1', files: MANIFEST.files }],
+    ['a zero total', { version: 'v1', files: MANIFEST.files, totalBytes: 0 }],
+    [
+      'an entry with no size',
+      { version: 'v1', files: [{ path: '/models/a.json' }], totalBytes: 10 },
+    ],
     // The one that matters most: a path outside /models/ would let a manifest name any URL on
     // the origin and have the app cache it under a cache with no expiry.
-    ['a path outside /models/', { files: [{ path: '/index.html', bytes: 5 }], totalBytes: 5 }],
+    [
+      'a path outside /models/',
+      { version: 'v1', files: [{ path: '/index.html', bytes: 5 }], totalBytes: 5 },
+    ],
   ])('refuses %s', (_why, body) => {
     expect(manifestFrom(body)).toBeNull();
   });
@@ -89,7 +98,7 @@ describe('the download', () => {
       'fetch',
       vi.fn((url: string) =>
         Promise.resolve(
-          url.endsWith('voice-manifest.json')
+          url.includes('voice-manifest.json')
             ? ok(MANIFEST)
             : // A captive portal, or our own SPA fallback answering for a file.
               new Response('<!doctype html><title>Sign in</title>', {
@@ -109,7 +118,7 @@ describe('the download', () => {
       'fetch',
       vi.fn((url: string) =>
         Promise.resolve(
-          url.endsWith('voice-manifest.json')
+          url.includes('voice-manifest.json')
             ? ok(MANIFEST)
             : new Response('x', { status: 200, headers: { 'content-type': 'application/json' } }),
         ),
@@ -194,7 +203,7 @@ describe('a model that was replaced under the same file names', () => {
       'fetch',
       vi.fn((url: string) =>
         Promise.resolve(
-          url.endsWith('voice-manifest.json')
+          url.includes('voice-manifest.json')
             ? ok(MANIFEST)
             : new Response('x', {
                 status: 200,
@@ -208,5 +217,68 @@ describe('a model that was replaced under the same file names', () => {
     expect(store.has('/models/whisper-tiny/normalizer.json')).toBe(false);
     // ...and keeps everything this build does list.
     for (const file of MANIFEST.files) expect(store.has(file.path)).toBe(true);
+  });
+});
+
+describe('a service worker holding the previous model', () => {
+  /**
+   * The failure this closes, and it wasted a deploy and a test on a real phone.
+   *
+   * Our own worker answers everything under /models/ from the cache before the network, which is
+   * right for a 68 MB download somebody is relying on and wrong for finding out it has been
+   * replaced. The app fetched the manifest, got the old one back, compared it against the old
+   * files, found them consistent, and reported a voice that could not start. No offer appeared,
+   * because by its own reckoning nothing was missing. `cache: 'no-store'` does not help — a
+   * service worker runs in front of that flag.
+   *
+   * So the request carries a query the worker has nothing cached for, which is what makes it
+   * reach the server.
+   */
+  it('asks for the model with something the cache has never seen', async () => {
+    fakeCaches();
+    const asked: string[] = [];
+    vi.stubGlobal(
+      'fetch',
+      vi.fn((url: string) => {
+        asked.push(url);
+        return Promise.resolve(
+          url.includes('voice-manifest.json')
+            ? ok(MANIFEST)
+            : new Response('x', { status: 200, headers: { 'content-type': 'application/json' } }),
+        );
+      }),
+    );
+    const { downloadWhisperModel } = await import('./whisperModel.js');
+    expect(await downloadWhisperModel(() => undefined)).toBe(true);
+
+    const forModel = asked.filter((url) => !url.includes('voice-manifest.json'));
+    expect(forModel.length).toBe(MANIFEST.files.length);
+    // Every one carries the version of the set it belongs to.
+    for (const url of forModel) expect(url).toContain(`?v=${MANIFEST.version}`);
+    // ...and the manifest itself is asked for past the cache too.
+    expect(asked.find((url) => url.includes('voice-manifest.json'))).toContain('?b=');
+  });
+
+  /**
+   * ...and what comes back is kept under the plain path, because that is the name
+   * transformers.js asks for and it has to find it there with the radio off.
+   */
+  it('keeps the files under the names the recogniser will look for', async () => {
+    const store = fakeCaches();
+    vi.stubGlobal(
+      'fetch',
+      vi.fn((url: string) =>
+        Promise.resolve(
+          url.includes('voice-manifest.json')
+            ? ok(MANIFEST)
+            : new Response('x', { status: 200, headers: { 'content-type': 'application/json' } }),
+        ),
+      ),
+    );
+    const { downloadWhisperModel } = await import('./whisperModel.js');
+    expect(await downloadWhisperModel(() => undefined)).toBe(true);
+    for (const file of MANIFEST.files) expect(store.has(file.path)).toBe(true);
+    // No query-keyed duplicates left behind — that would be a second copy of 68 MB.
+    expect([...store.keys()].filter((key) => key.includes('?'))).toEqual([]);
   });
 });

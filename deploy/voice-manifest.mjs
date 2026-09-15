@@ -13,6 +13,7 @@
  *
  * Usage: node voice-manifest.mjs <out.json> <path> [path...]   (a path is a file or a directory)
  */
+import { createHash } from 'node:crypto';
 import { readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join, sep } from 'node:path';
 
@@ -47,7 +48,18 @@ if (files.length === 0) {
 }
 
 const totalBytes = files.reduce((sum, file) => sum + file.bytes, 0);
-writeFileSync(out, `${JSON.stringify({ files, totalBytes }, null, 2)}\n`);
+
+/**
+ * A name for this exact set of files, so the app can ask for them past a cache that is holding
+ * an older set.
+ *
+ * Derived from the paths and sizes rather than from the build, on purpose: it changes when the
+ * model changes and not when anything else does. Tying it to the commit would re-download 68 MB
+ * on a phone every time an unrelated line of the app moved.
+ */
+const version = createHash('sha256').update(JSON.stringify(files)).digest('hex').slice(0, 12);
+
+writeFileSync(out, `${JSON.stringify({ version, files, totalBytes }, null, 2)}\n`);
 console.error(
-  `VOICE DOWNLOAD  ${String(files.length)} files  ${String(Math.round(totalBytes / 1048576))} MB`,
+  `VOICE DOWNLOAD  ${String(files.length)} files  ${String(Math.round(totalBytes / 1048576))} MB  version ${version}`,
 );

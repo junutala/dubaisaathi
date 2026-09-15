@@ -97,6 +97,19 @@ async function transcriber(): Promise<Transcribe> {
     const built: unknown = await pipeline('automatic-speech-recognition', MODEL_ID, {
       device: 'wasm',
       dtype: 'q8',
+      /**
+       * Basic graph optimisation, because the extended level is what refused to load the model
+       * on a real phone:
+       *
+       *   Can't create a session. qdq_actions.cc:137 TransposeDQWeightsForMatMulNBits
+       *   Missing required scale: model.decoder.embed_tokens.weight_merged_0_scale
+       *
+       * That pass rewrites a quantized weight into a MatMulNBits kernel and wants an initializer
+       * these graphs do not carry. It is an optimisation — the model runs without it, a little
+       * slower — so declining it costs a fraction of a second on a sentence and is the
+       * difference between a microphone that works offline and one that does not.
+       */
+      session_options: { graphOptimizationLevel: 'basic' },
     });
     if (typeof built !== 'function') throw new Error('the speech pipeline did not build');
     // One cast, at a genuine external boundary whose own types are `any` (CLAUDE.md, code

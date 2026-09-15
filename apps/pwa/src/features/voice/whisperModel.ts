@@ -1,4 +1,5 @@
 import { MODEL_CACHE, type ModelState } from './modelCache.js';
+import { BUILD } from '../../app/version.js';
 
 /**
  * Getting Whisper onto the phone, and knowing whether it is already there.
@@ -23,8 +24,28 @@ interface VoiceFile {
 }
 
 export interface VoiceManifest {
+  /** Names this exact set of files; changes when the model does and at no other time. */
+  readonly version: string;
   readonly files: readonly VoiceFile[];
   readonly totalBytes: number;
+}
+
+/**
+ * The URL to ask the network for — not the URL the file is kept under.
+ *
+ * Our own service worker answers everything beneath /models/ from the cache first, which is
+ * exactly right for a 68 MB download a traveller is relying on and exactly wrong for finding out
+ * that it has been replaced. It answers before the network is consulted, so a plain fetch here
+ * returned the old manifest and the old bytes, the two agreed with each other, and the app
+ * reported a voice that could not start. `cache: 'no-store'` does not help: a service worker
+ * runs in front of that flag, not behind it.
+ *
+ * A query the worker has never seen is a key it has nothing cached for, so the request reaches
+ * the server. What comes back is then stored under the plain path, because that is what
+ * transformers.js asks for and it must find it there with the radio off.
+ */
+function askFor(path: string, version: string): string {
+  return `${path}?v=${encodeURIComponent(version)}`;
 }
 
 /** Parsed rather than trusted: this is a fetched document, and a captive portal can answer it. */
@@ -33,6 +54,8 @@ export function manifestFrom(body: unknown): VoiceManifest | null {
   const { files, totalBytes } = body as { files?: unknown; totalBytes?: unknown };
   if (!Array.isArray(files) || files.length === 0) return null;
   if (typeof totalBytes !== 'number' || totalBytes <= 0) return null;
+  const { version } = body as { version?: unknown };
+  if (typeof version !== 'string' || version === '') return null;
   const parsed: VoiceFile[] = [];
   for (const entry of files) {
     if (typeof entry !== 'object' || entry === null) return null;
@@ -41,7 +64,7 @@ export function manifestFrom(body: unknown): VoiceManifest | null {
     if (typeof bytes !== 'number' || bytes <= 0) return null;
     parsed.push({ path, bytes });
   }
-  return { files: parsed, totalBytes };
+  return { version, files: parsed, totalBytes };
 }
 
 /**
@@ -76,7 +99,9 @@ export async function voiceManifest(): Promise<VoiceManifest | null> {
       // last spoke to, and the whole point of this document is to notice when that has moved.
       if (navigator.onLine) {
         try {
-          const answer = await fetch(MANIFEST_URL, { cache: 'no-store' });
+          // Qualified by the build, so a deployment is what makes this document be read again
+          // rather than a timer or a guess. It is under two kilobytes.
+          const answer = await fetch(`${MANIFEST_URL}?b=${encodeURIComponent(BUILD)}`);
           if (answer.ok) {
             const parsed = manifestFrom(await answer.clone().json());
             if (parsed !== null) {
@@ -155,7 +180,7 @@ export async function downloadWhisperModel(
         continue;
       }
 
-      const answer = await fetch(file.path, signal ? { signal } : {});
+      const answer = await fetch(askFor(file.path, list.version), signal ? { signal } : {});
       if (!answer.ok) return false;
 
       /**
@@ -196,7 +221,35 @@ export async function downloadWhisperModel(
 async function forgetWhatIsNoLongerNeeded(cache: Cache, list: VoiceManifest): Promise<void> {
   const needed = new Set<string>([MANIFEST_URL, ...list.files.map((file) => file.path)]);
   for (const request of await cache.keys()) {
-    const path = new URL(request.url).pathname;
-    if (path.startsWith('/models/') && !needed.has(path)) await cache.delete(request);
+    const asked = new URL(request.url);
+    // Compared with the query, not without it: the service worker keeps its own copy of every
+    // cache-busted request we made, which is a second 68 MB of the same files. Those are the
+    // main thing this clears, along with anything an older model left behind.
+    if (!asked.pathname.startsWith('/models/')) continue;
+    if (asked.search !== '' || !needed.has(asked.pathname)) await cache.delete(request);
+  }
+}
+
+/**
+ * Forgets the downloaded voice, so it can be fetched again.
+ *
+ * For the case the owner hit: the files are all present and correctly sized, so the app says the
+ * voice is ready, and the runtime refuses to build a session out of them. There was no way out of
+ * that from inside the app — no offer, because nothing was missing — short of clearing every bit
+ * of site data and losing the hotel and the documents with it.
+ *
+ * Deliberately narrow. This runs when the recogniser has refused these exact bytes, never on a
+ * refused microphone or a quiet room, because 68 MB is a real thing to ask of somebody twice.
+ */
+export async function forgetVoice(): Promise<void> {
+  manifest = null;
+  if (!('caches' in window)) return;
+  try {
+    const cache = await caches.open(MODEL_CACHE);
+    for (const request of await cache.keys()) {
+      if (new URL(request.url).pathname.startsWith('/models/')) await cache.delete(request);
+    }
+  } catch {
+    // Nothing to be done from here. The traveller still has the keyboard, and online still works.
   }
 }

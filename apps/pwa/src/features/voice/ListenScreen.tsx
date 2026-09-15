@@ -22,7 +22,12 @@ import { noteEngine, noteEngineTrouble } from './lastEngine.js';
 import { Clarifier } from '../ask/Clarifier.js';
 import { recordClarifierChoice, submitSentence } from '../ask/askSubmit.js';
 import type { ModelState } from './modelCache.js';
-import { downloadWhisperModel, whisperModelState, voiceSizeMb } from './whisperModel.js';
+import {
+  downloadWhisperModel,
+  forgetVoice,
+  whisperModelState,
+  voiceSizeMb,
+} from './whisperModel.js';
 
 /**
  * 1.2 · सुन रहा हूँ — the mic, wherever it was tapped from.
@@ -275,6 +280,22 @@ export function ListenScreen({
         // cloud recogniser answered, a transcript appeared, and the engine that was meant to
         // produce it had silently refused to start.
         noteEngineTrouble(engine.id, detail);
+
+        /**
+         * A downloaded voice the runtime will not build a session from is not a voice, and the
+         * app had no way to say so: every file was present and correctly sized, so nothing was
+         * missing and nothing was offered. The only way out was clearing all site data, which
+         * takes the hotel and the documents with it.
+         *
+         * So these exact bytes are forgotten and the offer comes back. Narrow on purpose — a
+         * refused microphone and a quiet room leave the download alone, because 68 MB is a real
+         * thing to ask of somebody a second time.
+         */
+        if (detail !== undefined && /session/i.test(detail)) {
+          void forgetVoice().then(() => {
+            setModelState(online ? 'fetchable' : 'unavailable');
+          });
+        }
         void recordVoiceEvent({
           transcript: '',
           intent: 'unknown',
