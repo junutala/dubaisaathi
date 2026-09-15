@@ -12,6 +12,7 @@
     "screens": "vite build && node test/screenshot.mjs"
   },
   "dependencies": {
+    "@huggingface/transformers": "^4.2.0",
     "@saathi/shared": "*",
     "dexie": "^4.2.0",
     "react": "^19.2.0",
