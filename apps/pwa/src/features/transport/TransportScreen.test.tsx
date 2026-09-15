@@ -95,21 +95,46 @@ describe('1.1 — where do you want to go', () => {
    * recogniser's vocabulary, and using it here is what turned "Satwa, Al Hudaiba Building" into
    * "take me to Satwa" — a neighbourhood of eighty thousand handed over as an address.
    */
-  it('sends the traveller’s own words to the Arabic for a driver, unchanged', () => {
+  it('sends the traveller’s own words to the Arabic for a driver, unsubstituted', () => {
     show();
     type('करामा जाना है');
     tap(DRIVER);
     const [[route]] = navigate.mock.calls as [[{ screen: string; phraseId: string }]];
     expect(route.screen).toBe('arabic');
-    expect(typedTextInPhrase(route.phraseId)).toBe('करामा जाना है');
+    // Their word for the place, not ours. "जाना है" is what they want done with it, and the
+    // driver can see that for himself — a card reading خذني إلى followed by an entire Hindi
+    // sentence is what this looked like on a real phone.
+    expect(typedTextInPhrase(route.phraseId)).toBe('करामा');
+  });
+
+  /**
+   * And the reason the pack is not consulted at all, which is the whole point of the rule above:
+   * an address is not a place name, and a place name is not a substitute for one.
+   */
+  it('never trades an address for the neighbourhood it sits in', () => {
+    show();
+    type('Satwa, Al Hudaiba Building 7');
+    tap(DRIVER);
+    const [[route]] = navigate.mock.calls as [[{ screen: string; phraseId: string }]];
+    expect(typedTextInPhrase(route.phraseId)).toBe('Satwa, Al Hudaiba Building 7');
+  });
+
+  /** Verbs pile up — a destination, then two of them and a "तक". All of them come off. */
+  it('takes off every travelling verb, not just the last one', () => {
+    show();
+    type('मुझे वर्धमान मॉल तक जाना है ले चलो');
+    tap(DRIVER);
+    const [[route]] = navigate.mock.calls as [[{ screen: string; phraseId: string }]];
+    expect(typedTextInPhrase(route.phraseId)).toBe('वर्धमान मॉल');
   });
 
   /**
    * One sentence, two readings, and the app never substitutes its own words for the
-   * traveller's on either. The route needs a coordinate so it resolves; the driver gets what
-   * was actually typed. Nothing is silently replaced on the way to either.
+   * traveller's on either. The route needs a coordinate so it resolves; the driver gets the
+   * traveller's own name for the place, with only the "take me there" taken off the end.
+   * Nothing is silently replaced on the way to either.
    */
-  it('resolves for the route and carries the words verbatim to the driver', () => {
+  it('resolves for the route and carries their own name for the place to the driver', () => {
     show();
     type('mujhe marina mall jaana hai');
     tap(OPTIONS);
@@ -119,7 +144,7 @@ describe('1.1 — where do you want to go', () => {
       [{ phraseId: string }],
     ];
     expect(toOptions.placeId).toBe('marina-mall');
-    expect(typedTextInPhrase(toArabic.phraseId)).toBe('mujhe marina mall jaana hai');
+    expect(typedTextInPhrase(toArabic.phraseId)).toBe('marina mall');
   });
 
   /** The owner's objection, as a test: a whole neighbourhood is not an address. */

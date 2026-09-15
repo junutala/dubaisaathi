@@ -6,7 +6,7 @@ import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { QuickBar } from '../../app/shell/QuickBar.js';
 import { Icon, type IconName } from '../../app/shell/icons.js';
 import { AskBar } from '../ask/AskBar.js';
-import { composedPhraseId } from '../phrases/composeArabic.js';
+import { composedPhraseId, destinationWords } from '../phrases/composeArabic.js';
 import { HeardBanner } from '../voice/HeardBanner.js';
 import { typedDestinationPhraseId } from '../phrases/destinationPhrase.js';
 import {
@@ -206,7 +206,20 @@ export function TransportScreen({
     setTrouble(null);
     const place = placeFromText(words);
     if (place) rememberPlace(place.id);
-    navigate({ screen: 'arabic', phraseId: typedDestinationPhraseId(words) });
+    /**
+     * The destination, not the sentence around it.
+     *
+     * ड्राइवर को दिखाएँ wraps what is in the box in "take me to", and the box holds whatever the
+     * traveller said — "मुझे वर्धमान मॉल तक जाना है ले चलो". A driver was handed خذني إلى
+     * followed by that entire Hindi sentence, verbs and all, which reads to him as nonsense
+     * wearing an Arabic hat. The words that name the place are the ones that go over; the ones
+     * that say what to do with it are for us, and he can see the traveller is in his taxi.
+     */
+    const address = destinationWords(words);
+    navigate({
+      screen: 'arabic',
+      phraseId: typedDestinationPhraseId(address === '' ? words : address),
+    });
   };
 
   return (

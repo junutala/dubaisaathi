@@ -68,21 +68,26 @@ export function manifestFrom(body: unknown): VoiceManifest | null {
 }
 
 /**
- * Whether a cached file is the one this build expects, by size.
+ * What the phone last finished downloading, and what it is part-way through.
  *
- * The paths do not change when the model does. When the model repository was swapped — the
- * previous conversion could not be loaded by the runtime at all — every phone that had already
- * downloaded it still held those bytes under exactly these names, would have reported the voice
- * ready, and would have failed in precisely the same way with nothing to show for the fix.
+ * The paths do not change when the model does, so something has to say which model these bytes
+ * are. The first attempt compared each file's `content-length` against the size in the manifest,
+ * which was wrong in a way that only a phone could show: nginx gzips `application/json`, so the
+ * length of a served config file is its compressed length and never the manifest's number. Every
+ * JSON file therefore looked stale, a complete 102 MB download reported itself unfinished, and
+ * offline the app told its owner his phone could not recognise Hindi while the model sat on it.
  *
- * The manifest carries each file's exact size, so this costs one header read. A response with no
- * length is accepted rather than discarded: throwing away a traveller's download over a missing
- * header would be the worse mistake of the two.
+ * A version written down after the last file lands says the same thing and cannot be confused by
+ * an encoding. The second marker is what makes a download resumable: a traveller on hotel wifi
+ * who loses it at 80 MB should not start again, so files already fetched for *this* version are
+ * kept, and files fetched for an older one are not.
  */
-function isCurrent(cached: Response, expected: number): boolean {
-  const length = cached.headers.get('content-length');
-  if (length === null) return true;
-  return Number(length) === expected;
+const INSTALLED_URL = '/models/installed-version';
+const FETCHING_URL = '/models/fetching-version';
+
+async function versionAt(cache: Cache, url: string): Promise<string | null> {
+  const kept = await cache.match(url);
+  return kept ? (await kept.text()).trim() : null;
 }
 
 let manifest: Promise<VoiceManifest | null> | null = null;
@@ -168,9 +173,13 @@ export async function whisperModelState(online: boolean): Promise<ModelState> {
     const list = await voiceManifest();
     if (list === null) return 'unavailable';
     const cache = await caches.open(MODEL_CACHE);
+    // The version first: it is one read, and it is the question. Only then whether every file of
+    // it is actually here, because a download abandoned halfway leaves some of them.
+    if ((await versionAt(cache, INSTALLED_URL)) !== list.version) {
+      return online ? 'fetchable' : 'unavailable';
+    }
     for (const file of list.files) {
-      const kept = await cache.match(file.path);
-      if (!kept || !isCurrent(kept, file.bytes)) return online ? 'fetchable' : 'unavailable';
+      if (!(await cache.match(file.path))) return online ? 'fetchable' : 'unavailable';
     }
     return 'cached';
   } catch {
@@ -193,12 +202,16 @@ export async function downloadWhisperModel(
     const list = await voiceManifest();
     if (list === null) return false;
     const cache = await caches.open(MODEL_CACHE);
+    // Files already fetched for this same version are kept; files left by an older one are not,
+    // because they sit at exactly these paths and are not these bytes.
+    const resuming = (await versionAt(cache, FETCHING_URL)) === list.version;
+    await cache.put(FETCHING_URL, new Response(list.version));
     let done = 0;
 
     for (const file of list.files) {
       if (signal?.aborted) return false;
-      const kept = await cache.match(file.path);
-      if (kept && isCurrent(kept, file.bytes)) {
+      const kept = resuming ? await cache.match(file.path) : undefined;
+      if (kept) {
         done += file.bytes;
         onProgress(done / list.totalBytes);
         continue;
@@ -223,6 +236,10 @@ export async function downloadWhisperModel(
       onProgress(done / list.totalBytes);
     }
 
+    // Last, and only now: before this line the download was incomplete, and a marker written
+    // any earlier would have claimed a voice the phone does not have.
+    await cache.put(INSTALLED_URL, new Response(list.version));
+    await cache.delete(FETCHING_URL);
     await forgetWhatIsNoLongerNeeded(cache, list);
     onProgress(1);
     return true;
@@ -243,7 +260,11 @@ export async function downloadWhisperModel(
  * traveller is still relying on.
  */
 async function forgetWhatIsNoLongerNeeded(cache: Cache, list: VoiceManifest): Promise<void> {
-  const needed = new Set<string>([MANIFEST_URL, ...list.files.map((file) => file.path)]);
+  const needed = new Set<string>([
+    MANIFEST_URL,
+    INSTALLED_URL,
+    ...list.files.map((file) => file.path),
+  ]);
   for (const request of await cache.keys()) {
     const asked = new URL(request.url);
     // Compared with the query, not without it: the service worker keeps its own copy of every

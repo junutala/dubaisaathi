@@ -36,8 +36,10 @@ function fakeCaches() {
     },
     keys: () =>
       Promise.resolve([...store.keys()].map((path) => new Request(`https://saathi.test${path}`))),
-    delete: (request: Request) => {
-      store.delete(new URL(request.url).pathname);
+    // The real Cache API takes a URL string or a Request; the fake has to do both, because this
+    // module uses each in a different place.
+    delete: (key: Request | string) => {
+      store.delete(typeof key === 'string' ? key : new URL(key.url).pathname);
       return Promise.resolve(true);
     },
   };
@@ -149,6 +151,7 @@ describe('whether the voice is on the phone', () => {
   it('is "cached" only once every file is there', async () => {
     const store = fakeCaches();
     store.set('/models/voice-manifest.json', ok(MANIFEST));
+    store.set('/models/installed-version', new Response(MANIFEST.version));
     for (const file of MANIFEST.files) store.set(file.path, sized(file.bytes));
     vi.stubGlobal(
       'fetch',
@@ -180,11 +183,12 @@ describe('a model that was replaced under the same file names', () => {
    * and would have failed in precisely the same way — with a fix deployed and nothing to show
    * for it.
    */
-  it('is not "cached" when a file is there at the wrong size', async () => {
+  it('is not "cached" when the marker names a model we have replaced', async () => {
     const store = fakeCaches();
     store.set('/models/voice-manifest.json', ok(MANIFEST));
+    // The marker an older model left: the files sit at these exact paths and are not these bytes.
+    store.set('/models/installed-version', new Response('an-older-model'));
     store.set('/models/whisper-tiny/config.json', sized(100));
-    // The old build's decoder: same path, different bytes.
     store.set('/models/whisper-tiny/onnx/decoder_model_merged_quantized.onnx', sized(900 + 12345));
     vi.stubGlobal(
       'fetch',

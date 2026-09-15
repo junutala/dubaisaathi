@@ -95,13 +95,30 @@ function foodWords(
  */
 export function destinationWords(transcript: string): string {
   let words = transcript.trim();
-  const verbs: readonly string[] = pack.routeVerbs;
   // Longest first, so "ko jaana hai" is taken off before "jaana hai" can match inside it.
-  for (const verb of [...verbs].sort((a, b) => b.length - a.length)) {
-    const tail = words.toLowerCase();
-    if (tail.endsWith(verb.toLowerCase())) {
-      words = words.slice(0, words.length - verb.length).trim();
-      break;
+  const verbs = [...(pack.routeVerbs as readonly string[])].sort((a, b) => b.length - a.length);
+
+  /**
+   * Until nothing is left to take off, rather than once.
+   *
+   * People pile the verbs up: "मुझे वर्धमान मॉल तक जाना है ले चलो" is a destination followed by
+   * two of them and a "तक". Stopping after the first left "वर्धमान मॉल तक जाना है" as the
+   * address, and a driver was handed "take me to Vardhaman Mall tak jaana hai".
+   */
+  for (let more = true; more;) {
+    more = false;
+    for (const verb of verbs) {
+      if (words.toLowerCase().endsWith(verb.toLowerCase())) {
+        words = words.slice(0, words.length - verb.length).trim();
+        more = true;
+        break;
+      }
+    }
+    // "…तक" is a preposition on the end of the place, not part of its name.
+    const upTo = /\s+(?:तक|tak|ke pas|के पास)$/iu;
+    if (upTo.test(words)) {
+      words = words.replace(upTo, '').trim();
+      more = true;
     }
   }
   // "mujhe X jaana hai" — the lead-in is not part of the address either.
