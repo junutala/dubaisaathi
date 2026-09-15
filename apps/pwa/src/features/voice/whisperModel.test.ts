@@ -33,10 +33,21 @@ function fakeCaches() {
       store.set(key, value);
       return Promise.resolve();
     },
+    keys: () =>
+      Promise.resolve([...store.keys()].map((path) => new Request(`https://saathi.test${path}`))),
+    delete: (request: Request) => {
+      store.delete(new URL(request.url).pathname);
+      return Promise.resolve(true);
+    },
   };
   vi.stubGlobal('caches', { open: () => Promise.resolve(cache) });
+  vi.stubGlobal('navigator', { onLine: true });
   return store;
 }
+
+/** A cached file of a stated size — which is how a stale one is told from a current one. */
+const sized = (bytes: number) =>
+  new Response('x', { status: 200, headers: { 'content-length': String(bytes) } });
 
 const ok = (body: unknown, type = 'application/json') =>
   new Response(JSON.stringify(body), { status: 200, headers: { 'content-type': type } });
@@ -117,7 +128,7 @@ describe('whether the voice is on the phone', () => {
   it('is not "cached" when only some of the files are there', async () => {
     const store = fakeCaches();
     store.set('/models/voice-manifest.json', ok(MANIFEST));
-    store.set('/models/whisper-tiny/config.json', new Response('x'));
+    store.set('/models/whisper-tiny/config.json', sized(100));
     vi.stubGlobal(
       'fetch',
       vi.fn(() => Promise.reject(new Error('no network'))),
@@ -129,7 +140,7 @@ describe('whether the voice is on the phone', () => {
   it('is "cached" only once every file is there', async () => {
     const store = fakeCaches();
     store.set('/models/voice-manifest.json', ok(MANIFEST));
-    for (const file of MANIFEST.files) store.set(file.path, new Response('x'));
+    for (const file of MANIFEST.files) store.set(file.path, sized(file.bytes));
     vi.stubGlobal(
       'fetch',
       vi.fn(() => Promise.reject(new Error('no network'))),
@@ -147,5 +158,55 @@ describe('whether the voice is on the phone', () => {
     );
     const { whisperModelState } = await import('./whisperModel.js');
     expect(await whisperModelState(false)).toBe('unavailable');
+  });
+});
+
+describe('a model that was replaced under the same file names', () => {
+  /**
+   * The trap this closes, caught before it cost a second test rather than after.
+   *
+   * The model repository was swapped because the previous conversion could not be loaded by the
+   * runtime at all. The paths did not change. Every phone that had already downloaded the old
+   * one still held those bytes under exactly these names, would have reported the voice ready,
+   * and would have failed in precisely the same way — with a fix deployed and nothing to show
+   * for it.
+   */
+  it('is not "cached" when a file is there at the wrong size', async () => {
+    const store = fakeCaches();
+    store.set('/models/voice-manifest.json', ok(MANIFEST));
+    store.set('/models/whisper-tiny/config.json', sized(100));
+    // The old build's decoder: same path, different bytes.
+    store.set('/models/whisper-tiny/onnx/decoder_model_merged_quantized.onnx', sized(900 + 12345));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => Promise.reject(new Error('no network'))),
+    );
+    const { whisperModelState } = await import('./whisperModel.js');
+    expect(await whisperModelState(true)).toBe('fetchable');
+  });
+
+  it('clears out a file this build no longer lists', async () => {
+    const store = fakeCaches();
+    store.set('/models/voice-manifest.json', ok(MANIFEST));
+    // Left behind by the conversion we moved away from.
+    store.set('/models/whisper-tiny/normalizer.json', sized(52666));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn((url: string) =>
+        Promise.resolve(
+          url.endsWith('voice-manifest.json')
+            ? ok(MANIFEST)
+            : new Response('x', {
+                status: 200,
+                headers: { 'content-type': 'application/json' },
+              }),
+        ),
+      ),
+    );
+    const { downloadWhisperModel } = await import('./whisperModel.js');
+    expect(await downloadWhisperModel(() => undefined)).toBe(true);
+    expect(store.has('/models/whisper-tiny/normalizer.json')).toBe(false);
+    // ...and keeps everything this build does list.
+    for (const file of MANIFEST.files) expect(store.has(file.path)).toBe(true);
   });
 });

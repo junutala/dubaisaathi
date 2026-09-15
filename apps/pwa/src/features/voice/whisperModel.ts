@@ -44,6 +44,24 @@ export function manifestFrom(body: unknown): VoiceManifest | null {
   return { files: parsed, totalBytes };
 }
 
+/**
+ * Whether a cached file is the one this build expects, by size.
+ *
+ * The paths do not change when the model does. When the model repository was swapped — the
+ * previous conversion could not be loaded by the runtime at all — every phone that had already
+ * downloaded it still held those bytes under exactly these names, would have reported the voice
+ * ready, and would have failed in precisely the same way with nothing to show for the fix.
+ *
+ * The manifest carries each file's exact size, so this costs one header read. A response with no
+ * length is accepted rather than discarded: throwing away a traveller's download over a missing
+ * header would be the worse mistake of the two.
+ */
+function isCurrent(cached: Response, expected: number): boolean {
+  const length = cached.headers.get('content-length');
+  if (length === null) return true;
+  return Number(length) === expected;
+}
+
 let manifest: Promise<VoiceManifest | null> | null = null;
 
 /**
@@ -54,13 +72,26 @@ export async function voiceManifest(): Promise<VoiceManifest | null> {
   manifest ??= (async () => {
     try {
       const cache = 'caches' in window ? await caches.open(MODEL_CACHE) : null;
+      // The network first, when there is one. A cached manifest describes the build a phone
+      // last spoke to, and the whole point of this document is to notice when that has moved.
+      if (navigator.onLine) {
+        try {
+          const answer = await fetch(MANIFEST_URL, { cache: 'no-store' });
+          if (answer.ok) {
+            const parsed = manifestFrom(await answer.clone().json());
+            if (parsed !== null) {
+              await cache?.put(MANIFEST_URL, answer);
+              return parsed;
+            }
+          }
+        } catch {
+          // Online by the browser's reckoning and not in fact. The cached copy below is the
+          // answer, and it is the right one for a traveller who already has the voice.
+        }
+      }
       const kept = await cache?.match(MANIFEST_URL);
       if (kept) return manifestFrom(await kept.json());
-      const answer = await fetch(MANIFEST_URL);
-      if (!answer.ok) return null;
-      const parsed = manifestFrom(await answer.clone().json());
-      if (parsed !== null) await cache?.put(MANIFEST_URL, answer);
-      return parsed;
+      return null;
     } catch {
       // No signal and nothing cached. The caller reports 'unavailable', which is the truth.
       return null;
@@ -89,7 +120,8 @@ export async function whisperModelState(online: boolean): Promise<ModelState> {
     if (list === null) return 'unavailable';
     const cache = await caches.open(MODEL_CACHE);
     for (const file of list.files) {
-      if (!(await cache.match(file.path))) return online ? 'fetchable' : 'unavailable';
+      const kept = await cache.match(file.path);
+      if (!kept || !isCurrent(kept, file.bytes)) return online ? 'fetchable' : 'unavailable';
     }
     return 'cached';
   } catch {
@@ -116,7 +148,8 @@ export async function downloadWhisperModel(
 
     for (const file of list.files) {
       if (signal?.aborted) return false;
-      if (await cache.match(file.path)) {
+      const kept = await cache.match(file.path);
+      if (kept && isCurrent(kept, file.bytes)) {
         done += file.bytes;
         onProgress(done / list.totalBytes);
         continue;
@@ -141,9 +174,29 @@ export async function downloadWhisperModel(
       onProgress(done / list.totalBytes);
     }
 
+    await forgetWhatIsNoLongerNeeded(cache, list);
     onProgress(1);
     return true;
   } catch {
     return false;
+  }
+}
+
+/**
+ * Removes anything under /models/ that this build does not list.
+ *
+ * Swapping the model left one file behind that nothing will ever ask for again. On its own that
+ * is a few kilobytes; as a habit it is a cache with no expiry filling up with the leavings of
+ * every model this app has ever shipped, on a phone whose owner cannot see it and cannot clear
+ * it without clearing everything.
+ *
+ * Only ever after a complete download, and only files this build has replaced — never a file a
+ * traveller is still relying on.
+ */
+async function forgetWhatIsNoLongerNeeded(cache: Cache, list: VoiceManifest): Promise<void> {
+  const needed = new Set<string>([MANIFEST_URL, ...list.files.map((file) => file.path)]);
+  for (const request of await cache.keys()) {
+    const path = new URL(request.url).pathname;
+    if (path.startsWith('/models/') && !needed.has(path)) await cache.delete(request);
   }
 }
