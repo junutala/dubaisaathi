@@ -1,6 +1,7 @@
 import type { VoiceEvent } from '@saathi/shared';
 import { db } from '../../db/schema.js';
 import { pendingVoiceEvents } from './voiceEvent.js';
+import { PROJECT_URL, supabaseHeaders } from '../../lib/supabase.js';
 
 /**
  * Sending the queue to the server, when the phone happens to have a connection.
@@ -13,14 +14,6 @@ import { pendingVoiceEvents } from './voiceEvent.js';
  * so a lost response costs a duplicate send rather than a lost row — and the server ignores
  * duplicates, because ids are made on the device.
  */
-
-/**
- * Publishable by design: this key identifies the project, not a person, and it is what every
- * Supabase browser client ships. It grants nothing on its own — RLS is on with no policies, so
- * the tables are unreachable except through the edge function, which holds the service role.
- */
-const PROJECT_URL = 'https://pixlnjmpksmfqheotinp.supabase.co';
-const PUBLISHABLE_KEY = 'sb_publishable_kPj5Kv8cbgwrkyp9tRfLRg_Wy4olS5H';
 
 const COLLECT = `${PROJECT_URL}/functions/v1/collect`;
 
@@ -62,11 +55,7 @@ export async function syncVoiceEvents(): Promise<SyncOutcome> {
   try {
     const response = await fetch(COLLECT, {
       method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        authorization: `Bearer ${PUBLISHABLE_KEY}`,
-        apikey: PUBLISHABLE_KEY,
-      },
+      headers: supabaseHeaders(),
       body: JSON.stringify({
         deviceId,
         platform: platform(),

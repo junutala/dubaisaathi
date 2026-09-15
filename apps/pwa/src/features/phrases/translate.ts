@@ -19,6 +19,8 @@
  * is always free, and people repeat themselves more than they think.
  */
 
+import { PROJECT_URL, supabaseHeaders } from '../../lib/supabase.js';
+
 export interface Translation {
   readonly ar: string;
   /** Which engine produced it, so a regression is traceable — as with `VoiceEvent.sttEngine`. */
@@ -49,12 +51,10 @@ export const cloudTranslator: TranslationEngine = {
   worksOffline: false,
   available: () => Promise.resolve(navigator.onLine),
   async translate(text) {
-    const base = import.meta.env.VITE_SUPABASE_URL;
-    if (base === undefined || base === '') return null;
     try {
-      const answer = await fetch(`${base}/functions/v1/translate`, {
+      const answer = await fetch(`${PROJECT_URL}/functions/v1/translate`, {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
+        headers: supabaseHeaders(),
         body: JSON.stringify({ text }),
       });
       if (!answer.ok) return null;
