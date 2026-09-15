@@ -6,6 +6,7 @@ import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { QuickBar } from '../../app/shell/QuickBar.js';
 import { Icon } from '../../app/shell/icons.js';
 import { resolvePhrase } from './resolvePhrase.js';
+import { composedTextInPhrase } from './composeArabic.js';
 import {
   findArabicVoice,
   meansNoVoice,
@@ -30,7 +31,10 @@ export function ArabicScreen({
   readonly heard?: ParsedIntent | undefined;
 }) {
   const { t } = useSettings();
-  const [phrase, setPhrase] = useState<Phrase | null>(null);
+  // `undefined` while the lookup is in flight, `null` once it has come back empty. The two were
+  // one value and both rendered a blank screen, so a sentence we have no Arabic for looked
+  // exactly like a bug — a way out that is not a way through.
+  const [phrase, setPhrase] = useState<Phrase | null | undefined>(undefined);
   const [support, setSupport] = useState<SpeechSupport | null>(null);
   const [speaking, setSpeaking] = useState(false);
   /**
@@ -44,6 +48,7 @@ export function ArabicScreen({
   const [trouble, setTrouble] = useState<string | null>(null);
 
   useEffect(() => {
+    setPhrase(undefined);
     void resolvePhrase(phraseId).then((row) => {
       setPhrase(row ?? null);
     });
@@ -60,7 +65,44 @@ export function ArabicScreen({
     };
   }, []);
 
-  if (!phrase) return null;
+  if (phrase === undefined) return null;
+
+  /*
+    We have no Arabic for this one. Say so, show them their own words so the screen makes sense
+    on its own, and point at what does work — never a blank screen and never a guess. This is
+    where the on-device model goes when it arrives: the branch already exists, with an honest
+    answer in it until then.
+  */
+  if (phrase === null) {
+    const said = composedTextInPhrase(phraseId);
+    return (
+      <>
+        <ScreenHeader title={t('arabic.title')} tile="talk" />
+        <div className="flow">
+          {/* Same shape as the success path below, so the screen reads as one screen. */}
+          {said !== null && said !== '' && (
+            <div className="stack-sm">
+              <p className="lbl">{t('arabic.youSaid')}</p>
+              <div className="card pad">{said}</div>
+            </div>
+          )}
+          <p className="lbl">{t('arabic.cannotSay')}</p>
+          <p className="muted small">{t('arabic.cannotSayWhy')}</p>
+          <button
+            type="button"
+            className="btn btn-primary"
+            data-tap
+            onClick={() => {
+              navigate({ screen: 'say' });
+            }}
+          >
+            {t('arabic.pickReady')}
+          </button>
+        </div>
+        <QuickBar current="home" onMic={onMic} />
+      </>
+    );
+  }
 
   // Offered from the moment the screen paints. Waiting on the voice probe was the bug: Android
   // does not populate its voice list until the user has touched the page, so the probe sits

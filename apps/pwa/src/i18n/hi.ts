@@ -110,6 +110,8 @@ export const hi = {
   'say.title': 'क्या कहना है?',
   'say.speak': 'हिंदी में बोलिए',
   'say.example': 'जैसे — “इस होटल तक ले चलो”',
+  'say.label': 'अरबी में क्या कहना है?',
+  'say.placeholder': 'जो कहना है, लिखिए…',
   'say.orPick': 'या तैयार वाक्य चुनिए',
   'say.situation.taxi': 'टैक्सी',
   'say.situation.hotel': 'होटल',
@@ -118,6 +120,9 @@ export const hi = {
 
   // 3.2 · बोलना › अरबी में
   'arabic.title': 'अरबी में',
+  'arabic.cannotSay': 'यह वाक्य साथी अभी अरबी में नहीं कह सकता.',
+  'arabic.cannotSayWhy': 'नीचे तैयार वाक्य हैं — या इसे दूसरे शब्दों में लिखकर देखिए.',
+  'arabic.pickReady': 'तैयार वाक्य देखिए',
   'arabic.youSaid': 'आपने कहा',
   'arabic.showThis': 'ड्राइवर को यह दिखाएँ',
   'arabic.listen': 'अरबी में सुनाएँ',

@@ -170,3 +170,27 @@ export function composeArabic(
   // Everything else has no template. The model takes it, or the traveller is told plainly.
   return null;
 }
+
+/**
+ * A phrase id for a sentence the traveller wrote, composed rather than stored.
+ *
+ * Screens route by phrase id, so a composed sentence needs one too — otherwise 3.2 and 3.3 would
+ * each have to know how to build it, and they would drift. The traveller's words live inside the
+ * id, which means the Arabic survives a reload and a shared link without a database row.
+ */
+const COMPOSED = 'say:';
+
+export function composedPhraseId(transcript: string): string {
+  return `${COMPOSED}${encodeURIComponent(transcript.trim())}`;
+}
+
+/** The traveller's words out of a composed id, or `null` if it is not one. */
+export function composedTextInPhrase(phraseId: string): string | null {
+  if (!phraseId.startsWith(COMPOSED)) return null;
+  try {
+    return decodeURIComponent(phraseId.slice(COMPOSED.length));
+  } catch {
+    // A hash edited by hand. Their words are gone, which is better than a crash.
+    return null;
+  }
+}

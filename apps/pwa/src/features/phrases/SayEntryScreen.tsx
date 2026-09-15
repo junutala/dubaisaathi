@@ -7,6 +7,8 @@ import { QuickBar } from '../../app/shell/QuickBar.js';
 import { Icon } from '../../app/shell/icons.js';
 import { phrasesFor } from '../../db/content.js';
 import { HeardBanner } from '../voice/HeardBanner.js';
+import { AskBar } from '../ask/AskBar.js';
+import { composedPhraseId } from './composeArabic.js';
 import type { StringKey } from '../../i18n/index.js';
 
 const SITUATIONS: readonly { readonly id: PhraseSituation; readonly key: StringKey }[] = [
@@ -31,6 +33,7 @@ export function SayEntryScreen({
   const { t } = useSettings();
   const [situation, setSituation] = useState<PhraseSituation>('taxi');
   const [phrases, setPhrases] = useState<readonly Phrase[]>([]);
+  const [typed, setTyped] = useState('');
 
   useEffect(() => {
     let live = true;
@@ -47,13 +50,24 @@ export function SayEntryScreen({
       <ScreenHeader title={t('say.title')} tile="talk" />
       <div className="flow">
         {heard && <HeardBanner intent={heard} />}
-        <div className="say-mic">
-          <button type="button" className="mic-xl" onClick={onMic} aria-label={t('nav.mic')}>
-            <Icon name="mic" size={44} strokeWidth={1.5} color="var(--onMarigold)" />
-          </button>
-          <span className="say-mic-label">{t('say.speak')}</span>
-          <span className="muted">{t('say.example')}</span>
-        </div>
+        {/*
+          Say anything, not one of sixteen things. The box is the front door here as everywhere
+          (decision 014): what is typed is parsed for intent and slots and the Arabic is composed
+          from them, so "Jain khana chahiye bina pyaaz ke" produces a sentence no file contains.
+          The ready phrases below stay, as the fast path for what people tap rather than type.
+        */}
+        <AskBar
+          value={typed}
+          onChange={setTyped}
+          onSend={() => {
+            const words = typed.trim();
+            if (words === '') return;
+            navigate({ screen: 'arabic', phraseId: composedPhraseId(words) });
+          }}
+          onMic={onMic}
+          placeholder="say.placeholder"
+          label="say.label"
+        />
 
         <p className="lbl">{t('say.orPick')}</p>
         <div className="chips">

@@ -108,6 +108,8 @@ export const en: Record<StringKey, string> = {
   'say.title': 'What do you want to say?',
   'say.speak': 'Say it in Hindi',
   'say.example': 'Like — “is hotel tak le chalo”',
+  'say.label': 'What do you want to say in Arabic?',
+  'say.placeholder': 'Type whatever you need to say…',
   'say.orPick': 'Or pick a ready sentence',
   'say.situation.taxi': 'Taxi',
   'say.situation.hotel': 'Hotel',
@@ -115,6 +117,9 @@ export const en: Record<StringKey, string> = {
   'say.situation.food': 'Food',
 
   'arabic.title': 'In Arabic',
+  'arabic.cannotSay': 'Saathi cannot say this one in Arabic yet.',
+  'arabic.cannotSayWhy': 'There are ready sentences below — or try writing it another way.',
+  'arabic.pickReady': 'See the ready sentences',
   'arabic.youSaid': 'You said',
   'arabic.showThis': 'Show this to the driver',
   'arabic.listen': 'Play it in Arabic',
