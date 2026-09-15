@@ -77,6 +77,18 @@ async function transcriber(): Promise<Transcribe> {
      * so it is set only when present rather than asserted.
      */
     if (env.backends.onnx.wasm) {
+      /**
+       * One thread, stated rather than detected.
+       *
+       * The runtime we serve is the multi-threaded build, and multi-threaded WebAssembly needs
+       * `SharedArrayBuffer`, which a page only gets when it is cross-origin isolated — COOP and
+       * COEP headers we do not send and should not start sending, because `require-corp` would
+       * break every image and font on the page for a feature a phone barely benefits from.
+       * onnxruntime is supposed to notice and fall back to one thread; on a phone that refuses
+       * to spin up a worker it can instead fail while starting, which is what this looks like.
+       * Saying "one thread" up front removes the question.
+       */
+      env.backends.onnx.wasm.numThreads = 1;
       env.backends.onnx.wasm.wasmPaths = {
         wasm: '/models/ort/ort-wasm-simd-threaded.jsep.wasm',
         mjs: '/models/ort/ort-wasm-simd-threaded.jsep.mjs',
@@ -167,7 +179,8 @@ export const whisperStt: SttEngine = {
         // The phone's own answer, never our guess at it: a refused permission and a missing model
         // are different problems with different ways forward.
         const name = error instanceof Error ? error.name : '';
-        handlers.onFailure(name === 'NotAllowedError' ? 'no-permission' : 'failed');
+        const said = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
+        handlers.onFailure(name === 'NotAllowedError' ? 'no-permission' : 'failed', said);
       }
     };
 

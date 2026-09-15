@@ -17,17 +17,38 @@
  */
 
 let engine: string | null = null;
+let trouble: string | null = null;
 const listeners = new Set<() => void>();
+
+function announce(): void {
+  for (const listener of listeners) listener();
+}
 
 /** Called when an engine produced a reading a person is about to see. */
 export function noteEngine(id: string): void {
   if (engine === id) return;
   engine = id;
-  for (const listener of listeners) listener();
+  announce();
 }
 
+/**
+ * Called when an engine failed and the next one was tried instead.
+ *
+ * Kept even after a later engine succeeds, because that is exactly the case worth seeing: a
+ * transcript arrived, so nothing looks wrong, and the engine that was supposed to produce it
+ * never ran. The line reads "what you got · what did not work".
+ */
+export function noteEngineTrouble(id: string, detail: string | undefined): void {
+  const said = `${id} ✗ ${(detail ?? 'no reason given').slice(0, 60)}`;
+  if (trouble === said) return;
+  trouble = said;
+  announce();
+}
+
+/** The whole diagnostic line: the engine that answered, and any that did not. */
 export function lastEngine(): string | null {
-  return engine;
+  if (engine === null && trouble === null) return null;
+  return [engine, trouble].filter((part) => part !== null).join(' · ');
 }
 
 export function watchEngine(listener: () => void): () => void {

@@ -18,7 +18,7 @@ import {
   type SttSession,
 } from './stt.js';
 import { recordVoiceEvent } from './voiceEvent.js';
-import { noteEngine } from './lastEngine.js';
+import { noteEngine, noteEngineTrouble } from './lastEngine.js';
 import { Clarifier } from '../ask/Clarifier.js';
 import { recordClarifierChoice, submitSentence } from '../ask/askSubmit.js';
 import type { ModelState } from './modelCache.js';
@@ -41,7 +41,7 @@ type Phase =
   // a lie: the traveller would speak into a mic that is not on.
   | { readonly at: 'preparing' }
   | { readonly at: 'thinking' }
-  | { readonly at: 'failed'; readonly failure: SttFailure }
+  | { readonly at: 'failed'; readonly failure: SttFailure; readonly detail?: string }
   // The one-time voice download: offered when the phone has no offline model but could fetch one.
   | { readonly at: 'offer-download' }
   | { readonly at: 'downloading'; readonly percent: number }
@@ -245,7 +245,11 @@ export function ListenScreen({
       onFinal: (result) => {
         review(result, engine.id);
       },
-      onFailure: (failure) => {
+      onFailure: (failure, detail) => {
+        // Kept whether or not another engine rescues this. A rescue is what hid the bug: the
+        // cloud recogniser answered, a transcript appeared, and the engine that was meant to
+        // produce it had silently refused to start.
+        noteEngineTrouble(engine.id, detail);
         void recordVoiceEvent({
           transcript: '',
           intent: 'unknown',
@@ -266,7 +270,7 @@ export function ListenScreen({
           startTyping();
           return;
         }
-        setPhase({ at: 'failed', failure });
+        setPhase({ at: 'failed', failure, ...(detail === undefined ? {} : { detail }) });
       },
     });
   }, [review]);
@@ -413,6 +417,10 @@ export function ListenScreen({
           <div className="listen">
             <p className="listen-state">{t(FAILURE_TITLE[phase.failure])}</p>
             <p className="muted center">{t(FAILURE_WHY[phase.failure])}</p>
+            {/* What the phone actually said, in engineering words, never as the headline. A
+                traveller ignores it; it is the difference between "the mic did not work" and a
+                fix. CLAUDE.md: say what the device actually said, do not summarise it away. */}
+            {phase.detail !== undefined && <p className="listen-detail">{phase.detail}</p>}
             <button
               type="button"
               className="btn btn-primary"

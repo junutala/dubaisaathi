@@ -38,7 +38,16 @@ export interface SttHandlers {
   /** Called as the engine changes its mind, so 1.2 can show that it is hearing something. */
   readonly onPartial: (text: string) => void;
   readonly onFinal: (result: SpeechResult) => void;
-  readonly onFailure: (failure: SttFailure) => void;
+  /**
+   * `detail` is whatever the engine or the browser actually said, verbatim. It exists because a
+   * failed engine is retried with the next one and the first failure then disappears — which is
+   * right for a traveller and blind for anyone fixing it. Whisper was on a phone, in the queue,
+   * failing to start, and falling through to the cloud recogniser without a word; the screen
+   * showed a mangled place name and nothing anywhere said which engine had produced it or why
+   * the other had not. Never shown as the headline — it is engineering text — but never thrown
+   * away either.
+   */
+  readonly onFailure: (failure: SttFailure, detail?: string) => void;
 }
 
 export interface SttSession {
