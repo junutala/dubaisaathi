@@ -1,5 +1,6 @@
 import type { SpeechResult, SpeechSource } from '@saathi/shared';
 import { startSpeechClock } from './endOfSpeech.js';
+import { fold } from './normalise.js';
 
 /**
  * The seam between speech and the parser.
@@ -193,7 +194,7 @@ function browserEngine(processLocally: boolean): SttEngine {
             partial += alternative.transcript;
           }
         }
-        best = finals.filter((text) => text !== '').join(' ');
+        best = joinFinals(finals);
         if (best !== '' || partial.trim() !== '') clock.heard();
         handlers.onPartial([best, partial].filter((text) => text.trim() !== '').join(' '));
       };
@@ -240,6 +241,47 @@ function browserEngine(processLocally: boolean): SttEngine {
       };
     },
   };
+}
+
+/** A piece as words, in the comparison form, so spelling and spacing cannot hide a repeat. */
+function words(text: string): readonly string[] {
+  return fold(text)
+    .split(' ')
+    .filter((word) => word !== '');
+}
+
+/** Whether `maybe` is the opening words of `whole` — "मेरा एक" inside "मेरा एक खराब है". */
+function opens(whole: readonly string[], maybe: readonly string[]): boolean {
+  if (maybe.length > whole.length) return false;
+  return maybe.every((word, at) => whole[at] === word);
+}
+
+/**
+ * The final pieces of a sentence, joined without saying the same thing twice.
+ *
+ * Android Chrome does not hand over one final result per phrase. It finalises the utterance
+ * again and again as it hears more, so the list is a sequence of growing prefixes, and joining
+ * them gave the owner this, recorded verbatim in `voice_events`:
+ *
+ *   मेरा · मेरा · मेरा · मेरा एक · मेरा एक खराब · मेरा एक खराब है · मेरा एक खराब है
+ *
+ * — one sentence, seven times over, shown to him as what he had said and about to be shown to a
+ * driver. Rebuilding from the whole result list on every event is what the spec asks for and is
+ * not the bug; the engine restating itself is.
+ *
+ * So a piece is dropped when the piece after it already opens with those same words. Nothing a
+ * traveller meant is lost: a sentence that genuinely arrives in parts — "मुझे करामा", then "जाना
+ * है" — has no piece that opens the next, and survives whole.
+ */
+export function joinFinals(finals: readonly string[]): string {
+  const pieces = finals.map((piece) => piece.trim()).filter((piece) => piece !== '');
+  const kept: string[] = [];
+  for (const [at, piece] of pieces.entries()) {
+    const next = pieces[at + 1];
+    if (next !== undefined && opens(words(next), words(piece))) continue;
+    kept.push(piece);
+  }
+  return kept.join(' ');
 }
 
 function failureOf(error: string): SttFailure {

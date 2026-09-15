@@ -33,6 +33,16 @@ RUN VITE_BUILD_SHA="$RAILWAY_GIT_COMMIT_SHA" \
 # the CSP stays 'self', no research host has to be up in a Dubai basement, and the download is
 # ours to cache.
 #
+# The repository is `onnx-community`, not `Xenova`, and that is the whole of the first bug.
+# Xenova/whisper-tiny is the transformers.js-v2-era conversion; onnxruntime-web 1.26 runs a graph
+# optimisation those files predate, and refused the decoder outright on a real phone:
+#
+#   Can't create a session. qdq_actions.cc:137 TransposeDQWeightsForMatMulNBits
+#   Missing required scale: model.decoder.embed_tokens.weight_merged_0_scale
+#
+# Not a phone limitation and not a Whisper one — a model artefact and a runtime that disagree.
+# onnx-community holds the conversions kept current with the runtime we ship.
+#
 # **No filename here was guessed.** The container these files are chosen in
 # cannot reach Hugging Face, so hardcoding "encoder_model_quantized.onnx" would be a guess costing
 # a deploy cycle to test. Instead the build asks the API what is actually in the repo and takes
@@ -43,7 +53,7 @@ RUN VITE_BUILD_SHA="$RAILWAY_GIT_COMMIT_SHA" \
 # traveller before asking them to wait. One source of truth, generated from what was really
 # fetched, so the app and the image cannot drift.
 FROM node:22-alpine AS voice
-ARG WHISPER_REPO=Xenova/whisper-tiny
+ARG WHISPER_REPO=onnx-community/whisper-tiny
 RUN apk add --no-cache curl jq
 WORKDIR /voice
 

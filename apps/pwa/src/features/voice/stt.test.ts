@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { resolveEngines, worthAnotherEngine } from './stt.js';
+import { resolveEngines, worthAnotherEngine, joinFinals } from './stt.js';
 
 /**
  * The rule under test is the one that broke on a real phone: preferring an on-device engine must
@@ -112,5 +112,54 @@ describe('worthAnotherEngine', () => {
     // Permission applies to every engine, and silence means the engine worked fine.
     expect(worthAnotherEngine('no-permission')).toBe(false);
     expect(worthAnotherEngine('no-speech')).toBe(false);
+  });
+});
+
+describe('a recogniser that restates the sentence as it hears more', () => {
+  /**
+   * Recorded verbatim in `voice_events`, from the owner's phone. Not a duplicate — seven final
+   * results, each one a longer prefix of the same sentence, joined into what he was shown as
+   * what he had said.
+   */
+  it('keeps the whole sentence once', () => {
+    expect(
+      joinFinals([
+        'मेरा',
+        'मेरा',
+        'मेरा',
+        'मेरा एक',
+        'मेरा एक खराब',
+        'मेरा एक खराब है',
+        'मेरा एक खराब है',
+      ]),
+    ).toBe('मेरा एक खराब है');
+  });
+
+  it('keeps the longer reading when the recogniser extends itself', () => {
+    expect(joinFinals(['माल का एमिरेट्स', 'माल का एमिरेट्स जाना है'])).toBe(
+      'माल का एमिरेट्स जाना है',
+    );
+  });
+
+  it('is not fooled by spacing or case', () => {
+    expect(joinFinals(['Mall of the Emirates', '  mall of the  emirates jaana hai '])).toBe(
+      'mall of the  emirates jaana hai',
+    );
+  });
+
+  /** A sentence that really did arrive in parts keeps both of them. */
+  it('still joins pieces that are not restatements', () => {
+    expect(joinFinals(['मुझे करामा', 'जाना है'])).toBe('मुझे करामा जाना है');
+  });
+
+  /** A stray syllable that opens nothing is kept: it is what the phone heard, and not ours to cut. */
+  it('does not invent a tidier sentence than it was given', () => {
+    expect(joinFinals(['ग', 'मुझे करामा जाना है', 'मुझे करामा जाना है'])).toBe(
+      'ग मुझे करामा जाना है',
+    );
+  });
+
+  it('drops empty pieces without leaving gaps', () => {
+    expect(joinFinals(['', 'Karama', '   ', 'jaana hai'])).toBe('Karama jaana hai');
   });
 });
