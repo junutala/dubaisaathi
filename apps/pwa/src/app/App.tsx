@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { ParsedIntent } from '@saathi/shared';
 import { href, navigate, parseRoute, type Route } from './routes.js';
+import { applyUpdateIfIdle } from './updates.js';
 import { BrandBar } from './shell/BrandBar.js';
 import { StatusStrip } from './shell/StatusStrip.js';
 import type { Tile } from './shell/ScreenHeader.js';
@@ -113,6 +114,19 @@ export function App() {
       clearInterval(tick);
     };
   }, []);
+
+  /**
+   * A build that arrived while the app was open is applied here, on घर, and nowhere else.
+   *
+   * This is what "never mid-trip" actually asks for: not "never during this session", but never
+   * in the middle of a task. घर holds no typed sentence, no destination and no half-finished
+   * anything, so a reload costs the traveller nothing. Reading the rule as "next launch only"
+   * is how a release that was live on the server sat unseen on a phone for a day.
+   */
+  useEffect(() => {
+    if (route.screen !== 'home') return;
+    void applyUpdateIfIdle();
+  }, [route.screen]);
 
   /**
    * Has this phone arrived? Asked on every boot and on every tick, from whatever fix the app

@@ -16,6 +16,9 @@ export default tseslint.config(
       'supabase/functions/**',
       // A screenshot tool for looking at the collectors' app; it holds no product logic.
       'apps/field/test/**',
+      // Build-time checkers, like their Python sibling design/check-screens.py. They run under
+      // node before the app is built and are not part of either app's source.
+      'design/*.mjs',
     ],
   },
   js.configs.recommended,
@@ -100,6 +103,15 @@ export default tseslint.config(
     extends: [tseslint.configs.disableTypeChecked],
     languageOptions: {
       globals: { ...globals.node },
+    },
+  },
+  {
+    // The content pipeline is a command-line tool: stdout is how it reports what it published
+    // and what it dropped, which is the only way a person sees the result. `warn`/`error` would
+    // put ordinary output on stderr.
+    files: ['packages/content-tools/src/*.ts'],
+    rules: {
+      'no-console': 'off',
     },
   },
   {

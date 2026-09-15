@@ -43,7 +43,7 @@ const TILES: readonly TileDef[] = [
 export function HomeScreen() {
   const { t } = useSettings();
   return (
-    <div className="flow home">
+    <div className="flow">
       <div className="tiles">
         {TILES.map((tile) => (
           <button

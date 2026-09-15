@@ -368,6 +368,30 @@ So, when a deployment is provably correct and the screen still disagrees:
   is still out there on real phones. Serving a worker that unregisters itself is the only thing
   that reaches them; asking someone to clear site data is not a fix, it is a fix for one phone.
 
+**Deployed to the server is not delivered to the phone, and only the phone counts.** A service
+worker answers before the network, so a green deploy can sit unseen for days while the owner
+tests the previous build and is told the new one is live. On 15 September that happened twice in
+one morning on two different origins — the wrong app on one, a stale build on the other — and
+the second was still running an hour after the first was "fixed", because only the instance was
+fixed and not the cause. The traveller app's own nginx config carried a comment warning of
+exactly this, in a file that had just been edited.
+
+So delivery is a property of the app, not of the pipeline:
+
+- **The app asks for updates; it does not wait to be told.** On launch, every half hour it stays
+  open, and whenever the phone regains signal. The browser's own check can be a day away.
+- **"Never mid-trip" means never mid-task, not never this session.** A new build is applied the
+  moment the traveller is on घर, where there is no typed sentence and no half-finished journey to
+  lose. Reading it as "next launch only" is what made releases arrive a launch late.
+- **When a stale worker is found on one origin, check every origin.** The same defect wears
+  different costumes: "wrong app" and "old build" are one bug.
+
+**A missing style is invisible to every other check.** खाना shipped with its whole outlet card
+unstyled — eleven classes in the JSX with no rule behind any of them — so the name ran into the
+distance and the tags concatenated into "Pure vegVegEgglessNo onion". Nothing failed: a missing
+rule is not a type error, a test failure or a lint. `npm run check:classes` now fails the build
+when a className has no CSS, and it runs inside `npm run verify`.
+
 A release also never takes something away from a phone (see the rule above): a deploy must not
 evict a traveller's voice model, documents or hotel. That is a property of what is shipped, and
 it is checked before shipping, not after.

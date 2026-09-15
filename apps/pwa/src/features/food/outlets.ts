@@ -5,15 +5,20 @@ import {
   type KitchenKind,
   type Restaurant,
 } from '@saathi/shared';
-import pack from '../../../../../data/restaurants/restaurants.dev.json';
+import fixture from '../../../../../data/restaurants/restaurants.dev.json';
+import collected from '../../../../../data/restaurants/restaurants.v1.json';
 
 /**
  * The outlets, as they sit on disk.
  *
- * Imported rather than loaded into IndexedDB, unlike the phrase and transport packs, because
- * this is a **development fixture and not collected content** — see the `warning` in the file
- * and `docs/field-app-plan.md`. When collectors start filling it, it becomes a versioned pack
- * like the others and this import goes.
+ * Two files, and the collected one wins the moment it has anything in it. `restaurants.v1.json`
+ * is written by `@saathi/content-tools` from approved `field_reports` — the step that turns a
+ * collector's visit into something a traveller can see. Until a collector has been anywhere it
+ * is empty, and खाना falls back to the development fixture so the screen can still be built and
+ * tested, saying plainly that nobody has visited these places.
+ *
+ * The switch is on content rather than on a build flag on purpose: publishing a real outlet is
+ * what promotes the app off fixture data, with nothing to remember to turn on.
  */
 
 interface RawOutlet {
@@ -26,6 +31,24 @@ interface RawOutlet {
   readonly approxCostAed?: number;
   readonly phone?: string;
   readonly delivers?: string;
+  /** What a person answered, per question. A missing key means nobody asked — never a no. */
+  readonly dietary?: Readonly<Record<string, string>>;
+  readonly confirmedDishes?: readonly {
+    readonly name: { readonly en: string; readonly hi: string };
+    readonly tags?: readonly string[];
+  }[];
+  readonly hours?: {
+    readonly everyDay?: { readonly opens: string; readonly closes: string };
+    readonly openLate?: boolean;
+    readonly open24?: boolean;
+  };
+  readonly hoursConfirmedAt?: string;
+  readonly spokeTo?: string;
+}
+
+/** The three answers a card can show. Anything else in the file is ignored rather than trusted. */
+function isAnswer(value: string): value is 'yes' | 'on-request' | 'no' {
+  return value === 'yes' || value === 'on-request' || value === 'no';
 }
 
 function isKitchen(value: string): value is KitchenKind {
@@ -61,9 +84,30 @@ export function parseOutletPack(raw: unknown): readonly Restaurant[] {
       ...(row.approxCostAed === undefined ? {} : { approxCostAed: row.approxCostAed }),
       ...(row.phone === undefined ? {} : { phone: row.phone }),
       ...(row.delivers === undefined ? {} : { delivers: row.delivers }),
+      ...(row.dietary === undefined
+        ? {}
+        : {
+            dietary: Object.fromEntries(
+              Object.entries(row.dietary).filter(([, answer]) => isAnswer(answer)),
+            ) as Readonly<Record<string, 'yes' | 'on-request' | 'no'>>,
+          }),
+      ...(row.confirmedDishes === undefined
+        ? {}
+        : {
+            confirmedDishes: row.confirmedDishes.map((dish) => ({
+              name: { en: dish.name.en, hi: dish.name.hi, aliases: [] },
+              tags: (dish.tags ?? []).filter(isFoodTag),
+            })),
+          }),
+      ...(row.hours === undefined ? {} : { hours: row.hours }),
+      ...(row.hoursConfirmedAt === undefined ? {} : { hoursConfirmedAt: row.hoursConfirmedAt }),
+      ...(row.spokeTo === undefined ? {} : { spokeTo: row.spokeTo }),
     };
   });
 }
+
+/** Collected content the moment there is any; the fixture only while there is none. */
+const pack = collected.restaurants.length > 0 ? collected : fixture;
 
 export const outlets: readonly Restaurant[] = parseOutletPack(pack);
 

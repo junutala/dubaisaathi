@@ -119,6 +119,17 @@ export interface Restaurant {
   readonly dietary?: Readonly<Record<string, 'yes' | 'on-request' | 'no'>>;
   /** Named dishes a collector confirmed, e.g. a Jain sambar. Worth more than a kitchen-level flag. */
   readonly confirmedDishes?: readonly ConfirmedDish[];
+  /**
+   * When it opens and closes, carried through from the visit rather than dropped at the last
+   * step. The owner insisted this be collected and was right to: Dubai does not sleep, the late
+   * places have no web presence, and a traveller at 2am is the moment this app earns the telling
+   * of it. Collecting it and then not shipping it would have been the worst of both.
+   */
+  readonly hours?: OpeningHours;
+  /** When a person last confirmed those hours, so a card can say "checked in March" honestly. */
+  readonly hoursConfirmedAt?: Timestamp;
+  /** Who answered — "Suresh, manager". It is what makes a dietary claim checkable later. */
+  readonly spokeTo?: string;
 }
 
 /**

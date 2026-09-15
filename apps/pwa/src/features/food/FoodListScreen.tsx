@@ -13,7 +13,8 @@ import { recordVoiceEvent } from '../voice/voiceEvent.js';
 import { typedStt } from '../voice/stt.js';
 import { askForLocation, currentLocation, type Location } from '../../lib/location.js';
 import { nearbyOutlets, searchOutlets, type OutletSearch } from './search.js';
-import { OUTLETS_ARE_FIXTURE } from './outlets.js';
+import { OUTLETS_ARE_FIXTURE, isDietTag } from './outlets.js';
+import { isOpenNow } from './openNow.js';
 
 /**
  * 2.1 — खाना › सूची.
@@ -155,12 +156,53 @@ function OutletCard({
         <span className={`food-kitchen food-kitchen-${outlet.kitchen}`}>
           {t(`food.kitchen.${outlet.kitchen}` as StringKey)}
         </span>
-        {outlet.tags.map((tag: FoodTag) => (
-          <span key={tag} className="food-tag">
-            {t(`food.tag.${tag}` as StringKey)}
-          </span>
-        ))}
+        {/* Cuisine only, where a person answered the dietary questions. The diet tags are derived
+            from those same answers, so showing both said everything twice — "Eggless" as a chip
+            and "Eggless yes" underneath it — and the row below says it better, because it can
+            also say "on request", which a chip cannot. The tags themselves are untouched: they
+            are what search filters on, which is a different job from what a card shows. */}
+        {outlet.tags
+          .filter((tag: FoodTag) => outlet.dietary === undefined || !isDietTag(tag))
+          .map((tag: FoodTag) => (
+            <span key={tag} className="food-tag">
+              {t(`food.tag.${tag}` as StringKey)}
+            </span>
+          ))}
       </div>
+
+      {/*
+        What a person was actually told, standing in the shop. This is the whole reason a
+        collector walks in and asks rather than reading a signboard — and until now it was
+        collected, stored, and then dropped at the last step, which is the worst of both.
+
+        A question nobody asked is absent here, and absent shows as पूछिए below. "Nobody asked"
+        and "they said no" must never look the same: claiming a kitchen cannot feed a Jain
+        traveller on the strength of nobody having checked is the same defect as claiming it can.
+      */}
+      {outlet.dietary !== undefined && (
+        <div className="food-diet">
+          {Object.entries(outlet.dietary).map(([question, answer]) => (
+            <span key={question} className={`food-diet-item food-diet-${answer}`}>
+              {t(`food.diet.${question}` as StringKey)}
+              <span className="food-diet-answer">{t(`food.answer.${answer}` as StringKey)}</span>
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* A named dish is worth more than a tick box: "they will make you a Jain sambar" is
+          specific, checkable, and the reason someone walks the extra street. */}
+      {outlet.confirmedDishes !== undefined && outlet.confirmedDishes.length > 0 && (
+        <p className="food-dishes">
+          <Icon name="check" size={16} strokeWidth={2.1} />
+          {outlet.confirmedDishes
+            .map((dish) => (locale === 'hi' ? dish.name.hi : dish.name.en))
+            .join(' · ')}
+        </p>
+      )}
+
+      {/* Hours, and the 2am question answered rather than left to arithmetic. */}
+      {outlet.hours !== undefined && <OutletHours hours={outlet.hours} />}
 
       <div className="food-card-foot">
         {outlet.approxCostAed !== undefined && (
@@ -181,5 +223,37 @@ function OutletCard({
         )}
       </div>
     </div>
+  );
+}
+
+/**
+ * When it opens, and whether it is open right now.
+ *
+ * The owner insisted structured hours be collected — _"even if it costs us 6 months down the
+ * lane"_ — because Dubai does not sleep and the late places are the ones nobody else lists. This
+ * is where that pays: a straight yes or no at the moment a traveller is standing outside at 1am,
+ * computed on the device with the network off.
+ */
+function OutletHours({ hours }: { readonly hours: NonNullable<Restaurant['hours']> }) {
+  const { t } = useSettings();
+  const open = isOpenNow(hours);
+  const times =
+    hours.open24 === true
+      ? t('food.open24')
+      : hours.everyDay
+        ? `${hours.everyDay.opens} – ${hours.everyDay.closes}`
+        : null;
+
+  return (
+    <p className="food-hours">
+      {open !== undefined && (
+        <span className={open ? 'food-open' : 'food-shut'}>
+          {t(open ? 'food.openNow' : 'food.shutNow')}
+        </span>
+      )}
+      {times !== null && <span className="muted small">{times}</span>}
+      {/* Said only where it is true, because it is the thing worth knowing at 2am. */}
+      {hours.openLate === true && <span className="food-late">{t('food.openLate')}</span>}
+    </p>
   );
 }

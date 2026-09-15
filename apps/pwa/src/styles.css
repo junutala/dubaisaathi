@@ -1335,3 +1335,170 @@ button:not(:disabled) {
   font-weight: 700;
   white-space: nowrap;
 }
+
+/* ---- what a person was told, and when the kitchen is open ---------------------------- */
+
+/* The dietary answers, which a collector asked of a human being. Three states that must never
+   be confused with each other, so they differ in weight and colour rather than only in words. */
+.food-diet {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.food-diet-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 13px;
+  border: 1px solid var(--line);
+}
+.food-diet-answer {
+  font-weight: 700;
+  font-size: 12px;
+}
+/* A told-us-yes is the only one that carries colour: it is the one a traveller acts on. */
+.food-diet-yes {
+  border-color: color-mix(in srgb, var(--teal) 45%, transparent);
+  background: color-mix(in srgb, var(--teal) 10%, transparent);
+}
+.food-diet-yes .food-diet-answer {
+  color: var(--teal);
+}
+/* "On request" is real and worth showing, and deliberately quieter — it is not a promise. */
+.food-diet-on-request .food-diet-answer {
+  color: var(--muted);
+}
+/* A plain no, stated as fact and never alarming: red is reserved (decision 002). */
+.food-diet-no {
+  opacity: 0.62;
+}
+
+/* A dish somebody named. Worth more than any tick box, so it reads as a sentence, not a chip. */
+.food-dishes {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 14px;
+  color: var(--teal);
+}
+
+.food-hours {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  font-size: 14px;
+}
+.food-open {
+  font-weight: 700;
+  color: var(--teal);
+}
+.food-shut {
+  font-weight: 700;
+  color: var(--muted);
+}
+/* The 2am answer. Marigold because it is the happy surprise, not a warning. */
+.food-late {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--marigold);
+  background: color-mix(in srgb, var(--marigold) 12%, transparent);
+}
+
+/* ---- खाना, the outlet card ------------------------------------------------------------ */
+
+/* These classes have been in the JSX since the screen was built and had no CSS behind them at
+   all: the name ran into the distance, and the kitchen kind and every tag concatenated into one
+   unreadable line — "Pure vegVegEgglessNo onion". A sweep for classes used with no rule found
+   them; `npm run check:classes` now fails the build rather than waiting for someone to notice. */
+
+.food-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.food-card {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 14px 15px;
+}
+.food-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.food-name {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.food-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+/* The kitchen kind is the first thing worth knowing, so it is the one chip that carries weight. */
+.food-kitchen {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid var(--line);
+}
+.food-kitchen-pure-veg {
+  background: var(--tealSoft);
+  border-color: var(--tealLine);
+  color: var(--tealText);
+}
+.food-kitchen-mixed {
+  background: var(--marigoldSoft);
+  border-color: var(--marigoldLine);
+  color: var(--marigoldText);
+}
+/* Never red. Red is reserved (decision 002), and a non-veg kitchen is a fact, not a warning. */
+.food-kitchen-non-veg {
+  color: var(--muted);
+}
+.food-tag {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+.food-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+/* A call is one tap and needs no data — so it sits at its own size, not stretched across the
+   card as though it were the only thing on it. */
+.food-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: auto;
+  padding: 8px 14px;
+  text-decoration: none;
+}
+
+/* ---- घर.1, the counter --------------------------------------------------------------- */
+
+/* The number a traveller came to this screen to read. Also had no rule behind it. */
+.pass-big {
+  margin: 0;
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.15;
+}

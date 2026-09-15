@@ -277,6 +277,22 @@ export const hi = {
   'food.km': '{km} km',
   'food.delivers': 'डिलीवरी है',
   'food.call': 'फ़ोन करें',
+
+  // What a person was told in the shop, and when the kitchen is actually open. Collected by a
+  // collector standing there and asking — which is why an unasked question shows as पूछिए and
+  // never as a no.
+  'food.diet.jain': 'जैन',
+  'food.diet.vrat': 'व्रत',
+  'food.diet.sattvik': 'सात्विक',
+  'food.diet.eggless': 'बिना अंडा',
+  'food.diet.noOnionGarlic': 'बिना प्याज़-लहसुन',
+  'food.answer.yes': 'हाँ',
+  'food.answer.on-request': 'कहने पर',
+  'food.answer.no': 'नहीं',
+  'food.openNow': 'अभी खुला है',
+  'food.shutNow': 'अभी बंद है',
+  'food.openLate': 'रात देर तक',
+  'food.open24': 'चौबीसों घंटे',
   'food.ask': 'पूछिए',
   'food.fixture': 'ये जगहें अभी जाँची नहीं गई हैं — असली जानकारी आनी बाक़ी है.',
   'food.tag.vegetarian': 'वेज',
