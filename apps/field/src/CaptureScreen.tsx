@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { ConfirmedDish, FieldReport, KitchenKind } from '@saathi/shared';
 import { db, keepOurData } from './db.js';
 import { collectorName, setCollectorName } from './collector.js';
+import { Logo } from './Logo.js';
 import { startSync, syncReports, type SyncOutcome } from './sync.js';
 
 /**
@@ -174,11 +175,17 @@ export function CaptureScreen() {
   return (
     <div className="wrap" ref={top}>
       <header className="bar">
-        {/* Which app this is, said plainly. On 15 September outlet.saafarsaathi.in served the
-            traveller's app for an hour because a repo-wide Railway config overrode the service's
-            own Dockerfile, and nothing on the page said it was the wrong one. */}
-        <span className="who">
-          Outlets · <strong>{who}</strong>
+        {/* Which app this is, said plainly, with the mark. On 15 September outlet.saafarsaathi.in
+            served the traveller's app because a repo-wide Railway config overrode the service's
+            own Dockerfile, and nothing on the page said it was the wrong one. It is also the tool
+            our own people hold in front of a shopkeeper while asking him questions, so it should
+            look like it belongs to something. */}
+        <span className="brand">
+          <Logo size={26} />
+          <span className="brand-text">
+            <strong className="brand-name">Dubai Saathi</strong>
+            <span className="brand-sub">Outlets · {who}</span>
+          </span>
         </span>
         <span className={queue.pending > 0 ? 'queue waiting' : 'queue'}>
           {queue.pending > 0 ? `${String(queue.pending)} waiting to upload` : 'all uploaded'}

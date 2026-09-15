@@ -5,8 +5,12 @@ import { navigate } from '../routes.js';
 
 /**
  * The status strip: on every screen after the landing page, always in the same place.
- * Left, whether there is a network. Middle, how long the offline functions last — the money,
- * so it is never hidden. Right, the two switches for how the app presents itself.
+ * How long the offline functions last — the money, so it is never hidden — and the two switches
+ * for how the app presents itself.
+ *
+ * Online/offline used to sit on the left of this bar and now lives on the brand bar above it,
+ * beside the name: both of those describe the app itself, while everything left here describes
+ * the traveller's plan. One thing per bar reads faster than four things in a row.
  */
 export interface Validity {
   readonly state: 'before' | 'trial' | 'pass' | 'expired';
@@ -19,7 +23,7 @@ export interface Validity {
 const RECHARGE_STATES = new Set<Validity['state']>(['trial', 'expired']);
 
 export function StatusStrip({ validity }: { validity: Validity }) {
-  const { t, locale, setLocale, toggleTheme, online } = useSettings();
+  const { t, locale, setLocale, toggleTheme } = useSettings();
 
   const label =
     validity.state === 'trial'
@@ -33,11 +37,6 @@ export function StatusStrip({ validity }: { validity: Validity }) {
 
   return (
     <div className="strip">
-      <span className="strip-net" style={{ color: online ? 'var(--muted)' : 'var(--teal)' }}>
-        <Icon name={online ? 'wifi' : 'wifioff'} size={16} strokeWidth={2.1} />
-        {t(online ? 'strip.online' : 'strip.offline')}
-      </span>
-
       <button
         type="button"
         className="strip-validity"

@@ -1300,3 +1300,38 @@ button:not(:disabled) {
   background: var(--marigold);
   transition: width 0.3s ease;
 }
+
+/* ---- the name, on every screen ------------------------------------------------------- */
+
+/* Its own bar above the status strip. The strip is the instrument panel and everything on it
+   moves; a name does not, so it does not sit among things that do. Slim on purpose — this is
+   identification, not a masthead, and the tiles are what the traveller came for. */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 40px;
+  padding: 0 16px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+.brand-name {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1;
+  /* Devanagari carries its own spacing; a tracked-out Latin wordmark beside it looks typed
+     rather than set, so this stays modest. */
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  /* Takes the slack so the network state is pinned to the right edge at every width. */
+  flex: 1;
+}
+.brand-net {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}

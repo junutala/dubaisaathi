@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSettings } from '../../app/settings.js';
-import { Icon } from '../../app/shell/icons.js';
+import { Logo } from '../../app/shell/Logo.js';
 import { downloadVoskModel, voskModelState } from '../voice/voskStt.js';
 
 /**
@@ -74,7 +74,10 @@ export function LandingScreen({ onReady }: { readonly onReady: () => void }) {
   return (
     <div className="flow landing">
       <div className="landing-brand">
-        <Icon name="talk" size={44} strokeWidth={1.6} color="var(--marigold)" />
+        {/* The mark, not a generic speech bubble. This is the one screen a traveller meets
+            before they trust us with a 42 MB download, and it was introducing the product with
+            an icon that belongs to tile 3. */}
+        <Logo size={56} />
         <h1 className="landing-name">{t('app.name')}</h1>
         <p className="landing-usp">{t('landing.usp')}</p>
       </div>

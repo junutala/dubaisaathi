@@ -54,9 +54,6 @@ body {
   border: 1px solid var(--line);
   border-radius: 12px;
 }
-.who {
-  font-weight: 600;
-}
 .queue {
   font-size: 14px;
   color: var(--teal);
@@ -209,4 +206,32 @@ input[type='time'] {
   margin: 0;
   font-size: 14px;
   color: var(--trouble);
+}
+
+/* ---- the mark, so the tool looks like it belongs to something ------------------------- */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  min-width: 0;
+}
+.brand-name {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+/* Who is collecting, and which of the two apps this is — needed, but subordinate to the name. */
+.brand-sub {
+  font-size: 12.5px;
+  color: var(--muted, #6b6257);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

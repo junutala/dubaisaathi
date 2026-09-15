@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { ParsedIntent } from '@saathi/shared';
 import { href, navigate, parseRoute, type Route } from './routes.js';
+import { BrandBar } from './shell/BrandBar.js';
 import { StatusStrip } from './shell/StatusStrip.js';
 import type { Tile } from './shell/ScreenHeader.js';
 import { HomeScreen } from '../features/home/HomeScreen.js';
@@ -172,6 +173,7 @@ export function App() {
 
   return (
     <div className="screen">
+      <BrandBar />
       <StatusStrip validity={validity(new Date(clock))} />
       {route.screen === 'home' && <HomeScreen />}
       {route.screen === 'listen' && (
