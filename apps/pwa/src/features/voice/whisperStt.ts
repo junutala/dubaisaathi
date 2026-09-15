@@ -1,6 +1,7 @@
 import type { SpeechResult } from '@saathi/shared';
 import type { SttEngine, SttHandlers, SttSession } from './stt.js';
 import { concat, heardAnything, resample, WHISPER_RATE } from './resample.js';
+import { voiceModelId } from './whisperModel.js';
 
 /**
  * Offline Hindi speech, with Whisper running in the browser.
@@ -21,8 +22,21 @@ import { concat, heardAnything, resample, WHISPER_RATE } from './resample.js';
  * time and writes a manifest beside them; `whisperModel.ts` is what puts them on the phone.
  */
 
-const MODEL_ID = 'whisper-tiny';
-const ENGINE_ID = 'whisper-tiny-q8';
+/**
+ * The model, and the name it is reported under, both taken from the manifest the build wrote.
+ *
+ * Neither is spelled out here. `WHISPER_REPO` in the Dockerfile decides which model is fetched
+ * and the directory it lands in; this reads that back. So swapping tiny for base is one build
+ * argument, and the strip says `whisper-base-q8` without anybody remembering to change it —
+ * which matters, because comparing two models is the whole reason that line exists.
+ */
+async function modelId(): Promise<string> {
+  const named = await voiceModelId();
+  if (named === null) throw new Error('the voice manifest names no model');
+  return named;
+}
+
+let engineId = 'whisper';
 /** Where the Dockerfile puts the model. Trailing slash matters to the library. */
 const LOCAL_MODELS = '/models/';
 
@@ -104,7 +118,9 @@ async function transcriber(): Promise<Transcribe> {
         mjs: '/models/ort/ort-wasm-simd-threaded.jsep.mjs',
       };
     }
-    const built: unknown = await pipeline('automatic-speech-recognition', MODEL_ID, {
+    const named = await modelId();
+    engineId = `${named}-q8`;
+    const built: unknown = await pipeline('automatic-speech-recognition', named, {
       device: 'wasm',
       dtype: 'q8',
       /**
@@ -135,7 +151,11 @@ function canRun(): boolean {
 }
 
 export const whisperStt: SttEngine = {
-  id: ENGINE_ID,
+  // Read when the screen asks, not fixed at module load: the manifest is fetched, so the real
+  // name arrives a moment after the app does.
+  get id() {
+    return engineId;
+  },
   source: 'offline-stt',
   worksOffline: true,
   available: canRun,

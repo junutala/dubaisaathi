@@ -125,6 +125,30 @@ export async function voiceManifest(): Promise<VoiceManifest | null> {
   return manifest;
 }
 
+/**
+ * Which model is on this phone, read out of the manifest rather than written down here.
+ *
+ * The build fetches whatever `WHISPER_REPO` names and puts it in a directory of the repository's
+ * own name, so the served paths say which model it is. transformers.js needs that name to find
+ * the files; hardcoding it here would be the same string in two places, which is exactly the
+ * shape of the worklet-name bug — `saathi-mic` in one file, `mic-worklet` in the other, and a
+ * test on a real phone spent finding out.
+ *
+ * `null` when the manifest names no single model directory, which the caller reports as a voice
+ * that cannot run rather than guessing at a name.
+ */
+export async function voiceModelId(): Promise<string | null> {
+  const list = await voiceManifest();
+  if (list === null) return null;
+  const directories = new Set(
+    list.files
+      .map((file) => file.path.slice('/models/'.length).split('/')[0])
+      .filter((name): name is string => name !== undefined && name !== 'ort'),
+  );
+  const [only] = [...directories];
+  return directories.size === 1 && only !== undefined ? only : null;
+}
+
 /** What the traveller is being asked to download, in whole megabytes. `null` until it is known. */
 export async function voiceSizeMb(): Promise<number | null> {
   const list = await voiceManifest();

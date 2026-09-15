@@ -52,8 +52,13 @@ RUN VITE_BUILD_SHA="$RAILWAY_GIT_COMMIT_SHA" \
 # It also writes manifest.json — the list the app downloads and the byte total it shows a
 # traveller before asking them to wait. One source of truth, generated from what was really
 # fetched, so the app and the image cannot drift.
+#
+# Which model, likewise, is said once. The directory is the repository's own name and the app
+# reads it back out of the manifest, so changing WHISPER_REPO is the whole of changing the model.
+# Two places holding the same string is what the worklet-name bug was, and it cost a test on a
+# real phone to find.
 FROM node:22-alpine AS voice
-ARG WHISPER_REPO=onnx-community/whisper-tiny
+ARG WHISPER_REPO=onnx-community/whisper-base
 RUN apk add --no-cache curl jq
 WORKDIR /voice
 
@@ -63,9 +68,9 @@ WORKDIR /voice
 # directory put 77 MB into a traveller's download to use 26 MB of it.
 COPY --from=build /repo/node_modules/onnxruntime-web/dist/ /tmp/ort/
 RUN set -eux; \
-    mkdir -p ort; \
-    cp /tmp/ort/ort-wasm-simd-threaded*.wasm /tmp/ort/ort-wasm-simd-threaded*.mjs ort/; \
-    ls -la ort/
+    mkdir -p out/ort; \
+    cp /tmp/ort/ort-wasm-simd-threaded*.wasm /tmp/ort/ort-wasm-simd-threaded*.mjs out/ort/; \
+    ls -la out/ort/
 
 # Only the two graphs transformers.js loads for automatic-speech-recognition: the encoder and
 # the MERGED decoder. Taking every *quantized.onnx took the separate decoder and its with-past
@@ -79,7 +84,8 @@ RUN set -eux; \
 RUN set -eux; \
     root="https://huggingface.co/${WHISPER_REPO}/resolve/main"; \
     api="https://huggingface.co/api/models/${WHISPER_REPO}/tree/main"; \
-    mkdir -p whisper-tiny/onnx; \
+    name="${WHISPER_REPO##*/}"; \
+    mkdir -p "out/$name/onnx"; \
     echo "--- what the repo actually holds ---"; \
     curl -fsSL "$api" | jq -r '.[] | select(.type=="file") | .path'; \
     curl -fsSL "$api/onnx" | jq -r '.[] | select(.type=="file") | .path'; \
@@ -89,18 +95,21 @@ RUN set -eux; \
            | grep -E '(encoder_model|decoder_model_merged)_quantized\.onnx$'); \
     test -n "$json"; \
     test "$(echo "$onnx" | wc -l)" -eq 2; \
-    for f in $json; do curl -fsSL --retry 3 -o "whisper-tiny/$f" "$root/$f"; done; \
-    for f in $onnx; do curl -fsSL --retry 3 -o "whisper-tiny/$f" "$root/$f"; done; \
-    du -sh whisper-tiny; \
-    find whisper-tiny -type f -exec ls -la {} \;
+    for f in $json; do curl -fsSL --retry 3 -o "out/$name/$f" "$root/$f"; done; \
+    for f in $onnx; do curl -fsSL --retry 3 -o "out/$name/$f" "$root/$f"; done; \
+    du -sh "out/$name"; \
+    find "out/$name" -type f -exec ls -la {} \;
 
 # The manifest, from what is on disk rather than from a list someone maintained by hand.
 COPY deploy/voice-manifest.mjs /voice-manifest.mjs
-RUN node /voice-manifest.mjs manifest.json \
-      whisper-tiny \
+WORKDIR /voice/out
+RUN set -eux; \
+    name="${WHISPER_REPO##*/}"; \
+    node /voice-manifest.mjs voice-manifest.json \
+      "$name" \
       ort/ort-wasm-simd-threaded.jsep.wasm \
-      ort/ort-wasm-simd-threaded.jsep.mjs \
-    && cat manifest.json
+      ort/ort-wasm-simd-threaded.jsep.mjs; \
+    cat voice-manifest.json
 
 FROM nginx:1.27-alpine
 # nginx cannot read an environment variable from a config file, and Railway hands the port in at
@@ -113,6 +122,4 @@ COPY --from=build /repo/apps/pwa/dist /usr/share/nginx/html
 # Whisper, the ONNX runtime, and the manifest that says what a traveller is being asked to fetch.
 # Served, not precached: 68 megabytes has no business in the service worker's install step. It is
 # fetched deliberately, once, and cached by the app.
-COPY --from=voice /voice/whisper-tiny /usr/share/nginx/html/models/whisper-tiny
-COPY --from=voice /voice/ort /usr/share/nginx/html/models/ort
-COPY --from=voice /voice/manifest.json /usr/share/nginx/html/models/voice-manifest.json
+COPY --from=voice /voice/out/ /usr/share/nginx/html/models/

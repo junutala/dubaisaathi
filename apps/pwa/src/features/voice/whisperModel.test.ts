@@ -282,3 +282,66 @@ describe('a service worker holding the previous model', () => {
     expect([...store.keys()].filter((key) => key.includes('?'))).toEqual([]);
   });
 });
+
+describe('which model is on the phone', () => {
+  /**
+   * Read from the manifest rather than written down in the engine. The Dockerfile's
+   * `WHISPER_REPO` decides what is fetched and the directory it lands in; the app reads that
+   * back, so swapping tiny for base is one build argument. The same string in two files is what
+   * the worklet-name bug was — `saathi-mic` in one, `mic-worklet` in the other — and it cost a
+   * test on a real phone.
+   */
+  it('is the directory the files were served from', async () => {
+    const store = fakeCaches();
+    store.set('/models/voice-manifest.json', ok(MANIFEST));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => Promise.reject(new Error('no network'))),
+    );
+    const { voiceModelId } = await import('./whisperModel.js');
+    expect(await voiceModelId()).toBe('whisper-tiny');
+  });
+
+  it('does not count the runtime as a model', async () => {
+    const store = fakeCaches();
+    store.set(
+      '/models/voice-manifest.json',
+      ok({
+        version: 'v1',
+        files: [
+          { path: '/models/whisper-base/config.json', bytes: 10 },
+          { path: '/models/ort/ort-wasm-simd-threaded.jsep.wasm', bytes: 20 },
+        ],
+        totalBytes: 30,
+      }),
+    );
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => Promise.reject(new Error('no network'))),
+    );
+    const { voiceModelId } = await import('./whisperModel.js');
+    expect(await voiceModelId()).toBe('whisper-base');
+  });
+
+  /** Two model directories is not a model this app can name, and guessing one would be worse. */
+  it('is null when the manifest names more than one', async () => {
+    const store = fakeCaches();
+    store.set(
+      '/models/voice-manifest.json',
+      ok({
+        version: 'v1',
+        files: [
+          { path: '/models/whisper-tiny/config.json', bytes: 10 },
+          { path: '/models/whisper-base/config.json', bytes: 10 },
+        ],
+        totalBytes: 20,
+      }),
+    );
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => Promise.reject(new Error('no network'))),
+    );
+    const { voiceModelId } = await import('./whisperModel.js');
+    expect(await voiceModelId()).toBeNull();
+  });
+});
