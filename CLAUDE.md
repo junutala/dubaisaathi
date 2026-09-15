@@ -347,6 +347,27 @@ So, every time:
 - **If deploying needs the owner, ask for that decision on its own** and do not bury it under a
   summary of the code. It is the only part he cannot do for himself by reading.
 
+**A service worker outlives the deploy that installed it, and a domain remembers.** On 15
+September `outlet.saafarsaathi.in` kept showing the traveller's app for six hours after the build
+that fixed it — correct image, correct Dockerfile, correct commit, and the owner still looking at
+the tourist tiles. Nothing was wrong with the server. A worker the traveller's app had registered
+while it was briefly served there was answering every navigation from its own cache, so the
+browser never asked. The http logs said so in one glance: twenty-three requests, all for `/sw.js`,
+not one for the page.
+
+So, when a deployment is provably correct and the screen still disagrees:
+
+- **Read the http logs before touching the build again.** A request that never arrives cannot be
+  fixed by changing what would have answered it. Requests for the worker script with no request
+  for the page is that signature exactly.
+- **Never let an SPA fallback answer `/sw.js`.** `try_files $uri /index.html` returning HTML to a
+  worker update check is what made this permanent rather than temporary: the browser rejects the
+  wrong content type, keeps the worker it has, and retries for ever. That path gets an exact-match
+  location on every static host we run, and a real file behind it.
+- **A wrong app served on a domain is not over when the deploy is fixed.** Whatever it registered
+  is still out there on real phones. Serving a worker that unregisters itself is the only thing
+  that reaches them; asking someone to clear site data is not a fix, it is a fix for one phone.
+
 A release also never takes something away from a phone (see the rule above): a deploy must not
 evict a traveller's voice model, documents or hotel. That is a property of what is shipped, and
 it is checked before shipping, not after.
