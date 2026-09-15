@@ -161,6 +161,7 @@ export const en: Record<StringKey, string> = {
   'listen.preparingWhy': 'A few seconds the first time. Do not speak yet.',
   'listen.getVoice': 'Download the Hindi voice',
   'listen.getVoiceWhy': 'One download ({size} MB) — then the mic works with no internet.',
+  'listen.downloadingTitle': 'Getting the Hindi voice',
   'listen.downloading': 'Downloading… {percent}%',
   'listen.downloadFailed': 'The download did not finish. Try again.',
   'listen.insecure': 'This page did not open securely',
@@ -168,8 +169,10 @@ export const en: Record<StringKey, string> = {
     'Open it on the secure (https) address and the mic will work. For now, type it instead.',
   'listen.network': 'Recognising speech needed the internet',
   'listen.networkWhy': 'This phone cannot do it offline. Type it instead.',
+  'listen.micOff': 'The mic did not work',
   'listen.failed': 'Something went wrong with the mic',
 
+  'listen.whichTitle': 'Which one?',
   'listen.whichOne': '“{text}” — what would you like?',
   'listen.askRoute': 'How to get there',
   'listen.askFood': 'Find food there',

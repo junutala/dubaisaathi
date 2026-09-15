@@ -594,6 +594,48 @@ button:not(:disabled) {
 }
 
 /* Five bars, no audio analysis: this only has to say "the mic is on". */
+/* Working — deliberately nothing like the waveform below it, because it means the opposite:
+   the microphone is off and the phone is busy. */
+.busy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  height: 68px;
+}
+.busy-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--muted);
+  opacity: 0.35;
+  animation: busy 1.2s ease-in-out infinite;
+}
+.busy-dot-0 {
+  animation-delay: 0s;
+}
+.busy-dot-1 {
+  animation-delay: 0.2s;
+}
+.busy-dot-2 {
+  animation-delay: 0.4s;
+}
+@keyframes busy {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .busy-dot {
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
 .wave {
   display: flex;
   align-items: flex-end;

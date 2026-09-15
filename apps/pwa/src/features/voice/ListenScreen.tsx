@@ -376,7 +376,7 @@ export function ListenScreen({
 
         {phase.at === 'preparing' && (
           <div className="listen">
-            <Waveform />
+            <Busy />
             <span className="listen-state">{t('listen.preparing')}</span>
             <p className="muted center">{t('listen.preparingWhy')}</p>
             <button type="button" className="btn btn-ghost" onClick={cancel}>
@@ -387,7 +387,7 @@ export function ListenScreen({
 
         {phase.at === 'thinking' && (
           <div className="listen">
-            <Waveform />
+            <Busy />
             <span className="listen-state">{t('listen.thinking')}</span>
           </div>
         )}
@@ -591,12 +591,62 @@ function ComposeBox({
 }
 
 /**
- * The header. The box is one screen with two jobs, and the crumb has to say which one it is doing:
- * a sentence to check, or a sentence to type.
+ * The header, and it says what is actually happening.
+ *
+ * It used to say "Listening…" in every state but one. It said it while the microphone was being
+ * refused, while a 42 MB model was downloading, while the sentence was being worked out, and —
+ * worst — while the traveller sat typing, having been told by this very screen to type instead.
+ *
+ * That is not a cosmetic defect. A screen that claims to be listening is a screen a traveller
+ * will speak at, in a shop, at a taxi door, waiting for something to happen. An app that says
+ * "I cannot do this" costs them a few seconds; an app that says "I am doing this" when it is
+ * not costs them the thing they were trying to do, and then their trust. Denial of service is
+ * survivable. A lie is not.
+ *
+ * So every phase names itself. The rule for adding one: write the title before the state, and
+ * if there is no honest thing to put here, the state is wrong.
  */
 function composeTitle(phase: Phase): StringKey {
-  if (phase.at !== 'compose') return 'listen.title';
-  return phase.spoken === null ? 'listen.type' : 'listen.check';
+  switch (phase.at) {
+    case 'listening':
+      return 'listen.title';
+    case 'preparing':
+      return 'listen.preparing';
+    case 'thinking':
+      return 'listen.thinking';
+    case 'offer-download':
+      return 'listen.getVoice';
+    case 'downloading':
+      return 'listen.downloadingTitle';
+    case 'ask':
+      return 'listen.whichTitle';
+    case 'failed':
+      // The mic can fail having worked perfectly — it heard silence. Saying "the mic did not
+      // work" there would be its own small lie, so the two are kept apart.
+      return phase.failure === 'no-speech' ? 'listen.noSpeech' : 'listen.micOff';
+    case 'compose':
+      // One screen, two jobs: a sentence to check, or a sentence to type from nothing.
+      return phase.spoken === null ? 'listen.type' : 'listen.check';
+  }
+}
+
+/**
+ * Working, and NOT listening. Three dots, which is the one thing a phone can say that nobody
+ * mistakes for a microphone.
+ *
+ * The waveform used to run here, in both the states where the mic is off: while the model loads
+ * — directly above the words "Do not speak yet" — and while the sentence is being transcribed.
+ * A traveller reads the bars, not the sentence, so they spoke into a dead microphone and waited.
+ * The animation is a claim like any other and it has to be true.
+ */
+function Busy() {
+  return (
+    <div className="busy" aria-hidden="true">
+      {[0, 1, 2].map((dot) => (
+        <span key={dot} className={`busy-dot busy-dot-${String(dot)}`} />
+      ))}
+    </div>
+  );
 }
 
 /** Proof the mic is live. Five bars, no library, no audio analysis — it only has to say "on". */

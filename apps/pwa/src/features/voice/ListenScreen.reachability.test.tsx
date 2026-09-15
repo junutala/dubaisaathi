@@ -205,6 +205,96 @@ describe('every state of the microphone screen offers a way forward', () => {
   });
 });
 
+/**
+ * The second property, and the one that cost the most.
+ *
+ * A way forward is not enough if the screen is lying about what it is doing. This header said
+ * "Listening…" in seven states out of eight — while the microphone was being refused, while a
+ * 42 MB model downloaded, while the sentence was worked out, and while the traveller typed,
+ * having been told by this same screen to type instead. The waveform ran in two of those, one of
+ * them directly above the words "Do not speak yet".
+ *
+ * A traveller reads the heading and the moving bars, not the paragraph. Told the phone is
+ * listening, they speak — in a shop, at a taxi door, at 50°C — into a microphone that is shut.
+ * An app that says "I cannot" costs them seconds. An app that says "I am" when it is not costs
+ * them the thing they were trying to do. Denial of service is survivable; a lie is not.
+ */
+describe('the screen never claims to be listening when it is not', () => {
+  /** What the header is saying, within this render only. */
+  const heading = (container: HTMLElement): string =>
+    container.querySelector('.hdr-title')?.textContent.trim() ?? '';
+  /** The mic-is-live waveform — not the busy dots, which mean the opposite. */
+  const micIsLive = (container: HTMLElement): boolean => container.querySelector('.wave') !== null;
+
+  it.each([
+    ['no-permission'],
+    ['no-speech'],
+    ['no-engine'],
+    ['network'],
+    ['failed'],
+    ['insecure-context'],
+  ] as const)('after a %s failure', async (failure) => {
+    engines = [failsWith(failure)];
+    const view = show(mount());
+    await waitFor(() => {
+      expect(wayForward(view).length).toBeGreaterThan(0);
+    });
+    // Not vacuous: an h1 selector matched nothing here and every assertion below passed on an
+    // empty string, which is how a lying header nearly shipped with a green harness.
+    expect(heading(view)).not.toBe('');
+    expect(heading(view)).not.toMatch(/listening/i);
+    expect(micIsLive(view)).toBe(false);
+  });
+
+  it('while the voice is downloading', async () => {
+    engines = [];
+    modelState = 'fetchable';
+    downloadOutcome = 'hangs';
+    const view = show(mount());
+    await waitFor(() => {
+      expect(downloadButton(view)).not.toBeNull();
+    });
+    downloadButton(view)?.click();
+    await waitFor(() => {
+      expect(view.textContent).toMatch(/40%|४०/);
+    });
+    // Not vacuous: an h1 selector matched nothing here and every assertion below passed on an
+    // empty string, which is how a lying header nearly shipped with a green harness.
+    expect(heading(view)).not.toBe('');
+    expect(heading(view)).not.toMatch(/listening/i);
+    expect(micIsLive(view)).toBe(false);
+  });
+
+  it('while the traveller is typing, having been told to type', async () => {
+    engines = [failsWith('no-permission')];
+    const view = show(mount());
+    await waitFor(() => {
+      expect(wayForward(view).length).toBeGreaterThan(0);
+    });
+    const typeIt = [...view.querySelectorAll('button')].find((b) => /type it/i.test(b.textContent));
+    expect(typeIt).toBeDefined();
+    typeIt?.click();
+    await waitFor(() => {
+      expect(view.querySelector('textarea, input')).not.toBeNull();
+    });
+    // Not vacuous: an h1 selector matched nothing here and every assertion below passed on an
+    // empty string, which is how a lying header nearly shipped with a green harness.
+    expect(heading(view)).not.toBe('');
+    expect(heading(view)).not.toMatch(/listening/i);
+    expect(micIsLive(view)).toBe(false);
+  });
+
+  /** ...and it does say so when it is true, or the property above is satisfied by saying nothing. */
+  it('does say it while the microphone is actually open', async () => {
+    engines = [engineThat(() => undefined)];
+    const view = show(mount());
+    await waitFor(() => {
+      expect(micIsLive(view)).toBe(true);
+    });
+    expect(heading(view)).toMatch(/listening/i);
+  });
+});
+
 describe('the offer to download the offline voice', () => {
   it('is reachable while the microphone is working, not only when it has failed', async () => {
     // The bug: it lived inside the "listening" branch only, so online — where the cloud

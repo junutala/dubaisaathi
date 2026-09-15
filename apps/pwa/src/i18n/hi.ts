@@ -168,15 +168,18 @@ export const hi = {
   'listen.preparingWhy': 'पहली बार में कुछ सेकंड लगते हैं. अभी बोलिए मत.',
   'listen.getVoice': 'हिंदी आवाज़ डाउनलोड करें',
   'listen.getVoiceWhy': 'एक बार डाउनलोड ({size} MB) — फिर बिना इंटरनेट भी माइक चलेगा.',
+  'listen.downloadingTitle': 'हिंदी आवाज़ आ रही है',
   'listen.downloading': 'डाउनलोड हो रहा है… {percent}%',
   'listen.downloadFailed': 'डाउनलोड पूरा नहीं हुआ. दोबारा कोशिश कीजिए.',
   'listen.insecure': 'यह पेज सुरक्षित नहीं खुला',
   'listen.insecureWhy': 'सुरक्षित (https) पते पर खोलिए, तभी माइक चलेगा. अभी टाइप करके बताइए.',
   'listen.network': 'आवाज़ पहचानने के लिए इंटरनेट चाहिए था',
   'listen.networkWhy': 'यह फ़ोन आवाज़ ऑफ़लाइन नहीं पहचानता. टाइप करके बताइए.',
+  'listen.micOff': 'माइक नहीं चला',
   'listen.failed': 'माइक से कुछ गड़बड़ हुई',
 
   // 1.2 › the two-button question, when one word could mean two things
+  'listen.whichTitle': 'कौन सा?',
   'listen.whichOne': '“{text}” — क्या करना है?',
   'listen.askRoute': 'वहाँ कैसे जाएँ',
   'listen.askFood': 'वहाँ खाना ढूँढें',
