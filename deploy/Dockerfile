@@ -95,6 +95,15 @@ RUN set -eux; \
     cp /tmp/ort/ort-wasm-simd-threaded*.wasm /tmp/ort/ort-wasm-simd-threaded*.mjs ort/; \
     ls -la ort/
 
+# Only the two graphs transformers.js loads for automatic-speech-recognition: the encoder and
+# the MERGED decoder. Taking every *quantized.onnx took the separate decoder and its with-past
+# twin as well — the same weights twice more, 60 MB of them, in a download a traveller waits for
+# on hotel wifi. The first build printed the listing, so these two names are read off it rather
+# than guessed, and the count check below fails the build if either stops matching.
+#
+# (The comment is here rather than inside the RUN. A `#` line between two continued lines is
+# stripped by Docker and not by a shell, which is the same untestable-outside-a-build shape that
+# the manifest generator was moved into its own file to avoid.)
 RUN set -eux; \
     root="https://huggingface.co/${WHISPER_REPO}/resolve/main"; \
     api="https://huggingface.co/api/models/${WHISPER_REPO}/tree/main"; \
@@ -102,12 +111,12 @@ RUN set -eux; \
     echo "--- what the repo actually holds ---"; \
     curl -fsSL "$api" | jq -r '.[] | select(.type=="file") | .path'; \
     curl -fsSL "$api/onnx" | jq -r '.[] | select(.type=="file") | .path'; \
-    echo "--- taking every root .json, and only the quantized ONNX ---"; \
+    echo "--- taking every root .json, and the two graphs the library actually loads ---"; \
     json=$(curl -fsSL "$api" | jq -r '.[] | select(.type=="file") | .path' | grep -E '\.json$'); \
     onnx=$(curl -fsSL "$api/onnx" | jq -r '.[] | select(.type=="file") | .path' \
-           | grep -E 'quantized\.onnx$'); \
+           | grep -E '(encoder_model|decoder_model_merged)_quantized\.onnx$'); \
     test -n "$json"; \
-    test -n "$onnx"; \
+    test "$(echo "$onnx" | wc -l)" -eq 2; \
     for f in $json; do curl -fsSL --retry 3 -o "whisper-tiny/$f" "$root/$f"; done; \
     for f in $onnx; do curl -fsSL --retry 3 -o "whisper-tiny/$f" "$root/$f"; done; \
     du -sh whisper-tiny; \
