@@ -290,6 +290,22 @@ export async function resolveEngines(online: boolean): Promise<readonly SttEngin
   // OS language pack — the three things that failed on a real phone. Downloading it is never
   // done here; that is a deliberate choice the traveller makes once, not a side effect of
   // tapping a microphone.
+  const { whisperStt } = await import('./whisperStt.js');
+  const { whisperModelState } = await import('./whisperModel.js');
+  if (whisperStt.available() && (await whisperModelState(online)) === 'cached') {
+    candidates.push(whisperStt);
+  }
+
+  /**
+   * Vosk, second, and only for a phone that already has it.
+   *
+   * It is replaced, not deleted. Vosk got proper nouns wrong — "Mall of the Emirates" came back
+   * as "माला एमरेट्स", and place names are most of what this product must hear — which is why
+   * Whisper is now the offer. But a traveller who waited on hotel wifi for 42 MB has offline
+   * Hindi on their phone today, and a release never takes something away from a phone
+   * (CLAUDE.md). So it keeps working until they download the better one, and is never offered
+   * to anyone who does not already have it.
+   */
   const { voskStt, voskModelState } = await import('./voskStt.js');
   if (voskStt.available() && (await voskModelState(online)) === 'cached') {
     candidates.push(voskStt);

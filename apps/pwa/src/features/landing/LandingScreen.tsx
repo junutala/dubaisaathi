@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSettings } from '../../app/settings.js';
 import { Logo } from '../../app/shell/Logo.js';
-import { downloadVoskModel, voskModelState } from '../voice/voskStt.js';
+import { downloadWhisperModel, whisperModelState } from '../voice/whisperModel.js';
 
 /**
  * Screen 1 · लैंडिंग — the first open, and the only place the offline pack is fetched.
@@ -43,7 +43,7 @@ export function LandingScreen({ onReady }: { readonly onReady: () => void }) {
 
   useEffect(() => {
     let live = true;
-    void voskModelState(online).then((state) => {
+    void whisperModelState(online).then((state) => {
       if (!live) return;
       if (state === 'cached') {
         setPhase({ at: 'ready' });
@@ -55,7 +55,7 @@ export function LandingScreen({ onReady }: { readonly onReady: () => void }) {
       }
       startedAt.current = Date.now();
       setPhase({ at: 'downloading', fraction: 0 });
-      void downloadVoskModel((fraction) => {
+      void downloadWhisperModel((fraction) => {
         if (live) setPhase({ at: 'downloading', fraction });
       }).then((done) => {
         if (live) setPhase({ at: done ? 'ready' : 'failed' });

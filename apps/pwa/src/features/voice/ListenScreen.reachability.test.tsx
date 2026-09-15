@@ -40,7 +40,7 @@ vi.mock('./voiceEvent.js', () => ({ recordVoiceEvent: () => Promise.resolve(unde
 
 /** What `resolveEngines` will answer with, per test. */
 let engines: SttEngine[] = [];
-/** What `voskModelState` will answer with, per test. */
+/** What `whisperModelState` will answer with, per test. */
 let modelState: 'cached' | 'fetchable' | 'unavailable' = 'unavailable';
 /** How the mocked download behaves: hang there, fail, or succeed. Set per test. */
 let downloadOutcome: 'hangs' | 'fails' | 'succeeds' = 'hangs';
@@ -51,9 +51,10 @@ vi.mock('./stt.js', async (importOriginal) => ({
   isSecureOrigin: () => true,
 }));
 
-vi.mock('./voskStt.js', () => ({
-  voskModelState: () => Promise.resolve(modelState),
-  downloadVoskModel: (onProgress: (fraction: number) => void) => {
+vi.mock('./whisperModel.js', () => ({
+  whisperModelState: () => Promise.resolve(modelState),
+  voiceSizeMb: () => Promise.resolve(48),
+  downloadWhisperModel: (onProgress: (fraction: number) => void) => {
     onProgress(0.4);
     if (downloadOutcome === 'hangs') return new Promise<boolean>(() => undefined);
     return Promise.resolve(downloadOutcome === 'succeeds');

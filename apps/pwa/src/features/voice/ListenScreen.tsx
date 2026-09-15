@@ -20,7 +20,8 @@ import {
 import { recordVoiceEvent } from './voiceEvent.js';
 import { Clarifier } from '../ask/Clarifier.js';
 import { recordClarifierChoice, submitSentence } from '../ask/askSubmit.js';
-import { downloadVoskModel, voskModelState, type ModelState } from './voskStt.js';
+import type { ModelState } from './modelCache.js';
+import { downloadWhisperModel, whisperModelState, voiceSizeMb } from './whisperModel.js';
 
 /**
  * 1.2 · सुन रहा हूँ — the mic, wherever it was tapped from.
@@ -64,7 +65,6 @@ type Phase =
     };
 
 /** What the traveller is agreeing to download. Rounded, because 42.4 helps nobody. */
-const VOICE_MB = 42;
 
 const FAILURE_TITLE: Record<SttFailure, StringKey> = {
   'no-permission': 'listen.noPermission',
@@ -122,6 +122,19 @@ export function ListenScreen({
    * nobody is ever shown — which is exactly what happened.
    */
   const [modelState, setModelState] = useState<ModelState | null>(null);
+
+  /**
+   * How big the download is, in megabytes, asked rather than hardcoded.
+   *
+   * It was the literal 42, which was true of Vosk and is not true of Whisper, and a number in a
+   * screen has no way of noticing that the thing it describes was replaced. The build writes the
+   * real total into the manifest; this reads it. `null` until the answer arrives, and the screen
+   * says "the Hindi voice" without a size rather than a size that might be wrong.
+   */
+  const [sizeMb, setSizeMb] = useState<number | null>(null);
+  useEffect(() => {
+    void voiceSizeMb().then(setSizeMb);
+  }, []);
 
   /**
    * One path for every sentence, spoken or typed: parse, record, then go or ask.
@@ -201,7 +214,7 @@ export function ListenScreen({
       }
       // Before telling anyone their phone cannot hear Hindi, check whether we can simply give it
       // the ability. This is the difference between a dead end and a one-time download.
-      void voskModelState(online).then((state) => {
+      void whisperModelState(online).then((state) => {
         setPhase(
           state === 'fetchable' && !downloadFailed
             ? { at: 'offer-download' }
@@ -263,7 +276,7 @@ export function ListenScreen({
   }, [online, tryNext]);
 
   useEffect(() => {
-    void voskModelState(online).then(setModelState);
+    void whisperModelState(online).then(setModelState);
   }, [online]);
 
   // The mic opens listening, because a traveller who tapped a microphone is already talking.
@@ -279,7 +292,7 @@ export function ListenScreen({
     setPhase({ at: 'downloading', percent: 0 });
     const controller = new AbortController();
     download.current = controller;
-    void downloadVoskModel((fraction) => {
+    void downloadWhisperModel((fraction) => {
       setPhase({ at: 'downloading', percent: Math.round(fraction * 100) });
     }, controller.signal).then((ok) => {
       download.current = null;
@@ -418,7 +431,11 @@ export function ListenScreen({
         {phase.at === 'offer-download' && (
           <div className="listen">
             <p className="listen-state">{t('listen.noEngine')}</p>
-            <p className="muted center">{t('listen.getVoiceWhy', { size: VOICE_MB })}</p>
+            <p className="muted center">
+              {sizeMb === null
+                ? t('listen.getVoiceWhyUnknown')
+                : t('listen.getVoiceWhy', { size: sizeMb })}
+            </p>
             <button type="button" className="btn btn-primary" onClick={getVoice}>
               {t('listen.getVoice')}
             </button>
@@ -440,7 +457,11 @@ export function ListenScreen({
             <div className="bar-track">
               <div className="bar-fill" style={{ width: `${String(phase.percent)}%` }} />
             </div>
-            <p className="muted center">{t('listen.getVoiceWhy', { size: VOICE_MB })}</p>
+            <p className="muted center">
+              {sizeMb === null
+                ? t('listen.getVoiceWhyUnknown')
+                : t('listen.getVoiceWhy', { size: sizeMb })}
+            </p>
             {/* 42 MB on a hotel connection is the longest a traveller can be stuck on one
                 screen. Without this they watched a bar with no way off it. */}
             <button
@@ -486,7 +507,8 @@ export function ListenScreen({
                 getVoice();
               }}
             >
-              {t('listen.getVoice')} · {String(VOICE_MB)} MB
+              {t('listen.getVoice')}
+              {sizeMb === null ? '' : ` · ${String(sizeMb)} MB`}
             </button>
           )}
 

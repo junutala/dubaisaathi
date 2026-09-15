@@ -21,7 +21,7 @@ import { speechGrammar } from './intentPacks.js';
 const VOSK_MODEL_URL = '/models/vosk-hi.tar.gz';
 
 // One definition, shared with the service worker configuration — see `modelCache.ts` for why.
-import { LEGACY_MODEL_CACHES, MODEL_CACHE } from './modelCache.js';
+import { LEGACY_MODEL_CACHES, MODEL_CACHE, type ModelState } from './modelCache.js';
 
 /**
  * Reported with every `VoiceEvent`, so a model regression is visible in the data. The suffix is
@@ -30,8 +30,6 @@ import { LEGACY_MODEL_CACHES, MODEL_CACHE } from './modelCache.js';
  * to be able to tell the two apart when it compares what travellers were heard to say.
  */
 const VOSK_ENGINE_ID = 'vosk-hi-0.22+grammar';
-
-export type ModelState = 'cached' | 'fetchable' | 'unavailable';
 
 /**
  * Whether the model is already on the phone. Nothing downloads 42 MB because someone tapped a

@@ -17,8 +17,8 @@ import { concat, heardAnything, resample, WHISPER_RATE } from './resample.js';
  *
  * **Everything is served from our own origin.** `allowRemoteModels` is off, so the library can
  * never reach for a CDN: a traveller in a Dubai basement must not depend on Hugging Face being
- * up, and the CSP is `self`. The Dockerfile puts the files under /models/whisper/ at build time,
- * the same arrangement the Vosk model used and the OCR data uses.
+ * up, and the CSP is `self`. The Dockerfile puts the files under /models/whisper-tiny/ at build
+ * time and writes a manifest beside them; `whisperModel.ts` is what puts them on the phone.
  */
 
 const MODEL_ID = 'whisper-tiny';
@@ -62,10 +62,26 @@ async function transcriber(): Promise<Transcribe> {
     env.allowRemoteModels = false;
     env.allowLocalModels = true;
     env.localModelPath = LOCAL_MODELS;
-    // WASM only. WebGPU is faster where it exists and absent on most of the phones this is for,
-    // and a second code path that only some travellers take is a second path nobody tests.
-    // Optional in the library's own types, so it is set only when present rather than asserted.
-    if (env.backends.onnx.wasm) env.backends.onnx.wasm.wasmPaths = '/models/ort/';
+    /**
+     * WASM only, and the exact runtime rather than a directory to pick from.
+     *
+     * WebGPU is faster where it exists and absent on most of the phones this is for, and a second
+     * code path that only some travellers take is a second path nobody tests.
+     *
+     * onnxruntime-web ships four WebAssembly builds and chooses between them by what the browser
+     * supports. A prefix would let it choose, and then the file a traveller pre-downloaded for
+     * offline use might not be the file it asks for in a basement — the failure would be "the
+     * voice does not work offline", months from the decision that caused it. The library's
+     * default entry is the bundled jsep build, so that is the one pinned here, the one the image
+     * manifest lists, and therefore the one on the phone. Optional in the library's own types,
+     * so it is set only when present rather than asserted.
+     */
+    if (env.backends.onnx.wasm) {
+      env.backends.onnx.wasm.wasmPaths = {
+        wasm: '/models/ort/ort-wasm-simd-threaded.jsep.wasm',
+        mjs: '/models/ort/ort-wasm-simd-threaded.jsep.mjs',
+      };
+    }
     const built: unknown = await pipeline('automatic-speech-recognition', MODEL_ID, {
       device: 'wasm',
       dtype: 'q8',

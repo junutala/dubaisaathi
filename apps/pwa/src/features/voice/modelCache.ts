@@ -18,3 +18,11 @@ export const MODEL_CACHE = 'saathi-model-v1';
  * notices.
  */
 export const LEGACY_MODEL_CACHES = ['saathi-speech-v1'];
+
+/**
+ * Whether the offline voice is on this phone, could be fetched, or is out of reach.
+ *
+ * It lived in `voskStt.ts` because Vosk was the only engine that had one. Two engines now answer
+ * this question and neither owns the vocabulary, so it sits beside the cache they both write to.
+ */
+export type ModelState = 'cached' | 'fetchable' | 'unavailable';

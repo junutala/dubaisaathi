@@ -16,9 +16,11 @@ export default tseslint.config(
       'supabase/functions/**',
       // A screenshot tool for looking at the collectors' app; it holds no product logic.
       'apps/field/test/**',
-      // Build-time checkers, like their Python sibling design/check-screens.py. They run under
-      // node before the app is built and are not part of either app's source.
+      // Build-time scripts, like their Python sibling design/check-screens.py. They run under
+      // node before or during the image build and are not part of either app's source:
+      // design/ checks the screens, deploy/ writes the voice manifest inside the Dockerfile.
       'design/*.mjs',
+      'deploy/*.mjs',
     ],
   },
   js.configs.recommended,

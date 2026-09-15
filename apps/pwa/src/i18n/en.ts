@@ -162,6 +162,7 @@ export const en: Record<StringKey, string> = {
   'listen.getVoice': 'Download the Hindi voice',
   'listen.getVoiceWhy': 'One download ({size} MB) — then the mic works with no internet.',
   'listen.downloadingTitle': 'Getting the Hindi voice',
+  'listen.getVoiceWhyUnknown': 'One download — then the mic works with no internet.',
   'listen.downloading': 'Downloading… {percent}%',
   'listen.downloadFailed': 'The download did not finish. Try again.',
   'listen.insecure': 'This page did not open securely',

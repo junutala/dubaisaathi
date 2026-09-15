@@ -41,9 +41,10 @@ vi.mock('./stt.js', async (importOriginal) => ({
   isSecureOrigin: () => true,
 }));
 
-vi.mock('./voskStt.js', () => ({
-  voskModelState: () => Promise.resolve('cached'),
-  downloadVoskModel: () => Promise.resolve(true),
+vi.mock('./whisperModel.js', () => ({
+  whisperModelState: () => Promise.resolve('cached'),
+  voiceSizeMb: () => Promise.resolve(48),
+  downloadWhisperModel: () => Promise.resolve(true),
 }));
 
 /** An engine that reports one result the moment it is asked to listen. */

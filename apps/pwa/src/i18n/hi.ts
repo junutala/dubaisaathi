@@ -169,6 +169,7 @@ export const hi = {
   'listen.getVoice': 'हिंदी आवाज़ डाउनलोड करें',
   'listen.getVoiceWhy': 'एक बार डाउनलोड ({size} MB) — फिर बिना इंटरनेट भी माइक चलेगा.',
   'listen.downloadingTitle': 'हिंदी आवाज़ आ रही है',
+  'listen.getVoiceWhyUnknown': 'एक बार डाउनलोड — फिर बिना इंटरनेट माइक चलेगा.',
   'listen.downloading': 'डाउनलोड हो रहा है… {percent}%',
   'listen.downloadFailed': 'डाउनलोड पूरा नहीं हुआ. दोबारा कोशिश कीजिए.',
   'listen.insecure': 'यह पेज सुरक्षित नहीं खुला',
