@@ -5,7 +5,8 @@ import { navigate } from '../../app/routes.js';
 import { ScreenHeader, type Tile } from '../../app/shell/ScreenHeader.js';
 import { QuickBar } from '../../app/shell/QuickBar.js';
 import type { StringKey } from '../../i18n/index.js';
-import { intentCorpus } from './intentPacks.js';
+import { intentCorpus, placeNamesInDevanagari } from './intentPacks.js';
+import { toDevanagari } from './toDevanagari.js';
 import { transportLanding } from './micRouting.js';
 import { isConfident, parseIntent } from './parseIntent.js';
 import {
@@ -210,6 +211,9 @@ export function ListenScreen({
        * that was sent (CLAUDE.md, learning loop: a tourist backing out within seconds is signal).
        */
       void recordVoiceEvent({
+        // The model's own output, before it is made readable. The learning loop is the one place
+        // that must see the alphabet it actually chose — that is the evidence for whether the
+        // language hint is landing, and transliterating it away would erase the question.
         transcript: chosen,
         ...(result.alternatives?.[0] === undefined
           ? {}
@@ -221,11 +225,27 @@ export function ListenScreen({
         sttEngine: engineId,
       });
 
-      setTyped(chosen);
+      /**
+       * What goes in the box is what the traveller can read.
+       *
+       * The recogniser writes Hindi in Urdu script — "مجھے برجمان جنا ہے" for "mujhe BurJuman
+       * jana hai" — which is the right words in the wrong alphabet. The screen above the box asks
+       * "Is this right?", and that is not a question anybody can answer in a script they do not
+       * read: they cannot confirm it and they cannot correct it.
+       *
+       * Display only. The row above keeps what the model produced; matching already works in
+       * every script; and a place name comes out of the pack rather than being converted,
+       * because that is the word they check hardest.
+       */
+      const readable = toDevanagari(chosen, placeNamesInDevanagari);
+      setTyped(readable);
       setPhase({
         at: 'compose',
-        spoken: chosen,
-        other: readings.find((text) => text !== chosen) ?? null,
+        spoken: readable,
+        other:
+          readings
+            .filter((text) => text !== chosen)
+            .map((text) => toDevanagari(text, placeNamesInDevanagari))[0] ?? null,
         unconstrained: result.alternatives?.[0]?.trim() ?? null,
         engineId,
       });

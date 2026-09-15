@@ -213,7 +213,7 @@ export function transliterate(input: string): string {
  * characters nobody pronounces. This is the standard normalisation: drop the marks and the
  * tatweel, then settle on one form of each letter that has several.
  */
-function arabicOneWay(input: string): string {
+export function foldArabic(input: string): string {
   return (
     input
       .normalize('NFC')
@@ -230,7 +230,7 @@ function arabicOneWay(input: string): string {
 
 export function fold(input: string): string {
   return (
-    arabicOneWay(transliterate(input))
+    foldArabic(transliterate(input))
       .toLowerCase()
       // Strip accents an English keyboard might produce (ā, é) before dropping punctuation.
       .normalize('NFD')

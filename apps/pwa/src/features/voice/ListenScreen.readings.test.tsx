@@ -339,3 +339,32 @@ describe('a sentence the traveller corrected', () => {
     });
   });
 });
+
+describe('a reading that came back in the wrong alphabet', () => {
+  /**
+   * The owner's phone heard him correctly and wrote Urdu script. The box then asked "Is this
+   * right?" in an alphabet he does not read, which is not a question — he could neither confirm
+   * it nor correct it.
+   */
+  it('is put in the box in Devanagari', async () => {
+    engines = [engineSaying({ transcript: 'مجھے برجمان جنا ہے', source: 'offline-stt' })];
+    const view = show();
+    await waitFor(() => {
+      expect(inTheBox(view)).toBe('मुझे बुरजुमान जाना है');
+    });
+  });
+
+  /**
+   * ...and the learning loop still sees what the model actually produced. That row is the only
+   * evidence for whether the language hint is landing; transliterating it away would erase the
+   * question along with the answer.
+   */
+  it('is recorded in the alphabet the model chose', async () => {
+    engines = [engineSaying({ transcript: 'مجھے برجمان جنا ہے', source: 'offline-stt' })];
+    const view = show();
+    await waitFor(() => {
+      expect(inTheBox(view)).not.toBe('');
+    });
+    expect((rowFrom('compose') as { transcript: string }).transcript).toBe('مجھے برجمان جنا ہے');
+  });
+});
