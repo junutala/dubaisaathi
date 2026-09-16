@@ -649,6 +649,17 @@ button:not(:disabled) {
   font-size: 11.5px;
   font-weight: 700;
 }
+/* A fact that opens the attraction's own site: same box, the value carries the arrow. */
+.fact-link {
+  text-decoration: none;
+  color: inherit;
+}
+.fact-link .fact-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--knowText);
+}
 /* The category on 3.2, in the line under the name, where the photo's caption used to sit. */
 .know-pill {
   background: var(--knowSoft);

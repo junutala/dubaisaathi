@@ -171,3 +171,4 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 | फ़ोन करें · जाना                       | Ring it, or hand the place to जाना                                   |
 | आप दुबई से बाहर हैं · बुरजुमान/होटल से | A phone in India still sees Dubai; the row says whose distance it is |
 | बुरजुमान से · आप दुबई से बाहर हैं      | The journey is real; the start is a stand-in, said plainly           |
+| वेबसाइट (the attraction's own)         | Where the pictures and the booking are; no photograph in the pack    |

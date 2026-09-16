@@ -53,6 +53,7 @@ cat <<H
       $(fact 'टिकट' 'AED 169 से · बच्चे AED 134')
       $(fact 'फ़ोन' '+971 4 888 8888')
       $(fact 'कितना समय लगेगा' '1.5 – 2 घंटे')
+      $(fact 'वेबसाइट' 'burjkhalifa.ae ↗')
     </div>
     <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 2px;">
       $(obtn "$(phone 20 "$ink" 1.9)फ़ोन करें")

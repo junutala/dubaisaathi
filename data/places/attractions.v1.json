@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "publishedAt": "2026-09-16T00:00:00Z",
-  "note": "Hours, tickets and phone numbers as known on 16 September 2026 and NOT yet checked by a person on the ground. Every row carries checkedAt; update it when someone confirms. Categories: landmark, mall, souk, beach, park.",
+  "note": "Hours, tickets and phone numbers as known on 16 September 2026 and NOT yet checked by a person on the ground. Every row carries checkedAt; update it when someone confirms. Categories: landmark, mall, souk, beach, park. `website` is the attraction's own site, for the traveller to read more and book; there is no photograph in the pack, by decision (16 September).",
   "attractions": [
     {
       "placeId": "burj-khalifa",
@@ -21,7 +21,8 @@
         "en": "124th floor, daytime · children less"
       },
       "phone": "+971 4 888 8888",
-      "durationHours": 2
+      "durationHours": 2,
+      "website": "https://www.burjkhalifa.ae"
     },
     {
       "placeId": "dubai-mall",
@@ -37,7 +38,8 @@
       "ticketAed": 0,
       "checkedAt": "2026-09-16",
       "phone": "800 38224 6255",
-      "durationHours": 3
+      "durationHours": 3,
+      "website": "https://thedubaimall.com"
     },
     {
       "placeId": "global-village",
@@ -57,7 +59,8 @@
         "en": "cheaper online · under 3 free"
       },
       "phone": "+971 4 362 4114",
-      "durationHours": 4
+      "durationHours": 4,
+      "website": "https://www.globalvillage.ae"
     },
     {
       "placeId": "gold-souk",
@@ -92,7 +95,8 @@
         "en": "inside tour · free from outside"
       },
       "phone": "+971 4 301 7777",
-      "durationHours": 1.5
+      "durationHours": 1.5,
+      "website": "https://www.jumeirah.com/en/stay/dubai/burj-al-arab-jumeirah"
     },
     {
       "placeId": "mall-of-emirates",
@@ -112,7 +116,8 @@
         "en": "mall free · Ski Dubai from AED 240"
       },
       "phone": "+971 4 409 9000",
-      "durationHours": 3
+      "durationHours": 3,
+      "website": "https://www.malloftheemirates.com"
     },
     {
       "placeId": "dubai-marina",
@@ -143,7 +148,8 @@
       "ticketAed": 0,
       "checkedAt": "2026-09-16",
       "phone": "+971 4 390 9999",
-      "durationHours": 2
+      "durationHours": 2,
+      "website": "https://www.ibnbattutamall.com"
     },
     {
       "placeId": "dubai-frame",
@@ -163,7 +169,8 @@
         "en": "children AED 20 · under 3 free"
       },
       "phone": "800 900",
-      "durationHours": 1.5
+      "durationHours": 1.5,
+      "website": "https://www.dubaiframe.ae"
     },
     {
       "placeId": "miracle-garden",
@@ -183,7 +190,8 @@
         "en": "under 3 free"
       },
       "phone": "+971 4 422 8902",
-      "durationHours": 2
+      "durationHours": 2,
+      "website": "https://www.dubaimiraclegarden.com"
     },
     {
       "placeId": "museum-of-future",
@@ -203,7 +211,8 @@
         "en": "under 3 free · online only"
       },
       "phone": "800 382 8437",
-      "durationHours": 2
+      "durationHours": 2,
+      "website": "https://museumofthefuture.ae"
     },
     {
       "placeId": "al-fahidi",
@@ -218,7 +227,8 @@
       },
       "ticketAed": 0,
       "checkedAt": "2026-09-16",
-      "durationHours": 1.5
+      "durationHours": 1.5,
+      "website": "https://www.dubaiculture.gov.ae"
     },
     {
       "placeId": "jumeirah-beach",
@@ -253,7 +263,8 @@
         "en": "waterpark · free from outside the hotel"
       },
       "phone": "+971 4 426 2000",
-      "durationHours": 6
+      "durationHours": 6,
+      "website": "https://www.atlantis.com/dubai"
     },
     {
       "placeId": "dubai-creek",

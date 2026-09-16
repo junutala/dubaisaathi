@@ -319,6 +319,7 @@ export const hi = {
   'know.from': 'AED {aed} से',
   'know.phone': 'फ़ोन',
   'know.duration': 'कितना समय लगेगा',
+  'know.website': 'वेबसाइट',
   'know.hoursText': '{hours} घंटे',
   'know.call': 'फ़ोन करें',
   'know.go': 'जाना',

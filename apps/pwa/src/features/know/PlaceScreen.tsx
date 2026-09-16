@@ -39,13 +39,7 @@ export function PlaceScreen({
     <>
       <ScreenHeader pillar="know" trail={name} />
       <div className="flow">
-        {/* A photograph only when the pack carries one. An empty hatched frame reads as a
-            broken image, not as a promise, so nothing is drawn without a picture behind it. */}
-        {row.photo !== undefined && (
-          <div className="photo-frame" style={{ height: 150 }}>
-            <img src={row.photo} alt="" />
-          </div>
-        )}
+        {/* No photograph, by decision: the attraction's own site has them, and it is linked below. */}
         <div className="stack-sm">
           <h1 className="outlet-title">{name}</h1>
           <p className="outlet-meta">
@@ -94,6 +88,15 @@ export function PlaceScreen({
                 {t('know.hoursText', { hours: row.durationHours })}
               </span>
             </span>
+          )}
+          {row.website !== undefined && (
+            <a className="fact fact-link" href={row.website} target="_blank" rel="noreferrer">
+              <span className="fact-label">{t('know.website')}</span>
+              <span className="fact-value">
+                {row.website.replace(/^https?:\/\/(www\.)?/, '').replace(/\/.*$/, '')}
+                <Icon name="external" size={14} strokeWidth={2} />
+              </span>
+            </a>
           )}
         </div>
 

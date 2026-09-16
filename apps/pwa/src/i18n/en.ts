@@ -301,6 +301,7 @@ export const en: Record<StringKey, string> = {
   'know.from': 'From AED {aed}',
   'know.phone': 'Phone',
   'know.duration': 'How long it takes',
+  'know.website': 'Website',
   'know.hoursText': '{hours} hours',
   'know.call': 'Call',
   'know.go': 'जाना',
