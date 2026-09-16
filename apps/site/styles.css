@@ -186,25 +186,49 @@ h1 {
   margin: 14px 0 12px;
   letter-spacing: -0.01em;
 }
-/* The three words in their own hues, as the blocks on the app's home — the brand, not a caption. */
+/* The three words as three small tiles: the app's home blocks in miniature, each with its own
+   icon, set a touch askew as if placed by hand. The brand as a mark, not a line of type. */
 h1 .three {
-  display: block;
-  margin-top: 6px;
-  white-space: nowrap;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+  margin-top: 14px;
+  font-size: 0.62em;
+  line-height: 1;
 }
-h1 .w-food {
-  color: var(--food);
+.tile {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28em;
+  padding: 0.22em 0.5em 0.3em 0.42em;
+  border-radius: 0.42em;
+  color: #fff;
+  box-shadow: 0 10px 22px rgb(20 24 38 / 0.16);
+  transition: transform 0.2s ease;
 }
-h1 .w-go {
-  color: var(--go);
+.tile svg {
+  width: 0.78em;
+  height: 0.78em;
+  opacity: 0.92;
+  flex-shrink: 0;
 }
-h1 .w-know {
-  color: var(--know);
+.tile-food {
+  background: var(--food);
+  color: var(--onFood);
+  transform: rotate(-2.5deg);
 }
-h1 .dot {
-  color: var(--line);
-  margin: 0 0.18em;
-  font-weight: 400;
+.tile-go {
+  background: var(--go);
+  color: var(--onGo);
+  transform: rotate(1.5deg) translateY(2px);
+}
+.tile-know {
+  background: var(--know);
+  color: var(--onKnow);
+  transform: rotate(-1deg);
+}
+.tile:hover {
+  transform: rotate(0) scale(1.03);
 }
 .lead {
   font-size: 19px;
