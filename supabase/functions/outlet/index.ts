@@ -134,6 +134,8 @@ Deno.serve(async (request: Request): Promise<Response> => {
     lng: at.lng,
     name: report.name,
     name_hi: report.nameHi ?? null,
+    area: report.areaId ?? report.areaName ?? null,
+    phone: report.phone ?? null,
     kitchen: report.kitchen ?? null,
     dietary: report.dietary ?? {},
     confirmed_dishes: dishes.length > 0 ? dishes : null,

@@ -35,6 +35,8 @@ const COLUMNS = [
   'id',
   'name',
   'name_hi',
+  'area',
+  'phone',
   'kind',
   'lat',
   'lng',

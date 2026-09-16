@@ -23,6 +23,8 @@ export interface Words {
   readonly locale: Locale;
   readonly network: TransportNetwork;
   readonly destination: DubaiPlace;
+  /** What to call the start when it is not the traveller's own spot: the hotel, or BurJuman. */
+  readonly origin?: string;
 }
 
 const MODE_KEY = {
@@ -63,7 +65,7 @@ export function fareText(words: Words, option: RouteOption): string {
 
 /** Where a leg starts or ends: the traveller, the place they named, or a station in between. */
 export function nodeLabel(words: Words, nodeId: string): string {
-  if (nodeId === ORIGIN_NODE_ID) return words.t('steps.here');
+  if (nodeId === ORIGIN_NODE_ID) return words.origin ?? words.t('steps.here');
   if (nodeId === DESTINATION_NODE_ID) return localName(words.destination.name, words.locale);
   const node = words.network.nodes.find((candidate) => candidate.id === nodeId);
   return node ? localName(node.name, words.locale) : nodeId;

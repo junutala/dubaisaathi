@@ -7,6 +7,7 @@ import type { StringKey } from '../../i18n/index.js';
 import type { SavedHotel } from '../info/index.js';
 import { distanceKm, distanceLabel } from '../../lib/distance.js';
 import { localName, placeById } from './destinations.js';
+import { VIRTUAL_HERE_NAME } from '../../lib/dubai.js';
 import { useOrigin } from './origin.js';
 import { planRoutes, type RouteBadge, type RouteOption } from './routePlanner.js';
 import { useTransportNetwork } from './useNetwork.js';
@@ -56,7 +57,7 @@ export function RouteOptionsScreen({
   const place = localName(destination.name, locale);
   const words: Words | null = network ? { t, locale, network, destination } : null;
   const km =
-    origin.kind === 'phone' || origin.kind === 'hotel'
+    origin.kind === 'phone' || origin.kind === 'hotel' || origin.kind === 'virtual'
       ? distanceKm(origin.at, destination.location)
       : undefined;
 
@@ -70,7 +71,9 @@ export function RouteOptionsScreen({
             <span>
               {origin.kind === 'hotel'
                 ? `${hotel?.name ?? t('options.from')} · ${t('options.from')}`
-                : t('options.fromHere')}
+                : origin.kind === 'virtual'
+                  ? t('options.fromVirtual', { place: VIRTUAL_HERE_NAME[locale] })
+                  : t('options.fromHere')}
             </span>
           </span>
           <span className="from-to-row">

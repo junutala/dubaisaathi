@@ -1,4 +1,5 @@
 import type { LatLng } from '@saathi/shared';
+import { insideDubai } from '../../lib/dubai.js';
 
 /**
  * Deciding that a traveller is in Dubai, which is the one number entitlement runs on.
@@ -21,10 +22,6 @@ import type { LatLng } from '@saathi/shared';
  * watch forward the night before must not start the clock.
  */
 
-/** Dubai emirate, generously. Being generous here costs nothing; being tight strands arrivals. */
-const DUBAI = { lat: 25.2, lng: 55.27 } as const;
-const RADIUS_KM = 80;
-
 /** Gulf Standard Time, as minutes west of UTC — what `getTimezoneOffset` returns for UTC+4. */
 const GULF_OFFSET_MINUTES = -240;
 
@@ -40,21 +37,6 @@ export const CONFIRMATIONS_NEEDED = 3;
  * size, so they do not get the same threshold.
  */
 export const DEPARTURES_NEEDED = 6;
-
-function distanceKm(a: LatLng, b: LatLng): number {
-  const radians = Math.PI / 180;
-  const earthKm = 6371;
-  const dLat = (b.lat - a.lat) * radians;
-  const dLng = (b.lng - a.lng) * radians;
-  const h =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(a.lat * radians) * Math.cos(b.lat * radians) * Math.sin(dLng / 2) ** 2;
-  return 2 * earthKm * Math.asin(Math.min(1, Math.sqrt(h)));
-}
-
-export function insideDubai(at: LatLng): boolean {
-  return distanceKm(at, DUBAI) <= RADIUS_KM;
-}
 
 /** The phone's own clock, which needs no permission and no fix. */
 export function clockSaysGulf(now: Date = new Date()): boolean {

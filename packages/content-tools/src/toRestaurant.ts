@@ -1,5 +1,12 @@
-import type { ConfirmedDish, FoodTag, KitchenKind, OpeningHours, Restaurant } from '@saathi/shared';
-import { FOOD_TAGS, KITCHEN_KINDS } from '@saathi/shared';
+import type {
+  AreaId,
+  ConfirmedDish,
+  FoodTag,
+  KitchenKind,
+  OpeningHours,
+  Restaurant,
+} from '@saathi/shared';
+import { AREAS, FOOD_TAGS, KITCHEN_KINDS } from '@saathi/shared';
 
 /**
  * A `field_reports` row, exactly as Postgres returns it.
@@ -12,6 +19,8 @@ export interface ReportRow {
   readonly id: string;
   readonly name: string;
   readonly name_hi: string | null;
+  readonly area: string | null;
+  readonly phone: string | null;
   readonly kind: string | null;
   readonly lat: number;
   readonly lng: number;
@@ -123,6 +132,20 @@ export function readDishes(raw: readonly unknown[] | null): readonly ConfirmedDi
   return dishes.length > 0 ? dishes : undefined;
 }
 
+/**
+ * The neighbourhood as an id from the shared list. A collector's tap arrives as the id; a name
+ * they typed is matched by its English or Hindi spelling, and anything else is left off the
+ * card rather than guessed.
+ */
+export function readArea(raw: string | null): AreaId | undefined {
+  if (raw === null || raw.trim() === '') return undefined;
+  const wanted = raw.trim().toLowerCase();
+  const found = AREAS.find(
+    (area) => area.id === wanted || area.en.toLowerCase() === wanted || area.hi === raw.trim(),
+  );
+  return found?.id;
+}
+
 /** Opening hours, narrowed from JSON to the shape the card reads. */
 export function readHours(raw: Readonly<Record<string, unknown>> | null): OpeningHours | undefined {
   if (raw === null) return undefined;
@@ -157,6 +180,8 @@ export function toRestaurant(row: ReportRow): Restaurant | null {
   const dishes = readDishes(row.confirmed_dishes);
   const hours = readHours(row.hours);
   const delivers = row.delivers === 'yes' || row.delivers === 'no' ? row.delivers : undefined;
+  const areaId = readArea(row.area);
+  const phone = row.phone ?? row.delivery_phone;
 
   return {
     id: row.id,
@@ -165,10 +190,12 @@ export function toRestaurant(row: ReportRow): Restaurant | null {
     // "Dubai Mall" on a driver's screen.
     name: { en: row.name, hi: row.name_hi ?? row.name, aliases: [] },
     location: { lat: row.lat, lng: row.lng },
+    ...(areaId === undefined ? {} : { areaId }),
     kitchen: row.kitchen,
     tags: tagsFor(row),
     ...(row.price_for_one_aed === null ? {} : { approxCostAed: row.price_for_one_aed }),
-    ...(row.delivery_phone === null ? {} : { phone: row.delivery_phone }),
+    // The board's own number first; the delivery number is the same phone at most kitchens.
+    ...(phone === null ? {} : { phone }),
     ...(delivers === undefined ? {} : { delivers }),
     ...(dietary === undefined ? {} : { dietary }),
     ...(dishes === undefined ? {} : { confirmedDishes: dishes }),

@@ -6,6 +6,7 @@ import { Icon } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
 import type { SavedHotel } from '../info/index.js';
 import { distanceKm, distanceLabel } from '../../lib/distance.js';
+import { VIRTUAL_HERE_NAME } from '../../lib/dubai.js';
 import { useHere } from '../../lib/here.js';
 import { localName, placeById } from '../transport/index.js';
 import { attractionById } from './attractions.js';
@@ -49,7 +50,12 @@ export function PlaceScreen({
               <span>
                 {here.from === 'hotel'
                   ? t('know.fromHotel', { distance: distanceLabel(t, km) })
-                  : distanceLabel(t, km)}
+                  : here.from === 'virtual'
+                    ? t('food.fromVirtual', {
+                        place: VIRTUAL_HERE_NAME[locale],
+                        distance: distanceLabel(t, km),
+                      })
+                    : distanceLabel(t, km)}
               </span>
             )}
           </p>

@@ -20,6 +20,8 @@ export interface Candidate {
   readonly text: string;
   /** A price sat next to it. The strongest signal on a menu that a line is a dish. */
   readonly hadPrice: boolean;
+  /** That price, in dirhams, when the digits were readable: what 1.4's grid shows next to the dish. */
+  readonly priceAed?: number;
 }
 
 /**
@@ -125,7 +127,7 @@ const NEVER_IN_A_DISH = new Set([
 
 /** A trailing price: "Chicken Biryani .... 24", "Masala Dosa AED 12.50", "Idli 8/-". */
 const TRAILING_PRICE =
-  /[\s.·—–-]*(?:aed|dhs?|rs\.?|₹)?\s*\d+(?:[.,]\d{1,2})?\s*(?:\/-|\/=|aed|dhs?)?\s*$/i;
+  /[\s.·—–-]*(?:aed|dhs?|rs\.?|₹)?\s*(\d+(?:[.,]\d{1,2})?)\s*(?:\/-|\/=|aed|dhs?)?\s*$/i;
 /** Leading list marks the camera picks up: bullets, dashes, item numbers. */
 const LEADING_MARK = /^[\s•*·—–\-–—>»]+|^\d{1,2}[).\]]\s*/;
 
@@ -146,7 +148,9 @@ export function dishCandidates(raw: string): readonly Candidate[] {
 
   for (const line of raw.split(/\r?\n/)) {
     const withoutMark = line.replace(LEADING_MARK, '');
-    const hadPrice = TRAILING_PRICE.test(withoutMark);
+    const priced = TRAILING_PRICE.exec(withoutMark);
+    const hadPrice = priced !== null;
+    const priceAed = priced?.[1] === undefined ? undefined : Number(priced[1].replace(',', '.'));
     const text = withoutMark
       .replace(TRAILING_PRICE, '')
       // Dot leaders between a dish and its price survive the price strip on their own.
@@ -165,7 +169,11 @@ export function dishCandidates(raw: string): readonly Candidate[] {
     if (key === '' || NOT_A_DISH.has(key) || seen.has(key)) continue;
     if (text.split(' ').some((word) => NEVER_IN_A_DISH.has(fold(word)))) continue;
     seen.add(key);
-    out.push({ text, hadPrice });
+    out.push({
+      text,
+      hadPrice,
+      ...(priceAed !== undefined && Number.isFinite(priceAed) && priceAed > 0 ? { priceAed } : {}),
+    });
   }
 
   return out;

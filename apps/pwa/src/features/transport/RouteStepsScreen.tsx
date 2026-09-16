@@ -5,6 +5,7 @@ import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { Icon } from '../../app/shell/icons.js';
 import type { SavedHotel } from '../info/index.js';
 import { localName, placeById } from './destinations.js';
+import { VIRTUAL_HERE_NAME } from '../../lib/dubai.js';
 import { useOrigin } from './origin.js';
 import { planRoutes, type RouteOptionId } from './routePlanner.js';
 import { useTransportNetwork } from './useNetwork.js';
@@ -49,7 +50,21 @@ export function RouteStepsScreen({
 
   if (!destination) return null;
   const place = localName(destination.name, locale);
-  const words: Words | null = network ? { t, locale, network, destination } : null;
+  const originName =
+    origin.kind === 'hotel'
+      ? (hotel?.name ?? t('options.from'))
+      : origin.kind === 'virtual'
+        ? VIRTUAL_HERE_NAME[locale]
+        : undefined;
+  const words: Words | null = network
+    ? {
+        t,
+        locale,
+        network,
+        destination,
+        ...(originName === undefined ? {} : { origin: originName }),
+      }
+    : null;
   const other: RouteOptionId = optionId === 'bus' ? 'metro' : 'bus';
 
   return (

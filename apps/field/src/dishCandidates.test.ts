@@ -41,9 +41,13 @@ describe('reading a menu board', () => {
     expect(names.join(' ')).not.toMatch(/Tel|accept|DELIVERY|Thank/i);
   });
 
-  it('strips the price but remembers there was one', () => {
+  it('strips the price but remembers there was one, and what it was', () => {
     const dosa = found.find((c) => c.text === 'Masala Dosa');
     expect(dosa?.hadPrice).toBe(true);
+    expect(dosa?.priceAed).toBe(12);
+    expect(found.find((c) => c.text === 'Idli Sambar')?.priceAed).toBe(8);
+    expect(found.find((c) => c.text === 'Medu Vada')?.priceAed).toBe(9);
+    expect(found.find((c) => c.text === 'Sabudana Khichadi')?.priceAed).toBe(14.5);
     // The price itself must not survive into the name.
     expect(names.every((n) => !/\d/.test(n))).toBe(true);
   });

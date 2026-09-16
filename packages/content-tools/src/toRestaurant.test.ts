@@ -7,6 +7,8 @@ const karama: ReportRow = {
   id: '50c0546c-8142-414d-8c3b-4ccee9491a20',
   name: 'Karama cafe',
   name_hi: null,
+  area: null,
+  phone: null,
   kind: 'restaurant',
   lat: 13.0562279,
   lng: 80.242942,

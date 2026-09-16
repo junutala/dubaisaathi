@@ -109,10 +109,17 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
 - **No login, no account, no gate.** Entitlement is keyed to the device. A pass is a signed
   token verified offline (decision 005). Location is asked at first need with the reason on the
   screen; a refusal gets one screen saying what will not work and what still does.
+- **A traveller in India sees Dubai.** A phone fix outside Dubai is not "no route": the three
+  pillars measure from the saved hotel's pin, or from BurJuman when there is no hotel, and every
+  row and the options screen say so ("आप दुबई से बाहर हैं"). The trial clock is separate and
+  still needs repeated readings inside Dubai; the stand-in never starts it.
 - **Every command the app could not fulfil is captured** in the question log (`VoiceEvent`,
   the entity name kept), synced by the `collect` edge function, keyed to the device only.
 - **Content is collected in the field** by our own people with `apps/field`: dietary answers
-  asked in person, the menu read by OCR and confirmed dish by dish, hours, price, GPS.
+  asked in person, the menu read by OCR and confirmed dish by dish with the price the camera
+  read, the area from the shared list, the number on the board, hours, price for one. The GPS
+  is watched from the moment the form opens and saved with the report; there is no button for
+  it.
 
 ## Non-negotiable rules
 

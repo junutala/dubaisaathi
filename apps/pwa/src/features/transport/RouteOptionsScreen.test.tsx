@@ -90,16 +90,22 @@ describe('2.2 — the options', () => {
   });
 
   /**
-   * The product is usable in India before the trip. A traveller trying it from Pune must not be
-   * shown an invented fare, and must not be shown a blank either: the taxi needs no location.
+   * The product is usable in India before the trip. A traveller trying it from Pune is shown
+   * Dubai from a stand-in — BurJuman when no hotel is saved — with the stand-in named on the
+   * screen, real journeys under it, and never a 1,900 km fare.
    */
-  it('says so, and still offers the taxi, when it cannot work out a route from here', async () => {
+  it('plans from BurJuman, and says so, when the phone is in Pune', async () => {
     standingAt(18.5204, 73.8567);
     showOptions();
     await waitFor(() => {
-      expect(screen.getByText(/Could not work out a way/i)).toBeTruthy();
+      expect(screen.getByText(/From BurJuman · you are outside Dubai/)).toBeTruthy();
     });
-    fireEvent.click(screen.getByRole('button', { name: /Taxi/ }));
+    await waitFor(() => {
+      expect(screen.getAllByRole('button', { name: /Taxi/ }).length).toBeGreaterThan(0);
+    });
+    expect(screen.queryByText(/Could not work out a way/i)).toBeNull();
+    expect(screen.getByText(/AED \d+ – \d+/).textContent).not.toMatch(/AED [1-9]\d{3}/);
+    fireEvent.click(screen.getAllByRole('button', { name: /Taxi/ })[0]!);
     expect(navigate).toHaveBeenCalledWith({ screen: 'taxi', placeId: 'karama' });
   });
 

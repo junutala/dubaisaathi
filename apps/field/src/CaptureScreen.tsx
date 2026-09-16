@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import type { ConfirmedDish, FieldReport, KitchenKind } from '@saathi/shared';
+import {
+  AREAS,
+  type AreaId,
+  type ConfirmedDish,
+  type FieldReport,
+  type KitchenKind,
+} from '@saathi/shared';
 import { db, keepOurData } from './db.js';
 import { collectorName, setCollectorName } from './collector.js';
 import { Logo } from './Logo.js';
@@ -17,9 +23,19 @@ import { startSync, syncReports, type SyncOutcome } from './sync.js';
  * is worth far more than a skipped one, and a long mandatory form is how you get six visits a
  * day instead of eighteen.
  *
- * Nothing is typed that can be captured. The location comes from the phone, the menu comes from
- * the camera, and the address is never asked for at all.
+ * Nothing is typed that can be captured. The location comes from the phone on its own — the
+ * form watches the GPS from the moment it opens and saves the fix the collector is standing on
+ * when they press save, so there is no button to forget — the menu comes from the camera, and
+ * the address is never asked for at all.
  */
+
+/** A GPS reading, with how good it was and when, so the screen can say so. */
+interface Fix {
+  readonly lat: number;
+  readonly lng: number;
+  readonly accuracyM: number;
+  readonly at: number;
+}
 
 type Answer = 'yes' | 'on-request' | 'no' | null;
 
@@ -39,12 +55,13 @@ const KITCHENS: readonly { value: KitchenKind; label: string }[] = [
 
 export function CaptureScreen() {
   const [who, setWho] = useState<string | null>(() => collectorName());
-  const [at, setAt] = useState<{ lat: number; lng: number } | null>(null);
-  const [pinning, setPinning] = useState(false);
-  const [pinTrouble, setPinTrouble] = useState<string | null>(null);
+  const [fix, setFix] = useState<Fix | null>(null);
+  const [fixTrouble, setFixTrouble] = useState<string | null>(null);
 
   const [name, setName] = useState('');
   const [nameHi, setNameHi] = useState('');
+  const [area, setArea] = useState<AreaId | null>(null);
+  const [areaOther, setAreaOther] = useState('');
   const [kitchen, setKitchen] = useState<KitchenKind | null>(null);
   // Blob rather than File: a photograph is shrunk the moment it is taken, so what sits in the
   // queue is what will be sent. A day's work then costs the phone's storage once, not twice.
@@ -57,6 +74,7 @@ export function CaptureScreen() {
   const [candidates, setCandidates] = useState<readonly Candidate[]>([]);
   const [reading, setReading] = useState<'no' | 'yes' | 'failed'>('no');
   const [dishName, setDishName] = useState('');
+  const [dishPrice, setDishPrice] = useState('');
 
   const [opens, setOpens] = useState('');
   const [closes, setCloses] = useState('');
@@ -78,29 +96,38 @@ export function CaptureScreen() {
   }, []);
 
   /**
-   * The phone is asked; it is never interrogated first. A browser that reports no geolocation
-   * still gets the call, because only the device gets to say no and it says it after being
-   * asked — the rule this project paid a day for.
+   * The phone is asked the moment there is a collector, and kept asked: a watch rather than one
+   * reading, so the fix saved is where they are standing when they press save, not where they
+   * were when they opened the form outside the previous shop. A browser that reports no
+   * geolocation still gets the call, because only the device gets to say no and it says it
+   * after being asked — the rule this project paid a day for.
    */
-  const pin = () => {
-    setPinning(true);
-    setPinTrouble(null);
-    navigator.geolocation.getCurrentPosition(
+  useEffect(() => {
+    if (who === null) return;
+    const watch = navigator.geolocation.watchPosition(
       (position) => {
-        setAt({ lat: position.coords.latitude, lng: position.coords.longitude });
-        setPinning(false);
+        setFix({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+          accuracyM: position.coords.accuracy,
+          at: Date.now(),
+        });
+        setFixTrouble(null);
       },
       (error) => {
-        setPinTrouble(error.message || 'the phone did not give a location');
-        setPinning(false);
+        setFixTrouble(error.message || 'the phone did not give a location');
       },
-      { enableHighAccuracy: true, timeout: 20_000 },
+      { enableHighAccuracy: true, timeout: 20_000, maximumAge: 5_000 },
     );
-  };
+    return () => {
+      navigator.geolocation.clearWatch(watch);
+    };
+  }, [who]);
 
-  const ready = at !== null && name.trim() !== '' && kitchen !== null && front !== null;
+  const ready = fix !== null && name.trim() !== '' && kitchen !== null && front !== null;
 
   const submit = async () => {
+    // `ready` already proves there is a fix; TypeScript follows the alias, so no second check.
     if (!ready || who === null) return;
     const id = crypto.randomUUID();
     const now = new Date().toISOString();
@@ -110,9 +137,12 @@ export function CaptureScreen() {
       kind: 'restaurant',
       collectorId: who,
       capturedAt: now,
-      location: at,
+      location: { lat: fix.lat, lng: fix.lng },
       name: name.trim(),
       ...(nameHi.trim() === '' ? {} : { nameHi: nameHi.trim() }),
+      ...(area === null ? {} : { areaId: area }),
+      ...(area !== null || areaOther.trim() === '' ? {} : { areaName: areaOther.trim() }),
+      ...(phone.trim() === '' ? {} : { phone: phone.trim() }),
       kitchen,
       dietary: {
         jain: answerFor(diet.jain),
@@ -131,7 +161,7 @@ export function CaptureScreen() {
             }
           : {}),
       ...(delivers === null ? {} : { delivers }),
-      ...(phone.trim() === '' ? {} : { deliveryPhone: phone.trim() }),
+      ...(delivers === 'yes' && phone.trim() !== '' ? { deliveryPhone: phone.trim() } : {}),
       ...(price.trim() === '' ? {} : { priceForOneAed: Number(price) }),
       ...(spokeTo.trim() === '' ? {} : { spokeTo: spokeTo.trim() }),
       ...(notes.trim() === '' ? {} : { notes: notes.trim() }),
@@ -159,10 +189,12 @@ export function CaptureScreen() {
     setQueue(await syncReports());
   };
 
+  // The fix is not cleared: the phone keeps watching, and the next shop gets its own.
   const clear = () => {
-    setAt(null);
     setName('');
     setNameHi('');
+    setArea(null);
+    setAreaOther('');
     setKitchen(null);
     setFront(null);
     setMenu([]);
@@ -171,6 +203,7 @@ export function CaptureScreen() {
     setCandidates([]);
     setReading('no');
     setDishName('');
+    setDishPrice('');
     setOpens('');
     setCloses('');
     setOpen24(false);
@@ -210,15 +243,17 @@ export function CaptureScreen() {
       )}
 
       <Section title="Where it is" required>
-        <button type="button" className="btn primary" onClick={pin} disabled={pinning}>
-          {pinning ? 'Asking the phone…' : at === null ? 'Pin me here' : 'Pinned — pin again'}
-        </button>
-        {at !== null && (
+        {/* No button: the phone is watched from the moment the form opens, and the fix saved is
+            the one under the collector's feet when they press save. */}
+        {fix === null ? (
+          <p className="hint">Asking the phone where you are…</p>
+        ) : (
           <p className="hint">
-            {at.lat.toFixed(5)}, {at.lng.toFixed(5)}
+            Located · within {String(Math.round(fix.accuracyM))} m · {fix.lat.toFixed(5)},{' '}
+            {fix.lng.toFixed(5)}
           </p>
         )}
-        {pinTrouble !== null && <p className="trouble">{pinTrouble}</p>}
+        {fixTrouble !== null && <p className="trouble">{fixTrouble}</p>}
       </Section>
 
       <Section title="Name on the board" required>
@@ -237,6 +272,34 @@ export function CaptureScreen() {
           placeholder="In Hindi (optional)"
           lang="hi"
         />
+      </Section>
+
+      <Section title="Which area">
+        <div className="chips">
+          {AREAS.map((row) => (
+            <button
+              key={row.id}
+              type="button"
+              className={area === row.id ? 'chip on' : 'chip'}
+              onClick={() => {
+                setArea(area === row.id ? null : row.id);
+                setAreaOther('');
+              }}
+            >
+              {row.en}
+            </button>
+          ))}
+        </div>
+        {area === null && (
+          <input
+            value={areaOther}
+            onChange={(e) => {
+              setAreaOther(e.target.value);
+            }}
+            placeholder="Somewhere else — write it"
+          />
+        )}
+        <p className="hint">It is the word on the traveller's row: "करामा · 650 m".</p>
       </Section>
 
       <Section title="Photo of the front" required>
@@ -302,23 +365,57 @@ export function CaptureScreen() {
             }}
             placeholder="e.g. Jain sambar"
           />
+          <input
+            className="short"
+            value={dishPrice}
+            onChange={(e) => {
+              setDishPrice(e.target.value);
+            }}
+            placeholder="AED"
+            inputMode="decimal"
+          />
           <button
             type="button"
             className="btn"
             onClick={() => {
               if (dishName.trim() === '') return;
+              const priceAed = Number(dishPrice);
               setDishes([
                 ...dishes,
-                { name: { en: dishName.trim(), hi: dishName.trim(), aliases: [] }, tags: [] },
+                {
+                  name: { en: dishName.trim(), hi: dishName.trim(), aliases: [] },
+                  tags: [],
+                  ...(dishPrice.trim() !== '' && priceAed > 0 ? { priceAed } : {}),
+                },
               ]);
               setDishName('');
+              setDishPrice('');
             }}
           >
             Add
           </button>
         </div>
-        {dishes.length > 0 && <p className="hint">{dishes.map((d) => d.name.en).join(' · ')}</p>}
-        <p className="hint">A dish they will actually make is worth more than a tick box.</p>
+        {dishes.length > 0 && (
+          <div className="chips">
+            {dishes.map((d) => (
+              <button
+                key={d.name.en}
+                type="button"
+                className="chip on"
+                onClick={() => {
+                  setDishes((was) => was.filter((x) => x.name.en !== d.name.en));
+                }}
+              >
+                {d.name.en}
+                {d.priceAed === undefined ? '' : ` · ${String(d.priceAed)}`} ×
+              </button>
+            ))}
+          </div>
+        )}
+        <p className="hint">
+          A dish they will actually make is worth more than a tick box. The price is what the
+          traveller's menu shows next to it.
+        </p>
       </Section>
 
       <Section title="Hours">
@@ -356,7 +453,15 @@ export function CaptureScreen() {
         </p>
       </Section>
 
-      <Section title="Delivery">
+      <Section title="Phone and delivery">
+        <input
+          value={phone}
+          onChange={(e) => {
+            setPhone(e.target.value);
+          }}
+          placeholder="Phone on the board"
+          inputMode="tel"
+        />
         <div className="chips">
           {(['yes', 'no'] as const).map((value) => (
             <button
@@ -371,16 +476,9 @@ export function CaptureScreen() {
             </button>
           ))}
         </div>
-        {delivers === 'yes' && (
-          <input
-            value={phone}
-            onChange={(e) => {
-              setPhone(e.target.value);
-            }}
-            placeholder="Phone to call"
-            inputMode="tel"
-          />
-        )}
+        <p className="hint">
+          The traveller's card has a call button; this is the number behind it.
+        </p>
       </Section>
 
       <Section title="The rest">
@@ -465,12 +563,17 @@ export function CaptureScreen() {
                               {
                                 name: { en: candidate.text, hi: candidate.text, aliases: [] },
                                 tags: [],
+                                // The price the camera read next to it, carried onto the grid.
+                                ...(candidate.priceAed === undefined
+                                  ? {}
+                                  : { priceAed: candidate.priceAed }),
                               },
                             ],
                       );
                     }}
                   >
                     {candidate.text}
+                    {candidate.priceAed === undefined ? '' : ` · ${String(candidate.priceAed)}`}
                   </button>
                 );
               })}
@@ -495,7 +598,7 @@ export function CaptureScreen() {
           void submit();
         }}
       >
-        {ready ? 'Save this outlet' : 'Pin, name, photo and kitchen first'}
+        {ready ? 'Save this outlet' : 'Location, name, photo and kitchen first'}
       </button>
       <p className="hint center">It saves on the phone first. Uploading can wait for signal.</p>
       {/* Which build this is, so "did my fix reach the phone?" is answerable by looking. */}

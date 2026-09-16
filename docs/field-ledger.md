@@ -163,9 +163,11 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 
 ## 3.2 · जानना › जगह
 
-| Field                               | Why it is there                          |
-| ----------------------------------- | ---------------------------------------- |
-| Name, kind, distance from the hotel | Where it is, from where they are         |
-| The blurb, in Hindi                 | What it is and the one tip worth knowing |
-| समय · टिकट · फ़ोन · कितना समय लगेगा | The facts checked before going           |
-| फ़ोन करें · जाना                    | Ring it, or hand the place to जाना       |
+| Field                                  | Why it is there                                                      |
+| -------------------------------------- | -------------------------------------------------------------------- |
+| Name, kind, distance from the hotel    | Where it is, from where they are                                     |
+| The blurb, in Hindi                    | What it is and the one tip worth knowing                             |
+| समय · टिकट · फ़ोन · कितना समय लगेगा    | The facts checked before going                                       |
+| फ़ोन करें · जाना                       | Ring it, or hand the place to जाना                                   |
+| आप दुबई से बाहर हैं · बुरजुमान/होटल से | A phone in India still sees Dubai; the row says whose distance it is |
+| बुरजुमान से · आप दुबई से बाहर हैं      | The journey is real; the start is a stand-in, said plainly           |

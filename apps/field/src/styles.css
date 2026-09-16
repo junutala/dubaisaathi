@@ -140,6 +140,11 @@ input[type='time'] {
   flex-wrap: wrap;
   gap: 8px;
 }
+/* The price box beside a dish name: a number, not a sentence. */
+input.short {
+  flex: 0 0 84px;
+  min-width: 0;
+}
 .chip {
   min-height: 44px;
   padding: 0 14px;

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import type { Restaurant } from '@saathi/shared';
+import { AREAS, type Restaurant } from '@saathi/shared';
 import { useSettings } from '../../app/settings.js';
 import { navigate } from '../../app/routes.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
@@ -8,7 +8,8 @@ import type { StringKey } from '../../i18n/index.js';
 import { AskBar, recordVoiceEvent } from '../ask/index.js';
 import type { SavedHotel } from '../info/index.js';
 import { distanceLabel } from '../../lib/distance.js';
-import { useHere } from '../../lib/here.js';
+import { VIRTUAL_HERE_NAME } from '../../lib/dubai.js';
+import { useHere, type HereFrom } from '../../lib/here.js';
 import { popularDishes } from './dishes.js';
 import { openState } from './openNow.js';
 import { OUTLETS_ARE_FIXTURE } from './outlets.js';
@@ -160,7 +161,9 @@ export function FoodListScreen({
             ? t('food.found', { count: result.hits.length })
             : here.from === 'hotel'
               ? t('food.nearHotel')
-              : t('food.nearby')}
+              : here.from === 'virtual'
+                ? t('food.nearVirtual', { place: VIRTUAL_HERE_NAME[locale] })
+                : t('food.nearby')}
         </p>
         {here.denied && here.from === 'none' && (
           <p className="muted small">{t('food.noLocation')}</p>
@@ -182,13 +185,7 @@ export function FoodListScreen({
 }
 
 /** One kitchen on the list: the name, where and how far, its kind, and what it makes. */
-function OutletRow({
-  hit,
-  from,
-}: {
-  readonly hit: OutletHit;
-  readonly from: 'phone' | 'hotel' | 'none';
-}) {
+function OutletRow({ hit, from }: { readonly hit: OutletHit; readonly from: HereFrom }) {
   const { t, locale } = useSettings();
   const outlet = hit.outlet;
   const state = openState(outlet.hours);
@@ -215,7 +212,12 @@ function OutletRow({
               ? undefined
               : from === 'hotel'
                 ? t('food.fromHotel', { distance: distanceLabel(t, hit.km) })
-                : distanceLabel(t, hit.km),
+                : from === 'virtual'
+                  ? t('food.fromVirtual', {
+                      place: VIRTUAL_HERE_NAME[locale],
+                      distance: distanceLabel(t, hit.km),
+                    })
+                  : distanceLabel(t, hit.km),
             hoursLine(t, state),
           ]
             .filter((part): part is string => part !== undefined)
@@ -237,22 +239,10 @@ function OutletRow({
 
 export function areaName(outlet: Restaurant, locale: 'hi' | 'en'): string | undefined {
   if (outlet.areaId === undefined) return undefined;
-  return AREA_NAMES[outlet.areaId]?.[locale];
+  return AREAS.find((area) => area.id === outlet.areaId)?.[locale];
 }
 
 /** The neighbourhoods outlets sit in, by the ids the pack uses. */
-const AREA_NAMES: Readonly<Record<string, { readonly hi: string; readonly en: string }>> = {
-  karama: { hi: 'करामा', en: 'Karama' },
-  'bur-dubai': { hi: 'बुर दुबई', en: 'Bur Dubai' },
-  deira: { hi: 'देरा', en: 'Deira' },
-  satwa: { hi: 'सतवा', en: 'Satwa' },
-  'discovery-gardens': { hi: 'डिस्कवरी गार्डन्स', en: 'Discovery Gardens' },
-  'international-city': { hi: 'इंटरनेशनल सिटी', en: 'International City' },
-  'al-qusais': { hi: 'अल क़ुसैस', en: 'Al Qusais' },
-  'al-barsha': { hi: 'अल बरशा', en: 'Al Barsha' },
-  'dubai-marina': { hi: 'दुबई मरीना', en: 'Dubai Marina' },
-  jumeirah: { hi: 'जुमेरा', en: 'Jumeirah' },
-};
 
 /** "खुला · 22:00 तक" while open, "बंद · 09:00 से खुलेगा" while closed — Dubai time, always. */
 export function hoursLine(

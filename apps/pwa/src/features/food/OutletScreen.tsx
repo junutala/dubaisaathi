@@ -6,6 +6,7 @@ import { Icon } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
 import type { SavedHotel } from '../info/index.js';
 import { distanceKm, distanceLabel } from '../../lib/distance.js';
+import { VIRTUAL_HERE_NAME } from '../../lib/dubai.js';
 import { useHere } from '../../lib/here.js';
 import { areaName, hoursLine } from './FoodListScreen.js';
 import { openState } from './openNow.js';
@@ -67,7 +68,12 @@ export function OutletScreen({
                 ? undefined
                 : here.from === 'hotel'
                   ? t('food.fromHotel', { distance: distanceLabel(t, km) })
-                  : distanceLabel(t, km),
+                  : here.from === 'virtual'
+                    ? t('food.fromVirtual', {
+                        place: VIRTUAL_HERE_NAME[locale],
+                        distance: distanceLabel(t, km),
+                      })
+                    : distanceLabel(t, km),
               hoursLine(t, state),
             ]
               .filter((part): part is string => part !== undefined)

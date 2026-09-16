@@ -91,6 +91,31 @@ export type FoodTag = (typeof FOOD_TAGS)[number];
  * kitchen with no meat in it, `mixed` serves vegetarian food cooked alongside meat. For a great
  * many travellers those are not the same answer, and "vegetarian options available" hides it.
  */
+/**
+ * The neighbourhoods travellers and collectors both name. One list, so the chip a collector
+ * taps in a shop and the word on a traveller's row cannot drift apart. An outlet's `areaId`
+ * is one of these; a name a collector typed that is not here rides along as free text.
+ */
+export const AREAS = [
+  { id: 'karama', en: 'Karama', hi: 'करामा' },
+  { id: 'bur-dubai', en: 'Bur Dubai', hi: 'बुर दुबई' },
+  { id: 'meena-bazaar', en: 'Meena Bazaar', hi: 'मीना बाज़ार' },
+  { id: 'deira', en: 'Deira', hi: 'देरा' },
+  { id: 'al-rigga', en: 'Al Rigga', hi: 'अल रिग्गा' },
+  { id: 'satwa', en: 'Satwa', hi: 'सतवा' },
+  { id: 'oud-metha', en: 'Oud Metha', hi: 'ऊद मेथा' },
+  { id: 'al-nahda', en: 'Al Nahda', hi: 'अल नहदा' },
+  { id: 'al-qusais', en: 'Al Qusais', hi: 'अल क़ुसैस' },
+  { id: 'al-barsha', en: 'Al Barsha', hi: 'अल बरशा' },
+  { id: 'business-bay', en: 'Business Bay', hi: 'बिज़नेस बे' },
+  { id: 'jumeirah', en: 'Jumeirah', hi: 'जुमेरा' },
+  { id: 'dubai-marina', en: 'Dubai Marina', hi: 'दुबई मरीना' },
+  { id: 'jlt', en: 'JLT', hi: 'जेएलटी' },
+  { id: 'discovery-gardens', en: 'Discovery Gardens', hi: 'डिस्कवरी गार्डन्स' },
+  { id: 'international-city', en: 'International City', hi: 'इंटरनेशनल सिटी' },
+] as const;
+export type AreaId = (typeof AREAS)[number]['id'];
+
 export const KITCHEN_KINDS = ['pure-veg', 'mixed', 'non-veg'] as const;
 export type KitchenKind = (typeof KITCHEN_KINDS)[number];
 
@@ -507,7 +532,12 @@ export interface FieldReport {
   readonly location: LatLng;
   readonly name: string;
   readonly nameHi?: string;
+  /** The neighbourhood, from the shared list when the collector tapped one. */
+  readonly areaId?: AreaId;
+  /** Or as the collector wrote it, when the list did not have it. */
   readonly areaName?: string;
+  /** The number on the board, asked for whether or not they deliver: a traveller rings to ask. */
+  readonly phone?: string;
   /** Asked in person, not read off a sign. */
   readonly dietary: {
     readonly jain: boolean | 'on-request';
