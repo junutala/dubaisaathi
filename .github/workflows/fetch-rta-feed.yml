@@ -1,0 +1,66 @@
+name: Fetch the RTA feed
+
+# Dubai Pulse does not answer from every network (it timed out from India on 16 September and
+# the development container cannot reach it at all), while a GitHub runner has open internet.
+# Run by hand: it downloads the current rta_gtfs-open archive, checks it really is a GTFS feed,
+# re-zips the .txt files and commits data/transport/rta-gtfs.zip to the branch it was run on.
+# The converter is then `npm run publish:transport` (docs/transport-and-maps-strategy.md).
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: The archive to fetch (7z or zip)
+        required: true
+        default: https://www.dubaipulse.gov.ae/dataset/73765e8f-e8c4-443c-9687-288072ed9d12/resource/11515bd3-bdba-466f-ab65-f057bd123ab5/download/gtfs.7z
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download
+        run: |
+          curl -L --fail --retry 5 --retry-all-errors --retry-delay 10 --max-time 600 \
+            -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128 Safari/537.36" \
+            -o feed.bin "${{ github.event.inputs.url }}"
+          ls -la feed.bin
+          file feed.bin
+
+      - name: Unpack and inspect
+        run: |
+          mkdir -p feed
+          case "$(head -c 2 feed.bin)" in
+            7z) 7z x -ofeed feed.bin >/dev/null ;;
+            PK) unzip -q feed.bin -d feed ;;
+            *)  echo "Not a 7z or a zip. First bytes:"; head -c 300 feed.bin; exit 1 ;;
+          esac
+          find feed -name '*.txt' | sort
+          for f in stops.txt routes.txt trips.txt stop_times.txt; do
+            test -n "$(find feed -name "$f")" || { echo "no $f — not a GTFS feed"; exit 1; }
+          done
+          echo "== feed_info.txt";      cat "$(find feed -name feed_info.txt | head -1)" 2>/dev/null || echo none
+          echo "== calendar.txt";       head -5 "$(find feed -name calendar.txt | head -1)" 2>/dev/null || echo none
+          echo "== calendar_dates.txt"; head -3 "$(find feed -name calendar_dates.txt | head -1)" 2>/dev/null || echo none
+          echo "== routes: $(($(wc -l < "$(find feed -name routes.txt | head -1)") - 1))"
+          echo "== stops:  $(($(wc -l < "$(find feed -name stops.txt | head -1)") - 1))"
+
+      - name: Re-zip the .txt files as data/transport/rta-gtfs.zip
+        run: |
+          rm -f data/transport/rta-gtfs.zip
+          cd "$(dirname "$(find feed -name stops.txt | head -1)")"
+          zip -q -9 "$GITHUB_WORKSPACE/data/transport/rta-gtfs.zip" *.txt
+          ls -la "$GITHUB_WORKSPACE/data/transport/rta-gtfs.zip"
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/transport/rta-gtfs.zip
+          git diff --cached --quiet && { echo "unchanged"; exit 0; }
+          git commit -m "RTA feed fetched from Dubai Pulse by the fetch-rta-feed workflow"
+          git push
