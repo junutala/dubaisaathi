@@ -80,6 +80,7 @@ a {
   text-decoration: none;
   font-weight: 700;
   font-size: 20px;
+  white-space: nowrap;
 }
 .brand img {
   width: 34px;
@@ -109,6 +110,7 @@ a {
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
+  white-space: nowrap;
 }
 .btn-go {
   background: var(--marigold);
@@ -125,6 +127,39 @@ a {
 /* ---- hero --------------------------------------------------------------------------- */
 .hero {
   padding: 56px 0 40px;
+  position: relative;
+  overflow: hidden;
+}
+/* A warm bloom behind the phone and a cool one under the words: the app's marigold and teal,
+   soft enough to be felt rather than seen. */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: -10% -20% auto auto;
+  width: 60vw;
+  max-width: 720px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(232 135 30 / 0.22), rgb(232 135 30 / 0));
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  left: -15%;
+  bottom: -30%;
+  width: 50vw;
+  max-width: 560px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(11 122 107 / 0.14), rgb(11 122 107 / 0));
+  pointer-events: none;
+}
+.hero .wrap {
+  position: relative;
+}
+.hero .phone {
+  transform: rotate(-3deg);
 }
 .hero .wrap {
   display: grid;
@@ -151,8 +186,25 @@ h1 {
   margin: 14px 0 12px;
   letter-spacing: -0.01em;
 }
+/* The three words in their own hues, as the blocks on the app's home — the brand, not a caption. */
 h1 .three {
-  color: var(--marigoldText);
+  display: block;
+  margin-top: 6px;
+  white-space: nowrap;
+}
+h1 .w-food {
+  color: var(--food);
+}
+h1 .w-go {
+  color: var(--go);
+}
+h1 .w-know {
+  color: var(--know);
+}
+h1 .dot {
+  color: var(--line);
+  margin: 0 0.18em;
+  font-weight: 400;
 }
 .lead {
   font-size: 19px;
@@ -451,11 +503,29 @@ footer .wrap {
     order: 2;
   }
 }
+@media (max-width: 600px) {
+  .brand .sub {
+    display: none;
+  }
+  .top .wrap {
+    gap: 8px;
+  }
+  .top .btn {
+    min-height: 42px;
+    padding: 0 12px;
+    font-size: 15px;
+  }
+  .facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 12px;
+  }
+  .hero .phone {
+    transform: none;
+  }
+}
 @media (max-width: 420px) {
   .plans {
     grid-template-columns: 1fr;
-  }
-  .brand .sub {
-    display: none;
   }
 }
