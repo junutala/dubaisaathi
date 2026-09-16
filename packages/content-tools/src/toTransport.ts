@@ -203,13 +203,69 @@ function readStops(feed: GtfsFiles): Map<string, Stop> {
   return stops;
 }
 
-/** Services that run on a Monday: the "typical weekday" the first/last times are quoted for. */
+/**
+ * Services that run on a Monday: the "typical weekday" the first/last times are quoted for.
+ * From `calendar.txt` when the feed has one; otherwise from `calendar_dates.txt`, where a
+ * service is a weekday one if most of the dates it is added on fall Monday to Thursday.
+ */
 function weekdayServices(feed: GtfsFiles): ReadonlySet<string> {
   const services = new Set<string>();
   for (const row of csvRows(feed['calendar.txt'] ?? '')) {
     if (row.monday === '1') services.add(row.service_id ?? '');
   }
+  if (services.size > 0) return services;
+
+  const weekdays = new Map<string, number>();
+  const weekends = new Map<string, number>();
+  for (const row of csvRows(feed['calendar_dates.txt'] ?? '')) {
+    if (row.exception_type !== '1') continue;
+    const date = row.date ?? '';
+    const id = row.service_id ?? '';
+    const day = new Date(
+      Number(date.slice(0, 4)),
+      Number(date.slice(4, 6)) - 1,
+      Number(date.slice(6, 8)),
+    ).getDay();
+    const tally = day >= 1 && day <= 4 ? weekdays : weekends;
+    tally.set(id, (tally.get(id) ?? 0) + 1);
+  }
+  for (const [id, count] of weekdays) {
+    if (count >= (weekends.get(id) ?? 0)) services.add(id);
+  }
   return services;
+}
+
+interface Frequency {
+  readonly start: number;
+  readonly end: number;
+  readonly headway: number;
+}
+
+/**
+ * A feed may describe a route as one template trip plus "every 6 minutes from 05:00 to
+ * 23:00" instead of listing every trip. Those windows become the departures the pack quotes.
+ */
+function readFrequencies(feed: GtfsFiles): ReadonlyMap<string, readonly Frequency[]> {
+  const byTrip = new Map<string, Frequency[]>();
+  for (const row of csvRows(feed['frequencies.txt'] ?? '')) {
+    const start = seconds(row.start_time ?? '');
+    const end = seconds(row.end_time ?? '');
+    const headway = Number(row.headway_secs);
+    if (start === null || end === null || !(headway > 0)) continue;
+    const list = byTrip.get(row.trip_id ?? '') ?? [];
+    list.push({ start, end, headway });
+    byTrip.set(row.trip_id ?? '', list);
+  }
+  return byTrip;
+}
+
+/** The departure times a template trip stands for at a call `offset` seconds into it. */
+function departuresAt(frequencies: readonly Frequency[], offset: number): number[] {
+  const times: number[] = [];
+  for (const window of frequencies) {
+    for (let t = window.start; t < window.end; t += window.headway) times.push(t + offset);
+  }
+  return times;
 }
 
 function readTrips(
@@ -353,6 +409,7 @@ export function toTransportNetwork(feed: GtfsFiles, options: ConvertOptions): Tr
   const stops = readStops(feed);
   const trips = readTrips(feed, lineByRoute, weekdayServices(feed));
   const calls = readCalls(feed, trips);
+  const frequencies = readFrequencies(feed);
 
   // Which stops the rail lines call at — those are platforms, and become stations.
   const railStops = new Map<string, TransportMode>();
@@ -439,6 +496,11 @@ export function toTransportNetwork(feed: GtfsFiles, options: ConvertOptions): Tr
     let previousNode = '';
     let previousDeparture = 0;
     let firstNode: string | null = null;
+    const windows = frequencies.get(tripId);
+    const tripStart = sequence[0]?.departure ?? 0;
+    // Every departure a call stands for: the one listed, or one per headway in each window.
+    const timesAt = (departure: number): number[] =>
+      windows === undefined ? [departure] : departuresAt(windows, departure - tripStart);
     for (const call of sequence) {
       const node = line.mode === 'bus' ? busStop(call.stopId) : nodeOfStop.get(call.stopId);
       if (node === undefined) continue;
@@ -446,7 +508,10 @@ export function toTransportNetwork(feed: GtfsFiles, options: ConvertOptions): Tr
         firstNode = node;
         if (counts) {
           const key = `${line.id}|${String(trip.direction)}|${node}`;
-          firstDepartures.set(key, [...(firstDepartures.get(key) ?? []), call.departure]);
+          firstDepartures.set(key, [
+            ...(firstDepartures.get(key) ?? []),
+            ...timesAt(call.departure),
+          ]);
         }
       }
       if (previousNode !== '' && previousNode !== node) {
@@ -466,7 +531,7 @@ export function toTransportNetwork(feed: GtfsFiles, options: ConvertOptions): Tr
         }
         const took = call.departure - previousDeparture;
         if (took > 0) facts.durations.push(took);
-        if (counts) facts.departures.push(previousDeparture);
+        if (counts) facts.departures.push(...timesAt(previousDeparture));
       }
       if (previousNode !== node) {
         previousNode = node;
@@ -506,8 +571,8 @@ export function toTransportNetwork(feed: GtfsFiles, options: ConvertOptions): Tr
       direction: facts.direction,
       ...(facts.departures.length > 0
         ? {
-            firstDeparture: clock(Math.min(...facts.departures)),
-            lastDeparture: clock(Math.max(...facts.departures)),
+            firstDeparture: clock(facts.departures.reduce((a, b) => Math.min(a, b))),
+            lastDeparture: clock(facts.departures.reduce((a, b) => Math.max(a, b))),
           }
         : {}),
     };

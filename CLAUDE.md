@@ -428,10 +428,13 @@ is the server and the content, in this order:
 1. **Buying a pass.** The `orders` table exists; no function creates an order, takes the
    aggregator's webhook or signs a pass. Until it does, `VITE_PURCHASE_LIVE` stays off, the
    buttons on घर.4 say so, and nothing is gated.
-2. **The RTA feed is in.** `data/transport/rta-gtfs.zip` is the RTA's GTFS (the September 2021
-   edition Transitland mirrors), converted by `npm run publish:transport` into the pack: 160
-   lines, 2,499 stops, 6,435 hops, first and last departure per stop and line. A fresher feed
-   from Dubai Pulse is a file swap and a re-run (decision 017). Weekend times are not carried.
+2. **The RTA feed is in, and it is the wrong year.** `data/transport/rta-gtfs.zip` is the
+   September 2021 edition Transitland mirrors, converted by `npm run publish:transport` into
+   the pack (160 lines, 2,499 stops, 6,435 hops, first and last departure per stop and line).
+   The current edition is on Dubai Pulse, `rta_gtfs-open`, last updated 21 January 2026, as
+   `gtfs.7z`: extract it, zip the `.txt` files, replace `rta-gtfs.zip`, re-run. The converter
+   already takes a zip with a folder inside, a feed with only `calendar_dates.txt`, and
+   `frequencies.txt` (decision 017). Weekend times are not carried.
 3. **Content.** `restaurants.v1.json` is empty and खाना runs on the fixture; the collectors'
    app is live and the pipeline publishes approved reports. `attractions.v1.json` carries hours
    and tickets as known on 16 September, unchecked on the ground; every row has `checkedAt`.

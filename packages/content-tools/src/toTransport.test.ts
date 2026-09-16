@@ -205,6 +205,43 @@ describe('the RTA feed becomes the pack रास्ता reads', () => {
   });
 });
 
+describe('the shapes a newer feed may take', () => {
+  it('finds the weekday services from calendar_dates.txt when there is no calendar.txt', () => {
+    const feed: GtfsFiles = {
+      ...FEED,
+      'calendar.txt': '',
+      'calendar_dates.txt': [
+        'service_id,date,exception_type',
+        // 2026-01-26 is a Monday, 2026-01-27 a Tuesday, 2026-01-31 a Saturday.
+        '"WK","20260126","1"',
+        '"WK","20260127","1"',
+        '"FR","20260131","1"',
+      ].join('\n'),
+    };
+    const hop = toTransportNetwork(feed, OPTIONS).edges.find(
+      (edge) => edge.id === 'red:metro-adcb:al-jafiliya',
+    );
+    expect(hop?.lastDeparture).toBe('08:06');
+  });
+
+  it('expands a frequency window into the departures it stands for', () => {
+    const feed: GtfsFiles = {
+      ...FEED,
+      'frequencies.txt': [
+        'trip_id,start_time,end_time,headway_secs',
+        '"red-1","05:00:00","06:00:00","600"',
+        '"red-1","20:00:00","23:00:00","900"',
+      ].join('\n'),
+    };
+    const hop = toTransportNetwork(feed, OPTIONS).edges.find(
+      (edge) => edge.id === 'red:metro-adcb:al-jafiliya',
+    );
+    // ADCB is two minutes into the trip: the last window departure 22:45 boards ADCB at 22:47.
+    expect(hop?.firstDeparture).toBe('05:02');
+    expect(hop?.lastDeparture).toBe('22:47');
+  });
+});
+
 describe("reading the feed's CSV", () => {
   it('keeps commas and quotes inside a quoted field, and drops a byte-order mark', () => {
     const rows = csvRows(

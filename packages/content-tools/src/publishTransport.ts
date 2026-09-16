@@ -22,15 +22,24 @@ const ARCHIVE = resolve(DATA, 'rta-gtfs.zip');
 const STATIONS = resolve(DATA, 'stations.v1.json');
 const OUT = resolve(DATA, 'network.v1.json');
 
-const FILES = ['routes.txt', 'stops.txt', 'trips.txt', 'stop_times.txt', 'calendar.txt'] as const;
+const FILES = ['routes.txt', 'stops.txt', 'trips.txt', 'stop_times.txt'] as const;
+/** A feed may carry its calendar either way, and its headways as frequencies. */
+const OPTIONAL_FILES = ['calendar.txt', 'calendar_dates.txt', 'frequencies.txt'] as const;
 
 async function main(): Promise<void> {
   const archive = readZip(await readFile(ARCHIVE));
   const feed: Record<string, string> = {};
-  for (const name of FILES) {
-    const file = archive.get(name);
-    if (!file) throw new Error(`${ARCHIVE} has no ${name}; it is not a GTFS feed`);
-    feed[name] = file.toString('utf8');
+  for (const name of [...FILES, ...OPTIONAL_FILES]) {
+    // Windows' "Compress to ZIP" puts a folder's files under the folder's name; the feed's
+    // files are found by their own names wherever they sit.
+    const found = [...archive.entries()].find(
+      ([path]) => path === name || path.endsWith(`/${name}`),
+    );
+    if (!found) {
+      if ((OPTIONAL_FILES as readonly string[]).includes(name)) continue;
+      throw new Error(`${ARCHIVE} has no ${name}; it is not a GTFS feed`);
+    }
+    feed[name] = found[1].toString('utf8');
   }
 
   const stations = (JSON.parse(await readFile(STATIONS, 'utf8')) as { stations: CuratedStation[] })

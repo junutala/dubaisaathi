@@ -168,10 +168,16 @@ it mirrors as `f-dubai~rta`. It is committed as `data/transport/rta-gtfs.zip` (1
   points) — the geometry for a map, when there is one. `translations.txt` carries an Arabic
   name for every stop.
 - **It is the September 2021 edition** (`calendar.txt` runs 2021-09-09 to 2021-12-31, and the
-  weekend is Friday–Saturday, as it was then). Topology, running times and first/last
-  departures are what the converter takes, and those move slowly; the pack quotes a typical
-  weekday (the feed's Monday services) and says so on 2.3. A fresher feed from Dubai Pulse is a
-  file swap and a re-run.
+  weekend is Friday–Saturday, as it was then). Transitland's crawl of the RTA stopped there.
+  **That is not the network a 2026 traveller stands in** — routes and stops have changed — so
+  the 2021 pack is the pipeline's proof, not the product's answer. The current edition is on
+  Dubai Pulse: dataset `rta_gtfs-open`, resource `gtfs.7z`, last updated 21 January 2026, at
+  `https://www.dubaipulse.gov.ae/dataset/73765e8f-e8c4-443c-9687-288072ed9d12/resource/11515bd3-bdba-466f-ab65-f057bd123ab5/download/gtfs.7z`.
+  It is a 7z, which the converter does not read: extract it, zip the `.txt` files, replace
+  `data/transport/rta-gtfs.zip`, re-run. The converter takes a zip with a folder inside it, a
+  feed with only `calendar_dates.txt`, and `frequencies.txt`, so a differently shaped 2026 file
+  should convert first time. The pack quotes a typical weekday (Monday services) and says so on
+  2.3.
 - **Rail platforms collapse into stations** (the feed lists "BurJuman Metro Station 1" and "…
   2"), named from `data/transport/stations.v1.json` — the sign's English, its Devanagari, and
   aliases including the feed's own spelling where it differs ("max" for Al Jafiliya). Bus stops
