@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { useSettings } from '../../app/settings.js';
 import { navigate } from '../../app/routes.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
+import { Icon } from '../../app/shell/icons.js';
 import { formatDay, useBlobUrl } from './photos.js';
 import { deleteDocument, readDocument } from './storage.js';
 import type { TravellerDocument } from './records.js';
 
 /**
- * 4.4 — the payoff: the document, full width, at the desk, the moment it is needed. No bottom
- * bar, because the person looking at this screen is often not the person holding the phone
- * (design rule 6a).
+ * घर.3 — the payoff: the document, full width, at the desk, the moment it is needed. Share hands
+ * the photograph to whatever the phone offers — WhatsApp to the son in Pune, or a printer.
  */
 export function DocumentScreen({ docId }: { readonly docId: string }) {
   const { t, locale } = useSettings();
@@ -33,29 +33,44 @@ export function DocumentScreen({ docId }: { readonly docId: string }) {
     <>
       {/* The document's own name is the title: a traveller who lands here from the mic has to
           be able to tell which document they are looking at without reading it. */}
-      <ScreenHeader
-        title={doc?.name ?? t('info.docView.trail')}
-        tile="info"
-        trail={t('info.docView.trail')}
-      />
+      <ScreenHeader pillar="docs" trail={doc?.name ?? t('docView.trail')} />
       <div className="flow doc-view">
         {doc ? (
           <>
             <span className="doc-full">{photo && <img src={photo} alt={doc.name} />}</span>
-            <div className="doc-foot">
-              <span className="muted small">
-                {t('info.docView.footer', { date: formatDay(locale, doc.addedAt) })}
-              </span>
+            <span className="muted small center">
+              {t('docView.footer', { date: formatDay(locale, doc.addedAt) })}
+            </span>
+            <div className="grid2">
+              {/* Offered always, and the phone answers: a browser with no share sheet rejects
+                  and nothing happens, which is the device saying no rather than us guessing. */}
               <button
                 type="button"
-                className="linkish"
+                className="btn btn-ghost"
+                onClick={() => {
+                  const file = new File([doc.photo], `${doc.name}.jpg`, {
+                    type: doc.photo.type || 'image/jpeg',
+                  });
+                  // A browser without a share sheet has no `share`; asking it is how the device
+                  // gets to say no, rather than the app deciding for it.
+                  if ('share' in navigator)
+                    void navigator.share({ files: [file], title: doc.name }).catch(() => undefined);
+                }}
+              >
+                <Icon name="share" size={20} strokeWidth={1.9} />
+                {t('docView.share')}
+              </button>
+              <button
+                type="button"
+                className="btn btn-ghost"
                 onClick={() => {
                   void deleteDocument(doc.id).then(() => {
-                    navigate({ screen: 'info' });
+                    navigate({ screen: 'docs' });
                   });
                 }}
               >
-                {t('info.docView.delete')}
+                <Icon name="trash" size={20} strokeWidth={1.9} />
+                {t('docView.delete')}
               </button>
             </div>
           </>
@@ -63,7 +78,7 @@ export function DocumentScreen({ docId }: { readonly docId: string }) {
           /* Reached by a link to a document that has since been deleted. The header's back and
              home are the way out, and this says why the screen is empty rather than leaving a
              blank rectangle to be stared at. */
-          loaded && <p className="muted center">{t('info.docView.gone')}</p>
+          loaded && <p className="muted center">{t('docView.gone')}</p>
         )}
       </div>
     </>

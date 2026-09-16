@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Fails the build when a screen breaks a rule we have already agreed.
 
-Every rule here exists because it was asked for once and then missed on a later screen.
-A rule that only lives in a conversation gets forgotten; a rule that fails `npm run verify`
-does not. Add to this file whenever a new rule is agreed — that is the point of it.
+Every rule here exists because it was asked for once and then missed on a later screen. A rule
+that only lives in a conversation gets forgotten; a rule that fails `npm run verify` does not.
+The rules are numbered in docs/design-rules.md; add here whenever a new one is agreed.
 """
 import json
 import pathlib
@@ -12,15 +12,14 @@ import sys
 
 SCREENS = pathlib.Path(__file__).parent / 'screens'
 
-# Home and the splash have no parent, and the brand sheet is not a screen.
-NO_HEADER = {'Welcome', 'Main', 'MainDark', 'Brand'}
-TILES = ['रास्ता', 'खाना', 'बोलना', 'ज़रूरी जानकारी', 'घर']
-NOT_A_TILE = ['लैंडिंग', 'पास']   # the landing page, and what the strip opens
-
-BACK_ICON = 'M14.4 5.8 8.6 12l5.8 6.2'
-HOME_ICON = 'M4 10.6 12 4.2l8 6.4'
-CRUMB = 'letter-spacing: 0.02em'
-LIGHT_SURFACES = ['#F7F3EC', '#FFFDF9', '#E6DED2', '#141826']
+PILLARS = ['खाना', 'जाना', 'जानना']
+# The landing page and the names sheet are not screens with chrome.
+NO_CHROME = {'Landing', 'Names'}
+# घर.n screens and the pillars' children; everything else is home or a state of it.
+HOME = {'Home', 'HomeDark', 'HomeTrial', 'HomePaid'}
+NAME_MARK = 'दुबई साथी'
+BACK_ICON = 'M15 5l-7 7 7 7'
+LIGHT_SURFACES = ['#FFFDF9', '#F7F3EC', '#E6DED2', '#141826']
 
 failures: list[str] = []
 
@@ -32,87 +31,77 @@ def fail(screen: str, rule: str) -> None:
 def main() -> int:
     files = sorted(SCREENS.glob('*.dc.html'))
     if not files:
-        print('no screens found — run design/generate-screens.py first')
+        print('no screens found — run design/generate-screens.sh first')
         return 1
 
     for path in files:
         name = path.name[: -len('.dc.html')]
         text = path.read_text(encoding='utf-8')
 
-        # Every screen must say where you are and how to leave. A traveller who opened the
-        # mic from खाना has to be able to tell they are still in खाना.
-        if name not in NO_HEADER:
-            if CRUMB not in text:
-                fail(name, 'no tile trail in the header')
-            if BACK_ICON not in text:
-                fail(name, 'no back control')
-            if HOME_ICON not in text:
-                fail(name, 'no way home')
+        # Rule 1: no microphone anywhere. Not in the bar, not in a box, not as an icon.
+        if re.search(r'\bmic\b|माइक|बोलिए|बोलकर', text):
+            fail(name, 'a microphone, or an invitation to speak — voice is out (decision 016)')
 
-        # Home is the four tiles and the mic, nothing else (rule 1).
-        if name in ('Main', 'MainDark'):
-            if text.count('data-tap="tile"') != 4:
-                fail(name, 'home must have exactly four tiles')
-            if text.count('data-tap="mic"') != 1:
-                fail(name, 'home must have exactly one mic')
-            if 'data-tap="button"' in text:
-                fail(name, 'home carries a control beyond the tiles and the mic')
-
-        # The status strip tops every screen after the landing page (rule 5), and its
-        # validity area is the only route to घर.1.
-        if name.replace('Dark', '') not in ('Welcome', 'Brand'):
-            if 'data-tap="validity"' not in text:
-                fail(name, 'no status strip')
-            if 'data-tap="theme"' not in text:
-                fail(name, 'no theme switch on the strip')
-
-        # Four screens carry no bar on purpose (rule 6a): the mic is live on 1.2, the driver
-        # is reading 3.3, 4.4 is nothing but the document, and the घर.x screens are opened by
-        # the strip rather than by a tile. Everywhere else the bar is required.
-        NO_BAR = {'Listening', 'ShowDriver', 'InfoDocView', 'Pass', 'PassDone', 'Devices'}
-        if name.replace('Dark', '') not in NO_HEADER | NO_BAR \
-                and 'data-tap="nav"' not in text:
-            fail(name, 'no bottom bar')
-
-        # The bar is घर + the other three tiles + the mic (rule 6).
-        if 'data-tap="nav"' in text:
-            if text.count('data-tap="nav"') != 4:
-                fail(name, 'the bar must be घर plus the other three tiles')
-            if text.count('data-tap="mic"') < 1:
-                fail(name, 'the bar has no mic')
-
-        # Red is reserved and appears on no screen (rule 13, decision 002).
-        if name != 'Brand' and '#C62B2B' in text:
+        # Rule 2: red is reserved and appears on no screen.
+        if re.search(r'#C62B2B|#D32F2F|#E53935|\bred\b', text, re.IGNORECASE):
             fail(name, 'red on a screen — red is reserved and belongs to no feature')
 
-        # A colour value must never reach the traveller as text.
-        if name != 'Brand':
-            for leak in re.findall(r'>\s*#[0-9A-Fa-f]{6}', text):
-                fail(name, 'colour value rendered as visible text: %s' % leak.strip('> '))
-        if 'color: <svg' in text or 'background: <svg' in text:
-            fail(name, 'markup written into a CSS property')
-        if '%(' in text or re.search(r'%[sd](?![a-zA-Z])', text.replace('%s', '', 0)[:0] or ''):
-            fail(name, 'unsubstituted template token')
+        if name in NO_CHROME:
+            continue
 
-        # Dark screens must not carry light surfaces.
+        # Rule 3: the strip on every screen — the name, the network, the pass dot, the theme.
+        if NAME_MARK not in text:
+            fail(name, 'the strip does not carry the name')
+        if 'ऑफ़लाइन' not in text and 'ऑनलाइन' not in text:
+            fail(name, 'the strip does not say online or offline')
+        if '>पास</span>' not in text:
+            fail(name, 'the strip has no pass dot')
+        if 'M20 14.5A8.5 8.5' not in text and 'M12 2.5v2.5' not in text:
+            fail(name, 'no theme switch on the strip')
+        # The hotel row reads "मेरा होटल जोड़ें" until there is one, then the hotel's own name
+        # with बदलें beside it.
+        if 'मेरा होटल' not in text and '>बदलें</span>' not in text:
+            fail(name, 'the strip has no hotel row')
+
+        # Rule 4: the bar on every screen — the three pillars and the documents, plus पास लें
+        # while unpaid. Four or five items, never fewer, never more.
+        bar_items = sum(1 for p in PILLARS + ['दस्तावेज़'] if ('>%s</span>' % p) in text)
+        if bar_items < 4:
+            fail(name, 'the bar is missing a pillar or the documents')
+        if name == 'HomePaid' and 'पास लें' in text:
+            fail(name, 'a paid traveller still sees पास लें')
+        if name not in ('HomePaid', 'HomePass') and 'पास लें' not in text:
+            fail(name, 'an unpaid traveller has no पास लें in the bar')
+
+        # Rule 5: home is the three pillars, in order, and nothing else.
+        if name in HOME:
+            order = [text.find('>%s</span>' % p) for p in PILLARS]
+            if any(i < 0 for i in order):
+                fail(name, 'home must carry all three pillars')
+            elif order != sorted(order):
+                fail(name, 'the pillars are out of order: खाना, जाना, जानना')
+            if 'type="text"' in text or '<input' in text:
+                fail(name, 'home carries a box')
+
+        # Rule 6: every screen that is not home has a way back.
+        if name not in HOME and BACK_ICON not in text:
+            fail(name, 'no back control')
+
+        # Rule 7: dark screens carry no light surfaces. The mark's own cream is drawn inside its
+        # SVG and is the mark, not a surface, so the drawings are set aside before looking.
         if name.endswith('Dark'):
+            surfaces = re.sub(r'<svg.*?</svg>', '', text, flags=re.S)
             for hexv in LIGHT_SURFACES:
-                if hexv in text:
+                if hexv in surfaces:
                     fail(name, 'light surface %s in a dark screen' % hexv)
 
-        # Controls declare themselves with data-tap, and every one of them is >= 48px.
-        # Decorative boxes are not controls, so they are not measured — a check that cries
-        # wolf gets ignored, and then it protects nothing.
-        for style, kind in re.findall(r'style="([^"]*)"\s+data-tap="([^"]*)"', text):
-            sizes = [int(v) for v in re.findall(r'(?:min-height|height): (\d+)px', style)]
-            if not sizes:
-                fail(name, 'control "%s" has no explicit height' % kind)
-            elif min(sizes) < 48:
-                fail(name, 'control "%s" is %dpx, under the 48px floor' % (kind, min(sizes)))
-        if name not in NO_HEADER and 'data-tap="nav"' not in text and 'data-tap' not in text:
-            fail(name, 'no controls marked with data-tap')
+        # Rule 8: nothing tech-facing reaches the traveller.
+        for leak in re.findall(r'>\s*#[0-9A-Fa-f]{6}', text):
+            fail(name, 'colour value rendered as visible text: %s' % leak.strip('> '))
+        if re.search(r'\$\{|\$[a-z_]+\b', re.sub(r'<svg.*?</svg>', '', text, flags=re.S)):
+            fail(name, 'an unsubstituted shell variable reached the screen')
 
-    # The canvas and the files on disk must agree, and names must follow the tiles.
+    # The canvas and the files on disk must agree, and names must follow the pillars.
     canvas = json.loads((SCREENS / 'canvas.json').read_text(encoding='utf-8'))
     listed = {a['file'] for a in canvas['artboards']}
     on_disk = {p.name for p in files}
@@ -120,19 +109,21 @@ def main() -> int:
         failures.append('canvas.json: lists %s, which does not exist' % missing)
     for unlisted in sorted(on_disk - listed):
         failures.append('canvas.json: %s is not on the canvas' % unlisted)
-
+    number = r'^(L|घर(\.\d+)?|\d\.\d) · '
     for artboard in canvas['artboards']:
-        title = artboard.get('title', '')
         stem = artboard['file'][: -len('.dc.html')]
-        if stem in ('Brand',):
+        title = artboard.get('title', '')
+        if stem == 'Names':
             continue
-        number = r'^(D?\d+(\.\d+)?[a-z]?|घर\.\d+[a-z]?) · '
-        if not re.match(number, title):
+        if title.startswith('घर'):
+            continue  # home, one of its states, or a घर.n child
+        if re.match(number, title):
+            body = re.sub(number, '', title)
+            head = body.split(' ›')[0].split(' ·')[0].strip()
+            if head and head not in PILLARS + ['लैंडिंग']:
+                failures.append('canvas.json: %s is named "%s" — names use the three pillars' % (stem, body))
+        else:
             failures.append('canvas.json: %s has no screen number' % stem)
-        body = re.sub(number, '', title)
-        if body.split(' ›')[0].split(' (')[0] not in TILES + NOT_A_TILE:
-            failures.append(
-                'canvas.json: %s is named "%s" — screen names use the four tiles' % (stem, body))
 
     if failures:
         print('design checks failed:\n')

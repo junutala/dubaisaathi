@@ -99,12 +99,26 @@ export function readDishes(raw: readonly unknown[] | null): readonly ConfirmedDi
   const dishes: ConfirmedDish[] = [];
   for (const item of raw) {
     if (typeof item !== 'object' || item === null) continue;
-    const dish = item as { name?: { en?: unknown; hi?: unknown }; tags?: unknown };
+    const dish = item as {
+      name?: { en?: unknown; hi?: unknown };
+      tags?: unknown;
+      priceAed?: unknown;
+    };
     const en = typeof dish.name?.en === 'string' ? dish.name.en : undefined;
     if (en === undefined || en.trim() === '') continue;
     const hi = typeof dish.name?.hi === 'string' && dish.name.hi.trim() !== '' ? dish.name.hi : en;
     const tags = Array.isArray(dish.tags) ? dish.tags.filter(isFoodTag) : [];
-    dishes.push({ name: { en, hi, aliases: [] }, tags });
+    // The price the collector read off the menu, when there was one: it is what makes 1.4 a
+    // menu rather than a list of names.
+    const priceAed =
+      typeof dish.priceAed === 'number' && Number.isFinite(dish.priceAed)
+        ? dish.priceAed
+        : undefined;
+    dishes.push({
+      name: { en, hi, aliases: [] },
+      tags,
+      ...(priceAed === undefined ? {} : { priceAed }),
+    });
   }
   return dishes.length > 0 ? dishes : undefined;
 }

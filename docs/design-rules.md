@@ -1,81 +1,44 @@
 # Agreed design rules
 
-Every rule here was asked for once. They are listed so that none has to be asked for twice,
-and `design/check-screens.py` fails `npm run verify` for the ones a machine can check. When a
-new rule is agreed, it is added here before the screen is drawn.
+Every rule here was asked for once. They are listed so that none has to be asked for twice, and
+`design/check-screens.py` fails `npm run verify` for the ones a machine can check. When a new
+rule is agreed, it is added here before the screen is drawn. Sprint 1, frozen 16 September.
 
 ## Structure
 
-| #   | Rule                                                                                                                                                                                   | Enforced by |
-| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 1   | Home is the status strip, the four tiles and the mic. Nothing else — no brand mark, no profile icon, no settings icon, no counter card.                                                | checker     |
-| 2   | The four tiles are रास्ता · खाना · बोलना · ज़रूरी जानकारी. Every other screen is a child of one and is numbered `tile.child`; पास and परिवार are `घर.1` and `घर.2`.                    | checker     |
-| 3   | Screen names use the tile names. No invented labels. Every screen has a number.                                                                                                        | checker     |
-| 4   | Every screen except landing and home carries the shared header: back, the tile trail, home.                                                                                            | checker     |
-| 5   | Every screen except landing carries the status strip at the very top: online/offline · validity (tap → घर.1) · theme switch.                                                           | checker     |
-| 5a  | घर.1's three states live on one artboard (before purchase); the other two are shown on the brand sheet, because three artboards are not one screen.                                    | review      |
-| 6   | The bottom bar on child screens is घर + the other three tiles + the mic.                                                                                                               | checker     |
-| 6a  | Six screens carry no bar on purpose: 1.2 (the mic is live), 3.3 (the driver is reading it), 4.4 (nothing but the document), and घर.1 / घर.1c / घर.2 (opened by the strip, not a tile). | checker     |
-| 7   | The landing page gates on the full pack download. _शुरू करें_ enables only when complete. Updates apply there at the next launch, never mid-trip.                                      | review      |
-| 8   | No login, no account, no gate before the app is usable.                                                                                                                                | review      |
-| 9   | Permissions at first use: location when 1.1 first opens, mic when first tapped. Never on landing.                                                                                      | review      |
+| #   | Rule                                                                                                                                                        | Enforced by |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 1   | No microphone anywhere, and no invitation to speak. Every box is typed into.                                                                                | checker     |
+| 2   | Red is reserved and appears on no screen. The pass dot is green or marigold, never red.                                                                     | checker     |
+| 3   | The top strip is on every screen after landing: the mark and the name (a tap goes home), online/offline, the pass dot, language, theme; then the hotel row. | checker     |
+| 4   | The bar is on every screen after landing: खाना · जाना · जानना · दस्तावेज़, plus पास लें while the counter is a trial. It goes once a pass is bought.        | checker     |
+| 5   | The pillar the traveller is in is lit in its own colour in the bar, so they know where they are.                                                            | review      |
+| 6   | Home is the three pillars in that order, as deep blocks of their own hue with cream type, and the nudge from the twentieth hour. No box, nothing else.      | checker     |
+| 7   | Every screen that is not home has a back control, the pillar's icon in its hue, the pillar's name and the trail to this screen.                             | checker     |
+| 8   | The three names stay in Devanagari in both interface languages; the Roman spelling is a caption.                                                            | review      |
+| 9   | No login, no account, no gate before the app is usable. Nothing is gated for a traveller who has paid once.                                                 | review      |
+| 10  | Permissions at first use: location when जाना first needs it, the camera when a photo is taken. Never on landing.                                            | review      |
 
-## The mic
+## Content and honesty
 
-| #   | Rule                                                                                                                                                                                         | Enforced by |
-| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 10  | The mic is one thing everywhere: ask Saathi anything. Speech → local intent → the right screen with the answer on it. Home has exactly one; so does every bar.                               | checker     |
-| 11  | Ambiguity gets a two-button question, never a dead end. The landing screen shows _आपने कहा: …_ with back one tap away.                                                                       | review      |
-| 12  | Intent accuracy is the KPI, not the transcript. Hinglish is first-class input.                                                                                                               | review      |
-| 12a | Every way the mic can fail ends on a screen with a way forward: permission refused, no Hindi model, nothing heard, nothing understood. A spinner that stops is a dead end.                   | review      |
-| 12b | 1.2 always offers _टाइप करके बताइए_. It is the only input that works on every phone with no network and no permission, and it reaches the same parser and the same screens.                  | review      |
-| 12c | Nothing on 1.2 names an engine, a model, a language code or a confidence number. "इस फ़ोन में हिंदी आवाज़ पहचान नहीं है" is what a tourist needs; the engine id belongs in the `VoiceEvent`. | review      |
-| 12d | The parser shows the traveller their own words back, never its normalised form. "करामा", never "karama".                                                                                     | review      |
-
-## ज़रूरी जानकारी
-
-| #   | Rule                                                                                                                                                                                                                                       | Enforced by |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| 13  | No emergency feature, no red on any screen. The dialler and the reception desk are better tools; offline clinic hours are a liability.                                                                                                     | checker     |
-| 14  | The hotel is captured by pin, card photo or entrance photo. Never typed. The card photo is what the driver sees.                                                                                                                           | review      |
-| 15  | Documents: any document, one photo, one name. On the device only, never uploaded, kept until the tourist deletes it. Persistent storage requested.                                                                                         | review      |
-| 16  | ज़रूरी जानकारी stays usable after the pass expires.                                                                                                                                                                                        | review      |
-| 16a | ज़रूरी जानकारी carries no medical cross, red cross, or first-aid symbol — on the tile icon, the screens, or the app icon. The tile holds the traveller's own papers; a cross promises a hospital the product does not have (decision 002). | review      |
-
-## Money
-
-| #   | Rule                                                                                                                                                                                                                                                    | Enforced by |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 25  | The strip's validity area carries a रिचार्ज button in the trial, last-day and expired states, and no button in the days-left state.                                                                                                                     | checker     |
-| 26  | घर.1 has three states — before purchase, pass active (14 दिन और बढ़ाएँ), expired — on one screen, with the four tiers ₹199 / ₹299 / ₹399 / ₹499 for 1–4 named devices and "contact us" above four. Payment itself is the aggregator's page, never ours. | review      |
-| 27  | घर.2 shows one QR per extra device, each marked used or free; a member scans and is in, offline, ending at the master Counter Off Time.                                                                                                                 | review      |
-| 28  | UPI first. Every payment is an order tied to the device; no raw VPA QR anywhere.                                                                                                                                                                        | review      |
-| 29  | One number runs entitlement, the Counter Off Time: install +365 days, landing +24 hours, payment +14 days from landing, never from payment. A paid pass extinguishes the trial; recharge adds 14 days to a running counter.                             | review      |
-
-## Permissions
-
-| #   | Rule                                                                                                                                                                           | Enforced by |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| 30  | Location is asked at first need (1.1) with the reason on screen; denied gets one screen saying what will not work and a button to settings, then no nagging. Never on landing. | review      |
-
-## Fields and copy
-
-| #   | Rule                                                                                                                                                                                                 | Enforced by |
-| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 17  | Every field has a one-line justification in `docs/field-ledger.md`, written from the tourist's seat, before it is added. No line, no field.                                                          | review      |
-| 18  | Nothing tech-facing reaches the tourist: no model names, sizes, version numbers, percentages of unseen things. Time left, and what still works.                                                      | review      |
-| 19  | No colour value, template token or markup ever renders as visible text.                                                                                                                              | checker     |
-| 20  | Every control is at least 48px. Controls declare themselves with `data-tap`.                                                                                                                         | checker     |
-| 21  | Marigold means "press here"; on light grounds it uses the darker tone. Teal means offline-and-ready.                                                                                                 | review      |
-| 22  | The offline status is on the strip. The pass screen says the opposite — _ख़रीदने के लिए इंटरनेट ज़रूरी_ — because paying needs a connection.                                                         | review      |
-| 23  | Dark screens carry no light surfaces. Theme follows the phone; the switch is on the strip.                                                                                                           | checker     |
-| 23a | Devanagari line boxes are 1.35 or looser wherever overflow is hidden or clamped. Matras sit above and below the Latin line box, and a tight box silently eats them — "अरबी में" renders as "अरबा म". | review      |
-| 24  | The canvas and the files on disk agree.                                                                                                                                                              | checker     |
+| #   | Rule                                                                                                                                                  | Enforced by |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 11  | A dietary answer nobody asked shows as पूछकर, never as a no.                                                                                          | review      |
+| 12  | Hours show the closing time while open and the opening time while closed, computed in Dubai time.                                                     | review      |
+| 13  | The menu is a grid of dishes and prices read from the card, not a photograph.                                                                         | review      |
+| 14  | A near spelling of a place is a question with the place's own Devanagari name on it; the app never transliterates a traveller's letters into a guess. | review      |
+| 15  | A place we do not know is said so, and the words go to the taxi screen as they are. Never a dead end.                                                 | review      |
+| 16  | The hotel and the documents are on the phone only, without limit, and go only when the traveller deletes them.                                        | review      |
+| 17  | Nothing tech-facing reaches the tourist: no model names, sizes, versions, colour values or template tokens.                                           | checker     |
+| 18  | Every control is at least 48px.                                                                                                                       | review      |
+| 19  | Dark screens carry no light surfaces. Theme follows the phone; the switch is on the strip.                                                            | checker     |
+| 20  | Devanagari line boxes are 1.35 or looser wherever overflow is hidden or clamped.                                                                      | review      |
+| 21  | The canvas and the files on disk agree; every artboard carries its screen number and is named by a pillar.                                            | checker     |
 
 ## Dropped, so they are not proposed again
 
-- Find-my-family: needs a connection on both phones; a PWA cannot track location in the background.
-- SOS to a contact in India: outgoing SMS is not available without a local plan; the promise is offline.
-- A settings screen: hotel is in 4.1, the pack is on landing, theme is on the strip. Nothing left to set.
-- Auto-deleting documents: they are local, cost nothing, and a tourist may need them after the trip.
-- A language row: one language in the MVP.
+- Voice input of any kind (decision 016).
+- The Arabic phrase screens; the taxi card carries the one Arabic a driver needs.
+- 3.3 · काम की बातें — parked for Sprint 2, not for this one.
+- Hotels and homestays in जानना.
+- Find-my-family, SOS to a contact in India, a settings screen, auto-deleting documents.

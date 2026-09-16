@@ -1,5 +1,4 @@
 import type { LatLng } from '@saathi/shared';
-import type { Validity } from '../../app/shell/StatusStrip.js';
 import { CONFIRMATIONS_NEEDED, DEPARTURES_NEEDED, readingSaysDubai } from './dubai.js';
 import { verifyPass, type SignedPass } from './signedPass.js';
 
@@ -15,6 +14,9 @@ import { verifyPass, type SignedPass } from './signedPass.js';
  *   Dubai or had already paid in India, the counter is the same one and it starts on arrival.
  * - **A group subscription shares one cut-off.** Every device on a family pass ends at the
  *   master's time, carried on the pass itself rather than recomputed per phone.
+ * - **Paid once, never gated.** The owner's rule of 16 September: a traveller who has paid is
+ *   never thrown out of the app because the fourteen days ran out. The counter still shows, and
+ *   the next trip is a new purchase, but nothing closes.
  *
  * It lives in localStorage rather than IndexedDB because the status strip reads it on every
  * screen, synchronously, before anything has had a chance to open a database.
@@ -136,20 +138,33 @@ export function noteLocationReading(at: LatLng | undefined): Entitlement {
 /**
  * Whether the app is closed to this traveller.
  *
- * The owner's rule, and the reasoning behind it: a trial that runs out is the conversion moment
- * and there is no relationship to damage. A paying customer locked out mid-trip, in a country
- * where they have no data, is the most expensive user this product can create — they do not
- * merely fail to recharge, they tell everyone. So a paid pass keeps working until they leave
- * Dubai, however long ago its hours ran out, and the next trip is a new purchase.
- *
- * ज़रूरी जानकारी is never gated by this or anything else (rule 6): the hotel, the documents, the
- * consulate and the numbers are on the device and nothing about them reads a pass.
+ * Only a trial that has run out closes anything, and only when there is a way to buy. A paying
+ * customer is never gated, on this trip or after it — the owner's rule: _"we will NOT THROW HIM
+ * AWAY just because his 14 day pass has expired."_ The documents and the hotel are never gated
+ * by this or anything else: they are on the device and nothing about them reads a pass.
  */
 export function isGated(now: Date = new Date(), state: Entitlement = read()): boolean {
   if (!PURCHASE_IS_LIVE) return false;
-  if (validity(now, state).state !== 'expired') return false;
-  if (state.paid !== true) return true;
-  return state.leftAt !== undefined;
+  if (state.paid === true) return false;
+  return validity(now, state).state === 'expired';
+}
+
+/**
+ * From the twentieth hour of the Dubai day, every open of घर nudges the traveller toward a pass
+ * (owner, 16 September). Never for a traveller who has paid, and never before landing.
+ */
+export const NUDGE_FROM_HOURS_LEFT = 4;
+
+export function needsNudge(now: Date = new Date(), state: Entitlement = read()): boolean {
+  if (state.paid === true) return false;
+  const now_ = validity(now, state);
+  if (now_.state === 'expired') return true;
+  return now_.state === 'trial' && (now_.hours ?? 0) <= NUDGE_FROM_HOURS_LEFT;
+}
+
+/** Whether the bar carries पास लें: while the counter is a trial, in India or in Dubai. */
+export function canBuy(state: Entitlement = read()): boolean {
+  return state.paid !== true;
 }
 
 /** Testing from India: the counter behaves exactly as it would on arrival. */
@@ -204,9 +219,18 @@ export function endsAt(state: Entitlement = read()): Date | null {
   return new Date(new Date(state.landedAt).getTime() + hours * HOUR);
 }
 
+/** What the strip's dot and घर.4 show. */
+export interface Validity {
+  readonly state: 'before' | 'trial' | 'pass' | 'expired';
+  /** 0–100; how much of the counter is left. */
+  readonly percent: number;
+  readonly hours?: number;
+  readonly days?: number;
+}
+
 /**
- * What the status strip shows. The depleting line is the money, so it is never hidden and never
- * guessed at: before landing there is nothing to depute, so the bar is full and says so.
+ * What the strip shows. Before landing there is nothing to deplete, so the counter is full and
+ * says so.
  */
 export function validity(now: Date = new Date(), state: Entitlement = read()): Validity {
   const end = endsAt(state);

@@ -1,5 +1,6 @@
 /* The screens' vocabulary, as CSS. Colours are custom properties set by applyTheme(), so a
-   theme switch is one attribute flip and nothing re-renders. */
+   theme switch is one attribute flip and nothing re-renders. The shapes are the Sprint 1
+   artboards, frozen on 16 September. */
 
 *,
 *::before,
@@ -11,7 +12,7 @@ body {
   margin: 0;
   font-family: 'Mukta', 'Segoe UI', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  background: var(--sand);
+  background: var(--card);
   color: var(--ink);
 }
 
@@ -22,6 +23,7 @@ button {
   background: none;
   cursor: pointer;
   text-align: inherit;
+  padding: 0;
 }
 
 /* Every control clears 48px — a taxi is a moving vehicle (rule 20). */
@@ -35,15 +37,23 @@ button:not(:disabled) {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  background: var(--sand);
+  background: var(--card);
+}
+
+/* Everything between the strip and the bar. */
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .flow {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 14px 20px 20px;
+  gap: 12px;
+  padding: 6px 16px 16px;
   min-height: 0;
 }
 
@@ -53,15 +63,12 @@ button:not(:disabled) {
 .center {
   text-align: center;
 }
-.center-all {
-  align-items: center;
-  justify-content: center;
-}
 .muted {
   color: var(--muted);
 }
 .small {
-  font-size: 13.5px;
+  font-size: 13px;
+  line-height: 1.45;
 }
 .stack-sm {
   display: flex;
@@ -71,378 +78,374 @@ button:not(:disabled) {
 .rows {
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 10px;
+}
+.grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .lbl {
   margin: 0;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  padding-top: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
 }
 
+.disp {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+}
+
 .card {
-  background: var(--card);
+  background: var(--tile);
   border: 1px solid var(--line);
   border-radius: 16px;
 }
 .pad {
   padding: 14px 15px;
-  font-size: 17px;
-  line-height: 1.4;
+  font-size: 16px;
+  line-height: 1.45;
 }
 
-/* ---- status strip ------------------------------------------------------------------ */
+/* ---- the top strip: brand, network, pass, language, theme; then the hotel ------------- */
 
 .strip {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 16px 6px;
+}
+.strip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+}
+.strip-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  min-height: 40px;
+}
+.strip-name {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.strip-net {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.strip-pass {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 10px 0 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.strip-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+}
+.strip-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+/* The traveller's own hotel, under the brand, until they change it. */
+.strip-hotel {
   display: flex;
   align-items: center;
   gap: 10px;
   min-height: 48px;
-  padding: 0 6px 0 16px;
-  background: var(--card);
-  border-bottom: 1px solid var(--line);
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1.5px solid var(--line);
+  width: 100%;
 }
-
-.strip-net {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 13px;
-  font-weight: 700;
-  white-space: nowrap;
+.strip-hotel-empty {
+  border-style: dashed;
+  border-color: var(--marigold);
 }
-
-.strip-validity {
-  flex: 1;
-  min-width: 0;
-  min-height: 48px;
+.strip-hotel-text {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 4px;
-  padding: 0;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
 }
-
-.strip-validity-label {
-  font-size: 13px;
+.strip-hotel-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 14.5px;
   font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-.strip-track {
-  height: 4px;
-  border-radius: 2px;
-  background: var(--line);
-  display: block;
+.strip-hotel-why {
+  font-size: 12px;
+  color: var(--muted);
 }
-.strip-track > span {
-  display: block;
-  height: 4px;
-  border-radius: 2px;
+.strip-hotel-change {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--marigoldText);
+  white-space: nowrap;
 }
 
-.strip-recharge {
+/* ---- header: back, the pillar's icon in its hue, the name, the trail -------------------- */
+
+.hdr {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 8px 4px;
+}
+.hdr-btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.hdr-what {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+.hdr-title {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  /* Devanagari carries matras above and below the baseline; a tight line box clips them. */
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hdr-trail {
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- the bar: the three pillars, the documents, and पास लें while unpaid ---------------- */
+
+.bar {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  background: var(--card);
+  padding: 6px 8px 18px;
+  position: sticky;
+  bottom: 0;
+}
+.bar-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.bar-tab {
   min-height: 48px;
-  padding: 0 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--muted);
+  border-radius: 12px;
+}
+/* The pillar the traveller is in, lit in its own colour so they know where they are. */
+.bar-tab-on {
+  font-weight: 700;
+  background: var(--sand);
+}
+.bar-buy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 48px;
+  margin: 0 2px;
   border-radius: 14px;
+  background: var(--marigold);
+  color: var(--onMarigold);
+}
+.bar-buy-label {
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.bar-buy-from {
+  font-size: 10.5px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+/* ---- घर: the three pillars, and the nudge ---------------------------------------------- */
+
+.home {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 16px 12px;
+}
+.nudge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--marigoldSoft);
+}
+.nudge-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.nudge-head {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--marigoldText);
+}
+.nudge-why {
+  font-size: 13px;
+  color: var(--ink);
+}
+.nudge-cta {
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 12px;
   background: var(--marigold);
   color: var(--onMarigold);
   font-size: 13.5px;
   font-weight: 700;
   white-space: nowrap;
 }
-
-.strip-btn {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--muted);
-  flex-shrink: 0;
-}
-
-/* ---- header ------------------------------------------------------------------------ */
-
-.hdr {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 14px 16px 10px;
-}
-
-.hdr-btn {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.hdr-btn:first-child {
-  margin-left: -12px;
-}
-.hdr-btn:last-child {
-  margin-right: -10px;
-}
-
-.hdr-titles {
+.pillars {
   flex: 1;
-  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pillar {
+  position: relative;
+  flex: 1;
+  min-height: 150px;
+  border-radius: 26px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: 20px 22px;
+  text-align: start;
+}
+.pillar:active {
+  filter: brightness(1.08);
+}
+.pillar-mark {
+  position: absolute;
+  right: -18px;
+  top: -14px;
+  opacity: 0.16;
+  pointer-events: none;
+}
+.pillar-roman {
+  position: absolute;
+  left: 22px;
+  top: 18px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.pillar-text {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  max-width: 250px;
 }
-
-.hdr-crumb {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 13px;
+.pillar-name {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 56px;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  line-height: 1;
+  letter-spacing: -0.01em;
 }
-.hdr-sep {
-  color: var(--chev);
-}
-.hdr-trail {
-  font-weight: 600;
-  color: var(--muted);
-}
-
-.hdr-title {
-  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
-  font-size: 23px;
-  font-weight: 600;
-  /* Devanagari carries matras above the baseline and below it, so a line box sized for
-     Latin clips them. Any element that clamps or hides overflow needs 1.35 or more —
-     at 1.15 "अरबी में" renders as "अरबा म". */
-  line-height: 1.35;
-  /* English titles run longer than Hindi. A title that truncates cannot say where you are,
-     so it wraps to a second line instead. */
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* ---- bottom bar --------------------------------------------------------------------- */
-
-.bar {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  border-top: 1px solid var(--line);
-  background: var(--card);
-  padding: 9px 6px 14px;
-}
-
-.bar-tab {
-  flex: 1;
-  min-height: 48px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--muted);
-}
-
-.bar-mic-slot {
-  width: 62px;
-  height: 62px;
-  display: flex;
-  justify-content: center;
-  margin-top: -26px;
-  flex-shrink: 0;
-}
-
-.bar-mic,
-.mic-xl {
-  border-radius: 50%;
-  background: var(--marigold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow:
-    0 0 0 2.5px var(--card),
-    0 10px 30px rgb(232 135 30 / 0.3),
-    0 0 46px rgb(232 135 30 / 0.22);
-}
-.bar-mic {
-  width: 58px;
-  height: 58px;
-}
-.mic-xl {
-  width: 96px;
-  height: 96px;
-}
-
-/* ---- home --------------------------------------------------------------------------- */
-
-.tiles {
-  /* The tiles are the whole screen now that the box has gone, so they take the height rather
-     than leaving a third of the phone empty under them. */
-  flex: 1 1 auto;
-  grid-auto-rows: 1fr;
-  display: grid;
-  /* One column, sized to its content. It was two columns while there were four tiles; with
-     three, the third sat alone at half width beside a hole. Stretching them to fill the screen
-     instead was no better: each tile became 230px of white with a small drawing lost in the
-     middle of it. */
-  gap: 12px;
-}
-
-.tile {
-  min-height: 104px;
-  padding: 18px 18px;
-  display: flex;
-  /* A row, not a stack: the icon leads, the name and the line it earns sit beside it. At full
-     width a centred column leaves the tile mostly empty and the name floating. */
-  flex-direction: row;
-  align-items: center;
-  gap: 16px;
-  text-align: start;
-  border-radius: 16px;
-  /*
-    The glowing gradient edge agreed in design/generate-screens.py, in brand colours.
-
-    Two layers rather than a pseudo-element: the surface is painted to the padding box and the
-    gradient to the border box, so a 1.5px transparent border becomes the gradient. No asset, so
-    it costs nothing to download, and no blur, so it costs nothing to paint.
-  */
-  border: 1.5px solid transparent;
-  background:
-    linear-gradient(var(--tile), var(--tile)) padding-box,
-    linear-gradient(140deg, var(--edgeFrom), var(--edgeMid) 42%, var(--edgeTo)) border-box;
-}
-
-/*
-  The bloom is the expensive half — a large blur is real GPU work on a cheap phone, and the
-  design note is explicit that it belongs on "the live or selected thing" only. So it is spent
-  on the one tile under the thumb, never on three at once.
-*/
-.tile:active {
-  box-shadow:
-    0 0 0 1px var(--bloom),
-    0 10px 30px var(--bloom),
-    0 0 46px var(--bloom);
-}
-
-/* The icon leads the row at a fixed size. No background: the chip added a second rounded
-   rectangle inside a rounded rectangle and said nothing the icon was not already saying. */
-.tile-icon {
-  flex: 0 0 auto;
-  width: 76px;
-  height: 76px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Sized in CSS rather than through the component's `size` prop, because the target is a share
-   of the icon's box — which only the layout knows — not a number of pixels. Both rules beat
-   the svg's own width/height and stroke-width attributes. */
-.tile-icon svg {
-  width: 100%;
-  height: auto;
-  max-height: 100%;
-  /* The stroke scales with the viewBox, so the small-icon weight would render as a 9px slab at
-     this size. This keeps the drawn line at roughly 4% of the icon, which is what the artwork
-     looks like at 24px. */
-  stroke-width: 0.95;
-}
-
-.tile-text {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-.tile-name {
-  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.25;
-}
-.tile-blurb {
+.pillar-blurb {
   font-size: 13.5px;
   line-height: 1.35;
-  color: var(--muted);
+  opacity: 0.85;
+  margin-top: 8px;
+  text-wrap: pretty;
 }
 
-/* The front door (decision 014): the box carries the offer, the mic rides at the end of it.
-   The mic is deliberately quiet here — ink on the card, no marigold and no glow — because a
-   large glowing microphone is a promise this product cannot keep on a Dubai street. */
-/* Pushed to the bottom: the tiles are a comfortable height now rather than stretched, and the
-   box belongs under the thumb rather than floating halfway up the screen. */
-.home-ask {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 8px;
-  padding: 6px 0 4px;
-}
+/* ---- the box, chips, notes, buttons ---------------------------------------------------- */
 
 .askbar {
   display: flex;
   align-items: center;
-  background: var(--card);
+  gap: 10px;
+  padding: 0 14px;
+  min-height: 54px;
+  border-radius: 16px;
+  background: var(--tile);
   border: 1.5px solid var(--line);
-  border-radius: 14px;
-}
-.askbar:focus-within {
-  outline: 2px solid var(--marigold);
-  border-color: var(--marigold);
 }
 .askbar-input {
   flex: 1;
   min-width: 0;
-  min-height: 54px;
-  padding: 0 2px 0 14px;
-  font-size: 18px;
-  font-family: inherit;
-  color: var(--ink);
-  background: transparent;
+  min-height: 50px;
   border: none;
-}
-.askbar-input:focus {
+  background: transparent;
+  font: inherit;
+  font-size: 17px;
+  color: var(--ink);
   outline: none;
 }
-/* 48px, like every control (design rule 20). */
-.askbar-mic {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  margin-right: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  border-radius: 12px;
-}
-
-/* ---- speaking ------------------------------------------------------------------------ */
-
-.say-mic {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 6px 0 2px;
-}
-.say-mic-label {
-  font-size: 16px;
-  font-weight: 600;
+.askbar-input::placeholder {
+  color: var(--muted);
 }
 
 .chips {
@@ -450,605 +453,54 @@ button:not(:disabled) {
   flex-wrap: wrap;
   gap: 8px;
 }
-
-.chip {
-  height: 48px;
-  padding: 0 16px;
-  border-radius: 24px;
+.chips-row {
   display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  flex-shrink: 0;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+.chip {
+  min-height: 40px;
+  padding: 0 12px;
+  display: inline-flex;
   align-items: center;
-  font-size: 15px;
-  font-weight: 500;
-  background: transparent;
-  color: var(--muted);
-  border: 1px solid var(--line);
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  white-space: nowrap;
 }
 .chip-on {
-  background: var(--marigold);
-  color: var(--onMarigold);
-  font-weight: 600;
-  border-color: var(--marigold);
-}
-
-.phrase-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 48px;
-  padding: 13px 9px 13px 15px;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-}
-
-.phrase-text {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-}
-.phrase-hi {
-  font-size: 16.5px;
-  font-weight: 500;
-}
-.phrase-ar {
-  font-family: 'Noto Naskh Arabic', 'Mukta', serif;
-  font-size: 17px;
-  line-height: 1.6;
-  color: var(--muted);
-}
-
-.arabic-card {
-  background: var(--indigo);
-  border-radius: 18px;
-  padding: 22px 20px;
-}
-.arabic-lg {
-  margin: 0;
-  font-family: 'Noto Naskh Arabic', 'Mukta', serif;
-  font-size: 34px;
-  line-height: 1.55;
-  color: #f7f3ec;
-}
-
-.driver {
-  justify-content: center;
-}
-.arabic-xl {
-  margin: 0;
-  font-family: 'Noto Naskh Arabic', 'Mukta', serif;
-  font-size: 46px;
+  border-color: transparent;
   font-weight: 700;
-  line-height: 1.5;
-  text-align: right;
-}
-.arabic-btn {
-  font-family: 'Noto Naskh Arabic', 'Mukta', serif;
-  font-size: 22px;
 }
 
-/* ---- buttons -------------------------------------------------------------------------- */
-
-.btn {
-  min-height: 54px;
-  border-radius: 14px;
+/* The suggestion under the box: "did you mean बुरजुमान?" */
+.suggest {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 10px;
-  font-weight: 600;
-  font-size: 17px;
-}
-.btn:disabled {
-  opacity: 0.45;
-  cursor: default;
-}
-.btn-primary {
-  background: var(--marigold);
-  color: var(--onMarigold);
-}
-.btn-ghost {
-  background: transparent;
-  color: var(--indigo);
-  border: 1.25px solid var(--muted);
-}
-.btn-indigo {
-  background: var(--indigo);
-  color: #f7f3ec;
-  min-height: 62px;
-  font-size: 19px;
-}
-.bottom {
-  margin-bottom: 4px;
-}
-
-/* ---- 1.2 · सुन रहा हूँ ------------------------------------------------------------------ */
-
-.listen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  margin: auto 0;
-  width: 100%;
-}
-.listen > .btn {
-  width: 100%;
-}
-/* The engine's own words on a failure screen. Deliberately the quietest thing there: a
-   traveller never needs it, and without it a fix needs a phone in the right hands. */
-.listen-detail {
-  margin: 0;
-  text-align: center;
-  font-size: 11px;
-  line-height: 1.4;
-  color: var(--muted);
-  opacity: 0.7;
-  word-break: break-word;
-}
-.listen-state {
-  font-weight: 700;
-  font-size: 19px;
-  color: var(--marigoldText);
-  text-align: center;
-}
-/* Reserves its two lines so the screen does not jump as words arrive. Line-height 1.35 keeps
-   Devanagari matras inside the box (design rule 23a). */
-.listen-partial {
-  margin: 0;
-  min-height: 2.7em;
-  font-size: 18px;
-  line-height: 1.35;
-  text-align: center;
-  color: var(--ink);
-}
-
-/* Five bars, no audio analysis: this only has to say "the mic is on". */
-/* Working — deliberately nothing like the waveform below it, because it means the opposite:
-   the microphone is off and the phone is busy. */
-.busy {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  height: 68px;
-}
-.busy-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--muted);
-  opacity: 0.35;
-  animation: busy 1.2s ease-in-out infinite;
-}
-.busy-dot-0 {
-  animation-delay: 0s;
-}
-.busy-dot-1 {
-  animation-delay: 0.2s;
-}
-.busy-dot-2 {
-  animation-delay: 0.4s;
-}
-@keyframes busy {
-  0%,
-  100% {
-    opacity: 0.25;
-  }
-  50% {
-    opacity: 0.9;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .busy-dot {
-    animation: none;
-    opacity: 0.5;
-  }
-}
-
-.wave {
-  display: flex;
-  align-items: flex-end;
-  gap: 7px;
-  height: 68px;
-}
-.wave-bar {
-  width: 10px;
-  border-radius: 5px;
-  background: var(--marigold);
-  animation: wave 1s ease-in-out infinite;
-}
-.wave-bar-0 {
-  animation-delay: 0s;
-}
-.wave-bar-1 {
-  animation-delay: 0.15s;
-}
-.wave-bar-2 {
-  animation-delay: 0.3s;
-}
-.wave-bar-3 {
-  animation-delay: 0.45s;
-}
-.wave-bar-4 {
-  animation-delay: 0.6s;
-}
-@keyframes wave {
-  0%,
-  100% {
-    height: 18px;
-  }
-  50% {
-    height: 64px;
-  }
-}
-/* A traveller who turns animation off still needs to see the mic is live, so the bars stay. */
-@media (prefers-reduced-motion: reduce) {
-  .wave-bar {
-    animation: none;
-    height: 40px;
-  }
-}
-
-/* The keyboard path. A plain text box, so the phone's own Hindi keyboard does the work. */
-.typed {
-  width: 100%;
-  min-height: 54px;
-  padding: 0 14px;
-  font-size: 18px;
-  font-family: inherit;
-  color: var(--ink);
-  background: var(--card);
-  border: 1.5px solid var(--line);
-  border-radius: 14px;
-}
-.typed:focus {
-  outline: 2px solid var(--marigold);
-  border-color: var(--marigold);
-}
-
-/* "टाइप करके बताइए" as a quiet way out while the mic is still live — 48px, like every control. */
-.linkish {
-  min-height: 48px;
-  padding: 0 12px;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--indigo);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-/* ---- "आपने कहा: …", wherever the mic landed (design rule 10) ---------------------------- */
-
-.heard {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding: 10px 13px;
-  border-radius: 12px;
-  background: var(--sand);
-  border: 1.25px solid var(--line);
-  width: 100%;
-}
-.heard-label {
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--marigoldText);
-}
-.heard-text {
-  font-size: 16px;
-  line-height: 1.35;
-  color: var(--ink);
-}
-
-/* The one-time voice download. A real bar, because the traveller is spending their data on it. */
-.bar-track {
-  width: 100%;
-  height: 10px;
-  border-radius: 5px;
-  background: var(--line);
-  overflow: hidden;
-}
-.bar-fill {
-  height: 100%;
-  border-radius: 5px;
-  background: var(--marigold);
-  transition: width 0.25s ease-out;
-}
-
-/* The voice download sits below whatever the mic is doing, in every state, so no failure can
-   hide the way out of that failure. */
-.offer {
-  align-self: center;
-  margin-top: auto;
-}
-
-/* ---- 4 · ज़रूरी जानकारी ------------------------------------------------------------------
-
-   The calm shelf and its three children. Marigold for the things to press, teal for the
-   on-this-phone promise, indigo for हटाएँ — and no red anywhere on this tile, which is the
-   whole point of decision 002 (design rules 13 and 16a). */
-
-.info-hotel {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 14px 15px;
-}
-
-/* The identity block is the control: empty it invites the capture, filled it opens 4.2 again
-   so a pin made in the lobby can gain the card photo a driver actually needs. */
-.info-hotel-id {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 58px;
-  text-align: left;
-}
-
-.info-hotel-thumb {
-  width: 58px;
-  height: 58px;
-  flex-shrink: 0;
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  background: var(--sand);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.info-hotel-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.info-hotel-text {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  /* Devanagari matras sit above and below the Latin line box (design rule 23a). */
-  line-height: 1.35;
-}
-.info-hotel-name {
-  font-size: 17px;
-  font-weight: 600;
-}
-
-.info-hotel-actions {
-  display: flex;
-  gap: 9px;
-}
-.info-hotel-actions > .btn {
-  flex: 1;
-  min-width: 0;
-  font-size: 15.5px;
-  padding: 0 10px;
-  text-align: center;
-}
-
-/* ---- the document list ---- */
-
-.doc-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 56px;
-  padding: 10px 15px;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-}
-
-.doc-row-icon {
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  border-radius: 10px;
-  background: var(--sand);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.doc-row-text {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  line-height: 1.35;
-}
-.doc-row-name {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-/* Dashed, so it reads as a slot waiting to be filled rather than one more row of content. */
-.add-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 52px;
-  padding: 0 15px;
-  border: 1.5px dashed var(--line);
-  border-radius: 14px;
-  font-size: 15.5px;
-  font-weight: 600;
-  color: var(--marigoldText);
-}
-
-/* ---- the consulate, and the numbers ---- */
-
-.info-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 48px;
-  padding: 12px 15px;
-  text-decoration: none;
-  color: inherit;
-}
-
-.info-row-text {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  line-height: 1.35;
-}
-.info-row-detail {
-  font-size: 15.5px;
-  font-weight: 600;
-}
-
-/* Knowledge, not a button — so it is text, with nothing that invites a tap. */
-.info-numbers {
-  padding-bottom: 6px;
-}
-
-/* ---- 4.2 · होटल जोड़ें ---- */
-
-.info-anyone {
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.45;
-  color: var(--muted);
-}
-
-/* A label when it wraps a file input and a button when it asks the phone for a fix; the same
-   row either way, because to a traveller they are three ways of doing one thing. */
-.pick-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  min-height: 72px;
-  padding: 14px 15px;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  text-align: left;
-  cursor: pointer;
-}
-
-.pick-icon {
-  width: 46px;
-  height: 46px;
-  flex-shrink: 0;
-  border-radius: 13px;
-  background: var(--marigoldSoft);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.pick-text {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  line-height: 1.35;
-}
-.pick-title {
-  font-size: 17px;
-  font-weight: 600;
-}
-
-/* ---- 4.3 · दस्तावेज़ जोड़ें ---- */
-
-.shot {
-  height: 236px;
-  border-radius: 16px;
-  background: var(--sand);
-  border: 1px solid var(--line);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  overflow: hidden;
-  cursor: pointer;
-}
-.shot-label {
-  font-size: 15.5px;
-  font-weight: 600;
-  color: var(--muted);
-}
-.shot-preview {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-/* The file input itself is never seen — the row or the box around it is the control. It is
-   clipped rather than `display: none`, so a phone's own picker still opens from the label. */
-.photo-input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* The on-this-phone promise, in teal: offline-and-ready, said once where it matters. */
-.note {
-  display: flex;
-  align-items: flex-start;
-  gap: 11px;
   padding: 12px 14px;
-  background: var(--tealSoft);
-  border: 1px solid var(--tealLine);
   border-radius: 14px;
-  font-size: 14px;
-  line-height: 1.45;
-  color: var(--tealText);
 }
-
-/* ---- 4.4 · दस्तावेज़ ---- */
-
-.doc-view {
-  padding-bottom: 16px;
-  gap: 12px;
-}
-
-.doc-full {
+.suggest-text {
   flex: 1;
-  min-height: 0;
-  border-radius: 14px;
-  background: var(--sand);
-  border: 1px solid var(--line);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 14.5px;
+  line-height: 1.35;
 }
-.doc-full img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+.suggest-yes {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 700;
 }
 
-.doc-foot {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.doc-foot > .muted {
-  flex: 1;
-  min-width: 0;
-}
-
-/* ---- रास्ता ----------------------------------------------------------------------------- */
-
-/* The reason before the phone's own prompt (1.1), and "बाक़ी सब चलेगा" (1.1b). Teal, because
-   teal means offline-and-ready and neither of these is an error (design rule 21). */
+/* Teal, because teal means offline-and-ready and a note is never an error. */
 .note {
   display: flex;
   align-items: flex-start;
@@ -1065,42 +517,658 @@ button:not(:disabled) {
   flex-shrink: 0;
 }
 
-/* An honest answer, not an alarm: red is reserved and appears on no screen (design rule 13). */
+/* An honest answer, not an alarm: red is reserved and appears on no screen (rule 13). */
 .trouble {
   margin: 0;
-  font-size: 16px;
+  font-size: 15.5px;
   font-weight: 600;
   line-height: 1.4;
   color: var(--marigoldText);
 }
 
-.lost-heading {
-  margin: 0;
-  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
-  font-size: 21px;
-  font-weight: 600;
-  line-height: 1.35;
-}
-.lost-row {
+.btn {
+  min-height: 50px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 700;
   font-size: 15.5px;
+  padding: 0 14px;
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.btn-primary {
+  background: var(--marigold);
+  color: var(--onMarigold);
+}
+.btn-go {
+  background: var(--go);
+  color: var(--onGo);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--line);
+  font-weight: 600;
+}
+.linkish {
+  min-height: 44px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--marigoldText);
 }
 
-.from-to {
+.typed {
+  min-height: 50px;
+  padding: 0 14px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--tile);
+  font: inherit;
+  font-size: 16px;
+  color: var(--ink);
+  width: 100%;
+}
+.typed:focus {
+  outline: none;
+  border-color: var(--marigold);
+}
+
+/* A row card: a title, a line under it, a chevron. Lists everywhere use it. */
+.row-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  min-height: 48px;
+  background: var(--tile);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  width: 100%;
+  text-align: start;
+}
+.row-card-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  background: repeating-linear-gradient(135deg, var(--sand) 0 6px, var(--line) 6px 7px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.row-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.row-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.row-card-title {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.row-card-sub {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.row-card-line {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 15px;
+  margin-top: 3px;
+  font-size: 12px;
+  flex-wrap: wrap;
 }
-.from-to-place {
-  flex: 1;
-  min-width: 0;
-  font-size: 16px;
-  font-weight: 600;
+.pill {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
 }
 
+/* A fact box: a small label over a value. */
+.fact {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--tile);
+  border: 1px solid var(--line);
+}
+.fact-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.fact-value {
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* A photograph, or the place one goes. */
+.photo-frame {
+  border-radius: 14px;
+  overflow: hidden;
+  background: repeating-linear-gradient(135deg, var(--sand) 0 10px, var(--line) 10px 11px);
+  display: flex;
+  align-items: flex-end;
+  padding: 10px 12px;
+  position: relative;
+}
+.photo-frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.photo-cap {
+  position: relative;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--card);
+  padding: 3px 8px;
+  border-radius: 8px;
+}
+
+/* ---- L · लैंडिंग ----------------------------------------------------------------------- */
+
+.landing {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px 32px;
+}
+.landing-brand {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+}
+.landing-name {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0;
+}
+.landing-usp {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--muted);
+  max-width: 300px;
+  text-wrap: pretty;
+}
+.landing-langs {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+.landing-lang {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  font-size: 14px;
+  font-weight: 600;
+}
+.landing-lang-on {
+  background: var(--ink);
+  color: var(--card);
+  border-color: var(--ink);
+}
+.landing-pack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: var(--sand);
+  margin-bottom: 12px;
+}
+.landing-pack-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.landing-track {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--line);
+  overflow: hidden;
+}
+.landing-track > span {
+  display: block;
+  height: 100%;
+  background: var(--teal);
+  transition: width 0.3s ease;
+}
+
+/* ---- घर.1 · मेरा होटल ----------------------------------------------------------------- */
+
+.hotel-photos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.hotel-photo {
+  height: 120px;
+  cursor: pointer;
+}
+.hotel-photo-x {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: var(--card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.add-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 14px;
+  border-radius: 14px;
+  border: 1.5px dashed var(--line);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+}
+.add-row-primary {
+  border-color: var(--marigold);
+  color: var(--marigoldText);
+  font-weight: 700;
+  font-size: 15px;
+  min-height: 56px;
+  border-radius: 16px;
+}
+.field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  min-height: 50px;
+  border-radius: 14px;
+  background: var(--tile);
+  border: 1px solid var(--line);
+}
+.field-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--muted);
+  width: 84px;
+  flex-shrink: 0;
+}
+.field-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 16px;
+  color: var(--ink);
+  outline: none;
+}
+.field-input::placeholder {
+  color: var(--chev);
+}
+.pinbox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--tealSoft);
+  color: var(--tealText);
+  width: 100%;
+  text-align: start;
+}
+.pinbox-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+.pinbox-head {
+  font-size: 14.5px;
+  font-weight: 700;
+}
+.pinbox-sub {
+  font-size: 12.5px;
+}
+.pinbox-action {
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ---- घर.4 · पास ----------------------------------------------------------------------- */
+
+.pass-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: var(--marigoldSoft);
+}
+.pass-big {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+}
+.pass-track {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--card);
+  overflow: hidden;
+}
+.pass-track > span {
+  display: block;
+  height: 100%;
+  background: var(--marigold);
+}
+.tier {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 50px;
+  padding: 0 14px;
+  border-radius: 14px;
+  border: 1.5px solid var(--line);
+  background: var(--tile);
+  width: 100%;
+}
+.tier-on {
+  border-color: var(--marigold);
+  background: var(--card);
+}
+.tier-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+.tier-price {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* ---- 1.3 · the outlet, 1.4 · the menu grid --------------------------------------------- */
+
+.outlet-title {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+.outlet-meta {
+  font-size: 13.5px;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+}
+.answers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.answer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--tile);
+  border: 1px solid var(--line);
+  font-size: 14px;
+}
+.answer-a {
+  font-size: 13px;
+  font-weight: 700;
+}
+.answer-yes {
+  color: var(--tealText);
+}
+.answer-on-request {
+  color: var(--marigoldText);
+}
+.answer-no {
+  color: var(--muted);
+}
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--tile);
+  border: 1px solid var(--line);
+  min-height: 48px;
+}
+.menu-item-name {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.menu-item-price {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--foodText);
+}
+.menu-item-tags {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+/* ---- 2.2 · from and to, 2.4 · the taxi card --------------------------------------------- */
+
+.from-to {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--sand);
+}
+.from-to-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  min-width: 0;
+}
+.from-to-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+.from-to-place {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.taxi-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 18px;
+  background: var(--tile);
+  border: 1px solid var(--line);
+}
+.taxi-name {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.taxi-ar {
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: 24px;
+  line-height: 1.5;
+  direction: rtl;
+  text-align: right;
+}
+.taxi-fare {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--sand);
+  font-size: 14px;
+}
+.taxi-fare-value {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+.taxi-street {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px dashed var(--line);
+}
+
+/* 2.5 */
+.lost-mark {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  background: var(--marigoldSoft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lost-heading {
+  margin: 0;
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+.lost-still {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--sand);
+}
+
+/* ---- 3.1 · जानना, 3.2 · a place ------------------------------------------------------- */
+
+.know-card {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: var(--tile);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  width: 100%;
+  text-align: start;
+}
+.know-thumb {
+  width: 84px;
+  height: 84px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  background: repeating-linear-gradient(135deg, var(--sand) 0 6px, var(--line) 6px 7px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.know-facts {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+  font-size: 12.5px;
+  flex-wrap: wrap;
+}
+.know-fact {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.place-blurb {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+.suggest-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px dashed var(--line);
+  margin-top: auto;
+}
+.suggest-box-row {
+  display: flex;
+  gap: 8px;
+}
+.suggest-box-row .typed {
+  flex: 1;
+  min-width: 0;
+}
 /* ---- 1.3 · विकल्प ------------------------------------------------------------------------ */
 
 .opt {
@@ -1280,131 +1348,6 @@ button:not(:disabled) {
   white-space: nowrap;
 }
 
-/* ---- quick picks ---------------------------------------------------------------------
-   Shortcuts on 1.1: the hotel and the places this phone has already asked for. They fill the
-   box rather than navigating, so they read as typing-for-you and never as the app choosing. */
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.chip {
-  min-height: 48px;
-  padding: 0 15px;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 16px;
-  font-weight: 600;
-  font-family: inherit;
-  color: var(--ink);
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 24px;
-}
-
-/* ---- 1 · लैंडिंग ----------------------------------------------------------------------
-   The first open, and the only place the offline pack is fetched. Shown once. */
-.landing {
-  text-align: center;
-  align-items: stretch;
-}
-.landing-brand {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 28px 0 6px;
-}
-.landing-name {
-  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
-  font-size: 34px;
-  font-weight: 600;
-  line-height: 1.1;
-  margin: 0;
-}
-.landing-usp {
-  margin: 0;
-  font-size: 17px;
-  line-height: 1.4;
-  color: var(--ink);
-}
-.landing-jobs {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: 15px;
-  color: var(--muted);
-}
-/* The bar is a real fraction of a real file, never a spinner that lies. */
-.landing-track {
-  display: block;
-  height: 8px;
-  border-radius: 4px;
-  background: var(--line);
-  overflow: hidden;
-}
-.landing-track > span {
-  display: block;
-  height: 100%;
-  background: var(--marigold);
-  transition: width 0.3s ease;
-}
-
-/* ---- the name, on every screen ------------------------------------------------------- */
-
-/* Its own bar above the status strip. The strip is the instrument panel and everything on it
-   moves; a name does not, so it does not sit among things that do. Slim on purpose — this is
-   identification, not a masthead, and the tiles are what the traveller came for. */
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  min-height: 40px;
-  padding: 4px 16px;
-  background: var(--card);
-  border-bottom: 1px solid var(--line);
-}
-.brand-id {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  /* Takes the slack so the network state is pinned to the right edge at every width. */
-  flex: 1;
-  min-width: 0;
-}
-.brand-build {
-  font-size: 10px;
-  letter-spacing: 0.03em;
-  color: var(--muted);
-  opacity: 0.6;
-  line-height: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.brand-name {
-  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
-  font-size: 19px;
-  font-weight: 600;
-  line-height: 1;
-  /* Devanagari carries its own spacing; a tracked-out Latin wordmark beside it looks typed
-     rather than set, so this stays modest. */
-  letter-spacing: 0.01em;
-  color: var(--ink);
-}
-.brand-net {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 13px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
 /* ---- what a person was told, and when the kitchen is open ---------------------------- */
 
 /* The dietary answers, which a collector asked of a human being. Three states that must never
@@ -1561,15 +1504,151 @@ button:not(:disabled) {
   text-decoration: none;
 }
 
-/* ---- घर.1, the counter --------------------------------------------------------------- */
+/* ---- the document list ---- */
 
-/* The number a traveller came to this screen to read. Also had no rule behind it. */
-.pass-big {
-  margin: 0;
-  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
-  font-size: 30px;
-  font-weight: 600;
-  line-height: 1.15;
+.doc-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 10px 15px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
 }
 
-/* The build stamp. Quiet enough to ignore, findable when it is the only question that matters. */
+.doc-row-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--sand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doc-row-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  line-height: 1.35;
+}
+.doc-row-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Dashed, so it reads as a slot waiting to be filled rather than one more row of content. */
+.add-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 0 15px;
+  border: 1.5px dashed var(--line);
+  border-radius: 14px;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--marigoldText);
+}
+
+/* ---- 4.3 · दस्तावेज़ जोड़ें ---- */
+
+.shot {
+  height: 236px;
+  border-radius: 16px;
+  background: var(--sand);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.shot-label {
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.shot-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* The file input itself is never seen — the row or the box around it is the control. It is
+   clipped rather than `display: none`, so a phone's own picker still opens from the label. */
+.photo-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* The on-this-phone promise, in teal: offline-and-ready, said once where it matters. */
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 12px 14px;
+  background: var(--tealSoft);
+  border: 1px solid var(--tealLine);
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--tealText);
+}
+
+/* ---- 4.4 · दस्तावेज़ ---- */
+
+.doc-view {
+  padding-bottom: 16px;
+  gap: 12px;
+}
+
+.doc-full {
+  flex: 1;
+  min-height: 0;
+  border-radius: 14px;
+  background: var(--sand);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.doc-full img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.doc-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.doc-foot > .muted {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 2.2 · the right-hand column of an option card: the time over the fare */
+.opt-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  flex-shrink: 0;
+}
+.opt-fare {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+}

@@ -99,6 +99,23 @@ export class SaathiDb extends Dexie {
       transportMeta: 'id',
       savedPhrases: 'id, savedAt',
     });
+    // v6: the hotel became a free record — name, room, the desk's number, a note and any number
+    // of photographs beside the pin and the two it already held (owner, 16 September). No index
+    // changes, because nothing queries the new fields; the version exists so the shape change is
+    // recorded here, and every table above is re-declared unchanged so a phone carrying v5 rows
+    // opens with its hotel, its documents and its unsynced queue intact. The phrase tables are
+    // kept although nothing writes them now: a release never takes something away from a phone.
+    this.version(6).stores({
+      phrases: 'id, situation',
+      contentVersions: 'id, version',
+      voiceEvents: 'id, at, synced',
+      hotels: 'id',
+      documents: 'id, addedAt',
+      transportNodes: 'id',
+      transportEdges: 'id, fromNodeId, toNodeId',
+      transportMeta: 'id',
+      savedPhrases: 'id, savedAt',
+    });
   }
 }
 

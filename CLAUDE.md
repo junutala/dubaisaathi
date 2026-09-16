@@ -4,11 +4,15 @@ Guidance for Claude Code working in this repository. Read this before making cha
 
 ## What this is
 
-Dubai Saathi is an **offline-first PWA travel companion for Indian travellers in Dubai**.
-It helps a traveller get somewhere, find food that fits their dietary needs, and communicate
-in Arabic — in Hindi, without internet.
+Dubai Saathi is an **offline information desk for Indian travellers in Dubai**, a PWA. Three
+pillars — खाना (where to eat), जाना (how to get there), जानना (what to know) — plus the
+traveller's own hotel and documents on the phone, all of it working with the network off.
 
 > "A Dubai-savvy Indian friend in your pocket."
+
+**There is no microphone anywhere in the app** (decision 016, 16 September). Three days on a
+real phone proved no offline recogniser hears Dubai place names in an Indian accent inside a
+Hindi sentence. Every box is typed into; the script-agnostic matcher is what runs on it.
 
 Full product concept (source of truth for scope, pricing, GTM, data entities):
 **[`docs/product-concept.md`](docs/product-concept.md)** — consult it before designing a feature.
@@ -63,103 +67,50 @@ This file is the working summary; the concept doc wins on any detail it covers.
 
 ## The product, as decided
 
-These decisions were made in design review and override the concept doc where they differ.
-The reasoning for each deviation is in `docs/decisions/`.
+Sprint 1 was frozen on 16 September; `docs/decisions/016` is the record and the artboards on
+the canvas are the shape. What is built follows the boards; where a board and the code differ,
+the board is wrong and is regenerated from `design/generate-screens.sh`.
 
-- **Four tiles, and everything else is a child of one.** Home is रास्ता · खाना · बोलना ·
-  ज़रूरी जानकारी, plus the mic. Every other screen belongs to a tile and is numbered
-  `tile.child` (1.3, 4.2); the two screens the status strip opens are `घर.1` पास and
-  `घर.2` परिवार. Screen names use the tile names, never invented labels.
-- **Typing is the front door; voice fills the box (decision 014, 13 September).** A traveller tells
-  Saathi what they want by typing it, in Hindi or Hinglish, and speaking is a faster way to fill the
-  same box — allowed to fail, never depended on. Offline recognition mangles exactly what this
-  product must hear (place names), there is no bigger model worth a traveller's megabytes, and every
-  measurement so far was taken in a quiet room rather than on a Dubai street. The keyboard needs no
-  permission, no model, no download and no network. Speech and typing are already one path: speech
-  does not open a screen, it fills a box the traveller checks and sends.
-- **Where the home-screen mic points is an OPEN question, not a decided one (decision 014).** "I
-  have to go to Discovery Gardens" is either "show me the transport" or "tell the driver" depending
-  on whether the tourist is in a hotel room or at a taxi door — which is not in the words, so no
-  parser recovers it. The mics on 1.1, 2.1 and 3.1 are unambiguous because the screen supplies the
-  context; the home one has to guess, and today it guesses route (`le chalo` is filed as a route
-  keyword). Settle this before building tile 1.
-- **The mic is the AI agent, and it is one thing everywhere.** On home and in the bar of every
-  child screen the mic means _ask Saathi anything_: speech → local intent → the right screen
-  with the answer already on it. "Dubai Marina Mall jaana hai" opens 1.3 with the options;
-  "driver ko bolo hotel le chalo" opens 3.3 with the hotel card; "Jain khana kahaan milega"
-  opens 2.1 with जैन on. One-word ambiguity gets a two-button question, never a dead end. The
-  landing screen shows what was understood (_आपने कहा: …_) with back one tap away. The mics
-  on 1.1, 2.1 and 3.1 are the same mic biased toward that tile.
-- **No emergency feature.** A tourist in distress reaches for the phone dialler and the hotel
-  reception, not a seven-day app, and offline opening hours for clinics are a liability. The
-  fourth tile is **ज़रूरी जानकारी** — the calm shelf: the hotel, documents, the consulate, and
-  one line of numbers (an Indian otherwise dials 100). Red is reserved and appears on no screen.
-- **मेरा होटल is the tourist's first SOS.** Captured by pinning where they stand, photographing
-  the reception's card, or photographing the entrance — never typed. The card photo _is_ what
-  gets shown to the driver.
-- **Documents: any document, one photo, one name.** Insurance, passport, return flight —
-  the tourist decides. Stored **on the device only**, never uploaded, kept until the tourist
-  deletes it. The app requests persistent storage (`navigator.storage.persist()`) so the
-  browser does not evict it under storage pressure. ज़रूरी जानकारी stays usable after the pass
-  ends, because all of it is local.
-- **No login, no account, no gate.** Entitlement is keyed to the device. Nothing in the app
-  asks for a phone number or email.
-- **A pass is a signed token on the device.** The server signs `{pass id, kind, slot, expiry}`;
-  the app verifies it offline with the public key shipped in the app. Validity is never checked
-  against the server — the strip reads the signature.
-- **Paying: UPI first, by order, not by VPA.** The app asks the server for an order carrying the
-  device id; the aggregator returns a UPI intent (same phone — the tourist's UPI app opens with
-  the amount) and an order QR (someone else pays — the son in Pune scans it). The aggregator's
-  webhook marks the order paid; the server issues the signed pass; the app, polling the order,
-  flips the strip. Creating the order needs the tourist's phone online for a moment. A raw UPI
-  QR (a VPA) is never used: it cannot be tied to a device.
-- **A multi-device pass = one signed pass per device at purchase.** One installs on the
-  buyer's phone; the others are QR codes on घर.2, each carrying `family id · slot · Counter
-Off Time · signature`. A member scans one — **fully offline** — the app verifies the signature and
-  installs the pass with the same end date. A QR can be sent as an image on WhatsApp to a
-  member arriving separately; the website sells the same one or four QRs for someone in India
-  buying for people already in Dubai. Reconciliation on sync: each phone reports its slot; a
-  second phone reporting an already-bound slot is rejected at its next sync. हटाएँ on घर.2
-  drops a binding server-side and kills that phone's pass at its next sync.
-- **One number runs entitlement: the Counter Off Time.** Install → +365 days (free in India for
-  a year of trying). **Land in Dubai** → +24 hours. Pay → +14 days **from landing** — the counter
-  never starts outside Dubai; a pass bought in India waits for landing. A paid pass extinguishes
-  the trial. Recharge on a running counter adds 14 days to it; on an expired one, starts now.
-  Landing is detected offline: the GPS geofence, or the phone's clock switching to Gulf time.
-- **Pricing (overrides the concept doc, decision 006):** ₹199 / ₹299 / ₹399 / ₹499 for 1 / 2 /
-  3 / 4 named devices, 14 days — ₹199 plus ₹100 per extra phone; no combination of smaller
-  packs beats a bigger one. Above four: _contact us_ (a WhatsApp link; this is the tour-operator
-  lead). The multi-device passes issue one signed QR per extra device at purchase, all with the
-  master Counter Off Time. The strip carries a **रिचार्ज** button in the trial, last-day and
-  expired states; in the days-left state it stays quiet.
-- **Location is the one permission the app needs, and the design says so.** Asked at first
-  need — the first time 1.1 opens — with the reason on the screen: _रास्ता बताने के लिए साथी को
-  आपकी जगह चाहिए._ Denied: one screen saying what will not work (रास्ता from here, आस-पास,
-  hotel pin, landing) with a button to the phone's settings, then the rest of the app carries
-  on without nagging. GPS never overrides the phone's permission; nothing does.
-- **The landing page gates on the pack.** First open downloads the whole offline pack with time
-  remaining shown; _शुरू करें_ enables only when complete. Updates download silently while the
-  app is open and apply on the landing page at the next launch — never mid-trip.
-- **A status strip tops every screen after landing.** Left: online/offline. Middle: plan
-  validity as a depleting line with four states (before Dubai / trial / pass / expired),
-  tapping it opens घर.1. Right: the theme switch. Same component, same place, every screen.
-- **Theme follows the phone by default**, with the manual switch on the strip. Browsers cannot
-  read the ambient light sensor; the phone's own dark-mode schedule is the automatic path.
-- **Permissions at first use.** Location the first time 1.1 opens, microphone the first time it
-  is tapped. Never on the landing page.
-- **Dropped, and why:** find-my-family (location sharing needs a connection on both phones and
-  a PWA cannot track location in the background); SOS to a contact in India (without a local
-  plan, outgoing SMS is not available, and the product's promise is offline).
-- **Drivers.** Many Dubai taxi drivers now speak only Arabic (Egyptian and African drivers are
-  common; South Asian drivers less so). Spoken Arabic (TTS) matters as much as the text.
-- **Every command the app could not understand or fulfil is captured.** The learning loop:
-  transcript, script, what the parser produced and how confident it was, which screen opened,
-  and what the tourist did next (backed out within seconds, retried, picked the other option
-  in a clarifier). Queued on the device, synced when online, keyed to the device only. This is
-  the data that retrains aliases and intents — see "Learning loop" below.
-- **Content is collected in the field by our own people**, with a small separate app
-  (`apps/field`): restaurant photo, menu photos, Jain / vrat / Sattvik availability asked in
-  person, delivery number, hours, price band, GPS. Reviewed, then published into the pack.
+- **Three pillars, named in Devanagari in both interface languages.** खाना · Khaana, जाना ·
+  Jaana, जानना · Jaanna. They are the brand, never a translation. Home is the three of them as
+  deep blocks in their own hue with cream type, in that order, and nothing else. Screens are
+  numbered by pillar: 1.x खाना, 2.x जाना, 3.x जानना; घर.1–घर.4 are the strip's and the bar's
+  children (hotel, documents, a document, the pass).
+- **The top strip is on every screen.** The mark and the name (tap → home), online/offline, the
+  pass dot, language, theme, and under them **the traveller's hotel** — photographs, room, the
+  desk's number, a note, a pin; whatever they want to keep, without limit, on the phone only.
+- **The bar is on every screen.** खाना · जाना · जानना · दस्तावेज़, the current pillar lit in its
+  colour, and **पास लें** while the counter is a trial. The button goes once a pass is bought.
+- **The pass stays and is never a wall.** The dot is green while the counter runs and marigold
+  when the Dubai day is ending; never red (decision 002). From the twentieth hour of the Dubai
+  day every open of घर nudges toward a pass. **A traveller who has paid once is never gated
+  again**, however long ago the fourteen days ran out. Prices: ₹199 / ₹299 / ₹399 / ₹499 for
+  1–4 phones, 14 days from landing (decision 006). Buying needs the order endpoint and the
+  aggregator, which do not exist yet; until they do the buttons say so and nothing is gated.
+- **खाना is dish first.** The dish is the search, the place is the answer: kitchens where a
+  collector confirmed it first, kitchens of its kind after, nearest first. A constraint the
+  traveller states (pure veg, Jain, no onion-garlic, vrat, open now) is honoured; a taste is
+  never predicted. An answer nobody asked shows as पूछकर, never as a no. The menu is a **grid**
+  of dishes and prices the collector read off the card by OCR, not a photograph.
+- **Hours are Dubai's.** Open or closed is computed in Asia/Dubai, never on the phone's clock,
+  and the row shows the closing time while open and the opening time while closed.
+- **जाना is a box, a suggestion, and every way there.** A place we know goes to the options;
+  a near spelling is a question ("क्या आपका मतलब बुरजुमान है?") carrying the place's own
+  Devanagari name, never a transliteration of the traveller's letters; words we do not know go
+  to the taxi screen as they are. Options carry time and fare, the steps carry the legs, and
+  the taxi screen carries the Arabic name, the fare estimate, a Careem link and the store for a
+  phone without it. Bus and metro stop times arrive with the RTA feed (Dubai Pulse).
+- **जानना is attractions only.** Hours, ticket, how long, whom to ring, a Hindi blurb, and a
+  जाना button. No hotels or homestays. A line at the bottom lets the traveller name a place we
+  missed; it goes into the question log for the next pack. **3.3 · काम की बातें is parked for
+  Sprint 2.**
+- **No login, no account, no gate.** Entitlement is keyed to the device. A pass is a signed
+  token verified offline (decision 005). Location is asked at first need with the reason on the
+  screen; a refusal gets one screen saying what will not work and what still does.
+- **Every command the app could not fulfil is captured** in the question log (`VoiceEvent`,
+  the entity name kept), synced by the `collect` edge function, keyed to the device only.
+- **Content is collected in the field** by our own people with `apps/field`: dietary answers
+  asked in person, the menu read by OCR and confirmed dish by dish, hours, price, GPS.
 
 ## Non-negotiable rules
 
@@ -171,10 +122,10 @@ Off Time · signature`. A member scans one — **fully offline** — the app ver
 3. **No LLM in the core path.** Predictable traveller commands are handled by local intent
    parsing + structured local data + rules + local search. Cloud LLM is an optional
    online-only fallback for out-of-intent questions. Never make a core screen depend on it.
-4. **Speech is Hindi-Hinglish only for the MVP; the interface is Hindi and English**
-   (decision 007). The parser understands Hindi and Hinglish and nothing else. The interface
-   has two catalogues, every key in both, switched on the status strip and following the
-   phone by default. What the app _produces_ for a Dubai local is always Arabic.
+4. **Input is Hindi-Hinglish only for the MVP; the interface is Hindi and English**
+   (decision 007). The matcher understands Hindi and Hinglish and nothing else. The interface
+   has two catalogues, every key in both, switched on the strip and following the phone by
+   default. The three pillar names stay in Devanagari in both.
    **Hinglish is first-class, not a fallback** — real travellers say "Mujhe Karama jaana hai, metro se kaise jaaun?", not
    textbook Hindi. So:
    - Accept Devanagari and Roman-script Hindi interchangeably, freely mixed with English words
@@ -190,10 +141,10 @@ Off Time · signature`. A member scans one — **fully offline** — the app ver
    Do not add Telugu/Tamil/Malayalam/etc. Adding a third interface language is now a
    catalogue rather than a refactor — which is not a licence to add one.
 
-5. **Intent accuracy > transcription accuracy.** For voice, the KPI is correct
-   `{intent, destination, mode, dietary}` extraction, not a perfect transcript.
-6. **ज़रूरी जानकारी never disappears.** The hotel, documents, consulate and numbers stay
-   available offline, after trial expiry, and after pass expiry — it is all on the device.
+5. **Intent accuracy is the KPI.** What matters is the right `{place, dish, constraint}` out
+   of what was typed, in either script, with a mistyping answered by a question.
+6. **The hotel and the documents never disappear.** They stay available offline, after the
+   trial and after the pass — it is all on the device, and nobody who paid is ever gated.
 7. **Map/tile licensing.** Never bulk-download public tile services for offline use. Only
    OSM-derived data or tiles whose terms explicitly permit offline/prefetch.
 8. **Scope guard.** Dubai Saathi is _not_ hotel/flight booking, food delivery, a restaurant
@@ -214,8 +165,7 @@ Off Time · signature`. A member scans one — **fully offline** — the app ver
 | Database     | Supabase Postgres. PostGIS not enabled: place data ships in the pack and is queried on the device |
 | Auth         | None. Entitlement keyed to the device; family devices join by short-lived QR token                |
 | Payments     | UPI-first INR aggregator (Razorpay / Cashfree / PhonePe PG): order → intent or QR → webhook       |
-| Hindi STT    | sherpa-onnx / IndicConformer (primary); Vosk Hindi (baseline); Whisper (accuracy reference only)  |
-| TTS          | Device TTS first; sherpa-onnx if device TTS is inadequate                                         |
+| Speech       | None. No recogniser, no synthesis, no microphone (decision 016)                                   |
 
 Deviating from this table needs a reason recorded in `docs/decisions/`.
 
@@ -264,25 +214,19 @@ collector submits reaches the tourist pack unreviewed: a report is approved in
 
 ## MVP features (the whole scope)
 
-1. Ask / search — "How do I get to Bur Dubai?"
-2. Offline transport — metro, tram, bus, walking, taxi estimate, multimodal
-3. Indian food — vegetarian, Jain, Sattvik, no onion/garlic, eggless, vrat, quick snacks
-4. Communication — Hindi/Hinglish → Arabic text + optional Arabic speech
-   ("Say it for me" / "Show this to the driver")
-5. Offline map — location and route context with no network
-6. ज़रूरी जानकारी — hotel (pin / card photo / entrance photo), documents (on-device),
-   consulate, numbers; usable after expiry
-7. Trip pass — free in India; 24h free on landing; ₹199 / ₹299 / ₹399 / ₹499 for 1–4 named
-   devices, 14 days from landing; contact us above four
-8. Device QRs — one signed pass per extra device, same Counter Off Time, scanned offline
-
-The mic is not a feature on this list because it is the way into all of them.
+1. खाना — dish-first search over collected eateries, the outlet with what a person was asked,
+   the menu grid
+2. जाना — place or address in, every way there with time and fare, the steps, the taxi hand-off
+3. जानना — attractions with hours, tickets, how long, whom to ring, in Hindi
+4. मेरा होटल — on the strip, whatever the traveller wants to keep, on the phone only
+5. दस्तावेज़ — any document, without limit, on the phone only
+6. The pass — free in India; 24 hours free on landing; ₹199 / ₹299 / ₹399 / ₹499 for 1–4
+   phones, 14 days from landing; paid once, never gated
+7. Device QRs — one signed pass per extra device (decision 005; the server side is not built)
 
 Entitlement facts that affect code: trial starts on **confirmed arrival in Dubai** (repeated
-GPS readings / geofence confidence, never a single fix); the product is fully usable in India
-for testing before purchase; family devices share one expiry; a family QR carries a signed
-pass for one slot, bounded by the master expiry and reconciled on sync (see
-`docs/decisions/005`).
+GPS readings, never a single fix); the product is fully usable in India before purchase; family
+devices share one expiry.
 
 ## Working conventions
 
@@ -408,10 +352,11 @@ dubaisaathi/
 │   ├── product-concept.md # source of truth for product scope
 │   ├── decisions/         # one ADR per non-obvious choice: NNN-short-title.md
 │   └── spikes/            # spike findings, incl. the Hindi STT benchmark results
-├── design/                # screen designs (.dc.html artboards) — the design source of truth
+├── design/                # generator/ + generate-screens.sh → screens/*.dc.html — the design source of truth
 ├── data/                  # CONTENT, not code — seed JSON, versioned, loaded into IndexedDB
-│   ├── places/            # DubaiPlace
-│   ├── restaurants/       # Restaurant, Menu, FoodTag
+│   ├── places/            # attractions (जानना)
+│   ├── intents/           # DubaiPlace aliases and keywords for the matcher
+│   ├── restaurants/       # Restaurant, dishes, FoodTag
 │   ├── transport/         # TransportNode, TransportEdge, fares
 │   ├── phrases/           # Phrase: Hindi → Arabic, by situation
 │   └── emergency/         # EmergencyPoint
@@ -433,14 +378,14 @@ Inside `apps/pwa/src/`, organise by domain, not by technical layer:
 src/
 ├── app/            # shell, routing, providers, service-worker registration
 ├── features/
-│   ├── ask/        # feature 1 — ask/search entry point
-│   ├── transport/  # feature 2
-│   ├── food/       # feature 3
-│   ├── phrases/    # feature 4 — say-it-for-me / show-to-driver
-│   ├── map/        # feature 5
-│   ├── emergency/  # feature 6
-│   ├── pass/       # features 7 + 8 — trial, purchase, family QR
-│   └── voice/      # mic, STT, intent parser, TTS — used by the features above
+│   ├── ask/        # the box, the script-agnostic matcher, the question log and its sync
+│   ├── food/       # 1 · खाना
+│   ├── transport/  # 2 · जाना
+│   ├── know/       # 3 · जानना
+│   ├── info/       # घर.1–घर.3 — the hotel and the documents
+│   ├── pass/       # घर.4 — trial, pass, entitlement
+│   ├── home/       # घर
+│   └── landing/    # L
 ├── db/             # Dexie schema + migrations, one file per version bump
 ├── i18n/           # all user-facing strings; nothing hardcoded in components
 └── lib/            # genuinely cross-cutting helpers only, no feature logic
@@ -460,9 +405,9 @@ Rules that keep this navigable:
 
 The screens are the design source of truth and live in `design/`:
 
-- `design/generate-screens.py` generates every screen from one set of tokens, icons and
-  components; `design/screens/*.dc.html` is its output. Edit the generator, never the output.
-  Run it twice: plain for light, `SAATHI_THEME=dark` for the dark variants.
+- `design/generate-screens.sh` generates every screen from one set of tokens, icons and chrome
+  in `design/generator/`; `design/screens/*.dc.html` is its output. Edit the generator, never
+  the output.
 - `design/check-screens.py` runs inside `npm run verify` and fails the build when a screen
   breaks an agreed rule. When a rule is agreed, it is added here first.
 - `docs/design-rules.md` — every agreed rule, numbered, marked checker or review.
@@ -472,159 +417,30 @@ The screens are the design source of truth and live in `design/`:
 - The reviewed canvas: https://claude.ai/code/artifact/3e0e153e-76fe-4a9d-bf95-a5ca966848c5
   — republish to that URL, never a new one.
 
-## Start here (written 14 September, end of day)
+## Start here (written 16 September, end of day)
 
-**All four tiles are built, `main` is production, and the schema is applied.** What is left is
-not screens — it is the server, and the content.
+**Sprint 1 is built to the frozen boards** (decision 016): three pillars, the hotel on the strip,
+documents in the bar, the pass as a dot, no microphone. `npm run verify` is green. What is left
+is the server and the content, in this order:
 
-**1. The edge functions.** This is the one that blocks everything else. Five tables exist in the
-real Supabase project and **not one row has ever reached them**, because nothing receives the
-device's queue. Until a function takes it, there is no learning loop, no pass, no order, and
-none of the numbers the owner wants for negotiating with outlets and attractions. Everything
-else on this list is smaller than this.
+1. **Buying a pass.** The `orders` table exists; no function creates an order, takes the
+   aggregator's webhook or signs a pass. Until it does, `VITE_PURCHASE_LIVE` stays off, the
+   buttons on घर.4 say so, and nothing is gated.
+2. **The RTA feed.** Bus and metro stop times, first and last service, and the 150 bus routes
+   the pack lacks all come from `rta_gtfs-open` on Dubai Pulse, which needs the owner's
+   registration (`docs/transport-and-maps-strategy.md`).
+3. **Content.** `restaurants.v1.json` is empty and खाना runs on the fixture; the collectors'
+   app is live and the pipeline publishes approved reports. `attractions.v1.json` carries hours
+   and tickets as known on 16 September, unchecked on the ground; every row has `checkedAt`.
+4. **3.3 · काम की बातें** is parked for Sprint 2, on the canvas's second page.
 
-**2. Content, which is worth more than any feature.** Two cheap things and one big one:
+The question log is the thing to read first each morning: `voice_events` rows with
+`nothing-in-pack` are places and dishes travellers asked for and did not get.
 
-- Discovery Gardens, International City, Al Qusais and Satwa into `places.v1.json` — the
-  neighbourhoods Indian travellers actually stay in, missing since the start.
-- `data/restaurants/restaurants.dev.json` replaced by collected outlets. It is a fixture and it
-  says so; खाना is only as good as it.
-- The collectors' app, `docs/field-app-plan.md`. Five decisions in it are open for the owner,
-  including whether to build it before खाना or hand-seed to develop against.
+## The spike, for the record
 
-**3. What the owner asked for and has not got yet.**
-
-- **Aggregate demand and dwell.** Place demand is recorded exactly (`resolved_place_id`) and is
-  a query away once sync works. Dwell is agreed in principle and not built: a PWA gets no GPS in
-  the background, so the agreed approach is the gap between interactions plus coarse area on app
-  open, never a trail. The open question is the identifier — a per-place pseudonym counts unique
-  visitors without letting anyone chain places into an itinerary.
-- **The tile icons.** Still open from 13 September, still wanted, and the reference image the
-  owner shared puts a medical cross back on ज़रूरी जानकारी, which rule 16a and decision 002
-  forbid on his own instruction. Any new artwork keeps the cross off.
-- **Where the sixteen ready sentences belong.** Settled in principle: the phrase pack is for
-  moments where both people are standing in the same place — taxi sentences on रास्ता, food
-  sentences on the outlet card, and never attached to a phone number, because a call is two-way
-  and a phrase card is one-way.
-
-**4. The artboards are now behind the app.** 1.1 in `design/generate-screens.py` still shows the
-superseded screen with the big mic as the offer. The app is right and the artboard is stale;
-decision 015 and the ledger both say so. Regenerate before treating a screen as the truth.
-
-**What today cost, so it is not repeated.** A full day's work — four tiles — went live to nobody,
-because Railway built from a working branch and "pushed" was reported as if it meant shipped.
-The owner found out by asking. Read the **Shipping** section above; it exists because of this.
-The second lesson is the same one as 13 September wearing different clothes: two harness defects
-today (a Blob the fake database silently discarded, a race that passed alone and failed in a full
-suite) both produced green tests over broken behaviour.
-
-## Current state
-
-The screens are final and saved to the canvas — 25 artboards, all passing
-`design/check-screens.py`.
-
-**All four tiles are built and work with the network off** (14 September). Nothing stands on a
-placeholder — the "being built" screen and its route are gone.
-
-- **घर** is three tiles and the ask bar. बोलना came off the tiles and the quick bar on the
-  owner's instruction: it is not a place a traveller goes, it is something they do about a place
-  they are already going to. Every screen of tile 3 still works and still holds the sixteen ready
-  sentences — reached now from the destination that needs them, not from a front-page tile.
-- **The front door is a text box with a small ink mic at the end of it** (decision 014).
-  `features/ask/` holds it: `AskBar` is used by घर, रास्ता and खाना, and `submitSentence` is the
-  one path every sentence takes, typed or spoken, so the keyboard and the mic cannot drift apart.
-- **रास्ता** — 1.1 opens with the box and two ways out, कैसे जाएँ and ड्राइवर को दिखाएँ, because
-  the same sentence means the transport in a hotel room and the Arabic at a taxi door. 1.3 and
-  1.4 plan a real journey from the pack on the device. 1.5/1.6 are **not built**: see below.
-- **खाना** — 2.1 is the box over everything nearby, nearest first, with the kitchen kind on every
-  card. No preference learning, by the owner's rule: a constraint the traveller stated is
-  honoured, a taste is never predicted.
-- **ज़रूरी जानकारी** — the hotel (pinned or photographed, never typed), documents on the device,
-  the consulate and the numbers. Rule 6 holds: none of it touches the network, the trial or the
-  pass.
-- **बोलना** — 3.1, 3.2, 3.3 unchanged, plus "take me to «place»" composed in Arabic for any place
-  carrying an Arabic name (`features/phrases/destinationPhrase.ts`).
-
-The one thing a traveller cannot do yet is anything needing the server: see "Not built yet".
-
-The mic, as built (`apps/pwa/src/features/voice/`, decisions 009 and 010):
-
-- **`normalise.ts`** folds Devanagari, Roman and the mix into one comparison form, and a
-  consonant skeleton for the near-misses. Never branches on script.
-- **`corpus.ts` + `data/intents/`** are the vocabulary: 12 places with 59 aliases, 170+ intent,
-  mode, diet, document and phrase keywords, in both scripts. Content, not code.
-- **`parseIntent.ts`** produces `ParsedIntent`. Confidence decides: above `ROUTING_CONFIDENCE`
-  it opens a screen, below it asks a two-button question, and an out-of-scope sentence is never
-  routed anywhere.
-- **`micRouting.ts`** maps an intent to a screen. "driver ko bolo hotel le chalo" opens 3.2 with
-  the Arabic already on it.
-- **`stt.ts`** is the `SttEngine` seam: the phone's recogniser with `processLocally` first, the
-  cloud one second, the keyboard always. Vosk or sherpa-onnx drops in without touching a screen.
-- **`speechGrammar.ts` + `voskStt.ts`** are the offline recogniser. It runs **two** decoders on one
-  model: one biased toward the 205 Devanagari words in `data/intents/` — which is what makes it
-  hear place names rather than the commoner words that sound like them — and the model's own
-  unconstrained one beside it, because a grammar is deaf to any word it does not hold and the
-  learning loop lives on words we have not seen. Both readings reach the screen, which parses each
-  separately and acts on the first it can act on. Decision 013; unmeasured on a phone.
-- **`ListenScreen.tsx`** is 1.2. Every failure — permission, no model, nothing heard, nothing
-  understood — ends on a screen with a way forward.
-- **`benchmark.test.ts`** is rule 5's KPI, gating `npm run verify` at 64/64 sentences.
-
-Two interface catalogues, a sixteen-phrase pack in IndexedDB, self-hosted fonts, and the
-`VoiceEvent` log carrying the engine id on every event.
-
-### The spike
-
-1. Android Chrome PWA, no internet: Hindi speech → intent — **WORKS**, with Vosk's Hindi model
-   compiled to WebAssembly and downloaded once (42 MB). Measured in aeroplane mode on a real
-   phone. The phone's own recogniser still cannot: it needs an OS language pack nothing installs.
-   Accuracy on proper nouns is markedly worse than Google's — see `docs/spikes/002`.
-2. iPhone Safari PWA, no internet: Hindi speech → intent — **needs a phone**
-3. Intent → Arabic phrase, locally — **done**, `apps/pwa` 3.1–3.2
-4. Arabic phrase → Arabic voice, locally — **done and confirmed on a real Android phone with the
-   radio off**. The "no Arabic voice" seen at first was two bugs, not the device: a voice list
-   read before it was complete, and a button gated on a probe that could not resolve until the
-   user tapped something. See `docs/spikes/001`.
-5. Hindi/Hinglish text → intent, locally — **done and measured**, `docs/spikes/002`
-
-Half of item 1 and 2 is now text → intent, which is done. What is left is speech → text with the
-network off, and it cannot be measured in this container: Vosk's and Hugging Face's hosts are both
-blocked by the proxy, and there is no microphone. `docs/spikes/002-hindi-intent.md` says exactly
-what to measure on a phone, in order.
-
-**PWA decision gate: passed on Android.** Offline Hindi speech works in the browser, with our own
-model rather than the phone's. No native wrapper is needed. iPhone Safari is still unmeasured, and
-the same approach should work there because nothing in it depends on the OS.
-
-What is open is no longer the architecture but the **model**. Vosk small gets ordinary sentences
-right and proper nouns wrong — "Mall of the Emirates" came back as "माला एमरेट्स" — and place
-names are most of what this product must hear correctly. A larger model is not the answer: between
-Vosk's 42 MB Hindi model and its 1489 MB one there is nothing, and 1.5 GB is not a download a
-traveller accepts.
-
-So the agreed plan is, in order: **grammar-bias the model we have** and test it on a phone; if that
-fails, measure **sherpa-onnx**; if that fails too, Hinglish typing with **Sarvam online only**; then
-the GTM follows from whichever it is. Biasing is built (decision 013) and waiting on a phone —
-`docs/spikes/002` says what to say into it, in order, and which three sentences decide it.
-
-### Not built yet
-
-- **The edge functions — the biggest gap.** The schema is now applied to the real Supabase
-  project (`pixlnjmpksmfqheotinp`): `devices`, `families`, `passes`, `orders`, `voice_events`,
-  RLS on with no policies by design. But **nothing writes to it**, because no function exists to
-  receive the device's queue. Every event is still sitting on phones at `synced: false`. Until a
-  function takes that queue, the learning loop, the pass, the order and every number the owner
-  wants to negotiate with are all theoretical. No IP address is stored anywhere; the owner ruled
-  on that on 13 September and reversing it needs a written reason (decision 011).
-- **1.5 and 1.6, the map screens.** Not a scheduling decision: every OSM source is blocked from
-  the build container, and rule 7 forbids bulk-downloading the tile services that are not. So
-  नक्शे पर देखें is not on 1.4 either — a button to a screen that does not exist is worse than no
-  button. Recorded in the ledger with that reason.
-- **Restaurant content.** `data/restaurants/restaurants.dev.json` is a **development fixture and
-  not collected content** — its own `warning` field says so, no dietary answer in it was asked of
-  a person, and every outlet shows पूछिए rather than a claim we cannot stand behind. खाना is only
-  as good as this file, and filling it is `docs/field-app-plan.md`: ~400 outlets, 20–25
-  collector-days.
-- **Places a budget traveller actually stays in.** Discovery Gardens, International City,
-  Al Qusais and Satwa are still missing from `data/intents/places.v1.json`. The owner's own
-  example sentence gets the honest "we do not know this place". Content, and cheap.
+Offline Hindi speech was measured on a real phone in aeroplane mode on 13–15 September with
+Vosk small and Whisper base, and online with Google's recogniser. All three mangled Dubai place
+names in an Indian accent inside a Hindi sentence; nothing at a size a traveller accepts did
+better. `docs/spikes/002` holds the numbers. The decision (016) is that there is no voice in the
+product; the seam that would take an engine back is gone with it, on purpose.

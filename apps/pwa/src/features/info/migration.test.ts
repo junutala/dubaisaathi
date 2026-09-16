@@ -80,7 +80,7 @@ describe('upgrading a phone that already has the app', () => {
     const upgraded = new SaathiDb(NAME);
     await upgraded.open();
 
-    expect(upgraded.verno).toBe(5);
+    expect(upgraded.verno).toBe(6);
     expect((await upgraded.phrases.get('taxi-hotel'))?.ar).toBe(PHRASE.ar);
     expect((await upgraded.contentVersions.get('phrases'))?.version).toBe(1);
     // The queue is what the learning loop is: losing it loses labelled recogniser errors that

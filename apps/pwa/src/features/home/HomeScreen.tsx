@@ -2,67 +2,110 @@ import { useSettings } from '../../app/settings.js';
 import { navigate, type Route } from '../../app/routes.js';
 import { Icon, type IconName } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
+import type { Validity } from '../pass/entitlement.js';
 
-interface TileDef {
+interface PillarDef {
   readonly key: StringKey;
+  readonly roman: StringKey;
   readonly blurb: StringKey;
   readonly icon: IconName;
   readonly route: Route;
+  readonly bg: string;
+  readonly fg: string;
 }
 
 /**
- * Three tiles, not four. बोलना came off: it is not a place a traveller goes, it is something
- * they do about a place they are already going to, and now रास्ता carries both readings of a
- * destination. A tile that has to be explained has not earned its place.
+ * The three pillars, in the order the owner named them: खाना, जाना, जानना. Each is a deep block
+ * of its own hue with cream type on it — the bold-type direction chosen on 16 September — and its
+ * icon as a watermark, because on a tile the name is the thing to read and the drawing is the
+ * thing to recognise.
  */
-const TILES: readonly TileDef[] = [
+const PILLARS: readonly PillarDef[] = [
   {
-    key: 'tile.transport',
-    blurb: 'tile.transport.blurb',
-    icon: 'routeTile',
-    route: { screen: 'transport' },
+    key: 'pillar.food',
+    roman: 'pillar.food.roman',
+    blurb: 'pillar.food.blurb',
+    icon: 'thali',
+    route: { screen: 'food' },
+    bg: 'var(--food)',
+    fg: 'var(--onFood)',
   },
-  { key: 'tile.food', blurb: 'tile.food.blurb', icon: 'foodTile', route: { screen: 'food' } },
-  { key: 'tile.info', blurb: 'tile.info.blurb', icon: 'infoTile', route: { screen: 'info' } },
+  {
+    key: 'pillar.go',
+    roman: 'pillar.go.roman',
+    blurb: 'pillar.go.blurb',
+    icon: 'metro',
+    route: { screen: 'go' },
+    bg: 'var(--go)',
+    fg: 'var(--onGo)',
+  },
+  {
+    key: 'pillar.know',
+    roman: 'pillar.know.roman',
+    blurb: 'pillar.know.blurb',
+    icon: 'lantern',
+    route: { screen: 'know' },
+    bg: 'var(--know)',
+    fg: 'var(--onKnow)',
+  },
 ];
 
 /**
- * घर — the tiles, and nothing else.
+ * घर — the three pillars, and from the twentieth hour of the Dubai day, the nudge.
  *
- * There is no box here, and that is the decision rather than an omission. A sentence needs a
- * screen to give it meaning: "Discovery Gardens jaana hai" is *show me the transport* in a hotel
- * room and *tell the driver* at a taxi door, and the difference is where the traveller is
- * standing, not anything in the words (decision 014). रास्ता can serve both readings because it
- * asks — कैसे जाएँ or ड्राइवर को दिखाएँ — and खाना can, because a sentence typed there is about
- * food. Home can do neither: it would have to guess, and guessing was never settled because it
- * cannot be.
- *
- * So the tiles are the front door, each one opening a screen whose box already knows what the
- * words are for.
+ * There is no box here and no microphone. A sentence needs a screen to give it meaning, and each
+ * pillar's own box already knows what the words typed into it are for.
  */
-export function HomeScreen() {
+export function HomeScreen({
+  validity,
+  nudge,
+}: {
+  readonly validity: Validity;
+  readonly nudge: boolean;
+}) {
   const { t } = useSettings();
   return (
-    <div className="flow">
-      <div className="tiles">
-        {TILES.map((tile) => (
+    <div className="home">
+      {nudge && (
+        <div className="nudge">
+          <span className="nudge-text">
+            <span className="nudge-head">
+              {validity.state === 'expired'
+                ? t('home.nudgeOver')
+                : t('home.nudge', { hours: validity.hours ?? 0 })}
+            </span>
+            <span className="nudge-why">{t('home.nudgeWhy')}</span>
+          </span>
           <button
-            key={tile.key}
             type="button"
-            className="tile"
-            data-tap
+            className="nudge-cta"
             onClick={() => {
-              navigate(tile.route);
+              navigate({ screen: 'pass' });
             }}
           >
-            {/* Size and stroke come from the stylesheet: the icon is a share of the tile, not
-                a fixed number of pixels. */}
-            <span className="tile-icon">
-              <Icon name={tile.icon} color="var(--marigold)" />
+            {t('home.nudgeCta')}
+          </button>
+        </div>
+      )}
+      <div className="pillars">
+        {PILLARS.map((pillar) => (
+          <button
+            key={pillar.key}
+            type="button"
+            className="pillar"
+            style={{ background: pillar.bg, color: pillar.fg }}
+            data-tap
+            onClick={() => {
+              navigate(pillar.route);
+            }}
+          >
+            <span className="pillar-mark">
+              <Icon name={pillar.icon} size={170} strokeWidth={1.1} />
             </span>
-            <span className="tile-text">
-              <span className="tile-name">{t(tile.key)}</span>
-              <span className="tile-blurb">{t(tile.blurb)}</span>
+            <span className="pillar-roman">{t(pillar.roman)}</span>
+            <span className="pillar-text">
+              <span className="pillar-name">{t(pillar.key)}</span>
+              <span className="pillar-blurb">{t(pillar.blurb)}</span>
             </span>
           </button>
         ))}

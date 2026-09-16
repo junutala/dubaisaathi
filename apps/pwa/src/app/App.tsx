@@ -1,66 +1,42 @@
-import { useCallback, useEffect, useState } from 'react';
-import type { ParsedIntent } from '@saathi/shared';
-import { href, navigate, parseRoute, type Route } from './routes.js';
+import { useEffect, useState } from 'react';
+import { parseRoute, pillarOf, type Route } from './routes.js';
 import { applyUpdateIfIdle } from './updates.js';
-import { BrandBar } from './shell/BrandBar.js';
-import { StatusStrip } from './shell/StatusStrip.js';
-import type { Tile } from './shell/ScreenHeader.js';
+import { TopStrip } from './shell/TopStrip.js';
+import { TabBar } from './shell/TabBar.js';
 import { HomeScreen } from '../features/home/HomeScreen.js';
-import { FoodListScreen } from '../features/food/index.js';
+import { FoodListScreen, MenuScreen, OutletScreen } from '../features/food/index.js';
 import { PassScreen } from '../features/pass/PassScreen.js';
 import { LandingScreen } from '../features/landing/LandingScreen.js';
-import { isGated, noteLocationReading, validity } from '../features/pass/entitlement.js';
+import {
+  canBuy,
+  isGated,
+  needsNudge,
+  noteLocationReading,
+  validity,
+} from '../features/pass/entitlement.js';
 import { currentLocation } from '../lib/location.js';
-import { SayEntryScreen } from '../features/phrases/SayEntryScreen.js';
-import { ArabicScreen } from '../features/phrases/ArabicScreen.js';
-import { ShowDriverScreen } from '../features/phrases/ShowDriverScreen.js';
 import {
   DocumentAddScreen,
   DocumentScreen,
-  HotelAddScreen,
-  InfoHomeScreen,
+  DocsScreen,
+  HotelScreen,
+  readHotel,
+  watchHotel,
+  type SavedHotel,
 } from '../features/info/index.js';
-import { ListenScreen } from '../features/voice/ListenScreen.js';
 import {
+  GoScreen,
   LocationDeniedScreen,
   RouteOptionsScreen,
   RouteStepsScreen,
-  TransportScreen,
+  TaxiScreen,
 } from '../features/transport/index.js';
-import { landingHref } from '../features/voice/micRouting.js';
-
-/** Which tile's mic was tapped, so 1.2 shows the crumb of where the traveller came from. */
-function tileOf(route: Route): Tile {
-  switch (route.screen) {
-    case 'say':
-    case 'arabic':
-    case 'driver':
-      return 'talk';
-    case 'info':
-    case 'hotelAdd':
-    case 'docAdd':
-    case 'docView':
-      return 'info';
-    case 'food':
-      return 'food';
-    case 'pass':
-      return 'home';
-    case 'transport':
-    case 'nolocation':
-    case 'options':
-    case 'steps':
-      return 'transport';
-    case 'listen':
-      return route.from;
-    case 'home':
-      return 'home';
-  }
-}
+import { KnowScreen, PlaceScreen } from '../features/know/index.js';
+import { navigate } from './routes.js';
 
 /**
- * The landing page is shown once, on the first open, and never again — it is where the whole
- * offline pack comes down (owner's instruction, 14 September). Recorded in localStorage rather
- * than in the database because it is read before the first paint.
+ * The landing page is shown once, on the first open, and never again. Recorded in localStorage
+ * rather than in the database because it is read before the first paint.
  */
 const STARTED_KEY = 'saathi.started';
 
@@ -74,12 +50,8 @@ export function App() {
     }
   });
   const [route, setRoute] = useState<Route>(() => parseRoute(window.location.hash));
-  /**
-   * What the mic understood, and which screen it sent them to. Kept together so "आपने कहा: …"
-   * shows on that screen and nowhere else — navigating anywhere else hides it without anyone
-   * having to remember to clear it.
-   */
-  const [heard, setHeard] = useState<{ intent: ParsedIntent; at: string } | null>(null);
+  /** The hotel on the strip, read once and again whenever घर.1 saves. */
+  const [hotel, setHotel] = useState<SavedHotel | undefined>(undefined);
 
   useEffect(() => {
     const update = () => {
@@ -91,14 +63,19 @@ export function App() {
     };
   }, []);
 
-  const onHeard = useCallback((intent: ParsedIntent) => {
-    const at = landingHref(intent);
-    setHeard(at === null ? null : { intent, at });
-  }, []);
-
-  // The mic is the same thing everywhere: it opens 1.2, carrying the tile it was tapped from.
-  const onMic = useCallback(() => {
-    navigate({ screen: 'listen', from: tileOf(parseRoute(window.location.hash)) });
+  useEffect(() => {
+    let live = true;
+    const refresh = () => {
+      void readHotel().then((row) => {
+        if (live) setHotel(row);
+      });
+    };
+    refresh();
+    const stop = watchHotel(refresh);
+    return () => {
+      live = false;
+      stop();
+    };
   }, []);
 
   /**
@@ -116,12 +93,10 @@ export function App() {
   }, []);
 
   /**
-   * A build that arrived while the app was open is applied here, on घर, and nowhere else.
-   *
-   * This is what "never mid-trip" actually asks for: not "never during this session", but never
-   * in the middle of a task. घर holds no typed sentence, no destination and no half-finished
-   * anything, so a reload costs the traveller nothing. Reading the rule as "next launch only"
-   * is how a release that was live on the server sat unseen on a phone for a day.
+   * A build that arrived while the app was open is applied here, on घर, and nowhere else. घर
+   * holds no typed sentence, no destination and no half-finished anything, so a reload costs the
+   * traveller nothing; reading "never mid-trip" as "next launch only" is how a release that was
+   * live on the server sat unseen on a phone for a day.
    */
   useEffect(() => {
     if (route.screen !== 'home') return;
@@ -138,35 +113,15 @@ export function App() {
   }, [clock]);
 
   /**
-   * The gate, checked **only when a traveller enters a tile** — never on the tick.
-   *
-   * Somebody following step three of four to a metro station must not have the screen taken away
-   * because a counter reached zero while they were reading it. Expiry bites on the way in, not in
-   * the middle of a task somebody is already carrying out.
-   *
-   * ज़रूरी जानकारी is absent from this list and always will be (rule 6): the hotel, the documents,
-   * the consulate and the numbers are on the device and no pass is consulted to show them.
+   * The gate, checked only when a traveller enters a pillar — never on the tick, so a screen is
+   * not taken away mid-task. The hotel and the documents are never behind it (rule 6), and
+   * neither is anyone who has paid once (16 September).
    */
   useEffect(() => {
-    const behindTheGate =
-      route.screen === 'transport' ||
-      route.screen === 'options' ||
-      route.screen === 'steps' ||
-      route.screen === 'food';
+    const pillar = pillarOf(route);
+    const behindTheGate = pillar === 'food' || pillar === 'go' || pillar === 'know';
     if (behindTheGate && isGated()) navigate({ screen: 'pass' });
   }, [route]);
-
-  const banner = heard?.at === href(route) ? heard.intent : undefined;
-  /**
-   * The mic lands on 1.1, because a destination is two questions and the traveller answers one
-   * of them by tapping (decision 014). The words follow them one screen further on, so 1.3 can
-   * still show "आपने कहा: …" — that is the field the ledger asks for on 1.3, and it is the one
-   * check worth making before committing to a route.
-   */
-  const carried =
-    route.screen === 'options' && heard?.intent.destination?.placeId === route.placeId
-      ? heard.intent
-      : undefined;
 
   if (!started) {
     return (
@@ -185,35 +140,33 @@ export function App() {
     );
   }
 
+  const now = new Date(clock);
+  const state = validity(now);
+
   return (
     <div className="screen">
-      <BrandBar />
-      <StatusStrip validity={validity(new Date(clock))} />
-      {route.screen === 'home' && <HomeScreen />}
-      {route.screen === 'listen' && (
-        <ListenScreen from={route.from} onHeard={onHeard} onMic={onMic} />
-      )}
-      {route.screen === 'say' && <SayEntryScreen onMic={onMic} heard={banner} />}
-      {route.screen === 'arabic' && (
-        <ArabicScreen phraseId={route.phraseId} onMic={onMic} heard={banner} />
-      )}
-      {route.screen === 'driver' && <ShowDriverScreen phraseId={route.phraseId} />}
-      {route.screen === 'transport' && (
-        <TransportScreen placeId={route.placeId} onMic={onMic} heard={banner} />
-      )}
-      {route.screen === 'nolocation' && <LocationDeniedScreen onMic={onMic} />}
-      {route.screen === 'options' && (
-        <RouteOptionsScreen placeId={route.placeId} onMic={onMic} heard={carried} />
-      )}
-      {route.screen === 'steps' && (
-        <RouteStepsScreen placeId={route.placeId} optionId={route.optionId} onMic={onMic} />
-      )}
-      {route.screen === 'info' && <InfoHomeScreen onMic={onMic} heard={banner} />}
-      {route.screen === 'hotelAdd' && <HotelAddScreen onMic={onMic} />}
-      {route.screen === 'docAdd' && <DocumentAddScreen onMic={onMic} />}
-      {route.screen === 'docView' && <DocumentScreen docId={route.docId} />}
-      {route.screen === 'food' && <FoodListScreen onMic={onMic} heard={banner} />}
-      {route.screen === 'pass' && <PassScreen onMic={onMic} />}
+      <TopStrip validity={state} hotel={hotel} />
+      <main className="body">
+        {route.screen === 'home' && <HomeScreen validity={state} nudge={needsNudge(now)} />}
+        {route.screen === 'hotel' && <HotelScreen hotel={hotel} />}
+        {route.screen === 'docs' && <DocsScreen />}
+        {route.screen === 'docAdd' && <DocumentAddScreen />}
+        {route.screen === 'docView' && <DocumentScreen docId={route.docId} />}
+        {route.screen === 'pass' && <PassScreen />}
+        {route.screen === 'food' && <FoodListScreen dish={route.dish} hotel={hotel} />}
+        {route.screen === 'outlet' && <OutletScreen outletId={route.outletId} hotel={hotel} />}
+        {route.screen === 'menu' && <MenuScreen outletId={route.outletId} />}
+        {route.screen === 'go' && <GoScreen placeId={route.placeId} />}
+        {route.screen === 'options' && <RouteOptionsScreen placeId={route.placeId} hotel={hotel} />}
+        {route.screen === 'steps' && (
+          <RouteStepsScreen placeId={route.placeId} optionId={route.optionId} hotel={hotel} />
+        )}
+        {route.screen === 'taxi' && <TaxiScreen placeId={route.placeId} hotel={hotel} />}
+        {route.screen === 'nolocation' && <LocationDeniedScreen hotel={hotel} />}
+        {route.screen === 'know' && <KnowScreen />}
+        {route.screen === 'place' && <PlaceScreen placeId={route.placeId} hotel={hotel} />}
+      </main>
+      <TabBar current={pillarOf(route)} canBuy={canBuy()} />
     </div>
   );
 }

@@ -17,21 +17,33 @@ describe('the interface catalogues', () => {
     }
   });
 
-  it('keeps the strip labels short enough for a 390px phone', () => {
-    // English runs longer than Hindi and the strip has four things on it; a truncated
-    // countdown is the one thing on that strip nobody can afford to lose.
-    for (const key of ['strip.before', 'strip.trial', 'strip.pass', 'strip.expired'] as const) {
-      expect(translate('en', key, { hours: 18, days: 5 }).length, key).toBeLessThanOrEqual(20);
-      expect(translate('hi', key, { hours: 18, days: 5 }).length, key).toBeLessThanOrEqual(24);
+  it('keeps the strip and bar labels short enough for a 390px phone', () => {
+    // English runs longer than Hindi and the strip has five things on it; a label that wraps
+    // pushes the theme switch off the edge.
+    for (const key of [
+      'strip.offline',
+      'strip.online',
+      'strip.pass',
+      'nav.buyPass',
+      'nav.docs',
+    ] as const) {
+      expect(translate('en', key).length, key).toBeLessThanOrEqual(10);
+      expect(translate('hi', key).length, key).toBeLessThanOrEqual(10);
+    }
+  });
+
+  it('keeps the three pillar names in Devanagari in both catalogues', () => {
+    for (const key of ['pillar.food', 'pillar.go', 'pillar.know'] as const) {
+      expect(translate('en', key)).toBe(translate('hi', key));
     }
   });
 
   it('substitutes counts into both languages', () => {
-    expect(translate('hi', 'strip.trial', { hours: 18 })).toBe('18 घंटे बाकी');
-    expect(translate('en', 'strip.trial', { hours: 18 })).toBe('18 hrs left');
+    expect(translate('hi', 'home.nudge', { hours: 4 })).toBe('आपका मुफ़्त दिन 4 घंटे में ख़त्म');
+    expect(translate('en', 'home.nudge', { hours: 4 })).toBe('Your free day ends in 4 hours');
   });
 
   it('leaves an unknown placeholder visible rather than printing "undefined"', () => {
-    expect(translate('en', 'strip.pass', {})).toContain('{days}');
+    expect(translate('en', 'pass.state.pass', {})).toContain('{days}');
   });
 });

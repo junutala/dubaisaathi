@@ -1,5 +1,6 @@
 import type { DubaiPlace, LatLng } from '@saathi/shared';
 import type { AreaName } from './records.js';
+import { distanceKm } from '../../lib/distance.js';
 import placePack from '../../../../../data/intents/places.v1.json';
 
 /**
@@ -20,18 +21,6 @@ const AREAS: readonly DubaiPlace[] = (placePack.places as readonly DubaiPlace[])
  * radius the hotel simply has no name, which is honest; a wrong one is not.
  */
 const AREA_RADIUS_KM = 4;
-
-/** Great-circle distance in kilometres. */
-export function distanceKm(a: LatLng, b: LatLng): number {
-  const radians = Math.PI / 180;
-  const earthKm = 6371;
-  const dLat = (b.lat - a.lat) * radians;
-  const dLng = (b.lng - a.lng) * radians;
-  const h =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(a.lat * radians) * Math.cos(b.lat * radians) * Math.sin(dLng / 2) ** 2;
-  return 2 * earthKm * Math.asin(Math.min(1, Math.sqrt(h)));
-}
 
 /** The area a pin is in, or nothing at all when the pack does not cover where they are. */
 export function areaFor(pin: LatLng): AreaName | undefined {

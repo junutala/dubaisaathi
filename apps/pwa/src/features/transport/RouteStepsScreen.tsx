@@ -1,71 +1,61 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useSettings } from '../../app/settings.js';
 import { navigate } from '../../app/routes.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
-import { QuickBar } from '../../app/shell/QuickBar.js';
 import { Icon } from '../../app/shell/icons.js';
+import type { SavedHotel } from '../info/index.js';
 import { localName, placeById } from './destinations.js';
-import { askForLocation, type Location } from '../../lib/location.js';
+import { useOrigin } from './origin.js';
 import { planRoutes, type RouteOptionId } from './routePlanner.js';
 import { useTransportNetwork } from './useNetwork.js';
 import { fareText, legStep, minutes, modeLabel, type Words } from './describeLeg.js';
 
 /**
- * 1.4 — रास्ता › क़दम दर क़दम
+ * 2.3 — जाना › क़दम दर क़दम. The time and the fare in one line, then the legs in order, each
+ * with a time on it. The journey is planned again from the same pack rather than carried here
+ * in the address bar, so refreshing the page in a metro tunnel gives the same instructions.
  *
- * What to expect before starting, then the legs in order with a time on each. The journey is
- * planned again from the same pack rather than carried here in the address bar, so refreshing
- * the page in a metro tunnel gives the same instructions instead of a blank screen.
+ * First and last service per line, and the nearest stop's own times, arrive with the RTA feed
+ * (docs/transport-and-maps-strategy.md); until then the steps carry what the pack knows.
  */
 export function RouteStepsScreen({
   placeId,
   optionId,
-  onMic,
+  hotel,
 }: {
   readonly placeId: string;
   readonly optionId: RouteOptionId;
-  readonly onMic: () => void;
+  readonly hotel: SavedHotel | undefined;
 }) {
   const { t, locale } = useSettings();
   const network = useTransportNetwork();
-  const [location, setLocation] = useState<Location>({ kind: 'asking' });
+  const origin = useOrigin(hotel);
   const destination = placeById(placeId);
 
   useEffect(() => {
-    let live = true;
-    void askForLocation().then((answer) => {
-      if (!live) return;
-      if (answer.kind === 'denied') navigate({ screen: 'nolocation' });
-      else setLocation(answer);
-    });
-    return () => {
-      live = false;
-    };
-  }, []);
+    if (origin.kind === 'none')
+      navigate(origin.denied ? { screen: 'nolocation' } : { screen: 'options', placeId });
+  }, [origin, placeId]);
 
   const option = useMemo(() => {
-    if (!network || !destination || location.kind !== 'here') return null;
-    return planRoutes(network, location.at, destination).find((o) => o.id === optionId) ?? null;
-  }, [network, destination, location, optionId]);
+    if (!network || !destination || origin.kind === 'asking' || origin.kind === 'none') return null;
+    return planRoutes(network, origin.at, destination).find((o) => o.id === optionId) ?? null;
+  }, [network, destination, origin, optionId]);
 
-  // Either the place or the option is gone — a stale bookmark, or a pack update that dropped a
-  // bus route. 1.3 can still answer "how do I get there", so that is where they go.
   useEffect(() => {
-    if (!destination) navigate({ screen: 'transport' });
+    if (!destination) navigate({ screen: 'go' });
   }, [destination]);
 
   if (!destination) return null;
   const place = localName(destination.name, locale);
   const words: Words | null = network ? { t, locale, network, destination } : null;
+  const other: RouteOptionId = optionId === 'bus' ? 'metro' : 'bus';
 
   return (
     <>
       <ScreenHeader
-        title={
-          words && option ? t('steps.title', { mode: modeLabel(words, option.mode), place }) : place
-        }
-        tile="transport"
-        trail={t('steps.trail')}
+        pillar="go"
+        trail={words && option ? `${place} › ${modeLabel(words, option.mode)}` : place}
         onBack={() => {
           navigate({ screen: 'options', placeId });
         }}
@@ -75,23 +65,18 @@ export function RouteStepsScreen({
 
         {words && option && (
           <>
-            <div className="totals">
-              <span className="total">
-                <span className="total-value">
-                  {minutes(words, option.route.totalDurationSeconds)}
-                </span>
-                <span className="total-label">{t('steps.totalTime')}</span>
+            <div
+              className="suggest"
+              style={{ background: 'var(--goSoft)', color: 'var(--goText)' }}
+            >
+              <span className="suggest-text" style={{ fontWeight: 700 }}>
+                {t('steps.summary', {
+                  time: minutes(words, option.route.totalDurationSeconds),
+                  fare: fareText(words, option),
+                })}
+                {option.mode === 'metro' || option.mode === 'bus' ? ` · ${t('steps.nol')}` : ''}
               </span>
-              <span className="total-rule" />
-              <span className="total">
-                <span className="total-value">{fareText(words, option)}</span>
-                <span className="total-label">{t('steps.fare')}</span>
-              </span>
-              <span className="total-rule" />
-              <span className="total">
-                <span className="total-value">{minutes(words, option.route.walkingSeconds)}</span>
-                <span className="total-label">{t('steps.walking')}</span>
-              </span>
+              <Icon name="clock" size={18} strokeWidth={2} />
             </div>
 
             <div className="legs">
@@ -103,7 +88,7 @@ export function RouteStepsScreen({
                     className={index === option.route.legs.length - 1 ? 'leg leg-last' : 'leg'}
                   >
                     <span className="leg-icon">
-                      <Icon name={step.icon} size={21} strokeWidth={1.8} color="var(--indigo)" />
+                      <Icon name={step.icon} size={20} strokeWidth={1.9} color="var(--goText)" />
                     </span>
                     <span className="leg-body">
                       <span className="leg-head">
@@ -120,8 +105,29 @@ export function RouteStepsScreen({
         )}
 
         <div className="grow" />
+        <div className="grid2">
+          <button
+            type="button"
+            className="btn btn-ghost"
+            onClick={() => {
+              navigate({ screen: 'steps', placeId, optionId: other });
+            }}
+          >
+            <Icon name={other === 'bus' ? 'bus' : 'metro'} size={20} strokeWidth={1.9} />
+            {t(other === 'bus' ? 'steps.seeBus' : 'steps.seeMetro')}
+          </button>
+          <button
+            type="button"
+            className="btn btn-ghost"
+            onClick={() => {
+              navigate({ screen: 'taxi', placeId });
+            }}
+          >
+            <Icon name="taxi" size={20} strokeWidth={1.9} />
+            {t('steps.taxi')}
+          </button>
+        </div>
       </div>
-      <QuickBar current="transport" onMic={onMic} />
     </>
   );
 }

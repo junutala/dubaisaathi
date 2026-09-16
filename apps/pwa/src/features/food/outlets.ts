@@ -36,6 +36,7 @@ interface RawOutlet {
   readonly confirmedDishes?: readonly {
     readonly name: { readonly en: string; readonly hi: string };
     readonly tags?: readonly string[];
+    readonly priceAed?: number;
   }[];
   readonly hours?: {
     readonly everyDay?: { readonly opens: string; readonly closes: string };
@@ -97,6 +98,7 @@ export function parseOutletPack(raw: unknown): readonly Restaurant[] {
             confirmedDishes: row.confirmedDishes.map((dish) => ({
               name: { en: dish.name.en, hi: dish.name.hi, aliases: [] },
               tags: (dish.tags ?? []).filter(isFoodTag),
+              ...(dish.priceAed === undefined ? {} : { priceAed: dish.priceAed }),
             })),
           }),
       ...(row.hours === undefined ? {} : { hours: row.hours }),
@@ -132,4 +134,8 @@ const DIET_TAGS: readonly FoodTag[] = [
 
 export function isDietTag(tag: FoodTag): boolean {
   return DIET_TAGS.includes(tag);
+}
+
+export function outletById(id: string): Restaurant | undefined {
+  return outlets.find((outlet) => outlet.id === id);
 }

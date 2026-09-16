@@ -1,6 +1,6 @@
 {
-  "contentVersion": 3,
-  "publishedAt": "2026-09-13T00:00:00Z",
+  "contentVersion": 4,
+  "publishedAt": "2026-09-16T00:00:00Z",
   "places": [
     {
       "id": "karama",
@@ -341,6 +341,148 @@
       "location": {
         "lat": 25.112,
         "lng": 55.196
+      }
+    },
+    {
+      "id": "dubai-frame",
+      "name": {
+        "en": "Dubai Frame",
+        "hi": "दुबई फ़्रेम",
+        "ar": "برواز دبي",
+        "aliases": ["dubai frame", "दुबई फ़्रेम", "दुबई फ्रेम", "frame", "फ़्रेम"]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.2353,
+        "lng": 55.3003
+      }
+    },
+    {
+      "id": "miracle-garden",
+      "name": {
+        "en": "Miracle Garden",
+        "hi": "मिरेकल गार्डन",
+        "ar": "حديقة الزهور",
+        "aliases": [
+          "miracle garden",
+          "मिरेकल गार्डन",
+          "मिराकल गार्डन",
+          "flower garden",
+          "फूलों का बगीचा"
+        ]
+      },
+      "kind": "park",
+      "location": {
+        "lat": 25.0603,
+        "lng": 55.2447
+      }
+    },
+    {
+      "id": "museum-of-future",
+      "name": {
+        "en": "Museum of the Future",
+        "hi": "म्यूज़ियम ऑफ़ द फ़्यूचर",
+        "ar": "متحف المستقبل",
+        "aliases": [
+          "museum of the future",
+          "museum of future",
+          "म्यूज़ियम ऑफ़ द फ़्यूचर",
+          "फ़्यूचर म्यूज़ियम",
+          "future museum"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.219,
+        "lng": 55.2813
+      }
+    },
+    {
+      "id": "al-fahidi",
+      "name": {
+        "en": "Al Fahidi",
+        "hi": "अल फ़हीदी",
+        "ar": "الفهيدي",
+        "aliases": [
+          "al fahidi",
+          "अल फ़हीदी",
+          "अल फहीदी",
+          "bastakiya",
+          "बस्ताकिया",
+          "fahidi",
+          "old dubai fort"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.264,
+        "lng": 55.2999
+      }
+    },
+    {
+      "id": "jumeirah-beach",
+      "name": {
+        "en": "Jumeirah Beach",
+        "hi": "जुमेरा बीच",
+        "ar": "شاطئ جميرا",
+        "aliases": [
+          "jumeirah beach",
+          "जुमेरा बीच",
+          "जुमेराह बीच",
+          "jumeira beach",
+          "kite beach",
+          "काइट बीच"
+        ]
+      },
+      "kind": "beach",
+      "location": {
+        "lat": 25.201,
+        "lng": 55.239
+      }
+    },
+    {
+      "id": "atlantis",
+      "name": {
+        "en": "Atlantis",
+        "hi": "अटलांटिस",
+        "ar": "أتلانتس",
+        "aliases": [
+          "atlantis",
+          "अटलांटिस",
+          "atlantis the palm",
+          "aquaventure",
+          "एक्वावेंचर",
+          "palm jumeirah",
+          "पाम जुमेरा"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.1304,
+        "lng": 55.1171
+      }
+    },
+    {
+      "id": "dubai-creek",
+      "name": {
+        "en": "Dubai Creek",
+        "hi": "दुबई क्रीक",
+        "ar": "خور دبي",
+        "aliases": [
+          "dubai creek",
+          "दुबई क्रीक",
+          "creek",
+          "क्रीक",
+          "abra",
+          "अबरा",
+          "abra station",
+          "अबरा स्टेशन"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.2632,
+        "lng": 55.2984
       }
     }
   ]

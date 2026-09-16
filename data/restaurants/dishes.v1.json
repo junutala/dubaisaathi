@@ -1,0 +1,191 @@
+{
+  "contentVersion": 1,
+  "publishedAt": "2026-09-16T00:00:00Z",
+  "comment": "The dishes an Indian traveller searches for, in both scripts. `tags` are what a dish implies about a kitchen, so a dish nobody has confirmed still finds the kitchens that make its kind. `popular` marks the chips on 1.1.",
+  "dishes": [
+    {
+      "id": "masala-dosa",
+      "name": {
+        "en": "Masala dosa",
+        "hi": "मसाला डोसा",
+        "aliases": ["dosa", "डोसा", "masala dosa", "मसाला डोसा", "dosai"]
+      },
+      "tags": ["south-indian", "vegetarian"],
+      "popular": true
+    },
+    {
+      "id": "idli",
+      "name": {
+        "en": "Idli",
+        "hi": "इडली",
+        "aliases": ["idli", "इडली", "idly", "idli sambar", "इडली सांबर"]
+      },
+      "tags": ["south-indian", "vegetarian"]
+    },
+    {
+      "id": "vada-pav",
+      "name": {
+        "en": "Vada pav",
+        "hi": "वड़ा पाव",
+        "aliases": ["vada pav", "वड़ा पाव", "wada pav", "vadapav", "बड़ा पाव"]
+      },
+      "tags": ["quick-snack", "vegetarian"],
+      "popular": true
+    },
+    {
+      "id": "pav-bhaji",
+      "name": {
+        "en": "Pav bhaji",
+        "hi": "पाव भाजी",
+        "aliases": ["pav bhaji", "पाव भाजी", "pavbhaji", "पाव भाजी"]
+      },
+      "tags": ["quick-snack", "vegetarian"],
+      "popular": true
+    },
+    {
+      "id": "gujarati-thali",
+      "name": {
+        "en": "Gujarati thali",
+        "hi": "गुजराती थाली",
+        "aliases": ["gujarati thali", "गुजराती थाली", "thali", "थाली", "gujrati thali"]
+      },
+      "tags": ["gujarati", "thali", "vegetarian"],
+      "popular": true
+    },
+    {
+      "id": "chole-bhature",
+      "name": {
+        "en": "Chole bhature",
+        "hi": "छोले भटूरे",
+        "aliases": ["chole bhature", "छोले भटूरे", "chhole bhature", "chole", "छोले"]
+      },
+      "tags": ["north-indian", "punjabi", "vegetarian"],
+      "popular": true
+    },
+    {
+      "id": "sabudana-khichdi",
+      "name": {
+        "en": "Sabudana khichdi",
+        "hi": "साबूदाना खिचड़ी",
+        "aliases": [
+          "sabudana khichdi",
+          "साबूदाना खिचड़ी",
+          "sabudana",
+          "साबूदाना",
+          "sabudana khichadi"
+        ]
+      },
+      "tags": ["vrat", "vegetarian"],
+      "popular": true
+    },
+    {
+      "id": "jain-thali",
+      "name": {
+        "en": "Jain thali",
+        "hi": "जैन थाली",
+        "aliases": ["jain thali", "जैन थाली", "jain khana", "जैन खाना"]
+      },
+      "tags": ["jain", "thali", "vegetarian"],
+      "popular": true
+    },
+    {
+      "id": "samosa",
+      "name": {
+        "en": "Samosa",
+        "hi": "समोसा",
+        "aliases": ["samosa", "समोसा", "samose", "समोसे"]
+      },
+      "tags": ["quick-snack", "vegetarian"]
+    },
+    {
+      "id": "chaat",
+      "name": {
+        "en": "Chaat",
+        "hi": "चाट",
+        "aliases": ["chaat", "चाट", "pani puri", "पानी पूरी", "golgappa", "गोलगप्पे", "bhel", "भेल"]
+      },
+      "tags": ["quick-snack", "vegetarian"]
+    },
+    {
+      "id": "paneer-butter-masala",
+      "name": {
+        "en": "Paneer butter masala",
+        "hi": "पनीर बटर मसाला",
+        "aliases": ["paneer", "पनीर", "paneer butter masala", "पनीर बटर मसाला", "shahi paneer"]
+      },
+      "tags": ["north-indian", "vegetarian"]
+    },
+    {
+      "id": "dal-chawal",
+      "name": {
+        "en": "Dal chawal",
+        "hi": "दाल चावल",
+        "aliases": ["dal chawal", "दाल चावल", "dal rice", "dal", "दाल"]
+      },
+      "tags": ["north-indian", "vegetarian"]
+    },
+    {
+      "id": "biryani",
+      "name": {
+        "en": "Biryani",
+        "hi": "बिरयानी",
+        "aliases": ["biryani", "बिरयानी", "biriyani", "veg biryani", "वेज बिरयानी"]
+      },
+      "tags": ["north-indian"]
+    },
+    {
+      "id": "kerala-meals",
+      "name": {
+        "en": "Kerala meals",
+        "hi": "केरल मील्स",
+        "aliases": ["kerala meals", "केरल मील्स", "meals", "मील्स", "sadya", "सद्या", "kerala food"]
+      },
+      "tags": ["south-indian"]
+    },
+    {
+      "id": "chai",
+      "name": {
+        "en": "Chai",
+        "hi": "चाय",
+        "aliases": ["chai", "चाय", "tea", "karak", "करक चाय"]
+      },
+      "tags": ["quick-snack", "vegetarian"]
+    },
+    {
+      "id": "shawarma",
+      "name": {
+        "en": "Shawarma",
+        "hi": "शावरमा",
+        "aliases": ["shawarma", "शावरमा", "shawerma"]
+      },
+      "tags": ["arabic"]
+    },
+    {
+      "id": "upma",
+      "name": {
+        "en": "Upma",
+        "hi": "उपमा",
+        "aliases": ["upma", "उपमा"]
+      },
+      "tags": ["south-indian", "vegetarian"]
+    },
+    {
+      "id": "poha",
+      "name": {
+        "en": "Poha",
+        "hi": "पोहा",
+        "aliases": ["poha", "पोहा"]
+      },
+      "tags": ["quick-snack", "vegetarian"]
+    },
+    {
+      "id": "khichdi",
+      "name": {
+        "en": "Khichdi",
+        "hi": "खिचड़ी",
+        "aliases": ["khichdi", "खिचड़ी", "khichadi"]
+      },
+      "tags": ["vegetarian", "sattvik"]
+    }
+  ]
+}

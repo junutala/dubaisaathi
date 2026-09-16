@@ -1,15 +1,12 @@
 import type { DubaiPlace } from '@saathi/shared';
 import type { Locale } from '../../i18n/index.js';
-import { intentCorpus } from '../voice/intentPacks.js';
-import { fold } from '../voice/normalise.js';
-import { GLUE, ROMAN_GLUE } from '../voice/glue.js';
-import { parseIntent } from '../voice/parseIntent.js';
+import { GLUE, ROMAN_GLUE, fold, intentCorpus, parseIntent } from '../ask/index.js';
 
 /**
- * Turning what a traveller typed into a place we know — the one job screen 1.1 has before it
+ * Turning what a traveller typed into a place we know — the one job screen 2.1 has before it
  * can do anything else.
  *
- * It goes through the same parser as the mic, which is what makes "Karama", "करामा", "karma"
+ * It goes through the script-agnostic matcher, which is what makes "Karama", "करामा", "karma"
  * and "mujhe Karama jaana hai" all the same destination (CLAUDE.md rule 4: Hinglish is
  * first-class and the parser never branches on script). Nothing here is a second matcher; a
  * new alias is a row in `data/intents/places.v1.json` and this picks it up for free.
@@ -20,7 +17,7 @@ export function placeById(placeId: string): DubaiPlace | undefined {
 }
 
 /**
- * `null` when we do not know the place. That is not a failure to hide: 1.1 says so on the
+ * `null` when we do not know the place. That is not a failure to hide: 2.1 says so on the
  * screen and keeps the box, because a traveller who typed a real Dubai neighbourhood we have
  * not curated yet deserves to be told, not left looking at a blank.
  */
@@ -28,6 +25,26 @@ export function placeFromText(text: string): DubaiPlace | null {
   const placeId = parseIntent(text, intentCorpus).destination?.placeId;
   if (placeId === undefined) return null;
   return intentCorpus.places.get(placeId) ?? null;
+}
+
+/**
+ * The place the words most likely mean, and whether it was an exact reading or a near one.
+ *
+ * "Burjman" is two edits from BurJuman; the matcher already resolves it, at less than full
+ * confidence. 2.1 shows a near reading as a question — "क्या आपका मतलब बुरजुमान है?" — with the
+ * place's own Devanagari name on it. That is the only transliteration the screen ever shows: a
+ * name we ship, never a guess at how their Roman letters would be written (owner, 16 September).
+ */
+export function readPlace(
+  text: string,
+): { readonly place: DubaiPlace; readonly sure: boolean } | null {
+  const intent = parseIntent(text, intentCorpus);
+  const placeId = intent.destination?.placeId;
+  if (placeId === undefined) return null;
+  const place = intentCorpus.places.get(placeId);
+  if (!place) return null;
+  // An exact alias scores 1 on the place itself; a skeleton or edit-distance hit scores less.
+  return { place, sure: (intent.destination?.confidence ?? 0) >= 1 };
 }
 
 /** A place, a station or a line, in whichever language the interface is set to. */

@@ -2,13 +2,11 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './app/App.js';
 import { SettingsProvider } from './app/settings.js';
-import { loadPhrasePack, loadTransportPack, parsePhrasePack } from './db/content.js';
+import { loadTransportPack } from './db/content.js';
 import { parseTransportPack } from './features/transport/index.js';
 import { requestPersistentStorage } from './db/schema.js';
 import { applyPendingUpdate, startUpdateChecks } from './app/updates.js';
-import { startVoiceEventSync } from './features/voice/sync.js';
-import { forgetVosk } from './features/voice/modelCache.js';
-import pack from '../../../data/phrases/phrases.v1.json';
+import { startVoiceEventSync } from './features/ask/index.js';
 import transport from '../../../data/transport/network.v1.json';
 import './fonts.css';
 import './styles.css';
@@ -28,16 +26,11 @@ startUpdateChecks();
 // The pack is content, loaded into IndexedDB once. Documents and the pack must survive a
 // phone running low on space, so ask for persistence on the way in (decision 003).
 void requestPersistentStorage();
-void loadPhrasePack(parsePhrasePack(pack));
 void loadTransportPack(parseTransportPack(transport));
 
-// The learning loop leaves the phone here, and only here. Nothing waits on it: it tries once on
+// The question log leaves the phone here, and only here. Nothing waits on it: it tries once on
 // boot and again when the phone says it is back online, and a failure leaves the queue intact.
 startVoiceEventSync();
-// Hands back the 42 MB the old recogniser left behind. Nothing can read those bytes any more —
-// the engine is deleted and the archive is no longer served — so they are storage a traveller
-// cannot find and cannot use. Best-effort and silent; a browser that refuses simply keeps them.
-void forgetVosk();
 
 createRoot(root).render(
   <StrictMode>

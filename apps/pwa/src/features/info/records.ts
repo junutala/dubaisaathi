@@ -1,10 +1,9 @@
 import type { LatLng, Timestamp } from '@saathi/shared';
 
 /**
- * What ज़रूरी जानकारी keeps, and why it is declared here rather than in `@saathi/shared`:
- * neither of these ever leaves the phone (decision 003), so there is no second side to share
- * a definition with, and a shared type would describe a wire format that must not exist.
- * See `docs/decisions/015`.
+ * What the hotel and the documents keep, and why it is declared here rather than in
+ * `@saathi/shared`: neither ever leaves the phone (decision 003), so there is no second side to
+ * share a definition with, and a shared type would describe a wire format that must not exist.
  */
 
 /** A traveller has one hotel at a time, so it has one row and one key. */
@@ -14,39 +13,38 @@ export const HOTEL_ID = 'hotel';
 export interface AreaName {
   readonly hi: string;
   readonly en: string;
-  /**
-   * The place it was resolved from, so होटल वापस जाएँ can hand रास्ता a destination rather than
-   * an empty box. Optional because a hotel saved before tile 1 existed has no id on it, and a
-   * traveller does not re-pin their hotel to get a release of ours working.
-   */
+  /** The place it was resolved from, so जाना can be handed a destination rather than an empty box. */
   readonly placeId?: string;
 }
 
 /**
- * The hotel, captured and never typed (design rule 14). Every way of capturing it is optional
- * because any one of the three is enough — a pin with no photo is a hotel, and so is a card
- * photo with no pin.
+ * The hotel, as the traveller wants to keep it (owner, 16 September): a photo of the card, a
+ * photo of the front, the room number, the desk's number, a note, a pin — any of them, all of
+ * them, none of them typed if they would rather not. Every field is optional because a pin with
+ * nothing else is a hotel, and so is a card photo with nothing else.
  */
 export interface SavedHotel {
   readonly id: string;
   readonly savedAt: Timestamp;
-  /** यहीं पिन करें: where the traveller was standing when they pressed it. */
+  readonly name?: string;
+  readonly room?: string;
+  readonly phone?: string;
+  readonly note?: string;
+  /** यहीं पिन लगाएँ: where the traveller was standing when they pressed it. */
   readonly pin?: LatLng;
-  /**
-   * The area that pin fell in, read off the place pack on the device. It is the only name
-   * nobody has to type, which is why it is the one shown on 4.1.
-   */
+  /** The area that pin fell in, read off the place pack on the device. */
   readonly area?: AreaName;
-  /** कार्ड की फ़ोटो — the reception's card, which is the thing a driver already understands. */
+  /** The reception's card, which is the thing a driver already understands. */
   readonly cardPhoto?: Blob;
-  /** गेट की फ़ोटो — the entrance, for recognising the building on the way back. */
+  /** The entrance, for recognising the building on the way back. */
   readonly gatePhoto?: Blob;
+  /** Anything else they photographed — the lift, the street, the breakfast times. */
+  readonly photos?: readonly Blob[];
 }
 
 /** Any document, one photo, one name — the tourist decides which (decision 003). */
 export interface TravellerDocument {
   readonly id: string;
-  /** Typed by the traveller, so it can be found and asked for by voice ("beema dikhao"). */
   readonly name: string;
   readonly addedAt: Timestamp;
   readonly photo: Blob;

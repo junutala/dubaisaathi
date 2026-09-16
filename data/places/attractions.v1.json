@@ -1,0 +1,278 @@
+{
+  "contentVersion": 1,
+  "publishedAt": "2026-09-16T00:00:00Z",
+  "note": "Hours, tickets and phone numbers as known on 16 September 2026 and NOT yet checked by a person on the ground. Every row carries checkedAt; update it when someone confirms. Categories: landmark, mall, souk, beach, park.",
+  "attractions": [
+    {
+      "placeId": "burj-khalifa",
+      "category": "landmark",
+      "blurb": {
+        "hi": "दुनिया की सबसे ऊँची इमारत, 828 मीटर। 124वीं और 148वीं मंज़िल से पूरा शहर दिखता है। सूर्यास्त का समय सबसे भरा रहता है — टिकट पहले लें, वहाँ लाइन लंबी होती है।",
+        "en": "The tallest building in the world, 828 m. The city from the 124th and 148th floors. Sunset is the busiest slot — book ahead, the queue is long."
+      },
+      "hoursText": {
+        "hi": "9:00 – 23:00, रोज़",
+        "en": "9:00 – 23:00, daily"
+      },
+      "ticketAed": 169,
+      "checkedAt": "2026-09-16",
+      "ticketNote": {
+        "hi": "124वीं मंज़िल, दिन में · बच्चे कम",
+        "en": "124th floor, daytime · children less"
+      },
+      "phone": "+971 4 888 8888",
+      "durationHours": 2
+    },
+    {
+      "placeId": "dubai-mall",
+      "category": "mall",
+      "blurb": {
+        "hi": "दुनिया के सबसे बड़े मॉल में से एक — 1200 दुकानें, एक्वेरियम, बर्फ़ की रिंक और शाम को बाहर फ़ाउंटेन शो, जो मुफ़्त है। मेट्रो स्टेशन से ढका हुआ रास्ता 12 मिनट का है।",
+        "en": "One of the largest malls in the world — 1,200 shops, the aquarium, an ice rink, and the fountain show outside every evening, which is free. A covered walk of 12 minutes from the metro."
+      },
+      "hoursText": {
+        "hi": "10:00 – 24:00, रोज़",
+        "en": "10:00 – 24:00, daily"
+      },
+      "ticketAed": 0,
+      "checkedAt": "2026-09-16",
+      "phone": "800 38224 6255",
+      "durationHours": 3
+    },
+    {
+      "placeId": "global-village",
+      "category": "landmark",
+      "blurb": {
+        "hi": "अक्टूबर से अप्रैल तक लगने वाला मेला — 90 देशों के मंडप, भारत का मंडप, स्टंट शो और सस्ता खाना। शाम को जाएँ, गर्मी कम और रोशनी ज़्यादा। पूरे परिवार की शाम।",
+        "en": "A fair from October to April — pavilions from 90 countries, an India pavilion, stunt shows and cheap food. Go in the evening: cooler, and lit. A whole family's night out."
+      },
+      "hoursText": {
+        "hi": "16:00 – 24:00 · अक्टूबर – अप्रैल",
+        "en": "16:00 – 24:00 · October – April"
+      },
+      "ticketAed": 25,
+      "checkedAt": "2026-09-16",
+      "ticketNote": {
+        "hi": "ऑनलाइन सस्ता · 3 साल से कम मुफ़्त",
+        "en": "cheaper online · under 3 free"
+      },
+      "phone": "+971 4 362 4114",
+      "durationHours": 4
+    },
+    {
+      "placeId": "gold-souk",
+      "category": "souk",
+      "blurb": {
+        "hi": "देरा का पुराना सोने का बाज़ार — 300 से ज़्यादा दुकानें, दाम उस दिन के सोने के भाव पर और मोलभाव की गुंजाइश। पास ही मसाला सूक। दोपहर में बहुत दुकानें बंद रहती हैं।",
+        "en": "The old gold market of Deira — over 300 shops, prices on the day's gold rate and room to bargain. The spice souk is next door. Many shops shut in the afternoon."
+      },
+      "hoursText": {
+        "hi": "10:00 – 22:00 · दोपहर 13:00 – 16:00 कई दुकानें बंद",
+        "en": "10:00 – 22:00 · many shops shut 13:00 – 16:00"
+      },
+      "ticketAed": 0,
+      "checkedAt": "2026-09-16",
+      "durationHours": 1.5
+    },
+    {
+      "placeId": "burj-al-arab",
+      "category": "landmark",
+      "blurb": {
+        "hi": "पाल की शक्ल वाला सात सितारा होटल, समुद्र में अपने द्वीप पर। अंदर जाने के लिए टूर या रेस्तराँ की बुकिंग चाहिए; बाहर से जुमेरा बीच से मुफ़्त दिखता है, सूर्यास्त पर सबसे अच्छा।",
+        "en": "The sail-shaped seven-star hotel on its own island. Inside needs a tour or a restaurant booking; from Jumeirah Beach it is free to see, best at sunset."
+      },
+      "hoursText": {
+        "hi": "टूर 9:30 – 19:30 · बाहर से कभी भी",
+        "en": "Tours 9:30 – 19:30 · from outside, any time"
+      },
+      "ticketAed": 249,
+      "checkedAt": "2026-09-16",
+      "ticketNote": {
+        "hi": "अंदर का टूर · बाहर से मुफ़्त",
+        "en": "inside tour · free from outside"
+      },
+      "phone": "+971 4 301 7777",
+      "durationHours": 1.5
+    },
+    {
+      "placeId": "mall-of-emirates",
+      "category": "mall",
+      "blurb": {
+        "hi": "स्की दुबई वाला मॉल — अंदर बर्फ़ की ढलान और पेंगुइन। 600 दुकानें, कारफ़ूर, और मेट्रो स्टेशन मॉल से सीधे जुड़ा है।",
+        "en": "The mall with Ski Dubai — a real snow slope and penguins indoors. 600 shops, a Carrefour, and the metro station joined straight to the mall."
+      },
+      "hoursText": {
+        "hi": "10:00 – 24:00, रोज़",
+        "en": "10:00 – 24:00, daily"
+      },
+      "ticketAed": 0,
+      "checkedAt": "2026-09-16",
+      "ticketNote": {
+        "hi": "मॉल मुफ़्त · स्की दुबई AED 240 से",
+        "en": "mall free · Ski Dubai from AED 240"
+      },
+      "phone": "+971 4 409 9000",
+      "durationHours": 3
+    },
+    {
+      "placeId": "dubai-marina",
+      "category": "landmark",
+      "blurb": {
+        "hi": "ऊँची इमारतों के बीच 7 किमी की सैरगाह, पानी के किनारे। शाम को टहलने, नाव की सैर और JBR बीच के लिए। मरीना मॉल और ट्राम यहीं।",
+        "en": "A 7 km waterfront walk between the towers. For an evening stroll, a boat ride and JBR beach. Marina Mall and the tram are here."
+      },
+      "hoursText": {
+        "hi": "कभी भी · शाम सबसे अच्छी",
+        "en": "Any time · evenings are best"
+      },
+      "ticketAed": 0,
+      "checkedAt": "2026-09-16",
+      "durationHours": 2
+    },
+    {
+      "placeId": "ibn-battuta-mall",
+      "category": "mall",
+      "blurb": {
+        "hi": "छह देशों की थीम पर बना मॉल — भारत, चीन, फ़ारस, मिस्र, ट्यूनीशिया, अंडलूसिया। डिस्कवरी गार्डन्स के पास, मेट्रो स्टेशन इसी नाम का।",
+        "en": "A mall built on six countries — India, China, Persia, Egypt, Tunisia, Andalusia. Next to Discovery Gardens, with a metro station of its own name."
+      },
+      "hoursText": {
+        "hi": "10:00 – 22:00 · वीकेंड 24:00",
+        "en": "10:00 – 22:00 · weekends to 24:00"
+      },
+      "ticketAed": 0,
+      "checkedAt": "2026-09-16",
+      "phone": "+971 4 390 9999",
+      "durationHours": 2
+    },
+    {
+      "placeId": "dubai-frame",
+      "category": "landmark",
+      "blurb": {
+        "hi": "150 मीटर ऊँचा सुनहरा फ़्रेम — एक तरफ़ पुराना दुबई, दूसरी तरफ़ नया। ऊपर काँच का पुल। ज़ाबील पार्क में, करामा से पैदल दूरी पर।",
+        "en": "A 150 m golden frame — old Dubai on one side, new on the other, a glass walkway on top. In Zabeel Park, a walk from Karama."
+      },
+      "hoursText": {
+        "hi": "9:00 – 21:00, रोज़",
+        "en": "9:00 – 21:00, daily"
+      },
+      "ticketAed": 50,
+      "checkedAt": "2026-09-16",
+      "ticketNote": {
+        "hi": "बच्चे AED 20 · 3 साल से कम मुफ़्त",
+        "en": "children AED 20 · under 3 free"
+      },
+      "phone": "800 900",
+      "durationHours": 1.5
+    },
+    {
+      "placeId": "miracle-garden",
+      "category": "park",
+      "blurb": {
+        "hi": "15 करोड़ फूलों का बगीचा — नवंबर से अप्रैल तक ही खुलता है। फूलों से बना हवाई जहाज़ और महल। सुबह जल्दी या शाम को जाएँ।",
+        "en": "A garden of 150 million flowers — open November to April only. An aircraft and castles made of flowers. Go early morning or in the evening."
+      },
+      "hoursText": {
+        "hi": "9:00 – 21:00 · नवंबर – अप्रैल",
+        "en": "9:00 – 21:00 · November – April"
+      },
+      "ticketAed": 95,
+      "checkedAt": "2026-09-16",
+      "ticketNote": {
+        "hi": "3 साल से कम मुफ़्त",
+        "en": "under 3 free"
+      },
+      "phone": "+971 4 422 8902",
+      "durationHours": 2
+    },
+    {
+      "placeId": "museum-of-future",
+      "category": "landmark",
+      "blurb": {
+        "hi": "अरबी लिखावट वाली चाँदी की इमारत — अंदर 2071 की दुनिया। टिकट कई दिन पहले बिक जाते हैं, ऑनलाइन लें। शेख़ ज़ायद रोड पर, एमिरेट्स टावर्स मेट्रो के सामने।",
+        "en": "The silver building written over in Arabic — inside, the world of 2071. Tickets sell out days ahead, book online. On Sheikh Zayed Road, opposite Emirates Towers metro."
+      },
+      "hoursText": {
+        "hi": "10:00 – 19:30, रोज़",
+        "en": "10:00 – 19:30, daily"
+      },
+      "ticketAed": 149,
+      "checkedAt": "2026-09-16",
+      "ticketNote": {
+        "hi": "3 साल से कम मुफ़्त · ऑनलाइन ही",
+        "en": "under 3 free · online only"
+      },
+      "phone": "800 382 8437",
+      "durationHours": 2
+    },
+    {
+      "placeId": "al-fahidi",
+      "category": "landmark",
+      "blurb": {
+        "hi": "पुराने दुबई की गलियाँ — हवा के टावर वाले घर, छोटे संग्रहालय, कैफ़े। यहीं से क्रीक और अबरा। दुबई संग्रहालय बग़ल में है, फिलहाल बंद।",
+        "en": "The lanes of old Dubai — wind-tower houses, small museums, cafes. The creek and the abra are steps away. The Dubai Museum next door is closed for now."
+      },
+      "hoursText": {
+        "hi": "कभी भी · दुकानें 10:00 – 20:00",
+        "en": "Any time · shops 10:00 – 20:00"
+      },
+      "ticketAed": 0,
+      "checkedAt": "2026-09-16",
+      "durationHours": 1.5
+    },
+    {
+      "placeId": "jumeirah-beach",
+      "category": "beach",
+      "blurb": {
+        "hi": "खुला सार्वजनिक बीच, बुर्ज अल अरब के नज़ारे के साथ। शॉवर और बदलने की जगह है; काइट बीच पर खाने के ठेले। सूर्यास्त सबसे अच्छा। तैरना सुबह-शाम, दोपहर की धूप तेज़ है।",
+        "en": "An open public beach with the Burj Al Arab in view. Showers and changing rooms; food trucks at Kite Beach. Sunset is best. Swim mornings and evenings — the midday sun is fierce."
+      },
+      "hoursText": {
+        "hi": "सूर्योदय से सूर्यास्त",
+        "en": "Sunrise to sunset"
+      },
+      "ticketAed": 0,
+      "checkedAt": "2026-09-16",
+      "durationHours": 2
+    },
+    {
+      "placeId": "atlantis",
+      "category": "landmark",
+      "blurb": {
+        "hi": "पाम जुमेरा के सिरे पर होटल और एक्वावेंचर वाटरपार्क — दुबई का सबसे बड़ा। लॉस्ट चेम्बर्स एक्वेरियम अलग टिकट पर। पूरा दिन लगता है।",
+        "en": "The hotel at the tip of Palm Jumeirah and Aquaventure, Dubai's biggest waterpark. The Lost Chambers aquarium is a separate ticket. A full day."
+      },
+      "hoursText": {
+        "hi": "10:00 – 18:00",
+        "en": "10:00 – 18:00"
+      },
+      "ticketAed": 299,
+      "checkedAt": "2026-09-16",
+      "ticketNote": {
+        "hi": "वाटरपार्क · होटल के बाहर से मुफ़्त",
+        "en": "waterpark · free from outside the hotel"
+      },
+      "phone": "+971 4 426 2000",
+      "durationHours": 6
+    },
+    {
+      "placeId": "dubai-creek",
+      "category": "landmark",
+      "blurb": {
+        "hi": "बुर दुबई और देरा के बीच लकड़ी की नाव — अबरा — एक दिरहम में। दुबई का सबसे सस्ता और सबसे पुराना सफ़र। शाम को रोशनी में सबसे सुंदर।",
+        "en": "The wooden boat — the abra — between Bur Dubai and Deira for one dirham. Dubai's cheapest and oldest ride. Prettiest at night, lit up."
+      },
+      "hoursText": {
+        "hi": "6:00 – 24:00",
+        "en": "6:00 – 24:00"
+      },
+      "ticketAed": 1,
+      "checkedAt": "2026-09-16",
+      "ticketNote": {
+        "hi": "प्रति सवारी",
+        "en": "per crossing"
+      },
+      "durationHours": 0.5
+    }
+  ]
+}

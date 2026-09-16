@@ -1,294 +1,267 @@
-import { useEffect, useState } from 'react';
-import type { FoodTag, ParsedIntent, Restaurant } from '@saathi/shared';
+import { useEffect, useMemo, useState } from 'react';
+import type { Restaurant } from '@saathi/shared';
 import { useSettings } from '../../app/settings.js';
 import { navigate } from '../../app/routes.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
-import { QuickBar } from '../../app/shell/QuickBar.js';
 import { Icon } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
-import { AskBar } from '../ask/AskBar.js';
-import { composedPhraseId } from '../phrases/composeArabic.js';
-import { HeardBanner } from '../voice/HeardBanner.js';
-import { intentCorpus } from '../voice/intentPacks.js';
-import { parseIntent } from '../voice/parseIntent.js';
-import { recordVoiceEvent } from '../voice/voiceEvent.js';
-import { typedStt } from '../voice/stt.js';
-import { askForLocation, currentLocation, type Location } from '../../lib/location.js';
-import { nearbyOutlets, searchOutlets, type OutletSearch } from './search.js';
-import { OUTLETS_ARE_FIXTURE, isDietTag } from './outlets.js';
-import { isOpenNow } from './openNow.js';
+import { AskBar, recordVoiceEvent } from '../ask/index.js';
+import type { SavedHotel } from '../info/index.js';
+import { distanceLabel } from '../../lib/distance.js';
+import { useHere } from '../../lib/here.js';
+import { popularDishes } from './dishes.js';
+import { openState } from './openNow.js';
+import { OUTLETS_ARE_FIXTURE } from './outlets.js';
+import { searchOutlets, type Constraint, type OutletHit } from './search.js';
 
 /**
- * 2.1 — खाना › सूची.
+ * 1.1 / 1.2 — खाना. The dish is the search, the place is the answer.
  *
- * A box, everything nearby underneath it, and no opinions about dinner. The owner's rule, and
- * the reason there is no learning and no reweighting here: _"He should decide whether he wants
- * idli or roti. I cannot choose for him. I can only be a SAATHI, not his digestive system."_
+ * A box, the constraints a traveller can state, the dishes people are looking for, and
+ * everything near them underneath — nearest first, with the kitchen kind and the dishes a
+ * person confirmed on every row. Typing a dish turns it into 1.2: the kitchens that make it.
  *
- * So a constraint the traveller stated is honoured — asking for वेज does not show a kitchen
- * with no vegetarian food in it — and a taste is never predicted. What orders the list is
- * distance, which is a fact about the world rather than an opinion about them.
- *
- * It never opens empty. A traveller who does not yet know what they want sees what is around
- * them; typing narrows it. And a search we could not answer is recorded rather than shrugged
- * off: `nothing-in-pack` is a work order for collection, not a parser fault.
+ * No opinions about dinner. The owner's rule: _"He should decide whether he wants idli or roti.
+ * I cannot choose for him. I can only be a SAATHI, not his digestive system."_
  */
+
+const CHIPS: readonly { readonly id: Constraint; readonly key: StringKey }[] = [
+  { id: 'veg', key: 'food.chip.veg' },
+  { id: 'jain', key: 'food.chip.jain' },
+  { id: 'noOnionGarlic', key: 'food.chip.noOnionGarlic' },
+  { id: 'vrat', key: 'food.chip.vrat' },
+  { id: 'openNow', key: 'food.chip.openNow' },
+];
+
 export function FoodListScreen({
-  onMic,
-  heard,
+  dish,
+  hotel,
 }: {
-  readonly onMic: () => void;
-  readonly heard?: ParsedIntent | undefined;
+  /** A dish handed in by the address bar, so a search survives a refresh. */
+  readonly dish?: string | undefined;
+  readonly hotel: SavedHotel | undefined;
 }) {
   const { t, locale } = useSettings();
-  const [typed, setTyped] = useState('');
-  const [location, setLocation] = useState<Location>(currentLocation);
-  const [result, setResult] = useState<OutletSearch>(() => nearbyOutlets(undefined));
+  const [typed, setTyped] = useState(dish ?? '');
+  const [query, setQuery] = useState(dish ?? '');
+  const [constraints, setConstraints] = useState<readonly Constraint[]>([]);
+  const here = useHere(hotel);
 
-  // खाना needs to know what is near, so it asks at its own first need (design rule 9). The
-  // phone's answer is the answer: nothing here decides the traveller has no location.
   useEffect(() => {
-    let live = true;
-    void askForLocation().then((answer) => {
-      if (!live) return;
-      setLocation(answer);
-      setResult(nearbyOutlets(answer.kind === 'here' ? answer.at : undefined));
-    });
-    return () => {
-      live = false;
-    };
-  }, []);
+    setTyped(dish ?? '');
+    setQuery(dish ?? '');
+  }, [dish]);
 
-  const here = location.kind === 'here' ? location.at : undefined;
+  const result = useMemo(
+    () => searchOutlets(query, constraints, here.at),
+    [query, constraints, here.at],
+  );
 
-  /**
-   * A sentence the mic brought goes in the box and is acted on, rather than sitting in a card
-   * above an empty box beside a list that answered nothing. Speech fills the box (decision 014).
-   */
-  useEffect(() => {
-    if (heard === undefined) return;
-    setTyped(heard.transcript);
-    setResult(searchOutlets(heard.transcript, heard.foodTags ?? [], here));
-  }, [heard, here]);
-
-  const send = () => {
-    const words = typed.trim();
-    if (words === '') {
-      setResult(nearbyOutlets(here));
-      return;
-    }
-    const intent = parseIntent(words, intentCorpus);
-    const found = searchOutlets(words, intent.foodTags ?? [], here);
-    setResult(found);
-
-    // Every interaction, serviced or not. The rows that matter most are the empty ones: they
-    // are what tells us where to send a collector, and what to build for version 2.
+  const send = (words: string) => {
+    const trimmed = words.trim();
+    setQuery(trimmed);
+    if (trimmed === '') return;
+    const found = searchOutlets(trimmed, constraints, here.at);
+    // Every search, serviced or not. The rows that matter most are the empty ones: they are
+    // what tells us where to send a collector.
     void recordVoiceEvent({
-      transcript: words,
+      transcript: trimmed,
       intent: 'food',
-      confidence: intent.confidence,
+      confidence: found.dish === undefined ? 0.5 : 1,
       landedOn: 'food',
       failure: found.hits.length === 0 ? 'nothing-in-pack' : null,
       resultCount: found.hits.length,
-      sttEngine: typedStt.id,
+      sttEngine: 'typed',
     });
   };
 
-  const searched = typed.trim() !== '';
-  const showing = result.hits.length > 0 ? result : nearbyOutlets(here);
+  const searched = query !== '';
+  const showing =
+    result.hits.length > 0 || !searched ? result : searchOutlets('', constraints, here.at);
 
   return (
     <>
-      <ScreenHeader title={t('food.title')} tile="food" />
+      <ScreenHeader
+        pillar="food"
+        {...(searched && result.dish
+          ? { trail: locale === 'hi' ? result.dish.name.hi : result.dish.name.en }
+          : {})}
+      />
       <div className="flow">
-        {/* Same rule as 1.1: only when the box holds something other than their own words. */}
-        {heard && typed !== heard.transcript && <HeardBanner intent={heard} />}
-
         <AskBar
           value={typed}
-          onChange={setTyped}
-          onSend={send}
-          onMic={onMic}
+          onChange={(value) => {
+            setTyped(value);
+            if (value.trim() === '') setQuery('');
+          }}
+          onSend={() => {
+            send(typed);
+          }}
           placeholder="food.placeholder"
           label="food.label"
+          accent="var(--foodText)"
         />
 
-        {/* Said before the list, so a traveller reads the answer knowing what it answered.
-            Split in two on purpose. Nothing in "mera phone charge karna hai" is about food, so
-            nothing filters — and the search returned every outlet we have, which the screen then
-            showed as if it were the answer. A wrong answer delivered confidently is worse than
-            an empty one. Now an unreadable sentence is said to be unreadable whether or not the
-            list below happens to have rows in it. */}
-        {searched && result.unmatchedWords && (
-          <div className="stack-sm">
-            <p className="lbl">{t('food.notFood', { text: typed })}</p>
-            {/* The sentence is still one somebody here can read. A traveller standing at a
-                counter has said something, and "could not read that" is not a reply. */}
-            <button
-              type="button"
-              className="btn btn-ghost"
-              data-tap
-              onClick={() => {
-                navigate({ screen: 'arabic', phraseId: composedPhraseId(typed.trim()) });
-              }}
-            >
-              <Icon name="talk" size={21} strokeWidth={1.8} />
-              {t('food.sayInArabic')}
-            </button>
-          </div>
+        <div className="chips-row">
+          {CHIPS.map((chip) => {
+            const on = constraints.includes(chip.id);
+            return (
+              <button
+                key={chip.id}
+                type="button"
+                className={on ? 'chip chip-on' : 'chip'}
+                style={on ? { background: 'var(--foodText)', color: 'var(--onFood)' } : undefined}
+                onClick={() => {
+                  setConstraints(
+                    on ? constraints.filter((c) => c !== chip.id) : [...constraints, chip.id],
+                  );
+                }}
+              >
+                {t(chip.key)}
+              </button>
+            );
+          })}
+        </div>
+
+        {!searched && (
+          <>
+            <p className="lbl">{t('food.popular')}</p>
+            <div className="chips">
+              {popularDishes.map((popular) => (
+                <button
+                  key={popular.id}
+                  type="button"
+                  className="chip"
+                  onClick={() => {
+                    const words = locale === 'hi' ? popular.name.hi : popular.name.en;
+                    setTyped(words);
+                    send(words);
+                  }}
+                >
+                  {locale === 'hi' ? popular.name.hi : popular.name.en}
+                </button>
+              ))}
+            </div>
+          </>
         )}
 
+        {searched && result.unmatchedWords && (
+          <p className="trouble">{t('food.notFood', { text: query })}</p>
+        )}
         {searched && !result.unmatchedWords && result.hits.length === 0 && (
           <div className="stack-sm">
-            <p className="lbl">{t('food.none')}</p>
+            <p className="trouble">{t('food.none')}</p>
             <p className="muted small">{t('food.noneWhy')}</p>
           </div>
         )}
 
-        <p className="muted small">
+        <p className="lbl">
           {searched && result.hits.length > 0
-            ? t('food.found', { count: String(result.hits.length) })
-            : t('food.nearby', { count: String(showing.hits.length) })}
+            ? t('food.found', { count: result.hits.length })
+            : here.from === 'hotel'
+              ? t('food.nearHotel')
+              : t('food.nearby')}
         </p>
+        {here.denied && here.from === 'none' && (
+          <p className="muted small">{t('food.noLocation')}</p>
+        )}
 
-        {location.kind === 'denied' && <p className="muted small">{t('food.noLocation')}</p>}
-
-        <div className="food-list">
+        <div className="rows">
           {showing.hits.map((hit) => (
-            <OutletCard key={hit.outlet.id} outlet={hit.outlet} km={hit.km} locale={locale} />
+            <OutletRow key={hit.outlet.id} hit={hit} from={here.from} />
           ))}
         </div>
 
-        {/* Said plainly rather than implied: nobody has been to these places yet. */}
+        {searched && result.hits.length > 0 && (
+          <p className="muted small center">{t('food.honest')}</p>
+        )}
         {OUTLETS_ARE_FIXTURE && <p className="muted small center">{t('food.fixture')}</p>}
       </div>
-      <QuickBar current="food" onMic={onMic} />
     </>
   );
 }
 
-/** The kitchen kind is the first line, because it is the first thing worth knowing. */
-function OutletCard({
-  outlet,
-  km,
-  locale,
+/** One kitchen on the list: the name, where and how far, its kind, and what it makes. */
+function OutletRow({
+  hit,
+  from,
 }: {
-  readonly outlet: Restaurant;
-  readonly km?: number | undefined;
-  readonly locale: 'hi' | 'en';
+  readonly hit: OutletHit;
+  readonly from: 'phone' | 'hotel' | 'none';
 }) {
-  const { t } = useSettings();
+  const { t, locale } = useSettings();
+  const outlet = hit.outlet;
+  const state = openState(outlet.hours);
+  const dishes = (outlet.confirmedDishes ?? [])
+    .slice(0, 2)
+    .map((d) => (locale === 'hi' ? d.name.hi : d.name.en));
   return (
-    <div className="card food-card">
-      <div className="food-card-head">
-        <span className="food-name">{locale === 'hi' ? outlet.name.hi : outlet.name.en}</span>
-        {km !== undefined && (
-          <span className="muted small">{t('food.km', { km: km.toFixed(1) })}</span>
-        )}
-      </div>
-
-      <div className="food-tags">
-        <span className={`food-kitchen food-kitchen-${outlet.kitchen}`}>
-          {t(`food.kitchen.${outlet.kitchen}` as StringKey)}
-        </span>
-        {/* Cuisine only, where a person answered the dietary questions. The diet tags are derived
-            from those same answers, so showing both said everything twice — "Eggless" as a chip
-            and "Eggless yes" underneath it — and the row below says it better, because it can
-            also say "on request", which a chip cannot. The tags themselves are untouched: they
-            are what search filters on, which is a different job from what a card shows. */}
-        {outlet.tags
-          .filter((tag: FoodTag) => outlet.dietary === undefined || !isDietTag(tag))
-          .map((tag: FoodTag) => (
-            <span key={tag} className="food-tag">
-              {t(`food.tag.${tag}` as StringKey)}
-            </span>
-          ))}
-      </div>
-
-      {/*
-        What a person was actually told, standing in the shop. This is the whole reason a
-        collector walks in and asks rather than reading a signboard — and until now it was
-        collected, stored, and then dropped at the last step, which is the worst of both.
-
-        A question nobody asked is absent here, and absent shows as पूछिए below. "Nobody asked"
-        and "they said no" must never look the same: claiming a kitchen cannot feed a Jain
-        traveller on the strength of nobody having checked is the same defect as claiming it can.
-      */}
-      {outlet.dietary !== undefined && (
-        <div className="food-diet">
-          {Object.entries(outlet.dietary).map(([question, answer]) => (
-            <span key={question} className={`food-diet-item food-diet-${answer}`}>
-              {t(`food.diet.${question}` as StringKey)}
-              <span className="food-diet-answer">{t(`food.answer.${answer}` as StringKey)}</span>
-            </span>
-          ))}
-        </div>
-      )}
-
-      {/* A named dish is worth more than a tick box: "they will make you a Jain sambar" is
-          specific, checkable, and the reason someone walks the extra street. */}
-      {outlet.confirmedDishes !== undefined && outlet.confirmedDishes.length > 0 && (
-        <p className="food-dishes">
-          <Icon name="check" size={16} strokeWidth={2.1} />
-          {outlet.confirmedDishes
-            .map((dish) => (locale === 'hi' ? dish.name.hi : dish.name.en))
+    <button
+      type="button"
+      className="row-card"
+      onClick={() => {
+        navigate({ screen: 'outlet', outletId: outlet.id });
+      }}
+    >
+      <span className="row-card-thumb">
+        <Icon name="thali" size={26} strokeWidth={1.5} color="var(--chev)" />
+      </span>
+      <span className="row-card-text">
+        <span className="row-card-title">{locale === 'hi' ? outlet.name.hi : outlet.name.en}</span>
+        <span className="row-card-sub">
+          {[
+            areaName(outlet, locale),
+            hit.km === undefined
+              ? undefined
+              : from === 'hotel'
+                ? t('food.fromHotel', { distance: distanceLabel(t, hit.km) })
+                : distanceLabel(t, hit.km),
+            hoursLine(t, state),
+          ]
+            .filter((part): part is string => part !== undefined)
             .join(' · ')}
-        </p>
-      )}
-
-      {/* Hours, and the 2am question answered rather than left to arithmetic. */}
-      {outlet.hours !== undefined && <OutletHours hours={outlet.hours} />}
-
-      <div className="food-card-foot">
-        {outlet.approxCostAed !== undefined && (
-          <span className="muted small">
-            {t('food.price', { aed: String(outlet.approxCostAed) })}
+        </span>
+        <span className="row-card-line">
+          <span className={`pill food-kitchen-${outlet.kitchen}`}>
+            {t(`food.kitchen.${outlet.kitchen}` as StringKey)}
           </span>
-        )}
-        {/* A call needs no data and no pack — the most offline thing this app can offer someone
-            who would rather not walk. Shown only where a person actually asked and was told yes. */}
-        {outlet.delivers === 'yes' && outlet.phone !== undefined && (
-          <a className="btn btn-ghost food-call" href={`tel:${outlet.phone}`} data-tap>
-            <Icon name="phone" size={19} strokeWidth={1.9} />
-            {t('food.call')}
-          </a>
-        )}
-        {outlet.delivers === 'yes' && outlet.phone === undefined && (
-          <span className="muted small">{t('food.delivers')}</span>
-        )}
-      </div>
-    </div>
+          {dishes.length > 0 && (
+            <span style={{ color: 'var(--foodText)', fontWeight: 600 }}>{dishes.join(', ')}</span>
+          )}
+        </span>
+      </span>
+      <Icon name="right" size={18} strokeWidth={2} color="var(--chev)" />
+    </button>
   );
 }
 
-/**
- * When it opens, and whether it is open right now.
- *
- * The owner insisted structured hours be collected — _"even if it costs us 6 months down the
- * lane"_ — because Dubai does not sleep and the late places are the ones nobody else lists. This
- * is where that pays: a straight yes or no at the moment a traveller is standing outside at 1am,
- * computed on the device with the network off.
- */
-function OutletHours({ hours }: { readonly hours: NonNullable<Restaurant['hours']> }) {
-  const { t } = useSettings();
-  const open = isOpenNow(hours);
-  const times =
-    hours.open24 === true
-      ? t('food.open24')
-      : hours.everyDay
-        ? `${hours.everyDay.opens} – ${hours.everyDay.closes}`
-        : null;
+export function areaName(outlet: Restaurant, locale: 'hi' | 'en'): string | undefined {
+  if (outlet.areaId === undefined) return undefined;
+  return AREA_NAMES[outlet.areaId]?.[locale];
+}
 
-  return (
-    <p className="food-hours">
-      {open !== undefined && (
-        <span className={open ? 'food-open' : 'food-shut'}>
-          {t(open ? 'food.openNow' : 'food.shutNow')}
-        </span>
-      )}
-      {times !== null && <span className="muted small">{times}</span>}
-      {/* Said only where it is true, because it is the thing worth knowing at 2am. */}
-      {hours.openLate === true && <span className="food-late">{t('food.openLate')}</span>}
-    </p>
-  );
+/** The neighbourhoods outlets sit in, by the ids the pack uses. */
+const AREA_NAMES: Readonly<Record<string, { readonly hi: string; readonly en: string }>> = {
+  karama: { hi: 'करामा', en: 'Karama' },
+  'bur-dubai': { hi: 'बुर दुबई', en: 'Bur Dubai' },
+  deira: { hi: 'देरा', en: 'Deira' },
+  satwa: { hi: 'सतवा', en: 'Satwa' },
+  'discovery-gardens': { hi: 'डिस्कवरी गार्डन्स', en: 'Discovery Gardens' },
+  'international-city': { hi: 'इंटरनेशनल सिटी', en: 'International City' },
+  'al-qusais': { hi: 'अल क़ुसैस', en: 'Al Qusais' },
+  'al-barsha': { hi: 'अल बरशा', en: 'Al Barsha' },
+  'dubai-marina': { hi: 'दुबई मरीना', en: 'Dubai Marina' },
+  jumeirah: { hi: 'जुमेरा', en: 'Jumeirah' },
+};
+
+/** "खुला · 22:00 तक" while open, "बंद · 09:00 से खुलेगा" while closed — Dubai time, always. */
+export function hoursLine(
+  t: (key: StringKey, vars?: Record<string, string | number>) => string,
+  state: ReturnType<typeof openState>,
+): string | undefined {
+  if (state === undefined) return undefined;
+  if (state.next === undefined) return t('food.open24');
+  return state.open
+    ? t('food.closesAt', { time: state.next })
+    : t('food.opensAt', { time: state.next });
 }

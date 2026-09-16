@@ -2,30 +2,16 @@ import { useState } from 'react';
 import { useSettings } from '../../app/settings.js';
 import { navigate } from '../../app/routes.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
-import { QuickBar } from '../../app/shell/QuickBar.js';
-import { Icon, type IconName } from '../../app/shell/icons.js';
-import type { StringKey } from '../../i18n/index.js';
+import { Icon } from '../../app/shell/icons.js';
+import type { SavedHotel } from '../info/index.js';
 import { askForLocation, forgetLocation } from '../../lib/location.js';
 
 /**
- * 1.1b — रास्ता › जगह की इजाज़त नहीं
- *
- * The phone's permission is the phone's to give, and nothing here overrides it. So this screen
- * says plainly what stopped working, item by item, offers the one thing that can fix it, and
- * then gets out of the way: a traveller who says no once is not asked again on every screen
- * (design rule 30).
- *
- * "बाक़ी सब चलेगा" is the most important line on it. Without it a refused permission reads as a
- * broken app, and the traveller closes it instead of going on to बोलना and their documents.
+ * 2.5 — जाना › जगह की इजाज़त नहीं. The phone's permission is the phone's to give, and nothing
+ * here overrides it. So this screen says plainly what stopped working, what still works, offers
+ * the one thing that can fix it, and gets out of the way (design rule 30).
  */
-
-const LOST: readonly { readonly key: StringKey; readonly icon: IconName }[] = [
-  { key: 'noLocation.route', icon: 'route' },
-  { key: 'noLocation.food', icon: 'food' },
-  { key: 'noLocation.hotel', icon: 'pin' },
-];
-
-export function LocationDeniedScreen({ onMic }: { readonly onMic: () => void }) {
+export function LocationDeniedScreen({ hotel }: { readonly hotel: SavedHotel | undefined }) {
   const { t } = useSettings();
   /** Only after the phone has been asked again and said no again — never as a guess. */
   const [stillRefused, setStillRefused] = useState(false);
@@ -33,55 +19,54 @@ export function LocationDeniedScreen({ onMic }: { readonly onMic: () => void }) 
   return (
     <>
       <ScreenHeader
-        title={t('noLocation.title')}
-        tile="transport"
-        trail={t('transport.title')}
+        pillar="go"
         onBack={() => {
-          navigate({ screen: 'transport' });
+          navigate({ screen: 'go' });
         }}
       />
-      <div className="flow">
-        <div className="card pad stack-sm">
-          <p className="lost-heading">{t('noLocation.heading')}</p>
-          <div className="rows">
-            {LOST.map((item) => (
-              <span key={item.key} className="lost-row">
-                <Icon name={item.icon} size={19} strokeWidth={1.8} color="var(--muted)" />
-                {t(item.key)}
-              </span>
-            ))}
-          </div>
+      <div className="flow" style={{ paddingTop: 20 }}>
+        <span className="lost-mark">
+          <Icon name="pin" size={32} strokeWidth={1.7} color="var(--marigold)" />
+        </span>
+        <h1 className="lost-heading">{t('noLocation.title')}</h1>
+        <p style={{ margin: 0, fontSize: 15, lineHeight: 1.5 }}>{t('noLocation.why')}</p>
+
+        <div className="lost-still">
+          <span style={{ fontSize: 13.5, fontWeight: 700 }}>{t('noLocation.still')}</span>
+          <span className="muted small">{t('noLocation.stillWhat')}</span>
         </div>
 
-        {/* The web cannot open the phone's settings app — no browser exposes it. What it can do
-            is ask again, which is what actually unblocks a traveller who has just turned the
-            setting back on. If the phone refuses a second time, the screen then says where the
-            switch is: after the device has answered, never before it (CLAUDE.md). */}
+        {/* The web cannot open the phone's settings app. What it can do is ask again, which is
+            what actually unblocks a traveller who has just turned the setting back on. If the
+            phone refuses a second time, the screen says where the switch is — after the device
+            has answered, never before it (CLAUDE.md). */}
         <button
           type="button"
           className="btn btn-primary"
-          data-tap
           onClick={() => {
             forgetLocation();
             void askForLocation().then((answer) => {
-              if (answer.kind === 'here') navigate({ screen: 'transport' });
+              if (answer.kind === 'here') navigate({ screen: 'go' });
               else setStillRefused(true);
             });
           }}
         >
-          <Icon name="pin" size={21} strokeWidth={1.8} />
           {t('noLocation.settings')}
         </button>
         {stillRefused && <p className="muted small">{t('noLocation.stillRefused')}</p>}
 
-        <div className="note">
-          <Icon name="check" size={19} strokeWidth={2.1} color="var(--teal)" />
-          <span>{t('noLocation.rest')}</span>
-        </div>
-
-        <div className="grow" />
+        {hotel?.pin && (
+          <button
+            type="button"
+            className="btn btn-ghost"
+            onClick={() => {
+              navigate({ screen: 'go' });
+            }}
+          >
+            {t('noLocation.fromHotel')}
+          </button>
+        )}
       </div>
-      <QuickBar current="transport" onMic={onMic} />
     </>
   );
 }

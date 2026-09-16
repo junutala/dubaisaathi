@@ -41,6 +41,25 @@ export const LIGHT = {
   line: '#E6DED2',
   muted: '#5B6070',
   chev: '#8A8F9E',
+  /**
+   * The three pillars, each its own hue, on the bold-type home the owner chose on 16 September:
+   * a deep block with cream type on it. `*Text` is the same hue as ink on a light ground, for
+   * the header and the bar; `*Soft` is its tint, for chips and notes inside the pillar.
+   */
+  food: '#B4610F',
+  onFood: '#FFF6E8',
+  foodText: '#9A5B10',
+  foodSoft: '#FDF0DC',
+  go: '#0B7A6B',
+  onGo: '#EAFBF7',
+  goText: '#0A5F54',
+  goSoft: '#E1F2EF',
+  know: '#1A2456',
+  onKnow: '#EEF0FF',
+  knowText: '#1A2456',
+  knowSoft: '#E8EAF6',
+  /** The pass dot: green while the counter runs, marigold when it is about to stop. Never red. */
+  running: '#2E9E5B',
 } as const;
 
 export const DARK: Record<keyof typeof LIGHT, string> = {
@@ -68,6 +87,20 @@ export const DARK: Record<keyof typeof LIGHT, string> = {
   line: '#2D3242',
   muted: '#9AA1B3',
   chev: '#7B8397',
+  // Lifted a step each, so the blocks sit off a near-black ground rather than sinking into it.
+  food: '#9A5310',
+  onFood: '#FFF3E0',
+  foodText: '#F2AC5C',
+  foodSoft: '#3A2A14',
+  go: '#0E6E61',
+  onGo: '#E6FAF5',
+  goText: '#8FE0CF',
+  goSoft: '#0E2A27',
+  know: '#242F6E',
+  onKnow: '#EDEFFF',
+  knowText: '#B4BEEE',
+  knowSoft: '#1C2140',
+  running: '#3FC27A',
 };
 
 export type ThemeName = 'light' | 'dark';

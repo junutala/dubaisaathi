@@ -2,23 +2,32 @@ import { db, requestPersistentStorage } from '../../db/schema.js';
 import { HOTEL_ID, type SavedHotel, type TravellerDocument } from './records.js';
 
 /**
- * The whole of ज़रूरी जानकारी, read and written on the device. Nothing here touches the
- * network — not to save, not to load, not to check anything (non-negotiable rule 6). A hotel
- * photographed in a lobby with the radio off is readable a fortnight later with the radio
- * still off and the pass expired.
+ * The hotel and the documents, read and written on the device. Nothing here touches the
+ * network — not to save, not to load, not to check anything (rule 6). A hotel photographed in
+ * a lobby with the radio off is readable a fortnight later with the radio still off.
  */
 
-/** One capture from 4.2. Any one of the three fields is a hotel on its own. */
+/** A change to the hotel. Any one field is a hotel on its own. */
 export type HotelCapture = Omit<SavedHotel, 'id' | 'savedAt'>;
+
+const watchers = new Set<() => void>();
+
+/** The strip shows the hotel on every screen, so it is told when घर.1 changes it. */
+export function watchHotel(onChange: () => void): () => void {
+  watchers.add(onChange);
+  return () => {
+    watchers.delete(onChange);
+  };
+}
 
 export async function readHotel(): Promise<SavedHotel | undefined> {
   return db.hotels.get(HOTEL_ID);
 }
 
 /**
- * 4.2 captures one thing at a time, so a capture merges into whatever is already there: pin in
- * the lobby now, photograph the card when someone hands one over tomorrow. The traveller never
- * has to do all three in one go, and doing a second never throws the first away.
+ * घर.1 saves one thing at a time, so a capture merges into whatever is already there: pin in
+ * the lobby now, photograph the card when someone hands one over tomorrow. Doing a second never
+ * throws the first away.
  */
 export async function saveHotelCapture(capture: HotelCapture): Promise<SavedHotel> {
   // Asked here rather than only at boot, because this is the first moment there is something on
@@ -32,7 +41,14 @@ export async function saveHotelCapture(capture: HotelCapture): Promise<SavedHote
     savedAt: new Date().toISOString(),
   };
   await db.hotels.put(hotel);
+  for (const notify of watchers) notify();
   return hotel;
+}
+
+/** होटल हटाएँ — the traveller decides when it goes, and only the traveller. */
+export async function deleteHotel(): Promise<void> {
+  await db.hotels.delete(HOTEL_ID);
+  for (const notify of watchers) notify();
 }
 
 /** Newest first: the document added last is the one being looked for. */

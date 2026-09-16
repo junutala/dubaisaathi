@@ -1,15 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { SettingsProvider } from '../../app/settings.js';
+import { forgetLocation } from '../../lib/location.js';
 import { RouteOptionsScreen } from './RouteOptionsScreen.js';
 import { RouteStepsScreen } from './RouteStepsScreen.js';
-import { forgetLocation } from '../../lib/location.js';
 
 /**
- * 1.3 and 1.4 as a traveller meets them: standing in a Bur Dubai hotel with the radio off,
- * asking how to get to Karama. What would be reported if these broke is "it just spins", "it
- * says nothing when I'm not in Dubai", and "the options and the steps don't agree" — so those
- * are what is checked, rather than the shape of the markup.
+ * 2.2 and 2.3, tested as the things that would actually be reported: "it showed nothing", "the
+ * time on the card was not the time on the steps", "I was in Pune and it invented a fare".
  */
 
 const navigate = vi.fn();
@@ -20,8 +18,7 @@ vi.mock('../../app/routes.js', async (importOriginal) => ({
   },
 }));
 
-const onMic = vi.fn();
-
+/** The phone, answering with a fix. Everything here is what the device said. */
 function standingAt(lat: number, lng: number) {
   Object.defineProperty(navigator, 'geolocation', {
     configurable: true,
@@ -33,37 +30,37 @@ function standingAt(lat: number, lng: number) {
   });
 }
 
-const BUR_DUBAI_HOTEL: readonly [number, number] = [25.2637, 55.2972];
-
-beforeEach(() => {
-  navigate.mockClear();
-  onMic.mockClear();
-  forgetLocation();
-  localStorage.clear();
-  localStorage.setItem('saathi.locationAsked', 'yes');
-  standingAt(...BUR_DUBAI_HOTEL);
-});
-afterEach(cleanup);
-
 function showOptions(placeId = 'karama') {
   render(
     <SettingsProvider>
-      <RouteOptionsScreen placeId={placeId} onMic={onMic} />
+      <RouteOptionsScreen placeId={placeId} hotel={undefined} />
     </SettingsProvider>,
   );
 }
 
-describe('1.3 — the options', () => {
-  /**
-   * The one that matters: this whole screen is computed on the device. Nothing is stubbed out
-   * here, there is no fetch to intercept, and it still fills in (CLAUDE.md rule 1).
-   */
+beforeEach(() => {
+  navigate.mockClear();
+  forgetLocation();
+  localStorage.clear();
+  localStorage.setItem('saathi.locale', 'en');
+  // Aeroplane mode: the planner must not notice.
+  Object.defineProperty(navigator, 'onLine', { value: false, configurable: true });
+  vi.stubGlobal('fetch', () => Promise.reject(new Error('the radio is off')));
+  // A hotel in Bur Dubai.
+  standingAt(25.2637, 55.2972);
+});
+
+afterEach(() => {
+  cleanup();
+  vi.unstubAllGlobals();
+});
+
+describe('2.2 — the options', () => {
   it('shows real options with no network at all', async () => {
     showOptions();
     await waitFor(() => {
       expect(screen.getAllByText(/min$/).length).toBeGreaterThan(0);
     });
-    // Every card carries the three things the decision is made on: a mode, a time, a fare.
     expect(screen.getAllByRole('button', { name: /Taxi/ }).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/AED/).length).toBeGreaterThan(0);
   });
@@ -83,86 +80,76 @@ describe('1.3 — the options', () => {
     expect(screen.getByText('Karama')).toBeTruthy();
   });
 
-  it('opens the steps for the option that was tapped', async () => {
+  it('opens the steps for a metro option, and the taxi screen for the taxi', async () => {
     showOptions();
     await waitFor(() => {
       expect(screen.getAllByRole('button', { name: /Taxi/ }).length).toBeGreaterThan(0);
     });
     fireEvent.click(screen.getAllByRole('button', { name: /Taxi/ })[0]!);
-    expect(navigate).toHaveBeenCalledWith({
-      screen: 'steps',
-      placeId: 'karama',
-      optionId: 'taxi',
-    });
+    expect(navigate).toHaveBeenCalledWith({ screen: 'taxi', placeId: 'karama' });
   });
 
   /**
    * The product is usable in India before the trip. A traveller trying it from Pune must not be
-   * shown an invented fare, and must not be shown a blank either — the Arabic for a driver needs
-   * no location at all, so that is the way forward here (decision 014).
+   * shown an invented fare, and must not be shown a blank either: the taxi needs no location.
    */
-  it('says so, and offers the Arabic, when it cannot work out a route from here', async () => {
+  it('says so, and still offers the taxi, when it cannot work out a route from here', async () => {
     standingAt(18.5204, 73.8567);
     showOptions();
     await waitFor(() => {
-      expect(screen.getByText(/No way could be worked out/i)).toBeTruthy();
+      expect(screen.getByText(/Could not work out a way/i)).toBeTruthy();
     });
-    const out = screen.getByRole('button', { name: /Show the driver/i });
-    fireEvent.click(out);
-    expect(navigate).toHaveBeenCalledWith({ screen: 'arabic', phraseId: 'go-to:karama' });
+    fireEvent.click(screen.getByRole('button', { name: /Taxi/ }));
+    expect(navigate).toHaveBeenCalledWith({ screen: 'taxi', placeId: 'karama' });
   });
 
-  it('goes back to 1.1 rather than painting a journey to a place it does not know', async () => {
-    showOptions('atlantis');
+  it('goes back to 2.1 rather than painting a journey to a place it does not know', async () => {
+    showOptions('nowhere-we-know');
     await waitFor(() => {
-      expect(navigate).toHaveBeenCalledWith({ screen: 'transport' });
+      expect(navigate).toHaveBeenCalledWith({ screen: 'go' });
     });
   });
 });
 
-describe('1.4 — step by step', () => {
+describe('2.3 — step by step', () => {
   function showSteps(optionId: 'metro' | 'bus' | 'taxi' | 'walk' = 'metro') {
     render(
       <SettingsProvider>
-        <RouteStepsScreen placeId="karama" optionId={optionId} onMic={onMic} />
+        <RouteStepsScreen placeId="karama" optionId={optionId} hotel={undefined} />
       </SettingsProvider>,
     );
   }
 
-  it('shows the total time, the fare and the walking before the first step', async () => {
+  it('shows the time and the fare before the first step', async () => {
     showSteps();
     await waitFor(() => {
-      expect(screen.getByText('Total time')).toBeTruthy();
+      expect(screen.getByText(/min · /)).toBeTruthy();
     });
-    expect(screen.getByText('Fare')).toBeTruthy();
-    expect(screen.getByText('Walking')).toBeTruthy();
+    expect(screen.getByText(/Nol card/)).toBeTruthy();
   });
 
-  it('lists the legs in order, each with a time on it', async () => {
+  it('lists the legs in order, ending at the place asked for', async () => {
     showSteps();
     await waitFor(() => {
       expect(screen.getAllByText(/^Walk$/).length).toBeGreaterThan(0);
     });
-    // The last leg has to end at the place the traveller asked for, or the instructions stop
-    // short of the door.
     expect(screen.getAllByText(/to Karama/i).length).toBeGreaterThan(0);
   });
 
-  /** 1.3 and 1.4 plan the same journey from the same pack; they must not disagree about it. */
-  it('agrees with the options screen about how long the taxi takes', async () => {
+  /** 2.2 and 2.3 plan the same journey from the same pack; they must not disagree about it. */
+  it('agrees with the options screen about how long the metro takes', async () => {
     showOptions();
     await waitFor(() => {
-      expect(screen.getAllByRole('button', { name: /Taxi/ }).length).toBeGreaterThan(0);
+      expect(screen.getAllByRole('button', { name: /Metro/ }).length).toBeGreaterThan(0);
     });
-    const card = screen.getAllByRole('button', { name: /Taxi/ })[0];
+    const card = screen.getAllByRole('button', { name: /Metro/ })[0];
     const onCard = card?.querySelector('.opt-time')?.textContent ?? '';
     expect(onCard).toMatch(/^\d+ min$/);
     cleanup();
 
-    showSteps('taxi');
+    showSteps('metro');
     await waitFor(() => {
-      expect(screen.getByText('Total time')).toBeTruthy();
+      expect(screen.getByText(new RegExp(`^${onCard} · `))).toBeTruthy();
     });
-    expect(screen.getAllByText(onCard).length).toBeGreaterThan(0);
   });
 });

@@ -1,5 +1,5 @@
 import type { DubaiPlace } from '@saathi/shared';
-import { intentCorpus } from '../voice/intentPacks.js';
+import { intentCorpus } from '../ask/intentPacks.js';
 import { placeById } from './destinations.js';
 
 /**

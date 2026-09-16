@@ -1,15 +1,15 @@
 # Screen designs
 
-`screens/*.dc.html` are the Dubai Saathi screen designs — one file per screen, plus
-`Brand.dc.html` for the colour, type and component system. `canvas.json` lays them out.
+`screens/*.dc.html` are the Dubai Saathi screens, one file per screen, plus `Names.dc.html` for
+the three pillar names. `canvas.json` lays them out.
 
-They are **generated** by `generate-screens.py`, which holds the colour tokens, the icon set
-and the shared CSS in one place. Change the generator, not the generated files:
+They are **generated** by `generate-screens.sh` from the chrome, icons and tokens in
+`generator/`. Change the generator, not the generated files:
 
 ```sh
-python3 design/generate-screens.py
+bash design/generate-screens.sh
+python3 design/check-screens.py
 ```
 
-The screens are reviewed on a canvas published from these files. Screen 1 is onboarding and
-the numbering follows the traveller's path through the app; the row notes on the canvas explain
-the grouping.
+The screens are reviewed on the canvas published from these files. Numbering follows
+`docs/field-ledger.md`: L and घर, घर.1–घर.4, then one digit per pillar.

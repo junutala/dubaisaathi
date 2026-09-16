@@ -1,49 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-15T02:57:04.641Z",
+  "publishedAt": "2026-09-16T00:00:00Z",
   "source": "field_reports where status = approved",
-  "restaurants": [
-    {
-      "id": "50c0546c-8142-414d-8c3b-4ccee9491a20",
-      "name": {
-        "en": "Karama cafe",
-        "hi": "Karama cafe",
-        "aliases": []
-      },
-      "location": {
-        "lat": 13.0562279,
-        "lng": 80.242942
-      },
-      "kitchen": "pure-veg",
-      "tags": ["vegetarian", "eggless", "no-onion", "no-garlic"],
-      "phone": "6304363258",
-      "delivers": "yes",
-      "dietary": {
-        "jain": "on-request",
-        "vrat": "on-request",
-        "eggless": "yes",
-        "sattvik": "on-request",
-        "noOnionGarlic": "yes"
-      },
-      "confirmedDishes": [
-        {
-          "name": {
-            "en": "Sabudana khichadi",
-            "hi": "Sabudana khichadi",
-            "aliases": []
-          },
-          "tags": []
-        }
-      ],
-      "hours": {
-        "everyDay": {
-          "opens": "06:00",
-          "closes": "02:00"
-        },
-        "openLate": true
-      },
-      "hoursConfirmedAt": "2026-09-15T02:22:07.080Z"
-    }
-  ]
+  "restaurants": []
 }

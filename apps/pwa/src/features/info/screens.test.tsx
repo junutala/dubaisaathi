@@ -4,21 +4,20 @@ import type { ReactElement } from 'react';
 import { SettingsProvider } from '../../app/settings.js';
 import { db } from '../../db/schema.js';
 import { cloneKeepingBlobs } from './blobHarness.js';
+import { DocsScreen } from './DocsScreen.js';
 import { DocumentAddScreen } from './DocumentAddScreen.js';
 import { DocumentScreen } from './DocumentScreen.js';
-import { HotelAddScreen } from './HotelAddScreen.js';
-import { InfoHomeScreen } from './InfoHomeScreen.js';
-import { listDocuments, saveDocument, saveHotelCapture } from './storage.js';
+import { HotelScreen } from './HotelScreen.js';
+import { listDocuments, readHotel, saveDocument, saveHotelCapture } from './storage.js';
 
 /**
- * Rule 6 says ज़रूरी जानकारी never disappears, and the way that rule breaks is never
+ * The hotel and the documents never disappear (rule 6), and the way that rule breaks is never
  * theatrical: a screen quietly needs something it cannot have — a fetch, a permission, a
  * camera the app decided was not there — and the traveller finds out at the desk.
  *
- * So every test here runs the tile under the conditions it is actually used in. The radio is
- * off in all of them: `fetch` throws, exactly as it does in aeroplane mode, which means any
- * screen that reaches for the network fails the suite instead of failing a tourist. Nothing
- * sets up a pass, a trial or a counter, because the tile must not read one.
+ * So every test here runs under the conditions the screens are actually used in. The radio is
+ * off in all of them: `fetch` throws, exactly as it does in aeroplane mode. Nothing sets up a
+ * pass, a trial or a counter, because these screens must not read one.
  */
 
 const navigate = vi.fn();
@@ -58,7 +57,6 @@ beforeEach(async () => {
   Object.defineProperty(navigator, 'onLine', { value: false, configurable: true });
   vi.stubGlobal('fetch', () => Promise.reject(new Error('the radio is off')));
   // jsdom implements neither object-URL call, and the photograph paths under test use both.
-  // Stubbed rather than avoided, so what is asserted is the real `<img>` a traveller sees.
   vi.stubGlobal('URL', Object.assign(URL, { createObjectURL: () => 'blob:photo' }));
   URL.revokeObjectURL = noop;
 });
@@ -68,124 +66,105 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe('4.1 · ज़रूरी जानकारी, with the radio off and no pass', () => {
-  it('shows the hotel, the document, the consulate and the numbers', async () => {
-    await saveHotelCapture({ cardPhoto: photo('reception-card') });
-    await saveDocument('यात्रा बीमा', photo('insurance'));
-
-    show(<InfoHomeScreen onMic={noop} />);
-
-    expect(await screen.findByText('यात्रा बीमा')).toBeTruthy();
-    expect(screen.getByText('मेरा होटल')).toBeTruthy();
-    expect(screen.getByText('कार्ड की फ़ोटो')).toBeTruthy();
-    expect(screen.getByText('पुलिस 999 · एम्बुलेंस 998 · दमकल 997')).toBeTruthy();
-
-    // The consulate is handed to the dialler, which needs nothing from us and nothing from
-    // the network (decision 002).
-    const call = screen.getByLabelText('कॉन्सुलेट को फ़ोन करें');
-    expect(call.getAttribute('href')).toBe('tel:+97143971222');
-  });
-
-  it('offers both hotel actions for a hotel that was only photographed', async () => {
-    // No pin was ever taken. The card photo alone is a hotel, and both of the things a
-    // traveller does with one have to work.
-    await saveHotelCapture({ cardPhoto: photo('reception-card') });
-
-    show(<InfoHomeScreen onMic={noop} />);
-
-    const showDriver = await screen.findByText('ड्राइवर को दिखाएँ');
-    fireEvent.click(showDriver);
-    expect(navigate).toHaveBeenCalledWith({ screen: 'driver', phraseId: 'taxi-hotel' });
-
-    fireEvent.click(screen.getByText('होटल वापस जाएँ'));
-    // A hotel photographed but never pinned has no area, so रास्ता opens with an empty box
-    // rather than a destination invented for it.
-    expect(navigate).toHaveBeenCalledWith({ screen: 'transport' });
-  });
-
-  it('takes a traveller with no hotel yet straight to capturing one', async () => {
-    show(<InfoHomeScreen onMic={noop} />);
-
-    fireEvent.click(await screen.findByText('जोड़ लीजिए — पिन, कार्ड या गेट की फ़ोटो'));
-    expect(navigate).toHaveBeenCalledWith({ screen: 'hotelAdd' });
-  });
-
-  it('still opens 4.2 once a hotel exists, so a pin can gain the photo a driver needs', async () => {
-    await saveHotelCapture({
-      pin: { lat: 25.2697, lng: 55.3095 },
-      area: { hi: 'देरा', en: 'Deira' },
-    });
-
-    show(<InfoHomeScreen onMic={noop} />);
-
-    fireEvent.click(await screen.findByText('देरा'));
-    expect(navigate).toHaveBeenCalledWith({ screen: 'hotelAdd' });
-  });
-});
-
-describe('4.2 · होटल जोड़ें, on a phone that may refuse', () => {
-  it('offers यहीं पिन करें before the phone has said anything, and every time', () => {
+describe('घर.1 · मेरा होटल, with the radio off and no pass', () => {
+  it('offers यहीं पिन लगाएँ before the phone has said anything', () => {
     // The rule this project paid a day for: nothing here queries a capability. On a browser
     // with no geolocation object at all the button is still live, because only the device gets
     // to say no — and it says it after being asked, not before.
     expect('geolocation' in navigator && navigator.geolocation).toBeFalsy();
-
-    show(<HotelAddScreen onMic={noop} />);
-
-    const pin = screen.getByText('यहीं पिन करें').closest('button');
-    expect(pin).toBeTruthy();
+    show(<HotelScreen hotel={undefined} />);
+    const pin = screen.getByText('यहीं पिन लगाएँ').closest('button');
     expect(pin?.disabled).toBe(false);
   });
 
-  it('says what happened and leaves both photo options live when the fix does not come', async () => {
-    show(<HotelAddScreen onMic={noop} />);
-
-    fireEvent.click(screen.getByText('यहीं पिन करें').closest('button')!);
-
-    expect(
-      await screen.findByText('अभी जगह नहीं मिली. नीचे से फ़ोटो ले लीजिए — वह भी काफ़ी है.'),
-    ).toBeTruthy();
-    // The way through, not just a way out: the two photo rows are the rest of the task.
-    expect(screen.getByText('कार्ड की फ़ोटो')).toBeTruthy();
-    expect(screen.getByText('गेट की फ़ोटो')).toBeTruthy();
-    expect(screen.getByText('यहीं पिन करें').closest('button')?.disabled).toBe(false);
+  it('says what happened and keeps everything else when the fix does not come', async () => {
+    show(<HotelScreen hotel={undefined} />);
+    fireEvent.click(screen.getByText('यहीं पिन लगाएँ').closest('button')!);
+    expect(await screen.findByText(/अभी जगह नहीं मिली/)).toBeTruthy();
+    expect(screen.getByText('रिसेप्शन का कार्ड')).toBeTruthy();
+    expect(screen.getByText('होटल का सामने का हिस्सा')).toBeTruthy();
   });
 
-  it('saves a card photo and returns to the shelf, with no pin and no permission', async () => {
-    const { container } = show(<HotelAddScreen onMic={noop} />);
-
+  it('keeps a card photo with no pin and no permission', async () => {
+    const { container } = show(<HotelScreen hotel={undefined} />);
     const inputs = container.querySelectorAll<HTMLInputElement>('input[type="file"]');
-    expect(inputs).toHaveLength(2);
+    expect(inputs.length).toBeGreaterThanOrEqual(3);
     choose(inputs[0]!, photo('reception-card'));
-
-    await waitFor(() => {
-      expect(navigate).toHaveBeenCalledWith({ screen: 'info' });
+    await waitFor(async () => {
+      expect(await db.hotels.count()).toBe(1);
     });
-    expect(await db.hotels.count()).toBe(1);
+    expect(await (await readHotel())?.cardPhoto?.text()).toBe('reception-card');
+  });
+
+  it('keeps whatever is typed — room, desk number, a note — without a button', async () => {
+    vi.useFakeTimers();
+    try {
+      show(<HotelScreen hotel={undefined} />);
+      fireEvent.change(screen.getByPlaceholderText('होटल का नाम'), {
+        target: { value: 'Citymax Bur Dubai' },
+      });
+      fireEvent.change(screen.getByPlaceholderText('412'), { target: { value: '412' } });
+      await vi.advanceTimersByTimeAsync(500);
+    } finally {
+      vi.useRealTimers();
+    }
+    const hotel = await readHotel();
+    expect(hotel?.name).toBe('Citymax Bur Dubai');
+    expect(hotel?.room).toBe('412');
+  });
+
+  it('shows a saved hotel back, and adds a third photograph without losing the first two', async () => {
+    const saved = await saveHotelCapture({
+      name: 'Citymax',
+      cardPhoto: photo('card'),
+      gatePhoto: photo('gate'),
+    });
+    const { container } = show(<HotelScreen hotel={saved} />);
+    expect(screen.getByDisplayValue('Citymax')).toBeTruthy();
+    const inputs = container.querySelectorAll<HTMLInputElement>('input[type="file"]');
+    choose(inputs[inputs.length - 1]!, photo('lift'));
+    await waitFor(async () => {
+      expect((await readHotel())?.photos?.length).toBe(1);
+    });
+    const hotel = await readHotel();
+    expect(await hotel?.cardPhoto?.text()).toBe('card');
+    expect(await hotel?.gatePhoto?.text()).toBe('gate');
   });
 });
 
-describe('4.3 · दस्तावेज़ जोड़ें', () => {
-  it('offers फ़ोटो लें on a browser with no camera API to interrogate', () => {
-    // `navigator.mediaDevices` does not exist in this environment. The control is a file
-    // input, so there is nothing to gate on and no way for the app to rule the phone out.
-    expect('mediaDevices' in navigator).toBe(false);
+describe('घर.2 · दस्तावेज़', () => {
+  it('lists what is kept and offers to add more, with the radio off', async () => {
+    await saveDocument('यात्रा बीमा', photo('insurance'));
+    show(<DocsScreen />);
+    expect(await screen.findByText('यात्रा बीमा')).toBeTruthy();
+    fireEvent.click(screen.getByText(/दस्तावेज़ जोड़ें/));
+    expect(navigate).toHaveBeenCalledWith({ screen: 'docAdd' });
+  });
 
-    show(<DocumentAddScreen onMic={noop} />);
+  it('opens a document from the list', async () => {
+    const doc = await saveDocument('पासपोर्ट', photo('passport'));
+    show(<DocsScreen />);
+    fireEvent.click(await screen.findByText('पासपोर्ट'));
+    expect(navigate).toHaveBeenCalledWith({ screen: 'docView', docId: doc.id });
+  });
+});
+
+describe('घर.2 › जोड़ें', () => {
+  it('offers फ़ोटो लें on a browser with no camera API to interrogate', () => {
+    expect('mediaDevices' in navigator).toBe(false);
+    show(<DocumentAddScreen />);
     expect(screen.getByText('फ़ोटो लें')).toBeTruthy();
   });
 
-  it('keeps the document, and it is on the shelf afterwards', async () => {
-    const { container } = show(<DocumentAddScreen onMic={noop} />);
-
+  it('keeps the document, and it is on the list afterwards', async () => {
+    const { container } = show(<DocumentAddScreen />);
     choose(container.querySelector<HTMLInputElement>('input[type="file"]')!, photo('passport'));
     fireEvent.change(screen.getByPlaceholderText('जैसे — यात्रा बीमा'), {
       target: { value: 'पासपोर्ट' },
     });
     fireEvent.click(screen.getByText('रख लें'));
-
     await waitFor(() => {
-      expect(navigate).toHaveBeenCalledWith({ screen: 'info' });
+      expect(navigate).toHaveBeenCalledWith({ screen: 'docs' });
     });
     const [saved] = await listDocuments();
     expect(saved?.name).toBe('पासपोर्ट');
@@ -193,33 +172,25 @@ describe('4.3 · दस्तावेज़ जोड़ें', () => {
   });
 
   it('says what is still missing instead of leaving a dead button to puzzle over', () => {
-    show(<DocumentAddScreen onMic={noop} />);
+    show(<DocumentAddScreen />);
     expect(screen.getByText('फ़ोटो लीजिए और नाम लिखिए — फिर रख लेंगे.')).toBeTruthy();
   });
 });
 
-describe('4.4 · दस्तावेज़', () => {
+describe('घर.3 · दस्तावेज़ › देखें', () => {
   it('shows the document and its name, with the radio off', async () => {
     const doc = await saveDocument('यात्रा बीमा', photo('insurance'));
-
     show(<DocumentScreen docId={doc.id} />);
-
-    expect((await screen.findAllByText('यात्रा बीमा')).length).toBeGreaterThan(0);
-    // Awaited, not grabbed: the name comes from the row and the src from `useBlobUrl`, which
-    // runs an effect later, so the photograph lands one render after the title. Asserting it
-    // synchronously passed on a quiet machine and failed in a full suite — a harness race, not
-    // a defect in the screen, but the kind that gets called a flake and then ignored.
+    expect((await screen.findAllByText(/यात्रा बीमा/)).length).toBeGreaterThan(0);
     expect((await screen.findByRole('img')).getAttribute('src')).toBe('blob:photo');
   });
 
   it('actually removes the photograph when हटाएँ is pressed', async () => {
     const doc = await saveDocument('पासपोर्ट', photo('passport'));
-
     show(<DocumentScreen docId={doc.id} />);
     fireEvent.click(await screen.findByText('हटाएँ'));
-
     await waitFor(() => {
-      expect(navigate).toHaveBeenCalledWith({ screen: 'info' });
+      expect(navigate).toHaveBeenCalledWith({ screen: 'docs' });
     });
     expect(await db.documents.count()).toBe(0);
   });
