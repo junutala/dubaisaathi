@@ -40,9 +40,15 @@ export const en: Record<StringKey, string> = {
   'home.nudgeWhy': 'A 14-day pass from ₹199 — once, no subscription',
   'home.nudgeCta': 'Get pass',
 
-  'landing.usp': 'Dubai, in your pocket — even without internet.',
-  'landing.preparing': 'Downloading the offline pack',
+  'landing.offline': 'Works without internet',
+  'landing.usp': 'No SIM, no wifi, no roaming in Dubai — and everything still works.',
+  'landing.job1': 'Places to eat, with no network',
+  'landing.job2': 'Metro, bus and taxi routes, with no network',
+  'landing.job3': 'The places of Dubai, in Hindi, with no network',
+  'landing.job4': 'Your hotel and documents, on this phone',
+  'landing.preparing': 'Downloading the offline pack — once, now',
   'landing.ready': 'Saathi is ready',
+  'landing.tryIt': 'Turn off the internet and try it — everything works.',
   'landing.packWhat':
     'Places to eat, the metro and bus map, the places of Dubai — all on your phone.',
   'landing.start': 'Start',

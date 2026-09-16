@@ -706,8 +706,9 @@ button:not(:disabled) {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 18px;
+  gap: 12px;
   text-align: center;
+  padding-top: 16px;
 }
 .landing-name {
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
@@ -716,13 +717,36 @@ button:not(:disabled) {
   line-height: 1.1;
   margin: 0;
 }
+.landing-offline {
+  margin: 0;
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--tealText);
+}
 .landing-usp {
   margin: 0;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.45;
   color: var(--muted);
-  max-width: 300px;
+  max-width: 320px;
   text-wrap: pretty;
+}
+.landing-jobs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14.5px;
+  text-align: start;
+}
+.landing-jobs li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .landing-langs {
   display: flex;

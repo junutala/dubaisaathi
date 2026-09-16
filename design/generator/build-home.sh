@@ -47,10 +47,17 @@ THEME=dark; source "$(dirname "$0")/_chrome.sh"; home HomeDark.dc.html running s
 cat "$(dirname "$0")/_head.txt"
 cat <<H
 <div style="width: 390px; height: 844px; background: $ground; color: $ink; display: flex; flex-direction: column; overflow: hidden; padding: 0 24px; box-sizing: border-box;">
-  <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 18px; text-align: center;">
-    $(logo 96)
+  <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 12px; text-align: center; padding-top: 16px;">
+    $(logo 80)
     <span class="disp" style="font-size: 40px; font-weight: 700; line-height: 1.1; color: $ink;">दुबई साथी</span>
-    <span style="font-size: 17px; line-height: 1.45; color: $muted; max-width: 300px; text-wrap: pretty;">दुबई की जानकारी, आपकी जेब में — बिना इंटरनेट के भी।</span>
+    <span class="disp" style="font-size: 26px; font-weight: 700; line-height: 1.2; color: $tealText;">बिना इंटरनेट चलता है</span>
+    <span style="font-size: 16px; line-height: 1.45; color: $muted; max-width: 320px; text-wrap: pretty;">दुबई में सिम नहीं, वाई-फ़ाई नहीं, रोमिंग नहीं — फिर भी सब चलेगा।</span>
+    <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; text-align: start; margin-top: 4px;">
+      <span style="display: flex; align-items: center; gap: 8px;">$(check 18 "$teal" 2.4)खाने की जगहें, बिना नेटवर्क</span>
+      <span style="display: flex; align-items: center; gap: 8px;">$(check 18 "$teal" 2.4)मेट्रो-बस-टैक्सी का रास्ता, बिना नेटवर्क</span>
+      <span style="display: flex; align-items: center; gap: 8px;">$(check 18 "$teal" 2.4)दुबई की जगहें, हिंदी में, बिना नेटवर्क</span>
+      <span style="display: flex; align-items: center; gap: 8px;">$(check 18 "$teal" 2.4)आपका होटल और दस्तावेज़, इसी फ़ोन में</span>
+    </div>
     <div style="display: flex; gap: 10px; margin-top: 8px;">
       <span style="padding: 8px 14px; border-radius: 999px; background: $ink; color: $ground; font-size: 14px; font-weight: 700;">हिंदी</span>
       <span style="padding: 8px 14px; border-radius: 999px; border: 1.5px solid $line; color: $ink; font-size: 14px; font-weight: 600;">English</span>
@@ -58,7 +65,7 @@ cat <<H
   </div>
   <div style="display: flex; flex-direction: column; gap: 12px; padding-bottom: 32px;">
     <div style="display: flex; flex-direction: column; gap: 8px; padding: 14px 16px; border-radius: 16px; background: $sand;">
-      <div style="display: flex; justify-content: space-between; font-size: 13.5px; font-weight: 600; color: $ink;"><span>ऑफ़लाइन पैक आ रहा है</span><span style="color: $muted;">18 MB · 40 सेकंड</span></div>
+      <div style="display: flex; justify-content: space-between; font-size: 13.5px; font-weight: 600; color: $ink;"><span>ऑफ़लाइन पैक आ रहा है — एक बार, अभी</span></div>
       <div style="height: 6px; border-radius: 3px; background: $line;"><div style="width: 62%; height: 6px; border-radius: 3px; background: $teal;"></div></div>
       <span style="font-size: 12.5px; color: $muted;">खाने की जगहें, मेट्रो-बस का नक़्शा, दुबई की जगहें — सब फ़ोन पर रहेगा।</span>
     </div>
