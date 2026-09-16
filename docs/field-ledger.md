@@ -125,13 +125,15 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 
 ## 2.3 · जाना › क़दम दर क़दम
 
-| Field                               | Why it is there                |
-| ----------------------------------- | ------------------------------ |
-| time · fare · Nol कार्ड चाहिए       | What to expect before starting |
-| The legs in order, each with a time | The instructions               |
-| बस देखें / मेट्रो देखें · टैक्सी    | The other way, one tap         |
-
-First and last service and the nearest stop's own times arrive with the RTA feed.
+| Field                               | Why it is there                   |
+| ----------------------------------- | --------------------------------- |
+| time · fare · Nol कार्ड चाहिए       | What to expect before starting    |
+| The legs in order, each with a time | The instructions                  |
+| «Expo की ओर» on a ride              | What the platform sign says       |
+| पहली · आख़िरी · हर n मिनट में       | Is it still running, at this stop |
+| आम दिनों के समय, वीकेंड पर अलग      | The times are a weekday's         |
+| बस देखें / मेट्रो देखें · टैक्सी    | The other way, one tap            |
+| RTA attribution                     | The licence asks for it           |
 
 ## 2.4 · जाना › टैक्सी
 

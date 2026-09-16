@@ -156,25 +156,30 @@ So the shape is known and proven:
 4. Attribution lines — RTA for transit, OpenStreetMap for the map — go on the map screen and in
    ज़रूरी जानकारी. Both licences require it and neither is optional.
 
-## What I could not verify
+## What the feed turned out to be (16 September, converter built)
 
-Said plainly rather than assumed:
+The owner registered on Transitland (Interline's portal, free plan) and downloaded the RTA feed
+it mirrors as `f-dubai~rta`. It is committed as `data/transport/rta-gtfs.zip` (11 MB) and
+`npm run publish:transport --workspace @saathi/content-tools` writes the pack from it.
 
-- **Whether the RTA feed contains `shapes.txt`.** Without it, route lines are straight hops
-  between stops, which looks wrong on a map but plans journeys just as well.
-- **The feed's actual size and its update cadence.** Transitland lists four feed versions, so it
-  is maintained, but I could not read the fetch dates.
-- **Whether Dubai Pulse registration is free** for this dataset. It is published as open data,
-  which implies yes, but the owner should confirm before agreeing to terms.
-- **A real size for a Dubai PMTiles extract.** The table above is extrapolated from Protomaps'
-  own guidance that each zoom roughly doubles an archive, and a published example of a local-area
-  extract at 46 MB. The honest way to get the real number is to run the extract once.
-
-## Sources
-
-- Dubai Pulse, `rta_gtfs-open`: https://www.dubaipulse.gov.ae/data/rta-public-transports/rta_gtfs-open
-- RTA Open Data: https://www.rta.ae/wps/portal/rta/ae/home/open-data
-- Transitland feed `f-dubai~rta`: https://www.transit.land/feeds/f-dubai~rta
-- Protomaps PMTiles docs: https://docs.protomaps.com/pmtiles/
-- Protomaps CLI (`extract`): https://docs.protomaps.com/pmtiles/cli
-- Protomaps basemap downloads and licence: https://docs.protomaps.com/basemaps/downloads
+- **170 routes**: 156 bus, 3 metro (`MRed`, `MGrn`, and `MBrch`, the Jabal Ali–UAE Exchange
+  branch), 1 tram, 10 marine (`route_type` 4, not carried: the app has no mode for them).
+  2,584 stops, 58,113 trips, 1.44 million stop times. `shapes.txt` **is present** (154,830
+  points) — the geometry for a map, when there is one. `translations.txt` carries an Arabic
+  name for every stop.
+- **It is the September 2021 edition** (`calendar.txt` runs 2021-09-09 to 2021-12-31, and the
+  weekend is Friday–Saturday, as it was then). Topology, running times and first/last
+  departures are what the converter takes, and those move slowly; the pack quotes a typical
+  weekday (the feed's Monday services) and says so on 2.3. A fresher feed from Dubai Pulse is a
+  file swap and a re-run.
+- **Rail platforms collapse into stations** (the feed lists "BurJuman Metro Station 1" and "…
+  2"), named from `data/transport/stations.v1.json` — the sign's English, its Devanagari, and
+  aliases including the feed's own spelling where it differs ("max" for Al Jafiliya). Bus stops
+  keep the RTA's English name, one node per bay.
+- **The pack**: 160 lines, 2,499 stops, 6,435 directed hops, 1.6 MB of JSON (about a quarter of
+  that over the wire). Every hop carries its direction and the first and last departure from
+  its stop; every line its measured daytime headway and the headsign each way. The planner
+  (`routePlanner.ts`) no longer mirrors edges, indexes stops on a grid, and plans a journey in
+  under 70 ms on a laptop.
+- **Attribution**: "Transport data: Roads and Transport Authority (RTA), Dubai — open data" on
+  2.3, from the pack's `attribution` field.

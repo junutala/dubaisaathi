@@ -15,8 +15,9 @@ import { fareText, legStep, minutes, modeLabel, type Words } from './describeLeg
  * with a time on it. The journey is planned again from the same pack rather than carried here
  * in the address bar, so refreshing the page in a metro tunnel gives the same instructions.
  *
- * First and last service per line, and the nearest stop's own times, arrive with the RTA feed
- * (docs/transport-and-maps-strategy.md); until then the steps carry what the pack knows.
+ * A ride step also says which way the vehicle is headed and the first and last departure from
+ * the stop it boards at, from the RTA feed: the "is it still running" answer, on the step where
+ * it is asked. The RTA's attribution line closes the screen, as the licence asks.
  */
 export function RouteStepsScreen({
   placeId,
@@ -96,11 +97,17 @@ export function RouteStepsScreen({
                         <span className="leg-time">{step.time}</span>
                       </span>
                       <span className="muted small">{step.detail}</span>
+                      {step.service !== undefined && (
+                        <span className="leg-service">{step.service}</span>
+                      )}
                     </span>
                   </div>
                 );
               })}
             </div>
+            {option.route.legs.some((leg) => leg.firstDeparture !== undefined) && (
+              <p className="muted small leg-note">{t('steps.serviceNote')}</p>
+            )}
           </>
         )}
 
@@ -127,6 +134,11 @@ export function RouteStepsScreen({
             {t('steps.taxi')}
           </button>
         </div>
+        {network && (
+          <p className="muted tiny center attribution">
+            {t('steps.source', { attribution: network.attribution })}
+          </p>
+        )}
       </div>
     </>
   );

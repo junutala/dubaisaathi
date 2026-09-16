@@ -99,7 +99,9 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   Devanagari name, never a transliteration of the traveller's letters; words we do not know go
   to the taxi screen as they are. Options carry time and fare, the steps carry the legs, and
   the taxi screen carries the Arabic name, the fare estimate, a Careem link and the store for a
-  phone without it. Bus and metro stop times arrive with the RTA feed (Dubai Pulse).
+  phone without it. The steps carry the RTA's own network: every bus route, both metro lines,
+  the tram, the direction the vehicle is headed, and the first and last departure from the stop
+  the traveller boards at (decision 017).
 - **जानना is attractions only.** Hours, ticket, how long, whom to ring, a Hindi blurb, and a
   जाना button. No hotels or homestays. A line at the bottom lets the traveller name a place we
   missed; it goes into the question log for the next pack. **3.3 · काम की बातें is parked for
@@ -426,9 +428,10 @@ is the server and the content, in this order:
 1. **Buying a pass.** The `orders` table exists; no function creates an order, takes the
    aggregator's webhook or signs a pass. Until it does, `VITE_PURCHASE_LIVE` stays off, the
    buttons on घर.4 say so, and nothing is gated.
-2. **The RTA feed.** Bus and metro stop times, first and last service, and the 150 bus routes
-   the pack lacks all come from `rta_gtfs-open` on Dubai Pulse, which needs the owner's
-   registration (`docs/transport-and-maps-strategy.md`).
+2. **The RTA feed is in.** `data/transport/rta-gtfs.zip` is the RTA's GTFS (the September 2021
+   edition Transitland mirrors), converted by `npm run publish:transport` into the pack: 160
+   lines, 2,499 stops, 6,435 hops, first and last departure per stop and line. A fresher feed
+   from Dubai Pulse is a file swap and a re-run (decision 017). Weekend times are not carried.
 3. **Content.** `restaurants.v1.json` is empty and खाना runs on the fixture; the collectors'
    app is live and the pipeline publishes approved reports. `attractions.v1.json` carries hours
    and tickets as known on 16 September, unchecked on the ground; every row has `checkedAt`.

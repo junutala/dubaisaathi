@@ -94,10 +94,12 @@ $(step metro 'BurJuman से लाल लाइन, Expo की ओर' 'प�
 $(step metro 'Burj Khalifa / Dubai Mall स्टेशन पर उतरें' '6 स्टेशन · 14 मिनट')
 $(step walk 'पैदल 800 मी — मॉल के अंदर से' 'स्टेशन से ढका हुआ रास्ता, 12 मिनट। बुर्ज ख़लीफ़ा का प्रवेश मॉल के निचले तल पर।')
     </div>
+    <span style="font-size: 12.5px; color: $muted; line-height: 1.45;">समय RTA की समय-सारणी से, आम दिनों के। वीकेंड पर अलग हो सकते हैं।</span>
     <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
       $(obtn "$(bus 20 "$ink" 1.9)बस देखें")
       $(obtn "$(taxi 20 "$ink" 1.9)टैक्सी")
     </div>
+    <span style="font-size: 11.5px; color: $muted; text-align: center; line-height: 1.4;">Transport data: Roads and Transport Authority (RTA), Dubai — open data.</span>
   </div>
 H
 bar jaana yes

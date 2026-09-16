@@ -1,0 +1,978 @@
+{
+  "contentVersion": 1,
+  "publishedAt": "2026-09-16T00:00:00Z",
+  "source": "Hand-curated station names: the English name as signed on the platform, its Devanagari form, and Roman/Devanagari aliases. Applied to the RTA feed by location (packages/content-tools/src/publishTransport.ts): a feed stop of the same mode within 250 m takes this name. Bus stops keep the English name the RTA gives them.",
+  "stations": [
+    {
+      "id": "centrepoint",
+      "mode": "metro",
+      "name": {
+        "en": "Centrepoint",
+        "hi": "सेंटरपॉइंट",
+        "aliases": ["rashidiya", "रशीदिया"]
+      },
+      "location": {
+        "lat": 25.2419,
+        "lng": 55.3773
+      }
+    },
+    {
+      "id": "emirates",
+      "mode": "metro",
+      "name": {
+        "en": "Emirates",
+        "hi": "एमिरेट्स",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2477,
+        "lng": 55.381
+      }
+    },
+    {
+      "id": "airport-t3",
+      "mode": "metro",
+      "name": {
+        "en": "Airport Terminal 3",
+        "hi": "एयरपोर्ट टर्मिनल 3",
+        "aliases": ["terminal 3", "टर्मिनल 3"]
+      },
+      "location": {
+        "lat": 25.2479,
+        "lng": 55.3617
+      }
+    },
+    {
+      "id": "airport-t1",
+      "mode": "metro",
+      "name": {
+        "en": "Airport Terminal 1",
+        "hi": "एयरपोर्ट टर्मिनल 1",
+        "aliases": ["terminal 1", "टर्मिनल 1"]
+      },
+      "location": {
+        "lat": 25.2486,
+        "lng": 55.352
+      }
+    },
+    {
+      "id": "ggico",
+      "mode": "metro",
+      "name": {
+        "en": "GGICO",
+        "hi": "जीजीको",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2529,
+        "lng": 55.3402
+      }
+    },
+    {
+      "id": "deira-city-centre",
+      "mode": "metro",
+      "name": {
+        "en": "Deira City Centre",
+        "hi": "देरा सिटी सेंटर",
+        "aliases": ["city centre", "सिटी सेंटर"]
+      },
+      "location": {
+        "lat": 25.2524,
+        "lng": 55.3322
+      }
+    },
+    {
+      "id": "al-rigga",
+      "mode": "metro",
+      "name": {
+        "en": "Al Rigga",
+        "hi": "अल रिग्गा",
+        "aliases": ["rigga", "रिग्गा"]
+      },
+      "location": {
+        "lat": 25.2639,
+        "lng": 55.3222
+      }
+    },
+    {
+      "id": "union",
+      "mode": "metro",
+      "name": {
+        "en": "Union",
+        "hi": "यूनियन",
+        "aliases": ["al ittihad", "अल इत्तिहाद"]
+      },
+      "location": {
+        "lat": 25.2661,
+        "lng": 55.3163
+      }
+    },
+    {
+      "id": "burjuman",
+      "mode": "metro",
+      "name": {
+        "en": "BurJuman",
+        "hi": "बुरजुमान",
+        "aliases": ["bur juman", "बुर जुमान"]
+      },
+      "location": {
+        "lat": 25.2548,
+        "lng": 55.3043
+      }
+    },
+    {
+      "id": "adcb",
+      "mode": "metro",
+      "name": {
+        "en": "ADCB",
+        "hi": "एडीसीबी",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2466,
+        "lng": 55.2947
+      }
+    },
+    {
+      "id": "al-jafiliya",
+      "mode": "metro",
+      "name": {
+        "en": "Al Jafiliya",
+        "hi": "अल जाफ़िलिया",
+        "aliases": ["jafiliya", "जाफ़िलिया", "max"]
+      },
+      "location": {
+        "lat": 25.24,
+        "lng": 55.2861
+      }
+    },
+    {
+      "id": "world-trade-centre",
+      "mode": "metro",
+      "name": {
+        "en": "World Trade Centre",
+        "hi": "वर्ल्ड ट्रेड सेंटर",
+        "aliases": ["wtc", "ट्रेड सेंटर"]
+      },
+      "location": {
+        "lat": 25.2288,
+        "lng": 55.283
+      }
+    },
+    {
+      "id": "emirates-towers",
+      "mode": "metro",
+      "name": {
+        "en": "Emirates Towers",
+        "hi": "एमिरेट्स टावर्स",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2177,
+        "lng": 55.2795
+      }
+    },
+    {
+      "id": "financial-centre",
+      "mode": "metro",
+      "name": {
+        "en": "Financial Centre",
+        "hi": "फ़ाइनेंशियल सेंटर",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2114,
+        "lng": 55.2793
+      }
+    },
+    {
+      "id": "burj-khalifa-dubai-mall",
+      "mode": "metro",
+      "name": {
+        "en": "Burj Khalifa / Dubai Mall",
+        "hi": "बुर्ज ख़लीफ़ा / दुबई मॉल",
+        "aliases": ["dubai mall", "दुबई मॉल", "burj khalifa", "बुर्ज ख़लीफ़ा"]
+      },
+      "location": {
+        "lat": 25.2019,
+        "lng": 55.279
+      }
+    },
+    {
+      "id": "business-bay",
+      "mode": "metro",
+      "name": {
+        "en": "Business Bay",
+        "hi": "बिज़नेस बे",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.1867,
+        "lng": 55.2637
+      }
+    },
+    {
+      "id": "onpassive",
+      "mode": "metro",
+      "name": {
+        "en": "Onpassive",
+        "hi": "ऑनपैसिव",
+        "aliases": ["noor bank", "नूर बैंक", "Al Safa"]
+      },
+      "location": {
+        "lat": 25.1718,
+        "lng": 55.2449
+      }
+    },
+    {
+      "id": "equiti",
+      "mode": "metro",
+      "name": {
+        "en": "Equiti",
+        "hi": "इक्विटी",
+        "aliases": ["al safa", "अल सफ़ा", "Umm Al Sheif", "first abu dhabi bank"]
+      },
+      "location": {
+        "lat": 25.1553,
+        "lng": 55.2318
+      }
+    },
+    {
+      "id": "mall-of-the-emirates",
+      "mode": "metro",
+      "name": {
+        "en": "Mall of the Emirates",
+        "hi": "मॉल ऑफ़ द एमिरेट्स",
+        "aliases": ["moe", "एमिरेट्स मॉल"]
+      },
+      "location": {
+        "lat": 25.1201,
+        "lng": 55.2004
+      }
+    },
+    {
+      "id": "mashreq",
+      "mode": "metro",
+      "name": {
+        "en": "Mashreq",
+        "hi": "मशरिक़",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.1105,
+        "lng": 55.1913
+      }
+    },
+    {
+      "id": "dubai-internet-city",
+      "mode": "metro",
+      "name": {
+        "en": "Dubai Internet City",
+        "hi": "दुबई इंटरनेट सिटी",
+        "aliases": ["internet city", "इंटरनेट सिटी"]
+      },
+      "location": {
+        "lat": 25.0992,
+        "lng": 55.175
+      }
+    },
+    {
+      "id": "al-khail",
+      "mode": "metro",
+      "name": {
+        "en": "Al Khail",
+        "hi": "अल ख़ैल",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.09,
+        "lng": 55.161
+      }
+    },
+    {
+      "id": "sobha-realty",
+      "mode": "metro",
+      "name": {
+        "en": "Sobha Realty",
+        "hi": "शोभा रियल्टी",
+        "aliases": ["dubai marina", "दुबई मरीना", "damac properties"]
+      },
+      "location": {
+        "lat": 25.077,
+        "lng": 55.1465
+      }
+    },
+    {
+      "id": "dmcc",
+      "mode": "metro",
+      "name": {
+        "en": "DMCC",
+        "hi": "डीएमसीसी",
+        "aliases": ["jlt", "jumeirah lakes towers"]
+      },
+      "location": {
+        "lat": 25.0685,
+        "lng": 55.1405
+      }
+    },
+    {
+      "id": "jabal-ali",
+      "mode": "metro",
+      "name": {
+        "en": "Jabal Ali",
+        "hi": "जबल अली",
+        "aliases": ["jebel ali", "जेबल अली"]
+      },
+      "location": {
+        "lat": 25.047,
+        "lng": 55.1215
+      }
+    },
+    {
+      "id": "ibn-battuta",
+      "mode": "metro",
+      "name": {
+        "en": "Ibn Battuta",
+        "hi": "इब्न बतूता",
+        "aliases": ["ibn batuta", "इब्न बतूता मॉल"]
+      },
+      "location": {
+        "lat": 25.0448,
+        "lng": 55.1189
+      }
+    },
+    {
+      "id": "energy",
+      "mode": "metro",
+      "name": {
+        "en": "Energy",
+        "hi": "एनर्जी",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.033,
+        "lng": 55.108
+      }
+    },
+    {
+      "id": "danube",
+      "mode": "metro",
+      "name": {
+        "en": "Danube",
+        "hi": "डैन्यूब",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.023,
+        "lng": 55.099
+      }
+    },
+    {
+      "id": "uae-exchange",
+      "mode": "metro",
+      "name": {
+        "en": "UAE Exchange",
+        "hi": "यूएई एक्सचेंज",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.0148,
+        "lng": 55.0908
+      }
+    },
+    {
+      "id": "etisalat",
+      "mode": "metro",
+      "name": {
+        "en": "Etisalat",
+        "hi": "एतिसालात",
+        "aliases": ["etisalat by e&"]
+      },
+      "location": {
+        "lat": 25.2941,
+        "lng": 55.3811
+      }
+    },
+    {
+      "id": "al-qusais",
+      "mode": "metro",
+      "name": {
+        "en": "Al Qusais",
+        "hi": "अल क़ुसैस",
+        "aliases": ["qusais", "क़ुसैस"]
+      },
+      "location": {
+        "lat": 25.2874,
+        "lng": 55.3733
+      }
+    },
+    {
+      "id": "dubai-airport-free-zone",
+      "mode": "metro",
+      "name": {
+        "en": "Dubai Airport Free Zone",
+        "hi": "दुबई एयरपोर्ट फ़्री ज़ोन",
+        "aliases": ["dafza"]
+      },
+      "location": {
+        "lat": 25.2818,
+        "lng": 55.367
+      }
+    },
+    {
+      "id": "al-nahda",
+      "mode": "metro",
+      "name": {
+        "en": "Al Nahda",
+        "hi": "अल नहदा",
+        "aliases": ["nahda", "नहदा"]
+      },
+      "location": {
+        "lat": 25.2793,
+        "lng": 55.3604
+      }
+    },
+    {
+      "id": "stadium",
+      "mode": "metro",
+      "name": {
+        "en": "Stadium",
+        "hi": "स्टेडियम",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.274,
+        "lng": 55.3512
+      }
+    },
+    {
+      "id": "al-qiyadah",
+      "mode": "metro",
+      "name": {
+        "en": "Al Qiyadah",
+        "hi": "अल क़ियादा",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2732,
+        "lng": 55.3435
+      }
+    },
+    {
+      "id": "abu-hail",
+      "mode": "metro",
+      "name": {
+        "en": "Abu Hail",
+        "hi": "अबू हैल",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2795,
+        "lng": 55.3355
+      }
+    },
+    {
+      "id": "abu-baker-al-siddique",
+      "mode": "metro",
+      "name": {
+        "en": "Abu Baker Al Siddique",
+        "hi": "अबू बकर अल सिद्दीक़",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2783,
+        "lng": 55.3275
+      }
+    },
+    {
+      "id": "salah-al-din",
+      "mode": "metro",
+      "name": {
+        "en": "Salah Al Din",
+        "hi": "सलाह अल दीन",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.274,
+        "lng": 55.3232
+      }
+    },
+    {
+      "id": "baniyas-square",
+      "mode": "metro",
+      "name": {
+        "en": "Baniyas Square",
+        "hi": "बनियास स्क्वायर",
+        "aliases": ["baniyas", "बनियास"]
+      },
+      "location": {
+        "lat": 25.2673,
+        "lng": 55.3093
+      }
+    },
+    {
+      "id": "gold-souq",
+      "mode": "metro",
+      "name": {
+        "en": "Gold Souq",
+        "hi": "गोल्ड सूक",
+        "aliases": ["sona bazaar", "सोना बाज़ार"]
+      },
+      "location": {
+        "lat": 25.2706,
+        "lng": 55.299
+      }
+    },
+    {
+      "id": "al-ras",
+      "mode": "metro",
+      "name": {
+        "en": "Al Ras",
+        "hi": "अल रास",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2679,
+        "lng": 55.2937
+      }
+    },
+    {
+      "id": "al-ghubaiba",
+      "mode": "metro",
+      "name": {
+        "en": "Al Ghubaiba",
+        "hi": "अल ग़ुबैबा",
+        "aliases": ["ghubaiba", "ग़ुबैबा"]
+      },
+      "location": {
+        "lat": 25.2637,
+        "lng": 55.293
+      }
+    },
+    {
+      "id": "sharaf-dg",
+      "mode": "metro",
+      "name": {
+        "en": "Sharaf DG",
+        "hi": "शराफ़ डीजी",
+        "aliases": ["al fahidi", "अल फ़हीदी"]
+      },
+      "location": {
+        "lat": 25.2591,
+        "lng": 55.2965
+      }
+    },
+    {
+      "id": "oud-metha",
+      "mode": "metro",
+      "name": {
+        "en": "Oud Metha",
+        "hi": "ऊद मेथा",
+        "aliases": ["oudmetha", "ऊद मेथा"]
+      },
+      "location": {
+        "lat": 25.2456,
+        "lng": 55.3121
+      }
+    },
+    {
+      "id": "dubai-healthcare-city",
+      "mode": "metro",
+      "name": {
+        "en": "Dubai Healthcare City",
+        "hi": "दुबई हेल्थकेयर सिटी",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.236,
+        "lng": 55.3235
+      }
+    },
+    {
+      "id": "al-jadaf",
+      "mode": "metro",
+      "name": {
+        "en": "Al Jadaf",
+        "hi": "अल जदफ़",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2245,
+        "lng": 55.3306
+      }
+    },
+    {
+      "id": "creek",
+      "mode": "metro",
+      "name": {
+        "en": "Creek",
+        "hi": "क्रीक",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2178,
+        "lng": 55.3388
+      }
+    },
+    {
+      "id": "bus-gold-souq",
+      "mode": "bus",
+      "name": {
+        "en": "Gold Souq Bus Station",
+        "hi": "गोल्ड सूक बस स्टेशन",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.271,
+        "lng": 55.297
+      },
+      "stopId": "100001"
+    },
+    {
+      "id": "bus-al-sabkha",
+      "mode": "bus",
+      "name": {
+        "en": "Al Sabkha",
+        "hi": "अल सबखा",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.269,
+        "lng": 55.304
+      },
+      "stopId": "106001"
+    },
+    {
+      "id": "bus-al-ghubaiba",
+      "mode": "bus",
+      "name": {
+        "en": "Al Ghubaiba Bus Station",
+        "hi": "अल ग़ुबैबा बस स्टेशन",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.264,
+        "lng": 55.2925
+      },
+      "stopId": "385001"
+    },
+    {
+      "id": "bus-al-karama",
+      "mode": "bus",
+      "name": {
+        "en": "Karama, Kuwait Road",
+        "hi": "करामा, कुवैत रोड",
+        "aliases": ["karama", "करामा"]
+      },
+      "location": {
+        "lat": 25.2455,
+        "lng": 55.304
+      },
+      "stopId": "125501"
+    },
+    {
+      "id": "bus-satwa",
+      "mode": "bus",
+      "name": {
+        "en": "Satwa Bus Station",
+        "hi": "सतवा बस स्टेशन",
+        "aliases": ["satwa", "सतवा"]
+      },
+      "location": {
+        "lat": 25.227,
+        "lng": 55.274
+      },
+      "stopId": "503003"
+    },
+    {
+      "id": "bus-jumeirah-beach",
+      "mode": "bus",
+      "name": {
+        "en": "Jumeirah Beach Road",
+        "hi": "जुमेरा बीच रोड",
+        "aliases": ["jumeirah", "जुमेरा"]
+      },
+      "location": {
+        "lat": 25.205,
+        "lng": 55.243
+      }
+    },
+    {
+      "id": "bus-mall-of-the-emirates",
+      "mode": "bus",
+      "name": {
+        "en": "Mall of the Emirates Bus Station",
+        "hi": "मॉल ऑफ़ द एमिरेट्स बस स्टेशन",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.1195,
+        "lng": 55.2
+      },
+      "stopId": "567501"
+    },
+    {
+      "id": "bus-ibn-battuta",
+      "mode": "bus",
+      "name": {
+        "en": "Ibn Battuta Bus Station",
+        "hi": "इब्न बतूता बस स्टेशन",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.045,
+        "lng": 55.119
+      },
+      "stopId": "903501"
+    },
+    {
+      "id": "bus-rashidiya",
+      "mode": "bus",
+      "name": {
+        "en": "Rashidiya Bus Station",
+        "hi": "रशीदिया बस स्टेशन",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.242,
+        "lng": 55.377
+      },
+      "stopId": "961502"
+    },
+    {
+      "id": "bus-dubai-mall",
+      "mode": "bus",
+      "name": {
+        "en": "Dubai Mall Bus Stop",
+        "hi": "दुबई मॉल बस स्टॉप",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.198,
+        "lng": 55.28
+      },
+      "stopId": "344101"
+    },
+    {
+      "id": "tram-al-sufouh",
+      "mode": "tram",
+      "name": {
+        "en": "Al Sufouh",
+        "hi": "अल सुफ़ूह",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.1023,
+        "lng": 55.1583
+      }
+    },
+    {
+      "id": "tram-knowledge-village",
+      "mode": "tram",
+      "name": {
+        "en": "Knowledge Village",
+        "hi": "नॉलेज विलेज",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.103,
+        "lng": 55.1626
+      }
+    },
+    {
+      "id": "tram-palm-jumeirah",
+      "mode": "tram",
+      "name": {
+        "en": "Palm Jumeirah",
+        "hi": "पाम जुमेरा",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.0982,
+        "lng": 55.155
+      }
+    },
+    {
+      "id": "tram-media-city",
+      "mode": "tram",
+      "name": {
+        "en": "Media City",
+        "hi": "मीडिया सिटी",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.0943,
+        "lng": 55.1511
+      }
+    },
+    {
+      "id": "tram-mina-seyahi",
+      "mode": "tram",
+      "name": {
+        "en": "Mina Seyahi",
+        "hi": "मीना सियाही",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.0884,
+        "lng": 55.1482
+      }
+    },
+    {
+      "id": "tram-marina-towers",
+      "mode": "tram",
+      "name": {
+        "en": "Marina Towers",
+        "hi": "मरीना टावर्स",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.0837,
+        "lng": 55.1452
+      }
+    },
+    {
+      "id": "tram-dubai-marina",
+      "mode": "tram",
+      "name": {
+        "en": "Dubai Marina",
+        "hi": "दुबई मरीना",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.0801,
+        "lng": 55.1423
+      }
+    },
+    {
+      "id": "tram-jbr-1",
+      "mode": "tram",
+      "name": {
+        "en": "Jumeirah Beach Residence 1",
+        "hi": "जुमेरा बीच रेज़िडेंस 1",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.0779,
+        "lng": 55.1362
+      }
+    },
+    {
+      "id": "tram-jbr-2",
+      "mode": "tram",
+      "name": {
+        "en": "Jumeirah Beach Residence 2",
+        "hi": "जुमेरा बीच रेज़िडेंस 2",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.0724,
+        "lng": 55.1326
+      }
+    },
+    {
+      "id": "tram-jumeirah-lakes-towers",
+      "mode": "tram",
+      "name": {
+        "en": "Jumeirah Lakes Towers",
+        "hi": "जुमेरा लेक्स टावर्स",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.0692,
+        "lng": 55.1382
+      }
+    },
+    {
+      "id": "the-gardens",
+      "mode": "metro",
+      "name": {
+        "en": "The Gardens",
+        "hi": "द गार्डन्स",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.0446,
+        "lng": 55.1338
+      }
+    },
+    {
+      "id": "discovery-gardens",
+      "mode": "metro",
+      "name": {
+        "en": "Discovery Gardens",
+        "hi": "डिस्कवरी गार्डन्स",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.0396,
+        "lng": 55.1391
+      }
+    },
+    {
+      "id": "al-furjan",
+      "mode": "metro",
+      "name": {
+        "en": "Al Furjan",
+        "hi": "अल फ़ुरजान",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.0321,
+        "lng": 55.1424
+      }
+    },
+    {
+      "id": "jumeirah-golf-estates",
+      "mode": "metro",
+      "name": {
+        "en": "Jumeirah Golf Estates",
+        "hi": "जुमेरा गोल्फ़ एस्टेट्स",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.011,
+        "lng": 55.1516
+      }
+    },
+    {
+      "id": "dubai-investment-park",
+      "mode": "metro",
+      "name": {
+        "en": "Dubai Investment Park",
+        "hi": "दुबई इन्वेस्टमेंट पार्क",
+        "aliases": []
+      },
+      "location": {
+        "lat": 24.9873,
+        "lng": 55.1573
+      }
+    },
+    {
+      "id": "expo",
+      "mode": "metro",
+      "name": {
+        "en": "Expo",
+        "hi": "एक्सपो",
+        "aliases": []
+      },
+      "location": {
+        "lat": 24.9655,
+        "lng": 55.1502
+      }
+    },
+    {
+      "id": "tram-dubai-marina-mall",
+      "mode": "tram",
+      "name": {
+        "en": "Dubai Marina Mall",
+        "hi": "दुबई मरीना मॉल",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.07632,
+        "lng": 55.14203
+      }
+    }
+  ]
+}

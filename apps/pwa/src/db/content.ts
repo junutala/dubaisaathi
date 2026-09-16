@@ -54,6 +54,7 @@ export async function transportNetwork(): Promise<TransportNetwork | null> {
     contentVersion: meta.contentVersion,
     publishedAt: meta.publishedAt,
     source: meta.source,
+    attribution: meta.attribution,
     walkingMetresPerMinute: meta.walkingMetresPerMinute,
     fares: meta.fares,
     waitSeconds: meta.waitSeconds,

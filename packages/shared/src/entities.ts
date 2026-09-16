@@ -191,6 +191,11 @@ export interface TransportNode {
   readonly modes: readonly TransportMode[];
 }
 
+/**
+ * One hop of one line, in the direction the vehicle actually travels. The RTA feed carries both
+ * directions of every route as separate trips, so a loop route that only runs one way is one
+ * way in the pack too; the planner never mirrors an edge.
+ */
 export interface TransportEdge {
   readonly id: string;
   readonly fromNodeId: string;
@@ -201,6 +206,65 @@ export interface TransportEdge {
   readonly fareAed?: number;
   /** Line or route label shown to the traveller, e.g. `Red Line`, `C7`. */
   readonly line?: string;
+  /** Which of the line's two headsigns this hop runs toward (`TransportLine.towards`). */
+  readonly direction?: 0 | 1;
+  /**
+   * First and last departure from `fromNodeId` on this line in this direction, on a typical
+   * weekday, as `HH:MM` in Dubai time. This is the "is it still running" answer at the stop the
+   * traveller is standing at — two clock times, not a timetable.
+   */
+  readonly firstDeparture?: string;
+  readonly lastDeparture?: string;
+}
+
+/** A line or a numbered bus route, named in both interface languages. */
+export interface TransportLine {
+  readonly id: string;
+  readonly mode: TransportMode;
+  readonly name: LocalisedName;
+  /** Typical minutes-between-vehicles on a weekday daytime, measured from the feed, in seconds. */
+  readonly headwaySeconds?: number;
+  /** The headsign in each direction (index = `TransportEdge.direction`): "Expo की ओर". */
+  readonly towards?: readonly { readonly en: string; readonly hi: string }[];
+}
+
+/** Nol charges the whole journey by the distance it covers; this is that table. */
+export interface FareBand {
+  readonly maxKm: number;
+  readonly aed: number;
+}
+
+export interface TaxiFare {
+  readonly flagFallAed: number;
+  readonly perKmAed: number;
+  readonly minimumAed: number;
+  /** A meter is not a timetable: the fare is shown as a range this wide either side. */
+  readonly spreadPercent: number;
+}
+
+/**
+ * The transport network as it ships: `data/transport/network.v1.json`, written by
+ * `packages/content-tools/src/publishTransport.ts` from the RTA's GTFS feed and read by रास्ता.
+ * Content, not code: a corrected station is a data release, and nothing here is fetched at
+ * runtime.
+ */
+export interface TransportNetwork {
+  readonly contentVersion: number;
+  readonly publishedAt: string;
+  /** Where the rows came from, so the next reader does not have to guess. */
+  readonly source: string;
+  /** The line the licence asks us to show wherever the rows are shown. */
+  readonly attribution: string;
+  readonly walkingMetresPerMinute: number;
+  readonly fares: {
+    readonly transitBandsAed: readonly FareBand[];
+    readonly taxi: TaxiFare;
+  };
+  /** What a traveller spends on the platform before the doors open, by mode, when the line's own headway is not known. */
+  readonly waitSeconds: Readonly<Record<'metro' | 'bus', number>>;
+  readonly lines: readonly TransportLine[];
+  readonly nodes: readonly TransportNode[];
+  readonly edges: readonly TransportEdge[];
 }
 
 export interface RouteLeg {

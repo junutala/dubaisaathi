@@ -5,10 +5,11 @@ import { metresBetween, type TransportNetwork } from './network.js';
  * How a traveller gets from where they are standing to where they said they want to go —
  * computed on the phone, from the pack, with the radio off (CLAUDE.md rule 1, non-negotiable).
  *
- * There is no routing API call here and there never will be. The network is small enough that
- * Dijkstra over it costs less than a frame, so the honest thing is to do the work locally and
- * say plainly that the numbers are estimates, rather than to promise live times this product
- * cannot deliver in a metro tunnel.
+ * There is no routing API call here and there never will be. The network is the RTA's whole
+ * one — 2,500 stops, 6,400 hops — and Dijkstra over it with a heap and a spatial index still
+ * costs less than a frame, so the honest thing is to do the work locally and say plainly that
+ * the numbers are estimates, rather than to promise live times this product cannot deliver in
+ * a metro tunnel.
  */
 
 /** The two ends of the journey are places, not stations, so they join the graph as nodes. */
@@ -30,11 +31,16 @@ const SERVICE_AREA_METRES = 60_000;
 
 export type RouteBadge = 'easiest' | 'fastest' | 'cheapest';
 
-/** A leg, plus the two things the screen has to say about it that a bare leg cannot. */
+/** A leg, plus the things the screen has to say about it that a bare leg cannot. */
 export interface PlannedLeg extends RouteLeg {
-  /** Stations or stops passed, so 1.3 can say "रेड लाइन · 4 स्टेशन". */
+  /** Stations or stops passed, so 2.2 can say "रेड लाइन · 4 स्टेशन". */
   readonly stops: number;
   readonly distanceM: number;
+  /** Which way the vehicle is headed, for "Expo की ओर" (`TransportLine.towards`). */
+  readonly direction?: 0 | 1;
+  /** First and last departure from the boarding stop on this line, weekday, Dubai clock. */
+  readonly firstDeparture?: string;
+  readonly lastDeparture?: string;
 }
 
 export interface PlannedRoute extends Omit<Route, 'legs'> {
@@ -61,6 +67,9 @@ interface Link {
   readonly mode: TransportMode;
   readonly line: string | undefined;
   readonly distanceM: number;
+  readonly direction?: 0 | 1;
+  readonly firstDeparture?: string;
+  readonly lastDeparture?: string;
 }
 
 type Graph = ReadonlyMap<string, readonly Link[]>;
@@ -76,28 +85,96 @@ function push(graph: Map<string, Link[]>, from: string, link: Link): void {
 }
 
 /**
- * The timetable as a graph: every line in both directions, plus the short walks between stops
- * that are near enough to change at. Built once per plan — the whole network is sixty edges.
+ * Stops bucketed onto a grid about 400 m square, so finding the stops near a point reads nine
+ * cells instead of all 2,500 rows. One degree of latitude is 111 km; at Dubai's latitude a
+ * degree of longitude is about 100 km, which the same cell size covers with room to spare.
  */
-function buildGraph(network: TransportNetwork): Map<string, Link[]> {
+const CELL_DEGREES = 0.0036;
+
+class StopIndex {
+  private readonly cells = new Map<string, TransportNetwork['nodes'][number][]>();
+
+  constructor(private readonly network: TransportNetwork) {
+    for (const node of network.nodes) {
+      const key = StopIndex.key(node.location);
+      const cell = this.cells.get(key);
+      if (cell) cell.push(node);
+      else this.cells.set(key, [node]);
+    }
+  }
+
+  private static key(at: LatLng): string {
+    return `${String(Math.floor(at.lat / CELL_DEGREES))}:${String(Math.floor(at.lng / CELL_DEGREES))}`;
+  }
+
+  /** Every stop within `metres` of a point, with its distance. */
+  within(
+    at: LatLng,
+    metres: number,
+  ): readonly { readonly node: TransportNetwork['nodes'][number]; readonly metres: number }[] {
+    const reach = Math.ceil(metres / (CELL_DEGREES * 100_000));
+    const latCell = Math.floor(at.lat / CELL_DEGREES);
+    const lngCell = Math.floor(at.lng / CELL_DEGREES);
+    const found: { node: TransportNetwork['nodes'][number]; metres: number }[] = [];
+    for (let dLat = -reach; dLat <= reach; dLat++) {
+      for (let dLng = -reach; dLng <= reach; dLng++) {
+        for (const node of this.cells.get(`${String(latCell + dLat)}:${String(lngCell + dLng)}`) ??
+          []) {
+          const distance = metresBetween(at, node.location);
+          if (distance <= metres) found.push({ node, metres: distance });
+        }
+      }
+    }
+    return found;
+  }
+
+  nearestMetres(at: LatLng): number {
+    let best = Infinity;
+    for (const node of this.network.nodes) best = Math.min(best, metresBetween(at, node.location));
+    return best;
+  }
+}
+
+interface Prepared {
+  readonly graph: Graph;
+  readonly index: StopIndex;
+  readonly headway: ReadonlyMap<string, number>;
+}
+
+/**
+ * The timetable as a graph: every hop of every line in the direction it runs, plus the short
+ * walks between stops that are near enough to change at. Built once per pack and kept, because
+ * the pack does not change between screens and the transfer walks are the expensive part.
+ */
+const prepared = new WeakMap<TransportNetwork, Prepared>();
+
+function prepare(network: TransportNetwork): Prepared {
+  const cached = prepared.get(network);
+  if (cached) return cached;
+
   const graph = new Map<string, Link[]>();
   const byId = new Map(network.nodes.map((node) => [node.id, node]));
+  const index = new StopIndex(network);
 
   for (const edge of network.edges) {
     const from = byId.get(edge.fromNodeId);
     const to = byId.get(edge.toNodeId);
     if (!from || !to) continue;
-    const distanceM = metresBetween(from.location, to.location);
-    const both = { seconds: edge.durationSeconds, mode: edge.mode, line: edge.line, distanceM };
-    push(graph, edge.fromNodeId, { ...both, to: edge.toNodeId });
-    push(graph, edge.toNodeId, { ...both, to: edge.fromNodeId });
+    push(graph, edge.fromNodeId, {
+      to: edge.toNodeId,
+      seconds: edge.durationSeconds,
+      mode: edge.mode,
+      line: edge.line,
+      distanceM: metresBetween(from.location, to.location),
+      ...(edge.direction === undefined ? {} : { direction: edge.direction }),
+      ...(edge.firstDeparture === undefined ? {} : { firstDeparture: edge.firstDeparture }),
+      ...(edge.lastDeparture === undefined ? {} : { lastDeparture: edge.lastDeparture }),
+    });
   }
 
   for (const a of network.nodes) {
-    for (const b of network.nodes) {
+    for (const { node: b, metres } of index.within(a.location, TRANSFER_METRES)) {
       if (a.id === b.id) continue;
-      const metres = metresBetween(a.location, b.location);
-      if (metres > TRANSFER_METRES) continue;
       push(graph, a.id, {
         to: b.id,
         seconds: walkSeconds(network, metres),
@@ -107,12 +184,73 @@ function buildGraph(network: TransportNetwork): Map<string, Link[]> {
       });
     }
   }
-  return graph;
+
+  const headway = new Map<string, number>();
+  for (const line of network.lines) {
+    if (line.headwaySeconds !== undefined) headway.set(line.id, line.headwaySeconds);
+  }
+
+  const result = { graph, index, headway };
+  prepared.set(network, result);
+  return result;
 }
 
 interface Step {
   readonly link: Link;
   readonly from: string;
+}
+
+/** A binary heap of search states, smallest cost first. */
+class Heap {
+  private readonly items: { key: string; cost: number }[] = [];
+
+  push(key: string, cost: number): void {
+    const items = this.items;
+    items.push({ key, cost });
+    let i = items.length - 1;
+    while (i > 0) {
+      const parent = (i - 1) >> 1;
+      const child = items[i];
+      const above = items[parent];
+      if (!child || !above || above.cost <= child.cost) break;
+      items[i] = above;
+      items[parent] = child;
+      i = parent;
+    }
+  }
+
+  pop(): { key: string; cost: number } | undefined {
+    const items = this.items;
+    const top = items[0];
+    const last = items.pop();
+    if (top === undefined || last === undefined) return top;
+    if (items.length === 0) return top;
+    items[0] = last;
+    let i = 0;
+    for (;;) {
+      const left = 2 * i + 1;
+      const right = left + 1;
+      let smallest = i;
+      const l = items[left];
+      const r = items[right];
+      const s = items[smallest];
+      if (l && s && l.cost < s.cost) smallest = left;
+      const s2 = items[smallest];
+      if (r && s2 && r.cost < s2.cost) smallest = right;
+      if (smallest === i) break;
+      const a = items[i];
+      const b = items[smallest];
+      if (!a || !b) break;
+      items[i] = b;
+      items[smallest] = a;
+      i = smallest;
+    }
+    return top;
+  }
+
+  get size(): number {
+    return this.items.length;
+  }
 }
 
 /**
@@ -122,29 +260,26 @@ interface Step {
  */
 function search(
   network: TransportNetwork,
+  ready: Prepared,
   graph: Graph,
   allowed: ReadonlySet<TransportMode>,
 ): readonly Step[] | null {
-  const startKey = `${ORIGIN_NODE_ID}||`;
+  const startKey = `${ORIGIN_NODE_ID}|||`;
   const best = new Map<string, number>([[startKey, 0]]);
   const cameFrom = new Map<string, { readonly key: string; readonly step: Step }>();
-  const open = new Set<string>([startKey]);
+  const heap = new Heap();
+  heap.push(startKey, 0);
+  const settled = new Set<string>();
   let endKey: string | null = null;
 
-  while (open.size > 0) {
-    let key: string | null = null;
-    let cost = Infinity;
-    for (const candidate of open) {
-      const seen = best.get(candidate) ?? Infinity;
-      if (seen < cost) {
-        cost = seen;
-        key = candidate;
-      }
-    }
-    if (key === null) break;
-    open.delete(key);
+  while (heap.size > 0) {
+    const top = heap.pop();
+    if (!top) break;
+    const { key, cost } = top;
+    if (settled.has(key)) continue;
+    settled.add(key);
 
-    const [node, line, boarded] = key.split('|');
+    const [node, line, boarded, walked] = key.split('|');
     if (node === undefined) continue;
     // Only a journey that boarded something counts. Without this the metro search happily
     // returns the walk that happens to be quicker, the card is dropped for having no train in
@@ -156,20 +291,22 @@ function search(
 
     for (const link of graph.get(node) ?? []) {
       if (!allowed.has(link.mode)) continue;
-      // Boarding costs what standing on the platform costs. Staying aboard costs nothing.
+      // A walk never follows a walk: the short transfers between neighbouring stops would
+      // otherwise chain into a two-kilometre hike that no card should be offering.
+      if (link.mode === 'walk' && walked === 'w') continue;
+      // Boarding costs what standing on the platform costs: half the line's measured headway
+      // when the feed gave one, the mode's usual wait when it did not. Staying aboard is free.
       const boarding =
-        link.mode !== 'walk' && link.line !== line
-          ? network.waitSeconds[link.mode === 'metro' ? 'metro' : 'bus']
-          : 0;
+        link.mode !== 'walk' && link.line !== line ? waitFor(network, ready, link) : 0;
       const seconds = link.seconds + boarding;
       // Walking resets the line: once you are off the train, the next one has to be waited for.
       const nextLine = link.mode === 'walk' ? '' : (link.line ?? '');
-      const nextKey = `${link.to}|${nextLine}|${link.mode === 'walk' ? (boarded ?? '') : 'on'}`;
+      const nextKey = `${link.to}|${nextLine}|${link.mode === 'walk' ? (boarded ?? '') : 'on'}|${link.mode === 'walk' ? 'w' : ''}`;
       const next = cost + seconds;
       if (next >= (best.get(nextKey) ?? Infinity)) continue;
       best.set(nextKey, next);
       cameFrom.set(nextKey, { key, step: { link: { ...link, seconds }, from: node } });
-      open.add(nextKey);
+      heap.push(nextKey, next);
     }
   }
 
@@ -183,6 +320,12 @@ function search(
     key = previous.key;
   }
   return steps.length > 0 ? steps : null;
+}
+
+function waitFor(network: TransportNetwork, ready: Prepared, link: Link): number {
+  const headway = link.line === undefined ? undefined : ready.headway.get(link.line);
+  if (headway !== undefined) return Math.max(60, Math.round(headway / 2));
+  return network.waitSeconds[link.mode === 'metro' || link.mode === 'tram' ? 'metro' : 'bus'];
 }
 
 /** Consecutive steps on the same line are one leg — that is how a traveller reads a journey. */
@@ -200,14 +343,18 @@ function toLegs(steps: readonly Step[]): readonly PlannedLeg[] {
       };
       continue;
     }
+    const { link } = step;
     legs.push({
-      mode: step.link.mode,
+      mode: link.mode,
       fromNodeId: step.from,
-      toNodeId: step.link.to,
-      durationSeconds: step.link.seconds,
+      toNodeId: link.to,
+      durationSeconds: link.seconds,
       stops: 1,
-      distanceM: step.link.distanceM,
-      ...(step.link.line === undefined ? {} : { line: step.link.line }),
+      distanceM: link.distanceM,
+      ...(link.line === undefined ? {} : { line: link.line }),
+      ...(link.direction === undefined ? {} : { direction: link.direction }),
+      ...(link.firstDeparture === undefined ? {} : { firstDeparture: link.firstDeparture }),
+      ...(link.lastDeparture === undefined ? {} : { lastDeparture: link.lastDeparture }),
     });
   }
   return legs;
@@ -250,6 +397,12 @@ function roundFare(aed: number): number {
   return Math.round(aed);
 }
 
+/** The modes each card may ride. The tram is part of the metro answer: it is Nol, rail and a change at DMCC. */
+const RIDES: Readonly<Record<'metro' | 'bus', readonly TransportMode[]>> = {
+  metro: ['metro', 'tram'],
+  bus: ['bus'],
+};
+
 /**
  * Every way a traveller could make this journey, best first, with the badge that says why each
  * one is on the list. Returns an empty list rather than a guess when the traveller is outside
@@ -260,47 +413,44 @@ export function planRoutes(
   origin: LatLng,
   destination: DubaiPlace,
 ): readonly RouteOption[] {
-  const nearest = Math.min(...network.nodes.map((node) => metresBetween(origin, node.location)));
+  const ready = prepare(network);
+  const nearest = ready.index.nearestMetres(origin);
   if (!Number.isFinite(nearest) || nearest > SERVICE_AREA_METRES) return [];
 
   const directM = metresBetween(origin, destination.location);
-  const graph = buildGraph(network);
+  // The journey's own ends join a copy of the graph, so the shared one stays clean.
+  const graph = new Map<string, Link[]>();
+  for (const [from, links] of ready.graph) graph.set(from, [...links]);
 
-  for (const node of network.nodes) {
-    const fromOrigin = metresBetween(origin, node.location);
-    if (fromOrigin <= ACCESS_METRES) {
-      push(graph, ORIGIN_NODE_ID, {
-        to: node.id,
-        seconds: walkSeconds(network, fromOrigin),
-        mode: 'walk',
-        line: undefined,
-        distanceM: fromOrigin,
-      });
-    }
-    const toDestination = metresBetween(destination.location, node.location);
-    if (toDestination <= ACCESS_METRES) {
-      push(graph, node.id, {
-        to: DESTINATION_NODE_ID,
-        seconds: walkSeconds(network, toDestination),
-        mode: 'walk',
-        line: undefined,
-        distanceM: toDestination,
-      });
-    }
+  for (const { node, metres } of ready.index.within(origin, ACCESS_METRES)) {
+    push(graph, ORIGIN_NODE_ID, {
+      to: node.id,
+      seconds: walkSeconds(network, metres),
+      mode: 'walk',
+      line: undefined,
+      distanceM: metres,
+    });
+  }
+  for (const { node, metres } of ready.index.within(destination.location, ACCESS_METRES)) {
+    push(graph, node.id, {
+      to: DESTINATION_NODE_ID,
+      seconds: walkSeconds(network, metres),
+      mode: 'walk',
+      line: undefined,
+      distanceM: metres,
+    });
   }
 
   const candidates: RouteOption[] = [];
 
-  for (const [id, mode] of [
-    ['metro', 'metro'],
-    ['bus', 'bus'],
-  ] as const) {
-    const steps = search(network, graph, new Set<TransportMode>(['walk', mode]));
+  for (const id of ['metro', 'bus'] as const) {
+    const rides = RIDES[id];
+    const steps = search(network, ready, graph, new Set<TransportMode>(['walk', ...rides]));
     if (steps === null) continue;
     const legs = toLegs(steps);
     // A path that never boards anything is a walk, not a metro journey. Offering it as one
     // would put "मेट्रो" on a card with no train in it.
-    const ridden = legs.filter((leg) => leg.mode === mode);
+    const ridden = legs.filter((leg) => rides.includes(leg.mode));
     if (ridden.length === 0) continue;
     const riddenM = ridden.reduce((sum, leg) => sum + leg.distanceM, 0);
     candidates.push(assemble(id, legs, fareForDistance(network, riddenM)));

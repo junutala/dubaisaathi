@@ -78,9 +78,15 @@ describe('planning a journey on the device', () => {
 
   it('never puts a mode on a card the journey does not use', () => {
     for (const option of planRoutes(network, BUR_DUBAI, place('dubai-marina'))) {
-      if (option.id === 'metro' || option.id === 'bus') {
+      if (option.id === 'metro') {
         expect(
-          option.route.legs.some((leg) => leg.mode === option.id),
+          option.route.legs.some((leg) => leg.mode === 'metro' || leg.mode === 'tram'),
+          option.id,
+        ).toBe(true);
+      }
+      if (option.id === 'bus') {
+        expect(
+          option.route.legs.some((leg) => leg.mode === 'bus'),
           option.id,
         ).toBe(true);
       }

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "publish:outlets": "tsx src/publishOutlets.ts",
+    "publish:transport": "tsx src/publishTransport.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },

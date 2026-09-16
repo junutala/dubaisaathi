@@ -236,6 +236,11 @@ export const en: Record<StringKey, string> = {
   'steps.seeBus': 'See bus',
   'steps.seeMetro': 'See metro',
   'steps.taxi': 'Taxi',
+  'steps.towards': 'towards {place}',
+  'steps.service': 'First {first} · last {last}',
+  'steps.every': 'every {count} min',
+  'steps.serviceNote': 'Times from the RTA timetable, for a normal weekday. Weekends can differ.',
+  'steps.source': '{attribution}',
 
   'taxi.trail': 'Taxi',
   'taxi.going': 'Going to',

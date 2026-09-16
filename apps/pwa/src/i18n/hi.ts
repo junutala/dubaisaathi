@@ -250,6 +250,11 @@ export const hi = {
   'steps.seeBus': 'बस देखें',
   'steps.seeMetro': 'मेट्रो देखें',
   'steps.taxi': 'टैक्सी',
+  'steps.towards': '{place} की ओर',
+  'steps.service': 'पहली {first} · आख़िरी {last}',
+  'steps.every': 'हर {count} मिनट में',
+  'steps.serviceNote': 'समय RTA की समय-सारणी से, आम दिनों के। वीकेंड पर अलग हो सकते हैं।',
+  'steps.source': '{attribution}',
 
   // 2.4 · टैक्सी — the hand-off to Careem, and the address for a street taxi
   'taxi.trail': 'टैक्सी',
