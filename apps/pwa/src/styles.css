@@ -362,6 +362,14 @@ button:not(:disabled) {
   font-weight: 700;
   white-space: nowrap;
 }
+.home-build {
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  opacity: 0.6;
+  text-align: center;
+  line-height: 1;
+}
 .pillars {
   flex: 1;
   display: flex;

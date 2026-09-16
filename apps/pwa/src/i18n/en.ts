@@ -39,6 +39,7 @@ export const en: Record<StringKey, string> = {
   'home.nudgeOver': 'Your free day has ended',
   'home.nudgeWhy': 'A 14-day pass from ₹199 — once, no subscription',
   'home.nudgeCta': 'Get pass',
+  'home.build': 'build {build}',
 
   'landing.offline': 'Works without internet',
   'landing.usp': 'No SIM, no wifi, no roaming in Dubai — and everything still works.',

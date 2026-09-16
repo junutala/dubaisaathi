@@ -3,6 +3,7 @@ import { navigate, type Route } from '../../app/routes.js';
 import { Icon, type IconName } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
 import type { Validity } from '../pass/entitlement.js';
+import { BUILD } from '../../app/version.js';
 
 interface PillarDef {
   readonly key: StringKey;
@@ -110,6 +111,10 @@ export function HomeScreen({
           </button>
         ))}
       </div>
+      {/* Which build this is, on घर only and in the smallest type on the screen. The owner and
+          whoever fixed something need to know they are looking at the new one; nobody else
+          reads it. It can be taken off once a deploy is trusted on sight. */}
+      <span className="home-build">{t('home.build', { build: BUILD })}</span>
     </div>
   );
 }

@@ -44,6 +44,7 @@ export const hi = {
   'home.nudgeOver': 'आपका मुफ़्त दिन ख़त्म हो गया',
   'home.nudgeWhy': '14 दिन का पास ₹199 से — एक बार, कोई सब्सक्रिप्शन नहीं',
   'home.nudgeCta': 'पास लें',
+  'home.build': 'बिल्ड {build}',
 
   // L · लैंडिंग
   'landing.offline': 'बिना इंटरनेट चलता है',
