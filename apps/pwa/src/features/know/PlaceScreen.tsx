@@ -39,12 +39,17 @@ export function PlaceScreen({
     <>
       <ScreenHeader pillar="know" trail={name} />
       <div className="flow">
-        <div className="photo-frame" style={{ height: 150 }}>
-          <span className="photo-cap">{t(`know.chip.${row.category}` as StringKey)}</span>
-        </div>
+        {/* A photograph only when the pack carries one. An empty hatched frame reads as a
+            broken image, not as a promise, so nothing is drawn without a picture behind it. */}
+        {row.photo !== undefined && (
+          <div className="photo-frame" style={{ height: 150 }}>
+            <img src={row.photo} alt="" />
+          </div>
+        )}
         <div className="stack-sm">
           <h1 className="outlet-title">{name}</h1>
           <p className="outlet-meta">
+            <span className="pill know-pill">{t(`know.chip.${row.category}` as StringKey)}</span>
             <span>{locale === 'hi' ? place.name.en : place.name.hi}</span>
             {km !== undefined && (
               <span>

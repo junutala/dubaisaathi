@@ -649,6 +649,11 @@ button:not(:disabled) {
   font-size: 11.5px;
   font-weight: 700;
 }
+/* The category on 3.2, in the line under the name, where the photo's caption used to sit. */
+.know-pill {
+  background: var(--knowSoft);
+  color: var(--knowText);
+}
 
 /* A fact box: a small label over a value. */
 .fact {

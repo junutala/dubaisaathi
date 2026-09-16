@@ -58,6 +58,24 @@ body {
   font-size: 14px;
   color: var(--teal);
 }
+.bar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+/* The language, one tap, either way round. */
+.lang {
+  min-height: 36px;
+  padding: 0 10px;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  color: inherit;
+}
 /* Amber, not red: work that is waiting is not work that is lost. */
 .queue.waiting {
   color: var(--marigold);

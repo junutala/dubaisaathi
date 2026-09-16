@@ -43,10 +43,9 @@ strip running set
 header lantern "$n_text" 'जानना' 'बुर्ज ख़लीफ़ा'
 cat <<H
   <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 6px 16px 12px 16px;">
-    $(photo 160 'बुर्ज ख़लीफ़ा, डाउनटाउन')
     <div style="display: flex; flex-direction: column; gap: 4px;">
       <span class="disp" style="font-size: 28px; font-weight: 700; color: $ink; line-height: 1.1;">बुर्ज ख़लीफ़ा</span>
-      <span style="font-size: 13.5px; color: $muted;">Burj Khalifa · डाउनटाउन · होटल से 9 किमी</span>
+      <span style="font-size: 13.5px; color: $muted; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;"><span style="padding: 2px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 700; background: $n_soft; color: $n_text;">लैंडमार्क</span>Burj Khalifa · होटल से 9 किमी</span>
     </div>
     <span style="font-size: 15px; line-height: 1.5; color: $ink; text-wrap: pretty;">दुनिया की सबसे ऊँची इमारत, 828 मीटर। 124वीं और 148वीं मंज़िल से शहर दिखता है। सूर्यास्त का समय सबसे भरा रहता है — टिकट पहले लें, वहाँ लाइन लंबी होती है।</span>
     <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;">

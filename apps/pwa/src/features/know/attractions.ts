@@ -20,6 +20,8 @@ export interface Attraction {
   readonly ticketNote?: { readonly hi: string; readonly en: string };
   readonly phone?: string;
   readonly durationHours?: number;
+  /** A photograph we hold the rights to show, as a path under the pack. None yet: the frame is drawn only when one exists. */
+  readonly photo?: string;
   readonly checkedAt: string;
 }
 

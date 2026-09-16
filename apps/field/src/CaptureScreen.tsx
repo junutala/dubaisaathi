@@ -14,6 +14,7 @@ import { BUILD } from './version.js';
 import { readMenu } from './readMenu.js';
 import type { Candidate } from './dishCandidates.js';
 import { startSync, syncReports, type SyncOutcome } from './sync.js';
+import { setLang, useStrings, type Key } from './strings.js';
 
 /**
  * One screen, because a collector standing in a shop should never be navigating.
@@ -39,21 +40,28 @@ interface Fix {
 
 type Answer = 'yes' | 'on-request' | 'no' | null;
 
-const DIET: readonly { key: keyof FieldReport['dietary']; label: string }[] = [
-  { key: 'jain', label: 'Jain' },
-  { key: 'vrat', label: 'Vrat / fasting' },
-  { key: 'sattvik', label: 'Sattvik' },
-  { key: 'noOnionGarlic', label: 'No onion / garlic' },
-  { key: 'eggless', label: 'Eggless' },
+const DIET: readonly { key: keyof FieldReport['dietary']; label: Key }[] = [
+  { key: 'jain', label: 'jain' },
+  { key: 'vrat', label: 'vrat' },
+  { key: 'sattvik', label: 'sattvik' },
+  { key: 'noOnionGarlic', label: 'noOnionGarlic' },
+  { key: 'eggless', label: 'eggless' },
 ];
 
-const KITCHENS: readonly { value: KitchenKind; label: string }[] = [
-  { value: 'pure-veg', label: 'Pure veg' },
-  { value: 'mixed', label: 'Veg + non-veg' },
-  { value: 'non-veg', label: 'Non-veg' },
+const KITCHENS: readonly { value: KitchenKind; label: Key }[] = [
+  { value: 'pure-veg', label: 'pureVeg' },
+  { value: 'mixed', label: 'mixed' },
+  { value: 'non-veg', label: 'nonVeg' },
+];
+
+const ANSWERS: readonly { value: 'yes' | 'on-request' | 'no'; label: Key }[] = [
+  { value: 'yes', label: 'yes' },
+  { value: 'on-request', label: 'onRequest' },
+  { value: 'no', label: 'no' },
 ];
 
 export function CaptureScreen() {
+  const { lang, t } = useStrings();
   const [who, setWho] = useState<string | null>(() => collectorName());
   const [fix, setFix] = useState<Fix | null>(null);
   const [fixTrouble, setFixTrouble] = useState<string | null>(null);
@@ -115,14 +123,15 @@ export function CaptureScreen() {
         setFixTrouble(null);
       },
       (error) => {
-        setFixTrouble(error.message || 'the phone did not give a location');
+        setFixTrouble(error.message || t('noLocation'));
       },
       { enableHighAccuracy: true, timeout: 20_000, maximumAge: 5_000 },
     );
     return () => {
       navigator.geolocation.clearWatch(watch);
     };
-  }, [who]);
+    // The language is read once here, on error; the watch does not restart for a word.
+  }, [who, t]);
 
   const ready = fix !== null && name.trim() !== '' && kitchen !== null && front !== null;
 
@@ -228,53 +237,67 @@ export function CaptureScreen() {
           <Logo size={26} />
           <span className="brand-text">
             <strong className="brand-name">Dubai Saathi</strong>
-            <span className="brand-sub">Outlets · {who}</span>
+            <span className="brand-sub">
+              {t('appSub')} · {who}
+            </span>
           </span>
         </span>
-        <span className={queue.pending > 0 ? 'queue waiting' : 'queue'}>
-          {queue.pending > 0 ? `${String(queue.pending)} waiting to upload` : 'all uploaded'}
+        <span className="bar-right">
+          <span className={queue.pending > 0 ? 'queue waiting' : 'queue'}>
+            {queue.pending > 0 ? t('waiting', { n: queue.pending }) : t('allUploaded')}
+          </span>
+          <button
+            type="button"
+            className="lang"
+            onClick={() => {
+              setLang(lang === 'hi' ? 'en' : 'hi');
+            }}
+            aria-label={lang === 'hi' ? 'English' : 'हिंदी'}
+          >
+            {lang === 'hi' ? 'EN' : 'हिं'}
+          </button>
         </span>
       </header>
 
-      {saved !== null && (
-        <p className="saved">
-          Saved <strong>{saved}</strong>. Next one.
-        </p>
-      )}
+      {saved !== null && <p className="saved">{t('savedNext', { name: saved })}</p>}
 
-      <Section title="Where it is" required>
-        {/* No button: the phone is watched from the moment the form opens, and the fix saved is
-            the one under the collector's feet when they press save. */}
+      {/* No button and no "needed" badge: nothing here is the collector's to do. The phone is
+          watched from the moment the form opens, and the fix saved is the one under their feet
+          when they press save. */}
+      <Section title={t('where')}>
         {fix === null ? (
-          <p className="hint">Asking the phone where you are…</p>
+          <p className="hint">{t('askingPhone')}</p>
         ) : (
           <p className="hint">
-            Located · within {String(Math.round(fix.accuracyM))} m · {fix.lat.toFixed(5)},{' '}
-            {fix.lng.toFixed(5)}
+            {t('located', {
+              m: Math.round(fix.accuracyM),
+              lat: fix.lat.toFixed(5),
+              lng: fix.lng.toFixed(5),
+            })}
           </p>
         )}
         {fixTrouble !== null && <p className="trouble">{fixTrouble}</p>}
       </Section>
 
-      <Section title="Name on the board" required>
+      <Section title={t('nameOnBoard')} required>
         <input
           value={name}
           onChange={(e) => {
             setName(e.target.value);
           }}
-          placeholder="As written outside"
+          placeholder={t('asWritten')}
         />
         <input
           value={nameHi}
           onChange={(e) => {
             setNameHi(e.target.value);
           }}
-          placeholder="In Hindi (optional)"
+          placeholder={t('inHindi')}
           lang="hi"
         />
       </Section>
 
-      <Section title="Which area">
+      <Section title={t('whichArea')}>
         <div className="chips">
           {AREAS.map((row) => (
             <button
@@ -296,15 +319,15 @@ export function CaptureScreen() {
             onChange={(e) => {
               setAreaOther(e.target.value);
             }}
-            placeholder="Somewhere else — write it"
+            placeholder={t('somewhereElse')}
           />
         )}
-        <p className="hint">It is the word on the traveller's row: "करामा · 650 m".</p>
+        <p className="hint">{t('areaHint')}</p>
       </Section>
 
-      <Section title="Photo of the front" required>
+      <Section title={t('frontPhoto')} required>
         <FilePick
-          label={front === null ? 'Take the photo' : 'Retake'}
+          label={front === null ? t('takePhoto') : t('retake')}
           onPick={(f) => {
             const picked = f[0];
             if (picked === undefined) return;
@@ -313,10 +336,10 @@ export function CaptureScreen() {
         />
         {/* The size is shown because it is the collector's own data being spent, and because a
             number here is the only way anyone can tell the shrinking actually happened. */}
-        {front !== null && <p className="hint">Got it · {kb(front)}</p>}
+        {front !== null && <p className="hint">{t('gotIt', { size: kb(front) })}</p>}
       </Section>
 
-      <Section title="Kind of kitchen" required>
+      <Section title={t('kitchenKind')} required>
         <div className="chips">
           {KITCHENS.map((k) => (
             <button
@@ -327,43 +350,43 @@ export function CaptureScreen() {
                 setKitchen(k.value);
               }}
             >
-              {k.label}
+              {t(k.label)}
             </button>
           ))}
         </div>
       </Section>
 
-      <Section title="Ask them — do they do these?">
+      <Section title={t('askThem')}>
         {DIET.map((row) => (
           <div key={row.key} className="row">
-            <span>{row.label}</span>
+            <span>{t(row.label)}</span>
             <div className="chips">
-              {(['yes', 'on-request', 'no'] as const).map((value) => (
+              {ANSWERS.map((answer) => (
                 <button
-                  key={value}
+                  key={answer.value}
                   type="button"
-                  className={diet[row.key] === value ? 'chip on' : 'chip'}
+                  className={diet[row.key] === answer.value ? 'chip on' : 'chip'}
                   onClick={() => {
-                    setDiet({ ...diet, [row.key]: value });
+                    setDiet({ ...diet, [row.key]: answer.value });
                   }}
                 >
-                  {value === 'on-request' ? 'on request' : value}
+                  {t(answer.label)}
                 </button>
               ))}
             </div>
           </div>
         ))}
-        <p className="hint">Ask a person. Do not read it off a sign.</p>
+        <p className="hint">{t('askPerson')}</p>
       </Section>
 
-      <Section title="Dishes they named">
+      <Section title={t('dishesNamed')}>
         <div className="row">
           <input
             value={dishName}
             onChange={(e) => {
               setDishName(e.target.value);
             }}
-            placeholder="e.g. Jain sambar"
+            placeholder={t('dishExample')}
           />
           <input
             className="short"
@@ -392,7 +415,7 @@ export function CaptureScreen() {
               setDishPrice('');
             }}
           >
-            Add
+            {t('add')}
           </button>
         </div>
         {dishes.length > 0 && (
@@ -412,13 +435,10 @@ export function CaptureScreen() {
             ))}
           </div>
         )}
-        <p className="hint">
-          A dish they will actually make is worth more than a tick box. The price is what the
-          traveller's menu shows next to it.
-        </p>
+        <p className="hint">{t('dishHint')}</p>
       </Section>
 
-      <Section title="Hours">
+      <Section title={t('hours')}>
         <label className="check">
           <input
             type="checkbox"
@@ -427,7 +447,7 @@ export function CaptureScreen() {
               setOpen24(e.target.checked);
             }}
           />
-          Open 24 hours
+          {t('open24')}
         </label>
         {!open24 && (
           <div className="row">
@@ -438,7 +458,7 @@ export function CaptureScreen() {
                 setOpens(e.target.value);
               }}
             />
-            <span>to</span>
+            <span>{t('to')}</span>
             <input
               type="time"
               value={closes}
@@ -448,18 +468,16 @@ export function CaptureScreen() {
             />
           </div>
         )}
-        <p className="hint">
-          A 3am close is fine — put 03:00. Late places are the ones nobody else has.
-        </p>
+        <p className="hint">{t('hoursHint')}</p>
       </Section>
 
-      <Section title="Phone and delivery">
+      <Section title={t('phoneDelivery')}>
         <input
           value={phone}
           onChange={(e) => {
             setPhone(e.target.value);
           }}
-          placeholder="Phone on the board"
+          placeholder={t('phoneOnBoard')}
           inputMode="tel"
         />
         <div className="chips">
@@ -472,22 +490,20 @@ export function CaptureScreen() {
                 setDelivers(value);
               }}
             >
-              {value}
+              {t(value)}
             </button>
           ))}
         </div>
-        <p className="hint">
-          The traveller's card has a call button; this is the number behind it.
-        </p>
+        <p className="hint">{t('phoneHint')}</p>
       </Section>
 
-      <Section title="The rest">
+      <Section title={t('theRest')}>
         <input
           value={price}
           onChange={(e) => {
             setPrice(e.target.value);
           }}
-          placeholder="Price for one (AED)"
+          placeholder={t('priceForOne')}
           inputMode="numeric"
         />
         <input
@@ -495,13 +511,13 @@ export function CaptureScreen() {
           onChange={(e) => {
             setSpokeTo(e.target.value);
           }}
-          placeholder="Who you spoke to — Suresh, manager"
+          placeholder={t('spokeTo')}
         />
         {/* Straight-on and filling the frame is worth more to the reader than any setting: a menu
             shot at an angle loses whole lines. Said where the photo is taken, not in a manual. */}
-        <p className="hint">Hold the menu straight and fill the frame — it reads far better.</p>
+        <p className="hint">{t('menuHint')}</p>
         <FilePick
-          label="Menu photos"
+          label={t('menuPhotos')}
           multiple
           onPick={(f) => {
             void Promise.all(f.map((file) => shrink(file, MENU))).then((shrunk) => {
@@ -511,7 +527,7 @@ export function CaptureScreen() {
         />
         {menu.length > 0 && (
           <p className="hint">
-            {menu.length} menu photo(s) · {kb(menu.reduce((sum, m) => sum + m.size, 0))}
+            {t('menuCount', { n: menu.length, size: kb(menu.reduce((sum, m) => sum + m.size, 0)) })}
           </p>
         )}
 
@@ -534,18 +550,13 @@ export function CaptureScreen() {
               });
             }}
           >
-            {reading === 'yes' ? 'Reading the menu…' : 'Read the menu'}
+            {reading === 'yes' ? t('readingMenu') : t('readMenu')}
           </button>
         )}
-        {reading === 'failed' && (
-          <p className="hint">Could not read it. Type the dishes above instead.</p>
-        )}
+        {reading === 'failed' && <p className="hint">{t('couldNotRead')}</p>}
         {candidates.length > 0 && (
           <>
-            <p className="hint">
-              Tap the ones they actually serve. Do it here, with the board in front of you — nobody
-              can check this later.
-            </p>
+            <p className="hint">{t('tapServed')}</p>
             <div className="chips">
               {candidates.map((candidate) => {
                 const on = dishes.some((d) => d.name.en === candidate.text);
@@ -585,7 +596,7 @@ export function CaptureScreen() {
           onChange={(e) => {
             setNotes(e.target.value);
           }}
-          placeholder="Anything a friend would mention"
+          placeholder={t('notes')}
           rows={3}
         />
       </Section>
@@ -598,9 +609,9 @@ export function CaptureScreen() {
           void submit();
         }}
       >
-        {ready ? 'Save this outlet' : 'Location, name, photo and kitchen first'}
+        {ready ? t('save') : t('saveFirst')}
       </button>
-      <p className="hint center">It saves on the phone first. Uploading can wait for signal.</p>
+      <p className="hint center">{t('savesFirst')}</p>
       {/* Which build this is, so "did my fix reach the phone?" is answerable by looking. */}
       <p className="build">{BUILD}</p>
     </div>
@@ -627,11 +638,12 @@ function Section({
   readonly required?: boolean;
   readonly children: React.ReactNode;
 }) {
+  const { t } = useStrings();
   return (
     <section className="sec">
       <h2>
         {title}
-        {required === true && <span className="req">needed</span>}
+        {required === true && <span className="req">{t('needed')}</span>}
       </h2>
       {children}
     </section>
@@ -665,17 +677,27 @@ function FilePick({
 
 /** Asked once, on first open. Attribution, not a login. */
 function WhoAreYou({ onName }: { readonly onName: (name: string) => void }) {
+  const { lang, t } = useStrings();
   const [value, setValue] = useState('');
   return (
     <div className="wrap">
-      <h1 className="title">Saathi · Outlets</h1>
-      <p className="hint">Every outlet you save is recorded against your name.</p>
+      <h1 className="title">{t('whoTitle')}</h1>
+      <p className="hint">{t('whoHint')}</p>
+      <button
+        type="button"
+        className="lang"
+        onClick={() => {
+          setLang(lang === 'hi' ? 'en' : 'hi');
+        }}
+      >
+        {lang === 'hi' ? 'English' : 'हिंदी में'}
+      </button>
       <input
         value={value}
         onChange={(e) => {
           setValue(e.target.value);
         }}
-        placeholder="Your name"
+        placeholder={t('yourName')}
       />
       <button
         type="button"
@@ -686,7 +708,7 @@ function WhoAreYou({ onName }: { readonly onName: (name: string) => void }) {
           onName(value.trim());
         }}
       >
-        Start
+        {t('start')}
       </button>
     </div>
   );
