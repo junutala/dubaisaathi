@@ -7,4 +7,4 @@ traveller's hotel and documents on the phone, all of it with the network off.
 - `apps/field` — the collectors' app.
 - `data/` — the content packs. `design/` — the screens. `docs/` — the decisions.
 
-Production is `main`, built by Railway into `dubai.saafarsaathi.in`.
+Production is `main`, built by Railway into `dubai.saafarsaathi.in` (the app), `outlet.saafarsaathi.in` (the collectors' app) and `saafarsaathi.in` (the website, `apps/site`).

@@ -1,0 +1,11 @@
+# saafarsaathi.in — the one page that says what the app is and sends people to it.
+#
+# Static files and nginx, nothing else: there is nothing to build. A separate service from the
+# traveller's app on purpose (decision 012): a different origin, no service worker, and a page
+# that can change every day without touching a phone's offline pack.
+FROM nginx:1.27-alpine
+ENV NGINX_ENVSUBST_FILTER=PORT
+ENV PORT=8080
+COPY deploy/nginx.site.conf /etc/nginx/templates/default.conf.template
+COPY apps/site/ /usr/share/nginx/html/
+EXPOSE 8080

@@ -127,6 +127,15 @@ export default tseslint.config(
     },
   },
   {
+    // The website's one script: a plain browser file served as-is by nginx, with no build and no
+    // types to check it against (apps/site).
+    files: ['apps/site/*.js'],
+    extends: [tseslint.configs.disableTypeChecked],
+    languageOptions: {
+      globals: { ...globals.browser },
+    },
+  },
+  {
     files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}'],
     rules: {
       '@typescript-eslint/no-non-null-assertion': 'off',

@@ -1,0 +1,460 @@
+/* saafarsaathi.in — the page that says what the app is. Same palette, same typefaces, same three
+   hues as the app's home, so what the reader sees here is what opens on the phone. */
+
+:root {
+  --ink: #141826;
+  --indigo: #1a2456;
+  --marigold: #e8871e;
+  --marigoldSoft: #fdf0dc;
+  --marigoldText: #9a5b10;
+  --onMarigold: #231403;
+  --teal: #0b7a6b;
+  --tealSoft: #e1f2ef;
+  --tealText: #0a5f54;
+  --sand: #f7f3ec;
+  --card: #fffdf9;
+  --line: #e6ded2;
+  --muted: #5b6070;
+  --food: #b4610f;
+  --onFood: #fff6e8;
+  --foodSoft: #fdf0dc;
+  --go: #0b7a6b;
+  --onGo: #eafbf7;
+  --goSoft: #e1f2ef;
+  --know: #1a2456;
+  --onKnow: #eef0ff;
+  --knowSoft: #e8eaf6;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  font-family: 'Mukta', 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: var(--sand);
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+/* Two languages in the markup, one on the page. */
+html[lang='hi'] .en,
+html[lang='en'] .hi {
+  display: none;
+}
+
+.wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+a {
+  color: inherit;
+}
+
+/* ---- header ------------------------------------------------------------------------- */
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: rgb(247 243 236 / 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.top .wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 20px;
+}
+.brand img {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+}
+.brand .sub {
+  font-weight: 500;
+  color: var(--muted);
+  font-size: 14px;
+}
+.top .grow {
+  flex: 1;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 18px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn-go {
+  background: var(--marigold);
+  border-color: var(--marigold);
+  color: var(--onMarigold);
+}
+.btn-big {
+  min-height: 56px;
+  padding: 0 26px;
+  font-size: 18px;
+  border-radius: 18px;
+}
+
+/* ---- hero --------------------------------------------------------------------------- */
+.hero {
+  padding: 56px 0 40px;
+}
+.hero .wrap {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
+  align-items: center;
+}
+.kicker {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tealText);
+  background: var(--tealSoft);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+h1 {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-weight: 600;
+  font-size: clamp(38px, 6vw, 64px);
+  line-height: 1.05;
+  margin: 14px 0 12px;
+  letter-spacing: -0.01em;
+}
+h1 .three {
+  color: var(--marigoldText);
+}
+.lead {
+  font-size: 19px;
+  color: var(--muted);
+  margin: 0 0 22px;
+  max-width: 34em;
+  text-wrap: pretty;
+}
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.cta .note {
+  font-size: 14px;
+  color: var(--muted);
+}
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 15px;
+  font-weight: 600;
+}
+.facts li::before {
+  content: '✓';
+  color: var(--teal);
+  margin-right: 6px;
+}
+
+/* A phone, drawn in CSS, with a real screenshot of the app inside it. */
+.phone {
+  width: 300px;
+  max-width: 100%;
+  aspect-ratio: 390 / 780;
+  border-radius: 36px;
+  border: 10px solid var(--ink);
+  background: var(--ink);
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgb(20 24 38 / 0.22);
+  margin: 0 auto;
+}
+.phone img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.phone-sm {
+  width: 240px;
+  border-width: 8px;
+  border-radius: 30px;
+}
+
+/* ---- sections ----------------------------------------------------------------------- */
+section {
+  padding: 56px 0;
+}
+h2 {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-weight: 600;
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.15;
+  margin: 0 0 8px;
+}
+.sub {
+  font-size: 17px;
+  color: var(--muted);
+  margin: 0 0 28px;
+  max-width: 40em;
+  text-wrap: pretty;
+}
+
+/* The three pillars, as on the app's home: deep blocks in their own hue with cream type. */
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.pillar {
+  border-radius: 26px;
+  padding: 22px 22px 0;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+}
+.pillar-food {
+  background: var(--food);
+  color: var(--onFood);
+}
+.pillar-go {
+  background: var(--go);
+  color: var(--onGo);
+}
+.pillar-know {
+  background: var(--know);
+  color: var(--onKnow);
+}
+.pillar .roman {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+.pillar .name {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1;
+}
+.pillar p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+  opacity: 0.92;
+  min-height: 4.4em;
+}
+.pillar .phone {
+  margin: 14px auto -60px;
+  width: 220px;
+  border-width: 7px;
+  border-radius: 28px;
+  box-shadow: 0 16px 30px rgb(0 0 0 / 0.25);
+}
+
+/* Try it from India: the stand-in location, shown on the app's own screen. */
+.try .wrap {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 40px;
+  align-items: center;
+}
+.try {
+  background: var(--card);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.steps li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  font-size: 17px;
+}
+.steps li::before {
+  counter-increment: step;
+  content: counter(step);
+  flex: 0 0 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: var(--marigoldSoft);
+  color: var(--marigoldText);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.quote {
+  margin: 18px 0 0;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: var(--sand);
+  border: 1px dashed var(--line);
+  font-size: 15px;
+  color: var(--muted);
+}
+
+/* The pass. */
+.plans {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 22px 0 0;
+}
+.plan {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.plan .phones {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.plan .price {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink);
+}
+.plan .days {
+  font-size: 14px;
+  color: var(--muted);
+}
+.free {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: var(--tealSoft);
+  color: var(--tealText);
+  font-size: 17px;
+  font-weight: 600;
+}
+.free .big {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 44px;
+  font-weight: 600;
+  line-height: 1;
+}
+.never {
+  margin: 18px 0 0;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+/* Hotel and documents, and how offline works. */
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.box {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 24px;
+}
+.box h3 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+.box p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+.box .phone {
+  margin: 18px auto 0;
+}
+
+footer {
+  padding: 36px 0 48px;
+  color: var(--muted);
+  font-size: 14px;
+  border-top: 1px solid var(--line);
+}
+footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  align-items: center;
+}
+
+@media (max-width: 860px) {
+  .hero .wrap,
+  .try .wrap,
+  .two {
+    grid-template-columns: 1fr;
+  }
+  .hero .phone {
+    margin-top: 12px;
+  }
+  .pillars {
+    grid-template-columns: 1fr;
+  }
+  .plans {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .try .wrap > .phone {
+    order: 2;
+  }
+}
+@media (max-width: 420px) {
+  .plans {
+    grid-template-columns: 1fr;
+  }
+  .brand .sub {
+    display: none;
+  }
+}

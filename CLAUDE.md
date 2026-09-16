@@ -292,11 +292,14 @@ So, every time:
 - **Check, do not assume.** Read the deployment's status and the commit it actually built. A
   deploy that was triggered is not a deploy that succeeded, and a service can be building from
   a branch nobody has pushed to for a week.
-- **Know which branch production builds from.** `main` is production: Railway's `pwa` service
-  builds `junutala/dubaisaathi` on `main` into the `production` environment, and a push to it
-  deploys. Work on any other branch reaches nobody until it is merged there. It built from a
-  working branch until 14 September, which is how a day's work went live to no one — check the
-  service source rather than trusting this line to stay current.
+- **Know which branch production builds from.** `main` is production: Railway builds
+  `junutala/dubaisaathi` on `main` into the `production` environment, and a push to it deploys.
+  Three services, three origins: `pwa` (deploy/Dockerfile) is the traveller's app at
+  `dubai.saafarsaathi.in`; `outlet` (deploy/Dockerfile.field) is the collectors' app at
+  `outlet.saafarsaathi.in`; `site` (deploy/Dockerfile.site, static, no build) is the one-page
+  website at `saafarsaathi.in`. Work on any other branch reaches nobody until it is merged
+  there. It built from a working branch until 14 September, which is how a day's work went
+  live to no one — check the service source rather than trusting this line to stay current.
 - **If deploying needs the owner, ask for that decision on its own** and do not bury it under a
   summary of the code. It is the only part he cannot do for himself by reading.
 
@@ -371,7 +374,8 @@ dubaisaathi/
 │   └── emergency/         # EmergencyPoint
 ├── apps/
 │   ├── pwa/               # the React + TS + Vite client — the product
-│   └── field/             # collectors' PWA: FieldReport capture, offline queue, upload
+│   ├── field/             # collectors' PWA: FieldReport capture, offline queue, upload
+│   └── site/              # the one-page website at saafarsaathi.in — static, Hindi and English
 ├── supabase/              # the backend (decision 011) — replaces apps/api
 │   ├── migrations/        # the five tables: devices, families, passes, orders, voice_events
 │   ├── functions/         # edge functions: sign a pass, bind a slot, take a webhook, take a queue
