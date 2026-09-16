@@ -430,26 +430,50 @@ The screens are the design source of truth and live in `design/`:
 - The reviewed canvas: https://claude.ai/code/artifact/3e0e153e-76fe-4a9d-bf95-a5ca966848c5
   — republish to that URL, never a new one.
 
-## Start here (written 16 September, end of day)
+## Start here (written 16 September, end of the day)
 
-**Sprint 1 is built to the frozen boards** (decision 016): three pillars, the hotel on the strip,
-documents in the bar, the pass as a dot, no microphone. `npm run verify` is green. What is left
-is the server and the content, in this order:
+**Sprint 1 is built to the frozen boards** (decision 016) and is live on three origins:
+`dubai.saafarsaathi.in` (the app), `outlet.saafarsaathi.in` (the collectors' app) and
+`www.saafarsaathi.in` (the one-page website, `apps/site`; the bare name forwards to it from
+GoDaddy). `npm run verify` is green. The day's additions, in the order they happened:
 
-1. **Buying a pass.** The `orders` table exists; no function creates an order, takes the
+- **जाना runs on the RTA's own network** (decision 017): `data/transport/rta-gtfs.zip` →
+  `npm run publish:transport` → the pack. Every bus route, both metro lines, the tram; hops are
+  directional and carry first/last departure; 2.3 says "रेड लाइन लीजिए, एक्सपो की ओर" and
+  "पहली 05:05 · आख़िरी 23:14 · हर 4 मिनट में". **The committed feed is the September 2021
+  edition** — Transitland's stale mirror. The current one (Dubai Pulse `rta_gtfs-open`, 21 Jan
+  2026, a `.7z`) is reachable only from inside the UAE: the owner's connection in India, a
+  GitHub runner and this container all time out. The `fetch-rta-feed` workflow and the
+  converter (folder-in-zip, calendar_dates-only, frequencies) are ready for the file the moment
+  someone in Dubai downloads it.
+- **A traveller in India sees Dubai.** A fix outside Dubai measures from the hotel pin, else
+  BurJuman, and every row says so. The trial clock is untouched by the stand-in.
+- **The collectors' app** takes the GPS on its own (no button, no "needed" badge), asks the
+  area (shared `AREAS` list), the number on the board, and keeps the price the camera read next
+  to each dish; migration 0006 and the `outlet` function carry the two new columns. It speaks
+  Hindi and English on a toggle.
+- **No photographs anywhere, by decision.** No hatched placeholders either (design rule 12).
+  3.2 links the attraction's own website instead. Tablets get a framed, wider column and घर's
+  blocks in a row (rule 11).
+- **The website** is Hindi first, English on a tap, and every phone on it is a real screenshot
+  of the app with the radio off. Its images are never cached; only its fonts are.
+
+What is left, in this order:
+
+1. **The 2026 RTA feed** — one download from a UAE connection (a collector's phone, or the
+   owner's AWS account in me-central-1 once it is verified), then a file swap and
+   `npm run publish:transport`. Give Devanagari names to any station new since 2021 in
+   `data/transport/stations.v1.json`.
+2. **Buying a pass.** The `orders` table exists; no function creates an order, takes the
    aggregator's webhook or signs a pass. Until it does, `VITE_PURCHASE_LIVE` stays off, the
-   buttons on घर.4 say so, and nothing is gated.
-2. **The RTA feed is in, and it is the wrong year.** `data/transport/rta-gtfs.zip` is the
-   September 2021 edition Transitland mirrors, converted by `npm run publish:transport` into
-   the pack (160 lines, 2,499 stops, 6,435 hops, first and last departure per stop and line).
-   The current edition is on Dubai Pulse, `rta_gtfs-open`, last updated 21 January 2026, as
-   `gtfs.7z`: extract it, zip the `.txt` files, replace `rta-gtfs.zip`, re-run. The converter
-   already takes a zip with a folder inside, a feed with only `calendar_dates.txt`, and
-   `frequencies.txt` (decision 017). Weekend times are not carried.
+   buttons on घर.4 say so, nothing is gated, and the website says purchase opens shortly.
 3. **Content.** `restaurants.v1.json` is empty and खाना runs on the fixture; the collectors'
-   app is live and the pipeline publishes approved reports. `attractions.v1.json` carries hours
-   and tickets as known on 16 September, unchecked on the ground; every row has `checkedAt`.
-4. **3.3 · काम की बातें** is parked for Sprint 2, on the canvas's second page.
+   app is live and the pipeline publishes approved reports. `attractions.v1.json` is unchecked
+   on the ground; every row has `checkedAt`.
+4. **Sprint 2**: 3.3 · काम की बातें (parked on the canvas's second page), and the owner's
+   "I'm on this bus" toggle — a countdown of stops to alight with a buzz one stop before,
+   built on the leg's stop sequence and GPS, with the timetable's running times as the fallback
+   in the metro tunnels and the screen kept on.
 
 The question log is the thing to read first each morning: `voice_events` rows with
 `nothing-in-pack` are places and dishes travellers asked for and did not get.
