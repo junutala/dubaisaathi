@@ -604,7 +604,7 @@ button:not(:disabled) {
   height: 56px;
   border-radius: 12px;
   flex-shrink: 0;
-  background: repeating-linear-gradient(135deg, var(--sand) 0 6px, var(--line) 6px 7px);
+  background: var(--sand);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1177,7 +1177,7 @@ button:not(:disabled) {
   height: 84px;
   border-radius: 12px;
   flex-shrink: 0;
-  background: repeating-linear-gradient(135deg, var(--sand) 0 6px, var(--line) 6px 7px);
+  background: var(--sand);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1718,4 +1718,38 @@ button:not(:disabled) {
   font-size: 12.5px;
   font-weight: 600;
   color: var(--muted);
+}
+
+/* ---- a tablet, or a laptop: last, so these rules win over the phone's ------------------ */
+
+/* A tablet, or a laptop. The screens are a phone's, and stay one column: on a wider display the
+   column is framed on sand so it reads as the app rather than a strip lost in a blank page,
+   grows a little, and on घर the three blocks sit side by side so an iPad in landscape shows
+   all three without scrolling. Nothing else changes: same strip, same bar, same screens. */
+@media (min-width: 600px) {
+  body {
+    background: var(--sand);
+  }
+  .screen {
+    max-width: 600px;
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+  }
+}
+@media (min-width: 840px) {
+  .screen {
+    max-width: 760px;
+  }
+  .pillars {
+    flex-direction: row;
+  }
+  .pillar {
+    min-height: 320px;
+  }
+  .pillar-name {
+    font-size: 44px;
+  }
+  .pillar-text {
+    max-width: none;
+  }
 }

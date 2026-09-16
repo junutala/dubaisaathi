@@ -7,7 +7,7 @@ chip() { # label on|off
 orow() { # name area kitchen dish-line distance
 cat <<T
     <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: $card; border-radius: 16px; border: 1px solid $line;">
-      <span style="width: 56px; height: 56px; border-radius: 12px; background: repeating-linear-gradient(135deg, $sand 0 6px, $line 6px 7px); flex-shrink: 0;"></span>
+      <span style="width: 56px; height: 56px; border-radius: 12px; background: $sand; flex-shrink: 0;"></span>
       <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0;">
         <span class="disp" style="font-size: 18px; font-weight: 600; color: $ink; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">$1</span>
         <span style="font-size: 12.5px; color: $muted;">$2 · $5</span>

@@ -6,18 +6,20 @@ rule is agreed, it is added here before the screen is drawn. Sprint 1, frozen 16
 
 ## Structure
 
-| #   | Rule                                                                                                                                                        | Enforced by |
-| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 1   | No microphone anywhere, and no invitation to speak. Every box is typed into.                                                                                | checker     |
-| 2   | Red is reserved and appears on no screen. The pass dot is green or marigold, never red.                                                                     | checker     |
-| 3   | The top strip is on every screen after landing: the mark and the name (a tap goes home), online/offline, the pass dot, language, theme; then the hotel row. | checker     |
-| 4   | The bar is on every screen after landing: खाना · जाना · जानना · दस्तावेज़, plus पास लें while the counter is a trial. It goes once a pass is bought.        | checker     |
-| 5   | The pillar the traveller is in is lit in its own colour in the bar, so they know where they are.                                                            | review      |
-| 6   | Home is the three pillars in that order, as deep blocks of their own hue with cream type, and the nudge from the twentieth hour. No box, nothing else.      | checker     |
-| 7   | Every screen that is not home has a back control, the pillar's icon in its hue, the pillar's name and the trail to this screen.                             | checker     |
-| 8   | The three names stay in Devanagari in both interface languages; the Roman spelling is a caption.                                                            | review      |
-| 9   | No login, no account, no gate before the app is usable. Nothing is gated for a traveller who has paid once.                                                 | review      |
-| 10  | Permissions at first use: location when जाना first needs it, the camera when a photo is taken. Never on landing.                                            | review      |
+| #   | Rule                                                                                                                                                                                                       | Enforced by |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 1   | No microphone anywhere, and no invitation to speak. Every box is typed into.                                                                                                                               | checker     |
+| 2   | Red is reserved and appears on no screen. The pass dot is green or marigold, never red.                                                                                                                    | checker     |
+| 3   | The top strip is on every screen after landing: the mark and the name (a tap goes home), online/offline, the pass dot, language, theme; then the hotel row.                                                | checker     |
+| 4   | The bar is on every screen after landing: खाना · जाना · जानना · दस्तावेज़, plus पास लें while the counter is a trial. It goes once a pass is bought.                                                       | checker     |
+| 5   | The pillar the traveller is in is lit in its own colour in the bar, so they know where they are.                                                                                                           | review      |
+| 6   | Home is the three pillars in that order, as deep blocks of their own hue with cream type, and the nudge from the twentieth hour. No box, nothing else.                                                     | checker     |
+| 7   | Every screen that is not home has a back control, the pillar's icon in its hue, the pillar's name and the trail to this screen.                                                                            | checker     |
+| 8   | The three names stay in Devanagari in both interface languages; the Roman spelling is a caption.                                                                                                           | review      |
+| 9   | No login, no account, no gate before the app is usable. Nothing is gated for a traveller who has paid once.                                                                                                | review      |
+| 10  | Permissions at first use: location when जाना first needs it, the camera when a photo is taken. Never on landing.                                                                                           | review      |
+| 11  | The screens are a phone's and stay one column on every display. Above 600 px the column is framed on sand; above 840 px it grows to 760 px and घर's three blocks sit in a row. No separate tablet screens. | review      |
+| 12  | No hatched placeholder stands where a photograph would go. A thumbnail is a plain box with the pillar's icon; a photograph appears only when the pack or the traveller has one.                            | review      |
 
 ## Content and honesty
 
