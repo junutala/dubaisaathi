@@ -117,6 +117,9 @@ button:not(:disabled) {
   font-weight: 700;
   line-height: 1;
   white-space: nowrap;
+  /* The trail is positioned out to `right: -0.16em` and, being absolute, adds nothing to this
+     box. Without the padding its aeroplane flies over whatever sits next in the strip. */
+  padding-inline-end: 0.2em;
 }
 .wordmark-trail {
   position: absolute;
@@ -182,6 +185,24 @@ button:not(:disabled) {
   color: var(--ink);
   white-space: nowrap;
 }
+/* A narrow phone runs out of row before the word runs out of letters, and a `nowrap` word in a
+   `min-width: 0` flex item overflows its box rather than wrapping — it paints straight over the
+   network label, which is what a 375px phone showed. The word is what gives, never a neighbour:
+   nothing else in this row can be made smaller without becoming a guess at what it says. */
+@media (max-width: 392px) {
+  .strip-brand {
+    gap: 6px;
+  }
+  .strip-name {
+    font-size: 16px;
+  }
+}
+@media (max-width: 361px) {
+  .strip-name {
+    font-size: 15px;
+  }
+}
+
 .strip-net {
   display: flex;
   align-items: center;
