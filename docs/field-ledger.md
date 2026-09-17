@@ -44,6 +44,7 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 | खाना · जाना · जानना              | The three things the app does; everything else is a child of one                    |
 | Roman caption and one-line blurb | जाना and जानना are one letter apart; the caption and the line keep them apart       |
 | The pass tile, at the foot       | The money, visible while it matters, gone once paid; one line per state, tap → घर.4 |
+| The बोलना tile, while online     | The one thing that needs a signal; on घर only when it can work, tap → घर.5          |
 
 ## घर.1 · मेरा होटल
 
@@ -84,6 +85,27 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 | "पास इस फ़ोन पर लग गया" / did not     | What a scanned QR did, on the phone that scanned it                               |
 | "यह पास किसी और फ़ोन पर पहले लग चुका" | Decision 005's reconciliation, said once, in one line                             |
 | भारत में बैठकर आज़माइए                | The counter, testable from India                                                  |
+
+## घर.5 · बोलना
+
+| Field                                       | Why it is there                                                                           |
+| ------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| "अपनी भाषा में बोलिए… कहीं सहेजी नहीं जाती" | Why the phone is about to ask for the microphone, and what happens to the recording       |
+| The microphone button                       | The whole screen's action; the same control starts and stops, so nothing is hunted for    |
+| हो गया · 0:08                               | Proof the microphone is open and how long it has been; a dead mic looks different         |
+| One line when it did not work               | Refused, no mic, mic in use, no signal, nothing heard, too long — one line each           |
+| अंग्रेज़ी में (editable)                    | What it heard, fixed before anyone else reads it; also where it is typed if the mic fails |
+| अरबी में दिखाएँ                             | The one way on, live only when there is a sentence to carry                               |
+
+## घर.6 · बोलना › अरबी में
+
+| Field                         | Why it is there                                                                     |
+| ----------------------------- | ----------------------------------------------------------------------------------- |
+| आपने जो कहा (the English)     | What is being shown in Arabic, so a wrong sentence is caught before it is presented |
+| The Arabic, large and RTL     | The line a shopkeeper or a driver actually reads, at arm's length                   |
+| सुनाएँ                        | Read aloud for someone who is not looking at the screen                             |
+| One line when it did not work | No signal, no Arabic voice, the phone gave no sound — each said, never a blank      |
+| "यही स्क्रीन दिखा दीजिए"      | What still works when the voice does not                                            |
 
 ## 1.1 · खाना › क्या खाएँ · 1.2 · नतीजे
 

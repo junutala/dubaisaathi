@@ -1,13 +1,14 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { SettingsProvider } from '../../app/settings.js';
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { SettingsProvider, useSettings } from '../../app/settings.js';
 import { HomeScreen } from './HomeScreen.js';
 import type { HomeTileState } from './HomeTile.js';
 
 /**
- * घर is the three pillars with the pass tile under them (decision 018). Nothing else: no box
- * and no microphone, which is the regression this file exists to catch — and the tile says the
- * right thing in every state of the counter, because it is the one place the revenue action
+ * घर is the three pillars with the tiles under them (decisions 018 and 020). No box, and no
+ * microphone on घर itself — बोलना is a tile that leads to its own screen, and it is on घर only
+ * while the phone is online, which is what the last two tests here hold to. The pass tile says
+ * the right thing in every state of the counter, because it is the one place the revenue action
  * is seen without looking for it.
  */
 
@@ -24,6 +25,7 @@ const TRIAL: HomeTileState = {
   nudge: false,
   paid: false,
   slots: 1,
+  online: false,
 };
 
 function show(tile: Partial<HomeTileState> = {}) {
@@ -41,7 +43,7 @@ beforeEach(() => {
 afterEach(cleanup);
 
 describe('घर', () => {
-  it('offers no box and no mic', () => {
+  it('offers no box, and no way to speak when there is no signal', () => {
     show();
     expect(screen.queryByRole('textbox')).toBeNull();
     expect(screen.queryByRole('button', { name: /mic|बोल/i })).toBeNull();
@@ -113,6 +115,45 @@ describe('घर', () => {
   ])('says the right thing %s', (_name, tile, line) => {
     show(tile);
     expect(screen.getByText(line)).toBeTruthy();
+  });
+
+  it('shows बोलना while the phone is online, and never without a signal', () => {
+    show({ online: true });
+    expect(screen.getByText('बोलना — किसी भी भाषा में')).toBeTruthy();
+    fireEvent.click(screen.getByText('बोलना — किसी भी भाषा में'));
+    expect(navigate).toHaveBeenCalledWith({ screen: 'bolna' });
+    cleanup();
+    show({ online: false });
+    expect(screen.queryByText('बोलना — किसी भी भाषा में')).toBeNull();
+  });
+
+  it('puts बोलना on घर the moment the signal comes back, with no reload', () => {
+    // The wiring App itself uses: the settings provider listens for `online` and `offline`, and
+    // the tile's `visible` predicate reads what it heard. A tile that lied about being available
+    // is the defect this arrangement exists to avoid.
+    function Live() {
+      const { online } = useSettings();
+      return <HomeScreen tile={{ ...TRIAL, online }} />;
+    }
+    Object.defineProperty(navigator, 'onLine', { value: false, configurable: true });
+    render(
+      <SettingsProvider>
+        <Live />
+      </SettingsProvider>,
+    );
+    expect(screen.queryByText('बोलना — किसी भी भाषा में')).toBeNull();
+
+    Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
+    act(() => {
+      window.dispatchEvent(new Event('online'));
+    });
+    expect(screen.getByText('बोलना — किसी भी भाषा में')).toBeTruthy();
+
+    Object.defineProperty(navigator, 'onLine', { value: false, configurable: true });
+    act(() => {
+      window.dispatchEvent(new Event('offline'));
+    });
+    expect(screen.queryByText('बोलना — किसी भी भाषा में')).toBeNull();
   });
 
   it('warms from the twentieth hour and is never red', () => {

@@ -1843,6 +1843,77 @@ button:not(:disabled) {
   color: var(--muted);
 }
 
+/* ---- घर.5 · बोलना and घर.6 · अरबी में (decision 020) ----------------------------------- */
+
+/* The tile at the foot of घर, in indigo so it is not the pass's marigold: two tiles, two jobs,
+   two hues. Only ever on the screen while the phone is online. */
+.home-tile-say {
+  background: var(--knowSoft);
+  color: var(--knowText);
+}
+
+/* The one microphone button in the product. Big, because it is the whole screen's action, and
+   it is both start and stop — there is no second control to hunt for. */
+.bolna-mic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 84px;
+  border-radius: 20px;
+  background: var(--knowSoft);
+  color: var(--knowText);
+  border: 1.5px solid var(--line);
+}
+.bolna-mic:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+/* While the microphone is open. Indigo filled, never red: red is reserved (decision 002). */
+.bolna-mic-on {
+  background: var(--know);
+  color: var(--onKnow);
+  border-color: var(--know);
+}
+.bolna-mic-label {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* The English, editable: the traveller fixes a misheard word before showing it to anyone. */
+.bolna-text {
+  padding: 12px 14px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+/* What they said, on घर.6, above the Arabic. */
+.bolna-en {
+  margin: 4px 0 0;
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+/* The Arabic itself: this is the line a Dubai shopkeeper reads off the screen at arm's length,
+   so it is the largest thing on it, right to left, in the app's own Arabic face. */
+.bolna-ar {
+  margin: 0;
+  font-family: 'Noto Naskh Arabic', 'Mukta', serif;
+  font-size: 30px;
+  font-weight: 700;
+  /* Arabic carries marks above and below; a tight line box clips them. */
+  line-height: 1.75;
+  text-align: right;
+  color: var(--ink);
+}
+
+.bolna-wait {
+  margin: 0;
+}
+
 /* ---- a tablet, or a laptop: last, so these rules win over the phone's ------------------ */
 
 /* A tablet, or a laptop. The screens are a phone's, and stay one column: on a wider display the

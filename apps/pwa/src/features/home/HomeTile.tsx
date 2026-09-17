@@ -16,6 +16,12 @@ export interface HomeTileState {
   readonly nudge: boolean;
   readonly paid: boolean;
   readonly slots: number;
+  /**
+   * Whether the phone has a connection right now. A tile whose screen cannot work without one is
+   * not shown without one: बोलना needs the network to hear anything at all, and offering it with
+   * the radio off would be offering a traveller something that is going to fail.
+   */
+  readonly online: boolean;
   /** A coupon code the traveller holds and has not redeemed; `free` once the server said ₹0. */
   readonly pendingCode?: { readonly code: string; readonly free: boolean };
 }
@@ -30,6 +36,12 @@ export interface HomeTileDef {
   readonly id: string;
   readonly icon: IconName;
   readonly route: Route;
+  /**
+   * The tile's own hue, as a class on top of `.home-tile`. The pass owns marigold and takes no
+   * class; a second tile needs its own so the foot of घर is not one block of colour with two
+   * different jobs in it.
+   */
+  readonly tone: string;
   readonly visible: (state: HomeTileState) => boolean;
   readonly warm: (state: HomeTileState) => boolean;
   readonly text: (state: HomeTileState, t: Translate) => TileText;
@@ -44,6 +56,7 @@ export const HOME_TILES: readonly HomeTileDef[] = [
     id: 'pass',
     icon: 'ticket',
     route: { screen: 'pass' },
+    tone: '',
     visible: () => true,
     warm: (state) => state.nudge,
     text: (state, t) => {
@@ -72,8 +85,21 @@ export const HOME_TILES: readonly HomeTileDef[] = [
       return { name: t('home.tile.trial', { hours: validity.hours ?? 0 }), why };
     },
   },
-  // A later tile — the owner is considering an online-only voice tile — is one more entry
-  // here: its icon, its strings, its route and its `visible` predicate. Nothing else changes.
+  /**
+   * बोलना — the online-only voice tile that comment was describing (decision 020). It is here
+   * only while the phone is online, because everything behind it — the recogniser and the
+   * Arabic — is online, and a tile that is there when it cannot work is a promise the app
+   * breaks the moment it is tapped. Indigo, so it is not the pass's marigold.
+   */
+  {
+    id: 'bolna',
+    icon: 'mic',
+    route: { screen: 'bolna' },
+    tone: 'home-tile-say',
+    visible: (state) => state.online,
+    warm: () => false,
+    text: (_state, t) => ({ name: t('home.tile.bolna'), why: t('home.tile.bolnaWhy') }),
+  },
 ];
 
 export function HomeTile({
@@ -88,7 +114,9 @@ export function HomeTile({
   return (
     <button
       type="button"
-      className={tile.warm(state) ? 'home-tile home-tile-warm' : 'home-tile'}
+      className={['home-tile', tile.tone, tile.warm(state) ? 'home-tile-warm' : '']
+        .filter((part) => part !== '')
+        .join(' ')}
       onClick={() => {
         navigate(tile.route);
       }}

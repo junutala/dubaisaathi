@@ -343,4 +343,52 @@ export const en: Record<StringKey, string> = {
   'know.go': 'जाना',
   'know.fromHotel': '{distance} from the hotel',
   'know.gone': 'This place is no longer in the list.',
+
+  // घर.5 · बोलना and घर.6 · its Arabic (decision 020) — online only, and the screens say so
+  'home.tile.bolna': 'बोलना · speak in any language',
+  'home.tile.bolnaWhy': 'Say it — get it in English, and in Arabic',
+  'bolna.title': 'बोलना',
+  'bolna.why':
+    'Speak in your own language — Hindi, Tamil, Telugu, whichever. The phone will ask for the microphone once; the recording goes only to be turned into English, and is kept nowhere.',
+  'bolna.speak': 'Speak',
+  'bolna.again': 'Say more',
+  'bolna.stop': 'Done · {time}',
+  'bolna.working': 'Turning it into English…',
+  'bolna.label': 'In English',
+  'bolna.placeholder': 'The English appears here — correct it if you like.',
+  'bolna.hint': 'Fix anything it misheard — this is what goes into Arabic.',
+  'bolna.toArabic': 'Show it in Arabic',
+  'bolna.nothing': 'Heard nothing — speak a little longer, and closer to the phone.',
+  'bolna.autoStopped': 'Stopped at half a minute — say the rest again.',
+  'bolna.offline':
+    'There is no signal, and बोलना runs on the internet. It works the moment the signal is back; the rest of Saathi carries on as it is.',
+  'bolna.tooLong': 'That recording was too long — say it within half a minute.',
+  'bolna.notConfigured': 'बोलना is not switched on yet. Everything else still works.',
+  'bolna.noAudio': 'The sound did not record — say it again.',
+  'bolna.failed': 'That did not work this time — say it again, or type it below yourself.',
+  'bolna.micDenied':
+    'The phone refused the microphone, so speaking will not work. In phone settings › site › microphone, allow Saathi. Until then you can type the English below and still get the Arabic.',
+  'bolna.micNone':
+    'No microphone was found on this phone, so speaking will not work. You can type the English below and still get the Arabic.',
+  'bolna.micBusy': 'Another app is holding the microphone — close it and speak again.',
+  'bolna.micNoRecorder':
+    'This browser cannot record. You can type the English below and still get the Arabic.',
+  'bolna.micFailed': 'The microphone did not start — press again, or type it below yourself.',
+  'arabic.title': 'In Arabic',
+  'arabic.english': 'What you said',
+  'arabic.label': 'In Arabic',
+  'arabic.working': 'Putting it into Arabic…',
+  'arabic.show': 'Show this screen to the person in front of you.',
+  'arabic.read': 'Read it aloud',
+  'arabic.reading': 'Reading it aloud…',
+  'arabic.noVoice': 'This phone has no Arabic voice — show the screen instead; it reads the same.',
+  'arabic.noEngine': 'This phone cannot read anything aloud — show the screen instead.',
+  'arabic.readFailed': 'The phone gave no sound — show the screen instead.',
+  'arabic.offline':
+    'Arabic needs the internet, and there is no signal. Press again when it is back.',
+  'arabic.failed': 'The Arabic did not come — try once more.',
+  'arabic.notConfigured': 'Arabic is not switched on yet. Everything else still works.',
+  'arabic.tooLong': 'That is too long — shorten it and send it again.',
+  'arabic.nothing': 'Say or type something first.',
+  'arabic.retry': 'Try again',
 };

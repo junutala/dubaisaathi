@@ -10,9 +10,13 @@ traveller's own hotel and documents on the phone, all of it working with the net
 
 > "A Dubai-savvy Indian friend in your pocket."
 
-**There is no microphone anywhere in the app** (decision 016, 16 September). Three days on a
-real phone proved no offline recogniser hears Dubai place names in an Indian accent inside a
-Hindi sentence. Every box is typed into; the script-agnostic matcher is what runs on it.
+**No microphone in the three pillars** (decision 016, 16 September). Three days on a real phone
+proved no offline recogniser hears Dubai place names in an Indian accent inside a Hindi sentence.
+Every box in खाना, जाना and जानना is typed into; the script-agnostic matcher is what runs on it.
+The one exception is **बोलना** (decision 020, 17 September): an **online-only** tile on घर, there
+only while the phone has a signal, where a traveller speaks a whole sentence in any Indian
+language and reads it back in English and Arabic. It is recognised online, by Sarvam; it does not
+work offline and is not offered offline.
 
 Full product concept (source of truth for scope, pricing, GTM, data entities):
 **[`docs/product-concept.md`](docs/product-concept.md)** — consult it before designing a feature.
@@ -82,6 +86,12 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
 - **The bar is on every screen.** खाना · जाना · जानना · दस्तावेज़, four items evenly spaced, the
   current pillar lit in its colour, and nothing else. The pass lives on the strip's dot and on
   घर's tile (decision 018); there is no पास लें button in the bar.
+- **घर's tiles are the pass and बोलना**, under the three blocks. बोलना (घर.5, and घर.6 for its
+  Arabic) is the product's one microphone and its one online-only screen, so the tile is on घर
+  only while the phone is online and goes when the signal does — a tile that is there when it
+  cannot work is a promise broken on the tap. Speak in any Indian language, read it back in
+  English in a box that can be corrected, then the same sentence in Arabic with a read-aloud
+  button. No audio is stored anywhere (decision 020).
 - **The pass stays and is never a wall.** The dot is green while the counter runs and marigold
   when the Dubai day is ending; never red (decision 002). From the twentieth hour of the Dubai
   day every open of घर nudges toward a pass. **A traveller who has paid once is never gated
@@ -177,7 +187,7 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
 | Database     | Supabase Postgres. PostGIS not enabled: place data ships in the pack and is queried on the device |
 | Auth         | None. Entitlement keyed to the device; family devices join by short-lived QR token                |
 | Payments     | UPI-first INR aggregator (Razorpay / Cashfree / PhonePe PG): order → intent or QR → webhook       |
-| Speech       | None. No recogniser, no synthesis, no microphone (decision 016)                                   |
+| Speech       | Online only, in बोलना: Sarvam `saaras:v3` behind the `listen` function; no mic elsewhere (020)    |
 
 Deviating from this table needs a reason recorded in `docs/decisions/`.
 
@@ -402,6 +412,7 @@ src/
 │   ├── know/       # 3 · जानना
 │   ├── info/       # घर.1–घर.3 — the hotel and the documents
 │   ├── pass/       # घर.4 — trial, pass, entitlement
+│   ├── speak/      # घर.5–घर.6 — बोलना: the one microphone, online only (decision 020)
 │   ├── home/       # घर
 │   └── landing/    # L
 ├── db/             # Dexie schema + migrations, one file per version bump
@@ -482,7 +493,11 @@ What is left, in this order:
 3. **Content.** `restaurants.v1.json` is empty and खाना runs on the fixture; the collectors'
    app is live and the pipeline publishes approved reports. `attractions.v1.json` is unchecked
    on the ground; every row has `checkedAt`.
-4. **Sprint 2**: 3.3 · काम की बातें (parked on the canvas's second page), and the owner's
+4. **बोलना's deployment.** The `listen` edge function is written and is not deployed, and its
+   secret `SARVAM_API_KEY` is not set — both are the lead's to do. Until they are, the tile is
+   there when the phone is online and the screen says, in one line, that बोलना is not switched on
+   yet; nothing else is affected.
+5. **Sprint 2**: 3.3 · काम की बातें (parked on the canvas's second page), and the owner's
    "I'm on this bus" toggle — a countdown of stops to alight with a buzz one stop before,
    built on the leg's stop sequence and GPS, with the timetable's running times as the fallback
    in the metro tunnels and the screen kept on.
@@ -496,4 +511,7 @@ Offline Hindi speech was measured on a real phone in aeroplane mode on 13–15 S
 Vosk small and Whisper base, and online with Google's recogniser. All three mangled Dubai place
 names in an Indian accent inside a Hindi sentence; nothing at a size a traveller accepts did
 better. `docs/spikes/002` holds the numbers. The decision (016) is that there is no voice in the
-product; the seam that would take an engine back is gone with it, on purpose.
+product path a traveller depends on: the three pillars are typed into and no offline engine
+ships. बोलना (decision 020) is the one place a microphone exists, it is online, and it hands its
+sentence to a person rather than to the matcher — which is the job those numbers said an offline
+recogniser could not do.

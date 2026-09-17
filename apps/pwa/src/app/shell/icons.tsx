@@ -36,7 +36,10 @@ export type IconName =
   | 'doc'
   | 'trash'
   | 'share'
-  | 'qr';
+  | 'qr'
+  // घर.5 · बोलना: the one microphone in the product, and the button that reads Arabic aloud
+  | 'mic'
+  | 'sound';
 
 /**
  * The shapes themselves, not path strings, because some are drawn with rects and filled dots as
@@ -238,6 +241,20 @@ const SHAPES: Record<IconName, ReactNode> = {
       <rect x="14" y="4" width="6" height="6" />
       <rect x="4" y="14" width="6" height="6" />
       <path d="M14 14h2v2h-2zM18 14h2M14 18h2M18 18h2v2" />
+    </>
+  ),
+  mic: (
+    <>
+      <rect x="9" y="2.5" width="6" height="11.5" rx="3" />
+      <path d="M5.5 11.8a6.5 6.5 0 0 0 13 0" />
+      <path d="M12 18.3v3.2M8.6 21.5h6.8" />
+    </>
+  ),
+  sound: (
+    <>
+      <path d="M4 9.3h3.4L12 5.4v13.2L7.4 14.7H4z" />
+      <path d="M15.4 9.2a4 4 0 0 1 0 5.6" />
+      <path d="M18.1 6.4a8 8 0 0 1 0 11.2" />
     </>
   ),
 };
