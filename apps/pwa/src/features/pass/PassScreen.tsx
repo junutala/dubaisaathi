@@ -15,6 +15,7 @@ import {
   type Entitlement,
 } from './entitlement.js';
 import { passLink, qrPath } from './qr.js';
+import { shareFamilyQr, type ShareOutcome } from './shareQr.js';
 import { buyPass, type PurchaseOutcome } from './purchase.js';
 import { installFromToken } from './scan.js';
 import type { SignedPass } from './signedPass.js';
@@ -82,6 +83,22 @@ function buyLineFor(outcome: PurchaseOutcome): StringKey {
   }
 }
 
+/** The one honest line each ending of भेजें gets; a closed sheet gets none. */
+function shareLineFor(outcome: ShareOutcome): StringKey | null {
+  switch (outcome) {
+    case 'image':
+      return 'pass.shareSent';
+    case 'link':
+      return 'pass.shareLinkSent';
+    case 'copied':
+      return 'pass.copied';
+    case 'dismissed':
+      return null;
+    case 'refused':
+      return 'pass.shareRefused';
+  }
+}
+
 /**
  * घर.4 — पास, as one flow from the top: the counter, how many phones, a code if there is one,
  * the total, and the one button that fits the total. Once paid with more than one phone, the
@@ -108,7 +125,7 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
   const [working, setWorking] = useState<'coupon' | 'buy' | null>(null);
   const busy = working !== null;
   const [scan, setScan] = useState<'installed' | 'invalid' | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [shareLine, setShareLine] = useState<StringKey | null>(null);
 
   const now = validity(new Date(), state);
   const paid = state.paid === true;
@@ -221,25 +238,25 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
 
   const family = state.familyPasses ?? [];
 
-  const share = async (pass: SignedPass) => {
-    const url = passLink(pass);
-    const title = t('pass.familySlot', { slot: pass.claims.slot });
-    // Offered always, and the phone answers: a browser with no share sheet rejects, and the
-    // link is copied instead. Never decided in advance from a capability query.
-    try {
-      if ('share' in navigator) {
-        await navigator.share({ url, title });
-        return;
-      }
-    } catch {
-      /* no sheet, or the traveller closed it — the copy below still helps */
-    }
-    try {
-      await navigator.clipboard.writeText(url);
-      setCopied(true);
-    } catch {
-      /* nothing to copy with; the QR on the screen is still the pass */
-    }
+  /**
+   * The QR as a picture, and the link only when the picture cannot go — the order and every
+   * ending live in `shareQr`; this says what happened, in one line, in the traveller's language.
+   */
+  const share = (pass: SignedPass) => {
+    const slot = pass.claims.slot;
+    const title = t('pass.familySlot', { slot });
+    setShareLine(null);
+    void shareFamilyQr({
+      url: passLink(pass),
+      title,
+      // The slot is our bookkeeping, not theirs: what the receiver needs is what it is and
+      // that it is for one phone.
+      text: t('pass.shareText'),
+      caption: `${t('app.name')} · ${title}`,
+      fileName: `dubaisaathi-pass-${String(slot)}.png`,
+    }).then((outcome) => {
+      setShareLine(shareLineFor(outcome));
+    });
   };
 
   return (
@@ -412,7 +429,7 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
                         type="button"
                         className="qr-share"
                         onClick={() => {
-                          void share(pass);
+                          share(pass);
                         }}
                       >
                         <Icon name="share" size={18} strokeWidth={1.9} />
@@ -423,7 +440,7 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
                 );
               })}
             </div>
-            {copied && <p className="muted small center">{t('pass.copied')}</p>}
+            {shareLine !== null && <p className="muted small center">{t(shareLine)}</p>}
           </>
         )}
 

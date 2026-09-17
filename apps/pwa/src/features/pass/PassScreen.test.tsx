@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { stubCanvas } from './canvas.fixture.js';
 import { answer, online, trustedSigner } from './signing.fixture.js';
 
 /**
@@ -20,6 +21,7 @@ afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
   vi.unstubAllEnvs();
+  vi.restoreAllMocks();
 });
 
 /** The screen, from a module graph that trusts this test's key — or a signer made earlier. */
@@ -102,6 +104,46 @@ describe('घर.4', () => {
     expect(screen.getAllByRole('button', { name: /भेजें/ })).toHaveLength(2);
     // Nothing to choose or type any more.
     expect(screen.queryByRole('textbox')).toBeNull();
+  });
+
+  it('sends a family QR as a picture and says what the phone did with it', async () => {
+    const { family } = await show();
+    const passes = await family(2, '2026-10-01T06:00:00.000Z');
+    answer((path, body) => {
+      if (path === 'bind') return { json: { bound: true } };
+      return {
+        json:
+          body.quoteOnly === true
+            ? {
+                code: body.code,
+                kind: 'family',
+                payable: 0,
+                listPrice: 299,
+                issued: false,
+                discount: { discountPercent: 100 },
+              }
+            : { code: body.code, kind: 'family', payable: 0, issued: true, passes },
+      };
+    });
+    fireEvent.click(screen.getByRole('button', { name: /2 फ़ोन/ }));
+    typeCode('SS7K3M2X');
+    fireEvent.click(await screen.findByRole('button', { name: 'पास लें — मुफ़्त' }));
+    const send = await screen.findByRole('button', { name: /भेजें/ });
+
+    // The canvas and the share sheet, as a phone that takes a file.
+    stubCanvas(new Blob(['png'], { type: 'image/png' }));
+    const shared: ShareData[] = [];
+    vi.stubGlobal('navigator', {
+      canShare: () => true,
+      share: (data: ShareData) => {
+        shared.push(data);
+        return Promise.resolve();
+      },
+    });
+
+    fireEvent.click(send);
+    await screen.findByText('QR तस्वीर बनकर चली गई — उनके कैमरे से खुल जाएगी');
+    expect(shared[0]?.files?.[0]?.name).toBe('dubaisaathi-pass-2.png');
   });
 
   it('shows the balance for a partial code and issues nothing', async () => {
