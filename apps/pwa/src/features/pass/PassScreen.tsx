@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { listPriceInr, passPriceInr } from '@saathi/shared';
 import { useSettings } from '../../app/settings.js';
+import { navigate } from '../../app/routes.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { Icon } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
@@ -8,12 +9,15 @@ import { applyCoupon, pendingCoupon, type CouponOutcome, type PendingCoupon } fr
 import {
   PURCHASE_IS_LIVE,
   entitlement,
+  markWelcomed,
   pretendLanded,
   stopPretending,
+  unwelcomedPass,
   validity,
   watchEntitlement,
   type Entitlement,
 } from './entitlement.js';
+import { PassWelcome } from './PassWelcome.js';
 import { passLink, qrPath } from './qr.js';
 import { buyPass, type PurchaseOutcome } from './purchase.js';
 import { installFromToken } from './scan.js';
@@ -21,6 +25,13 @@ import type { SignedPass } from './signedPass.js';
 
 /** 1–4 phones, ₹199 plus ₹100 per extra phone, 14 days from landing (decision 006). */
 const PHONES = [1, 2, 3, 4] as const;
+
+/**
+ * What the pass actually gives, once the tiers are gone and the screen would otherwise be white
+ * (decision 022). The same four facts the landing screen makes its promise on, in the same
+ * words: a traveller who has just paid should be reading what they bought.
+ */
+const GIVES = ['landing.job1', 'landing.job2', 'landing.job3', 'landing.job4'] as const;
 
 /** The one honest line each answer from `redeem` gets. */
 function lineFor(outcome: CouponOutcome): StringKey | null {
@@ -242,6 +253,26 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
     }
   };
 
+  /**
+   * A pass that has landed and not yet been read about — from a family QR, a free code or a
+   * purchase, all three end in the same install (decision 022). It takes the whole screen for
+   * one read, and the control lands the traveller on घर.
+   */
+  const welcome = unwelcomedPass(state);
+  if (welcome !== null) {
+    return (
+      <>
+        <ScreenHeader pillar="home" icon="ticket" title={t('pass.title')} />
+        <PassWelcome
+          onDone={() => {
+            markWelcomed(welcome);
+            navigate({ screen: 'home' });
+          }}
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <ScreenHeader pillar="home" icon="ticket" title={t('pass.title')} />
@@ -424,6 +455,22 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
               })}
             </div>
             {copied && <p className="muted small center">{t('pass.copied')}</p>}
+          </>
+        )}
+
+        {/* Once paid the tiers go, and what is left has to be what the money bought rather than
+            white space (decision 022) — the landing screen's own four promises, unchanged. */}
+        {paid && (
+          <>
+            <p className="lbl">{t('pass.gives')}</p>
+            <ul className="gives">
+              {GIVES.map((key) => (
+                <li key={key} className="gives-row">
+                  <Icon name="check" size={18} strokeWidth={2.4} color="var(--teal)" />
+                  {t(key)}
+                </li>
+              ))}
+            </ul>
           </>
         )}
 

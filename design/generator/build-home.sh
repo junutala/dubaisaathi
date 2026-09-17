@@ -210,3 +210,32 @@ H
 bar none
 close_screen
 } > "$OUT/HomePass.dc.html"
+
+# ---- घर.4 · पास आ गया — the welcome, the moment a pass lands on this phone (decision 022)
+# One read, then it is gone for that pass: what they have, that it runs with the radio off, that
+# the fourteen days wait for the plane, and a good wish. The strip says ऑफ़लाइन on purpose — a
+# scanned pass installs with no connection at all (decision 005), and so does this screen.
+{
+open_screen
+strip running set
+header ticket "$marigold" 'पास'
+cat <<H
+  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 14px; padding: 10px 16px 12px 16px;">
+    <div style="position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 22px 20px 24px 20px; border-radius: 22px; background: $marigoldSoft; border: 1px solid $marigoldLine; box-sizing: border-box;">
+      <span style="position: relative; display: inline-flex;">
+        $(logo 62)
+        <span style="position: absolute; right: -12px; bottom: -2px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 999px; background: $marigold; border: 2px solid $marigoldSoft; box-sizing: border-box;">$(ticket 22 "$onMarigold" 1.9)</span>
+      </span>
+      <span style="font-size: 12.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: $marigoldText;">पास आ गया</span>
+      <span class="disp" style="font-size: 27px; font-weight: 700; line-height: 1.3; color: $ink;">14 दिन का दुबई साथी — अब आपका।</span>
+      <span style="font-size: 14.5px; line-height: 1.55; color: $ink;">सिम नहीं, वाई-फ़ाई नहीं, रोमिंग नहीं — खाना, जाना और जानना, तीनों बिना नेटवर्क चलते हैं।</span>
+      <span style="font-size: 14.5px; line-height: 1.55; color: $ink;">गिनती दुबई पहुँचने पर शुरू होगी — घर बैठे एक दिन भी ख़र्च नहीं होता।</span>
+      <span style="font-size: 15.5px; font-weight: 700; line-height: 1.45; color: $tealText;">सफ़र अच्छा बीते। दुबई में साथी आपके साथ है।</span>
+    </div>
+    <div style="flex: 1;"></div>
+    $(btn 'साथी खोलिए' "$marigold" "$onMarigold")
+  </div>
+H
+bar none
+close_screen
+} > "$OUT/HomePassWelcome.dc.html"

@@ -93,6 +93,20 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 | "यह पास किसी और फ़ोन पर पहले लग चुका" | Decision 005's reconciliation, said once, in one line                             |
 | भारत में बैठकर आज़माइए                | The counter, testable from India                                                  |
 
+## घर.4 · पास आ गया — the welcome, once per pass
+
+| Field                                  | Why it is there                                                                    |
+| -------------------------------------- | ---------------------------------------------------------------------------------- |
+| The mark with the ticket on it         | A gift has a face; the mark is drawn, never fetched, so it is there with no signal |
+| "पास आ गया"                            | What just happened, before the sentence that says what it is worth                 |
+| "14 दिन का दुबई साथी — अब आपका।"       | The gift itself, in the one line a person reads standing up                        |
+| "सिम नहीं, वाई-फ़ाई नहीं, रोमिंग नहीं" | What the pass is for: all three pillars with the radio off                         |
+| "गिनती दुबई पहुँचने पर शुरू होगी"      | Decision 006, and the question a suspicious person asks next: nothing is running   |
+| "सफ़र अच्छा बीते"                      | A send-off — the one screen in the product that is allowed to be warm              |
+| साथी खोलिए                             | The one control; it finishes the moment and lands them on घर, pass intact          |
+| इस पास में क्या-क्या (four lines)      | Once paid the tiers go; what is left is what the money bought, not white space     |
+| `welcomedPassId`, on the phone         | The pass already welcomed, so a reload is quiet and a later pass gets its own      |
+
 ## घर.5 · बोलना
 
 | Field                                       | Why it is there                                                                           |
@@ -224,3 +238,7 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
   hyphen sat behind the `?123` key and the person typing is standing in an airport with a bag in
   the other hand. घर.4's कोड field, the line under it and the "कोड · छूट" row all show the eight
   characters as typed; a dash from an old advertisement is still accepted and simply dropped.
+- **The welcome is a moment, not a line (decision 022).** A pass landing is the best thing that
+  happens in this product and it was being announced in the same grey line as a failed coupon.
+  It now takes घर.4 for one read, in whichever of the three ways it arrived — a family QR, a free
+  code, a purchase — and never a second time for the same pass.
