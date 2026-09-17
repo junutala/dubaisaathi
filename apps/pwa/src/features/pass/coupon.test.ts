@@ -97,6 +97,43 @@ describe('applying a code', () => {
     });
   });
 
+  it("shares one call for a repeated tap and never answers a tap with another tap's reply", async () => {
+    const { applyCoupon, entitlement, family } = await load();
+    const passes = await family(1, '2026-10-01T06:00:00.000Z');
+    const calls = answer((_path, body) => ({
+      json:
+        body.quoteOnly === true
+          ? {
+              code: body.code,
+              kind: 'family',
+              payable: 0,
+              listPrice: 199,
+              issued: false,
+              discount: { discountPercent: 100 },
+            }
+          : { code: body.code, kind: 'family', payable: 0, issued: true, passes },
+    }));
+
+    // The traveller presses लगाएँ twice: one call, one answer, shared.
+    const [first, second] = await Promise.all([
+      applyCoupon('SS-7K3M2X', 1, 'quote'),
+      applyCoupon('SS-7K3M2X', 1, 'quote'),
+    ]);
+    expect(first).toBe(second);
+    expect(calls).toHaveLength(1);
+
+    // The button pressed while the background retry's quote is still in flight is issued,
+    // not handed the quote — the defect that told a traveller a price and gave them nothing.
+    const [quote, issue] = await Promise.all([
+      applyCoupon('SS-7K3M2X', 1, 'quote'),
+      applyCoupon('SS-7K3M2X', 1, 'issue'),
+    ]);
+    expect(quote).toMatchObject({ kind: 'quoted' });
+    expect(issue).toEqual({ kind: 'issued', slots: 1 });
+    expect(entitlement().paid).toBe(true);
+    expect(calls).toHaveLength(3);
+  });
+
   it('refuses a pass signed by somebody else even when the server says issued', async () => {
     const { applyCoupon, entitlement, sign } = await load();
     const theirs = await crypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, [

@@ -73,6 +73,7 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 | "इस कोड पर एक ही फ़ोन चलता है"        | A single code locks the phones to one; said, not discovered                       |
 | कोड · लगाएँ                           | A code from an advertisement or an operator; pre-filled when the URL brought it   |
 | The code's line                       | Unknown, not yet, ended, used up, used here, needs a moment of network — one each |
+| "आपकी दरख़्वास्त पहुँच गई"            | The moment a code goes out: the wait is visible, so nobody presses twice          |
 | कुल · the list price struck through   | What is owed after the code, from the one price rule                              |
 | "SS-7K3M2X · 50% छूट"                 | What the code gave, so the total is not a mystery                                 |
 | पास लें — मुफ़्त                      | A ₹0 total: the pass, issued and installed on the spot                            |

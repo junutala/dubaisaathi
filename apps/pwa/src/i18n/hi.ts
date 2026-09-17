@@ -143,6 +143,8 @@ export const hi = {
   'pass.couponHint': 'किसी विज्ञापन या ऑपरेटर से मिला कोड यहाँ',
   'pass.couponApply': 'लगाएँ',
   'pass.couponApplying': 'देख रहे हैं…',
+  'pass.couponWorking': 'आपकी दरख़्वास्त पहुँच गई — देख रहे हैं, एक पल',
+  'pass.freeWorking': 'पास बन रहा है…',
   'pass.couponPercent': '{code} · {percent}% छूट',
   'pass.couponFlat': '{code} · ₹{price} में',
   'pass.total': 'कुल',

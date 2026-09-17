@@ -131,6 +131,8 @@ export const en: Record<StringKey, string> = {
   'pass.couponHint': 'A code from an offer or an operator goes here',
   'pass.couponApply': 'Apply',
   'pass.couponApplying': 'Checking…',
+  'pass.couponWorking': 'We have your request — checking, one moment',
+  'pass.freeWorking': 'Making your pass…',
   'pass.couponPercent': '{code} · {percent}% off',
   'pass.couponFlat': '{code} · for ₹{price}',
   'pass.total': 'Total',

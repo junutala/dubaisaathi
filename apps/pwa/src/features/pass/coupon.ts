@@ -128,24 +128,40 @@ function asRefusal(reason: unknown): CouponRefusal | null {
     : null;
 }
 
-let inFlight: Promise<CouponOutcome> | null = null;
+/**
+ * One call at a time, and never the wrong answer to the wrong tap.
+ *
+ * A traveller whose code is taking a moment presses the button again — which is not their
+ * mistake, it is a screen that said nothing. The screen now says a request is in and holds
+ * its buttons, and this queue is the second half of that promise: a repeat of the call that
+ * is already running shares its answer, and a different call waits its turn rather than
+ * riding on the first one's reply. The one that mattered: an `issue` tap arriving while the
+ * background retry's `quote` was in flight used to be handed the quote, so the traveller was
+ * told a price and never given the pass.
+ */
+let queue: Promise<unknown> = Promise.resolve();
+let current: { key: string; promise: Promise<CouponOutcome> } | null = null;
 
 /**
  * Applies the code for `slots` phones. `quote` asks what the code is worth and remembers the
  * answer — the field's लगाएँ; `issue` takes a ₹0 pass on the spot and installs it — the button.
  * A balance above ₹0 is remembered either way and never charged here: UPI is not live. A code
- * the server says is dead is forgotten. One call at a time: the screen's tap and the online
- * retry share whichever is running.
+ * the server says is dead is forgotten.
  */
 export function applyCoupon(
   typed: string,
   slots: number,
   mode: 'quote' | 'issue',
 ): Promise<CouponOutcome> {
-  inFlight ??= redeem(typed, slots, mode).finally(() => {
-    inFlight = null;
+  const key = `${normaliseCouponCode(typed)}|${String(slots)}|${mode}`;
+  if (current?.key === key) return current.promise;
+  const promise = queue.then(() => redeem(typed, slots, mode));
+  queue = promise.catch(() => undefined);
+  current = { key, promise };
+  void promise.finally(() => {
+    if (current?.key === key) current = null;
   });
-  return inFlight;
+  return promise;
 }
 
 async function redeem(
