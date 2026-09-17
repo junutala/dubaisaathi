@@ -243,3 +243,35 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
   happens in this product and it was being announced in the same grey line as a failed coupon.
   It now takes घर.4 for one read, in whichever of the three ways it arrived — a family QR, a free
   code, a purchase — and never a second time for the same pass.
+
+## The website — `saafarsaathi.in`
+
+A different reader from the app's: sitting at home in India before the trip, deciding whether to
+open the thing at all. The same rule applies — a field with no line here does not exist.
+
+### बोलना's section
+
+| Field                                   | Why it is there                                                       |
+| --------------------------------------- | --------------------------------------------------------------------- |
+| The three steps: बोलिए · पढ़िए · सुनाइए | The whole feature in three lines, so nobody has to imagine it         |
+| The screen, with a sentence in it       | What it actually looks like, mid-job, rather than empty               |
+| "this one asks for a signal"            | The page promises no internet; this feature needs it, said here first |
+
+### Tour operators and food outlets
+
+| Field                              | Why it is there                                                             |
+| ---------------------------------- | --------------------------------------------------------------------------- |
+| टूर ऑपरेटर — one code, many phones | The `OP` prefix exists for them; they are the cheapest route to many phones |
+| कैफ़ेटेरिया — your kitchen in खाना | An owner can load their own outlet for less than a collector's visit costs  |
+| The two buttons                    | They pick who is writing and land on the form, so nobody hunts for a radio  |
+
+### The contact form (decision 023)
+
+| Field               | Why it is there                                                                    |
+| ------------------- | ---------------------------------------------------------------------------------- |
+| आप कौन हैं?         | An operator's enquiry and a traveller's question want different answers            |
+| नाम                 | Somebody to ask for when the call is returned                                      |
+| +91 / +971 · नंबर   | The reply goes by phone; the code says which country, so the number can be dialled |
+| आपकी बात            | The message itself                                                                 |
+| भेजिए, and one line | What happened, in their own language — sent, or what to do instead                 |
+| WhatsApp QR         | A reader on a laptop cannot tap `wa.me`; a reader on a phone taps the button       |

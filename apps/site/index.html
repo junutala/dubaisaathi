@@ -14,31 +14,84 @@
     <title>Dubaisaathi — बिना इंटरनेट के दुबई</title>
   </head>
   <body>
+    <!--
+      The wash: travel glyphs at a whisper behind three bands, so a page of flat colour has
+      something under it. They are the app's own icons — the thali, the metro, the lantern, the
+      taxi, the ticket, the document — plus the paper plane off the lockup, because a decoration
+      borrowed from elsewhere would be the one thing on this page that is not the product.
+      Defined once here and placed by `use`; `aria-hidden`, because they say nothing.
+    -->
+    <svg class="wash-defs" aria-hidden="true" focusable="false">
+      <defs>
+        <g id="w-thali">
+          <circle cx="12" cy="12" r="9.5" />
+          <circle cx="8.6" cy="9.2" r="2.1" />
+          <circle cx="15.4" cy="9.2" r="2.1" />
+          <circle cx="12" cy="15.3" r="2.1" />
+        </g>
+        <g id="w-metro">
+          <rect x="5" y="3" width="14" height="15.5" rx="3.2" />
+          <path d="M7.6 6.6h8.8v4.6H7.6z" />
+          <path d="M8.2 18.5 6.8 21.5" />
+          <path d="M15.8 18.5l1.4 3" />
+          <path d="M4.5 21.5h15" />
+        </g>
+        <g id="w-lantern">
+          <path d="M12 2v1.8" />
+          <path d="M8.6 3.8h6.8" />
+          <path d="M8.8 6.2h6.4l1.6 10.6a1.4 1.4 0 0 1-1.4 1.6H8.6a1.4 1.4 0 0 1-1.4-1.6z" />
+          <path d="M12 6.2v12.2" />
+          <path d="M10.4 21.5h3.2" />
+        </g>
+        <g id="w-taxi">
+          <path d="M5 12l1.6-4.2A2 2 0 0 1 8.5 6.5h7a2 2 0 0 1 1.9 1.3L19 12" />
+          <path d="M3.5 12h17v5.5h-2.5a1.5 1.5 0 0 1-3 0h-6a1.5 1.5 0 0 1-3 0H3.5z" />
+          <path d="M10 6.5V4.5h4v2" />
+        </g>
+        <g id="w-ticket">
+          <path
+            d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z"
+          />
+          <path d="M14 6v12" />
+        </g>
+        <g id="w-doc">
+          <path
+            d="M6 3.5h7.5L18.5 8.5V19a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 19V5A1.5 1.5 0 0 1 6 3.5z"
+          />
+          <path d="M13.5 3.5v5h5" />
+          <path d="M8 12.5h8" />
+          <path d="M8 16h5" />
+        </g>
+        <g id="w-plane">
+          <path d="M2.5 12.5 21 6l-5.8 13.2-4.5-5z" />
+          <path d="M10.7 14.2 21 6" />
+        </g>
+      </defs>
+    </svg>
     <header class="top">
       <div class="wrap">
         <a class="brand" href="#top">
           <img src="/icon.png" alt="" width="34" height="34" />
           <!-- The lockup, never translated: one word, one capital, in the app's own face
                (decision 021). -->
-          <span class="wordmark"
+          <span class="wordmark wordmark-full"
             >Dubaisaathi<svg
               class="wordmark-trail"
-              viewBox="0 -4 340 76"
+              viewBox="0 0 260 62"
               aria-hidden="true"
               focusable="false"
             >
+              <!-- A filled crescent, not a stroke: a vapour trail is widest behind the aircraft
+                   and dissipates to nothing, and a constant-width line reads as a wire. -->
               <path
                 class="wordmark-trail-line"
-                d="M4 66C92 63 172 55 268 28"
-                fill="none"
-                stroke-width="6"
-                stroke-linecap="round"
+                d="M232 9C186 14 112 27 14 47C118 37 190 21 232 14Z"
               />
-              <path
-                class="wordmark-plane"
-                transform="translate(300 18) rotate(72) scale(1.5) translate(-12 -12)"
-                d="M12 1.4c1.06 0 1.92.94 1.92 2.1v5.62l8.08 4.98v2.1l-8.08-2.48v4.56l2.16 1.6v1.52L12 20.6l-4.08.8v-1.52l2.16-1.6v-4.56L2 16.2v-2.1l8.08-4.98V3.5c0-1.16.86-2.1 1.92-2.1z"
-              /></svg
+              <!-- A paper plane, not the aeroplane-mode glyph, which at this size is a speck. -->
+              <g class="wordmark-plane" transform="translate(222 0) rotate(-12) scale(0.78)">
+                <path d="M1 12.4 34 1 23.6 24.6 15.6 15.7Z" />
+                <path class="wordmark-plane-fold" d="M15.6 15.7 23.6 24.6 14.7 23.1Z" />
+              </g></svg
           ></span>
         </a>
         <span class="grow"></span>
@@ -51,6 +104,20 @@
 
     <main id="top">
       <section class="hero">
+        <svg
+          class="wash"
+          viewBox="0 0 1200 560"
+          preserveAspectRatio="xMidYMid slice"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <use href="#w-plane" transform="translate(940 30) scale(7)" />
+          <use href="#w-metro" transform="translate(700 250) scale(6.5)" />
+          <use href="#w-thali" transform="translate(120 360) scale(5.5)" />
+          <use href="#w-lantern" transform="translate(1060 330) scale(5)" />
+          <use href="#w-taxi" transform="translate(430 40) scale(4.5)" />
+          <use href="#w-ticket" transform="translate(250 150) scale(4)" />
+        </svg>
         <div class="wrap">
           <div>
             <span class="kicker">
@@ -58,8 +125,8 @@
               ><span class="en">For Indian travellers</span>
             </span>
             <h1>
-              <span class="hi">दुबई में, बिना इंटरनेट के।</span>
-              <span class="en">Dubai, with no internet.</span>
+              <span class="hi">दुबई<span class="headline-turn">— बिना इंटरनेट के।</span></span>
+              <span class="en">Dubai<span class="headline-turn">— with no internet.</span></span>
               <span class="three" aria-label="खाना, जाना, जानना">
                 <span class="tile tile-food"
                   ><svg
@@ -164,8 +231,8 @@
                 ><span class="en">Try it from India</span>
               </li>
               <li>
-                <span class="hi">दुबई में 24 घंटे मुफ़्त</span
-                ><span class="en">24 hours free in Dubai</span>
+                <span class="hi">दुबई में 24 घंटे का मुफ़्त ट्रायल</span
+                ><span class="en">Free trial for 24 hours in Dubai</span>
               </li>
             </ul>
           </div>
@@ -272,6 +339,71 @@
         </div>
       </section>
 
+      <section id="bolna" class="bolna">
+        <div class="wrap">
+          <span class="roman roman-loud">Bolna</span>
+          <h2>
+            <span class="hi">बोलना — ताकि दुबई आपकी बात समझ जाए</span
+            ><span class="en">बोलना — so Dubai understands you</span>
+          </h2>
+          <p class="sub">
+            <span class="hi">
+              अपनी भाषा में पूरा वाक्य बोलिए — हिंदी, तमिल, तेलुगु, मलयालम, गुजराती, मराठी, बांग्ला,
+              जो भी आप बोलते हैं। वही बात अंग्रेज़ी में दिखती है, और एक टैप में अरबी में — सुनाने के
+              बटन के साथ, ताकि टैक्सी वाले से फ़ोन ख़ुद बोल दे।
+            </span>
+            <span class="en">
+              Speak a whole sentence in your own language — Hindi, Tamil, Telugu, Malayalam,
+              Gujarati, Marathi, Bengali, whatever you actually speak. It comes back in English, and
+              one tap turns it into Arabic with a button that reads it aloud, so the phone can say
+              it to the driver for you.
+            </span>
+          </p>
+          <div class="bolna-grid">
+            <ol class="bolna-steps">
+              <li>
+                <span class="bolna-n">1</span>
+                <span class="hi"><b>बोलिए।</b> जो कहना है, अपनी भाषा में — पूरा वाक्य।</span>
+                <span class="en"
+                  ><b>Speak.</b> Whatever you need to say, in your own language, a whole
+                  sentence.</span
+                >
+              </li>
+              <li>
+                <span class="bolna-n">2</span>
+                <span class="hi"
+                  ><b>अंग्रेज़ी में पढ़िए।</b> कुछ ग़लत सुना हो तो वहीं सुधार लीजिए।</span
+                >
+                <span class="en"
+                  ><b>Read it in English.</b> If it heard you wrong, correct it there and
+                  then.</span
+                >
+              </li>
+              <li>
+                <span class="bolna-n">3</span>
+                <span class="hi"><b>अरबी में सुनाइए।</b> बटन दबाइए — फ़ोन बोलेगा।</span>
+                <span class="en"
+                  ><b>Play it in Arabic.</b> Press the button and the phone speaks.</span
+                >
+              </li>
+            </ol>
+            <div class="phone"><img src="/shots/bolna.png" alt="बोलना" /></div>
+          </div>
+          <p class="bolna-note">
+            <span class="hi">
+              यही इकलौती चीज़ है जो नेटवर्क माँगती है। खाना, जाना और जानना बिना नेटवर्क चलते हैं —
+              बोलना नहीं। इसलिए यह होम स्क्रीन पर तभी दिखता है जब फ़ोन में सिग्नल हो, और सिग्नल जाते
+              ही चला जाता है। आपकी आवाज़ कहीं सेव नहीं होती।
+            </span>
+            <span class="en">
+              This is the one thing here that asks for a signal. खाना, जाना and जानना work with the
+              network off; बोलना does not. So it appears on the home screen only while the phone has
+              a signal, and goes when the signal does. Your voice is not stored anywhere.
+            </span>
+          </p>
+        </div>
+      </section>
+
       <section class="try" id="try">
         <div class="wrap">
           <div class="phone">
@@ -348,8 +480,8 @@
       <section id="pass">
         <div class="wrap">
           <h2>
-            <span class="hi">दुबई में: पहले 24 घंटे मुफ़्त, फिर एक पास</span
-            ><span class="en">In Dubai: the first 24 hours free, then one pass</span>
+            <span class="hi">दुबई में: पहले 24 घंटे का मुफ़्त ट्रायल, फिर एक पास</span
+            ><span class="en">In Dubai: a free trial for the first 24 hours, then one pass</span>
           </h2>
           <p class="sub">
             <span class="hi">
@@ -453,6 +585,71 @@
         </div>
       </section>
 
+      <section id="partners" class="partners">
+        <svg
+          class="wash"
+          viewBox="0 0 1200 560"
+          preserveAspectRatio="xMidYMid slice"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <use href="#w-thali" transform="translate(980 60) scale(6)" />
+          <use href="#w-taxi" transform="translate(60 300) scale(5)" />
+          <use href="#w-ticket" transform="translate(620 380) scale(4.5)" />
+          <use href="#w-plane" transform="translate(300 60) scale(4)" />
+        </svg>
+        <div class="wrap">
+          <h2>
+            <span class="hi">दुबई में काम करते हैं?</span
+            ><span class="en">Do you work in Dubai?</span>
+          </h2>
+          <p class="sub">
+            <span class="hi">दो लोगों से हम ख़ास तौर पर मिलना चाहते हैं।</span>
+            <span class="en">Two people in particular, and we would like to hear from both.</span>
+          </p>
+          <div class="partner-cards">
+            <article class="partner">
+              <h3><span class="hi">टूर ऑपरेटर</span><span class="en">Tour operators</span></h3>
+              <p>
+                <span class="hi">
+                  आपका ग्रुप उतरने से पहले ही हर फ़ोन में यह ऐप। एक कोड, जितने यात्री आप लाते हैं —
+                  और आपका नाम उस स्क्रीन पर जिसे वे दिन भर खोलते हैं। लिख भेजिए, कोड हम बना देंगे।
+                </span>
+                <span class="en">
+                  The app on every phone in your group before they land. One code, as many
+                  travellers as you bring — and your name on a screen they open all day. Write to us
+                  and we will make the codes.
+                </span>
+              </p>
+              <button type="button" class="btn btn-partner" data-who="operator">
+                <span class="hi">कोड के लिए लिखिए</span><span class="en">Ask us for codes</span>
+              </button>
+            </article>
+            <article class="partner">
+              <h3>
+                <span class="hi">कैफ़ेटेरिया और रेस्तराँ</span
+                ><span class="en">Cafeterias and restaurants</span>
+              </h3>
+              <p>
+                <span class="hi">
+                  भारतीय यात्री दुबई में डोसा, थाली और चाय नाम लेकर खोजते हैं, हिंदी में। आपकी रसोई
+                  खाना में होनी चाहिए — मेन्यू, दाम, शुद्ध शाकाहारी या जैन, खुलने का समय। लिख भेजिए;
+                  हम आकर लिख लेंगे, या आप व्हाट्सएप पर भेज दीजिए।
+                </span>
+                <span class="en">
+                  Indian travellers in Dubai look for dosa, thali and chai by name, in Hindi. Your
+                  kitchen belongs in खाना — the menu, the prices, pure veg or Jain, your hours.
+                  Write to us and we will come and take it down, or send it on WhatsApp.
+                </span>
+              </p>
+              <button type="button" class="btn btn-partner" data-who="outlet">
+                <span class="hi">अपनी दुकान लिखवाइए</span><span class="en">List your outlet</span>
+              </button>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section id="go">
         <div class="wrap" style="text-align: center">
           <h2>
@@ -471,32 +668,155 @@
     </main>
 
     <section id="contact" class="contact">
+      <svg
+        class="wash"
+        viewBox="0 0 1200 560"
+        preserveAspectRatio="xMidYMid slice"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <use href="#w-plane" transform="translate(1020 340) scale(6)" />
+        <use href="#w-doc" transform="translate(80 60) scale(5)" />
+        <use href="#w-lantern" transform="translate(640 420) scale(4.5)" />
+        <use href="#w-metro" transform="translate(380 80) scale(4)" />
+      </svg>
       <div class="wrap">
         <h2><span class="hi">हमसे बात कीजिए</span><span class="en">Talk to us</span></h2>
         <p class="sub">
           <span class="hi">
-            कोई सवाल, कोई सुझाव, या ऐप में कुछ ग़लत दिखा — लिख भेजिए। इसे एक व्यक्ति पढ़ता है और
-            जवाब देता है, कोई मशीन नहीं।
+            कोई सवाल, कोई सुझाव, या कुछ ऐसा जो ऐप में होना चाहिए — लिख भेजिए। इसे एक व्यक्ति पढ़ता
+            है और जवाब देता है, कोई मशीन नहीं।
           </span>
           <span class="en">
-            A question, a suggestion, or something wrong in the app — write to us. A person reads it
-            and replies, not a machine.
+            A question, a suggestion, or something you would like the app to do — write to us. A
+            person reads it and replies, not a machine.
           </span>
         </p>
-        <div class="cta">
-          <a class="btn btn-go btn-big" href="https://wa.me/917842178350" rel="noreferrer">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-              <path
-                d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3.3 4.4c-.2 0-.5 0-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3 2.4 1 2.9.8 3.4.7.5 0 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3l-2-1c-.3-.1-.5-.1-.7.1l-.9 1.1c-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.4-1.5-.9-.8-1.5-1.8-1.6-2-.2-.3 0-.5.1-.6l.4-.5.3-.5v-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6z"
+
+        <div class="contact-grid">
+          <form class="form" id="contact-form" novalidate>
+            <fieldset class="who">
+              <legend>
+                <span class="hi">आप कौन हैं?</span><span class="en">Who is writing?</span>
+              </legend>
+              <label class="who-pick">
+                <input type="radio" name="who" value="traveller" checked />
+                <span class="hi">यात्री</span><span class="en">A traveller</span>
+              </label>
+              <label class="who-pick">
+                <input type="radio" name="who" value="operator" />
+                <span class="hi">टूर ऑपरेटर</span><span class="en">A tour operator</span>
+              </label>
+              <label class="who-pick">
+                <input type="radio" name="who" value="outlet" />
+                <span class="hi">खाने की दुकान</span><span class="en">A food outlet</span>
+              </label>
+            </fieldset>
+
+            <label class="field">
+              <span class="field-name">
+                <span class="hi">आपका नाम</span><span class="en">Your name</span>
+              </span>
+              <input
+                type="text"
+                name="name"
+                maxlength="80"
+                autocomplete="name"
+                data-hi-ph="जैसे, अरुण कुमार"
+                data-en-ph="Arun Kumar, say"
+                required
               />
-            </svg>
-            WhatsApp +91 78421 78350
-          </a>
-          <a class="btn btn-big" href="mailto:hello@saafarsaathi.in">hello@saafarsaathi.in</a>
-          <span class="note">
-            <span class="hi">हिंदी या English, जैसे आप चाहें।</span>
-            <span class="en">Hindi or English, whichever you prefer.</span>
-          </span>
+            </label>
+
+            <label class="field">
+              <span class="field-name">
+                <span class="hi">फ़ोन नंबर</span><span class="en">Phone number</span>
+              </span>
+              <span class="phone-row">
+                <select
+                  name="country"
+                  class="country"
+                  data-hi-label="देश का कोड"
+                  data-en-label="Country code"
+                >
+                  <option value="IN">+91</option>
+                  <option value="AE">+971</option>
+                </select>
+                <input
+                  type="tel"
+                  name="phone"
+                  inputmode="numeric"
+                  maxlength="20"
+                  autocomplete="tel-national"
+                  data-hi-ph="98765 43210"
+                  data-en-ph="98765 43210"
+                  required
+                />
+              </span>
+            </label>
+
+            <label class="field">
+              <span class="field-name">
+                <span class="hi">आपकी बात</span><span class="en">Your message</span>
+              </span>
+              <textarea
+                name="message"
+                rows="5"
+                maxlength="2000"
+                data-hi-ph="जो कहना है, हिंदी या English में।"
+                data-en-ph="Whatever you want to say, in Hindi or English."
+                required
+              ></textarea>
+            </label>
+
+            <!-- The honeypot. Hidden from a person and from a screen reader; a script fills it
+                 because it fills everything, and the function drops whatever arrives with it. -->
+            <div class="trap" aria-hidden="true">
+              <label>
+                Company
+                <input type="text" name="company" tabindex="-1" autocomplete="off" />
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-go btn-big" id="contact-send">
+              <span class="hi">भेजिए</span><span class="en">Send</span>
+            </button>
+            <p class="form-said" id="contact-said" role="status" aria-live="polite"></p>
+          </form>
+
+          <aside class="reach">
+            <h3>
+              <span class="hi">या सीधे व्हाट्सएप पर</span
+              ><span class="en">Or straight to WhatsApp</span>
+            </h3>
+            <a class="btn btn-wa" href="https://wa.me/917842178350" rel="noreferrer">
+              <svg
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3.3 4.4c-.2 0-.5 0-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3 2.4 1 2.9.8 3.4.7.5 0 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3l-2-1c-.3-.1-.5-.1-.7.1l-.9 1.1c-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.4-1.5-.9-.8-1.5-1.8-1.6-2-.2-.3 0-.5.1-.6l.4-.5.3-.5v-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6z"
+                />
+              </svg>
+              WhatsApp +91 78421 78350
+            </a>
+            <figure class="qr-card">
+              <img src="/whatsapp-qr.svg" alt="WhatsApp +91 78421 78350" width="150" height="150" />
+              <figcaption>
+                <span class="hi">फ़ोन का कैमरा इस पर रखिए — व्हाट्सएप खुल जाएगा।</span>
+                <span class="en">Point your phone's camera at this and WhatsApp opens.</span>
+              </figcaption>
+            </figure>
+            <p class="note">
+              <span class="hi">हिंदी या English, जैसे आप चाहें।</span>
+              <span class="en">Hindi or English, whichever you prefer.</span>
+              <br />
+              <a href="mailto:hello@saafarsaathi.in">hello@saafarsaathi.in</a>
+            </p>
+          </aside>
         </div>
       </div>
     </section>
@@ -505,25 +825,24 @@
       <div class="wrap">
         <span class="brand brand-foot">
           <img src="/icon.png" alt="" width="26" height="26" />
-          <span class="wordmark"
+          <span class="wordmark wordmark-full"
             >Dubaisaathi<svg
               class="wordmark-trail"
-              viewBox="0 -4 340 76"
+              viewBox="0 0 260 62"
               aria-hidden="true"
               focusable="false"
             >
+              <!-- A filled crescent, not a stroke: a vapour trail is widest behind the aircraft
+                   and dissipates to nothing, and a constant-width line reads as a wire. -->
               <path
                 class="wordmark-trail-line"
-                d="M4 66C92 63 172 55 268 28"
-                fill="none"
-                stroke-width="6"
-                stroke-linecap="round"
+                d="M232 9C186 14 112 27 14 47C118 37 190 21 232 14Z"
               />
-              <path
-                class="wordmark-plane"
-                transform="translate(300 18) rotate(72) scale(1.5) translate(-12 -12)"
-                d="M12 1.4c1.06 0 1.92.94 1.92 2.1v5.62l8.08 4.98v2.1l-8.08-2.48v4.56l2.16 1.6v1.52L12 20.6l-4.08.8v-1.52l2.16-1.6v-4.56L2 16.2v-2.1l8.08-4.98V3.5c0-1.16.86-2.1 1.92-2.1z"
-              /></svg
+              <!-- A paper plane, not the aeroplane-mode glyph, which at this size is a speck. -->
+              <g class="wordmark-plane" transform="translate(222 0) rotate(-12) scale(0.78)">
+                <path d="M1 12.4 34 1 23.6 24.6 15.6 15.7Z" />
+                <path class="wordmark-plane-fold" d="M15.6 15.7 23.6 24.6 14.7 23.1Z" />
+              </g></svg
           ></span>
         </span>
         <span>© 2026 Saafar Saathi</span>

@@ -9,10 +9,12 @@
     "coupons": "tsx src/makeCoupons.ts",
     "pass:key": "tsx src/passKey.ts",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "site:qr": "tsx src/siteQr.ts"
   },
   "dependencies": {
-    "@saathi/shared": "*"
+    "@saathi/shared": "*",
+    "qr": "^0.7.0"
   },
   "devDependencies": {
     "@types/node": "^26.5.1",

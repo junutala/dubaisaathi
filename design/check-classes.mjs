@@ -20,6 +20,10 @@ import { join, extname } from 'node:path';
 const APPS = [
   { name: 'pwa', src: 'apps/pwa/src', css: ['apps/pwa/src/styles.css'] },
   { name: 'field', src: 'apps/field/src', css: ['apps/field/src/styles.css'] },
+  // The website is hand-written HTML rather than JSX, and was outside this check until the
+  // contact form doubled the number of classes on it. Same defect, same cost: a rule that was
+  // never written is invisible to every other check we run.
+  { name: 'site', src: 'apps/site', css: ['apps/site/styles.css'] },
 ];
 
 /** Stands in for a `${…}` hole while the class name is being split on whitespace. */
@@ -42,10 +46,13 @@ for (const app of APPS) {
   for (const match of css.matchAll(/\.([a-zA-Z][\w-]*)/g)) defined.add(match[1]);
 
   const used = new Map();
-  for (const file of walk(app.src).filter((f) => ['.tsx', '.ts'].includes(extname(f)))) {
+  for (const file of walk(app.src).filter((f) => ['.tsx', '.ts', '.html'].includes(extname(f)))) {
     if (file.includes('.test.')) continue;
     const source = readFileSync(file, 'utf8');
-    for (const match of source.matchAll(/className=(?:"([^"]*)"|\{`([^`]*)`\})/g)) {
+    // `className` in JSX, `class` in the website's HTML. Both read the same way after this.
+    const attribute =
+      extname(file) === '.html' ? /class=(?:"([^"]*)")/g : /className=(?:"([^"]*)"|\{`([^`]*)`\})/g;
+    for (const match of source.matchAll(attribute)) {
       const literal = match[1] ?? match[2] ?? '';
       const templated = match[2] !== undefined && literal.includes('${');
       const cleaned = literal.replace(/\$\{[^}]*\}/g, templated ? HOLE : ' ');
