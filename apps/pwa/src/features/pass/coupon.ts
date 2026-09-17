@@ -14,7 +14,7 @@ import { readPass, type SignedPass } from './signedPass.js';
  * A coupon code on the phone: where it came from, what it is waiting for, and the one call
  * that turns it into a price or a pass (decision 018).
  *
- * A code arrives typed into घर.4 or on the URL from an advertisement (`?code=SS-7K3M2X`). It
+ * A code arrives typed into घर.4 or on the URL from an advertisement (`?code=SS7K3M2X`). It
  * is remembered here until it has been redeemed or replaced — through a reload, and through
  * the afternoon with no signal — because a traveller who tapped an ad in the airport and opened
  * the app in the hotel has done everything right, and the app owes them the code back.

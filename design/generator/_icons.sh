@@ -15,6 +15,13 @@ logo() { cat <<L
 <svg width="$(( $1 * 320 / 388 ))" height="$1" viewBox="96 60 320 388"><defs><linearGradient id="pin$1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF9100"></stop><stop offset="60%" stop-color="#E65100"></stop><stop offset="100%" stop-color="#BF360C"></stop></linearGradient></defs><path d="M 256 60 C 160 60, 96 132, 96 226 C 96 324, 230 424, 256 448 C 282 424, 416 324, 416 226 C 416 132, 352 60, 256 60 Z" fill="url(#pin$1)"></path><path d="M 315 150 C 230 140, 180 180, 180 225 C 180 260, 215 275, 256 280 C 210 270, 210 215, 265 200 C 305 190, 325 170, 315 150 Z" fill="#FFFDF9"></path><path d="M 197 342 C 282 352, 332 312, 332 267 C 332 232, 297 217, 256 212 C 302 222, 302 277, 247 292 C 207 302, 187 322, 197 342 Z" fill="#FFFDF9"></path><circle cx="285" cy="175" r="9" fill="#FFFDF9"></circle></svg>
 L
 }
+# the wordmark: $1 = font size in px, $2 = ink, $3 = the trail's colour. One word, one capital,
+# never translated (decision 021); the flight trail's box is pinned to the word's right edge and
+# measured in ems, so one shape serves the 22px strip and the 40px landing page.
+wordmark() { cat <<W
+<span class="wm" style="font-size: ${1}px; color: $2;">Dubaisaathi<svg viewBox="0 -4 340 76"><path d="M4 66C92 63 172 55 268 28" fill="none" stroke="$3" stroke-width="6" stroke-linecap="round"></path><path transform="translate(300 18) rotate(72) scale(1.5) translate(-12 -12)" fill="$3" d="M12 1.4c1.06 0 1.92.94 1.92 2.1v5.62l8.08 4.98v2.1l-8.08-2.48v4.56l2.16 1.6v1.52L12 20.6l-4.08.8v-1.52l2.16-1.6v-4.56L2 16.2v-2.1l8.08-4.98V3.5c0-1.16.86-2.1 1.92-2.1z"></path></svg></span>
+W
+}
 # pointed arch, used as a faint motif on cards
 arch() { echo "<svg width=\"$1\" height=\"$1\" viewBox=\"0 0 40 40\" fill=\"none\" stroke=\"$2\" stroke-width=\"0.9\"><path d=\"M4 40V17C4 7 11 2 20 2s16 5 16 15v23\"></path><path d=\"M9 40V18c0-7 5-10 11-10s11 3 11 10v22\"></path></svg>"; }
 sun()     { ic "$1" "$2" "$3"; echo '<circle cx="12" cy="12" r="4"></circle><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"></path></svg>'; }

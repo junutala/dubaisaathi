@@ -26,23 +26,25 @@ describe('a coupon code', () => {
     expect(COUPON_ALPHABET).toHaveLength(32);
     for (let byte = 0; byte < 256; byte += 1) {
       const code = couponCode('family', new Uint8Array(6).fill(byte));
-      expect(code).toMatch(/^SS-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/);
+      expect(code).toMatch(/^SS[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/);
     }
   });
 
   it('carries the prefix of its kind', () => {
     const bytes = new Uint8Array([0, 1, 2, 3, 4, 5]);
-    expect(couponCode('family', bytes)).toBe('SS-ABCDEF');
-    expect(couponCode('single', bytes)).toBe('OP-ABCDEF');
+    expect(couponCode('family', bytes)).toBe('SSABCDEF');
+    expect(couponCode('single', bytes)).toBe('OPABCDEF');
   });
 
   it('reads what a traveller typed, however they typed it', () => {
-    expect(normaliseCouponCode('ss-7k3m2x')).toBe('SS-7K3M2X');
-    expect(normaliseCouponCode(' ss7k3m2x ')).toBe('SS-7K3M2X');
-    expect(normaliseCouponCode('SS 7K3M 2X')).toBe('SS-7K3M2X');
-    expect(isCouponCode('SS-7K3M2X')).toBe(true);
-    expect(isCouponCode('SS-7K3M2O')).toBe(false);
-    expect(isCouponCode('SS7K3M2X')).toBe(false);
+    expect(normaliseCouponCode(' ss7k3m2x ')).toBe('SS7K3M2X');
+    expect(normaliseCouponCode('SS 7K3M 2X')).toBe('SS7K3M2X');
+    // The dash went in 0009, but an advertisement already printed with one still resolves.
+    expect(normaliseCouponCode('ss-7k3m2x')).toBe('SS7K3M2X');
+    expect(isCouponCode('SS7K3M2X')).toBe(true);
+    expect(isCouponCode('SS7K3M2O')).toBe(false);
+    expect(isCouponCode('SS-7K3M2X')).toBe(false);
+    expect(isCouponCode('SS7K3M2')).toBe(false);
   });
 });
 
@@ -154,7 +156,7 @@ describe('the batch', () => {
       parseCouponArgs(['--kind', 'single', '--count', '2', '--batch', 'x']),
       (bytes) => bytes.fill(draws.shift() ?? 9),
     );
-    expect(rows.map((row) => row.code)).toEqual(['OP-BBBBBB', 'OP-CCCCCC']);
+    expect(rows.map((row) => row.code)).toEqual(['OPBBBBBB', 'OPCCCCCC']);
   });
 
   it('names the file after the batch', () => {
@@ -166,7 +168,7 @@ describe('the batch', () => {
   it('lays the report out one code per line', () => {
     const table = uptakeTable([
       {
-        code: 'SS-7K3M2X',
+        code: 'SSW9VASX',
         batch: 'Meta launch',
         kind: 'family',
         discount: 100,
@@ -181,7 +183,7 @@ describe('the batch', () => {
       },
     ]);
     expect(table.split('\n')).toHaveLength(2);
-    expect(table).toContain('SS-7K3M2X  Meta launch  family  100%  2/2');
+    expect(table).toContain('SSW9VASX  Meta launch  family  100%  2/2');
     expect(table).toContain('2026-09-17  exhausted');
   });
 });

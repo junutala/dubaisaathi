@@ -26,6 +26,13 @@ describe('the interface catalogues', () => {
     }
   });
 
+  it('never translates the name: the lockup is one word in both catalogues', () => {
+    // दुबई साथी was a translation of the logo, and a name rendered two ways is two names
+    // (decision 021). The pillar names below are a different thing and stay Devanagari.
+    expect(translate('hi', 'app.name')).toBe('Dubaisaathi');
+    expect(translate('en', 'app.name')).toBe('Dubaisaathi');
+  });
+
   it('keeps the three pillar names in Devanagari in both catalogues', () => {
     for (const key of ['pillar.food', 'pillar.go', 'pillar.know'] as const) {
       expect(translate('en', key)).toBe(translate('hi', key));

@@ -1,6 +1,19 @@
 /* Self-hosted so the app never needs a network for its own typeface (rule 1).
    Devanagari, Arabic and Latin subsets only — a tourist should not download
    Cyrillic to read a taxi phrase. Regenerate with tools/vendor-fonts.md. */
+
+/* The wordmark, and nothing else: Quicksand Bold subset to the eight letters of `Dubaisaathi`
+   (decision 021). A whole family would be a hundred kilobytes for one word; ten glyphs is one
+   and a quarter, which is why the logo can be real type on a phone with the radio off. */
+@font-face {
+  font-family: 'Quicksand Wordmark';
+  font-style: normal;
+  font-weight: 700;
+  font-display: block;
+  src: url(./fonts/quicksand-wordmark-700.woff2) format('woff2');
+  unicode-range: U+0044, U+0061-0062, U+0068-0069, U+0073-0075;
+}
+
 @font-face {
   font-family: 'Anek Devanagari';
   font-style: normal;

@@ -8,7 +8,7 @@ import {
 } from '@saathi/shared';
 import { db, keepOurData } from './db.js';
 import { collectorName, setCollectorName } from './collector.js';
-import { Logo } from './Logo.js';
+import { Logo, Wordmark } from './Logo.js';
 import { shrink, FRONT, MENU } from './shrink.js';
 import { BUILD } from './version.js';
 import { readMenu } from './readMenu.js';
@@ -236,7 +236,9 @@ export function CaptureScreen() {
         <span className="brand">
           <Logo size={26} />
           <span className="brand-text">
-            <strong className="brand-name">Dubai Saathi</strong>
+            <strong className="brand-name">
+              <Wordmark name="Dubaisaathi" />
+            </strong>
             <span className="brand-sub">
               {t('appSub')} · {who}
             </span>

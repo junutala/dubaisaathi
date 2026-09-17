@@ -2,6 +2,18 @@
   The collectors' app. Plain on purpose: this is a tool for two people standing in a shop, not
   something a traveller judges the product by. Big targets, one column, nothing decorative.
 */
+/* The wordmark's face, self-hosted for the same reason the traveller's app self-hosts its own:
+   a collector works in basements, and the tool has to look like itself with the signal gone.
+   Quicksand Bold, subset to the eight letters of `Dubaisaathi` — 1.2 kB (decision 021). */
+@font-face {
+  font-family: 'Quicksand Wordmark';
+  font-style: normal;
+  font-weight: 700;
+  font-display: block;
+  src: url(./fonts/quicksand-wordmark-700.woff2) format('woff2');
+  unicode-range: U+0044, U+0061-0062, U+0068-0069, U+0073-0075;
+}
+
 :root {
   --ink: #141826;
   --muted: #5b6275;
@@ -248,7 +260,31 @@ input.short {
 .brand-name {
   font-size: 16px;
   font-weight: 700;
-  letter-spacing: 0.01em;
+}
+/* The same lockup the traveller's app carries: the name, and the flight trail over its second
+   half, pinned to the word's right edge in ems (decision 021). */
+.wordmark {
+  position: relative;
+  display: inline-block;
+  font-family: 'Quicksand Wordmark', system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+.wordmark-trail {
+  position: absolute;
+  right: -0.16em;
+  bottom: 0.88em;
+  width: 3.4em;
+  height: 0.76em;
+  overflow: visible;
+  pointer-events: none;
+}
+.wordmark-trail-line {
+  stroke: var(--marigold);
+}
+.wordmark-plane {
+  fill: var(--marigold);
 }
 /* Who is collecting, and which of the two apps this is — needed, but subordinate to the name. */
 .brand-sub {

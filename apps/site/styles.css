@@ -87,10 +87,40 @@ a {
   height: 34px;
   border-radius: 9px;
 }
-.brand .sub {
-  font-weight: 500;
-  color: var(--muted);
-  font-size: 14px;
+/* The lockup, the same one the app carries: one word, one capital, in the app's own face, with
+   the flight trail over its second half (decision 021). Never translated, so there is no
+   Devanagari caption beside it any more. */
+.wordmark {
+  position: relative;
+  display: inline-block;
+  font-family: 'Quicksand Wordmark', 'Mukta', sans-serif;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--ink);
+}
+.wordmark-trail {
+  position: absolute;
+  right: -0.16em;
+  bottom: 0.88em;
+  width: 3.4em;
+  height: 0.76em;
+  overflow: visible;
+  pointer-events: none;
+}
+.wordmark-trail-line {
+  stroke: var(--marigold);
+}
+.wordmark-plane {
+  fill: var(--marigold);
+}
+/* The footer carries it too, quieter: whose page this was, at the bottom of it. */
+.brand-foot {
+  font-size: 17px;
+}
+.brand-foot img {
+  width: 26px;
+  height: 26px;
 }
 .top .grow {
   flex: 1;
@@ -560,9 +590,6 @@ footer .wrap {
   }
 }
 @media (max-width: 600px) {
-  .brand .sub {
-    display: none;
-  }
   .top .wrap {
     gap: 8px;
   }

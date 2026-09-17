@@ -10,5 +10,11 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   base: './',
-  build: { outDir: 'dist', emptyOutDir: true },
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+    // The wordmark's subset is 1.2 kB and Vite would inline it as a `data:` URL. It stays a
+    // file, for the same reason it does in the traveller's app: a typeface is a typeface.
+    assetsInlineLimit: (file) => (file.endsWith('.woff2') ? false : undefined),
+  },
 });

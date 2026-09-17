@@ -6,14 +6,14 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 
 ## On every screen after landing — the top strip
 
-| Field                  | Why it is there                                                                  |
-| ---------------------- | -------------------------------------------------------------------------------- |
-| The mark and दुबई साथी | Which app this is; a tap goes home                                               |
-| ऑफ़लाइन / ऑनलाइन       | The status this product lives on; a tourist with no data needs to see it is fine |
-| The pass dot           | Green while the counter runs, marigold when the Dubai day is ending; tap → घर.4  |
-| Language               | Hindi or English, one tap                                                        |
-| Theme                  | One tap, never hunted for                                                        |
-| The hotel row          | The first thing reached for on a bad evening, on every screen; tap → घर.1        |
+| Field                         | Why it is there                                                                  |
+| ----------------------------- | -------------------------------------------------------------------------------- |
+| The lockup: pin + Dubaisaathi | Which app this is, in one shape in both languages; a tap goes home               |
+| ऑफ़लाइन / ऑनलाइन              | The status this product lives on; a tourist with no data needs to see it is fine |
+| The pass dot                  | Green while the counter runs, marigold when the Dubai day is ending; tap → घर.4  |
+| Language                      | Hindi or English, one tap                                                        |
+| Theme                         | One tap, never hunted for                                                        |
+| The hotel row                 | The first thing reached for on a bad evening, on every screen; tap → घर.1        |
 
 ## On every screen after landing — the bar
 
@@ -31,7 +31,7 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 
 | Field                             | Why it is there                                              |
 | --------------------------------- | ------------------------------------------------------------ |
-| The mark, दुबई साथी, the one line | Which app, and the one reason to install                     |
+| The lockup, and the one line      | Which app, and the one reason to install                     |
 | हिंदी / English                   | The interface language, chosen before anything else          |
 | "ऑफ़लाइन पैक आ रहा है" + progress | The app installing itself for the radio-off days             |
 | शुरू करें (live once installed)   | The only action; live only when the app can keep its promise |
@@ -76,7 +76,7 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 | The code's line                       | Unknown, not yet, ended, used up, used here, needs a moment of network — one each |
 | "आपकी दरख़्वास्त पहुँच गई"            | The moment a code goes out: the wait is visible, so nobody presses twice          |
 | कुल · the list price struck through   | What is owed after the code, from the one price rule                              |
-| "SS-7K3M2X · 50% छूट"                 | What the code gave, so the total is not a mystery                                 |
+| "SSW9VASX · 50% छूट"                  | What the code gave, so the total is not a mystery                                 |
 | पास लें — मुफ़्त                      | A ₹0 total: the pass, issued and installed on the spot                            |
 | UPI से · QR — कोई और भरे              | Same phone, or someone in India pays, when the total is above ₹0                  |
 | "ख़रीदना अभी चालू नहीं है"            | Said plainly while buying is switched off                                         |
@@ -210,3 +210,16 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 | आप दुबई से बाहर हैं · बुरजुमान/होटल से | A phone in India still sees Dubai; the row says whose distance it is |
 | बुरजुमान से · आप दुबई से बाहर हैं      | The journey is real; the start is a stand-in, said plainly           |
 | वेबसाइट (the attraction's own)         | Where the pictures and the booking are; no photograph in the pack    |
+
+## Addenda
+
+- **The lockup replaces दुबई साथी on the strip and on L (decision 021).** One word, one capital,
+  one shape in both interface languages — a logo is not translated. The three pillar names stay
+  in Devanagari; they are words a traveller reads, and this is a name.
+- **The flight trail and the aeroplane (decision 021).** The pin says "a place"; the trail says
+  "and you flew here". It is the one piece of decoration on a screen that otherwise has none,
+  and it earns its line because a logo's job is to be recognised rather than read.
+- **A coupon code has no separator (decision 018's addendum).** `SSW9VASX`, not `SS-7K3M2X`. The
+  hyphen sat behind the `?123` key and the person typing is standing in an airport with a bag in
+  the other hand. घर.4's कोड field, the line under it and the "कोड · छूट" row all show the eight
+  characters as typed; a dash from an old advertisement is still accepted and simply dropped.

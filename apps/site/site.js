@@ -39,7 +39,7 @@
   for (const button of toggles) button.addEventListener('click', toggle);
 
   /*
-   * An advertisement's code rides along: opened as ?code=SS-7K3M2X, every "open the app" link
+   * An advertisement's code rides along: opened as ?code=SSW9VASX, every "open the app" link
    * on this page points at the app with the same code, and the app's pass screen takes it
    * from there (decision 018). Nothing else about the page changes.
    */

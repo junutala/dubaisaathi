@@ -17,8 +17,8 @@ export default defineConfig({
       // Android crops a circle out of it and would otherwise cut the pin's tip off.
       includeAssets: ['apple-touch-icon.png'],
       manifest: {
-        name: 'दुबई साथी',
-        short_name: 'साथी',
+        name: 'Dubaisaathi',
+        short_name: 'Dubaisaathi',
         lang: 'hi',
         start_url: '/',
         scope: '/',
@@ -45,6 +45,13 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    // A typeface stays a file. The wordmark's subset is 1.2 kB, well under Vite's inlining
+    // threshold, and an inlined font becomes a `data:` URL — which the app's own CSP
+    // (`font-src 'self'`, deploy/nginx.conf) refuses, so the lockup would quietly fall back to
+    // Mukta in production and nowhere else. Fonts are never inlined.
+    assetsInlineLimit: (file) => (file.endsWith('.woff2') ? false : undefined),
+  },
   resolve: {
     alias: {
       '@saathi/shared': new URL('../../packages/shared/src/index.ts', import.meta.url).pathname,

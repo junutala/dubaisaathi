@@ -15,7 +15,9 @@
 
 create table coupons (
   -- Uppercase, prefix + dash + six characters from an alphabet without 0/O/1/I: `SS-7K3M2X`,
-  -- `OP-4HXR9B`. The prefix is a HUMAN CONVENTION and nothing reads it: the app and the
+  -- `OP-4HXR9B`. 0009 took the dash out — a hyphen is a keyboard flip on a phone — and rewrote
+  -- these rows; read this shape as the one that shipped first, not the one in the table now.
+  -- The prefix is a HUMAN CONVENTION and nothing reads it: the app and the
   -- function read `kind`. `npm run coupons` sets both consistently — `SS-` for family, `OP-`
   -- for single — so a code read out over the phone says what it is.
   code text primary key check (code ~ '^[A-Z]{2}-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$'),

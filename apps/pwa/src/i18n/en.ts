@@ -3,10 +3,11 @@ import type { StringKey } from './hi.js';
 /**
  * The English catalogue. Typed against the Hindi one so a missing key is a build failure rather
  * than a blank label in a taxi. The three pillar names stay in Devanagari here too: they are the
- * brand, not a translation (16 September).
+ * brand, not a translation (16 September). Neither is `app.name`: it is the lockup, the same
+ * word in both catalogues (decision 021).
  */
 export const en: Record<StringKey, string> = {
-  'app.name': 'Dubai Saathi',
+  'app.name': 'Dubaisaathi',
 
   'strip.offline': 'Offline',
   'strip.online': 'Online',

@@ -12,9 +12,10 @@
  * (.gitignore). The key is read from the environment and never written to the repo; it has to
  * be the service role, because `coupons` has RLS on with no policies by design.
  *
- * `--kind family` makes `SS-` codes that sell 1–4 phones; `--kind single` makes `OP-` codes
+ * `--kind family` makes `SS…` codes that sell 1–4 phones; `--kind single` makes `OP…` codes
  * locked to one phone, for an operator handing them out at a counter. The prefix is only a
- * convention for people; the app reads `kind`.
+ * convention for people; the app reads `kind`. A code is eight characters with no separator —
+ * `SSW9VASX` — so that typing one never sends a traveller to the symbol keyboard (0009).
  */
 import { writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';

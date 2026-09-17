@@ -2,7 +2,7 @@ import { useSettings } from '../settings.js';
 import { LOCALES, LOCALE_LABEL } from '../../i18n/index.js';
 import { navigate } from '../routes.js';
 import { Icon } from './icons.js';
-import { Logo } from './Logo.js';
+import { Logo, Wordmark } from './Logo.js';
 import { NUDGE_FROM_HOURS_LEFT, type Validity } from '../../features/pass/index.js';
 import type { SavedHotel } from '../../features/info/index.js';
 
@@ -41,8 +41,10 @@ export function TopStrip({
           }}
           aria-label={t('strip.home')}
         >
-          <Logo size={28} />
-          <span className="strip-name">{t('app.name')}</span>
+          <Logo size={26} />
+          <span className="strip-name">
+            <Wordmark name={t('app.name')} />
+          </span>
         </button>
         {/* Teal when offline, not red: working without a network is what this app is for, so
             it is a statement of fact and never a warning. */}

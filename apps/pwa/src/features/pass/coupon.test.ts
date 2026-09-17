@@ -30,16 +30,16 @@ describe('a code on the URL', () => {
   it('is read from the query string, remembered, and taken off the URL', async () => {
     const { takeCodeFromUrl, pendingCoupon } = await load();
     window.history.replaceState(null, '', '/?code=ss7k3m2x&utm=ad#/');
-    expect(takeCodeFromUrl()).toBe('SS-7K3M2X');
-    expect(pendingCoupon()).toEqual({ code: 'SS-7K3M2X', slots: 1 });
+    expect(takeCodeFromUrl()).toBe('SS7K3M2X');
+    expect(pendingCoupon()).toEqual({ code: 'SS7K3M2X', slots: 1 });
     expect(window.location.search).toBe('?utm=ad');
     expect(takeCodeFromUrl()).toBeNull();
   });
 
   it('is read from after the hash, the way a shared link carries it', async () => {
     const { takeCodeFromUrl } = await load();
-    window.history.replaceState(null, '', '/#/pass?code=OP-4HXR9B');
-    expect(takeCodeFromUrl()).toBe('OP-4HXR9B');
+    window.history.replaceState(null, '', '/#/pass?code=OP4HXR9B');
+    expect(takeCodeFromUrl()).toBe('OP4HXR9B');
     expect(window.location.hash).toBe('#/pass');
   });
 
@@ -77,10 +77,10 @@ describe('applying a code', () => {
 
     const quoted = await applyCoupon('ss-7k3m2x', 3, 'quote');
     expect(quoted).toMatchObject({ kind: 'quoted', quote: { payable: 0, kind: 'family' } });
-    expect(pendingCoupon()).toMatchObject({ code: 'SS-7K3M2X', slots: 3, quote: { payable: 0 } });
+    expect(pendingCoupon()).toMatchObject({ code: 'SS7K3M2X', slots: 3, quote: { payable: 0 } });
     expect(entitlement().paid).toBeUndefined();
 
-    const issued = await applyCoupon('SS-7K3M2X', 3, 'issue');
+    const issued = await applyCoupon('SS7K3M2X', 3, 'issue');
     expect(issued).toEqual({ kind: 'issued', slots: 3 });
     const state = entitlement();
     expect(state.paid).toBe(true);
@@ -116,8 +116,8 @@ describe('applying a code', () => {
 
     // The traveller presses लगाएँ twice: one call, one answer, shared.
     const [first, second] = await Promise.all([
-      applyCoupon('SS-7K3M2X', 1, 'quote'),
-      applyCoupon('SS-7K3M2X', 1, 'quote'),
+      applyCoupon('SS7K3M2X', 1, 'quote'),
+      applyCoupon('SS7K3M2X', 1, 'quote'),
     ]);
     expect(first).toBe(second);
     expect(calls).toHaveLength(1);
@@ -125,8 +125,8 @@ describe('applying a code', () => {
     // The button pressed while the background retry's quote is still in flight is issued,
     // not handed the quote — the defect that told a traveller a price and gave them nothing.
     const [quote, issue] = await Promise.all([
-      applyCoupon('SS-7K3M2X', 1, 'quote'),
-      applyCoupon('SS-7K3M2X', 1, 'issue'),
+      applyCoupon('SS7K3M2X', 1, 'quote'),
+      applyCoupon('SS7K3M2X', 1, 'issue'),
     ]);
     expect(quote).toMatchObject({ kind: 'quoted' });
     expect(issue).toEqual({ kind: 'issued', slots: 1 });
@@ -151,7 +151,7 @@ describe('applying a code', () => {
       theirs.privateKey,
     );
     answer(() => ({ json: { payable: 0, issued: true, passes: [forged] } }));
-    expect(await applyCoupon('SS-7K3M2X', 1, 'issue')).toEqual({ kind: 'failed' });
+    expect(await applyCoupon('SS7K3M2X', 1, 'issue')).toEqual({ kind: 'failed' });
     expect(entitlement().paid).toBeUndefined();
   });
 
@@ -159,7 +159,7 @@ describe('applying a code', () => {
     const { applyCoupon, pendingCoupon, entitlement } = await load();
     answer(() => ({
       json: {
-        code: 'SS-7K3M2X',
+        code: 'SS7K3M2X',
         kind: 'family',
         payable: 149,
         listPrice: 299,
@@ -167,7 +167,7 @@ describe('applying a code', () => {
         discount: { discountPercent: 50 },
       },
     }));
-    const outcome = await applyCoupon('SS-7K3M2X', 2, 'quote');
+    const outcome = await applyCoupon('SS7K3M2X', 2, 'quote');
     expect(outcome).toMatchObject({ kind: 'quoted', quote: { payable: 149, listPrice: 299 } });
     expect(pendingCoupon()?.quote?.discount).toEqual({ discountPercent: 50 });
     expect(entitlement().paid).toBeUndefined();
@@ -179,7 +179,7 @@ describe('applying a code', () => {
       body.slots === 1
         ? {
             json: {
-              code: 'OP-4HXR9B',
+              code: 'OP4HXR9B',
               kind: 'single',
               payable: 99,
               listPrice: 199,
@@ -189,12 +189,12 @@ describe('applying a code', () => {
           }
         : { status: 400, json: { reason: 'single' } },
     );
-    const outcome = await applyCoupon('OP-4HXR9B', 3, 'quote');
+    const outcome = await applyCoupon('OP4HXR9B', 3, 'quote');
     expect(outcome).toMatchObject({ kind: 'quoted', quote: { payable: 99, kind: 'single' } });
     expect(calls.map((call) => call.body.slots)).toEqual([3, 1]);
-    expect(pendingCoupon()).toMatchObject({ code: 'OP-4HXR9B', slots: 1, kind: 'single' });
+    expect(pendingCoupon()).toMatchObject({ code: 'OP4HXR9B', slots: 1, kind: 'single' });
     // Once known, the phone count is never sent above one for this code again.
-    await applyCoupon('OP-4HXR9B', 4, 'quote');
+    await applyCoupon('OP4HXR9B', 4, 'quote');
     expect(calls[2]!.body.slots).toBe(1);
   });
 
@@ -207,15 +207,15 @@ describe('applying a code', () => {
   ])('forgets a code the server calls %s', async (reason, status) => {
     const { applyCoupon, pendingCoupon } = await load();
     answer(() => ({ status, json: { reason } }));
-    expect(await applyCoupon('SS-7K3M2X', 1, 'quote')).toEqual({ kind: 'refused', reason });
+    expect(await applyCoupon('SS7K3M2X', 1, 'quote')).toEqual({ kind: 'refused', reason });
     expect(pendingCoupon()).toBeNull();
   });
 
   it('says so and keeps the code when the server cannot be reached', async () => {
     const { applyCoupon, pendingCoupon } = await load();
     vi.stubGlobal('fetch', () => Promise.reject(new Error('no route to host')));
-    expect(await applyCoupon('SS-7K3M2X', 2, 'quote')).toEqual({ kind: 'failed' });
-    expect(pendingCoupon()).toEqual({ code: 'SS-7K3M2X', slots: 2 });
+    expect(await applyCoupon('SS7K3M2X', 2, 'quote')).toEqual({ kind: 'failed' });
+    expect(pendingCoupon()).toEqual({ code: 'SS7K3M2X', slots: 2 });
   });
 
   it('remembers a code applied offline and applies it when the phone comes back', async () => {
@@ -223,7 +223,7 @@ describe('applying a code', () => {
     online(false);
     const calls = answer(() => ({
       json: {
-        code: 'SS-7K3M2X',
+        code: 'SS7K3M2X',
         kind: 'family',
         payable: 0,
         listPrice: 299,
@@ -231,8 +231,8 @@ describe('applying a code', () => {
         discount: { discountPercent: 100 },
       },
     }));
-    expect(await applyCoupon('SS-7K3M2X', 2, 'quote')).toEqual({ kind: 'offline' });
-    expect(pendingCoupon()).toEqual({ code: 'SS-7K3M2X', slots: 2 });
+    expect(await applyCoupon('SS7K3M2X', 2, 'quote')).toEqual({ kind: 'offline' });
+    expect(pendingCoupon()).toEqual({ code: 'SS7K3M2X', slots: 2 });
     expect(calls).toHaveLength(0);
 
     const stop = startCouponRetry();
@@ -243,7 +243,7 @@ describe('applying a code', () => {
       expect(pendingCoupon()?.quote?.payable).toBe(0);
     });
     expect(calls).toHaveLength(1);
-    expect(calls[0]!.body).toMatchObject({ code: 'SS-7K3M2X', slots: 2, quoteOnly: true });
+    expect(calls[0]!.body).toMatchObject({ code: 'SS7K3M2X', slots: 2, quoteOnly: true });
     // A quoted code is not asked about again.
     window.dispatchEvent(new Event('online'));
     await Promise.resolve();
