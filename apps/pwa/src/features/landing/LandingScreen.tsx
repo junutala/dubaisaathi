@@ -66,7 +66,6 @@ export function LandingScreen({ onReady }: { readonly onReady: () => void }) {
           <Wordmark name={t('app.name')} trail />
         </h1>
         <p className="landing-offline">{t('landing.offline')}</p>
-        <p className="landing-usp">{t('landing.usp')}</p>
         <ul className="landing-jobs">
           {(['landing.job1', 'landing.job2', 'landing.job3', 'landing.job4'] as const).map(
             (key) => (
