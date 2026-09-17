@@ -47,3 +47,11 @@ Migration `0007_coupons.sql` must be applied first: `redeem` calls its `redeem_c
 `POST /functions/v1/bind` with `{ deviceId, passId, familyId, slot, counterOffAt?, hours?, signature }`
 
 - `{ bound: true }` · `{ bound: false, reason: 'taken' | 'revoked' | 'unknown' }`.
+
+## The same phone, again
+
+A code a phone has already redeemed is not refused to that phone: the family's passes are
+signed again over the same claims and handed back (`issued: true`). The first attempt can
+succeed on the server and still not land on the phone — a build without the public key, a tab
+closed mid-install — and the redemption is spent either way. A different phone is refused with
+`already-redeemed` as before.
