@@ -192,6 +192,16 @@ export const hi = {
   'pass.tryOn': 'दुबई में हूँ (टेस्ट)',
   'pass.tryOff': 'टेस्ट बंद कीजिए',
 
+  // घर.4 · the welcome, the one moment a pass lands on this phone (decision 022)
+  'pass.welcome.eyebrow': 'पास आ गया',
+  'pass.welcome.title': '14 दिन का दुबई साथी — अब आपका।',
+  'pass.welcome.offline':
+    'सिम नहीं, वाई-फ़ाई नहीं, रोमिंग नहीं — खाना, जाना और जानना, तीनों बिना नेटवर्क चलते हैं।',
+  'pass.welcome.starts': 'गिनती दुबई पहुँचने पर शुरू होगी — घर बैठे एक दिन भी ख़र्च नहीं होता।',
+  'pass.welcome.bon': 'सफ़र अच्छा बीते। दुबई में साथी आपके साथ है।',
+  'pass.welcome.go': 'साथी खोलिए',
+  'pass.gives': 'इस पास में क्या-क्या',
+
   // ---- 1 · खाना -------------------------------------------------------------------------
   'food.title': 'खाना',
   'food.label': 'क्या खाना है?',

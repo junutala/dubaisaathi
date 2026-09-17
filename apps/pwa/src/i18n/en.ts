@@ -179,6 +179,17 @@ export const en: Record<StringKey, string> = {
   'pass.tryOn': 'I am in Dubai (test)',
   'pass.tryOff': 'Stop the test',
 
+  // घर.4 · the welcome, the one moment a pass lands on this phone (decision 022)
+  'pass.welcome.eyebrow': 'Your pass is here',
+  'pass.welcome.title': '14 days of Dubai Saathi — yours.',
+  'pass.welcome.offline':
+    'No SIM, no wifi, no roaming: खाना, जाना and जानना all work with the network off.',
+  'pass.welcome.starts':
+    'The 14 days begin when you land in Dubai — not a day of them is spent while you are still at home.',
+  'pass.welcome.bon': 'Have a good trip. Saathi travels with you.',
+  'pass.welcome.go': 'Open Saathi',
+  'pass.gives': 'What the pass gives you',
+
   'food.title': 'खाना',
   'food.label': 'What do you want to eat?',
   'food.placeholder': 'What to eat? — dosa, thali, vada pav…',

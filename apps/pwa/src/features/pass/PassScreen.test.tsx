@@ -91,6 +91,9 @@ describe('घर.4', () => {
     expect(screen.queryByRole('button', { name: /UPI/ })).toBeNull();
 
     fireEvent.click(free);
+    // The pass lands, and घर.4 is the welcome until it is read (decision 022); the flow below
+    // is what the traveller comes back to.
+    fireEvent.click(await screen.findByRole('button', { name: 'साथी खोलिए' }));
     await screen.findByText('पास लग गया — इस सफ़र में अब कुछ बंद नहीं होगा');
     expect(entitlement().paid).toBe(true);
     expect(entitlement().slot).toBe(1);
@@ -202,9 +205,12 @@ describe('घर.4', () => {
     const [, second] = await signer.family(2, '2026-10-01T06:00:00.000Z');
     online(false);
     const { entitlement } = await show(signer.signedPass.encodePass(second!), signer);
+    // The token is off the URL before anything else, so a reload cannot install it twice.
+    await screen.findByRole('button', { name: 'साथी खोलिए' });
+    expect(window.location.hash).toBe('#/pass');
+    fireEvent.click(screen.getByRole('button', { name: 'साथी खोलिए' }));
     await screen.findByText('पास इस फ़ोन पर लग गया');
     expect(entitlement().slot).toBe(2);
-    expect(window.location.hash).toBe('#/pass');
     expect(screen.queryByRole('textbox')).toBeNull();
     expect(screen.queryByText('परिवार')).toBeNull();
   });
