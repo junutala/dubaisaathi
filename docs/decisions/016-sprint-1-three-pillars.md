@@ -72,3 +72,11 @@ of a place we ship, which is the one Arabic a driver needs.
 
 The attractions' hours, tickets and phone numbers are as known on 16 September 2026 and not yet
 checked by a person on the ground. Every row carries `checkedAt`.
+
+## Addendum, 17 September — घर carries a fourth block
+
+घर is the three pillars **and बोलना**, in that order, as four deep blocks. The three above are
+unchanged in name, hue, order and route; the microphone that this decision took out of the
+product is back in exactly one place, online only, and it never touches the pillars' boxes —
+see [020](020-bolna-online-voice.md) and its addendum. A traveller with the radio off sees the
+three pillars this decision froze, and nothing else.

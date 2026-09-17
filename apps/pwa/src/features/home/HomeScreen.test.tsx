@@ -5,11 +5,12 @@ import { HomeScreen } from './HomeScreen.js';
 import type { HomeTileState } from './HomeTile.js';
 
 /**
- * घर is the three pillars with the tiles under them (decisions 018 and 020). No box, and no
- * microphone on घर itself — बोलना is a tile that leads to its own screen, and it is on घर only
- * while the phone is online, which is what the last two tests here hold to. The pass tile says
- * the right thing in every state of the counter, because it is the one place the revenue action
- * is seen without looking for it.
+ * घर is four deep blocks with the pass tile under them (decisions 018 and 020, and the owner's
+ * instruction of 17 September that बोलना gets a block and not a tile). No box, and no microphone
+ * on घर itself — बोलना's block leads to its own screen, and it is on घर only while the phone is
+ * online, which is what the बोलना tests here hold to. The pass tile says the right thing in
+ * every state of the counter, because it is the one place the revenue action is seen without
+ * looking for it.
  */
 
 const navigate = vi.fn();
@@ -51,18 +52,9 @@ describe('घर', () => {
 
   it('shows the three pillars by their Devanagari names in the English interface too', () => {
     localStorage.setItem('saathi.locale', 'en');
-    show();
-    for (const name of ['खाना', 'जाना', 'जानना']) expect(screen.getByText(name)).toBeTruthy();
-  });
-
-  it.each([
-    ['खाना', { screen: 'food' }],
-    ['जाना', { screen: 'go' }],
-    ['जानना', { screen: 'know' }],
-  ])('%s opens its own screen', (label, route) => {
-    show();
-    fireEvent.click(screen.getByText(label));
-    expect(navigate).toHaveBeenCalledWith(route);
+    show({ online: true });
+    for (const name of ['खाना', 'जाना', 'जानना', 'बोलना'])
+      expect(screen.getByText(name)).toBeTruthy();
   });
 
   it('puts the pass tile after the pillars, and a tap opens घर.4', () => {
@@ -117,20 +109,43 @@ describe('घर', () => {
     expect(screen.getByText(line)).toBeTruthy();
   });
 
-  it('shows बोलना while the phone is online, and never without a signal', () => {
+  it('is a fourth block while the phone is online — after जानना, before the pass tile', () => {
     show({ online: true });
-    expect(screen.getByText('बोलना — किसी भी भाषा में')).toBeTruthy();
-    fireEvent.click(screen.getByText('बोलना — किसी भी भाषा में'));
+    const bolna = screen.getByText('बोलना');
+    // The block, not a tile: same shape, same class, its own hue and its own Roman caption.
+    const block = bolna.closest('button');
+    expect(block?.className).toBe('pillar');
+    expect(block?.style.background).toBe('var(--speak)');
+    expect(screen.getByText('Bolna')).toBeTruthy();
+    const know = screen.getByText('जानना');
+    const tile = screen.getByText('18 घंटे बाक़ी · पास लें');
+    expect(know.compareDocumentPosition(bolna) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(bolna.compareDocumentPosition(tile) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    fireEvent.click(bolna);
     expect(navigate).toHaveBeenCalledWith({ screen: 'bolna' });
-    cleanup();
-    show({ online: false });
-    expect(screen.queryByText('बोलना — किसी भी भाषा में')).toBeNull();
+  });
+
+  it('leaves the other three blocks untouched, with or without a signal', () => {
+    for (const online of [false, true]) {
+      show({ online });
+      for (const [name, route] of [
+        ['खाना', { screen: 'food' }],
+        ['जाना', { screen: 'go' }],
+        ['जानना', { screen: 'know' }],
+      ] as const) {
+        const block = screen.getByText(name).closest('button');
+        expect(block?.className).toBe('pillar');
+        fireEvent.click(screen.getByText(name));
+        expect(navigate).toHaveBeenCalledWith(route);
+      }
+      cleanup();
+    }
   });
 
   it('puts बोलना on घर the moment the signal comes back, with no reload', () => {
     // The wiring App itself uses: the settings provider listens for `online` and `offline`, and
-    // the tile's `visible` predicate reads what it heard. A tile that lied about being available
-    // is the defect this arrangement exists to avoid.
+    // घर shows बोलना's block only when it hears yes. A block that lied about being available is
+    // the defect this arrangement exists to avoid.
     function Live() {
       const { online } = useSettings();
       return <HomeScreen tile={{ ...TRIAL, online }} />;
@@ -141,19 +156,22 @@ describe('घर', () => {
         <Live />
       </SettingsProvider>,
     );
-    expect(screen.queryByText('बोलना — किसी भी भाषा में')).toBeNull();
+    expect(screen.queryByText('बोलना')).toBeNull();
+    // The three that do not need a signal are there all the same.
+    for (const name of ['खाना', 'जाना', 'जानना']) expect(screen.getByText(name)).toBeTruthy();
 
     Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
     act(() => {
       window.dispatchEvent(new Event('online'));
     });
-    expect(screen.getByText('बोलना — किसी भी भाषा में')).toBeTruthy();
+    expect(screen.getByText('बोलना')).toBeTruthy();
 
     Object.defineProperty(navigator, 'onLine', { value: false, configurable: true });
     act(() => {
       window.dispatchEvent(new Event('offline'));
     });
-    expect(screen.queryByText('बोलना — किसी भी भाषा में')).toBeNull();
+    expect(screen.queryByText('बोलना')).toBeNull();
+    for (const name of ['खाना', 'जाना', 'जानना']) expect(screen.getByText(name)).toBeTruthy();
   });
 
   it('warms from the twentieth hour and is never red', () => {

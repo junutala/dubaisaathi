@@ -33,6 +33,9 @@ export const en: Record<StringKey, string> = {
   'pillar.know': 'जानना',
   'pillar.know.roman': 'Jaanna',
   'pillar.know.blurb': 'The places of Dubai — hours, tickets, how to reach them, in Hindi.',
+  'pillar.speak': 'बोलना',
+  'pillar.speak.roman': 'Bolna',
+  'pillar.speak.blurb': 'Say it in your own language — English and Arabic, on a signal.',
 
   'home.tile.before': '24 hours free in Dubai · pass from ₹199',
   'home.tile.trial': '{hours} hours left · get pass',
@@ -356,9 +359,8 @@ export const en: Record<StringKey, string> = {
   'know.fromHotel': '{distance} from the hotel',
   'know.gone': 'This place is no longer in the list.',
 
-  // घर.5 · बोलना and घर.6 · its Arabic (decision 020) — online only, and the screens say so
-  'home.tile.bolna': 'बोलना · speak in any language',
-  'home.tile.bolnaWhy': 'Say it — get it in English, and in Arabic',
+  // घर.5 · बोलना and घर.6 · its Arabic (decision 020) — online only, and the screens say so.
+  // Its block on घर is named by the `pillar.speak` keys above, with the other three.
   'bolna.title': 'बोलना',
   'bolna.why':
     'Speak in your own language — Hindi, Tamil, Telugu, whichever. The phone will ask for the microphone once; the recording goes only to be turned into English, and is kept nowhere.',

@@ -122,3 +122,20 @@ already out in the world — still resolves to the same row. `npm run coupons` p
 the new shape. Migration `0009_codes_without_a_dash.sql` puts `on update cascade` on the two
 foreign keys into `coupons (code)`, swaps the check constraint and rewrites the rows already
 there, so no code that was handed out stops working.
+
+## Addendum, 17 September — the foot of घर is the pass alone
+
+The paragraph above anticipated a second tile ("the owner is considering an online-only voice
+tile"). One was added the same day and then taken off again: बोलना is **घर's fourth block**, not
+a tile, at the owner's instruction — _"बोलना gets the same treatment as the three other slots
+with a different colour. Not below."_ See the addendum to
+[020](020-bolna-online-voice.md).
+
+What this decision still holds to, unchanged: **the pass tile sits alone at the foot of घर**,
+after the blocks and above the bar, in the shape of the strip's hotel row, one line per state of
+the counter, marigold and never red. `HOME_TILES` keeps the pass as its only entry — the list
+shape stays, because it is what makes the tile's seven states one table rather than seven
+branches, not because a second tile is expected.
+
+घर now gives up a quarter of its height to each block rather than a third, and still never
+scrolls: the type follows the screen down (design rule 15).

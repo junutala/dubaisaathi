@@ -77,3 +77,37 @@ who never has a signal has exactly the product they had yesterday.
   the tap and the recording, because that can happen and it must be honest when it does.
 - **Voice back in the pillars' boxes.** Rejected, unchanged from 016 — that is the job the
   recognisers could not do, and the one where a misheard word lands on the wrong screen.
+
+## Addendum, 17 September — बोलना is a block, not a tile
+
+**Decided by the owner, the same day, after seeing it on his phone:** _"बोलना gets the same
+treatment as the three other slots with a different colour. Not below."_
+
+So बोलना leaves the foot of घर and becomes its **fourth deep block**, after जानना and before the
+pass tile: the same shape, the same cream type on a deep ground, its microphone as the watermark,
+its own Roman caption (`Bolna`), and its own hue — a deep plum, `--speak` / `--onSpeak` in both
+themes, which is none of खाना's burnt orange, जाना's teal or जानना's navy at a glance. The plum
+carries into घर.5's microphone button, so the screen is the colour of the block that opened it.
+The pass tile stays exactly where decision 018 put it, alone at the foot above the bar.
+
+Everything else in this decision is unchanged, and one thing in particular:
+
+- **It is still there only while the phone has a signal.** The block appears and goes with the
+  `online` and `offline` events, with no reload, for the reason this decision already gives — the
+  recogniser and the Arabic are both online, and a block that is there when it cannot work is a
+  promise broken on the tap. A bigger, more prominent slot does not make it truer offline; it
+  makes the broken promise louder, which is why it goes with the signal rather than greying out.
+- **The three pillars are untouched.** Same order, same hues, same routes.
+
+What this changed elsewhere:
+
+- `HOME_TILES` is the pass alone again; `HomeTileState.online` stays, read now by `HomeScreen`
+  for the fourth block.
+- Four blocks in a column means each is a quarter of the screen, not a third. The name and the
+  Roman caption collided on shorter phones until the type ladder was re-measured on a real render
+  at every step from 1000px to 568px: `.pillar` keeps a positive clearance throughout, and below
+  720px the blurb goes rather than the name (design rule 15).
+- Design rules 1, 6, 11 and 13 were revised and rule 14 added, rather than worked around.
+  `design/check-screens.py` now fails a घर board that is online without बोलना, offline with it, or
+  that puts it anywhere but fourth. The घर boards regenerate with a strip that says ऑनलाइन;
+  `HomeTrial` stays offline and three blocks, so the canvas carries both states.

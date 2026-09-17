@@ -13,13 +13,19 @@ interface PillarDef {
   readonly route: Route;
   readonly bg: string;
   readonly fg: string;
+  /**
+   * A block whose screen cannot work without a connection is not on घर without one. Only बोलना
+   * carries this: everything behind it — the recogniser and the Arabic — is online, and a block
+   * that is there when it cannot work is a promise broken on the tap (decision 020).
+   */
+  readonly needsSignal?: boolean;
 }
 
 /**
- * The three pillars, in the order the owner named them: खाना, जाना, जानना. Each is a deep block
- * of its own hue with cream type on it — the bold-type direction chosen on 16 September — and its
- * icon as a watermark, because on a tile the name is the thing to read and the drawing is the
- * thing to recognise.
+ * The blocks on घर, in the order the owner named them: खाना, जाना, जानना, and बोलना after them
+ * from 17 September. Each is a deep block of its own hue with cream type on it — the bold-type
+ * direction chosen on 16 September — and its icon as a watermark, because on a block the name is
+ * the thing to read and the drawing is the thing to recognise.
  */
 const PILLARS: readonly PillarDef[] = [
   {
@@ -49,22 +55,34 @@ const PILLARS: readonly PillarDef[] = [
     bg: 'var(--know)',
     fg: 'var(--onKnow)',
   },
+  {
+    key: 'pillar.speak',
+    roman: 'pillar.speak.roman',
+    blurb: 'pillar.speak.blurb',
+    icon: 'mic',
+    route: { screen: 'bolna' },
+    bg: 'var(--speak)',
+    fg: 'var(--onSpeak)',
+    needsSignal: true,
+  },
 ];
 
 /**
- * घर — the hotel above (on the strip), the three pillars, and the pass tile below them
- * (decision 018). The product in the middle; what the traveller keeps and what they pay for at
- * either edge. It never scrolls: the blocks give up the tile's height.
+ * घर — the hotel above (on the strip), the blocks, and the pass tile below them (decision 018).
+ * The product in the middle; what the traveller keeps and what they pay for at either edge. It
+ * never scrolls: the blocks give up the tile's height.
  *
- * There is no box here and no microphone. A sentence needs a screen to give it meaning, and each
- * pillar's own box already knows what the words typed into it are for.
+ * There is no box here. A sentence needs a screen to give it meaning, and each pillar's own box
+ * already knows what the words typed into it are for. The one microphone is behind बोलना's
+ * block, which is here only while the phone has a signal.
  */
 export function HomeScreen({ tile }: { readonly tile: HomeTileState }) {
   const { t } = useSettings();
+  const blocks = PILLARS.filter((pillar) => pillar.needsSignal !== true || tile.online);
   return (
     <div className="home">
       <div className="pillars">
-        {PILLARS.map((pillar) => (
+        {blocks.map((pillar) => (
           <button
             key={pillar.key}
             type="button"

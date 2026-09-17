@@ -6,21 +6,23 @@ rule is agreed, it is added here before the screen is drawn. Sprint 1, frozen 16
 
 ## Structure
 
-| #   | Rule                                                                                                                                                                                                                                                  | Enforced by |
-| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 1   | No microphone on any board, and no invitation to speak in any box. Every box is typed into. The one microphone in the product is घर.5 · बोलना, online only, which has no artboard (decision 020).                                                     | checker     |
-| 2   | Red is reserved and appears on no screen. The pass dot is green or marigold, never red.                                                                                                                                                               | checker     |
-| 3   | The top strip is on every screen after landing: the lockup — the pin and `Dubaisaathi`, the same word in both interface languages (decision 021) — and a tap on it goes home; then online/offline, the pass dot, language, theme; then the hotel row. | checker     |
-| 4   | The bar is on every screen after landing: खाना · जाना · जानना · दस्तावेज़, four items evenly spaced, and nothing else. The pass is the strip's dot and घर's tile, never a button in the bar.                                                          | checker     |
-| 5   | The pillar the traveller is in is lit in its own colour in the bar, so they know where they are.                                                                                                                                                      | review      |
-| 6   | Home is the three pillars in that order, as deep blocks of their own hue with cream type, with the pass tile under them (rule 13). No box, nothing else.                                                                                              | checker     |
-| 7   | Every screen that is not home has a back control, the pillar's icon in its hue, the pillar's name and the trail to this screen.                                                                                                                       | checker     |
-| 8   | The three names stay in Devanagari in both interface languages; the Roman spelling is a caption.                                                                                                                                                      | review      |
-| 9   | No login, no account, no gate before the app is usable. Nothing is gated for a traveller who has paid once.                                                                                                                                           | review      |
-| 10  | Permissions at first use: location when जाना first needs it, the camera when a photo is taken. Never on landing.                                                                                                                                      | review      |
-| 11  | The screens are a phone's and stay one column on every display. Above 600 px the column is framed on sand; above 840 px it grows to 760 px and घर's three blocks sit in a row. No separate tablet screens.                                            | review      |
-| 12  | No hatched placeholder stands where a photograph would go. A thumbnail is a plain box with the pillar's icon; a photograph appears only when the pack or the traveller has one.                                                                       | review      |
-| 13  | The pass tile sits at the bottom of घर, after the three blocks and above the bar, in the shape of the strip's hotel row. Marigold, warm from the twentieth hour, never red. A tap goes to घर.4 in every state.                                        | checker     |
+| #   | Rule                                                                                                                                                                                                                                                                             | Enforced by |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 1   | No microphone in the three pillars, and no invitation to speak in any box. Every box is typed into. The one microphone in the product is घर.5 · बोलना, online only; it is reached from घर's fourth block (rule 14) and its own screens have no artboard (decisions 016 and 020). | checker     |
+| 2   | Red is reserved and appears on no screen. The pass dot is green or marigold, never red.                                                                                                                                                                                          | checker     |
+| 3   | The top strip is on every screen after landing: the lockup — the pin and `Dubaisaathi`, the same word in both interface languages (decision 021) — and a tap on it goes home; then online/offline, the pass dot, language, theme; then the hotel row.                            | checker     |
+| 4   | The bar is on every screen after landing: खाना · जाना · जानना · दस्तावेज़, four items evenly spaced, and nothing else. The pass is the strip's dot and घर's tile, never a button in the bar.                                                                                     | checker     |
+| 5   | The pillar the traveller is in is lit in its own colour in the bar, so they know where they are.                                                                                                                                                                                 | review      |
+| 6   | Home is the three pillars in that order, as deep blocks of their own hue with cream type, then बोलना (rule 14), with the pass tile under them (rule 13). No box, nothing else.                                                                                                   | checker     |
+| 7   | Every screen that is not home has a back control, the pillar's icon in its hue, the pillar's name and the trail to this screen.                                                                                                                                                  | checker     |
+| 8   | The three names stay in Devanagari in both interface languages; the Roman spelling is a caption.                                                                                                                                                                                 | review      |
+| 9   | No login, no account, no gate before the app is usable. Nothing is gated for a traveller who has paid once.                                                                                                                                                                      | review      |
+| 10  | Permissions at first use: location when जाना first needs it, the camera when a photo is taken. Never on landing.                                                                                                                                                                 | review      |
+| 11  | The screens are a phone's and stay one column on every display. Above 600 px the column is framed on sand; above 840 px it grows to 760 px and घर's blocks sit in a row. No separate tablet screens.                                                                             | review      |
+| 12  | No hatched placeholder stands where a photograph would go. A thumbnail is a plain box with the pillar's icon; a photograph appears only when the pack or the traveller has one.                                                                                                  | review      |
+| 13  | The pass tile sits at the bottom of घर, after the blocks and above the bar, in the shape of the strip's hotel row. Marigold, warm from the twentieth hour, never red. A tap goes to घर.4 in every state.                                                                         | checker     |
+| 14  | बोलना is घर's fourth block, after जानना — the same shape and type as the three, in its own plum — and it is on घर only while the phone has a signal, appearing and going with it, because everything behind it is online (decision 020, 17 September).                           | checker     |
+| 15  | घर never scrolls. Four blocks, the pass tile and the bar fit every phone we have seen: the name and the Roman caption shrink with the screen, and below 720 px the blurb goes rather than the name. Checked on a real render, not by eye.                                        | review      |
 
 ## Content and honesty
 
@@ -40,7 +42,10 @@ rule is agreed, it is added here before the screen is drawn. Sprint 1, frozen 16
 
 ## Dropped, so they are not proposed again
 
-- Voice input of any kind (decision 016).
+- Voice input anywhere a traveller depends on it: the three pillars' boxes are typed into, and no
+  offline recogniser ships (decision 016). बोलना is the one exception and is not a way back in —
+  it is online, it is one block on घर, and it hands its sentence to a person, never to the matcher
+  (decision 020).
 - The Arabic phrase screens; the taxi card carries the one Arabic a driver needs.
 - 3.3 · काम की बातें — parked for Sprint 2, not for this one.
 - Hotels and homestays in जानना.
