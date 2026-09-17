@@ -288,6 +288,28 @@ h1 .three {
   border-radius: 30px;
 }
 
+/* The tour, in a phone, tapped to play — never on its own, a traveller's data is theirs. */
+.watch {
+  background: var(--card);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+}
+.watch .sub {
+  margin-left: auto;
+  margin-right: auto;
+}
+.phone-video {
+  width: 320px;
+}
+.phone-video video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: var(--ink);
+}
+
 /* ---- sections ----------------------------------------------------------------------- */
 section {
   padding: 56px 0;
