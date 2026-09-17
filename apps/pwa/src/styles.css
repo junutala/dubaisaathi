@@ -870,9 +870,13 @@ button:not(:disabled) {
 .landing-offline {
   margin: 0;
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
-  font-size: 26px;
+  /* The line names the three pillars now, so it is longer than "works without internet" was
+     and has to wrap on a phone without breaking between a pillar name and its neighbour. */
+  font-size: 21px;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.25;
+  text-wrap: balance;
+  max-width: 19ch;
   color: var(--tealText);
 }
 .landing-usp {
