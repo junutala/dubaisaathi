@@ -79,6 +79,13 @@ export interface Entitlement {
   /** The signed pass this device is running on, so a sync can reconcile it against its slot. */
   readonly passId?: string;
   readonly slot?: number;
+  /**
+   * The pass घर.4 has already welcomed (decision 022). The arrival of a pass is the best moment
+   * this product has, and it is shown once: the id is written the moment the traveller closes
+   * the welcome, so a reload does not replay it, and a later, different pass — a second trip, a
+   * QR from a friend — gets its own because the id it carries is not this one.
+   */
+  readonly welcomedPassId?: string;
   /** The pass itself, so `bind` can send exactly what was signed (decision 005). */
   readonly pass?: SignedPass;
   /** How many phones the pass covers. Slots 2–4 are the QR codes on घर.4. */
@@ -239,6 +246,7 @@ export function stopPretending(): Entitlement {
     ...(current.paid === undefined ? {} : { paid: current.paid }),
     ...(current.groupEndsAt === undefined ? {} : { groupEndsAt: current.groupEndsAt }),
     ...(current.passId === undefined ? {} : { passId: current.passId }),
+    ...(current.welcomedPassId === undefined ? {} : { welcomedPassId: current.welcomedPassId }),
     ...(current.slot === undefined ? {} : { slot: current.slot }),
     ...(current.pass === undefined ? {} : { pass: current.pass }),
     ...(current.slots === undefined ? {} : { slots: current.slots }),
@@ -273,6 +281,26 @@ export async function installPass(pass: SignedPass): Promise<boolean> {
     ...(pass.claims.counterOffAt === undefined ? {} : { groupEndsAt: pass.claims.counterOffAt }),
   });
   return true;
+}
+
+/**
+ * The pass this phone holds and has not yet been welcomed for, or `null` when there is nothing
+ * to celebrate — which is the ordinary case, on every open after the first.
+ *
+ * All three ways a pass lands end in `installPass`: a family QR scanned on a second phone, a
+ * code redeemed to zero, and a purchase settling (decision 022). So there is one place to ask
+ * the question, and घर.4 asks it on every render.
+ */
+export function unwelcomedPass(state: Entitlement = read()): string | null {
+  if (state.paid !== true) return null;
+  const { passId } = state;
+  if (passId === undefined) return null;
+  return state.welcomedPassId === passId ? null : passId;
+}
+
+/** The traveller has read the welcome. It is not shown again for this pass. */
+export function markWelcomed(passId: string): Entitlement {
+  return updateEntitlement({ welcomedPassId: passId });
 }
 
 /**
