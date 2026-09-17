@@ -131,6 +131,9 @@ describe('घर.4', () => {
     fireEvent.click(screen.getByRole('button', { name: /2 फ़ोन/ }));
     typeCode('SS7K3M2X');
     fireEvent.click(await screen.findByRole('button', { name: 'पास लें — मुफ़्त' }));
+    // The pass lands, so घर.4 celebrates it first (decision 022). The QRs are behind that one
+    // read, exactly as the buyer meets them.
+    fireEvent.click(await screen.findByRole('button', { name: 'साथी खोलिए' }));
     const send = await screen.findByRole('button', { name: /भेजें/ });
 
     // The canvas and the share sheet, as a phone that takes a file.

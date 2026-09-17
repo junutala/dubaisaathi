@@ -282,7 +282,10 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
         <ScreenHeader pillar="home" icon="ticket" title={t('pass.title')} />
         <PassWelcome
           onDone={() => {
-            markWelcomed(welcome);
+            // Written and read back into this screen's own state: the traveller lands on घर, but
+            // the buyer of a family pass comes straight back here for the QRs, and a screen that
+            // still believed the welcome was owed would show it a second time.
+            setState(markWelcomed(welcome));
             navigate({ screen: 'home' });
           }}
         />
