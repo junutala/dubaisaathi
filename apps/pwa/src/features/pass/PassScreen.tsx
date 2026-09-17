@@ -172,7 +172,10 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
 
   const headline =
     now.state === 'before'
-      ? t('pass.state.before')
+      ? // A pass bought in India waits for the plane (decision 006), and until 17 September the
+        // screen still told its owner about the free day they no longer need. What they need to
+        // read is that the thing they just paid for is theirs and when it starts.
+        t(paid ? 'pass.state.paidBefore' : 'pass.state.before')
       : now.state === 'trial'
         ? t('pass.state.trial', { hours: now.hours ?? 0 })
         : now.state === 'pass'

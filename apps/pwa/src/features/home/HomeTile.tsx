@@ -59,6 +59,9 @@ export const HOME_TILES: readonly HomeTileDef[] = [
       if (paid) {
         const why = t('home.tile.paidWhy');
         if (validity.state === 'expired') return { name: t('home.tile.paidOver'), why };
+        // Paid, and not yet landed: there are no days to count down, and "0 days left" on a pass
+        // somebody just bought reads as a loss.
+        if (validity.state === 'before') return { name: t('home.tile.paidBefore'), why };
         const days = validity.days ?? 0;
         return {
           name: slots > 1 ? t('home.tile.paidFamily', { days }) : t('home.tile.paid', { days }),
