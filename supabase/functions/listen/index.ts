@@ -25,10 +25,13 @@
  * Tamil back. So the mode is written out here, once, with this note next to it.
  */
 
+/** One origin (decision 012). Only the traveller's app may spend our Sarvam minutes. */
+const ALLOWED_ORIGIN = 'https://dubai.saafarsaathi.in';
 const CORS = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
   'Access-Control-Allow-Headers': 'content-type, authorization, apikey',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  Vary: 'Origin',
 };
 
 const SARVAM_STT_URL = 'https://api.sarvam.ai/speech-to-text';
