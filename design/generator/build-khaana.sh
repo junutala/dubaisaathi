@@ -37,7 +37,7 @@ $(orow 'Saravana Bhavan' 'करामा' 'शुद्ध शाकाहा�
 $(orow 'Chappan Bhog' 'बुर दुबई' 'शुद्ध शाकाहारी' 'थाली · व्रत पूछकर' '1.2 किमी')
   </div>
 H
-bar khaana yes
+bar khaana
 close_screen
 } > "$OUT/K1.dc.html"
 
@@ -61,7 +61,7 @@ $(orow 'Aangan Dhaba' 'डिस्कवरी गार्डन्स' 'म�
     <span style="font-size: 12.5px; color: $muted; text-align: center; line-height: 1.45; padding-top: 4px;">हर जवाब किसी व्यक्ति से पूछा गया है। जहाँ नहीं पूछा गया, वहाँ "पूछकर" लिखा है।</span>
   </div>
 H
-bar khaana yes
+bar khaana
 close_screen
 } > "$OUT/K2.dc.html"
 
@@ -94,7 +94,7 @@ cat <<H
     </div>
   </div>
 H
-bar khaana yes
+bar khaana
 close_screen
 } > "$OUT/K3.dc.html"
 
@@ -110,6 +110,6 @@ cat <<H
     <span style="font-size: 12.5px; color: $muted; text-align: center;">असली मेनू की फ़ोटो — दाम बदल सकते हैं</span>
   </div>
 H
-bar khaana yes
+bar khaana
 close_screen
 } > "$OUT/K4.dc.html"

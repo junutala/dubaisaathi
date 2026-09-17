@@ -79,8 +79,9 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
 - **The top strip is on every screen.** The mark and the name (tap → home), online/offline, the
   pass dot, language, theme, and under them **the traveller's hotel** — photographs, room, the
   desk's number, a note, a pin; whatever they want to keep, without limit, on the phone only.
-- **The bar is on every screen.** खाना · जाना · जानना · दस्तावेज़, the current pillar lit in its
-  colour, and **पास लें** while the counter is a trial. The button goes once a pass is bought.
+- **The bar is on every screen.** खाना · जाना · जानना · दस्तावेज़, four items evenly spaced, the
+  current pillar lit in its colour, and nothing else. The pass lives on the strip's dot and on
+  घर's tile (decision 018); there is no पास लें button in the bar.
 - **The pass stays and is never a wall.** The dot is green while the counter runs and marigold
   when the Dubai day is ending; never red (decision 002). From the twentieth hour of the Dubai
   day every open of घर nudges toward a pass. **A traveller who has paid once is never gated

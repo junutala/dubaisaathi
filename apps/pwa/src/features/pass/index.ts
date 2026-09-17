@@ -6,7 +6,6 @@ export { PassScreen } from './PassScreen.js';
 export {
   PURCHASE_IS_LIVE,
   NUDGE_FROM_HOURS_LEFT,
-  canBuy,
   entitlement,
   isGated,
   needsNudge,

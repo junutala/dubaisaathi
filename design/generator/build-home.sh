@@ -27,7 +27,7 @@ cat <<T
   </div>
 T
 }
-# ---- घर: $1 out, $2 pass state, $3 hotel, $4 subscribe, $5 tile trial|warm|paid
+# ---- घर: $1 out, $2 pass state, $3 hotel, $4 tile trial|warm|paid
 home() {
 {
 open_screen
@@ -39,19 +39,19 @@ $(tile 'जाना' 'Jaana' 'मेट्रो, बस, ट्राम य�
 $(tile 'जानना' 'Jaanna' 'दुबई की जगहें — समय, टिकट, पहुँचने का तरीक़ा, हिंदी में।' "$n_bg" "$n_fg" lantern)
   </div>
 H
-case "$5" in
+case "$4" in
   trial) passtile '18 घंटे बाक़ी · पास लें' '14 दिन का पास — एक बार, कोई सब्सक्रिप्शन नहीं' no ;;
   warm)  passtile '4 घंटे बाक़ी · पास लें' '14 दिन का पास — एक बार, कोई सब्सक्रिप्शन नहीं' yes ;;
   paid)  passtile 'पास · 12 दिन बाक़ी · परिवार के लिए QR' 'इस सफ़र में कुछ बंद नहीं होगा' no ;;
 esac
-bar none "$4"
+bar none
 close_screen
 } > "$OUT/$1"
 }
-home Home.dc.html running set yes trial
-home HomeTrial.dc.html ending none yes warm
-home HomePaid.dc.html running set no paid
-THEME=dark; source "$(dirname "$0")/_chrome.sh"; home HomeDark.dc.html running set yes trial; THEME=light; source "$(dirname "$0")/_chrome.sh"
+home Home.dc.html running set trial
+home HomeTrial.dc.html ending none warm
+home HomePaid.dc.html running set paid
+THEME=dark; source "$(dirname "$0")/_chrome.sh"; home HomeDark.dc.html running set trial; THEME=light; source "$(dirname "$0")/_chrome.sh"
 
 # ---- L · लैंडिंग (first open, the pack comes down)
 {
@@ -115,7 +115,7 @@ cat <<H
     <span style="font-size: 12.5px; color: $muted; text-align: center; padding-top: 4px;">सब कुछ आपके फ़ोन पर ही रहता है। कहीं भेजा नहीं जाता।</span>
   </div>
 H
-bar none yes
+bar none
 close_screen
 } > "$OUT/HomeHotel.dc.html"
 
@@ -143,7 +143,7 @@ $(drow 'होटल बुकिंग' 'जोड़ा 14 सितंबर'
     <span style="font-size: 12.5px; color: $muted; text-align: center; padding-top: 6px; line-height: 1.45;">कोई भी दस्तावेज़, जितने चाहें। फ़ोन पर ही रहते हैं, बिना इंटरनेट खुलते हैं, आप हटाएँ तभी हटते हैं।</span>
   </div>
 H
-bar docs yes
+bar docs
 close_screen
 } > "$OUT/HomeDocs.dc.html"
 
@@ -161,7 +161,7 @@ cat <<H
     </div>
   </div>
 H
-bar docs yes
+bar docs
 close_screen
 } > "$OUT/HomeDocView.dc.html"
 
@@ -200,6 +200,6 @@ $(tier '4 फ़ोन' '₹499' "$line" "$card")
     <span style="font-size: 12.5px; color: $muted; text-align: center;">बाक़ी ₹149 ख़रीद खुलने पर देना होगा — कोड याद रहेगा</span>
   </div>
 H
-bar none no
+bar none
 close_screen
 } > "$OUT/HomePass.dc.html"

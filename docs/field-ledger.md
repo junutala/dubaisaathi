@@ -20,7 +20,6 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 | Field                           | Why it is there                                                          |
 | ------------------------------- | ------------------------------------------------------------------------ |
 | खाना · जाना · जानना · दस्तावेज़ | Switch task in one tap, from anywhere; the current one lit in its colour |
-| पास लें · ₹199 से (unpaid)      | The money, visible while it matters, gone once paid                      |
 
 ## On every screen that is not home — the header
 
@@ -40,11 +39,11 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 
 ## घर
 
-| Field                            | Why it is there                                                                 |
-| -------------------------------- | ------------------------------------------------------------------------------- |
-| खाना · जाना · जानना              | The three things the app does; everything else is a child of one                |
-| Roman caption and one-line blurb | जाना and जानना are one letter apart; the caption and the line keep them apart   |
-| The pass tile, at the foot       | The revenue action, seen without looking for it; one line per state, tap → घर.4 |
+| Field                            | Why it is there                                                                     |
+| -------------------------------- | ----------------------------------------------------------------------------------- |
+| खाना · जाना · जानना              | The three things the app does; everything else is a child of one                    |
+| Roman caption and one-line blurb | जाना and जानना are one letter apart; the caption and the line keep them apart       |
+| The pass tile, at the foot       | The money, visible while it matters, gone once paid; one line per state, tap → घर.4 |
 
 ## घर.1 · मेरा होटल
 

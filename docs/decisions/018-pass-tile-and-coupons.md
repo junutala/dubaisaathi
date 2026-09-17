@@ -28,7 +28,8 @@ whichever state the counter is in, and a tap goes to घर.4 in every state:
 | paid and over           | पास पूरा · सब चलता रहेगा                        |
 
 The top banner is gone. The blocks give up the tile's height; घर still never scrolls. The bar
-keeps पास लें while unpaid, as before. The tile is built as a list (`HOME_TILES`) so a later
+kept पास लें while unpaid for one more morning (see the addendum below). The tile is built as a
+list (`HOME_TILES`) so a later
 tile — the owner is considering an online-only voice tile — is one more entry with its own
 icon, strings, route and `visible` predicate. No such tile is added by this decision.
 
@@ -85,3 +86,18 @@ administer.
 A code's worth is decided on the server, so applying one needs a connection for a moment —
 the only moment in the pass's life that does. The tile takes 56px from the blocks on every
 phone. And the QR is still a bearer link (decision 005's cost), bounded the same three ways.
+
+## Addendum, 17 September — the bar's पास लें button is dropped
+
+Decided by the owner later the same day, once the tile was on घर. The bar's पास लें · ₹199 से
+button no longer earned its place, so it is gone from every screen:
+
+- On घर it duplicated the pass tile one tap away.
+- On every other screen the strip's pass dot (marigold from the twentieth hour, tap → घर.4)
+  and the tile one tap away through the mark already do the job.
+- The bar goes back to being tasks only: खाना · जाना · जानना · दस्तावेज़, four items evenly
+  spaced. The ledger line the button carried, "the money, visible while it matters, gone once
+  paid", moves to the pass tile word for word.
+
+Design rule 4 and the checker now fail a board whose bar carries पास लें; `canBuy` and the
+`nav.buyPass*` strings went with the button.

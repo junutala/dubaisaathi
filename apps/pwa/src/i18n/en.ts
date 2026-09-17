@@ -22,8 +22,6 @@ export const en: Record<StringKey, string> = {
 
   'nav.back': 'Back',
   'nav.docs': 'Documents',
-  'nav.buyPass': 'Get pass',
-  'nav.buyPassFrom': 'from ₹199',
 
   'pillar.food': 'खाना',
   'pillar.food.roman': 'Khaana',

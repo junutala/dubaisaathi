@@ -24,8 +24,6 @@ export const hi = {
   // The bar
   'nav.back': 'वापस',
   'nav.docs': 'दस्तावेज़',
-  'nav.buyPass': 'पास लें',
-  'nav.buyPassFrom': '₹199 से',
 
   // The three pillars. The names are the brand and stay in Devanagari in both catalogues; the
   // Roman spelling is a caption, never a translation (16 September).

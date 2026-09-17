@@ -37,20 +37,14 @@ const SLOTS: readonly Slot[] = [
 ];
 
 /**
- * The bar, on every screen: the three pillars and the documents, and पास लें while the counter
- * is still a trial — in India or in the Dubai day. Once a pass is bought the button goes, because
- * a dead control on every screen for a fortnight reads as broken (16 September).
+ * The bar, on every screen: the three pillars and the documents, and nothing else. The pass lives
+ * on the strip's dot and on घर's tile; a पास लें button here duplicated both and read as one more
+ * tab (decision 018, 17 September).
  */
-export function TabBar({
-  current,
-  canBuy,
-}: {
-  readonly current: Pillar;
-  readonly canBuy: boolean;
-}) {
+export function TabBar({ current }: { readonly current: Pillar }) {
   const { t } = useSettings();
   return (
-    <nav className={canBuy ? 'bar bar-5' : 'bar'}>
+    <nav className="bar">
       {SLOTS.map((slot) => {
         const on = slot.pillar === current;
         return (
@@ -68,18 +62,6 @@ export function TabBar({
           </button>
         );
       })}
-      {canBuy && (
-        <button
-          type="button"
-          className="bar-buy"
-          onClick={() => {
-            navigate({ screen: 'pass' });
-          }}
-        >
-          <span className="bar-buy-label">{t('nav.buyPass')}</span>
-          <span className="bar-buy-from">{t('nav.buyPassFrom')}</span>
-        </button>
-      )}
     </nav>
   );
 }

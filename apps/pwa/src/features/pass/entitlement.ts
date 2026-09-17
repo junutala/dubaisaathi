@@ -209,11 +209,6 @@ export function needsNudge(now: Date = new Date(), state: Entitlement = read()):
   return now_.state === 'trial' && (now_.hours ?? 0) <= NUDGE_FROM_HOURS_LEFT;
 }
 
-/** Whether the bar carries पास लें: while the counter is a trial, in India or in Dubai. */
-export function canBuy(state: Entitlement = read()): boolean {
-  return state.paid !== true;
-}
-
 /** Testing from India: the counter behaves exactly as it would on arrival. */
 export function pretendLanded(): Entitlement {
   return updateEntitlement({ pretendingDubai: true, landedAt: new Date().toISOString() });
