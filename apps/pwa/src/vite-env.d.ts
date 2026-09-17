@@ -14,8 +14,14 @@ interface ImportMetaEnv {
   readonly VITE_SUPABASE_URL?: string;
   /** Base64 SPKI of the pass-signing public key, set as a Railway variable. */
   readonly VITE_PASS_PUBLIC_KEY?: string;
-  /** "true" once paying is live; until then the strip never gates anybody. */
+  /** "true" once paying is live; until then घर.4's buy buttons say so and do nothing. */
   readonly VITE_PURCHASE_LIVE?: string;
+  /**
+   * "true" once the gate may close on a trial that has run out. Separate from the one above on
+   * purpose (decision 019): the owner buys a real pass on a live build long before any
+   * traveller is turned away. Default off, and the only thing `isGated` reads.
+   */
+  readonly VITE_GATE_LIVE?: string;
 }
 
 interface ImportMeta {

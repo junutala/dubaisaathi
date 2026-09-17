@@ -32,6 +32,7 @@ ARG RAILWAY_GIT_COMMIT_SHA=""
 # is declared here, and a production build with no public key stops rather than shipping.
 ARG VITE_PASS_PUBLIC_KEY=""
 ARG VITE_PURCHASE_LIVE=""
+ARG VITE_GATE_LIVE=""
 RUN if [ -n "$RAILWAY_GIT_COMMIT_SHA" ] && [ -z "$VITE_PASS_PUBLIC_KEY" ]; then \
       echo "VITE_PASS_PUBLIC_KEY is not set on this service: a production build would verify passes with the development key. Refusing." >&2; \
       exit 1; \
@@ -40,6 +41,7 @@ RUN VITE_BUILD_SHA="$RAILWAY_GIT_COMMIT_SHA" \
     VITE_BUILD_TIME="$(date -u '+%d %b %H:%M')" \
     VITE_PASS_PUBLIC_KEY="$VITE_PASS_PUBLIC_KEY" \
     VITE_PURCHASE_LIVE="$VITE_PURCHASE_LIVE" \
+    VITE_GATE_LIVE="$VITE_GATE_LIVE" \
     npm run build --workspace @saathi/pwa
 
 FROM nginx:1.27-alpine
