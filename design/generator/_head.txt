@@ -13,7 +13,7 @@
     a { color: #9A5B10; } a:hover { color: #7A4A0C; }
     .disp { font-family: 'Anek Devanagari', 'Mukta', sans-serif; }
     .wm { position: relative; display: inline-block; font-family: 'Quicksand', 'Mukta', sans-serif; font-weight: 700; line-height: 1; white-space: nowrap; }
-    .wm svg { position: absolute; right: -0.16em; bottom: 0.88em; width: 3.4em; height: 0.76em; overflow: visible; }
+    .wm svg { position: absolute; right: -0.06em; bottom: 0.78em; width: 2.62em; height: 0.62em; overflow: visible; }
     svg { display: block; }
   </style>
 </helmet>

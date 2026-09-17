@@ -111,3 +111,55 @@ What this changed elsewhere:
   `design/check-screens.py` now fails a घर board that is online without बोलना, offline with it, or
   that puts it anywhere but fourth. The घर boards regenerate with a strip that says ऑनलाइन;
   `HomeTrial` stays offline and three blocks, so the canvas carries both states.
+
+## What it actually heard, 17 September, on the owner's phone
+
+The spike of 13–15 September (`docs/spikes/002`) is the reason there is no offline recogniser in
+this product: Vosk, Whisper base and Google's own all mangled Dubai place names spoken in an
+Indian accent inside a Hindi sentence. What was measured on the day बोलना went live is worth
+putting beside those numbers, because it is a different result and it decided the feature.
+
+Sarvam's `saaras:v3` in `translate` mode was given, in this order:
+
+- Five Hindi sentences and the same five in Tamil. Every Dubai place name survived — Burjuman,
+  Karama, Discovery Gardens, Deira City Centre, Al Rigga — and so did the words that carry the
+  constraint: Jain, vegetarian, cafeteria, fasting food.
+- Dishes, which the spike never got near: sambar vada, sabudana khichdi, idli sambar, chole
+  bhature, fruit chaat. All of them came back as themselves rather than as a translation into
+  "chickpea curry", which is why `translate` and not `codemix` is the mode (`listen`'s own note
+  says the same thing from the other side).
+- A whole itinerary, unrehearsed: Mall of the Emirates, then Discovery Gardens, a late dinner
+  party, back to a hotel in Bur Dubai. Correct in English, and correct again in Arabic through
+  the existing `translate` function: مول الإمارات, حدائق ديسكفري, بر دبي.
+- **One sentence mixing Hindi, English, Tamil and Telugu.** It was transcribed correctly.
+
+That last line is the one that matters for scope. Rule 4 of CLAUDE.md governs what the _matcher_
+reads and what the _interface_ speaks, and it is unchanged: Hindi and Hinglish typed, two
+catalogues. बोलना does not touch it — a spoken sentence goes to a person, not to the matcher, and
+the recogniser does not care which language it started in. So a Tamil or Telugu speaker can use
+बोलना today without a third catalogue existing, and that is not an argument for adding one.
+
+## Offline बोलना, asked and dropped, 17 September
+
+Asked on the day it shipped: does Sarvam have something small enough to live on the phone?
+It does. **Sarvam Edge**, launched early 2026, puts Saaras on the device at about 294 MB for ten
+Indic languages. Three things make it the wrong answer here, and the third is the one that
+settles it:
+
+- **It is a native SDK.** It reaches the phone's neural engine through an Android or iOS app,
+  and a browser has no way in. Taking it means shipping a store app — review queues, update
+  delays, two builds — against a PWA that updates the moment a traveller opens घर.
+- **294 MB.** The scar on this product is a 42 MB download that our own deploys evicted, and the
+  rule written from it is at the top of CLAUDE.md. This is seven times that, on phones chosen
+  for their price.
+- **It would not make बोलना offline.** The Arabic is the other half, and Sarvam does not do
+  Arabic. Even with perfect recognition on the device, the sentence still has to leave the phone
+  to become something a Dubai shopkeeper can read — so the block still goes when the signal does,
+  and the download bought nothing.
+
+So the decision is unchanged and the question is closed until something changes: a way to run a
+recogniser in a browser at a size a traveller accepts, **or** an Arabic hop that works offline.
+The second is the cheaper one to watch, and it has a shape already — the composed grammar in
+`data/phrases/arabic.v1.json` answers the sentences a traveller actually needs at a counter,
+offline, today. If a week in Meena Bazaar and Karama says travellers need to speak with the radio
+off, the answer is that phrasebook grown, not a 294 MB model downloaded.

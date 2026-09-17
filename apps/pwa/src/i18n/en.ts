@@ -50,8 +50,7 @@ export const en: Record<StringKey, string> = {
   'home.tile.paidWhy': 'Nothing closes on this trip',
   'home.build': 'build {build}',
 
-  'landing.offline': 'Works without internet',
-  'landing.usp': 'No SIM, no wifi, no roaming in Dubai — and everything still works.',
+  'landing.offline': 'खाना · जाना · जानना — with you, without internet',
   'landing.job1': 'Places to eat, with no network',
   'landing.job2': 'Metro, bus and taxi routes, with no network',
   'landing.job3': 'The places of Dubai, in Hindi, with no network',

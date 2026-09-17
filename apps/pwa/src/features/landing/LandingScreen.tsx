@@ -63,10 +63,9 @@ export function LandingScreen({ onReady }: { readonly onReady: () => void }) {
       <div className="landing-brand">
         <Logo size={80} />
         <h1 className="landing-name">
-          <Wordmark name={t('app.name')} />
+          <Wordmark name={t('app.name')} trail />
         </h1>
         <p className="landing-offline">{t('landing.offline')}</p>
-        <p className="landing-usp">{t('landing.usp')}</p>
         <ul className="landing-jobs">
           {(['landing.job1', 'landing.job2', 'landing.job3', 'landing.job4'] as const).map(
             (key) => (
