@@ -78,8 +78,14 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 | "SS-7K3M2X · 50% छूट"                 | What the code gave, so the total is not a mystery                                 |
 | पास लें — मुफ़्त                      | A ₹0 total: the pass, issued and installed on the spot                            |
 | UPI से · QR — कोई और भरे              | Same phone, or someone in India pays, when the total is above ₹0                  |
-| "ख़रीदना अभी चालू नहीं है"            | Said plainly while the aggregator does not exist                                  |
-| "बाक़ी ₹149 ख़रीद खुलने पर"           | A partial code issues nothing; the balance and the code wait for UPI              |
+| "ख़रीदना अभी चालू नहीं है"            | Said plainly while buying is switched off                                         |
+| "बाक़ी ₹149 ख़रीद खुलने पर"           | Only while buying is off: a partial code's balance and the code wait for UPI      |
+| "भुगतान का पन्ना खुल रहा है"          | The moment a buy button goes out: the wait is visible, so nobody presses twice    |
+| "पास लग गया"                          | The webhook signed it and the phone verified it — the one line that ends the flow |
+| "भुगतान पूरा नहीं हुआ"                | Checkout closed with nothing paid; not an error, and not a dead end               |
+| "भुगतान का पन्ना नहीं खुल पाया"       | Razorpay's script would not load on this network; said, not blamed on the phone   |
+| "भुगतान की पुष्टि हो रही है"          | Paid and the webhook has not caught up; the order is kept and asked about again   |
+| "इस कोड पर पास मुफ़्त है"             | A ₹0 code cannot be an order; it points at the button that does issue it          |
 | परिवार · a QR per phone · भेजें       | Slots 2–4 as links the other phone's own camera opens; no scanner in the app      |
 | "पास इस फ़ोन पर लग गया" / did not     | What a scanned QR did, on the phone that scanned it                               |
 | "यह पास किसी और फ़ोन पर पहले लग चुका" | Decision 005's reconciliation, said once, in one line                             |

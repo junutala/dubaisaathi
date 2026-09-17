@@ -476,9 +476,16 @@ What is left, in this order:
    is "arun" are rehearsals and never publish; reports from "chand" are real.** Rehearsal rows
    come from India and are flagged outside-dubai by the outlet function anyway; publishing is
    by hand, never automatic.
-2. **Buying a pass.** The `orders` table exists; no function creates an order, takes the
-   aggregator's webhook or signs a pass. Until it does, `VITE_PURCHASE_LIVE` stays off, the
-   buttons on घर.4 say so, nothing is gated, and the website says purchase opens shortly.
+2. **Buying a pass.** Built (decision 019): `order` creates the Razorpay order and answers the
+   phone's polling for its status; `webhook` verifies Razorpay's signature, signs one pass per
+   slot and settles the order through `settle_order` in migration 0008; घर.4's UPI and QR
+   buttons run the whole flow and an order left open is polled again on the next open. **Not
+   live yet** — the lead applies 0008, deploys the two functions, adds `RAZORPAY_WEBHOOK_SECRET`
+   and pastes the webhook URL into Razorpay, then sets `VITE_PURCHASE_LIVE=true`. The two
+   switches are now separate: `VITE_PURCHASE_LIVE` only enables the buttons, and the new
+   `VITE_GATE_LIVE` (default false) is the only thing `isGated` reads, so the owner can buy a
+   real pass on a live build while no traveller is ever gated. The website still says purchase
+   opens shortly until the buttons are on.
 3. **Content.** `restaurants.v1.json` is empty and खाना runs on the fixture; the collectors'
    app is live and the pipeline publishes approved reports. `attractions.v1.json` is unchecked
    on the ground; every row has `checkedAt`.

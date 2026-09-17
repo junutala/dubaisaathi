@@ -15,6 +15,7 @@ import {
   type Entitlement,
 } from './entitlement.js';
 import { passLink, qrPath } from './qr.js';
+import { buyPass, type PurchaseOutcome } from './purchase.js';
 import { installFromToken } from './scan.js';
 import type { SignedPass } from './signedPass.js';
 
@@ -48,14 +49,49 @@ function lineFor(outcome: CouponOutcome): StringKey | null {
   }
 }
 
+/** The one honest line each ending of a purchase gets (decision 019). */
+function buyLineFor(outcome: PurchaseOutcome): StringKey {
+  switch (outcome.kind) {
+    case 'paid':
+      return 'pass.buyDone';
+    case 'closed':
+      return 'pass.buyClosed';
+    case 'pending':
+      return 'pass.buyPending';
+    case 'unreachable':
+      return 'pass.buyUnreachable';
+    case 'offline':
+      return 'pass.buyOffline';
+    case 'failed':
+      return 'pass.buyFailed';
+    case 'refused':
+      switch (outcome.reason) {
+        case 'unknown':
+          return 'pass.couponUnknown';
+        case 'not-yet':
+          return 'pass.couponNotYet';
+        case 'ended':
+          return 'pass.couponEnded';
+        case 'exhausted':
+          return 'pass.couponExhausted';
+        case 'already-redeemed':
+          return 'pass.couponUsed';
+        case 'free':
+          return 'pass.buyFree';
+      }
+  }
+}
+
 /**
  * घर.4 — पास, as one flow from the top: the counter, how many phones, a code if there is one,
  * the total, and the one button that fits the total. Once paid with more than one phone, the
  * family's QR codes follow (decision 018).
  *
- * Buying with money is behind the aggregator and the order endpoint, which do not exist yet;
- * until they do the UPI and QR buttons say so plainly, and nothing is gated. A code that makes
- * the pass free needs neither: it is issued on the spot.
+ * Buying is an order, Razorpay's Checkout and a webhook that signs the pass (decision 019): both
+ * buttons create the order, UPI opens Checkout with UPI preselected and QR opens it with the
+ * method left alone, and the pass arrives when the phone asks for the order's status. Until
+ * `VITE_PURCHASE_LIVE` is on the buttons say so plainly. A code that makes the pass free needs
+ * none of it: it is issued on the spot. The gate is a separate switch and stays shut.
  */
 export function PassScreen({ token }: { readonly token?: string | undefined }) {
   const { t } = useSettings();
@@ -64,7 +100,13 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
   const [slots, setSlots] = useState<number>(() => pendingCoupon()?.slots ?? 1);
   const [typed, setTyped] = useState<string>(() => pendingCoupon()?.code ?? '');
   const [line, setLine] = useState<StringKey | null>(null);
-  const [busy, setBusy] = useState(false);
+  /**
+   * What is in flight, if anything. A traveller whose tap is taking a moment presses it again —
+   * which is not their mistake, it is a screen that said nothing. So every request holds the
+   * phone selector and both buttons and says on the screen that it has gone out.
+   */
+  const [working, setWorking] = useState<'coupon' | 'buy' | null>(null);
+  const busy = working !== null;
   const [scan, setScan] = useState<'installed' | 'invalid' | null>(null);
   const [copied, setCopied] = useState(false);
 
@@ -97,7 +139,7 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
 
   /** After any answer from `redeem`: the code as the server normalised it, and its line. */
   const settle = (outcome: CouponOutcome) => {
-    setBusy(false);
+    setWorking(null);
     const next = pendingCoupon();
     setPending(next);
     if (next !== null) {
@@ -108,7 +150,7 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
   };
 
   const apply = (mode: 'quote' | 'issue') => {
-    setBusy(true);
+    setWorking('coupon');
     setLine(null);
     void applyCoupon(typed, slots, mode).then(settle);
   };
@@ -119,7 +161,7 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
     const retry = () => {
       const waiting = pendingCoupon();
       if (waiting === null || waiting.quote !== undefined || entitlement().paid === true) return;
-      setBusy(true);
+      setWorking('coupon');
       void applyCoupon(waiting.code, waiting.slots, 'quote').then(settle);
     };
     window.addEventListener('online', retry);
@@ -151,6 +193,28 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
       : typeof quote.discount.priceOverrideInr === 'number'
         ? t('pass.couponFlat', { code: pending.code, price: quote.discount.priceOverrideInr })
         : t('pass.couponPercent', { code: pending.code, percent: quote.discount.discountPercent });
+
+  /**
+   * The order, Checkout, and the pass the webhook signed. `upi` preselects UPI on this phone;
+   * `any` leaves the method open, which is what puts a QR in front of whoever is paying from
+   * India. Both create the order first, because an order is what makes a payment ours at all.
+   */
+  const buy = (method: 'upi' | 'any') => {
+    setWorking('buy');
+    setLine(null);
+    void buyPass({
+      slots: chosen,
+      code: pending?.code,
+      method,
+      name: t('app.name'),
+      description: t('pass.buyWhat', { count: chosen }),
+    }).then((outcome) => {
+      setWorking(null);
+      setState(entitlement());
+      setPending(pendingCoupon());
+      setLine(buyLineFor(outcome));
+    });
+  };
 
   const family = state.familyPasses ?? [];
 
@@ -253,7 +317,11 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
                 {t(busy ? 'pass.couponApplying' : 'pass.couponApply')}
               </button>
             </div>
-            {busy && <p className="pass-line">{t('pass.couponWorking')}</p>}
+            {busy && (
+              <p className="pass-line">
+                {t(working === 'buy' ? 'pass.buyWorking' : 'pass.couponWorking')}
+              </p>
+            )}
             {!busy && line !== null && <p className="pass-line">{t(line)}</p>}
 
             <div className="total">
@@ -282,16 +350,32 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
             ) : (
               <>
                 <div className="grid2">
-                  <button type="button" className="btn btn-primary" disabled={!PURCHASE_IS_LIVE}>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    disabled={!PURCHASE_IS_LIVE || busy}
+                    onClick={() => {
+                      buy('upi');
+                    }}
+                  >
                     {t('pass.upi')}
                   </button>
-                  <button type="button" className="btn btn-ghost" disabled={!PURCHASE_IS_LIVE}>
+                  <button
+                    type="button"
+                    className="btn btn-ghost"
+                    disabled={!PURCHASE_IS_LIVE || busy}
+                    onClick={() => {
+                      buy('any');
+                    }}
+                  >
                     <Icon name="qr" size={20} strokeWidth={1.9} />
                     {t('pass.qr')}
                   </button>
                 </div>
                 {!PURCHASE_IS_LIVE && <p className="muted small center">{t('pass.notLive')}</p>}
-                {quote !== undefined && (
+                {/* A balance waits for UPI only while UPI is not open; once it is, the two
+                    buttons above take it and saying otherwise would be a lie on the screen. */}
+                {!PURCHASE_IS_LIVE && quote !== undefined && (
                   <p className="muted small center">{t('pass.balanceLater', { payable: total })}</p>
                 )}
               </>
