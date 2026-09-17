@@ -299,7 +299,9 @@ So, every time:
   Three services, three origins: `pwa` (deploy/Dockerfile) is the traveller's app at
   `dubai.saafarsaathi.in`; `outlet` (deploy/Dockerfile.field) is the collectors' app at
   `outlet.saafarsaathi.in`; `site` (deploy/Dockerfile.site, static, no build) is the one-page
-  website at `saafarsaathi.in`. Work on any other branch reaches nobody until it is merged
+  website at `saafarsaathi.in`. Mail to `hello@saafarsaathi.in` (and any other name on the
+  domain) is forwarded to the owner by ImprovMX (free plan, catch-all alias): two MX records and
+  an SPF TXT on GoDaddy, set up 17 September. Work on any other branch reaches nobody until it is merged
   there. It built from a working branch until 14 September, which is how a day's work went
   live to no one — check the service source rather than trusting this line to stay current.
 - **If deploying needs the owner, ask for that decision on its own** and do not bury it under a
