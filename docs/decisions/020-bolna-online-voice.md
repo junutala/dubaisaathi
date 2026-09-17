@@ -138,3 +138,28 @@ reads and what the _interface_ speaks, and it is unchanged: Hindi and Hinglish t
 catalogues. बोलना does not touch it — a spoken sentence goes to a person, not to the matcher, and
 the recogniser does not care which language it started in. So a Tamil or Telugu speaker can use
 बोलना today without a third catalogue existing, and that is not an argument for adding one.
+
+## Offline बोलना, asked and dropped, 17 September
+
+Asked on the day it shipped: does Sarvam have something small enough to live on the phone?
+It does. **Sarvam Edge**, launched early 2026, puts Saaras on the device at about 294 MB for ten
+Indic languages. Three things make it the wrong answer here, and the third is the one that
+settles it:
+
+- **It is a native SDK.** It reaches the phone's neural engine through an Android or iOS app,
+  and a browser has no way in. Taking it means shipping a store app — review queues, update
+  delays, two builds — against a PWA that updates the moment a traveller opens घर.
+- **294 MB.** The scar on this product is a 42 MB download that our own deploys evicted, and the
+  rule written from it is at the top of CLAUDE.md. This is seven times that, on phones chosen
+  for their price.
+- **It would not make बोलना offline.** The Arabic is the other half, and Sarvam does not do
+  Arabic. Even with perfect recognition on the device, the sentence still has to leave the phone
+  to become something a Dubai shopkeeper can read — so the block still goes when the signal does,
+  and the download bought nothing.
+
+So the decision is unchanged and the question is closed until something changes: a way to run a
+recogniser in a browser at a size a traveller accepts, **or** an Arabic hop that works offline.
+The second is the cheaper one to watch, and it has a shape already — the composed grammar in
+`data/phrases/arabic.v1.json` answers the sentences a traveller actually needs at a counter,
+offline, today. If a week in Meena Bazaar and Karama says travellers need to speak with the radio
+off, the answer is that phrasebook grown, not a 294 MB model downloaded.
