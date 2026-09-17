@@ -54,6 +54,16 @@ begin
     raise exception 'slots';
   end if;
 
+  -- A phone may only hold one bound slot (the partial unique index in 0001), and a traveller
+  -- on their next trip buys again on the same phone. Without this the insert below would fail
+  -- AFTER the money was taken, and Razorpay would retry the failure for ever. The old slot is
+  -- released rather than kept: its family's fourteen days belong to a trip that is over, and
+  -- the pass it is being replaced by is the one the traveller just paid for. Nothing a
+  -- traveller still has use for is taken away.
+  update passes
+    set status = 'revoked', revoked_at = now(), device_id = null, bound_at = null
+    where device_id = o.device_id and status = 'bound';
+
   insert into families (id, slots, counter_off_at) values (p_family_id, p_slots, p_counter_off_at);
 
   for i in 1..p_slots loop
