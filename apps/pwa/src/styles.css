@@ -117,24 +117,34 @@ button:not(:disabled) {
   font-weight: 700;
   line-height: 1;
   white-space: nowrap;
-  /* The trail is positioned out to `right: -0.16em` and, being absolute, adds nothing to this
-     box. Without the padding its aeroplane flies over whatever sits next in the strip. */
+}
+/* Two forms, because one does not survive both sizes. The strip carries the mark and the word
+   at 16–18px, where a trail three pixels tall reads as lint on the screen; the full lockup —
+   the landing page, the website, a shared picture — carries the flight over the tail of the
+   word, at a size where a tapered arc and a plane are actually drawings. Shrinking a detail
+   until it is a smudge is worse than leaving it out. */
+.wordmark-full {
   padding-inline-end: 0.2em;
 }
 .wordmark-trail {
   position: absolute;
-  right: -0.16em;
-  bottom: 0.88em;
-  width: 3.4em;
-  height: 0.76em;
+  right: -0.06em;
+  bottom: 0.78em;
+  width: 2.62em;
+  height: 0.62em;
   overflow: visible;
   pointer-events: none;
 }
 .wordmark-trail-line {
-  stroke: var(--marigold);
+  fill: var(--marigold);
+  opacity: 0.85;
 }
 .wordmark-plane {
   fill: var(--marigold);
+}
+.wordmark-plane-fold {
+  fill: var(--marigoldText);
+  opacity: 0.55;
 }
 
 .card {
@@ -860,18 +870,14 @@ button:not(:disabled) {
 .landing-offline {
   margin: 0;
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
-  font-size: 26px;
+  /* The line names the three pillars now, so it is longer than "works without internet" was
+     and has to wrap on a phone without breaking between a pillar name and its neighbour. */
+  font-size: 21px;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.25;
+  text-wrap: balance;
+  max-width: 19ch;
   color: var(--tealText);
-}
-.landing-usp {
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.45;
-  color: var(--muted);
-  max-width: 320px;
-  text-wrap: pretty;
 }
 .landing-jobs {
   display: flex;
