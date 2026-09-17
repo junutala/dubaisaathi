@@ -5,6 +5,7 @@ import { Icon } from './icons.js';
 import { Logo, Wordmark } from './Logo.js';
 import { NUDGE_FROM_HOURS_LEFT, type Validity } from '../../features/pass/index.js';
 import type { SavedHotel } from '../../features/info/index.js';
+import { useKnownHere } from '../../lib/here.js';
 
 /**
  * The top strip, on every screen after the landing page, same place, same shape (16 September).
@@ -12,6 +13,18 @@ import type { SavedHotel } from '../../features/info/index.js';
  * Row one is the app: the mark and the name (a tap goes home), whether there is a network, the
  * pass as one small dot, the language and the theme. Row two is the traveller's own hotel — the
  * thing they reach for first on any bad evening — and it stays there until they change it.
+ *
+ * Row two says something else to a traveller who is still in India (decision 024). The hotel
+ * screen's pin button reads the phone's own position — _यहीं पिन लगाएँ_, "pin it right here" —
+ * so in Kochi it cannot do its job, and a traveller who forces it anyway saves a pin from
+ * Kerala, or the right hotel name on the wrong building across the street. A wrong pin is worse
+ * than none: BurJuman is labelled a stand-in on every row it touches, while a wrong hotel is
+ * labelled "your hotel" and is quietly wrong in all three pillars. So until the phone itself
+ * says Dubai, the row explains the stand-in instead of asking for something it cannot have.
+ *
+ * Only an actual fix outside Dubai does that — which is what `from: 'virtual'` means, and why a
+ * refused or unanswered phone still gets the invitation. A traveller in Deira who said no to
+ * location must still be able to add their hotel.
  *
  * The dot is green while the counter runs and marigold when the Dubai day is about to end or has
  * ended. It is never red: decision 002 reserves red for nothing, on the owner's instruction, and
@@ -29,6 +42,10 @@ export function TopStrip({
   const ending =
     validity.state === 'expired' ||
     (validity.state === 'trial' && (validity.hours ?? 0) <= NUDGE_FROM_HOURS_LEFT);
+  /* A hotel that has been saved always wins, in India and after the trip alike: it is the
+     traveller's own and nothing takes it back. The stand-in note is only for the phone that has
+     answered from outside Dubai and has no hotel yet. */
+  const standingIn = useKnownHere(hotel).from === 'virtual';
 
   return (
     <div className="strip">
@@ -87,33 +104,43 @@ export function TopStrip({
         </button>
       </div>
 
-      <button
-        type="button"
-        className={hotel ? 'strip-hotel' : 'strip-hotel strip-hotel-empty'}
-        onClick={() => {
-          navigate({ screen: 'hotel' });
-        }}
-      >
-        <Icon name={hotel ? 'pin' : 'plus'} size={20} strokeWidth={1.9} color="var(--marigold)" />
-        {hotel ? (
-          <>
-            <span className="strip-hotel-name">
-              {[
-                hotel.name,
-                hotel.room === undefined ? undefined : t('strip.room', { room: hotel.room }),
-              ]
-                .filter((part): part is string => typeof part === 'string' && part !== '')
-                .join(' · ') || t('strip.hotel')}
-            </span>
-            <span className="strip-hotel-change">{t('strip.hotelChange')}</span>
-          </>
-        ) : (
+      {standingIn ? (
+        <div className="strip-hotel strip-hotel-standin">
+          <Icon name="pin" size={20} strokeWidth={1.9} color="var(--marigoldText)" />
           <span className="strip-hotel-text">
-            <span className="strip-hotel-name">{t('strip.hotelAdd')}</span>
-            <span className="strip-hotel-why">{t('strip.hotelAddWhy')}</span>
+            <span className="strip-hotel-name">{t('strip.standIn')}</span>
+            <span className="strip-hotel-why">{t('strip.standInWhy')}</span>
           </span>
-        )}
-      </button>
+        </div>
+      ) : (
+        <button
+          type="button"
+          className={hotel ? 'strip-hotel' : 'strip-hotel strip-hotel-empty'}
+          onClick={() => {
+            navigate({ screen: 'hotel' });
+          }}
+        >
+          <Icon name={hotel ? 'pin' : 'plus'} size={20} strokeWidth={1.9} color="var(--marigold)" />
+          {hotel ? (
+            <>
+              <span className="strip-hotel-name">
+                {[
+                  hotel.name,
+                  hotel.room === undefined ? undefined : t('strip.room', { room: hotel.room }),
+                ]
+                  .filter((part): part is string => typeof part === 'string' && part !== '')
+                  .join(' · ') || t('strip.hotel')}
+              </span>
+              <span className="strip-hotel-change">{t('strip.hotelChange')}</span>
+            </>
+          ) : (
+            <span className="strip-hotel-text">
+              <span className="strip-hotel-name">{t('strip.hotelAdd')}</span>
+              <span className="strip-hotel-why">{t('strip.hotelAddWhy')}</span>
+            </span>
+          )}
+        </button>
+      )}
     </div>
   );
 }

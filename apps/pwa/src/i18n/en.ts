@@ -16,6 +16,8 @@ export const en: Record<StringKey, string> = {
   'strip.language': 'भाषा / Language',
   'strip.home': 'Home',
   'strip.hotelAdd': 'Add my hotel',
+  'strip.standIn': 'Showing Dubai from BurJuman Mall',
+  'strip.standInWhy': 'so you can try the whole app from India — add your hotel once you land',
   'strip.hotelAddWhy': 'Card photo, room number, a pin — whatever you like',
   'strip.hotel': 'My hotel',
   'strip.hotelChange': 'Change',
@@ -83,6 +85,8 @@ export const en: Record<StringKey, string> = {
   'hotel.pinWhy': 'Press it standing at the hotel — GPS remembers the spot',
   'hotel.pinAgain': 'Again',
   'hotel.pinning': 'Finding you…',
+  'hotel.pinOutsideDubai':
+    'You are not in Dubai yet. Drop the pin once you are there, standing in the hotel — everything else on this screen you can fill in now.',
   'hotel.pinDenied':
     'Location was refused. Turn it on in the phone settings — everything else is kept as it is.',
   'hotel.pinUnavailable': 'No fix right now. Try again later — everything else is kept.',
@@ -178,10 +182,6 @@ export const en: Record<StringKey, string> = {
   'pass.scanFailed': 'This QR is somebody else’s, or was changed — no pass installed',
   'pass.lostTaken': 'This pass was already on another phone first, so it was removed here',
   'pass.lostRevoked': 'The buyer removed this pass, so it was removed here',
-  'pass.tryTitle': 'Try it from India',
-  'pass.tryWhy': 'The clock runs exactly as it will in Dubai — for checking.',
-  'pass.tryOn': 'I am in Dubai (test)',
-  'pass.tryOff': 'Stop the test',
 
   // घर.4 · the welcome, the one moment a pass lands on this phone (decision 022)
   'pass.welcome.eyebrow': 'Your pass is here',

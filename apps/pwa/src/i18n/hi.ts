@@ -18,6 +18,8 @@ export const hi = {
   'strip.language': 'भाषा / Language',
   'strip.home': 'घर',
   'strip.hotelAdd': 'मेरा होटल जोड़ें',
+  'strip.standIn': 'अभी बुरजुमान मॉल से दिखा रहे हैं',
+  'strip.standInWhy': 'ताकि भारत से ही पूरा ऐप देख सकें — होटल दुबई पहुँचकर जोड़िए',
   'strip.hotelAddWhy': 'कार्ड की फ़ोटो, कमरा नंबर, पिन — जो चाहें',
   'strip.hotel': 'मेरा होटल',
   'strip.hotelChange': 'बदलें',
@@ -92,6 +94,8 @@ export const hi = {
   'hotel.pinWhy': 'होटल में खड़े होकर दबाएँ — GPS से जगह याद रहेगी',
   'hotel.pinAgain': 'फिर से',
   'hotel.pinning': 'जगह ढूँढ रहा हूँ…',
+  'hotel.pinOutsideDubai':
+    'आप अभी दुबई में नहीं हैं। होटल का पिन वहीं पहुँचकर, होटल में खड़े होकर लगाइए — तब तक बाक़ी सब यहीं भर सकते हैं।',
   'hotel.pinDenied':
     'जगह की इजाज़त नहीं मिली. फ़ोन की सेटिंग में चालू कीजिए — बाक़ी सब वैसे ही रखा जाएगा.',
   'hotel.pinUnavailable': 'अभी जगह नहीं मिली. बाद में फिर दबाइए — बाक़ी सब रखा जाएगा.',
@@ -191,10 +195,6 @@ export const hi = {
   'pass.scanFailed': 'यह QR किसी और का है, या बदल दिया गया — पास नहीं लगा',
   'pass.lostTaken': 'यह पास किसी और फ़ोन पर पहले लग चुका था, इसलिए यहाँ से हट गया',
   'pass.lostRevoked': 'यह पास ख़रीदने वाले ने हटा दिया, इसलिए यहाँ से हट गया',
-  'pass.tryTitle': 'भारत में बैठकर आज़माइए',
-  'pass.tryWhy': 'घड़ी वैसे ही चलेगी जैसे दुबई में चलती — जाँचने के लिए.',
-  'pass.tryOn': 'दुबई में हूँ (टेस्ट)',
-  'pass.tryOff': 'टेस्ट बंद कीजिए',
 
   // घर.4 · the welcome, the one moment a pass lands on this phone (decision 022)
   'pass.welcome.eyebrow': 'पास आ गया',

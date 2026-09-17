@@ -265,6 +265,15 @@ button:not(:disabled) {
   border-style: dashed;
   border-color: var(--marigold);
 }
+/* The stand-in note (decision 024). Solid and quiet rather than dashed and inviting: a dashed
+   outline is this app's word for "there is something for you to do here", and there is nothing
+   to do about being in India. It is a `div`, not a button, for the same reason. */
+.strip-hotel-standin {
+  border-style: solid;
+  border-color: var(--line);
+  background: var(--marigoldSoft);
+  cursor: default;
+}
 .strip-hotel-text {
   display: flex;
   flex-direction: column;

@@ -8,6 +8,7 @@ import { PhotoInput } from './PhotoInput.js';
 import { useBlobUrl } from './photos.js';
 import { areaFor } from './nearestArea.js';
 import { pinHere } from './pin.js';
+import { insideDubai } from '../../lib/dubai.js';
 import type { SavedHotel } from './records.js';
 import { deleteHotel, saveHotelCapture } from './storage.js';
 
@@ -64,6 +65,19 @@ export function HotelScreen({ hotel }: { readonly hotel: SavedHotel | undefined 
       setPinning(false);
       if (result.kind === 'refused') {
         setRefused(PIN_REFUSAL[result.why]);
+        return;
+      }
+      /*
+       * The phone answered, and it answered from somewhere that is not Dubai (decision 024).
+       * That is the owner's own case: he booked Rolla Residence meaning Rolla Residence Hotel
+       * Apartments, across the same street. A traveller at home knows the booking's name and
+       * not its building, and a pin taken in Kochi — or on the wrong side of Rolla Street — is
+       * worse than no pin at all, because BurJuman is labelled a stand-in on every row it
+       * touches while a wrong hotel is labelled "your hotel" and is quietly wrong in all three
+       * pillars. So it is not saved, and the screen says why and when to come back.
+       */
+      if (!insideDubai(result.at)) {
+        setRefused('hotel.pinOutsideDubai');
         return;
       }
       const area = areaFor(result.at);

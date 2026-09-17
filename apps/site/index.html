@@ -71,7 +71,7 @@
     <header class="top">
       <div class="wrap">
         <a class="brand" href="#top">
-          <img src="/icon.png" alt="" width="34" height="34" />
+          <img src="/icon.png" alt="" width="42" height="42" />
           <!-- The lockup, never translated: one word, one capital, in the app's own face
                (decision 021). -->
           <span class="wordmark wordmark-full"
@@ -258,14 +258,25 @@
               jobs, on a real phone, with the network off.
             </span>
           </p>
+          <!--
+            A player, not a picture. With the native controls on from the start this read as one
+            more screenshot of the app: the control bar is a thin strip at the foot of a tall
+            narrow video, among six other phone pictures on the same page, and the owner had to
+            hunt for the play button. So the poster is dimmed, one large target sits in the
+            middle of it, and the native controls arrive when the film does.
+          -->
           <div class="phone phone-video">
-            <video
-              controls
-              playsinline
-              preload="metadata"
-              poster="/shots/home.png"
-              src="/tour.mp4"
-            ></video>
+            <video playsinline preload="metadata" poster="/shots/home.png" src="/tour.mp4"></video>
+            <button type="button" class="play" id="tour-play">
+              <span class="play-ring">
+                <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">
+                  <path d="M9 6.5 18.5 12 9 17.5Z" fill="currentColor" />
+                </svg>
+              </span>
+              <span class="play-label">
+                <span class="hi">देखिए — 2 मिनट</span><span class="en">Watch — 2 minutes</span>
+              </span>
+            </button>
           </div>
         </div>
       </section>
@@ -825,32 +836,7 @@
       <div class="wrap">
         <span class="brand brand-foot">
           <img src="/icon.png" alt="" width="26" height="26" />
-          <span class="wordmark wordmark-full"
-            >Dubaisaathi<svg
-              class="wordmark-trail"
-              viewBox="0 0 260 62"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <!-- A filled crescent, not a stroke: a vapour trail is widest behind the aircraft
-                   and dissipates to nothing, and a constant-width line reads as a wire. -->
-              <path
-                class="wordmark-trail-line"
-                d="M232 9C186 14 112 27 14 47C118 37 190 21 232 14Z"
-              />
-              <!-- A paper plane, not the aeroplane-mode glyph, which at this size is a speck. -->
-              <g class="wordmark-plane" transform="translate(222 0) rotate(-12) scale(0.78)">
-                <path d="M1 12.4 34 1 23.6 24.6 15.6 15.7Z" />
-                <path class="wordmark-plane-fold" d="M15.6 15.7 23.6 24.6 14.7 23.1Z" />
-              </g></svg
-          ></span>
-        </span>
-        <span>© 2026 Saafar Saathi</span>
-        <a href="https://dubai.saafarsaathi.in/">dubai.saafarsaathi.in</a>
-        <a href="mailto:hello@saafarsaathi.in">hello@saafarsaathi.in</a>
-        <a href="https://wa.me/917842178350" rel="noreferrer">WhatsApp +91 78421 78350</a>
-        <span
-          ><span class="hi">भारत में बना, दुबई के लिए।</span
+          <span class="wordmark">Dubaisaathi</span
           ><span class="en">Made in India, for Dubai.</span></span
         >
         <span>Transport data: Roads and Transport Authority (RTA), Dubai — open data.</span>
