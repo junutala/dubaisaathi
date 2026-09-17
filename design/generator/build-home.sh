@@ -67,7 +67,7 @@ cat <<H
 <div style="width: 390px; height: 844px; background: $ground; color: $ink; display: flex; flex-direction: column; overflow: hidden; padding: 0 24px; box-sizing: border-box;">
   <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 12px; text-align: center; padding-top: 16px;">
     $(logo 80)
-    $(wordmark 40 "$ink" "$marigold")
+    $(wordmark 40 "$ink" "$marigold" "$marigoldText" yes)
     <span class="disp" style="font-size: 26px; font-weight: 700; line-height: 1.2; color: $tealText;">बिना इंटरनेट चलता है</span>
     <span style="font-size: 16px; line-height: 1.45; color: $muted; max-width: 320px; text-wrap: pretty;">दुबई में सिम नहीं, वाई-फ़ाई नहीं, रोमिंग नहीं — फिर भी सब चलेगा।</span>
     <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; text-align: start; margin-top: 4px;">

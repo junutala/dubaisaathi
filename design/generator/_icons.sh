@@ -21,8 +21,15 @@ L
 # the wordmark: $1 = font size in px, $2 = ink, $3 = the trail's colour. One word, one capital,
 # never translated (decision 021); the flight trail's box is pinned to the word's right edge and
 # measured in ems, so one shape serves the 22px strip and the 40px landing page.
-wordmark() { cat <<W
-<span class="wm" style="font-size: ${1}px; color: $2;">Dubaisaathi<svg viewBox="0 -4 340 76"><path d="M4 66C92 63 172 55 268 28" fill="none" stroke="$3" stroke-width="6" stroke-linecap="round"></path><path transform="translate(300 18) rotate(72) scale(1.5) translate(-12 -12)" fill="$3" d="M12 1.4c1.06 0 1.92.94 1.92 2.1v5.62l8.08 4.98v2.1l-8.08-2.48v4.56l2.16 1.6v1.52L12 20.6l-4.08.8v-1.52l2.16-1.6v-4.56L2 16.2v-2.1l8.08-4.98V3.5c0-1.16.86-2.1 1.92-2.1z"></path></svg></span>
+# wordmark <size> <ink> <marigold> <marigoldText> <trail: yes|no>
+#
+# Two forms, as in the app: the strip carries the mark and the word alone, because a trail three
+# pixels tall reads as lint; the landing page carries the flight over the tail of the word.
+wordmark() {
+  local trail=""
+  [ "$5" = yes ] && trail='<svg viewBox="0 0 260 62"><path fill="'"$3"'" opacity="0.85" d="M232 9C186 14 112 27 14 47C118 37 190 21 232 14Z"></path><g transform="translate(222 0) rotate(-12) scale(0.78)"><path fill="'"$3"'" d="M1 12.4 34 1 23.6 24.6 15.6 15.7Z"></path><path fill="'"$4"'" opacity="0.55" d="M15.6 15.7 23.6 24.6 14.7 23.1Z"></path></g></svg>'
+cat <<W
+<span class="wm" style="font-size: ${1}px; color: $2;">Dubaisaathi${trail}</span>
 W
 }
 # pointed arch, used as a faint motif on cards

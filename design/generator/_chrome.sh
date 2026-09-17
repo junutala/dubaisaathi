@@ -24,7 +24,7 @@ strip() {
 cat <<S
   <div style="padding: 12px 10px 6px 16px; display: flex; align-items: center; gap: 8px; min-height: 52px;">
     $(logo 28)
-    <span style="flex: 1; min-width: 0;">$(wordmark 22 "$ink" "$marigold")</span>
+    <span style="flex: 1; min-width: 0;">$(wordmark 18 "$ink" "$marigold" "$marigoldText" no)</span>
     <span style="display: flex; align-items: center; gap: 5px; color: $tealText; font-size: 12.5px; font-weight: 700;">$net</span>
     <span style="display: flex; align-items: center; gap: 6px; padding: 5px 10px 5px 8px; border-radius: 999px; border: 1px solid $line; color: $ink; font-size: 12.5px; font-weight: 700;"><span style="width: 9px; height: 9px; border-radius: 999px; background: $dot;"></span>पास</span>
     <span style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 999px; border: 1px solid $line;">$themeIcon</span>
