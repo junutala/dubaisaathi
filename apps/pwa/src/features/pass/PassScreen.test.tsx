@@ -235,4 +235,15 @@ describe('घर.4', () => {
     // Back to the trial and the flow to buy: the phones and the code field are back.
     expect(screen.getByRole('textbox', { name: 'कोड' })).toBeTruthy();
   });
+
+  it('tells a traveller who has paid but not landed that the pass is ready, not that the free day awaits', async () => {
+    // The owner bought a pass in India on 17 September and the screen still offered him the
+    // twenty-four free hours he had just paid to replace. The counter is right — a pass waits
+    // for the plane (decision 006) — and only the words were wrong.
+    localStorage.setItem('saathi.entitlement', JSON.stringify({ paid: true, slots: 1 }));
+    localStorage.setItem('saathi.locale', 'en');
+    await show();
+    expect(screen.getByText(/Pass ready/)).toBeTruthy();
+    expect(screen.queryByText(/24 hours free/)).toBeNull();
+  });
 });
