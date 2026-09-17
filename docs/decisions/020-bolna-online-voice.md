@@ -111,3 +111,30 @@ What this changed elsewhere:
   `design/check-screens.py` now fails a घर board that is online without बोलना, offline with it, or
   that puts it anywhere but fourth. The घर boards regenerate with a strip that says ऑनलाइन;
   `HomeTrial` stays offline and three blocks, so the canvas carries both states.
+
+## What it actually heard, 17 September, on the owner's phone
+
+The spike of 13–15 September (`docs/spikes/002`) is the reason there is no offline recogniser in
+this product: Vosk, Whisper base and Google's own all mangled Dubai place names spoken in an
+Indian accent inside a Hindi sentence. What was measured on the day बोलना went live is worth
+putting beside those numbers, because it is a different result and it decided the feature.
+
+Sarvam's `saaras:v3` in `translate` mode was given, in this order:
+
+- Five Hindi sentences and the same five in Tamil. Every Dubai place name survived — Burjuman,
+  Karama, Discovery Gardens, Deira City Centre, Al Rigga — and so did the words that carry the
+  constraint: Jain, vegetarian, cafeteria, fasting food.
+- Dishes, which the spike never got near: sambar vada, sabudana khichdi, idli sambar, chole
+  bhature, fruit chaat. All of them came back as themselves rather than as a translation into
+  "chickpea curry", which is why `translate` and not `codemix` is the mode (`listen`'s own note
+  says the same thing from the other side).
+- A whole itinerary, unrehearsed: Mall of the Emirates, then Discovery Gardens, a late dinner
+  party, back to a hotel in Bur Dubai. Correct in English, and correct again in Arabic through
+  the existing `translate` function: مول الإمارات, حدائق ديسكفري, بر دبي.
+- **One sentence mixing Hindi, English, Tamil and Telugu.** It was transcribed correctly.
+
+That last line is the one that matters for scope. Rule 4 of CLAUDE.md governs what the _matcher_
+reads and what the _interface_ speaks, and it is unchanged: Hindi and Hinglish typed, two
+catalogues. बोलना does not touch it — a spoken sentence goes to a person, not to the matcher, and
+the recogniser does not care which language it started in. So a Tamil or Telugu speaker can use
+बोलना today without a third catalogue existing, and that is not an argument for adding one.
