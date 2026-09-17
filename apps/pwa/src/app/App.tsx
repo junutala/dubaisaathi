@@ -15,6 +15,7 @@ import {
   noteLocationReading,
   pendingCoupon,
   startCouponRetry,
+  startOrderResume,
   startPassReconcile,
   takeCodeFromUrl,
   validity,
@@ -111,13 +112,18 @@ export function App() {
 
   /**
    * A code applied with no signal goes when there is some; a scanned slot is reported when
-   * there is some (decision 005). Both on boot and on `online`, neither ever in the way.
+   * there is some (decision 005); an order left open by a traveller who closed the app during
+   * the payment is asked about again (decision 019), so the pass arrives even though nobody
+   * was watching the screen when the money did. All three on boot and on `online`, none of
+   * them ever in the way.
    */
   useEffect(() => {
     const stopCoupon = startCouponRetry();
+    const stopOrder = startOrderResume();
     const stopReconcile = startPassReconcile();
     return () => {
       stopCoupon();
+      stopOrder();
       stopReconcile();
     };
   }, []);

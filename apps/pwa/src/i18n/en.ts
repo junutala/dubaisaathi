@@ -149,6 +149,17 @@ export const en: Record<StringKey, string> = {
   'pass.freeDone': 'Pass installed — nothing closes on this trip',
   'pass.balanceLater':
     'The balance of ₹{payable} is payable when buying opens — the code is remembered',
+
+  // Buying (decision 019). One honest line for every way a payment can end.
+  'pass.buyWhat': 'Dubai Saathi pass · 14 days · {count} phone(s)',
+  'pass.buyWorking': 'We have your request — the payment screen is opening, one moment',
+  'pass.buyDone': 'Pass installed — nothing closes on this trip',
+  'pass.buyClosed': 'The payment was not completed — try again whenever you like',
+  'pass.buyUnreachable': 'The payment screen would not open — check your network and try again',
+  'pass.buyPending': 'Your payment is being confirmed — the pass will appear here by itself',
+  'pass.buyFailed': 'That did not go through — try again in a little while',
+  'pass.buyOffline': 'Buying needs a moment of network — the rest of Saathi works offline',
+  'pass.buyFree': 'This code makes the pass free — press “Get pass — free” below',
   'pass.family': 'Family',
   'pass.familyWhy': 'One QR per phone — open it with their camera, or send it on WhatsApp',
   'pass.familySlot': 'Phone {slot}',

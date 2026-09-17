@@ -25,14 +25,27 @@ import { verifyPass, type SignedPass } from './signedPass.js';
 const KEY = 'saathi.entitlement';
 
 /**
- * Whether there is any way to buy a pass yet, and therefore whether the gate may close.
+ * Whether a traveller can buy a pass — the buy buttons on घर.4, and nothing else.
  *
- * It is a build switch rather than a constant because that is what it actually is: the gate
- * opens the day the order endpoint and the aggregator key exist, and not before. Turning it on
- * today would close रास्ता and खाना to every traveller 24 hours after they land with no way on —
- * a gate in front of a door nobody has built. `VITE_PURCHASE_LIVE=true` at build time.
+ * It is a build switch rather than a constant because that is what it actually is: buying opens
+ * the day the order endpoint and the aggregator key exist, and not before. `VITE_PURCHASE_LIVE=true`
+ * at build time.
  */
 export const PURCHASE_IS_LIVE = import.meta.env.VITE_PURCHASE_LIVE === 'true';
+
+/**
+ * Whether the gate may close — and it is a separate switch on purpose (decision 019).
+ *
+ * These were one switch, and one switch cannot express the state the product is actually in:
+ * the owner needs to buy a real pass on the live build, with a real card, weeks before any
+ * traveller is ever turned away from रास्ता or खाना. Turning buying on used to turn the gate on
+ * with it, so testing a purchase meant shutting the app on everyone whose free day had run out.
+ *
+ * So `VITE_GATE_LIVE=true` is the only thing that closes anything, it defaults to off, and it is
+ * the owner's decision on its own — made once the purchase path has taken real money and given
+ * back a real pass. Everything else about the counter is unchanged.
+ */
+const GATE_IS_LIVE = import.meta.env.VITE_GATE_LIVE === 'true';
 
 export const TRIAL_HOURS = 24;
 export const PAID_HOURS = 336;
@@ -185,13 +198,14 @@ export function noteLocationReading(at: LatLng | undefined): Entitlement {
 /**
  * Whether the app is closed to this traveller.
  *
- * Only a trial that has run out closes anything, and only when there is a way to buy. A paying
- * customer is never gated, on this trip or after it — the owner's rule: _"we will NOT THROW HIM
- * AWAY just because his 14 day pass has expired."_ The documents and the hotel are never gated
- * by this or anything else: they are on the device and nothing about them reads a pass.
+ * Only a trial that has run out closes anything, and only when the gate has been turned on
+ * deliberately — `VITE_GATE_LIVE`, which buying being live no longer implies (decision 019). A
+ * paying customer is never gated, on this trip or after it — the owner's rule: _"we will NOT
+ * THROW HIM AWAY just because his 14 day pass has expired."_ The documents and the hotel are
+ * never gated by this or anything else: they are on the device and nothing reads a pass.
  */
 export function isGated(now: Date = new Date(), state: Entitlement = read()): boolean {
-  if (!PURCHASE_IS_LIVE) return false;
+  if (!GATE_IS_LIVE) return false;
   if (state.paid === true) return false;
   return validity(now, state).state === 'expired';
 }
