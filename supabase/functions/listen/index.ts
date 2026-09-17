@@ -49,8 +49,13 @@ const MAX_BYTES = 6 * 1024 * 1024;
 const MAX_SECONDS = 35;
 
 /**
- * Sarvam's language codes. Unknown falls back to Indian English rather than erroring — a hint is
- * a hint, and a traveller mid-sentence is worth more than a strict argument.
+ * Sarvam's language codes, pumpini's map. Anything unrecognised falls back to Indian English —
+ * a hint is a hint, and a traveller mid-sentence is worth more than a strict argument.
+ *
+ * NOT `unknown` for auto-detection. That was tried on 17 September as an improvement and Sarvam
+ * refused every request with it; pumpini has always named a language and has always worked. The
+ * model translates whatever it hears into English regardless, which is why naming the interface
+ * language costs a Tamil speaker nothing.
  */
 const LANG: Record<string, string> = {
   en: 'en-IN',
@@ -99,8 +104,13 @@ Deno.serve(async (request: Request): Promise<Response> => {
   const hint = form.get('language');
   const languageCode = (typeof hint === 'string' ? LANG[hint] : undefined) ?? 'en-IN';
 
+  const name = audio.name === '' ? 'audio.webm' : audio.name;
+  console.log(
+    `listen: ${String(audio.size)}B type=${audio.type || 'none'} name=${name} lang=${languageCode}`,
+  );
+
   const outgoing = new FormData();
-  outgoing.append('file', audio, audio.name === '' ? 'audio.webm' : audio.name);
+  outgoing.append('file', audio, name);
   outgoing.append('model', 'saaras:v3');
   // See the note at the top: `translate` is what makes any Indian language come back as English.
   outgoing.append('mode', 'translate');
@@ -113,19 +123,22 @@ Deno.serve(async (request: Request): Promise<Response> => {
       headers: { 'api-subscription-key': key },
       body: outgoing,
     });
-  } catch {
-    // The fault is upstream and the phone may usefully try again. Nothing of the error is
-    // passed on: it is ours to read in the function's logs, not the traveller's to decipher.
+  } catch (err) {
+    console.error(`listen: could not reach Sarvam: ${String(err)}`);
     return json({ error: 'could not listen' }, 502);
   }
 
   if (!answer.ok) {
-    // Never pass the provider's body back: an error echo can carry the key.
+    // Into our log, never into the response: an error echo can carry the key. Without this the
+    // only thing anyone could see was a 502 and a traveller being asked to type instead.
+    const detail = (await answer.text().catch(() => '')).slice(0, 400);
+    console.error(`listen: Sarvam ${String(answer.status)} ${detail}`);
     return json({ error: 'could not listen', status: answer.status }, 502);
   }
 
   const body = (await answer.json().catch(() => ({}))) as { transcript?: unknown };
   const transcript = typeof body.transcript === 'string' ? body.transcript.trim() : '';
+  console.log(`listen: ok, ${String(transcript.length)} characters`);
 
   // An empty transcript is not an error: the traveller may simply not have spoken. The phone
   // says so in its own words ("heard nothing — a little longer, a little closer").
