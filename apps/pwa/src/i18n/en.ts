@@ -37,7 +37,7 @@ export const en: Record<StringKey, string> = {
   'pillar.speak.roman': 'Bolna',
   'pillar.speak.blurb': 'Say it in your own language — English and Arabic, on a signal.',
 
-  'home.tile.before': '24 hours free in Dubai · pass from ₹199',
+  'home.tile.before': 'Free trial for 24 hours in Dubai · pass from ₹199',
   'home.tile.trial': '{hours} hours left · get pass',
   'home.tile.expired': 'Free day over · get pass',
   'home.tile.code': 'Your code {code} · get a free pass',
@@ -117,7 +117,7 @@ export const en: Record<StringKey, string> = {
 
   'pass.title': 'Pass',
   'pass.now': 'Now',
-  'pass.state.before': '24 hours free once you reach Dubai',
+  'pass.state.before': 'A free trial of 24 hours, from the moment you reach Dubai',
   'pass.state.paidBefore': 'Pass ready — your 14 days begin when you land in Dubai',
   'pass.state.trial': 'Your free day in Dubai — {hours} hours left',
   'pass.state.pass': 'Pass running — {days} days left',

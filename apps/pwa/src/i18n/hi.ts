@@ -45,7 +45,7 @@ export const hi = {
 
   // घर — the nudge from the twentieth hour of the Dubai day
   // The pass tile at the foot of घर, one line per state (decision 018)
-  'home.tile.before': 'दुबई में 24 घंटे मुफ़्त · पास ₹199 से',
+  'home.tile.before': 'दुबई में 24 घंटे का मुफ़्त ट्रायल · पास ₹199 से',
   'home.tile.trial': '{hours} घंटे बाक़ी · पास लें',
   'home.tile.expired': 'मुफ़्त दिन पूरा · पास लें',
   'home.tile.code': 'आपका कोड {code} · मुफ़्त पास लें',
@@ -131,7 +131,7 @@ export const hi = {
   // घर.4 · पास
   'pass.title': 'पास',
   'pass.now': 'अभी',
-  'pass.state.before': 'दुबई पहुँचने पर 24 घंटे मुफ़्त',
+  'pass.state.before': 'दुबई पहुँचते ही 24 घंटे का मुफ़्त ट्रायल',
   'pass.state.paidBefore': 'पास तैयार — 14 दिन दुबई पहुँचते ही शुरू होंगे',
   'pass.state.trial': 'दुबई का मुफ़्त दिन — {hours} घंटे बाक़ी',
   'pass.state.pass': 'पास चालू — {days} दिन बाक़ी',

@@ -208,7 +208,9 @@ it is a cost and failure surface, not a dependency of the core experience.
 
 `User`, `Device`, `Pass`, `Family`, `FamilyDevice`, `DubaiPlace`, `Restaurant`, `FoodTag`,
 `Menu`, `TransportNode`, `TransportEdge`, `Route`, `Phrase`, `EmergencyPoint`, `ContentVersion`,
-plus `VoiceEvent` (the learning loop) and `FieldReport` (field collection, pre-review).
+plus `VoiceEvent` (the learning loop), `FieldReport` (field collection, pre-review) and
+`ContactMessage` (the website's form — the one table holding a name and a number, volunteered
+rather than collected, joined to nothing in the app; decision 023).
 Reuse these names in code and schema rather than inventing synonyms.
 
 ## Learning loop

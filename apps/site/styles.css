@@ -24,6 +24,11 @@
   --know: #1a2456;
   --onKnow: #eef0ff;
   --knowSoft: #e8eaf6;
+  /* बोलना's plum, the same one the app's fourth block wears (decision 020). */
+  --speak: #6b2a54;
+  --onSpeak: #fdecf5;
+  --speakSoft: #f9e8f1;
+  --speakText: #6b2a54;
 }
 
 *,
@@ -99,20 +104,32 @@ a {
   white-space: nowrap;
   color: var(--ink);
 }
+/* The full lockup, the same drawing the app carries (decision 021): a tapered crescent and a
+   paper plane over the tail of the word. This page and the app's landing screen are the two
+   places it appears at a size where it is a drawing rather than a smudge — so when one changes,
+   the other does, and they are compared side by side before either ships. */
+.wordmark-full {
+  padding-inline-end: 0.2em;
+}
 .wordmark-trail {
   position: absolute;
-  right: -0.16em;
-  bottom: 0.88em;
-  width: 3.4em;
-  height: 0.76em;
+  right: -0.06em;
+  bottom: 0.78em;
+  width: 2.62em;
+  height: 0.62em;
   overflow: visible;
   pointer-events: none;
 }
 .wordmark-trail-line {
-  stroke: var(--marigold);
+  fill: var(--marigold);
+  opacity: 0.85;
 }
 .wordmark-plane {
   fill: var(--marigold);
+}
+.wordmark-plane-fold {
+  fill: var(--marigoldText);
+  opacity: 0.55;
 }
 /* The footer carries it too, quieter: whose page this was, at the bottom of it. */
 .brand-foot {
@@ -215,6 +232,14 @@ h1 {
   line-height: 1.05;
   margin: 14px 0 12px;
   letter-spacing: -0.01em;
+}
+/* "Dubai" is the place; the line under it is the promise, and the promise is the line that has
+   to be read. Struck out in the deep marigold rather than the bright one: at 64px the bright
+   marigold sits at about 2.4:1 on cream, which is under the 3:1 that large type needs, and a
+   headline nobody can read is not striking. This one clears 4.5:1 and still shouts. */
+.headline-turn {
+  display: block;
+  color: var(--food);
 }
 /* The three words as three small tiles: the app's home blocks in miniature, each with its own
    icon, set a touch askew as if placed by hand. The brand as a mark, not a line of type. */
@@ -340,9 +365,54 @@ h1 .three {
   background: var(--ink);
 }
 
+/* ---- the wash: travel glyphs at a whisper behind a band ---------------------------------- */
+/* Flat colour on a page this long reads as unfinished. These are the app's own icons, outlined,
+   at an opacity where they are texture rather than pictures: if a reader notices one, it is too
+   strong. They never take a click and they are never on the reading path. */
+.wash-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+.wash {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 0.85;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 0;
+}
+/* Above the wash, always: a heading the texture shows through is a heading nobody read. */
+.wash + .wrap,
+.hero .wrap,
+.partners .wrap,
+.contact .wrap {
+  position: relative;
+  z-index: 1;
+}
+/* A phone screen has no room to spare, and a texture that survives being squeezed to 390px is
+   a texture in the way. */
+@media (max-width: 700px) {
+  .wash {
+    display: none;
+  }
+}
+
 /* ---- sections ----------------------------------------------------------------------- */
 section {
   padding: 56px 0;
+  position: relative;
+  /* The bar at the top is sticky, so a jump to an id would otherwise land the heading behind
+     it — the partners' buttons jump to the form, and a form whose question is hidden under a
+     header is a form nobody answers. */
+  scroll-margin-top: 78px;
 }
 h2 {
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
@@ -570,7 +640,277 @@ footer .wrap {
   align-items: center;
 }
 
+/* ---- बोलना, the fourth block and the one that needs a signal (decision 020) ------------- */
+.bolna {
+  background: var(--speakSoft);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.roman-loud {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--speakText);
+  margin-bottom: 4px;
+}
+.bolna-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 32px;
+  align-items: start;
+}
+/* Smaller than the pillars' phones: the steps beside it are three lines, and a full-height
+   phone next to three lines leaves a hole where the reader expects something. */
+.bolna .phone {
+  width: 250px;
+  margin: 0 auto;
+}
+.bolna-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+.bolna-steps li {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  align-items: start;
+  gap: 12px;
+  font-size: 17px;
+  line-height: 1.45;
+}
+/* The step's number, in बोलना's own plum: filled, because a ring at this size reads as a typo. */
+.bolna-n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: var(--speak);
+  color: var(--onSpeak);
+  font-weight: 700;
+  font-size: 15px;
+}
+.bolna-note {
+  margin: 28px 0 0;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 15.5px;
+  max-width: 58em;
+  text-wrap: pretty;
+}
+
+/* ---- tour operators and food outlets ---------------------------------------------------- */
+.partners {
+  background: var(--sand);
+  border-top: 1px solid var(--line);
+}
+.partner-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.partner {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.partner h3 {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  margin: 0;
+}
+.partner p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.5;
+  flex: 1;
+}
+.btn-partner {
+  align-self: flex-start;
+  background: var(--marigoldSoft);
+  border-color: var(--marigold);
+  color: var(--marigoldText);
+}
+
+/* ---- the contact form (decision 023) ----------------------------------------------------- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 32px;
+  align-items: start;
+}
+.form {
+  display: grid;
+  gap: 18px;
+}
+.who {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.who legend {
+  padding: 0;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+/* A radio drawn as a chip: the dot is hidden, the chip itself shows which one is picked. */
+.who-pick {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+}
+.who-pick input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.who-pick:has(input:checked) {
+  background: var(--tealSoft);
+  border-color: var(--teal);
+  color: var(--tealText);
+}
+.who-pick:has(input:focus-visible) {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+.field {
+  display: grid;
+  gap: 6px;
+}
+.field-name {
+  font-weight: 700;
+}
+.field input,
+.field textarea,
+.country {
+  font: inherit;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 11px 14px;
+  min-height: 46px;
+  width: 100%;
+}
+.field textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+.field input:focus-visible,
+.field textarea:focus-visible,
+.country:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 1px;
+  border-color: var(--teal);
+}
+/* The dialling code and the number are one field to a reader, so they sit on one line. */
+.phone-row {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 8px;
+}
+.country {
+  font-weight: 700;
+}
+/* The honeypot. Off-screen rather than display:none, which some fillers skip. */
+.trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.form .btn-big {
+  justify-self: start;
+}
+.form-said {
+  margin: 0;
+  min-height: 1.5em;
+  font-weight: 700;
+  color: var(--marigoldText);
+}
+.form-said-good {
+  color: var(--tealText);
+}
+.reach {
+  background: var(--sand);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 22px;
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+}
+.reach h3 {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0;
+}
+.btn-wa {
+  background: #1faf54;
+  border-color: #1faf54;
+  color: #fff;
+}
+/* The QR is for a reader on a laptop, who cannot tap a wa.me link on a machine with no
+   WhatsApp on it. A phone shows the button above instead: nobody scans their own screen. */
+.qr-card {
+  margin: 0;
+  display: none;
+  gap: 10px;
+  align-items: center;
+  grid-template-columns: 150px 1fr;
+}
+.qr-card img {
+  display: block;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 6px;
+}
+.qr-card figcaption {
+  color: var(--muted);
+  font-size: 14.5px;
+  line-height: 1.4;
+}
+@media (hover: hover) and (pointer: fine) and (min-width: 700px) {
+  .qr-card {
+    display: grid;
+  }
+}
+
 @media (max-width: 860px) {
+  .bolna-grid,
+  .contact-grid,
+  .partner-cards {
+    grid-template-columns: 1fr;
+  }
   .hero .wrap,
   .try .wrap,
   .box-wide {
