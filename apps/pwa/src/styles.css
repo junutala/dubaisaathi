@@ -162,13 +162,21 @@ button:not(:disabled) {
 .strip-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex: 1;
   min-width: 0;
   min-height: 40px;
 }
+/* The pin is never squashed. It is a flex item next to a wider word than the strip used to
+   carry, and without this it is the thing that gives: on a 390px phone the lockup arrived with
+   the mark compressed to a third of a pixel and only the word left. */
+.strip-brand > svg {
+  flex-shrink: 0;
+}
+/* 18px, not the 22px the Devanagari name had: `Dubaisaathi` is 5.76em wide in this face, and
+   the strip also holds the network, the pass, the language and the theme. */
 .strip-name {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
   line-height: 1;
   color: var(--ink);

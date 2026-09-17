@@ -41,7 +41,7 @@ export function TopStrip({
           }}
           aria-label={t('strip.home')}
         >
-          <Logo size={28} />
+          <Logo size={26} />
           <span className="strip-name">
             <Wordmark name={t('app.name')} />
           </span>
