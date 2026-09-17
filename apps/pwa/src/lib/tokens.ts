@@ -58,6 +58,16 @@ export const LIGHT = {
   onKnow: '#EEF0FF',
   knowText: '#1A2456',
   knowSoft: '#E8EAF6',
+  /**
+   * बोलना's own hue, on घर as the fourth block (17 September): deep plum. It has to be none of
+   * the three at a glance — warm where जाना is cool, magenta where जानना is blue, cool where
+   * खाना is orange — and dark enough to carry the same cream type. Red stays reserved
+   * (decision 002); plum is not it.
+   */
+  speak: '#6B2A54',
+  onSpeak: '#FDECF5',
+  speakText: '#6B2A54',
+  speakSoft: '#F9E8F1',
   /** The pass dot: green while the counter runs, marigold when it is about to stop. Never red. */
   running: '#2E9E5B',
 } as const;
@@ -100,6 +110,10 @@ export const DARK: Record<keyof typeof LIGHT, string> = {
   onKnow: '#EDEFFF',
   knowText: '#B4BEEE',
   knowSoft: '#1C2140',
+  speak: '#5F2649',
+  onSpeak: '#FCEDF5',
+  speakText: '#E7A3C6',
+  speakSoft: '#2E1727',
   running: '#3FC27A',
 };
 

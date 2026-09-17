@@ -2,12 +2,12 @@
 source "$(dirname "$0")/_chrome.sh"
 tile() { # name roman blurb bg fg iconfn
 cat <<T
-    <div style="position: relative; flex: 1; border-radius: 26px; overflow: hidden; background: $4; display: flex; align-items: flex-end; padding: 20px 22px;">
+    <div style="position: relative; flex: 1; border-radius: 26px; overflow: hidden; background: $4; display: flex; align-items: flex-end; padding: 16px 20px; box-sizing: border-box;">
       <div style="position: absolute; right: -18px; top: -14px; opacity: 0.16;">$($6 170 "$5" 1.1)</div>
-      <span style="position: absolute; left: 22px; top: 18px; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: $5; opacity: 0.7;">$2</span>
-      <div style="position: relative; display: flex; flex-direction: column; gap: 2px; max-width: 250px;">
-        <span class="disp" style="font-size: 56px; font-weight: 700; line-height: 1; color: $5; letter-spacing: -0.01em;">$1</span>
-        <span style="font-size: 13.5px; line-height: 1.35; color: $5; opacity: 0.85; margin-top: 8px; text-wrap: pretty;">$3</span>
+      <span style="position: absolute; left: 20px; top: 14px; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: $5; opacity: 0.7;">$2</span>
+      <div style="position: relative; display: flex; flex-direction: column; gap: 2px; max-width: 250px; min-width: 0;">
+        <span class="disp" style="font-size: 36px; font-weight: 700; line-height: 1; color: $5; letter-spacing: -0.01em;">$1</span>
+        <span style="font-size: 13px; line-height: 1.35; color: $5; opacity: 0.85; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">$3</span>
       </div>
     </div>
 T
@@ -27,16 +27,23 @@ cat <<T
   </div>
 T
 }
-# ---- घर: $1 out, $2 pass state, $3 hotel, $4 tile trial|warm|paid
+# ---- घर: $1 out, $2 pass state, $3 hotel, $4 tile trial|warm|paid, $5 signal on|off
+# बोलना is the fourth block from 17 September, at the owner's instruction: the same shape and the
+# same type as the three, in its own plum. It is on घर only where the strip says ऑनलाइन, because
+# the recogniser and the Arabic behind it are both online (decision 020) — so a board that says
+# ऑफ़लाइन carries three blocks, and that difference is the rule, drawn.
 home() {
+local bolna=''
+[ "${5:-off}" = on ] && bolna=$(tile 'बोलना' 'Bolna' 'अपनी भाषा में कहिए — अंग्रेज़ी और अरबी में, नेटवर्क पर।' "$b_bg" "$b_fg" mic)
 {
 open_screen
-strip "$2" "$3"
+strip "$2" "$3" "${5:-off}"
 cat <<H
   <div style="flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 12px 16px 10px 16px; min-height: 0;">
 $(tile 'खाना' 'Khaana' 'भारतीय खाना — छोटी दुकानें और कैफ़ेटेरिया जो आपको यूँ नहीं मिलतीं।' "$k_bg" "$k_fg" thali)
 $(tile 'जाना' 'Jaana' 'मेट्रो, बस, ट्राम या टैक्सी — कहीं भी, कितना समय और कितने दिरहम।' "$j_bg" "$j_fg" metro)
 $(tile 'जानना' 'Jaanna' 'दुबई की जगहें — समय, टिकट, पहुँचने का तरीक़ा, हिंदी में।' "$n_bg" "$n_fg" lantern)
+$bolna
   </div>
 H
 case "$4" in
@@ -48,10 +55,10 @@ bar none
 close_screen
 } > "$OUT/$1"
 }
-home Home.dc.html running set trial
-home HomeTrial.dc.html ending none warm
-home HomePaid.dc.html running set paid
-THEME=dark; source "$(dirname "$0")/_chrome.sh"; home HomeDark.dc.html running set trial; THEME=light; source "$(dirname "$0")/_chrome.sh"
+home Home.dc.html running set trial on
+home HomeTrial.dc.html ending none warm off
+home HomePaid.dc.html running set paid on
+THEME=dark; source "$(dirname "$0")/_chrome.sh"; home HomeDark.dc.html running set trial on; THEME=light; source "$(dirname "$0")/_chrome.sh"
 
 # ---- L · लैंडिंग (first open, the pack comes down)
 {

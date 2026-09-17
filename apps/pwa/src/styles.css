@@ -331,7 +331,7 @@ button:not(:disabled) {
   background: var(--sand);
 }
 
-/* ---- घर: the three pillars, and the pass tile under them ------------------------------- */
+/* ---- घर: the blocks, and the pass tile under them -------------------------------------- */
 
 .home {
   flex: 1;
@@ -402,9 +402,10 @@ button:not(:disabled) {
 .pillar {
   position: relative;
   flex: 1;
-  /* Low enough that three blocks, the tile and the bar fit a 667px phone without the blocks
-     painting over the tile; the type below scales to the height the block actually got. */
-  min-height: 96px;
+  /* Low enough that four blocks — बोलना joined them on 17 September — plus the tile and the bar
+     fit a 667px phone without the blocks painting over the tile; the type below scales to the
+     height the block actually got. */
+  min-height: 72px;
   border-radius: 26px;
   overflow: hidden;
   display: flex;
@@ -441,32 +442,46 @@ button:not(:disabled) {
 }
 .pillar-name {
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
-  font-size: 56px;
+  font-size: 44px;
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.01em;
 }
+/* One line, and it ends in an ellipsis rather than in the top of the line below it. A clamped
+   second line showed its शिरोरेखा through the clip on every block (rule 20). */
 .pillar-blurb {
   font-size: 13.5px;
   line-height: 1.35;
   opacity: 0.85;
   margin-top: 8px;
-  text-wrap: pretty;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-/* The blocks gave up height to the pass tile (decision 018), and on a shorter phone the name,
-   bottom-aligned, rose into the Roman caption pinned at the top of the block. The type follows
-   the screen: a 780px phone gets a smaller name, a 667px phone a smaller one again and a blurb
-   of one line. Never an overlap, on any phone we have seen. */
-@media (max-height: 820px) {
+/* The blocks gave up height to the pass tile (decision 018) and again to बोलना, the fourth block,
+   on 17 September — four in the column where there were three, so every one of them is a quarter
+   of the space instead of a third. The name is bottom-aligned and the Roman caption is pinned to
+   the top of the block, so on a shorter screen one climbs into the other unless the type follows
+   the screen down. Measured on a real render at every step: the clearance between the caption and
+   the name stays positive from a 1000px display to a 640px phone. The last step gives up the
+   blurb, because a quarter of a 667px phone has room for the name or for a sentence, not both. */
+@media (max-height: 900px) {
+  .pillar {
+    padding: 16px 20px;
+  }
+  .pillar-roman {
+    top: 14px;
+    left: 20px;
+  }
   .pillar-name {
-    font-size: 40px;
+    font-size: 36px;
   }
   .pillar-blurb {
-    font-size: 12.5px;
-    margin-top: 4px;
+    font-size: 13px;
+    margin-top: 5px;
   }
 }
-@media (max-height: 700px) {
+@media (max-height: 820px) {
   .pillar {
     padding: 14px 20px;
   }
@@ -475,13 +490,38 @@ button:not(:disabled) {
     left: 20px;
   }
   .pillar-name {
-    font-size: 32px;
+    font-size: 30px;
   }
   .pillar-blurb {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
+    font-size: 12.5px;
+    margin-top: 4px;
+  }
+}
+@media (max-height: 780px) {
+  .pillar {
+    padding: 12px 18px;
+  }
+  .pillar-roman {
+    top: 10px;
+    left: 18px;
+    font-size: 11px;
+  }
+  .pillar-name {
+    font-size: 26px;
+  }
+  .pillar-blurb {
+    margin-top: 3px;
+  }
+}
+@media (max-height: 720px) {
+  .pillar {
+    padding: 11px 18px;
+  }
+  .pillar-roman {
+    top: 9px;
+  }
+  .pillar-blurb {
+    display: none;
   }
 }
 
@@ -1880,15 +1920,9 @@ button:not(:disabled) {
 
 /* ---- घर.5 · बोलना and घर.6 · अरबी में (decision 020) ----------------------------------- */
 
-/* The tile at the foot of घर, in indigo so it is not the pass's marigold: two tiles, two jobs,
-   two hues. Only ever on the screen while the phone is online. */
-.home-tile-say {
-  background: var(--knowSoft);
-  color: var(--knowText);
-}
-
 /* The one microphone button in the product. Big, because it is the whole screen's action, and
-   it is both start and stop — there is no second control to hunt for. */
+   it is both start and stop — there is no second control to hunt for. It wears बोलना's own plum,
+   which is the colour of the block on घर that opened this screen (17 September). */
 .bolna-mic {
   display: flex;
   align-items: center;
@@ -1897,19 +1931,19 @@ button:not(:disabled) {
   width: 100%;
   min-height: 84px;
   border-radius: 20px;
-  background: var(--knowSoft);
-  color: var(--knowText);
+  background: var(--speakSoft);
+  color: var(--speakText);
   border: 1.5px solid var(--line);
 }
 .bolna-mic:disabled {
   opacity: 0.6;
   cursor: default;
 }
-/* While the microphone is open. Indigo filled, never red: red is reserved (decision 002). */
+/* While the microphone is open. Plum filled, never red: red is reserved (decision 002). */
 .bolna-mic-on {
-  background: var(--know);
-  color: var(--onKnow);
-  border-color: var(--know);
+  background: var(--speak);
+  color: var(--onSpeak);
+  border-color: var(--speak);
 }
 .bolna-mic-label {
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
@@ -1953,8 +1987,8 @@ button:not(:disabled) {
 
 /* A tablet, or a laptop. The screens are a phone's, and stay one column: on a wider display the
    column is framed on sand so it reads as the app rather than a strip lost in a blank page,
-   grows a little, and on घर the three blocks sit side by side so an iPad in landscape shows
-   all three without scrolling. Nothing else changes: same strip, same bar, same screens. */
+   grows a little, and on घर the blocks sit side by side so an iPad in landscape shows all of
+   them without scrolling. Nothing else changes: same strip, same bar, same screens. */
 @media (min-width: 600px) {
   body {
     background: var(--sand);
@@ -1969,15 +2003,33 @@ button:not(:disabled) {
   .screen {
     max-width: 760px;
   }
-  /* The three blocks in a row; the pass tile spans the width beneath them. */
+  /* The blocks in a row; the pass tile spans the width beneath them. Four across 760px is a
+     narrow column each, so the name comes down and the blurb — which the short-phone rules
+     above may have folded away — comes back, because here there is height for it. */
   .pillars {
     flex-direction: row;
   }
   .pillar {
     min-height: 320px;
+    padding: 18px 16px;
+  }
+  .pillar-roman {
+    top: 16px;
+    left: 16px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
   }
   .pillar-name {
-    font-size: 44px;
+    font-size: 34px;
+  }
+  .pillar-blurb {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    white-space: normal;
+    overflow: hidden;
+    font-size: 12.5px;
+    margin-top: 6px;
   }
   .pillar-text {
     max-width: none;

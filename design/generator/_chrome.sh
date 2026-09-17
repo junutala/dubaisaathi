@@ -5,21 +5,27 @@ if [ "${THEME:-light}" = light ]; then
   tealText='#0A5F54'; teal='#0B7A6B'; tealSoft='#E1F2EF'; marigold='#E8871E'; marigoldText='#9A5B10'; marigoldSoft='#FDF0DC'; onMarigold='#231403'
   k_bg='#B4610F'; j_bg='#0B7A6B'; n_bg='#1A2456'; k_fg='#FFF6E8'; j_fg='#EAFBF7'; n_fg='#EEF0FF'; green='#2E9E5B'; onTeal='#FFFFFF'
   k_soft='#FDF0DC'; j_soft='#E1F2EF'; n_soft='#E8EAF6'; k_text='#9A5B10'; j_text='#0A5F54'; n_text='#1A2456'
+  # बोलना, घर's fourth block from 17 September: deep plum, none of the three at a glance.
+  b_bg='#6B2A54'; b_fg='#FDECF5'
 else
   ground='#14161F'; card='#1D202C'; sand='#1D202C'; ink='#F1EDE6'; muted='#9AA1B3'; chev='#7B8397'; line='#2D3242'
   tealText='#8FE0CF'; teal='#3FC0A9'; tealSoft='#0E2A27'; marigold='#F0913A'; marigoldText='#F2AC5C'; marigoldSoft='#3A2A14'; onMarigold='#1C1206'
   k_bg='#9A5310'; j_bg='#0E6E61'; n_bg='#242F6E'; k_fg='#FFF3E0'; j_fg='#E6FAF5'; n_fg='#EDEFFF'; green='#3FC27A'; onTeal='#0B1F1B'
   k_soft='#3A2A14'; j_soft='#0E2A27'; n_soft='#1C2140'; k_text='#F2AC5C'; j_text='#8FE0CF'; n_text='#B4BEEE'
+  b_bg='#5F2649'; b_fg='#FCEDF5'
 fi
-# strip: $1 = pass state running|ending, $2 = hotel set|none
+# strip: $1 = pass state running|ending, $2 = hotel set|none, $3 = signal on|off (off by default)
 strip() {
   local dot=$green; [ "$1" = ending ] && dot=$marigold
   local themeIcon; if [ "${THEME:-light}" = light ]; then themeIcon=$(moon 20 "$muted" 1.9); else themeIcon=$(sun 20 "$muted" 1.9); fi
+  # Offline is the product's normal state and the board's default. A board only says ऑनलाइन when
+  # it is showing something that needs a signal — which is बोलना's block, and nothing else.
+  local net="$(wifioff 15 "$tealText" 2.1)ऑफ़लाइन"; [ "${3:-off}" = on ] && net="$(wifi 15 "$tealText" 2.1)ऑनलाइन"
 cat <<S
   <div style="padding: 12px 10px 6px 16px; display: flex; align-items: center; gap: 8px; min-height: 52px;">
     $(logo 28)
     <span style="flex: 1; min-width: 0;">$(wordmark 22 "$ink" "$marigold")</span>
-    <span style="display: flex; align-items: center; gap: 5px; color: $tealText; font-size: 12.5px; font-weight: 700;">$(wifioff 15 "$tealText" 2.1)ऑफ़लाइन</span>
+    <span style="display: flex; align-items: center; gap: 5px; color: $tealText; font-size: 12.5px; font-weight: 700;">$net</span>
     <span style="display: flex; align-items: center; gap: 6px; padding: 5px 10px 5px 8px; border-radius: 999px; border: 1px solid $line; color: $ink; font-size: 12.5px; font-weight: 700;"><span style="width: 9px; height: 9px; border-radius: 999px; background: $dot;"></span>पास</span>
     <span style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 999px; border: 1px solid $line;">$themeIcon</span>
   </div>

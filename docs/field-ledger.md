@@ -39,12 +39,13 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 
 ## घर
 
-| Field                            | Why it is there                                                                     |
-| -------------------------------- | ----------------------------------------------------------------------------------- |
-| खाना · जाना · जानना              | The three things the app does; everything else is a child of one                    |
-| Roman caption and one-line blurb | जाना and जानना are one letter apart; the caption and the line keep them apart       |
-| The pass tile, at the foot       | The money, visible while it matters, gone once paid; one line per state, tap → घर.4 |
-| The बोलना tile, while online     | The one thing that needs a signal; on घर only when it can work, tap → घर.5          |
+| Field                              | Why it is there                                                                            |
+| ---------------------------------- | ------------------------------------------------------------------------------------------ |
+| खाना · जाना · जानना                | The three things the app does; everything else is a child of one                           |
+| बोलना, the fourth block, online    | The same weight as the three, in its own plum; on घर only when it can work, tap → घर.5     |
+| Roman caption and one-line blurb   | जाना and जानना are one letter apart; the caption and the line keep them apart              |
+| The blurb goes below a 720px phone | Four blocks leave a quarter of the screen each — the name, or a clipped sentence, not both |
+| The pass tile, at the foot         | The money, visible while it matters, gone once paid; one line per state, tap → घर.4        |
 
 ## घर.1 · मेरा होटल
 

@@ -13,6 +13,8 @@ import sys
 SCREENS = pathlib.Path(__file__).parent / 'screens'
 
 PILLARS = ['खाना', 'जाना', 'जानना']
+# बोलना — घर's fourth block from 17 September, and the one screen that needs a signal.
+SPEAK = 'बोलना'
 # The landing page and the names sheet are not screens with chrome.
 NO_CHROME = {'Landing', 'Names'}
 # घर.n screens and the pillars' children; everything else is home or a state of it.
@@ -41,9 +43,14 @@ def main() -> int:
         name = path.name[: -len('.dc.html')]
         text = path.read_text(encoding='utf-8')
 
-        # Rule 1: no microphone anywhere. Not in the bar, not in a box, not as an icon.
+        # Rule 1: no microphone in the three pillars, and no invitation to speak in any box —
+        # every box is typed into (decision 016). The one microphone is बोलना, which is घर's
+        # fourth block and nowhere else, so the words below are barred on every board and the
+        # block itself is checked under rule 6.
         if re.search(r'\bmic\b|माइक|बोलिए|बोलकर', text):
             fail(name, 'a microphone, or an invitation to speak — voice is out (decision 016)')
+        if SPEAK in text and name not in HOME:
+            fail(name, 'बोलना outside घर — its block is on घर and its screens have no board')
 
         # Rule 2: red is reserved and appears on no screen.
         if re.search(r'#C62B2B|#D32F2F|#E53935|\bred\b', text, re.IGNORECASE):
@@ -77,7 +84,7 @@ def main() -> int:
         if name == 'HomePaid' and 'पास लें' in text:
             fail(name, 'a paid traveller still sees पास लें')
 
-        # Rule 5: home is the three pillars, in order, and nothing else.
+        # Rule 6: home is the three pillars, in order, then बोलना, and nothing else.
         if name in HOME:
             order = [text.find('>%s</span>' % p) for p in PILLARS]
             if any(i < 0 for i in order):
@@ -86,14 +93,26 @@ def main() -> int:
                 fail(name, 'the pillars are out of order: खाना, जाना, जानना')
             if 'type="text"' in text or '<input' in text:
                 fail(name, 'home carries a box')
-            # Rule 13: the pass tile sits at the foot of घर — after the last pillar, before
+            # Rule 14: बोलना is घर's fourth block, after जानना, and only where the strip says
+            # ऑनलाइन. Everything behind it is online (decision 020), so a board drawn offline
+            # with बोलना on it would be promising what the phone cannot do.
+            speak = text.find('>%s</span>' % SPEAK)
+            if 'ऑनलाइन' in text:
+                if speak < 0:
+                    fail(name, 'home is online and has no बोलना block')
+                elif speak < max(order):
+                    fail(name, 'बोलना comes before जानना — it is the fourth block, not the first')
+            elif speak >= 0:
+                fail(name, 'बोलना on an offline घर — it cannot work without a signal')
+            # Rule 13: the pass tile sits at the foot of घर — after the last block, before
             # the bar — and is never red (rule 2 covers the colour).
             tile = text.find(TICKET_ICON)
             bar = text.find(BAR_TOP)
+            last = max(order + [speak])
             if tile < 0:
                 fail(name, 'home has no pass tile')
-            elif not (max(order) < tile < bar):
-                fail(name, 'the pass tile is not between the pillars and the bar')
+            elif not (last < tile < bar):
+                fail(name, 'the pass tile is not between the blocks and the bar')
 
         # Rule 6: every screen that is not home has a way back.
         if name not in HOME and BACK_ICON not in text:

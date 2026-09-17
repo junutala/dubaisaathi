@@ -17,9 +17,10 @@ export interface HomeTileState {
   readonly paid: boolean;
   readonly slots: number;
   /**
-   * Whether the phone has a connection right now. A tile whose screen cannot work without one is
-   * not shown without one: बोलना needs the network to hear anything at all, and offering it with
-   * the radio off would be offering a traveller something that is going to fail.
+   * Whether the phone has a connection right now. A block whose screen cannot work without one
+   * is not shown without one: बोलना needs the network to hear anything at all, and offering it
+   * with the radio off would be offering a traveller something that is going to fail. Read by
+   * `HomeScreen` for बोलना's block, which is why it lives on the state घर is handed.
    */
   readonly online: boolean;
   /** A coupon code the traveller holds and has not redeemed; `free` once the server said ₹0. */
@@ -36,27 +37,21 @@ export interface HomeTileDef {
   readonly id: string;
   readonly icon: IconName;
   readonly route: Route;
-  /**
-   * The tile's own hue, as a class on top of `.home-tile`. The pass owns marigold and takes no
-   * class; a second tile needs its own so the foot of घर is not one block of colour with two
-   * different jobs in it.
-   */
-  readonly tone: string;
   readonly visible: (state: HomeTileState) => boolean;
   readonly warm: (state: HomeTileState) => boolean;
   readonly text: (state: HomeTileState, t: Translate) => TileText;
 }
 
 /**
- * The tiles at the foot of घर, below the three pillars and above the bar (decision 018): the
- * revenue action, in the shape of the strip's hotel row, in marigold and never red.
+ * The tiles at the foot of घर, below the blocks and above the bar (decision 018): the revenue
+ * action, in the shape of the strip's hotel row, in marigold and never red. बोलना was a tile
+ * here until 17 September and is now घर's fourth block instead, at the owner's instruction.
  */
 export const HOME_TILES: readonly HomeTileDef[] = [
   {
     id: 'pass',
     icon: 'ticket',
     route: { screen: 'pass' },
-    tone: '',
     visible: () => true,
     warm: (state) => state.nudge,
     text: (state, t) => {
@@ -85,21 +80,6 @@ export const HOME_TILES: readonly HomeTileDef[] = [
       return { name: t('home.tile.trial', { hours: validity.hours ?? 0 }), why };
     },
   },
-  /**
-   * बोलना — the online-only voice tile that comment was describing (decision 020). It is here
-   * only while the phone is online, because everything behind it — the recogniser and the
-   * Arabic — is online, and a tile that is there when it cannot work is a promise the app
-   * breaks the moment it is tapped. Indigo, so it is not the pass's marigold.
-   */
-  {
-    id: 'bolna',
-    icon: 'mic',
-    route: { screen: 'bolna' },
-    tone: 'home-tile-say',
-    visible: (state) => state.online,
-    warm: () => false,
-    text: (_state, t) => ({ name: t('home.tile.bolna'), why: t('home.tile.bolnaWhy') }),
-  },
 ];
 
 export function HomeTile({
@@ -114,9 +94,7 @@ export function HomeTile({
   return (
     <button
       type="button"
-      className={['home-tile', tile.tone, tile.warm(state) ? 'home-tile-warm' : '']
-        .filter((part) => part !== '')
-        .join(' ')}
+      className={tile.warm(state) ? 'home-tile home-tile-warm' : 'home-tile'}
       onClick={() => {
         navigate(tile.route);
       }}

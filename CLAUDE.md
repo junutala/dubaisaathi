@@ -13,8 +13,8 @@ traveller's own hotel and documents on the phone, all of it working with the net
 **No microphone in the three pillars** (decision 016, 16 September). Three days on a real phone
 proved no offline recogniser hears Dubai place names in an Indian accent inside a Hindi sentence.
 Every box in खाना, जाना and जानना is typed into; the script-agnostic matcher is what runs on it.
-The one exception is **बोलना** (decision 020, 17 September): an **online-only** tile on घर, there
-only while the phone has a signal, where a traveller speaks a whole sentence in any Indian
+The one exception is **बोलना** (decision 020, 17 September): an **online-only** fourth block on घर,
+there only while the phone has a signal, where a traveller speaks a whole sentence in any Indian
 language and reads it back in English and Arabic. It is recognised online, by Sarvam; it does not
 work offline and is not offered offline.
 
@@ -77,21 +77,25 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
 
 - **Three pillars, named in Devanagari in both interface languages.** खाना · Khaana, जाना ·
   Jaana, जानना · Jaanna. They are the brand, never a translation. Home is the three of them as
-  deep blocks in their own hue with cream type, in that order, and nothing else. Screens are
-  numbered by pillar: 1.x खाना, 2.x जाना, 3.x जानना; घर.1–घर.4 are the strip's and the bar's
-  children (hotel, documents, a document, the pass).
+  deep blocks in their own hue with cream type, in that order, **and बोलना as a fourth block
+  after them** (17 September, the owner's instruction: the same treatment as the three, in its own
+  plum, never below them as a tile). Screens are numbered by pillar: 1.x खाना, 2.x जाना,
+  3.x जानना; घर.1–घर.4 are the strip's and the bar's children (hotel, documents, a document,
+  the pass).
 - **The top strip is on every screen.** The mark and the name (tap → home), online/offline, the
   pass dot, language, theme, and under them **the traveller's hotel** — photographs, room, the
   desk's number, a note, a pin; whatever they want to keep, without limit, on the phone only.
 - **The bar is on every screen.** खाना · जाना · जानना · दस्तावेज़, four items evenly spaced, the
-  current pillar lit in its colour, and nothing else. The pass lives on the strip's dot and on
-  घर's tile (decision 018); there is no पास लें button in the bar.
-- **घर's tiles are the pass and बोलना**, under the three blocks. बोलना (घर.5, and घर.6 for its
-  Arabic) is the product's one microphone and its one online-only screen, so the tile is on घर
-  only while the phone is online and goes when the signal does — a tile that is there when it
-  cannot work is a promise broken on the tap. Speak in any Indian language, read it back in
-  English in a box that can be corrected, then the same sentence in Arabic with a read-aloud
-  button. No audio is stored anywhere (decision 020).
+  current pillar lit in its colour, and nothing else. बोलना is not in the bar: it is a block on
+  घर. The pass lives on the strip's dot and on घर's tile (decision 018); there is no पास लें
+  button in the bar.
+- **घर's one tile is the pass**, alone at the foot under the blocks and above the bar
+  (decision 018). **बोलना is the fourth block, not a tile** (decision 020 and its addendum).
+  बोलना (घर.5, and घर.6 for its Arabic) is the product's one microphone and its one online-only
+  screen, so the block is on घर only while the phone is online and goes when the signal does — a
+  block that is there when it cannot work is a promise broken on the tap. Speak in any Indian
+  language, read it back in English in a box that can be corrected, then the same sentence in
+  Arabic with a read-aloud button. No audio is stored anywhere.
 - **The pass stays and is never a wall.** The dot is green while the counter runs and marigold
   when the Dubai day is ending; never red (decision 002). From the twentieth hour of the Dubai
   day every open of घर nudges toward a pass. **A traveller who has paid once is never gated
@@ -501,7 +505,7 @@ What is left, in this order:
    app is live and the pipeline publishes approved reports. `attractions.v1.json` is unchecked
    on the ground; every row has `checkedAt`.
 4. **बोलना's deployment.** The `listen` edge function is written and is not deployed, and its
-   secret `SARVAM_API_KEY` is not set — both are the lead's to do. Until they are, the tile is
+   secret `SARVAM_API_KEY` is not set — both are the lead's to do. Until they are, the block is
    there when the phone is online and the screen says, in one line, that बोलना is not switched on
    yet; nothing else is affected.
 5. **Sprint 2**: 3.3 · काम की बातें (parked on the canvas's second page), and the owner's

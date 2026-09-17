@@ -27,8 +27,9 @@ export const hi = {
   'nav.back': 'वापस',
   'nav.docs': 'दस्तावेज़',
 
-  // The three pillars. The names are the brand and stay in Devanagari in both catalogues; the
-  // Roman spelling is a caption, never a translation (16 September).
+  // The blocks on घर. The three pillars are the brand and stay in Devanagari in both
+  // catalogues; the Roman spelling is a caption, never a translation (16 September). बोलना is
+  // the fourth block from 17 September, in its own hue and only while the phone has a signal.
   'pillar.food': 'खाना',
   'pillar.food.roman': 'Khaana',
   'pillar.food.blurb': 'भारतीय खाना — छोटी दुकानें और कैफ़ेटेरिया जो आपको यूँ नहीं मिलतीं।',
@@ -38,6 +39,9 @@ export const hi = {
   'pillar.know': 'जानना',
   'pillar.know.roman': 'Jaanna',
   'pillar.know.blurb': 'दुबई की जगहें — समय, टिकट, पहुँचने का तरीक़ा, हिंदी में।',
+  'pillar.speak': 'बोलना',
+  'pillar.speak.roman': 'Bolna',
+  'pillar.speak.blurb': 'अपनी भाषा में कहिए — अंग्रेज़ी और अरबी में, नेटवर्क पर।',
 
   // घर — the nudge from the twentieth hour of the Dubai day
   // The pass tile at the foot of घर, one line per state (decision 018)
@@ -377,8 +381,7 @@ export const hi = {
 
   // ---- घर.5 · बोलना · घर.6 · अरबी में (decision 020) -------------------------------------
   // The one place in the product with a microphone, and the only screens that need a signal.
-  'home.tile.bolna': 'बोलना — किसी भी भाषा में',
-  'home.tile.bolnaWhy': 'बोलिए — अंग्रेज़ी और अरबी में मिलेगा',
+  // Its block on घर is named by the `pillar.speak` keys above, with the other three.
   'bolna.title': 'बोलना',
   'bolna.why':
     'अपनी भाषा में बोलिए — हिंदी, तमिल, तेलुगु, जो भी. फ़ोन एक बार माइक की इजाज़त माँगेगा; आवाज़ सिर्फ़ अंग्रेज़ी में बदलने जाती है, कहीं सहेजी नहीं जाती.',

@@ -7,6 +7,9 @@ docs()    { ic "$1" "$2" "$3"; echo '<path d="M6 3.5h7.5L18.5 8.5V19a1.5 1.5 0 0
 pin()     { ic "$1" "$2" "$3"; echo '<path d="M12 21.5s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"></path><circle cx="12" cy="10.5" r="2.4"></circle></svg>'; }
 wifioff() { ic "$1" "$2" "$3"; echo '<path d="M3 3l18 18"></path><path d="M5 10.5a11.5 11.5 0 0 1 4.6-2.7"></path><path d="M12.8 5.2A11.5 11.5 0 0 1 19 10.5"></path><path d="M8.5 14a6.5 6.5 0 0 1 2.4-1.5"></path><path d="M13.6 12.6a6.5 6.5 0 0 1 1.9 1.4"></path><circle cx="12" cy="18" r="1" fill="'"$2"'" stroke="none"></circle></svg>'; }
 wifi()    { ic "$1" "$2" "$3"; echo '<path d="M5 10.5a11.5 11.5 0 0 1 14 0"></path><path d="M8.5 14a6.5 6.5 0 0 1 7 0"></path><circle cx="12" cy="18" r="1" fill="'"$2"'" stroke="none"></circle></svg>'; }
+# बोलना's mark, the same drawing as the app's `mic` icon. The one microphone in the product, and
+# it belongs to one block on घर and nowhere else (decisions 016 and 020).
+mic()     { ic "$1" "$2" "$3"; echo '<rect x="9" y="2.5" width="6" height="11.5" rx="3"></rect><path d="M5.5 11.8a6.5 6.5 0 0 0 13 0"></path><path d="M12 18.3v3.2M8.6 21.5h6.8"></path></svg>'; }
 chev()    { ic "$1" "$2" "$3"; echo '<path d="M9 5l7 7-7 7"></path></svg>'; }
 search()  { ic "$1" "$2" "$3"; echo '<circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg>'; }
 back()    { ic "$1" "$2" "$3"; echo '<path d="M15 5l-7 7 7 7"></path></svg>'; }
