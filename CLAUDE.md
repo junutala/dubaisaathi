@@ -147,8 +147,10 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
      does not reflect a real user.
    - Responses go out in Hindi. Input is wherever the user actually lives.
 
-   Do not add Telugu/Tamil/Malayalam/etc. Adding a third interface language is now a
-   catalogue rather than a refactor — which is not a licence to add one.
+   Do not add Telugu/Tamil/Malayalam/Gujarati/etc. Adding a third interface language is now a
+   catalogue rather than a refactor — which is not a licence to add one. Decided again on 17
+   September, with the sizing done (about three days for Gujarati, four for Tamil): Tamil
+   travellers manage with English, and Gujaratis read and speak Hindi. Dropped.
 
 5. **Intent accuracy is the KPI.** What matters is the right `{place, dish, constraint}` out
    of what was typed, in either script, with a mistyping answered by a question.
