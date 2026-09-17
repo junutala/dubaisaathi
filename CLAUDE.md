@@ -471,7 +471,10 @@ What is left, in this order:
    hours) and Karama over the following two — the first real content for खाना. Before he goes:
    a dry run of the collectors' app in India, one made-up outlet uploaded, published with
    `npm run publish:outlets -- --rows` and deleted, so the chain is proven. After each of his
-   days, pull the approved rows, publish, deploy.
+   days, pull the approved rows, publish, deploy. **Until 22 September, reports whose collector
+   is "arun" are rehearsals and never publish; reports from "chand" are real.** Rehearsal rows
+   come from India and are flagged outside-dubai by the outlet function anyway; publishing is
+   by hand, never automatic.
 2. **Buying a pass.** The `orders` table exists; no function creates an order, takes the
    aggregator's webhook or signs a pass. Until it does, `VITE_PURCHASE_LIVE` stays off, the
    buttons on घर.4 say so, nothing is gated, and the website says purchase opens shortly.
