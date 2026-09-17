@@ -69,7 +69,13 @@ export function Logo({ size = 26 }: { readonly size?: number }) {
  * the word is 5.76em wide in this face, so a box 3.4em wide pinned to its right edge sits over
  * "aathi" and no further left.
  */
-export function Wordmark({ name, trail = false }: { readonly name: string; readonly trail?: boolean }) {
+export function Wordmark({
+  name,
+  trail = false,
+}: {
+  readonly name: string;
+  readonly trail?: boolean;
+}) {
   return (
     <span className={trail ? 'wordmark wordmark-full' : 'wordmark'}>
       {name}
