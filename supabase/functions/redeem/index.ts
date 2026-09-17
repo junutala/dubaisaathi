@@ -98,6 +98,53 @@ function counterOffAtFrom(landedAt: unknown): string | undefined {
   return new Date(at + PAID_HOURS * HOUR).toISOString();
 }
 
+/**
+ * The same phone, the same code, again. The first time round the server did everything right
+ * and the phone still did not end up with the pass — a build without the public key, a tab
+ * closed mid-install, a phone that lost signal between the answer and the write. The redemption
+ * is spent, slot 1 is this phone's, and refusing now would strand a traveller with a pass they
+ * cannot see. So the family's passes are signed again over the same claims and handed back.
+ * Nothing new is issued; a different phone is still refused.
+ */
+async function reissue(
+  db: ReturnType<typeof createClient>,
+  familyId: string,
+  privateKey: CryptoKey,
+): Promise<SignedPass[] | null> {
+  const found = await db
+    .from('passes')
+    .select('id, family_id, slot, counter_off_at')
+    .eq('family_id', familyId)
+    .order('slot');
+  if (found.error) return null;
+  const rows = (found.data ?? []) as {
+    id: string;
+    family_id: string;
+    slot: number;
+    counter_off_at: string | null;
+  }[];
+  const passes: SignedPass[] = [];
+  for (const row of rows) {
+    const pass = await signPass(
+      {
+        passId: row.id,
+        familyId: row.family_id,
+        slot: row.slot,
+        kind: 'paid',
+        ...(row.counter_off_at === null
+          ? {}
+          : { counterOffAt: new Date(row.counter_off_at).toISOString() }),
+        hours: PAID_HOURS,
+      },
+      privateKey,
+    );
+    const saved = await db.from('passes').update({ signature: pass.signature }).eq('id', row.id);
+    if (saved.error) return null;
+    passes.push(pass);
+  }
+  return passes;
+}
+
 Deno.serve(async (request: Request): Promise<Response> => {
   if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
   if (request.method !== 'POST') return json({ error: 'POST only' }, 405);
@@ -161,12 +208,6 @@ Deno.serve(async (request: Request): Promise<Response> => {
   }
   if (coupon.kind === 'single' && slots !== 1) return refuse('single');
 
-  const taken = await db.from('coupon_redemptions').select('device_id').eq('code', code);
-  if (taken.error) return json({ error: taken.error.message }, 500);
-  const rows = (taken.data ?? []) as { device_id: string }[];
-  if (rows.some((row) => row.device_id === deviceId)) return refuse('already-redeemed');
-  if (rows.length >= coupon.max_redemptions) return refuse('exhausted');
-
   const terms = {
     discountPercent: coupon.discount_percent,
     priceOverrideInr: coupon.price_override_inr,
@@ -178,6 +219,33 @@ Deno.serve(async (request: Request): Promise<Response> => {
     listPrice: listPriceInr(slots),
     discount: terms,
   };
+
+  const taken = await db
+    .from('coupon_redemptions')
+    .select('device_id, family_id, slots')
+    .eq('code', code);
+  if (taken.error) return json({ error: taken.error.message }, 500);
+  const rows = (taken.data ?? []) as {
+    device_id: string;
+    family_id: string | null;
+    slots: number;
+  }[];
+  const mine = rows.find((row) => row.device_id === deviceId);
+  if (mine !== undefined) {
+    if (mine.family_id === null) return refuse('already-redeemed');
+    const pkcs8 = Deno.env.get('PASS_SIGNING_KEY');
+    if (pkcs8 === undefined || pkcs8 === '') return refuse('unsigned');
+    const passes = await reissue(db, mine.family_id, await importPrivateKey(pkcs8));
+    if (passes === null || passes.length === 0) return refuse('already-redeemed');
+    return json({
+      ...quote,
+      listPrice: listPriceInr(mine.slots),
+      payable: 0,
+      issued: true,
+      passes,
+    });
+  }
+  if (rows.length >= coupon.max_redemptions) return refuse('exhausted');
   // A balance is not ours to take yet: UPI is not live. The app says so and keeps the code.
   // And a quote is a quote: the field's लगाएँ asks what the code is worth, the button takes it.
   if (payable > 0 || payload.quoteOnly === true) return json({ ...quote, payable, issued: false });
