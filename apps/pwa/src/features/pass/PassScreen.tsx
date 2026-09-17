@@ -213,7 +213,7 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
                   key={phones}
                   type="button"
                   className={phones === chosen ? 'tier tier-on' : 'tier'}
-                  disabled={single && phones !== 1}
+                  disabled={busy || (single && phones !== 1)}
                   onClick={() => {
                     setSlots(phones);
                   }}
@@ -237,6 +237,7 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
                 spellCheck={false}
                 inputMode="text"
                 aria-label={t('pass.couponLabel')}
+                disabled={busy}
                 onChange={(event) => {
                   setTyped(event.target.value.toUpperCase());
                 }}
@@ -252,7 +253,8 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
                 {t(busy ? 'pass.couponApplying' : 'pass.couponApply')}
               </button>
             </div>
-            {line !== null && <p className="pass-line">{t(line)}</p>}
+            {busy && <p className="pass-line">{t('pass.couponWorking')}</p>}
+            {!busy && line !== null && <p className="pass-line">{t(line)}</p>}
 
             <div className="total">
               <span className="total-label">{t('pass.total')}</span>
@@ -275,7 +277,7 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
                 }}
               >
                 <Icon name="ticket" size={20} strokeWidth={1.9} />
-                {t('pass.free')}
+                {t(busy ? 'pass.freeWorking' : 'pass.free')}
               </button>
             ) : (
               <>

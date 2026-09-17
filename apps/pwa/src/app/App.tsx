@@ -8,7 +8,6 @@ import type { HomeTileState } from '../features/home/HomeTile.js';
 import { FoodListScreen, MenuScreen, OutletScreen } from '../features/food/index.js';
 import {
   PassScreen,
-  canBuy,
   entitlement,
   isGated,
   needsNudge,
@@ -215,7 +214,7 @@ export function App() {
         {route.screen === 'know' && <KnowScreen />}
         {route.screen === 'place' && <PlaceScreen placeId={route.placeId} hotel={hotel} />}
       </main>
-      <TabBar current={pillarOf(route)} canBuy={canBuy()} />
+      <TabBar current={pillarOf(route)} />
     </div>
   );
 }

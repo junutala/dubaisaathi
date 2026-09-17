@@ -31,7 +31,7 @@ $(card 'ग्लोबल विलेज' 'Global Village' 'अक्टूब
 $(card 'गोल्ड सूक' 'Gold Souk' 'देरा' '10:00 – 22:00' 'मुफ़्त')
   </div>
 H
-bar jaanna yes
+bar jaanna
 close_screen
 } > "$OUT/N1.dc.html"
 
@@ -61,7 +61,7 @@ cat <<H
     </div>
   </div>
 H
-bar jaanna yes
+bar jaanna
 close_screen
 } > "$OUT/N2.dc.html"
 

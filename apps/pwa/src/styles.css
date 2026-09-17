@@ -266,7 +266,7 @@ button:not(:disabled) {
   text-overflow: ellipsis;
 }
 
-/* ---- the bar: the three pillars, the documents, and पास लें while unpaid ---------------- */
+/* ---- the bar: the three pillars and the documents, evenly spaced ----------------------- */
 
 .bar {
   display: grid;
@@ -276,9 +276,6 @@ button:not(:disabled) {
   padding: 6px 8px 18px;
   position: sticky;
   bottom: 0;
-}
-.bar-5 {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 .bar-tab {
   min-height: 48px;
@@ -296,27 +293,6 @@ button:not(:disabled) {
 .bar-tab-on {
   font-weight: 700;
   background: var(--sand);
-}
-.bar-buy {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  min-height: 48px;
-  margin: 0 2px;
-  border-radius: 14px;
-  background: var(--marigold);
-  color: var(--onMarigold);
-}
-.bar-buy-label {
-  font-size: 12.5px;
-  font-weight: 700;
-}
-.bar-buy-from {
-  font-size: 10.5px;
-  font-weight: 600;
-  opacity: 0.85;
 }
 
 /* ---- घर: the three pillars, and the pass tile under them ------------------------------- */
@@ -390,7 +366,9 @@ button:not(:disabled) {
 .pillar {
   position: relative;
   flex: 1;
-  min-height: 120px;
+  /* Low enough that three blocks, the tile and the bar fit a 667px phone without the blocks
+     painting over the tile; the type below scales to the height the block actually got. */
+  min-height: 96px;
   border-radius: 26px;
   overflow: hidden;
   display: flex;
@@ -438,6 +416,37 @@ button:not(:disabled) {
   opacity: 0.85;
   margin-top: 8px;
   text-wrap: pretty;
+}
+/* The blocks gave up height to the pass tile (decision 018), and on a shorter phone the name,
+   bottom-aligned, rose into the Roman caption pinned at the top of the block. The type follows
+   the screen: a 780px phone gets a smaller name, a 667px phone a smaller one again and a blurb
+   of one line. Never an overlap, on any phone we have seen. */
+@media (max-height: 820px) {
+  .pillar-name {
+    font-size: 40px;
+  }
+  .pillar-blurb {
+    font-size: 12.5px;
+    margin-top: 4px;
+  }
+}
+@media (max-height: 700px) {
+  .pillar {
+    padding: 14px 20px;
+  }
+  .pillar-roman {
+    top: 12px;
+    left: 20px;
+  }
+  .pillar-name {
+    font-size: 32px;
+  }
+  .pillar-blurb {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+  }
 }
 
 /* ---- the box, chips, notes, buttons ---------------------------------------------------- */

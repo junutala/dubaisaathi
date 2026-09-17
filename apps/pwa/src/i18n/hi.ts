@@ -24,8 +24,6 @@ export const hi = {
   // The bar
   'nav.back': 'वापस',
   'nav.docs': 'दस्तावेज़',
-  'nav.buyPass': 'पास लें',
-  'nav.buyPassFrom': '₹199 से',
 
   // The three pillars. The names are the brand and stay in Devanagari in both catalogues; the
   // Roman spelling is a caption, never a translation (16 September).
@@ -145,6 +143,8 @@ export const hi = {
   'pass.couponHint': 'किसी विज्ञापन या ऑपरेटर से मिला कोड यहाँ',
   'pass.couponApply': 'लगाएँ',
   'pass.couponApplying': 'देख रहे हैं…',
+  'pass.couponWorking': 'आपकी दरख़्वास्त पहुँच गई — देख रहे हैं, एक पल',
+  'pass.freeWorking': 'पास बन रहा है…',
   'pass.couponPercent': '{code} · {percent}% छूट',
   'pass.couponFlat': '{code} · ₹{price} में',
   'pass.total': 'कुल',

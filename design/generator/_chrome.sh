@@ -53,22 +53,17 @@ cat <<S
   </div>
 S
 }
-# bar: $1 = active (khaana|jaana|jaanna|docs|none), $2 = subscribe yes|no
+# bar: $1 = active (khaana|jaana|jaanna|docs|none). The four tasks, evenly spaced, and nothing
+# else: the pass lives on the strip's dot and on घर's tile (decision 018, 17 September).
 bar() {
   local a=$1
   item() { local col=$muted w=600; [ "$a" = "$1" ] && col=$2 && w=700; echo "<div style=\"display: flex; flex-direction: column; align-items: center; gap: 3px; min-height: 48px; justify-content: center;\">$($3 24 "$col" 1.8)<span style=\"font-size: 11.5px; font-weight: $w; color: $col;\">$4</span></div>"; }
-  local cols=4; [ "$2" = yes ] && cols=5
 cat <<S
-  <div style="border-top: 1px solid $line; display: grid; grid-template-columns: repeat($cols, minmax(0, 1fr)); padding: 6px 8px 18px 8px; background: $ground;">
+  <div style="border-top: 1px solid $line; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px 8px 18px 8px; background: $ground;">
     $(item khaana "$k_text" thali खाना)
     $(item jaana "$teal" metro जाना)
     $(item jaanna "$n_text" lantern जानना)
     $(item docs "$marigoldText" docs दस्तावेज़)
-S
-[ "$2" = yes ] && cat <<S
-    <div style="display: flex; align-items: center; justify-content: center;"><span style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; width: 100%; min-height: 48px; border-radius: 14px; background: $marigold; color: $onMarigold;"><span style="font-size: 12.5px; font-weight: 700;">पास लें</span><span style="font-size: 10.5px; font-weight: 600; opacity: 0.85;">₹199 से</span></span></div>
-S
-cat <<S
   </div>
 S
 }

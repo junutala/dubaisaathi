@@ -20,7 +20,6 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 | Field                           | Why it is there                                                          |
 | ------------------------------- | ------------------------------------------------------------------------ |
 | खाना · जाना · जानना · दस्तावेज़ | Switch task in one tap, from anywhere; the current one lit in its colour |
-| पास लें · ₹199 से (unpaid)      | The money, visible while it matters, gone once paid                      |
 
 ## On every screen that is not home — the header
 
@@ -40,11 +39,11 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 
 ## घर
 
-| Field                            | Why it is there                                                                 |
-| -------------------------------- | ------------------------------------------------------------------------------- |
-| खाना · जाना · जानना              | The three things the app does; everything else is a child of one                |
-| Roman caption and one-line blurb | जाना and जानना are one letter apart; the caption and the line keep them apart   |
-| The pass tile, at the foot       | The revenue action, seen without looking for it; one line per state, tap → घर.4 |
+| Field                            | Why it is there                                                                     |
+| -------------------------------- | ----------------------------------------------------------------------------------- |
+| खाना · जाना · जानना              | The three things the app does; everything else is a child of one                    |
+| Roman caption and one-line blurb | जाना and जानना are one letter apart; the caption and the line keep them apart       |
+| The pass tile, at the foot       | The money, visible while it matters, gone once paid; one line per state, tap → घर.4 |
 
 ## घर.1 · मेरा होटल
 
@@ -74,6 +73,7 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 | "इस कोड पर एक ही फ़ोन चलता है"        | A single code locks the phones to one; said, not discovered                       |
 | कोड · लगाएँ                           | A code from an advertisement or an operator; pre-filled when the URL brought it   |
 | The code's line                       | Unknown, not yet, ended, used up, used here, needs a moment of network — one each |
+| "आपकी दरख़्वास्त पहुँच गई"            | The moment a code goes out: the wait is visible, so nobody presses twice          |
 | कुल · the list price struck through   | What is owed after the code, from the one price rule                              |
 | "SS-7K3M2X · 50% छूट"                 | What the code gave, so the total is not a mystery                                 |
 | पास लें — मुफ़्त                      | A ₹0 total: the pass, issued and installed on the spot                            |
