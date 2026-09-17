@@ -12,35 +12,46 @@ cat <<T
     </div>
 T
 }
-# ---- घर: $1 out, $2 pass state, $3 hotel, $4 subscribe, $5 nudge yes|no
+# the pass tile at the foot of घर (decision 018): $1 = name line, $2 = why line, $3 = warm yes|no.
+# The shape of the strip's hotel row, in marigold; warm from the twentieth hour; never red.
+passtile() {
+  local bg=$marigoldSoft fg=$marigoldText; [ "$3" = yes ] && bg=$marigold && fg=$onMarigold
+cat <<T
+  <div style="margin: 0 16px 12px 16px; display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 10px 12px; border-radius: 14px; background: $bg; color: $fg; box-sizing: border-box;">
+    $(ticket 22 "$fg" 1.9)
+    <span style="display: flex; flex-direction: column; gap: 1px; flex: 1; min-width: 0;">
+      <span style="font-size: 14.5px; font-weight: 700; color: $fg; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.35;">$1</span>
+      <span style="font-size: 12px; color: $fg; opacity: 0.85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.35;">$2</span>
+    </span>
+    $(chev 18 "$fg" 2)
+  </div>
+T
+}
+# ---- घर: $1 out, $2 pass state, $3 hotel, $4 subscribe, $5 tile trial|warm|paid
 home() {
 {
 open_screen
 strip "$2" "$3"
-[ "$5" = yes ] && cat <<N
-  <div style="margin: 10px 16px 0 16px; display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: $marigoldSoft;">
-    <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0;">
-      <span style="font-size: 15px; font-weight: 700; color: $marigoldText;">आपका मुफ़्त दिन 4 घंटे में ख़त्म</span>
-      <span style="font-size: 13px; color: $ink;">14 दिन का पास ₹199 से — एक बार, कोई सब्सक्रिप्शन नहीं</span>
-    </span>
-    <span style="padding: 10px 14px; border-radius: 12px; background: $marigold; color: $onMarigold; font-size: 13.5px; font-weight: 700; white-space: nowrap;">पास लें</span>
-  </div>
-N
 cat <<H
-  <div style="flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 12px 16px;">
+  <div style="flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 12px 16px 10px 16px; min-height: 0;">
 $(tile 'खाना' 'Khaana' 'भारतीय खाना — छोटी दुकानें और कैफ़ेटेरिया जो आपको यूँ नहीं मिलतीं।' "$k_bg" "$k_fg" thali)
 $(tile 'जाना' 'Jaana' 'मेट्रो, बस, ट्राम या टैक्सी — कहीं भी, कितना समय और कितने दिरहम।' "$j_bg" "$j_fg" metro)
 $(tile 'जानना' 'Jaanna' 'दुबई की जगहें — समय, टिकट, पहुँचने का तरीक़ा, हिंदी में।' "$n_bg" "$n_fg" lantern)
   </div>
 H
+case "$5" in
+  trial) passtile '18 घंटे बाक़ी · पास लें' '14 दिन का पास — एक बार, कोई सब्सक्रिप्शन नहीं' no ;;
+  warm)  passtile '4 घंटे बाक़ी · पास लें' '14 दिन का पास — एक बार, कोई सब्सक्रिप्शन नहीं' yes ;;
+  paid)  passtile 'पास · 12 दिन बाक़ी · परिवार के लिए QR' 'इस सफ़र में कुछ बंद नहीं होगा' no ;;
+esac
 bar none "$4"
 close_screen
 } > "$OUT/$1"
 }
-home Home.dc.html running set yes no
-home HomeTrial.dc.html ending none yes yes
-home HomePaid.dc.html running set no no
-THEME=dark; source "$(dirname "$0")/_chrome.sh"; home HomeDark.dc.html running set yes no; THEME=light; source "$(dirname "$0")/_chrome.sh"
+home Home.dc.html running set yes trial
+home HomeTrial.dc.html ending none yes warm
+home HomePaid.dc.html running set no paid
+THEME=dark; source "$(dirname "$0")/_chrome.sh"; home HomeDark.dc.html running set yes trial; THEME=light; source "$(dirname "$0")/_chrome.sh"
 
 # ---- L · लैंडिंग (first open, the pack comes down)
 {
@@ -154,10 +165,10 @@ bar docs yes
 close_screen
 } > "$OUT/HomeDocView.dc.html"
 
-# ---- घर.4 · पास
-tier() { # devices price
+# ---- घर.4 · पास — one flow: the counter, the phones, the code, the total, the button
+tier() { # devices price border bg
 cat <<T
-      <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-radius: 14px; border: 1.5px solid $3; background: $4;"><span style="font-size: 15px; font-weight: 600; color: $ink;">$1</span><span class="disp" style="font-size: 20px; font-weight: 700; color: $ink;">$2</span></div>
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: 14px; border: 1.5px solid $3; background: $4;"><span style="font-size: 15px; font-weight: 600; color: $ink;">$1</span><span class="disp" style="font-size: 20px; font-weight: 700; color: $ink;">$2</span></div>
 T
 }
 {
@@ -165,7 +176,7 @@ open_screen
 strip ending set
 header ticket "$marigold" 'पास'
 cat <<H
-  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 6px 16px 12px 16px;">
+  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 10px; padding: 6px 16px 12px 16px;">
     <div style="display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; border-radius: 16px; background: $marigoldSoft;">
       <span style="font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: $marigoldText;">अभी</span>
       <span class="disp" style="font-size: 22px; font-weight: 700; color: $ink;">दुबई का मुफ़्त दिन — 4 घंटे बाक़ी</span>
@@ -173,17 +184,20 @@ cat <<H
       <span style="font-size: 13px; color: $ink; line-height: 1.4;">पास 14 दिन चलता है, दुबई पहुँचने से गिनकर। एक बार का दाम, कोई सब्सक्रिप्शन नहीं।</span>
     </div>
     $(label '14 दिन · कितने फ़ोन?')
-    <div style="display: flex; flex-direction: column; gap: 8px;">
-$(tier '1 फ़ोन' '₹199' "$marigold" "$ground")
-$(tier '2 फ़ोन' '₹299' "$line" "$card")
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+$(tier '1 फ़ोन' '₹199' "$line" "$card")
+$(tier '2 फ़ोन' '₹299' "$marigold" "$ground")
 $(tier '3 फ़ोन' '₹399' "$line" "$card")
 $(tier '4 फ़ोन' '₹499' "$line" "$card")
     </div>
-    <span style="font-size: 12.5px; color: $muted;">चार से ज़्यादा? WhatsApp पर बात करें ›</span>
-    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 4px;">
+    <div style="display: flex; align-items: center; gap: 10px; padding: 0 6px 0 14px; min-height: 50px; border-radius: 14px; background: $card; border: 1px solid $line;"><span style="font-size: 12.5px; font-weight: 700; color: $muted; width: 84px;">कोड</span><span style="flex: 1; font-size: 16px; font-weight: 600; letter-spacing: 0.08em; color: $ink;">SS-7K3M2X</span><span style="padding: 10px 14px; border-radius: 10px; background: $marigold; color: $onMarigold; font-size: 14px; font-weight: 700;">लगाएँ</span></div>
+    <div style="display: flex; align-items: baseline; gap: 10px; padding: 12px 14px; border-radius: 14px; background: $card; border: 1px solid $line;"><span style="flex: 1; font-size: 15px; font-weight: 600; color: $ink;">कुल</span><span class="disp" style="font-size: 24px; font-weight: 700; color: $ink;">₹149</span><span style="font-size: 14px; color: $muted; text-decoration: line-through;">₹299</span></div>
+    <span style="font-size: 12.5px; color: $muted;">SS-7K3M2X · 50% छूट</span>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
       $(btn 'UPI से — इसी फ़ोन पर' "$marigold" "$onMarigold")
       $(obtn "$(qr 20 "$ink" 1.9)QR — कोई और भरे")
     </div>
+    <span style="font-size: 12.5px; color: $muted; text-align: center;">बाक़ी ₹149 ख़रीद खुलने पर देना होगा — कोड याद रहेगा</span>
   </div>
 H
 bar none no

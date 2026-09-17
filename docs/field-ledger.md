@@ -40,11 +40,11 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 
 ## घर
 
-| Field                            | Why it is there                                                               |
-| -------------------------------- | ----------------------------------------------------------------------------- |
-| खाना · जाना · जानना              | The three things the app does; everything else is a child of one              |
-| Roman caption and one-line blurb | जाना and जानना are one letter apart; the caption and the line keep them apart |
-| The nudge (from hour 20)         | The conversion moment, said once per open, with पास लें on it                 |
+| Field                            | Why it is there                                                                 |
+| -------------------------------- | ------------------------------------------------------------------------------- |
+| खाना · जाना · जानना              | The three things the app does; everything else is a child of one                |
+| Roman caption and one-line blurb | जाना and जानना are one letter apart; the caption and the line keep them apart   |
+| The pass tile, at the foot       | The revenue action, seen without looking for it; one line per state, tap → घर.4 |
 
 ## घर.1 · मेरा होटल
 
@@ -67,13 +67,23 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 
 ## घर.4 · पास
 
-| Field                              | Why it is there                                  |
-| ---------------------------------- | ------------------------------------------------ |
-| अभी: the state, the line, the rule | What the dot means, in words                     |
-| 1–4 फ़ोन · ₹199 / 299 / 399 / 499  | The four tiers; above four, WhatsApp             |
-| UPI से · QR — कोई और भरे           | Same phone, or someone in India pays             |
-| "ख़रीदना अभी चालू नहीं है"         | Said plainly while the aggregator does not exist |
-| भारत में बैठकर आज़माइए             | The counter, testable from India                 |
+| Field                                 | Why it is there                                                                   |
+| ------------------------------------- | --------------------------------------------------------------------------------- |
+| अभी: the state, the line, the rule    | What the dot means, in words                                                      |
+| 1–4 फ़ोन · ₹199 / 299 / 399 / 499     | The phones, chosen first; above four, WhatsApp                                    |
+| "इस कोड पर एक ही फ़ोन चलता है"        | A single code locks the phones to one; said, not discovered                       |
+| कोड · लगाएँ                           | A code from an advertisement or an operator; pre-filled when the URL brought it   |
+| The code's line                       | Unknown, not yet, ended, used up, used here, needs a moment of network — one each |
+| कुल · the list price struck through   | What is owed after the code, from the one price rule                              |
+| "SS-7K3M2X · 50% छूट"                 | What the code gave, so the total is not a mystery                                 |
+| पास लें — मुफ़्त                      | A ₹0 total: the pass, issued and installed on the spot                            |
+| UPI से · QR — कोई और भरे              | Same phone, or someone in India pays, when the total is above ₹0                  |
+| "ख़रीदना अभी चालू नहीं है"            | Said plainly while the aggregator does not exist                                  |
+| "बाक़ी ₹149 ख़रीद खुलने पर"           | A partial code issues nothing; the balance and the code wait for UPI              |
+| परिवार · a QR per phone · भेजें       | Slots 2–4 as links the other phone's own camera opens; no scanner in the app      |
+| "पास इस फ़ोन पर लग गया" / did not     | What a scanned QR did, on the phone that scanned it                               |
+| "यह पास किसी और फ़ोन पर पहले लग चुका" | Decision 005's reconciliation, said once, in one line                             |
+| भारत में बैठकर आज़माइए                | The counter, testable from India                                                  |
 
 ## 1.1 · खाना › क्या खाएँ · 1.2 · नतीजे
 

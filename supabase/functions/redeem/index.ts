@@ -106,6 +106,7 @@ Deno.serve(async (request: Request): Promise<Response> => {
     deviceId?: unknown;
     code?: unknown;
     slots?: unknown;
+    quoteOnly?: unknown;
     platform?: unknown;
     appVersion?: unknown;
     landedAt?: unknown;
@@ -178,7 +179,8 @@ Deno.serve(async (request: Request): Promise<Response> => {
     discount: terms,
   };
   // A balance is not ours to take yet: UPI is not live. The app says so and keeps the code.
-  if (payable > 0) return json({ ...quote, payable, issued: false });
+  // And a quote is a quote: the field's लगाएँ asks what the code is worth, the button takes it.
+  if (payable > 0 || payload.quoteOnly === true) return json({ ...quote, payable, issued: false });
 
   const pkcs8 = Deno.env.get('PASS_SIGNING_KEY');
   if (pkcs8 === undefined || pkcs8 === '') return refuse('unsigned');

@@ -39,8 +39,8 @@ describe('the interface catalogues', () => {
   });
 
   it('substitutes counts into both languages', () => {
-    expect(translate('hi', 'home.nudge', { hours: 4 })).toBe('आपका मुफ़्त दिन 4 घंटे में ख़त्म');
-    expect(translate('en', 'home.nudge', { hours: 4 })).toBe('Your free day ends in 4 hours');
+    expect(translate('hi', 'home.tile.trial', { hours: 4 })).toBe('4 घंटे बाक़ी · पास लें');
+    expect(translate('en', 'home.tile.trial', { hours: 4 })).toBe('4 hours left · get pass');
   });
 
   it('leaves an unknown placeholder visible rather than printing "undefined"', () => {

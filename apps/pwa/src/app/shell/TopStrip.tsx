@@ -3,7 +3,7 @@ import { LOCALES, LOCALE_LABEL } from '../../i18n/index.js';
 import { navigate } from '../routes.js';
 import { Icon } from './icons.js';
 import { Logo } from './Logo.js';
-import { NUDGE_FROM_HOURS_LEFT, type Validity } from '../../features/pass/entitlement.js';
+import { NUDGE_FROM_HOURS_LEFT, type Validity } from '../../features/pass/index.js';
 import type { SavedHotel } from '../../features/info/index.js';
 
 /**

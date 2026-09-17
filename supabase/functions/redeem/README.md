@@ -34,9 +34,11 @@ Migration `0007_coupons.sql` must be applied first: `redeem` calls its `redeem_c
 
 ## Requests
 
-`POST /functions/v1/redeem` with `{ deviceId, code, slots, platform?, appVersion?, landedAt? }`
+`POST /functions/v1/redeem` with
+`{ deviceId, code, slots, quoteOnly?, platform?, appVersion?, landedAt? }`
 
-- `{ payable: 149, code, kind, listPrice, discount, issued: false }` — a balance remains.
+- `{ payable: 149, code, kind, listPrice, discount, issued: false }` — a balance remains, or
+  `quoteOnly` was set (then `payable` may be 0 and the app's button asks again without it).
 - `{ payable: 0, issued: true, passes: SignedPass[] }` — slot 1 first; the app installs it and
   keeps 2–4 as the family QRs.
 - `{ reason }` with a 4xx: `unknown` · `not-yet` · `ended` · `exhausted` · `already-redeemed` ·

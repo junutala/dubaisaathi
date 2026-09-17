@@ -86,7 +86,7 @@ export function parseCouponArgs(argv: readonly string[]): CouponBatchArgs {
  */
 export function couponRows(
   args: CouponBatchArgs,
-  random: (bytes: Uint8Array) => Uint8Array,
+  random: (bytes: Uint8Array<ArrayBuffer>) => Uint8Array,
 ): readonly CouponRow[] {
   const codes = new Set<string>();
   while (codes.size < args.count) {

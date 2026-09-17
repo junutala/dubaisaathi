@@ -2,8 +2,8 @@ import { useSettings } from '../../app/settings.js';
 import { navigate, type Route } from '../../app/routes.js';
 import { Icon, type IconName } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
-import type { Validity } from '../pass/entitlement.js';
 import { BUILD } from '../../app/version.js';
+import { HOME_TILES, HomeTile, type HomeTileState } from './HomeTile.js';
 
 interface PillarDef {
   readonly key: StringKey;
@@ -52,42 +52,17 @@ const PILLARS: readonly PillarDef[] = [
 ];
 
 /**
- * घर — the three pillars, and from the twentieth hour of the Dubai day, the nudge.
+ * घर — the hotel above (on the strip), the three pillars, and the pass tile below them
+ * (decision 018). The product in the middle; what the traveller keeps and what they pay for at
+ * either edge. It never scrolls: the blocks give up the tile's height.
  *
  * There is no box here and no microphone. A sentence needs a screen to give it meaning, and each
  * pillar's own box already knows what the words typed into it are for.
  */
-export function HomeScreen({
-  validity,
-  nudge,
-}: {
-  readonly validity: Validity;
-  readonly nudge: boolean;
-}) {
+export function HomeScreen({ tile }: { readonly tile: HomeTileState }) {
   const { t } = useSettings();
   return (
     <div className="home">
-      {nudge && (
-        <div className="nudge">
-          <span className="nudge-text">
-            <span className="nudge-head">
-              {validity.state === 'expired'
-                ? t('home.nudgeOver')
-                : t('home.nudge', { hours: validity.hours ?? 0 })}
-            </span>
-            <span className="nudge-why">{t('home.nudgeWhy')}</span>
-          </span>
-          <button
-            type="button"
-            className="nudge-cta"
-            onClick={() => {
-              navigate({ screen: 'pass' });
-            }}
-          >
-            {t('home.nudgeCta')}
-          </button>
-        </div>
-      )}
       <div className="pillars">
         {PILLARS.map((pillar) => (
           <button
@@ -111,6 +86,9 @@ export function HomeScreen({
           </button>
         ))}
       </div>
+      {HOME_TILES.filter((def) => def.visible(tile)).map((def) => (
+        <HomeTile key={def.id} tile={def} state={tile} />
+      ))}
       {/* Which build this is, on घर only and in the smallest type on the screen. The owner and
           whoever fixed something need to know they are looking at the new one; nobody else
           reads it. It can be taken off once a deploy is trusted on sight. */}

@@ -76,7 +76,7 @@ export function couponCode(kind: CouponKind, random: Uint8Array): string {
   if (random.length < COUPON_BODY_LENGTH) throw new Error('need six random bytes for a code');
   let body = '';
   for (let i = 0; i < COUPON_BODY_LENGTH; i += 1) {
-    body += COUPON_ALPHABET[(random[i] ?? 0) % COUPON_ALPHABET.length];
+    body += COUPON_ALPHABET.charAt((random[i] ?? 0) % COUPON_ALPHABET.length);
   }
   return `${COUPON_PREFIX[kind]}-${body}`;
 }

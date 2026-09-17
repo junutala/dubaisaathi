@@ -66,6 +66,22 @@ export interface Entitlement {
   /** The signed pass this device is running on, so a sync can reconcile it against its slot. */
   readonly passId?: string;
   readonly slot?: number;
+  /** The pass itself, so `bind` can send exactly what was signed (decision 005). */
+  readonly pass?: SignedPass;
+  /** How many phones the pass covers. Slots 2–4 are the QR codes on घर.4. */
+  readonly slots?: number;
+  /**
+   * The passes for slots 2–4, kept on the buyer's phone only, so the QR codes survive a reload
+   * and a fortnight. Whoever scans one gets it; nobody else ever sees these.
+   */
+  readonly familyPasses?: readonly SignedPass[];
+  /** When `bind` last confirmed this phone's slot — asked at most once a day (decision 005). */
+  readonly bindCheckedAt?: string;
+  /**
+   * Why a pass this phone held was cleared: the slot was reported by another phone first, or
+   * the buyer removed it. घर.4 says so in one line until the next pass is installed.
+   */
+  readonly passLost?: 'taken' | 'revoked';
 }
 
 function read(): Entitlement {
@@ -76,11 +92,17 @@ function read(): Entitlement {
     // Private mode, or something that is not ours. A fresh install is the safe reading.
   }
   const fresh: Entitlement = { installedAt: new Date().toISOString() };
-  write(fresh);
+  store(fresh);
   return fresh;
 }
 
-function write(next: Entitlement): void {
+/**
+ * Every change is announced, so the screens that show the pass — घर's tile, घर.4, the bar —
+ * re-read it without polling, whichever module made the change (a scan, a code, a sync).
+ */
+const CHANGED = 'saathi:entitlement';
+
+function store(next: Entitlement): void {
   try {
     localStorage.setItem(KEY, JSON.stringify(next));
   } catch {
@@ -88,8 +110,33 @@ function write(next: Entitlement): void {
   }
 }
 
+/** A change worth telling the screens about. A first read's fresh record is not one. */
+function write(next: Entitlement): void {
+  store(next);
+  if (typeof window !== 'undefined') window.dispatchEvent(new Event(CHANGED));
+}
+
+export function watchEntitlement(onChange: () => void): () => void {
+  window.addEventListener(CHANGED, onChange);
+  return () => {
+    window.removeEventListener(CHANGED, onChange);
+  };
+}
+
 export function entitlement(): Entitlement {
   return read();
+}
+
+/** The record without some fields — the only way to drop one, since none may be `undefined`. */
+function omit<K extends keyof Entitlement>(
+  state: Entitlement,
+  keys: readonly K[],
+): Omit<Entitlement, K> {
+  const kept: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(state)) {
+    if (!(keys as readonly string[]).includes(key)) kept[key] = value;
+  }
+  return kept as Omit<Entitlement, K>;
 }
 
 export function updateEntitlement(patch: Partial<Entitlement>): Entitlement {
@@ -182,6 +229,12 @@ export function stopPretending(): Entitlement {
     pretendingDubai: false,
     ...(current.paid === undefined ? {} : { paid: current.paid }),
     ...(current.groupEndsAt === undefined ? {} : { groupEndsAt: current.groupEndsAt }),
+    ...(current.passId === undefined ? {} : { passId: current.passId }),
+    ...(current.slot === undefined ? {} : { slot: current.slot }),
+    ...(current.pass === undefined ? {} : { pass: current.pass }),
+    ...(current.slots === undefined ? {} : { slots: current.slots }),
+    ...(current.familyPasses === undefined ? {} : { familyPasses: current.familyPasses }),
+    ...(current.bindCheckedAt === undefined ? {} : { bindCheckedAt: current.bindCheckedAt }),
   };
   write(next);
   return next;
@@ -202,13 +255,50 @@ export function recordPayment(groupEndsAt?: string): Entitlement {
  */
 export async function installPass(pass: SignedPass): Promise<boolean> {
   if (!(await verifyPass(pass))) return false;
-  updateEntitlement({
+  write({
+    ...omit(read(), ['passLost', 'bindCheckedAt', 'groupEndsAt']),
     paid: true,
     passId: pass.claims.passId,
     slot: pass.claims.slot,
+    pass,
     ...(pass.claims.counterOffAt === undefined ? {} : { groupEndsAt: pass.claims.counterOffAt }),
   });
   return true;
+}
+
+/**
+ * The buyer's phone keeps slots 2–4 so घर.4 can show their QR codes for the whole trip. Only
+ * the phone that redeemed or paid ever holds these; a scanned pass carries just its own slot.
+ */
+export function keepFamilyPasses(slots: number, passes: readonly SignedPass[]): Entitlement {
+  return updateEntitlement({ slots, familyPasses: passes });
+}
+
+export function noteBindChecked(): Entitlement {
+  return updateEntitlement({ bindCheckedAt: new Date().toISOString() });
+}
+
+/**
+ * The server said this slot is not this phone's — another phone reported it first, or the
+ * buyer removed it (decision 005). The pass goes, `paid` with it, and one line on घर.4 says
+ * why. The trial and the landing are untouched: they were never the pass's to give or take.
+ */
+export function clearPass(reason: 'taken' | 'revoked'): Entitlement {
+  const next: Entitlement = {
+    ...omit(read(), [
+      'passId',
+      'slot',
+      'pass',
+      'slots',
+      'familyPasses',
+      'groupEndsAt',
+      'bindCheckedAt',
+    ]),
+    paid: false,
+    passLost: reason,
+  };
+  write(next);
+  return next;
 }
 
 /** When the counter runs out, or `null` while the traveller has not landed. */

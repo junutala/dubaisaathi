@@ -1,5 +1,6 @@
 import type { VoiceEvent, VoiceFailure } from '@saathi/shared';
 import { db } from '../../db/schema.js';
+import { deviceId } from '../../lib/device.js';
 
 /**
  * The learning loop, from day one (CLAUDE.md, "Learning loop"). Every voice interaction is
@@ -31,16 +32,6 @@ export function detectScript(text: string): VoiceEvent['script'] {
   const roman = /[A-Za-z]/.test(text);
   if (devanagari && roman) return 'mixed';
   return devanagari ? 'devanagari' : 'roman';
-}
-
-function deviceId(): string {
-  const key = 'saathi.deviceId';
-  let id = localStorage.getItem(key);
-  if (!id) {
-    id = crypto.randomUUID();
-    localStorage.setItem(key, id);
-  }
-  return id;
 }
 
 export async function recordVoiceEvent(input: VoiceEventInput): Promise<VoiceEvent> {
