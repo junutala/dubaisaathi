@@ -319,7 +319,7 @@ button:not(:disabled) {
   opacity: 0.85;
 }
 
-/* ---- घर: the three pillars, and the nudge ---------------------------------------------- */
+/* ---- घर: the three pillars, and the pass tile under them ------------------------------- */
 
 .home {
   flex: 1;
@@ -327,40 +327,50 @@ button:not(:disabled) {
   flex-direction: column;
   gap: 10px;
   padding: 10px 16px 12px;
+  /* Never scrolls: the blocks give up the tile's height (decision 018). */
+  min-height: 0;
+  overflow: hidden;
 }
-.nudge {
+/* The pass tile: the shape of the strip's hotel row, in marigold, never red. Warms from the
+   twentieth hour of the Dubai day — the old nudge's moment — and stays the same shape. */
+.home-tile {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
+  gap: 10px;
+  min-height: 56px;
+  padding: 10px 12px;
   border-radius: 14px;
   background: var(--marigoldSoft);
+  color: var(--marigoldText);
+  width: 100%;
+  flex-shrink: 0;
 }
-.nudge-text {
+.home-tile-warm {
+  background: var(--marigold);
+  color: var(--onMarigold);
+}
+.home-tile-text {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
   flex: 1;
   min-width: 0;
 }
-.nudge-head {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--marigoldText);
-}
-.nudge-why {
-  font-size: 13px;
-  color: var(--ink);
-}
-.nudge-cta {
-  min-height: 44px;
-  padding: 0 14px;
-  border-radius: 12px;
-  background: var(--marigold);
-  color: var(--onMarigold);
-  font-size: 13.5px;
+.home-tile-name {
+  font-size: 14.5px;
   font-weight: 700;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.35;
+}
+.home-tile-why {
+  font-size: 12px;
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.35;
 }
 .home-build {
   font-size: 10px;
@@ -375,11 +385,12 @@ button:not(:disabled) {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  min-height: 0;
 }
 .pillar {
   position: relative;
   flex: 1;
-  min-height: 150px;
+  min-height: 120px;
   border-radius: 26px;
   overflow: hidden;
   display: flex;
@@ -979,6 +990,109 @@ button:not(:disabled) {
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
   font-size: 20px;
   font-weight: 700;
+}
+
+/* The code, the total and the family QRs (decision 018). */
+.coupon-input {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+.coupon-input::placeholder {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+.coupon-apply {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+  background: var(--marigold);
+  color: var(--onMarigold);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.coupon-apply:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+/* One honest line under the field: marigold or muted, never red. */
+.pass-line {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--marigoldText);
+}
+.pass-line-good {
+  color: var(--tealText);
+}
+.total {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--tile);
+  border: 1px solid var(--line);
+}
+.total-label {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 600;
+}
+.total-amount {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+.total-list {
+  font-size: 14px;
+  color: var(--muted);
+  text-decoration: line-through;
+}
+.qr-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+}
+.qr-svg {
+  width: 132px;
+  height: 132px;
+  flex-shrink: 0;
+  padding: 6px;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #141826;
+}
+.qr-text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+.qr-slot {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+.qr-share {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--line);
+  font-size: 14px;
+  font-weight: 700;
+  align-self: flex-start;
 }
 
 /* ---- 1.3 · the outlet, 1.4 · the menu grid --------------------------------------------- */
@@ -1740,6 +1854,7 @@ button:not(:disabled) {
   .screen {
     max-width: 760px;
   }
+  /* The three blocks in a row; the pass tile spans the width beneath them. */
   .pillars {
     flex-direction: row;
   }

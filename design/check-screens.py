@@ -19,6 +19,8 @@ NO_CHROME = {'Landing', 'Names'}
 HOME = {'Home', 'HomeDark', 'HomeTrial', 'HomePaid'}
 NAME_MARK = 'दुबई साथी'
 BACK_ICON = 'M15 5l-7 7 7 7'
+TICKET_ICON = 'M4 8a2 2 0 0 1 2-2h12'
+BAR_TOP = 'border-top: 1px solid'
 LIGHT_SURFACES = ['#FFFDF9', '#F7F3EC', '#E6DED2', '#141826']
 
 failures: list[str] = []
@@ -82,6 +84,14 @@ def main() -> int:
                 fail(name, 'the pillars are out of order: खाना, जाना, जानना')
             if 'type="text"' in text or '<input' in text:
                 fail(name, 'home carries a box')
+            # Rule 13: the pass tile sits at the foot of घर — after the last pillar, before
+            # the bar — and is never red (rule 2 covers the colour).
+            tile = text.find(TICKET_ICON)
+            bar = text.find(BAR_TOP)
+            if tile < 0:
+                fail(name, 'home has no pass tile')
+            elif not (max(order) < tile < bar):
+                fail(name, 'the pass tile is not between the pillars and the bar')
 
         # Rule 6: every screen that is not home has a way back.
         if name not in HOME and BACK_ICON not in text:

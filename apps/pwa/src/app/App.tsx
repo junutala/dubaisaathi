@@ -4,16 +4,23 @@ import { applyUpdateIfIdle } from './updates.js';
 import { TopStrip } from './shell/TopStrip.js';
 import { TabBar } from './shell/TabBar.js';
 import { HomeScreen } from '../features/home/HomeScreen.js';
+import type { HomeTileState } from '../features/home/HomeTile.js';
 import { FoodListScreen, MenuScreen, OutletScreen } from '../features/food/index.js';
-import { PassScreen } from '../features/pass/PassScreen.js';
-import { LandingScreen } from '../features/landing/LandingScreen.js';
 import {
+  PassScreen,
   canBuy,
+  entitlement,
   isGated,
   needsNudge,
   noteLocationReading,
+  pendingCoupon,
+  startCouponRetry,
+  startPassReconcile,
+  takeCodeFromUrl,
   validity,
-} from '../features/pass/entitlement.js';
+  watchEntitlement,
+} from '../features/pass/index.js';
+import { LandingScreen } from '../features/landing/LandingScreen.js';
 import { currentLocation } from '../lib/location.js';
 import {
   DocumentAddScreen,
@@ -49,7 +56,12 @@ export function App() {
       return true;
     }
   });
-  const [route, setRoute] = useState<Route>(() => parseRoute(window.location.hash));
+  const [route, setRoute] = useState<Route>(() => {
+    // `?code=…` from an advertisement is read once and taken off the URL before the route is,
+    // so it reaches घर.4's field rather than the router (decision 018).
+    takeCodeFromUrl();
+    return parseRoute(window.location.hash);
+  });
   /** The hotel on the strip, read once and again whenever घर.1 saves. */
   const [hotel, setHotel] = useState<SavedHotel | undefined>(undefined);
 
@@ -75,6 +87,32 @@ export function App() {
     return () => {
       live = false;
       stop();
+    };
+  }, []);
+
+  /**
+   * The pass changes outside the render — a code redeemed, a QR scanned, a slot the server
+   * said was somebody else's — and every screen that shows it re-reads on the announcement.
+   */
+  const [, setPassRevision] = useState(0);
+  useEffect(
+    () =>
+      watchEntitlement(() => {
+        setPassRevision((n) => n + 1);
+      }),
+    [],
+  );
+
+  /**
+   * A code applied with no signal goes when there is some; a scanned slot is reported when
+   * there is some (decision 005). Both on boot and on `online`, neither ever in the way.
+   */
+  useEffect(() => {
+    const stopCoupon = startCouponRetry();
+    const stopReconcile = startPassReconcile();
+    return () => {
+      stopCoupon();
+      stopReconcile();
     };
   }, []);
 
@@ -142,17 +180,28 @@ export function App() {
 
   const now = new Date(clock);
   const state = validity(now);
+  const pass = entitlement();
+  const pending = pass.paid === true ? null : pendingCoupon();
+  const tile: HomeTileState = {
+    validity: state,
+    nudge: needsNudge(now),
+    paid: pass.paid === true,
+    slots: pass.slots ?? 1,
+    ...(pending === null
+      ? {}
+      : { pendingCode: { code: pending.code, free: pending.quote?.payable === 0 } }),
+  };
 
   return (
     <div className="screen">
       <TopStrip validity={state} hotel={hotel} />
       <main className="body">
-        {route.screen === 'home' && <HomeScreen validity={state} nudge={needsNudge(now)} />}
+        {route.screen === 'home' && <HomeScreen tile={tile} />}
         {route.screen === 'hotel' && <HotelScreen hotel={hotel} />}
         {route.screen === 'docs' && <DocsScreen />}
         {route.screen === 'docAdd' && <DocumentAddScreen />}
         {route.screen === 'docView' && <DocumentScreen docId={route.docId} />}
-        {route.screen === 'pass' && <PassScreen />}
+        {route.screen === 'pass' && <PassScreen token={route.token} />}
         {route.screen === 'food' && <FoodListScreen dish={route.dish} hotel={hotel} />}
         {route.screen === 'outlet' && <OutletScreen outletId={route.outletId} hotel={hotel} />}
         {route.screen === 'menu' && <MenuScreen outletId={route.outletId} />}

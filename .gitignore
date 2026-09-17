@@ -18,3 +18,6 @@ dist/models/
 apps/pwa/screenshots/
 
 apps/field/screenshots/
+
+# Coupon batches from `npm run coupons` — hand them to the advertiser, do not commit them.
+coupons-*.txt

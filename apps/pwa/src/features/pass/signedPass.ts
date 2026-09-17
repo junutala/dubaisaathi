@@ -110,39 +110,44 @@ export function encodePass(pass: SignedPass): string {
 }
 
 /**
- * A QR code is bytes somebody pointed a camera at, so nothing inside it is typed until this
- * function says so. Every field is checked here and nowhere else — after this the pass is a
- * `SignedPass` and the rest of the app can treat it as one.
+ * A QR code is bytes somebody pointed a camera at, and a server response is bytes somebody
+ * sent, so nothing inside either is typed until this function says so. Every field is checked
+ * here and nowhere else — after this the pass is a `SignedPass` and the rest of the app can
+ * treat it as one.
  */
+export function readPass(raw: unknown): SignedPass | null {
+  if (typeof raw !== 'object' || raw === null) return null;
+  const { claims, signature } = raw as { claims?: unknown; signature?: unknown };
+  if (typeof signature !== 'string') return null;
+  if (typeof claims !== 'object' || claims === null) return null;
+
+  const c = claims as Record<string, unknown>;
+  const hours = typeof c.hours === 'number' && Number.isFinite(c.hours) ? c.hours : PAID_HOURS;
+  if (
+    typeof c.passId !== 'string' ||
+    typeof c.familyId !== 'string' ||
+    typeof c.slot !== 'number' ||
+    c.kind !== 'paid'
+  ) {
+    return null;
+  }
+  return {
+    signature,
+    claims: {
+      passId: c.passId,
+      familyId: c.familyId,
+      slot: c.slot,
+      kind: 'paid',
+      hours: hours > 0 ? hours : PAID_HOURS,
+      ...(typeof c.counterOffAt === 'string' ? { counterOffAt: c.counterOffAt } : {}),
+    },
+  };
+}
+
+/** What a scanned QR, or the link it carried, decodes to — or nothing, for anything else. */
 export function decodePass(scanned: string): SignedPass | null {
   try {
-    const raw: unknown = JSON.parse(new TextDecoder().decode(fromBase64(scanned)));
-    if (typeof raw !== 'object' || raw === null) return null;
-    const { claims, signature } = raw as { claims?: unknown; signature?: unknown };
-    if (typeof signature !== 'string') return null;
-    if (typeof claims !== 'object' || claims === null) return null;
-
-    const c = claims as Record<string, unknown>;
-    const hours = typeof c.hours === 'number' && Number.isFinite(c.hours) ? c.hours : PAID_HOURS;
-    if (
-      typeof c.passId !== 'string' ||
-      typeof c.familyId !== 'string' ||
-      typeof c.slot !== 'number' ||
-      c.kind !== 'paid'
-    ) {
-      return null;
-    }
-    return {
-      signature,
-      claims: {
-        passId: c.passId,
-        familyId: c.familyId,
-        slot: c.slot,
-        kind: 'paid',
-        hours: hours > 0 ? hours : PAID_HOURS,
-        ...(typeof c.counterOffAt === 'string' ? { counterOffAt: c.counterOffAt } : {}),
-      },
-    };
+    return readPass(JSON.parse(new TextDecoder().decode(fromBase64(scanned))));
   } catch {
     return null;
   }

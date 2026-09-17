@@ -2,6 +2,7 @@ import type { VoiceEvent } from '@saathi/shared';
 import { db } from '../../db/schema.js';
 import { pendingVoiceEvents } from './voiceEvent.js';
 import { PROJECT_URL, supabaseHeaders } from '../../lib/supabase.js';
+import { platform } from '../../lib/device.js';
 
 /**
  * Sending the queue to the server, when the phone happens to have a connection.
@@ -16,14 +17,6 @@ import { PROJECT_URL, supabaseHeaders } from '../../lib/supabase.js';
  */
 
 const COLLECT = `${PROJECT_URL}/functions/v1/collect`;
-
-/** Coarse and self-reported, for reading the data by platform. Never a fingerprint. */
-function platform(): 'android' | 'ios' | 'other' {
-  const agent = navigator.userAgent;
-  if (/Android/i.test(agent)) return 'android';
-  if (/iPhone|iPad|iPod/i.test(agent)) return 'ios';
-  return 'other';
-}
 
 /**
  * What goes on the wire. The device id travels once on the envelope rather than on every row,

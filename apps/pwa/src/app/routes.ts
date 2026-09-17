@@ -13,8 +13,8 @@ export type Route =
   | { readonly screen: 'docs' }
   | { readonly screen: 'docAdd' }
   | { readonly screen: 'docView'; readonly docId: string }
-  // घर.4 · पास
-  | { readonly screen: 'pass' }
+  // घर.4 · पास — with a token when a family QR (or its link) opened the app (decision 005)
+  | { readonly screen: 'pass'; readonly token?: string }
   // 1.1 / 1.2 · खाना — one screen; a dish in the box is what makes it 1.2
   | { readonly screen: 'food'; readonly dish?: string }
   // 1.3 · the outlet, 1.4 · its menu
@@ -47,7 +47,7 @@ export function parseRoute(hash: string): Route {
     case 'doc':
       return arg ? { screen: 'docView', docId: arg } : { screen: 'docs' };
     case 'pass':
-      return { screen: 'pass' };
+      return arg ? { screen: 'pass', token: arg } : { screen: 'pass' };
     case 'food':
       return arg ? { screen: 'food', dish: decodeURIComponent(arg) } : { screen: 'food' };
     case 'outlet':
@@ -88,7 +88,7 @@ export function href(route: Route): string {
     case 'docView':
       return `#/doc/${route.docId}`;
     case 'pass':
-      return '#/pass';
+      return route.token === undefined ? '#/pass' : `#/pass/${route.token}`;
     case 'food':
       return route.dish === undefined ? '#/food' : `#/food/${encodeURIComponent(route.dish)}`;
     case 'outlet':
