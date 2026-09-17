@@ -464,10 +464,14 @@ GoDaddy). `npm run verify` is green. The day's additions, in the order they happ
 
 What is left, in this order:
 
-1. **The 2026 RTA feed** — one download from a UAE connection (a collector's phone, or the
-   owner's AWS account in me-central-1 once it is verified), then a file swap and
+1. **The 2026 RTA feed** — one download from a UAE connection, then a file swap and
    `npm run publish:transport`. Give Devanagari names to any station new since 2021 in
-   `data/transport/stations.v1.json`.
+   `data/transport/stations.v1.json`. **The owner is in Dubai from 22 September**: the feed
+   downloads on his phone there, and he collects Meena Bazaar's eateries that day (about three
+   hours) and Karama over the following two — the first real content for खाना. Before he goes:
+   a dry run of the collectors' app in India, one made-up outlet uploaded, published with
+   `npm run publish:outlets -- --rows` and deleted, so the chain is proven. After each of his
+   days, pull the approved rows, publish, deploy.
 2. **Buying a pass.** The `orders` table exists; no function creates an order, takes the
    aggregator's webhook or signs a pass. Until it does, `VITE_PURCHASE_LIVE` stays off, the
    buttons on घर.4 say so, nothing is gated, and the website says purchase opens shortly.
