@@ -66,6 +66,39 @@ const LANG: Record<string, string> = {
   mr: 'mr-IN',
 };
 
+/**
+ * What we may tell Sarvam the recording is.
+ *
+ * Chrome on Android records `audio/webm;codecs=opus`, which is what every MediaRecorder in this
+ * product asks for first, and on 17 September Sarvam refused it by name: its list admits mpeg,
+ * wav, aac, aiff, ogg, opus, flac, mp4 and `application/octet-stream` — and not webm. The bytes
+ * are fine; the label is what it will not take. So the label is dropped rather than lied about:
+ * `application/octet-stream` claims nothing, is explicitly on their list, and leaves their
+ * decoder to read the container it actually has. The file name keeps its real extension so a
+ * decoder that sniffs by name gets the truth from there.
+ *
+ * This is where a faithful port of pumpini's `transcribeService.js` was not enough. There the
+ * recording passes through an upload middleware before it is forwarded, and what reaches Sarvam
+ * is not labelled the way a browser's own recording is. The call was copied correctly and the
+ * assumption underneath it did not travel.
+ */
+function typeSarvamAccepts(recorded: string): string {
+  const type = recorded.split(';')[0]?.trim().toLowerCase() ?? '';
+  const plainlyFine = [
+    'audio/ogg',
+    'audio/opus',
+    'audio/mp4',
+    'audio/mpeg',
+    'audio/mp3',
+    'audio/wav',
+    'audio/x-wav',
+    'audio/aac',
+    'audio/flac',
+    'audio/x-m4a',
+  ];
+  return plainlyFine.includes(type) ? type : 'application/octet-stream';
+}
+
 function json(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
     status,
@@ -105,12 +138,14 @@ Deno.serve(async (request: Request): Promise<Response> => {
   const languageCode = (typeof hint === 'string' ? LANG[hint] : undefined) ?? 'en-IN';
 
   const name = audio.name === '' ? 'audio.webm' : audio.name;
+  const sending = typeSarvamAccepts(audio.type);
   console.log(
-    `listen: ${String(audio.size)}B type=${audio.type || 'none'} name=${name} lang=${languageCode}`,
+    `listen: ${String(audio.size)}B recorded=${audio.type || 'none'} sending=${sending} name=${name} lang=${languageCode}`,
   );
 
+  const bytes = new Uint8Array(await audio.arrayBuffer());
   const outgoing = new FormData();
-  outgoing.append('file', audio, name);
+  outgoing.append('file', new File([bytes], name, { type: sending }), name);
   outgoing.append('model', 'saaras:v3');
   // See the note at the top: `translate` is what makes any Indian language come back as English.
   outgoing.append('mode', 'translate');
