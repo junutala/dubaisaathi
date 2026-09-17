@@ -15,6 +15,11 @@ export type Route =
   | { readonly screen: 'docView'; readonly docId: string }
   // घर.4 · पास — with a token when a family QR (or its link) opened the app (decision 005)
   | { readonly screen: 'pass'; readonly token?: string }
+  // घर.5 · बोलना, and घर.6 · its Arabic (decision 020). The sentence rides on the route rather
+  // than in a module nobody can see: the Arabic screen then survives a reload and says, in its
+  // own address, exactly what it is showing.
+  | { readonly screen: 'bolna' }
+  | { readonly screen: 'bolnaArabic'; readonly text: string }
   // 1.1 / 1.2 · खाना — one screen; a dish in the box is what makes it 1.2
   | { readonly screen: 'food'; readonly dish?: string }
   // 1.3 · the outlet, 1.4 · its menu
@@ -48,6 +53,10 @@ export function parseRoute(hash: string): Route {
       return arg ? { screen: 'docView', docId: arg } : { screen: 'docs' };
     case 'pass':
       return arg ? { screen: 'pass', token: arg } : { screen: 'pass' };
+    case 'bolna':
+      return { screen: 'bolna' };
+    case 'bolna-arabic':
+      return arg ? { screen: 'bolnaArabic', text: decodeURIComponent(arg) } : { screen: 'bolna' };
     case 'food':
       return arg ? { screen: 'food', dish: decodeURIComponent(arg) } : { screen: 'food' };
     case 'outlet':
@@ -89,6 +98,10 @@ export function href(route: Route): string {
       return `#/doc/${route.docId}`;
     case 'pass':
       return route.token === undefined ? '#/pass' : `#/pass/${route.token}`;
+    case 'bolna':
+      return '#/bolna';
+    case 'bolnaArabic':
+      return `#/bolna-arabic/${encodeURIComponent(route.text)}`;
     case 'food':
       return route.dish === undefined ? '#/food' : `#/food/${encodeURIComponent(route.dish)}`;
     case 'outlet':
@@ -141,6 +154,8 @@ export function pillarOf(route: Route): Pillar {
     case 'home':
     case 'hotel':
     case 'pass':
+    case 'bolna':
+    case 'bolnaArabic':
       return 'home';
   }
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { parseRoute, pillarOf, type Route } from './routes.js';
+import { useSettings } from './settings.js';
 import { applyUpdateIfIdle } from './updates.js';
 import { TopStrip } from './shell/TopStrip.js';
 import { TabBar } from './shell/TabBar.js';
@@ -39,6 +40,7 @@ import {
   TaxiScreen,
 } from '../features/transport/index.js';
 import { KnowScreen, PlaceScreen } from '../features/know/index.js';
+import { ArabicScreen, BolnaScreen } from '../features/speak/index.js';
 import { navigate } from './routes.js';
 
 /**
@@ -48,6 +50,11 @@ import { navigate } from './routes.js';
 const STARTED_KEY = 'saathi.started';
 
 export function App() {
+  // Whether the phone has a connection, from the provider that already listens for `online` and
+  // `offline`. घर's बोलना tile is not shown without one (decision 020), and it has to appear and
+  // disappear as the signal does — a tile that lies about being available is the defect that
+  // design exists to avoid.
+  const { online } = useSettings();
   const [started, setStarted] = useState(() => {
     try {
       return localStorage.getItem(STARTED_KEY) !== null;
@@ -192,6 +199,7 @@ export function App() {
     nudge: needsNudge(now),
     paid: pass.paid === true,
     slots: pass.slots ?? 1,
+    online,
     ...(pending === null
       ? {}
       : { pendingCode: { code: pending.code, free: pending.quote?.payable === 0 } }),
@@ -207,6 +215,8 @@ export function App() {
         {route.screen === 'docAdd' && <DocumentAddScreen />}
         {route.screen === 'docView' && <DocumentScreen docId={route.docId} />}
         {route.screen === 'pass' && <PassScreen token={route.token} />}
+        {route.screen === 'bolna' && <BolnaScreen />}
+        {route.screen === 'bolnaArabic' && <ArabicScreen text={route.text} />}
         {route.screen === 'food' && <FoodListScreen dish={route.dish} hotel={hotel} />}
         {route.screen === 'outlet' && <OutletScreen outletId={route.outletId} hotel={hotel} />}
         {route.screen === 'menu' && <MenuScreen outletId={route.outletId} />}

@@ -8,7 +8,7 @@ rule is agreed, it is added here before the screen is drawn. Sprint 1, frozen 16
 
 | #   | Rule                                                                                                                                                                                                           | Enforced by |
 | --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 1   | No microphone anywhere, and no invitation to speak. Every box is typed into.                                                                                                                                   | checker     |
+| 1   | No microphone on any board, and no invitation to speak in any box. Every box is typed into. The one microphone in the product is घर.5 · बोलना, online only, which has no artboard (decision 020).              | checker     |
 | 2   | Red is reserved and appears on no screen. The pass dot is green or marigold, never red.                                                                                                                        | checker     |
 | 3   | The top strip is on every screen after landing: the mark and the name (a tap goes home), online/offline, the pass dot, language, theme; then the hotel row.                                                    | checker     |
 | 4   | The bar is on every screen after landing: खाना · जाना · जानना · दस्तावेज़, four items evenly spaced, and nothing else. The pass is the strip's dot and घर's tile, never a button in the bar.                   | checker     |
