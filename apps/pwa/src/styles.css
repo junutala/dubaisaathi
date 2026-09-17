@@ -105,6 +105,35 @@ button:not(:disabled) {
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
 }
 
+/* ---- the lockup: the pin, the name, the flight trail (decision 021) ------------------- */
+/* One word, one capital, never translated. The face is Quicksand Bold cut down to the eight
+   letters of `Dubaisaathi` and shipped with the app, so the logo is real type on a phone with
+   no network. The trail's box is pinned to the word's right edge and measured in ems, which is
+   what lets the 22px strip and the 40px landing page share one rule. */
+.wordmark {
+  position: relative;
+  display: inline-block;
+  font-family: 'Quicksand Wordmark', 'Mukta', sans-serif;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+.wordmark-trail {
+  position: absolute;
+  right: -0.16em;
+  bottom: 0.88em;
+  width: 3.4em;
+  height: 0.76em;
+  overflow: visible;
+  pointer-events: none;
+}
+.wordmark-trail-line {
+  stroke: var(--marigold);
+}
+.wordmark-plane {
+  fill: var(--marigold);
+}
+
 .card {
   background: var(--tile);
   border: 1px solid var(--line);
@@ -139,7 +168,6 @@ button:not(:disabled) {
   min-height: 40px;
 }
 .strip-name {
-  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
   font-size: 22px;
   font-weight: 700;
   line-height: 1;
@@ -755,7 +783,6 @@ button:not(:disabled) {
   padding-top: 16px;
 }
 .landing-name {
-  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
   font-size: 40px;
   font-weight: 700;
   line-height: 1.1;

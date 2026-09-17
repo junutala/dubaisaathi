@@ -105,18 +105,18 @@ describe('creating an order', () => {
   it('carries the code, and takes the discounted price back', async () => {
     const { createOrder } = await load();
     const calls = answer(() => ({
-      json: { ...ORDER, amountInr: 149, slots: 2, code: 'SS-7K3M2X' },
+      json: { ...ORDER, amountInr: 149, slots: 2, code: 'SS7K3M2X' },
     }));
 
-    const created = await createOrder(2, 'SS-7K3M2X');
-    expect(created).toMatchObject({ kind: 'order', order: { amountInr: 149, code: 'SS-7K3M2X' } });
-    expect(calls[0]!.body).toMatchObject({ slots: 2, code: 'SS-7K3M2X' });
+    const created = await createOrder(2, 'SS7K3M2X');
+    expect(created).toMatchObject({ kind: 'order', order: { amountInr: 149, code: 'SS7K3M2X' } });
+    expect(calls[0]!.body).toMatchObject({ slots: 2, code: 'SS7K3M2X' });
   });
 
   it('refuses a code that makes the pass free — that one goes through redeem', async () => {
     const { createOrder } = await load();
     answer(() => ({ status: 409, json: { reason: 'free' } }));
-    expect(await createOrder(1, 'SS-FREEEE')).toEqual({ kind: 'refused', reason: 'free' });
+    expect(await createOrder(1, 'SSFREEEE')).toEqual({ kind: 'refused', reason: 'free' });
   });
 
   it('says so and asks for nothing with the radio off', async () => {
@@ -273,9 +273,9 @@ describe('an order left open', () => {
     const passes = await family(1);
     localStorage.setItem(
       'saathi.order',
-      JSON.stringify({ ...ORDER, amountInr: 199, slots: 1, code: 'SS-7K3M2X' }),
+      JSON.stringify({ ...ORDER, amountInr: 199, slots: 1, code: 'SS7K3M2X' }),
     );
-    localStorage.setItem('saathi.coupon', JSON.stringify({ code: 'SS-7K3M2X', slots: 1 }));
+    localStorage.setItem('saathi.coupon', JSON.stringify({ code: 'SS7K3M2X', slots: 1 }));
     const calls = answer(() => ({ json: { status: 'paid', passes } }));
 
     const stop = startOrderResume();

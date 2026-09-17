@@ -89,13 +89,13 @@ describe('घर', () => {
     ],
     [
       'with a free code waiting',
-      { pendingCode: { code: 'SS-7K3M2X', free: true } },
-      'आपका कोड SS-7K3M2X · मुफ़्त पास लें',
+      { pendingCode: { code: 'SS7K3M2X', free: true } },
+      'आपका कोड SS7K3M2X · मुफ़्त पास लें',
     ],
     [
       'with a partial code waiting',
-      { pendingCode: { code: 'OP-4HXR9B', free: false } },
-      'आपका कोड OP-4HXR9B · पास लें',
+      { pendingCode: { code: 'OP4HXR9B', free: false } },
+      'आपका कोड OP4HXR9B · पास लें',
     ],
     [
       'paid, one phone',

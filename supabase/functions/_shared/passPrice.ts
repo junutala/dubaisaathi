@@ -50,27 +50,35 @@ export function passPriceInr(slots: number, coupon?: CouponTerms | null): number
 export const COUPON_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 export const COUPON_BODY_LENGTH = 6;
 
-const CODE = /^[A-Z]{2}-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/;
+const CODE = /^[A-Z]{2}[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/;
 
-/** `SS-7K3M2X`, `OP-…`: two letters, a dash, six characters of the alphabet above. */
+/**
+ * `SSW9VASX`, `OP4HXR9B`: two letters and six characters of the alphabet above, eight in all,
+ * letters and digits and nothing else.
+ *
+ * The dash went on 17 September. A code is typed by someone standing in an airport with a bag
+ * in the other hand, and on every phone keyboard a dash is behind the `?123` key: the separator
+ * cost a flip out of the letters and a flip back, twice the taps of the character it separated.
+ * It bought nothing — the prefix is two letters and the body is six, and the eye finds that
+ * break without a mark.
+ */
 export function isCouponCode(value: string): boolean {
   return CODE.test(value);
 }
 
 /**
- * What a traveller typed, made into a code: upper-cased, spaces dropped, and the dash put in
- * if they left it out. `ss7k3m2x` and `SS-7K3M2X` are the same code.
+ * What a traveller typed, made into a code: upper-cased, with everything that is not a letter
+ * or a digit dropped. `ss7k3m2x`, `SS 7K3M 2X` and `SS-7K3M2X` off an old advertisement are all
+ * the same code — the dash is gone from what we print, never from what we accept.
  */
 export function normaliseCouponCode(typed: string): string {
-  const flat = typed.toUpperCase().replace(/[^A-Z0-9]/g, '');
-  if (flat.length <= 2) return flat;
-  return `${flat.slice(0, 2)}-${flat.slice(2)}`;
+  return typed.toUpperCase().replace(/[^A-Z0-9]/g, '');
 }
 
 /**
  * One code from random bytes: the prefix for the kind, then six characters chosen by the
- * bytes. Given bytes rather than drawing them so the caller decides the source of randomness
- * and a test can pin the output.
+ * bytes, with no separator between them. Given bytes rather than drawing them so the caller
+ * decides the source of randomness and a test can pin the output.
  */
 export function couponCode(kind: CouponKind, random: Uint8Array): string {
   if (random.length < COUPON_BODY_LENGTH) throw new Error('need six random bytes for a code');
@@ -78,5 +86,5 @@ export function couponCode(kind: CouponKind, random: Uint8Array): string {
   for (let i = 0; i < COUPON_BODY_LENGTH; i += 1) {
     body += COUPON_ALPHABET.charAt((random[i] ?? 0) % COUPON_ALPHABET.length);
   }
-  return `${COUPON_PREFIX[kind]}-${body}`;
+  return `${COUPON_PREFIX[kind]}${body}`;
 }

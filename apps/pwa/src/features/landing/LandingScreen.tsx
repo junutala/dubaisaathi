@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSettings } from '../../app/settings.js';
 import { Icon } from '../../app/shell/icons.js';
-import { Logo } from '../../app/shell/Logo.js';
+import { Logo, Wordmark } from '../../app/shell/Logo.js';
 import { LOCALES, LOCALE_LABEL } from '../../i18n/index.js';
 import { precacheCached, precacheTotal } from './precache.js';
 
@@ -62,7 +62,9 @@ export function LandingScreen({ onReady }: { readonly onReady: () => void }) {
     <div className="landing">
       <div className="landing-brand">
         <Logo size={80} />
-        <h1 className="landing-name">{t('app.name')}</h1>
+        <h1 className="landing-name">
+          <Wordmark name={t('app.name')} />
+        </h1>
         <p className="landing-offline">{t('landing.offline')}</p>
         <p className="landing-usp">{t('landing.usp')}</p>
         <ul className="landing-jobs">

@@ -7,11 +7,13 @@
 <body>
 <x-dc>
 <helmet>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Devanagari:wght@600;700&family=Mukta:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Devanagari:wght@600;700&family=Mukta:wght@400;500;600;700&family=Quicksand:wght@700&display=swap">
   <style>
     body { margin: 0; font-family: 'Mukta', 'Noto Sans Devanagari', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
     a { color: #9A5B10; } a:hover { color: #7A4A0C; }
     .disp { font-family: 'Anek Devanagari', 'Mukta', sans-serif; }
+    .wm { position: relative; display: inline-block; font-family: 'Quicksand', 'Mukta', sans-serif; font-weight: 700; line-height: 1; white-space: nowrap; }
+    .wm svg { position: absolute; right: -0.16em; bottom: 0.88em; width: 3.4em; height: 0.76em; overflow: visible; }
     svg { display: block; }
   </style>
 </helmet>

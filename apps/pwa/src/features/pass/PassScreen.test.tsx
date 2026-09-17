@@ -87,7 +87,7 @@ describe('घर.4', () => {
 
     const free = await screen.findByRole('button', { name: 'पास लें — मुफ़्त' });
     expect(screen.getByText('कुल').nextElementSibling?.textContent).toBe('मुफ़्त');
-    expect(screen.getByText('SS-7K3M2X · 100% छूट')).toBeTruthy();
+    expect(screen.getByText('SS7K3M2X · 100% छूट')).toBeTruthy();
     expect(screen.queryByRole('button', { name: /UPI/ })).toBeNull();
 
     fireEvent.click(free);
@@ -108,7 +108,7 @@ describe('घर.4', () => {
     const { entitlement } = await show();
     answer(() => ({
       json: {
-        code: 'SS-7K3M2X',
+        code: 'SS7K3M2X',
         kind: 'family',
         payable: 149,
         listPrice: 299,
@@ -117,8 +117,8 @@ describe('घर.4', () => {
       },
     }));
     fireEvent.click(screen.getByRole('button', { name: /2 फ़ोन/ }));
-    typeCode('SS-7K3M2X');
-    await screen.findByText('SS-7K3M2X · 50% छूट');
+    typeCode('SS7K3M2X');
+    await screen.findByText('SS7K3M2X · 50% छूट');
     expect(screen.getByText('कुल').nextElementSibling?.textContent).toBe('₹149');
     expect(screen.getByText(/बाक़ी ₹149 ख़रीद खुलने पर/)).toBeTruthy();
     expect(screen.getByRole('button', { name: /UPI/ }).hasAttribute('disabled')).toBe(true);
@@ -135,7 +135,7 @@ describe('घर.4', () => {
       body.slots === 1
         ? {
             json: {
-              code: 'OP-4HXR9B',
+              code: 'OP4HXR9B',
               kind: 'single',
               payable: 99,
               listPrice: 199,
@@ -146,9 +146,9 @@ describe('घर.4', () => {
         : { status: 400, json: { reason: 'single' } },
     );
     fireEvent.click(screen.getByRole('button', { name: /4 फ़ोन/ }));
-    typeCode('OP-4HXR9B');
+    typeCode('OP4HXR9B');
     await screen.findByText('इस कोड पर एक ही फ़ोन चलता है');
-    expect(screen.getByText('OP-4HXR9B · ₹99 में')).toBeTruthy();
+    expect(screen.getByText('OP4HXR9B · ₹99 में')).toBeTruthy();
     expect(screen.getByRole('button', { name: /4 फ़ोन/ }).hasAttribute('disabled')).toBe(true);
     expect(screen.getByRole('button', { name: /1 फ़ोन/ }).className).toBe('tier tier-on');
     expect(screen.getByText('कुल').nextElementSibling?.textContent).toBe('₹99');
@@ -162,7 +162,7 @@ describe('घर.4', () => {
   ])('has one honest line for a code the server calls %s', async (reason, line) => {
     await show();
     answer(() => ({ status: 409, json: { reason } }));
-    typeCode('SS-ZZZZZZ');
+    typeCode('SSZZZZZZ');
     await screen.findByText(line);
     expect(screen.getByText('कुल').nextElementSibling?.textContent).toBe('₹199');
   });
@@ -172,7 +172,7 @@ describe('घर.4', () => {
     online(false);
     const calls = answer(() => ({
       json: {
-        code: 'SS-7K3M2X',
+        code: 'SS7K3M2X',
         kind: 'family',
         payable: 0,
         listPrice: 199,
@@ -180,9 +180,9 @@ describe('घर.4', () => {
         discount: { discountPercent: 100 },
       },
     }));
-    typeCode('SS-7K3M2X');
+    typeCode('SS7K3M2X');
     await screen.findByText(/कोड लगाने के लिए एक पल का नेटवर्क चाहिए/);
-    expect(pendingCoupon()).toEqual({ code: 'SS-7K3M2X', slots: 1 });
+    expect(pendingCoupon()).toEqual({ code: 'SS7K3M2X', slots: 1 });
     expect(calls).toHaveLength(0);
 
     online(true);
@@ -192,9 +192,9 @@ describe('घर.4', () => {
   });
 
   it('pre-fills a code the URL brought, so the ad and the field meet', async () => {
-    localStorage.setItem('saathi.coupon', JSON.stringify({ code: 'SS-7K3M2X', slots: 1 }));
+    localStorage.setItem('saathi.coupon', JSON.stringify({ code: 'SS7K3M2X', slots: 1 }));
     await show();
-    expect(screen.getByDisplayValue('SS-7K3M2X')).toBeTruthy();
+    expect(screen.getByDisplayValue('SS7K3M2X')).toBeTruthy();
   });
 
   it('installs a scanned pass from the token route and says so', async () => {

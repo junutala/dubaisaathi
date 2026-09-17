@@ -42,12 +42,12 @@ the phones and the total, and changes the total. What follows is whatever the to
 stand where they always stood, disabled until buying opens, with one line saying the balance
 is payable then and the code is remembered.
 
-A code arrives typed, or on the URL from an advertisement (`?code=SS-7K3M2X`; the website
+A code arrives typed, or on the URL from an advertisement (`?code=SSW9VASX`; the website
 carries it through to the app's link). It is remembered on the phone until redeemed or
 replaced, and a code applied with no signal is applied when there is some.
 
-**Prefix as convention, kind in the row.** `SS-` codes are `family` (1–4 phones on one code);
-`OP-` codes are `single` (locked to one phone, for an operator handing them out). The app and
+**Prefix as convention, kind in the row.** `SS…` codes are `family` (1–4 phones on one code);
+`OP…` codes are `single` (locked to one phone, for an operator handing them out). The app and
 the function read `kind`; the prefix is for the person reading the code out. The generator
 sets both, consistently. The alphabet has no 0/O/1/I.
 
@@ -101,3 +101,24 @@ button no longer earned its place, so it is gone from every screen:
 
 Design rule 4 and the checker now fail a board whose bar carries पास लें; `canBuy` and the
 `nav.buyPass*` strings went with the button.
+
+## Addendum, 17 September — the code loses its dash
+
+The owner's, after watching a code being typed. A code is eight characters, uppercase letters
+and digits, and nothing else: `SSW9VASX`, `OP4HXR9B`. The prefix convention is unchanged —
+`SS` is `family`, `OP` is `single` — and the app still reads `kind` from the row and never the
+prefix.
+
+**Why.** On every phone keyboard the hyphen lives behind the `?123` key. A dash in the middle
+of a code therefore costs a traveller a flip out of the letters, a tap, and a flip back — three
+taps for a character that carries no information at all. And the person typing it is standing
+in an airport with a bag in the other hand, reading the code off an advertisement. The break
+between two letters and six is found by the eye; it does not need a mark.
+
+**What changed.** `isCouponCode` takes `^[A-Z]{2}[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$`, and
+`couponCode` emits no separator. `normaliseCouponCode` now strips every non-alphanumeric
+character rather than putting a dash back, so a code printed with one — an advertisement
+already out in the world — still resolves to the same row. `npm run coupons` prints and writes
+the new shape. Migration `0009_codes_without_a_dash.sql` puts `on update cascade` on the two
+foreign keys into `coupons (code)`, swaps the check constraint and rewrites the rows already
+there, so no code that was handed out stops working.

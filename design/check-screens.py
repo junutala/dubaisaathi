@@ -17,7 +17,8 @@ PILLARS = ['खाना', 'जाना', 'जानना']
 NO_CHROME = {'Landing', 'Names'}
 # घर.n screens and the pillars' children; everything else is home or a state of it.
 HOME = {'Home', 'HomeDark', 'HomeTrial', 'HomePaid'}
-NAME_MARK = 'दुबई साथी'
+# The lockup's word, the same in both interface languages (decision 021).
+NAME_MARK = 'Dubaisaathi'
 BACK_ICON = 'M15 5l-7 7 7 7'
 TICKET_ICON = 'M4 8a2 2 0 0 1 2-2h12'
 BAR_TOP = 'border-top: 1px solid'

@@ -6,7 +6,9 @@
  * strip and bar children, 1 खाना, 2 जाना, 3 जानना.
  */
 export const hi = {
-  'app.name': 'दुबई साथी',
+  // The lockup, and a lockup is not translated: one word, one capital, the same in both
+  // catalogues (decision 021). The three pillar names stay in Devanagari; this is not one.
+  'app.name': 'Dubaisaathi',
 
   // The top strip, on every screen after the landing page
   'strip.offline': 'ऑफ़लाइन',

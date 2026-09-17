@@ -1,4 +1,16 @@
 /* The app's own typefaces, self-hosted, so the site and the app look like one thing. */
+
+/* The wordmark: Quicksand Bold, subset to the eight letters of `Dubaisaathi` (decision 021).
+   Self-hosted like the rest, so the site's header is the app's header. */
+@font-face {
+  font-family: 'Quicksand Wordmark';
+  font-style: normal;
+  font-weight: 700;
+  font-display: block;
+  src: url(./fonts/quicksand-wordmark-700.woff2) format('woff2');
+  unicode-range: U+0044, U+0061-0062, U+0068-0069, U+0073-0075;
+}
+
 @font-face {
   font-family: 'Anek Devanagari';
   font-style: normal;
