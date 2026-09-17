@@ -13,6 +13,7 @@
   "dependencies": {
     "@saathi/shared": "*",
     "dexie": "^4.2.0",
+    "qr": "^0.7.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
