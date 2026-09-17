@@ -66,7 +66,10 @@ export interface Entitlement {
    * landed at different times. When set it wins over everything computed here.
    */
   readonly groupEndsAt?: string;
-  /** True when the traveller asked to try the app as though they were in Dubai. */
+  /**
+   * Set by a switch that no longer exists (decision 024). Kept on the type for one reason: a
+   * phone that used it still carries it, and `forgetAnyPretence` has to be able to see it.
+   */
   readonly pretendingDubai?: boolean;
   /**
    * Confirmed departure. A paid pass runs until this, however long ago its hours ran out — the
@@ -107,13 +110,44 @@ export interface Entitlement {
 function read(): Entitlement {
   try {
     const raw = localStorage.getItem(KEY);
-    if (raw !== null) return JSON.parse(raw) as Entitlement;
+    if (raw !== null) return forgetAnyPretence(JSON.parse(raw) as Entitlement);
   } catch {
     // Private mode, or something that is not ours. A fresh install is the safe reading.
   }
   const fresh: Entitlement = { installedAt: new Date().toISOString() };
   store(fresh);
   return fresh;
+}
+
+/**
+ * Until 17 September घर.4 carried a "दुबई में हूँ (टेस्ट)" switch that wrote a landing time a
+ * traveller had not earned. The switch is gone (decision 024), but a phone that used it still
+ * holds the flag and a made-up `landedAt` — and with nothing left to turn it off, that phone
+ * would count down a trial forever from a landing that never happened.
+ *
+ * So the pretence is undone the first time such a record is read. Field by field rather than by
+ * deleting one, so nothing a traveller paid for rides along: the pass, the slot, the family and
+ * everything bought stay exactly as they are, and only the invented arrival goes. A real arrival
+ * re-confirms itself the ordinary way, on repeated readings inside Dubai.
+ */
+function forgetAnyPretence(state: Entitlement): Entitlement {
+  if (state.pretendingDubai !== true) return state;
+  const cleaned: Entitlement = {
+    installedAt: state.installedAt,
+    sightings: 0,
+    ...(state.paid === undefined ? {} : { paid: state.paid }),
+    ...(state.groupEndsAt === undefined ? {} : { groupEndsAt: state.groupEndsAt }),
+    ...(state.passId === undefined ? {} : { passId: state.passId }),
+    ...(state.welcomedPassId === undefined ? {} : { welcomedPassId: state.welcomedPassId }),
+    ...(state.slot === undefined ? {} : { slot: state.slot }),
+    ...(state.pass === undefined ? {} : { pass: state.pass }),
+    ...(state.slots === undefined ? {} : { slots: state.slots }),
+    ...(state.familyPasses === undefined ? {} : { familyPasses: state.familyPasses }),
+    ...(state.bindCheckedAt === undefined ? {} : { bindCheckedAt: state.bindCheckedAt }),
+    ...(state.passLost === undefined ? {} : { passLost: state.passLost }),
+  };
+  store(cleaned);
+  return cleaned;
 }
 
 /**
@@ -193,7 +227,6 @@ export function noteLocationReading(at: LatLng | undefined): Entitlement {
   // Landed already. Now the only question is whether they have gone home, which ends a paid
   // pass — so it takes more agreeing readings than arriving did, and any reading that says
   // "still here" wipes the count. A traveller in a basement with no fix is still in Dubai.
-  if (current.pretendingDubai === true) return current;
   if (here) {
     return current.departures === undefined ? current : updateEntitlement({ departures: 0 });
   }
@@ -228,33 +261,6 @@ export function needsNudge(now: Date = new Date(), state: Entitlement = read()):
   const now_ = validity(now, state);
   if (now_.state === 'expired') return true;
   return now_.state === 'trial' && (now_.hours ?? 0) <= NUDGE_FROM_HOURS_LEFT;
-}
-
-/** Testing from India: the counter behaves exactly as it would on arrival. */
-export function pretendLanded(): Entitlement {
-  return updateEntitlement({ pretendingDubai: true, landedAt: new Date().toISOString() });
-}
-
-export function stopPretending(): Entitlement {
-  // The pretend landing goes with it: the traveller is back in India and the clock stops. Built
-  // field by field rather than by deleting one, so a future field cannot ride along by accident.
-  const current = read();
-  const next: Entitlement = {
-    installedAt: current.installedAt,
-    sightings: 0,
-    pretendingDubai: false,
-    ...(current.paid === undefined ? {} : { paid: current.paid }),
-    ...(current.groupEndsAt === undefined ? {} : { groupEndsAt: current.groupEndsAt }),
-    ...(current.passId === undefined ? {} : { passId: current.passId }),
-    ...(current.welcomedPassId === undefined ? {} : { welcomedPassId: current.welcomedPassId }),
-    ...(current.slot === undefined ? {} : { slot: current.slot }),
-    ...(current.pass === undefined ? {} : { pass: current.pass }),
-    ...(current.slots === undefined ? {} : { slots: current.slots }),
-    ...(current.familyPasses === undefined ? {} : { familyPasses: current.familyPasses }),
-    ...(current.bindCheckedAt === undefined ? {} : { bindCheckedAt: current.bindCheckedAt }),
-  };
-  write(next);
-  return next;
 }
 
 /** Paying. The hours are added to the landing, never to the moment money changed hands. */

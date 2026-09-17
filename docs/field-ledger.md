@@ -6,14 +6,15 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 
 ## On every screen after landing — the top strip
 
-| Field                         | Why it is there                                                                  |
-| ----------------------------- | -------------------------------------------------------------------------------- |
-| The lockup: pin + Dubaisaathi | Which app this is, in one shape in both languages; a tap goes home               |
-| ऑफ़लाइन / ऑनलाइन              | The status this product lives on; a tourist with no data needs to see it is fine |
-| The pass dot                  | Green while the counter runs, marigold when the Dubai day is ending; tap → घर.4  |
-| Language                      | Hindi or English, one tap                                                        |
-| Theme                         | One tap, never hunted for                                                        |
-| The hotel row                 | The first thing reached for on a bad evening, on every screen; tap → घर.1        |
+| Field                         | Why it is there                                                                   |
+| ----------------------------- | --------------------------------------------------------------------------------- |
+| The lockup: pin + Dubaisaathi | Which app this is, in one shape in both languages; a tap goes home                |
+| ऑफ़लाइन / ऑनलाइन              | The status this product lives on; a tourist with no data needs to see it is fine  |
+| The pass dot                  | Green while the counter runs, marigold when the Dubai day is ending; tap → घर.4   |
+| Language                      | Hindi or English, one tap                                                         |
+| Theme                         | One tap, never hunted for                                                         |
+| The hotel row                 | The first thing reached for on a bad evening, on every screen; tap → घर.1         |
+| …or the BurJuman note         | In India there is no hotel to pin yet; the row says where the distances come from |
 
 ## On every screen after landing — the bar
 
@@ -275,3 +276,9 @@ open the thing at all. The same rule applies — a field with no line here does 
 | आपकी बात            | The message itself                                                                 |
 | भेजिए, and one line | What happened, in their own language — sent, or what to do instead                 |
 | WhatsApp QR         | A reader on a laptop cannot tap `wa.me`; a reader on a phone taps the button       |
+
+- **The strip's second row answers to where the phone is (decision 024).** A saved hotel always
+  wins. With no hotel and a fix outside Dubai it explains the BurJuman stand-in instead of asking
+  for a pin the traveller cannot take — the owner's own Rolla Residence case, two hotels of nearly
+  one name across one street. The invitation returns the moment the phone says Dubai, and घर.1
+  refuses a pin from anywhere else. The घर.4 test switch that faked a landing is gone.

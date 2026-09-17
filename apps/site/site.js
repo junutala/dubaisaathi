@@ -120,6 +120,31 @@
     return n.replace(/^0+/, '');
   }
 
+  /*
+   * The tour film. The native controls are off in the markup so the poster reads as a film
+   * rather than as one more screenshot of the app; this hands them over the moment the reader
+   * asks for it.
+   *
+   * The controls go on BEFORE play is attempted, never after it succeeds: if the browser refuses
+   * — a data saver, a policy, a codec — the reader is left holding a real control bar they can
+   * press themselves, rather than a dimmed poster that did nothing when they tapped it.
+   */
+  const play = document.getElementById('tour-play');
+  const film = play?.previousElementSibling;
+  if (play && film) {
+    play.addEventListener('click', () => {
+      film.controls = true;
+      play.classList.add('play-gone');
+      const started = film.play();
+      if (started) {
+        started.catch(() => {
+          // The browser refused. The control bar is already on, so the reader presses it and
+          // the phone answers for itself — which is the only way to know (CLAUDE.md).
+        });
+      }
+    });
+  }
+
   const form = document.getElementById('contact-form');
   if (form) {
     // The two buttons in the partners band: they pick who is writing and put the cursor in the

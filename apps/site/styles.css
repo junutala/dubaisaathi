@@ -78,13 +78,17 @@ a {
   gap: 12px;
   min-height: 64px;
 }
+/* The lockup is the one place on this page where the trail is drawn, so it is set at a size
+   where a tapered arc and a paper plane are drawings rather than lint (decision 021). At 20px
+   they were neither: three orange pixels over the tail of the word. The footer, at 17px, does
+   not carry the trail at all — same rule, the other way round. */
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   text-decoration: none;
   font-weight: 700;
-  font-size: 20px;
+  font-size: clamp(24px, 3.2vw, 31px);
   white-space: nowrap;
 }
 .brand img {
@@ -356,6 +360,7 @@ h1 .three {
 }
 .phone-video {
   width: 320px;
+  position: relative;
 }
 .phone-video video {
   display: block;
@@ -363,6 +368,59 @@ h1 .three {
   height: 100%;
   object-fit: cover;
   background: var(--ink);
+}
+/* The whole poster is the target, not a 40px control in a corner. */
+.play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  color: #fff;
+  /* Dimmed, so the poster reads as a film waiting rather than as another screenshot. */
+  background: rgb(10 12 20 / 0.52);
+}
+.play-ring {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 999px;
+  background: var(--marigold);
+  color: var(--onMarigold);
+  /* The triangle's own weight sits left of the circle's centre; nudge it back. */
+  padding-inline-start: 4px;
+  box-shadow: 0 10px 26px rgb(0 0 0 / 0.35);
+}
+.play-label {
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.5);
+}
+.play:hover .play-ring {
+  transform: scale(1.05);
+}
+.play-ring {
+  transition: transform 120ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .play-ring {
+    transition: none;
+  }
+}
+.play:focus-visible {
+  outline: 3px solid var(--marigold);
+  outline-offset: -3px;
+}
+.play-gone {
+  display: none;
 }
 
 /* ---- the wash: travel glyphs at a whisper behind a band ---------------------------------- */

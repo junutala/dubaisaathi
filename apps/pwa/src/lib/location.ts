@@ -37,6 +37,28 @@ const ASKED_KEY = 'saathi.locationAsked';
 let cached: Location = { kind: 'unknown' };
 let inFlight: Promise<Location> | null = null;
 
+/**
+ * Screens that need the answer but must never be the one that asks — the top strip is on every
+ * screen, and a strip that called `askForLocation` would put the phone's prompt in front of a
+ * traveller before any reason for it had been shown (design rules 9 and 30). They watch instead.
+ */
+type Watcher = (location: Location) => void;
+const watchers = new Set<Watcher>();
+
+function settle(answer: Location): Location {
+  cached = answer;
+  for (const watcher of watchers) watcher(answer);
+  return answer;
+}
+
+/** Watch the answer without asking for it. Returns the unsubscribe. */
+export function watchLocation(watcher: Watcher): () => void {
+  watchers.add(watcher);
+  return () => {
+    watchers.delete(watcher);
+  };
+}
+
 /** Whether the reason has already been shown and the phone already asked, ever. */
 export function hasBeenAsked(): boolean {
   try {
@@ -61,7 +83,7 @@ export function currentLocation(): Location {
 
 /** For tests, and for a traveller who fixes the setting and comes back to 1.1b. */
 export function forgetLocation(): void {
-  cached = { kind: 'unknown' };
+  settle({ kind: 'unknown' });
   inFlight = null;
 }
 
@@ -84,11 +106,10 @@ export async function askForLocation(): Promise<Location> {
   // device answering, not a guess about it.
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- lib.dom overstates support
   if (typeof navigator === 'undefined' || !navigator.geolocation) {
-    cached = { kind: 'unavailable' };
-    return cached;
+    return settle({ kind: 'unavailable' });
   }
 
-  cached = { kind: 'asking' };
+  settle({ kind: 'asking' });
   inFlight = new Promise<Location>((resolve) => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -110,9 +131,8 @@ export async function askForLocation(): Promise<Location> {
       },
     );
   }).then((answer) => {
-    cached = answer;
     inFlight = null;
-    return answer;
+    return settle(answer);
   });
 
   return inFlight;

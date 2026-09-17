@@ -6,9 +6,7 @@ import {
   forgetEntitlement,
   noteLocationReading,
   PAID_HOURS,
-  pretendLanded,
   recordPayment,
-  stopPretending,
   TRIAL_HOURS,
   updateEntitlement,
   validity,
@@ -136,17 +134,43 @@ describe('running out', () => {
   });
 });
 
-describe('trying it from India', () => {
-  it('behaves exactly as landing does', () => {
-    pretendLanded();
-    expect(validity().state).toBe('trial');
-    expect(endsAt()).not.toBeNull();
+describe('a phone that used the old test switch', () => {
+  /* घर.4 carried "दुबई में हूँ (टेस्ट)" until 17 September and it wrote a landing time nobody
+     had earned. The switch is gone (decision 024) and these phones exist, so the first read
+     has to undo it — otherwise a trial counts down forever from a landing that never was. */
+
+  function asThoughItHadPretended(extra: Record<string, unknown> = {}): void {
+    localStorage.setItem(
+      'saathi.entitlement',
+      JSON.stringify({
+        installedAt: '2026-09-10T00:00:00.000Z',
+        pretendingDubai: true,
+        landedAt: '2026-09-15T10:00:00.000Z',
+        ...extra,
+      }),
+    );
+  }
+
+  it('forgets the landing it never had', () => {
+    asThoughItHadPretended();
+    expect(entitlement().landedAt).toBeUndefined();
+    expect(entitlement().pretendingDubai).toBeUndefined();
+    expect(validity().state).toBe('before');
   });
 
-  it('puts the traveller back where they were when the test is turned off', () => {
-    pretendLanded();
-    stopPretending();
-    expect(entitlement().landedAt).toBeUndefined();
-    expect(validity().state).toBe('before');
+  it('keeps everything the traveller actually paid for', () => {
+    asThoughItHadPretended({ paid: true, passId: 'pass-1', slot: 2, slots: 4 });
+    const after = entitlement();
+    expect(after.paid).toBe(true);
+    expect(after.passId).toBe('pass-1');
+    expect(after.slot).toBe(2);
+    expect(after.slots).toBe(4);
+  });
+
+  it('undoes it once and leaves the record alone after that', () => {
+    asThoughItHadPretended();
+    entitlement();
+    updateEntitlement({ landedAt: '2026-09-22T06:00:00.000Z' });
+    expect(entitlement().landedAt).toBe('2026-09-22T06:00:00.000Z');
   });
 });

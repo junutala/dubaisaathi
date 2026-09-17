@@ -10,8 +10,6 @@ import {
   PURCHASE_IS_LIVE,
   entitlement,
   markWelcomed,
-  pretendLanded,
-  stopPretending,
   unwelcomedPass,
   validity,
   watchEntitlement,
@@ -495,25 +493,6 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
         )}
 
         <div className="grow" />
-
-        {/* Trying the whole product from India: the counter behaves exactly as it will on
-            arrival, because it is the same code reading the same landing time. */}
-        <div className="card pad stack-sm">
-          <span className="lbl" style={{ paddingTop: 0 }}>
-            {t('pass.tryTitle')}
-          </span>
-          <span className="muted small">{t('pass.tryWhy')}</span>
-          <button
-            type="button"
-            className={state.pretendingDubai === true ? 'btn btn-ghost' : 'btn btn-primary'}
-            onClick={() => {
-              setState(state.pretendingDubai === true ? stopPretending() : pretendLanded());
-            }}
-          >
-            <Icon name="pin" size={20} strokeWidth={1.9} />
-            {t(state.pretendingDubai === true ? 'pass.tryOff' : 'pass.tryOn')}
-          </button>
-        </div>
       </div>
     </>
   );
