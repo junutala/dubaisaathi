@@ -69,24 +69,27 @@ export function Logo({ size = 26 }: { readonly size?: number }) {
  * the word is 5.76em wide in this face, so a box 3.4em wide pinned to its right edge sits over
  * "aathi" and no further left.
  */
-export function Wordmark({ name }: { readonly name: string }) {
+export function Wordmark({ name, trail = false }: { readonly name: string; readonly trail?: boolean }) {
   return (
-    <span className="wordmark">
+    <span className={trail ? 'wordmark wordmark-full' : 'wordmark'}>
       {name}
-      <svg className="wordmark-trail" viewBox="0 -4 340 76" aria-hidden="true" focusable="false">
-        <path
-          className="wordmark-trail-line"
-          d="M4 66C92 63 172 55 268 28"
-          fill="none"
-          strokeWidth="6"
-          strokeLinecap="round"
-        />
-        <path
-          className="wordmark-plane"
-          transform="translate(300 18) rotate(72) scale(1.5) translate(-12 -12)"
-          d="M12 1.4c1.06 0 1.92.94 1.92 2.1v5.62l8.08 4.98v2.1l-8.08-2.48v4.56l2.16 1.6v1.52L12 20.6l-4.08.8v-1.52l2.16-1.6v-4.56L2 16.2v-2.1l8.08-4.98V3.5c0-1.16.86-2.1 1.92-2.1z"
-        />
-      </svg>
+      {trail && (
+        <svg className="wordmark-trail" viewBox="0 0 260 62" aria-hidden="true" focusable="false">
+          {/* A filled crescent, not a stroke: a vapour trail is widest behind the aircraft and
+              dissipates to nothing, and a constant-width line reads as a wire instead. The two
+              curves meet at a point on the left, which is the whole effect. */}
+          <path
+            className="wordmark-trail-line"
+            d="M232 9C186 14 112 27 14 47C118 37 190 21 232 14Z"
+          />
+          {/* A paper plane rather than the aeroplane-mode glyph, which at this size is a speck.
+              Two triangles: the body, and the darker fold under the near wing. */}
+          <g className="wordmark-plane" transform="translate(222 0) rotate(-12) scale(0.78)">
+            <path d="M1 12.4 34 1 23.6 24.6 15.6 15.7Z" />
+            <path className="wordmark-plane-fold" d="M15.6 15.7 23.6 24.6 14.7 23.1Z" />
+          </g>
+        </svg>
+      )}
     </span>
   );
 }
