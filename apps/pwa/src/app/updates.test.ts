@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { applyPendingUpdate, watchForUpdate } from './updates.js';
+import { applyPendingUpdate, latestBuild, repairToLatest, watchForUpdate } from './updates.js';
 
 /**
  * The rule being tested is the product decision, not the plumbing: an update downloaded in an
@@ -33,6 +33,7 @@ const reload = vi.fn();
 
 afterEach(() => {
   sessionStorage.clear();
+  localStorage.clear();
   reload.mockClear();
   restoreLocation();
   vi.unstubAllGlobals();
@@ -218,5 +219,94 @@ describe('watchForUpdate', () => {
     await Promise.resolve();
     expect(arrived).not.toHaveBeenCalled();
     stop();
+  });
+});
+
+/**
+ * The beacon and the repair (18 September). Every other signal in this file is about the worker,
+ * and a worker that has downloaded a build and will not hand it over makes all of them say
+ * "nothing to do" — which is how a phone sat four releases behind while the logs showed it
+ * downloading every one of them.
+ */
+describe('the beacon', () => {
+  it('reads what the server says it is serving, and never from a cache', async () => {
+    const asked: RequestInit[] = [];
+    vi.stubGlobal(
+      'fetch',
+      vi.fn((_: string, init: RequestInit) => {
+        asked.push(init);
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({ build: '80682e5', at: '18 Sep 13:24', minimumAt: '' }),
+        });
+      }),
+    );
+    expect((await latestBuild())?.build).toBe('80682e5');
+    expect(asked[0]?.cache).toBe('no-store');
+  });
+
+  it('says nothing rather than something wrong when the phone cannot ask', async () => {
+    // No signal is not the same as being up to date, and must never read as either answer.
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => Promise.reject(new Error('offline'))),
+    );
+    expect(await latestBuild()).toBeNull();
+  });
+
+  it('refuses a body that is not a version', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve({ nope: true }) })),
+    );
+    expect(await latestBuild()).toBeNull();
+  });
+});
+
+describe('the repair, when the worker will not hand over', () => {
+  function stubWorkerAndCaches() {
+    const unregistered: string[] = [];
+    Object.defineProperty(navigator, 'serviceWorker', {
+      configurable: true,
+      value: {
+        controller: {},
+        getRegistrations: () =>
+          Promise.resolve([
+            {
+              unregister: () => {
+                unregistered.push('sw');
+                return Promise.resolve(true);
+              },
+            },
+          ]),
+      },
+    });
+    const deleted: string[] = [];
+    vi.stubGlobal('caches', {
+      keys: () => Promise.resolve(['workbox-precache', 'saathi-shell']),
+      delete: (name: string) => {
+        deleted.push(name);
+        return Promise.resolve(true);
+      },
+    });
+    return { unregistered, deleted };
+  }
+
+  it('takes the worker and its caches out of the way, then reloads', async () => {
+    stubReload();
+    const { unregistered, deleted } = stubWorkerAndCaches();
+    expect(await repairToLatest()).toBe(true);
+    expect(unregistered).toEqual(['sw']);
+    // The app's own offline copy, and nothing else: documents, hotel and pass are not in here.
+    expect(deleted).toEqual(['workbox-precache', 'saathi-shell']);
+    expect(reload).toHaveBeenCalledTimes(1);
+  });
+
+  it('does it once an hour at most, so an unreachable server cannot make a loop', async () => {
+    stubReload();
+    stubWorkerAndCaches();
+    expect(await repairToLatest()).toBe(true);
+    expect(await repairToLatest()).toBe(false);
+    expect(reload).toHaveBeenCalledTimes(1);
   });
 });

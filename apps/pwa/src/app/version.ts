@@ -12,4 +12,8 @@
 const sha = import.meta.env.VITE_BUILD_SHA ?? '';
 const at = import.meta.env.VITE_BUILD_TIME ?? '';
 
+/** The commit, short, and when it was built. Both are what `version.json` is compared against. */
+export const BUILD_SHA = sha.slice(0, 7);
+export const BUILD_AT = at;
+
 export const BUILD = sha === '' ? 'dev' : `${at} · ${sha.slice(0, 7)}`.trim();
