@@ -218,17 +218,6 @@ a {
   gap: 40px;
   align-items: center;
 }
-.kicker {
-  display: inline-block;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--tealText);
-  background: var(--tealSoft);
-  padding: 4px 10px;
-  border-radius: 999px;
-}
 h1 {
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
   font-weight: 600;
@@ -247,11 +236,13 @@ h1 {
 }
 /* The three words as three small tiles: the app's home blocks in miniature, each with its own
    icon, set a touch askew as if placed by hand. The brand as a mark, not a line of type. */
+/* Four tiles now, not three (18 September). Two and two: four across is wider than the column
+   and three-then-one reads as an accident rather than a set. */
 h1 .three {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 12px;
-  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 12px;
+  margin-top: 16px;
   font-size: 0.62em;
   line-height: 1;
 }
@@ -286,33 +277,13 @@ h1 .three {
   color: var(--onKnow);
   transform: rotate(-1deg);
 }
+.tile-speak {
+  background: var(--speak);
+  color: var(--onSpeak);
+  transform: rotate(2deg) translateY(1px);
+}
 .tile:hover {
   transform: rotate(0) scale(1.03);
-}
-.cta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-}
-.cta .note {
-  font-size: 14px;
-  color: var(--muted);
-}
-.facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 18px;
-  margin: 22px 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: 15px;
-  font-weight: 600;
-}
-.facts li::before {
-  content: '✓';
-  color: var(--teal);
-  margin-right: 6px;
 }
 
 /* A phone, drawn in CSS, with a real screenshot of the app inside it. */
@@ -469,12 +440,15 @@ h1 .three {
   line-height: 0;
   color: var(--speakText);
 }
+/* Fine print, and no more than that. It is here because the sentence above it needs a rider,
+   not because the rider is worth reading — and the constraint may not be permanent. */
 .turn-note {
   display: block;
-  margin-top: 6px;
-  font-size: 13.5px;
+  margin-top: 8px;
+  font-size: 11.5px;
+  letter-spacing: 0.01em;
   color: var(--muted);
-  opacity: 0.85;
+  opacity: 0.6;
 }
 .turn-speak b {
   color: var(--speakText);
@@ -1033,6 +1007,12 @@ footer .wrap {
   gap: 14px;
   justify-items: start;
 }
+/* The contact aside's small print. It used to inherit from the hero's CTA row, which is gone —
+   so it says for itself what it is, which is what it should have done all along. */
+.note {
+  font-size: 14px;
+  color: var(--muted);
+}
 .reach h3 {
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
   font-weight: 600;
@@ -1103,11 +1083,6 @@ footer .wrap {
     min-height: 42px;
     padding: 0 12px;
     font-size: 15px;
-  }
-  .facts {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px 12px;
   }
   .hero .phone {
     transform: none;
