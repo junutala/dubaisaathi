@@ -40,7 +40,7 @@ function resolve(location: Location, hotel: SavedHotel | undefined, settled: boo
  *
  * The top strip is on every screen, including the first one a traveller ever opens. If it asked
  * for location, the phone's own prompt would arrive before any reason for it had been shown —
- * which is the one thing design rules 9 and 30 forbid. So it watches: it reports whatever answer
+ * which is the one thing design rules 10 and 18 forbid. So it watches: it reports whatever answer
  * a pillar has already obtained, and reports nothing until one has.
  */
 export function useKnownHere(hotel: SavedHotel | undefined): Here {

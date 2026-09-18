@@ -3,6 +3,13 @@
 **Status:** accepted 14 September · **Affects** screens 1.1, 1.3, 1.4, the home mic, the four-tile
 home · **Closes** the open question left by decision 014
 
+> **Renumbered 18 September.** This shared the number 015 with "The hotel and the documents are
+> typed where they live" — both were written on 14 September and neither is referenced by number
+> anywhere, so this one became 015a rather than renumbering a decision that is still live.
+>
+> **The pillar it names is now जाना** (decision 016). The two readings it exists to serve —
+> "show me the way there" and "tell the driver" — are still what 2.1 does.
+
 ## The decision
 
 **रास्ता opens with a text bar with a small mic at the end of it. Below the bar, two CTAs:
@@ -43,7 +50,7 @@ because a resolved destination lands on 1.1 with both doors open rather than on 
 
 ## What this changed on 1.1, against the artboard
 
-The artboard (`design/screens/Destination.dc.html`) still shows the superseded screen: a large
+The artboard (`design/screens/J1.dc.html`) still shows the superseded screen: a large
 mic as the offer, "या जगह का नाम लिखिए" under it, and quick picks. The built screen is the box,
 the mic inside it, and the two buttons. **The generator and the artboard have not been redrawn** —
 they are owned elsewhere and were out of scope for this change. `docs/field-ledger.md` §1.1 has

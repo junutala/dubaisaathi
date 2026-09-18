@@ -1,7 +1,19 @@
 # Transport data and maps — where the data comes from, and what it costs
 
-Written 15 September, after research. This is a proposal with numbers, not a decision. Two
-questions are the owner's to settle and are marked **OWNER'S CALL**.
+Written 15 September, after research. It was a proposal with numbers; **the first of its two
+owner's calls was settled on 16 September by decision 017** — the RTA's own GTFS feed became the
+pack, and `npm run publish:transport` builds `data/transport/network.v1.json` from it. So the
+"where we are today" table below is history: the hand-curated 59 nodes and 62 edges are gone, and
+the shipped pack carries every bus route, both metro lines and the tram, with directional hops and
+first and last departures.
+
+**One thing the table does not say and the product must:** the committed feed
+(`data/transport/rta-gtfs.zip`) is the **September 2021** edition off Transitland's mirror. The
+current one (Dubai Pulse `rta_gtfs-open`, 21 January 2026) is reachable only from inside the UAE.
+The network's shape is largely right; its timetable numbers are five years old, and decision 025
+holds the launch until the 2026 file is in.
+
+The map question below is still open and still the owner's.
 
 ## Where we are today
 

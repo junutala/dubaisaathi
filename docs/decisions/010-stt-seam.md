@@ -2,6 +2,11 @@
 
 **Status:** accepted · **Affects** `apps/pwa/src/features/voice/stt.ts`, screen 1.2
 
+> **Superseded, 16 September, by decision 016.** The seam and its engines are gone with the
+> offline recogniser; `apps/pwa/src/features/voice/` no longer exists. What survived the idea is
+> narrower and lives in `features/speak/`: one online engine behind the `listen` function, for
+> बोलना alone (decision 020).
+
 ## The problem
 
 The PWA-vs-native gate rests entirely on whether a phone can turn Hindi speech into text with the

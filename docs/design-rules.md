@@ -24,22 +24,24 @@ rule is agreed, it is added here before the screen is drawn. Sprint 1, frozen 16
 | 14  | बोलना is घर's fourth block, after जानना — the same shape and type as the three, in its own plum — and it is on घर only while the phone has a signal, appearing and going with it, because everything behind it is online (decision 020, 17 September).                                                                                                                                         | checker     |
 | 15  | घर never scrolls. Four blocks, the pass tile and the bar fit every phone we have seen: the name and the Roman caption shrink with the screen, and below 720 px the blurb goes rather than the name. Checked on a real render, not by eye.                                                                                                                                                      | review      |
 | 16  | A pass landing takes घर.4 for one read — the mark, the gift, what it does with the radio off, when the counter starts, a send-off, one control to घर — and never a second time for the same pass. It moves once, for under two seconds, in marigold and teal; the card is whole on the first frame and stands still for a phone that asks for `prefers-reduced-motion: reduce` (decision 022). | review      |
+| 17  | No cross, red cross or first-aid symbol on the documents tile, its screens or the app icon. The shield says _your papers, kept safe_; a cross promises a hospital this app cannot be (decision 002 — written there as "16a" before the table had a number for it).                                                                                                                             | review      |
+| 18  | A permission the traveller refuses gets one screen that says what will not work and what still does, and nothing is asked again until they ask for it. Location is never requested to answer a question the app can answer without it — where a screen only needs a fix if one already exists, it watches rather than prompts.                                                                 | review      |
 
 ## Content and honesty
 
 | #   | Rule                                                                                                                                                  | Enforced by |
 | --- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 11  | A dietary answer nobody asked shows as पूछकर, never as a no.                                                                                          | review      |
-| 12  | Hours show the closing time while open and the opening time while closed, computed in Dubai time.                                                     | review      |
-| 13  | The menu is a grid of dishes and prices read from the card, not a photograph.                                                                         | review      |
-| 14  | A near spelling of a place is a question with the place's own Devanagari name on it; the app never transliterates a traveller's letters into a guess. | review      |
-| 15  | A place we do not know is said so, and the words go to the taxi screen as they are. Never a dead end.                                                 | review      |
-| 16  | The hotel and the documents are on the phone only, without limit, and go only when the traveller deletes them.                                        | review      |
-| 17  | Nothing tech-facing reaches the tourist: no model names, sizes, versions, colour values or template tokens.                                           | checker     |
-| 18  | Every control is at least 48px.                                                                                                                       | review      |
-| 19  | Dark screens carry no light surfaces. Theme follows the phone; the switch is on the strip.                                                            | checker     |
-| 20  | Devanagari line boxes are 1.35 or looser wherever overflow is hidden or clamped.                                                                      | review      |
-| 21  | The canvas and the files on disk agree; every artboard carries its screen number and is named by a pillar.                                            | checker     |
+| 19  | A dietary answer nobody asked shows as पूछकर, never as a no.                                                                                          | review      |
+| 20  | Hours show the closing time while open and the opening time while closed, computed in Dubai time.                                                     | review      |
+| 21  | The menu is a grid of dishes and prices read from the card, not a photograph.                                                                         | review      |
+| 22  | A near spelling of a place is a question with the place's own Devanagari name on it; the app never transliterates a traveller's letters into a guess. | review      |
+| 23  | A place we do not know is said so, and the words go to the taxi screen as they are. Never a dead end.                                                 | review      |
+| 24  | The hotel and the documents are on the phone only, without limit, and go only when the traveller deletes them.                                        | review      |
+| 25  | Nothing tech-facing reaches the tourist: no model names, sizes, versions, colour values or template tokens.                                           | checker     |
+| 26  | Every control is at least 48px.                                                                                                                       | review      |
+| 27  | Dark screens carry no light surfaces. Theme follows the phone; the switch is on the strip.                                                            | checker     |
+| 28  | Devanagari line boxes are 1.35 or looser wherever overflow is hidden or clamped.                                                                      | review      |
+| 29  | The canvas and the files on disk agree; every artboard carries its screen number and is named by a pillar.                                            | checker     |
 
 ## Dropped, so they are not proposed again
 

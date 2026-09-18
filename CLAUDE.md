@@ -190,19 +190,19 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
 
 ## Stack
 
-| Layer        | Choice                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------- |
-| Frontend     | React + TypeScript, Vite                                                                          |
-| PWA          | Service Worker + Workbox                                                                          |
-| Local DB     | IndexedDB via Dexie.js                                                                            |
-| Local search | FlexSearch or MiniSearch                                                                          |
-| Maps         | MapLibre GL JS, offline vector tiles (OSM-derived)                                                |
-| Routing      | Local precomputed routing graph (no routing API at runtime)                                       |
-| Backend      | Supabase edge functions (Deno) — decision 011, replaces a Node service                            |
-| Database     | Supabase Postgres. PostGIS not enabled: place data ships in the pack and is queried on the device |
-| Auth         | None. Entitlement keyed to the device; family devices join by short-lived QR token                |
-| Payments     | UPI-first INR aggregator (Razorpay / Cashfree / PhonePe PG): order → intent or QR → webhook       |
-| Speech       | Online only, in बोलना: Sarvam `saaras:v3` behind the `listen` function; no mic elsewhere (020)    |
+| Layer        | Choice                                                                                                                                                                                                                              |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Frontend     | React + TypeScript, Vite                                                                                                                                                                                                            |
+| PWA          | Service Worker + Workbox                                                                                                                                                                                                            |
+| Local DB     | IndexedDB via Dexie.js                                                                                                                                                                                                              |
+| Local search | Hand-written, in `features/ask` and `features/food/search.ts` — no library. The pack is small enough that an index would be weight without a win; revisit if a pillar's corpus outgrows it                                          |
+| Maps         | **None ships.** जाना answers in rows and steps; coordinates in the pack are for distance only. MapLibre + offline OSM tiles stay the plan if a map is ever needed — still the owner's call in `docs/transport-and-maps-strategy.md` |
+| Routing      | Local precomputed routing graph (no routing API at runtime)                                                                                                                                                                         |
+| Backend      | Supabase edge functions (Deno) — decision 011, replaces a Node service                                                                                                                                                              |
+| Database     | Supabase Postgres. PostGIS not enabled: place data ships in the pack and is queried on the device                                                                                                                                   |
+| Auth         | None. Entitlement keyed to the device; family devices join by short-lived QR token                                                                                                                                                  |
+| Payments     | UPI-first INR aggregator (Razorpay / Cashfree / PhonePe PG): order → intent or QR → webhook                                                                                                                                         |
+| Speech       | Online only, in बोलना: Sarvam `saaras:v3` behind the `listen` function; no mic elsewhere (020)                                                                                                                                      |
 
 Deviating from this table needs a reason recorded in `docs/decisions/`.
 
@@ -416,8 +416,11 @@ dubaisaathi/
 │   ├── field/             # collectors' PWA: FieldReport capture, offline queue, upload
 │   └── site/              # the one-page website at saafarsaathi.in — static, Hindi and English
 ├── supabase/              # the backend (decision 011) — replaces apps/api
-│   ├── migrations/        # the five tables: devices, families, passes, orders, voice_events
-│   ├── functions/         # edge functions: sign a pass, bind a slot, take a webhook, take a queue
+│   ├── migrations/        # ten tables: devices, families, passes, orders, coupons,
+│   │                      #   coupon_redemptions, voice_events, field_reports, field_photos,
+│   │                      #   contact_messages
+│   ├── functions/         # nine: collect, contact, listen, translate, outlet, redeem, bind,
+│   │                      #   order, webhook
 │   └── tests/             # SQL that checks what the schema must refuse
 └── packages/
     ├── shared/            # entity types shared by pwa and api — one definition, imported twice

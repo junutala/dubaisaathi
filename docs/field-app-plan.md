@@ -1,6 +1,12 @@
 # apps/field — collecting the outlets nobody else has
 
-**Status:** plan, for decision. Written 14 September.
+**Status:** built and live. Written 14 September as a plan; `apps/field` has been serving
+collectors at `outlet.saafarsaathi.in` since 16 September. What shipped differs from this plan in
+three ways, all from using it: the GPS is watched from the moment the form opens rather than taken
+by a button, the area comes from the shared `AREAS` list rather than free text, and each dish
+keeps the price the camera read beside it (migration 0006 and the `outlet` function carry the two
+new columns). The costs and the walking-job argument below are unchanged — and untested against
+reality until the owner collects Meena Bazaar on 22 September.
 Entities already exist in `packages/shared`: `FieldReport`, `Restaurant`, `Menu`, `FoodTag`.
 This proposes the app around them, the pipeline behind it, and what it costs to fill.
 

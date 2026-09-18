@@ -117,11 +117,11 @@ def main() -> int:
             elif not (last < tile < bar):
                 fail(name, 'the pass tile is not between the blocks and the bar')
 
-        # Rule 6: every screen that is not home has a way back.
+        # Rule 7: every screen that is not home has a way back.
         if name not in HOME and BACK_ICON not in text:
             fail(name, 'no back control')
 
-        # Rule 7: dark screens carry no light surfaces. The mark's own cream is drawn inside its
+        # Rule 27: dark screens carry no light surfaces. The mark's own cream is drawn inside its
         # SVG and is the mark, not a surface, so the drawings are set aside before looking.
         if name.endswith('Dark'):
             surfaces = re.sub(r'<svg.*?</svg>', '', text, flags=re.S)
@@ -129,7 +129,7 @@ def main() -> int:
                 if hexv in surfaces:
                     fail(name, 'light surface %s in a dark screen' % hexv)
 
-        # Rule 8: nothing tech-facing reaches the traveller.
+        # Rule 25: nothing tech-facing reaches the traveller.
         for leak in re.findall(r'>\s*#[0-9A-Fa-f]{6}', text):
             fail(name, 'colour value rendered as visible text: %s' % leak.strip('> '))
         if re.search(r'\$\{|\$[a-z_]+\b', re.sub(r'<svg.*?</svg>', '', text, flags=re.S)):

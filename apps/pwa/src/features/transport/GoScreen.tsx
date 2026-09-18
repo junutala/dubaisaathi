@@ -21,7 +21,7 @@ export function GoScreen({ placeId }: { readonly placeId?: string | undefined })
   const { t, locale } = useSettings();
   const [typed, setTyped] = useState('');
   const [unknown, setUnknown] = useState<string | null>(null);
-  /** The reason goes on the screen before the phone's prompt, and only the first time (rule 9). */
+  /** The reason goes on the screen before the phone's prompt, and only the first time (design rule 10). */
   const [explaining] = useState(() => !hasBeenAsked());
 
   // A destination handed in — from a kitchen's जाना, or a place on जानना — arrives already
