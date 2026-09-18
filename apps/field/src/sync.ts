@@ -12,7 +12,16 @@ import { db, type Photo, type QueuedReport } from './db.js';
 const PROJECT_URL = 'https://pixlnjmpksmfqheotinp.supabase.co';
 /** Publishable by design: it identifies the project, not a person, and grants nothing on its own. */
 const PUBLISHABLE_KEY = 'sb_publishable_kPj5Kv8cbgwrkyp9tRfLRg_Wy4olS5H';
-const ENDPOINT = `${PROJECT_URL}/functions/v1/outlet`;
+export const ENDPOINT = `${PROJECT_URL}/functions/v1/outlet`;
+
+/** The same two headers every call to the function needs. One definition, not two. */
+export function outletHeaders(): Record<string, string> {
+  return {
+    'content-type': 'application/json',
+    authorization: `Bearer ${PUBLISHABLE_KEY}`,
+    apikey: PUBLISHABLE_KEY,
+  };
+}
 
 /** Photographs go as base64 in the same request: one visit, one round trip, one thing to fail. */
 async function encodePhoto(photo: Photo): Promise<{ kind: string; dataUrl: string }> {
@@ -58,11 +67,7 @@ async function sendOne(report: QueuedReport): Promise<boolean> {
     const photos = await db.photos.where('reportId').equals(report.id).toArray();
     const response = await fetch(ENDPOINT, {
       method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        authorization: `Bearer ${PUBLISHABLE_KEY}`,
-        apikey: PUBLISHABLE_KEY,
-      },
+      headers: outletHeaders(),
       body: JSON.stringify({
         report: { ...report, uploaded: undefined },
         photos: await Promise.all(photos.map(encodePhoto)),

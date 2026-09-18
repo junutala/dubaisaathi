@@ -8,6 +8,7 @@ import {
 } from '@saathi/shared';
 import { db, keepOurData } from './db.js';
 import { collectorName, setCollectorName } from './collector.js';
+import { waitingPins, type WaitingPin } from './pins.js';
 import { Logo, Wordmark } from './Logo.js';
 import { shrink, FRONT, MENU } from './shrink.js';
 import { BUILD } from './version.js';
@@ -50,6 +51,19 @@ const DIET: readonly { key: DietKey; label: Key }[] = [
   { key: 'eggless', label: 'eggless' },
 ];
 
+/** "18 Sep 14:20" — enough to tell one afternoon's forms from another's, in either language. */
+function whenShort(iso: string): string {
+  const at = new Date(iso);
+  return Number.isNaN(at.getTime())
+    ? iso
+    : at.toLocaleString(undefined, {
+        day: 'numeric',
+        month: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+}
+
 const KITCHENS: readonly { value: KitchenKind; label: Key }[] = [
   { value: 'pure-veg', label: 'pureVeg' },
   { value: 'mixed', label: 'mixed' },
@@ -76,6 +90,15 @@ export function CaptureScreen() {
   // Blob rather than File: a photograph is shrunk the moment it is taken, so what sits in the
   // queue is what will be sent. A day's work then costs the phone's storage once, not twice.
   const [front, setFront] = useState<Blob | null>(null);
+  /**
+   * The rider's pins waiting for their paper, and the one being completed (decision 029).
+   *
+   * The form has two sources of place now. A pin: the fix and the frontage were taken at the
+   * door hours ago and this desk is filling in what was written on the form. Or the phone
+   * itself, which is what a collector standing in the kitchen still uses.
+   */
+  const [pins, setPins] = useState<readonly WaitingPin[]>([]);
+  const [pin, setPin] = useState<WaitingPin | null>(null);
   const [menu, setMenu] = useState<Blob[]>([]);
 
   const [diet, setDiet] = useState<Record<string, Answer>>({});
@@ -104,6 +127,12 @@ export function CaptureScreen() {
     void keepOurData();
     return startSync(setQueue);
   }, []);
+
+  /** Asked once and again after every save, so a completed pin leaves the list. */
+  useEffect(() => {
+    if (who === null) return;
+    void waitingPins().then(setPins);
+  }, [who, saved]);
 
   /**
    * The phone is asked the moment there is a collector, and kept asked: a watch rather than one
@@ -135,20 +164,32 @@ export function CaptureScreen() {
     // The language is read once here, on error; the watch does not restart for a word.
   }, [who, t]);
 
-  const ready = fix !== null && name.trim() !== '' && kitchen !== null && front !== null;
+  /**
+   * A pin already carries the place and the frontage, so completing one needs neither the phone's
+   * fix nor a photograph — only what was written on the paper. A capture on the spot needs both.
+   */
+  const ready =
+    name.trim() !== '' && kitchen !== null && (pin !== null || (fix !== null && front !== null));
 
   const submit = async () => {
-    // `ready` already proves there is a fix; TypeScript follows the alias, so no second check.
     if (!ready || who === null) return;
-    const id = crypto.randomUUID();
+    /**
+     * Completing a pin writes back to the pin's own row — same id, so the server updates rather
+     * than inserts, and the coordinates the rider took at the door are never re-sent or
+     * re-derived. They were banked the moment he pressed the tick.
+     */
+    const id = pin?.id ?? crypto.randomUUID();
     const now = new Date().toISOString();
+    const where = pin ?? fix;
+    if (where === null) return;
 
     const report: FieldReport = {
       id,
       kind: 'restaurant',
       collectorId: who,
-      capturedAt: now,
-      location: { lat: fix.lat, lng: fix.lng },
+      capturedAt: pin?.capturedAt ?? now,
+      location: { lat: where.lat, lng: where.lng },
+      ...(pin === null ? {} : { formSerial: pin.formSerial }),
       name: name.trim(),
       ...(nameHi.trim() === '' ? {} : { nameHi: nameHi.trim() }),
       ...(area === null ? {} : { areaId: area }),
@@ -176,14 +217,16 @@ export function CaptureScreen() {
       ...(price.trim() === '' ? {} : { priceForOneAed: Number(price) }),
       ...(spokeTo.trim() === '' ? {} : { spokeTo: spokeTo.trim() }),
       ...(notes.trim() === '' ? {} : { notes: notes.trim() }),
-      frontPhotoIds: [`${id}-front`],
+      frontPhotoIds: front === null ? [] : [`${id}-front`],
       menuPhotoIds: menu.map((_, i) => `${id}-menu-${String(i)}`),
       status: 'queued',
     };
 
     await db.transaction('rw', db.reports, db.photos, async () => {
-      await db.reports.add({ ...report, uploaded: false });
-      await db.photos.add({ id: `${id}-front`, reportId: id, kind: 'front', bytes: front });
+      await db.reports.put({ ...report, uploaded: false });
+      if (front !== null) {
+        await db.photos.add({ id: `${id}-front`, reportId: id, kind: 'front', bytes: front });
+      }
       for (const [i, file] of menu.entries()) {
         await db.photos.add({
           id: `${id}-menu-${String(i)}`,
@@ -202,6 +245,7 @@ export function CaptureScreen() {
 
   // The fix is not cleared: the phone keeps watching, and the next shop gets its own.
   const clear = () => {
+    setPin(null);
     setName('');
     setNameHi('');
     setArea(null);
@@ -265,23 +309,76 @@ export function CaptureScreen() {
 
       {saved !== null && <p className="saved">{t('savedNext', { name: saved })}</p>}
 
-      {/* No button and no "needed" badge: nothing here is the collector's to do. The phone is
-          watched from the moment the form opens, and the fix saved is the one under their feet
-          when they press save. */}
-      <Section title={t('where')}>
-        {fix === null ? (
-          <p className="hint">{t('askingPhone')}</p>
-        ) : (
+      {/* Where this outlet is comes from one of two places (decision 029): a pin the rider
+          dropped, or the phone under the collector's own feet. The picker is first because it
+          decides what the rest of the form means. */}
+      {pin === null ? (
+        <Section title={t('pickPin')}>
+          {pins.length === 0 ? (
+            <p className="hint">{t('noPins')}</p>
+          ) : (
+            <>
+              <p className="hint">{t('pinsWaiting', { n: pins.length })}</p>
+              <div className="pin-list">
+                {pins.map((one) => (
+                  <button
+                    key={one.id}
+                    type="button"
+                    className="pin-card"
+                    onClick={() => {
+                      setPin(one);
+                    }}
+                  >
+                    {one.front === null ? (
+                      <span className="pin-card-blank" aria-hidden="true" />
+                    ) : (
+                      <img className="pin-card-shot" src={one.front} alt="" />
+                    )}
+                    <span className="pin-card-serial">{one.formSerial}</span>
+                    <span className="pin-card-when">{whenShort(one.capturedAt)}</span>
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
           <p className="hint">
-            {t('located', {
-              m: Math.round(fix.accuracyM),
-              lat: fix.lat.toFixed(5),
-              lng: fix.lng.toFixed(5),
-            })}
+            <strong>{t('hereAndNow')}</strong> — {t('hereAndNowHint')}
           </p>
-        )}
-        {fixTrouble !== null && <p className="trouble">{fixTrouble}</p>}
-      </Section>
+          {fix === null ? (
+            <p className="hint">{t('askingPhone')}</p>
+          ) : (
+            <p className="hint">
+              {t('located', {
+                m: Math.round(fix.accuracyM),
+                lat: fix.lat.toFixed(5),
+                lng: fix.lng.toFixed(5),
+              })}
+            </p>
+          )}
+          {fixTrouble !== null && <p className="trouble">{fixTrouble}</p>}
+        </Section>
+      ) : (
+        <Section title={t('where')}>
+          <div className="pin-chosen">
+            {pin.front !== null && <img className="pin-card-shot" src={pin.front} alt="" />}
+            <span className="pin-chosen-text">
+              <strong>
+                {t('fromPin', { serial: pin.formSerial, when: whenShort(pin.capturedAt) })}
+              </strong>
+              <span className="hint">{t('pinPlace', { when: whenShort(pin.capturedAt) })}</span>
+            </span>
+            <button
+              type="button"
+              className="lang"
+              onClick={() => {
+                setPin(null);
+              }}
+            >
+              {t('changePin')}
+            </button>
+          </div>
+        </Section>
+      )}
 
       <Section title={t('nameOnBoard')} required>
         <input
@@ -329,19 +426,21 @@ export function CaptureScreen() {
         <p className="hint">{t('areaHint')}</p>
       </Section>
 
-      <Section title={t('frontPhoto')} required>
-        <FilePick
-          label={front === null ? t('takePhoto') : t('retake')}
-          onPick={(f) => {
-            const picked = f[0];
-            if (picked === undefined) return;
-            void shrink(picked, FRONT).then(setFront);
-          }}
-        />
-        {/* The size is shown because it is the collector's own data being spent, and because a
+      {pin === null && (
+        <Section title={t('frontPhoto')} required>
+          <FilePick
+            label={front === null ? t('takePhoto') : t('retake')}
+            onPick={(f) => {
+              const picked = f[0];
+              if (picked === undefined) return;
+              void shrink(picked, FRONT).then(setFront);
+            }}
+          />
+          {/* The size is shown because it is the collector's own data being spent, and because a
             number here is the only way anyone can tell the shrinking actually happened. */}
-        {front !== null && <p className="hint">{t('gotIt', { size: kb(front) })}</p>}
-      </Section>
+          {front !== null && <p className="hint">{t('gotIt', { size: kb(front) })}</p>}
+        </Section>
+      )}
 
       <Section title={t('kitchenKind')} required>
         <div className="chips">

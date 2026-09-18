@@ -501,3 +501,60 @@ input.short {
   font-weight: 800;
   letter-spacing: 0.14em;
 }
+
+/* ---- the desk: picking the pin a stack of paper belongs to (decision 029) -------------- */
+
+.pin-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 10px;
+  margin: 8px 0 12px;
+}
+/* A shopfront and a number. Matching paper to a pin is done by eye, which is why the rider's
+   photograph earns its place even though he is not obliged to take one. */
+.pin-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 14px;
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+}
+.pin-card-shot,
+.pin-card-blank {
+  width: 100%;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: var(--sand);
+}
+.pin-card-serial {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--marigoldText);
+}
+.pin-card-when {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.pin-chosen {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pin-chosen .pin-card-shot {
+  width: 74px;
+  height: 58px;
+  flex-shrink: 0;
+}
+.pin-chosen-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}

@@ -17,11 +17,16 @@ import { startSync, syncReports, type SyncOutcome } from './sync.js';
  * drops numbered paper at fifty counters in an afternoon and may read neither Hindi nor English
  * (the owner, 18 September). So this screen is built to be used without reading it.
  *
- * Two things, and the glyphs carry both: a photograph of the shop front — which is also how we
- * learn the shop's name without anybody typing it — and a tick. Above them sits the number the
- * app has chosen, which he copies into the box on the paper with the pen already in his hand.
- * He types nothing at all. The coordinates are never asked for: the phone is watched from the
- * moment the screen opens, and what is saved is where he is standing when he presses the tick.
+ * A number to copy, a camera and a tick. He types nothing at all: the number is chosen by the
+ * app and he writes it into the box on the paper with the pen already in his hand. The
+ * coordinates are never asked for either — the phone is watched from the moment the screen
+ * opens, and what is saved is where he is standing when he presses the tick.
+ *
+ * **The photograph is optional** (the owner, 18 September): a policeman on the pavement or women
+ * standing in the shopfront, and a man who would rather not raise his camera is a man stuck at a
+ * screen that will not let him finish. It earns its place when it is there — it is what makes
+ * the desk's picker a list of shopfronts rather than of bare numbers — but the pin is the thing
+ * that matters, and the pin is the fix.
  *
  * The paper carries the five answers and a stapled takeaway menu. This carries the pin. The
  * serial marries them at review, and the serial is printed rather than hand-written because a
@@ -69,7 +74,8 @@ export function PinScreen() {
     };
   }, []);
 
-  const ready = front !== null && fix !== null;
+  // The fix alone. A photograph is welcome and never required — see the note above.
+  const ready = fix !== null;
 
   async function save() {
     const who = collectorName();
@@ -89,14 +95,16 @@ export function PinScreen() {
       location: { lat: fix.lat, lng: fix.lng },
       name: '',
       formSerial: serial,
-      frontPhotoIds: [`${id}-front`],
+      frontPhotoIds: front === null ? [] : [`${id}-front`],
       menuPhotoIds: [],
       status: 'queued',
     };
 
     await db.transaction('rw', db.reports, db.photos, async () => {
       await db.reports.add({ ...report, uploaded: false });
-      await db.photos.add({ id: `${id}-front`, reportId: id, kind: 'front', bytes: front });
+      if (front !== null) {
+        await db.photos.add({ id: `${id}-front`, reportId: id, kind: 'front', bytes: front });
+      }
     });
 
     setSaved(serial);
