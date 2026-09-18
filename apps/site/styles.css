@@ -676,14 +676,19 @@ h2 {
   align-items: center;
   justify-content: center;
 }
+/* The line that answers "what will this cost me" before anyone asks. It was set as a dashed
+   aside in muted grey, which is how a page says "footnote" — and this is the opposite of a
+   footnote. Marigold, solid, and the size of something meant to be read. */
 .quote {
-  margin: 18px 0 0;
-  padding: 12px 16px;
-  border-radius: 14px;
-  background: var(--sand);
-  border: 1px dashed var(--line);
-  font-size: 15px;
-  color: var(--muted);
+  margin: 22px 0 0;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: var(--marigoldSoft);
+  border: 1px solid var(--marigold);
+  font-size: 17.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--marigoldText);
 }
 
 /* The pass. */
