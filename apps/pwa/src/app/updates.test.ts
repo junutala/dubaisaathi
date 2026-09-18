@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { applyPendingUpdate } from './updates.js';
+import { applyPendingUpdate, watchForUpdate } from './updates.js';
 
 /**
  * The rule being tested is the product decision, not the plumbing: an update downloaded in an
@@ -105,5 +105,118 @@ describe('applyPendingUpdate', () => {
     Object.defineProperty(navigator, 'serviceWorker', { configurable: true, value: undefined });
     stubReload();
     await expect(applyPendingUpdate()).resolves.toBe(false);
+  });
+});
+
+/**
+ * The defect this covers was found on a phone, not here: the owner's Android downloaded the new
+ * build in full — the http log shows the worker fetching `index.html`, the stylesheet and a
+ * 452 KB bundle — and the app went on showing the build before it, because nothing asked again
+ * after the first paint while he sat on घर.
+ */
+describe('watchForUpdate', () => {
+  /** A registration whose `updatefound` and worker `statechange` can be fired by the test. */
+  function stubRegistration({
+    waiting = null,
+    controller = {},
+  }: {
+    waiting?: object | null;
+    controller?: object | null;
+  } = {}) {
+    const worker = { state: 'installing', listeners: [] as (() => void)[] };
+    const installing = {
+      get state() {
+        return worker.state;
+      },
+      addEventListener: (_: string, fn: () => void) => worker.listeners.push(fn),
+    };
+    const found: (() => void)[] = [];
+    Object.defineProperty(navigator, 'serviceWorker', {
+      configurable: true,
+      value: {
+        controller,
+        getRegistration: () =>
+          Promise.resolve({
+            waiting,
+            installing,
+            addEventListener: (name: string, fn: () => void) => {
+              if (name === 'updatefound') found.push(fn);
+            },
+            removeEventListener: () => undefined,
+          }),
+      },
+    });
+    return {
+      /** The browser finding a new build, and that build finishing its download. */
+      download: () => {
+        found.forEach((fn) => {
+          fn();
+        });
+        worker.state = 'installed';
+        worker.listeners.forEach((fn) => {
+          fn();
+        });
+      },
+    };
+  }
+
+  it('says so when a build finishes downloading while the app is open', async () => {
+    const arrived = vi.fn();
+    const sw = stubRegistration();
+    const stop = watchForUpdate(arrived);
+    await vi.waitFor(() => {
+      expect(navigator.serviceWorker).toBeDefined();
+    });
+    // Let the registration promise settle before the browser reports anything.
+    await Promise.resolve();
+    await Promise.resolve();
+    sw.download();
+
+    expect(arrived).toHaveBeenCalledOnce();
+    stop();
+  });
+
+  it('says so at once when one was already waiting — the gap that hid a release', async () => {
+    const arrived = vi.fn();
+    stubRegistration({ waiting: { postMessage: vi.fn() } });
+    const stop = watchForUpdate(arrived);
+    await vi.waitFor(() => {
+      expect(arrived).toHaveBeenCalledOnce();
+    });
+    stop();
+  });
+
+  it('stays quiet on a first install, where there is no old build to replace', async () => {
+    const arrived = vi.fn();
+    const sw = stubRegistration({ controller: null });
+    const stop = watchForUpdate(arrived);
+    await Promise.resolve();
+    await Promise.resolve();
+    sw.download();
+
+    expect(arrived).not.toHaveBeenCalled();
+    stop();
+  });
+
+  it('says nothing more once it has been stopped', async () => {
+    const arrived = vi.fn();
+    const sw = stubRegistration();
+    const stop = watchForUpdate(arrived);
+    await Promise.resolve();
+    await Promise.resolve();
+    stop();
+    sw.download();
+
+    expect(arrived).not.toHaveBeenCalled();
+  });
+
+  it('is a no-op where service workers do not exist', async () => {
+    const arrived = vi.fn();
+    Object.defineProperty(navigator, 'serviceWorker', { configurable: true, value: undefined });
+    const stop = watchForUpdate(arrived);
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(arrived).not.toHaveBeenCalled();
+    stop();
   });
 });

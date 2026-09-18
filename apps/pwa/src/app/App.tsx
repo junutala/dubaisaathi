@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { parseRoute, pillarOf, type Route } from './routes.js';
 import { useSettings } from './settings.js';
-import { applyUpdateIfIdle } from './updates.js';
+import { applyUpdateIfIdle, watchForUpdate } from './updates.js';
 import { TopStrip } from './shell/TopStrip.js';
 import { TabBar } from './shell/TabBar.js';
 import { HomeScreen } from '../features/home/HomeScreen.js';
@@ -151,11 +151,30 @@ export function App() {
    * holds no typed sentence, no destination and no half-finished anything, so a reload costs the
    * traveller nothing; reading "never mid-trip" as "next launch only" is how a release that was
    * live on the server sat unseen on a phone for a day.
+   *
+   * Two moments, not one. Arriving on घर is the first. The second is a build finishing its
+   * download while the traveller is already standing there — which is the usual case, because
+   * this is the screen the app opens on, and until 18 September nothing asked again after the
+   * first paint. A phone that had the new build fully downloaded went on showing the old one.
    */
+  const atHome = route.screen === 'home';
+  const atHomeNow = useRef(atHome);
+  atHomeNow.current = atHome;
+
   useEffect(() => {
-    if (route.screen !== 'home') return;
+    if (!atHome) return;
     void applyUpdateIfIdle();
-  }, [route.screen]);
+  }, [atHome]);
+
+  useEffect(
+    () =>
+      watchForUpdate(() => {
+        // The screen decides, never `updates.ts`: anywhere but घर, the traveller is mid-task and
+        // this waits for them to come back.
+        if (atHomeNow.current) void applyUpdateIfIdle();
+      }),
+    [],
+  );
 
   /**
    * Has this phone arrived? Asked on every boot and on every tick, from whatever fix the app
