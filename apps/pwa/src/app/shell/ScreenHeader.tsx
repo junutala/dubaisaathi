@@ -7,15 +7,15 @@ const PILLAR_KEY: Record<Pillar, StringKey> = {
   food: 'pillar.food',
   go: 'pillar.go',
   know: 'pillar.know',
-  docs: 'nav.docs',
+  docs: 'nav.info',
   home: 'strip.home',
 };
 
 const PILLAR_ICON: Record<Pillar, IconName> = {
   food: 'thali',
-  go: 'metro',
+  go: 'signpost',
   know: 'lantern',
-  docs: 'docs',
+  docs: 'info',
   home: 'home',
 };
 

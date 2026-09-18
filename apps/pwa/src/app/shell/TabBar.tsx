@@ -19,7 +19,13 @@ const SLOTS: readonly Slot[] = [
     route: { screen: 'food' },
     lit: 'var(--foodText)',
   },
-  { pillar: 'go', key: 'pillar.go', icon: 'metro', route: { screen: 'go' }, lit: 'var(--goText)' },
+  {
+    pillar: 'go',
+    key: 'pillar.go',
+    icon: 'signpost',
+    route: { screen: 'go' },
+    lit: 'var(--goText)',
+  },
   {
     pillar: 'know',
     key: 'pillar.know',
@@ -29,18 +35,24 @@ const SLOTS: readonly Slot[] = [
   },
   {
     pillar: 'docs',
-    key: 'nav.docs',
-    icon: 'docs',
+    key: 'nav.info',
+    icon: 'info',
     route: { screen: 'docs' },
     lit: 'var(--marigoldText)',
   },
 ];
 
 /**
- * The bar, on every screen: the three pillars and the documents, and nothing else. The pass lives
- * on the strip's dot and on घर's tile; a पास लें button here duplicated both and read as one more
- * tab (decision 018, 17 September). A fifth item was tried and taken out the same day — the bar
- * is four (decision 026, reversed).
+ * The bar, on every screen: four icons and nothing else. The pass lives on the strip's dot and on
+ * घर's tile; a पास लें button here duplicated both and read as one more tab (decision 018), and a
+ * fifth item was tried and taken out on the 18th (decision 026, reversed).
+ *
+ * **No words under the icons** (owner, 18 September). Two of the four labels were English in the
+ * English catalogue and Devanagari in neither — the three pillar names never translate, so the
+ * bar read as three Hindi words and one English one. Icons alone carry the same meaning in both
+ * catalogues and buy back the height. Each one keeps its word as the accessible name, which is
+ * what a screen reader announces and what `aria-label` is for; a glyph with no name is a button
+ * nobody blind can use (decision 027).
  */
 export function TabBar({ current }: { readonly current: Pillar }) {
   const { t } = useSettings();
@@ -54,12 +66,13 @@ export function TabBar({ current }: { readonly current: Pillar }) {
             type="button"
             className={on ? 'bar-tab bar-tab-on' : 'bar-tab'}
             style={on ? { color: slot.lit } : undefined}
+            aria-label={t(slot.key)}
+            aria-current={on ? 'page' : undefined}
             onClick={() => {
               navigate(slot.route);
             }}
           >
-            <Icon name={slot.icon} size={24} strokeWidth={on ? 2 : 1.8} />
-            <span>{t(slot.key)}</span>
+            <Icon name={slot.icon} size={27} strokeWidth={on ? 2 : 1.8} />
           </button>
         );
       })}

@@ -59,17 +59,20 @@ cat <<S
   </div>
 S
 }
-# bar: $1 = active (khaana|jaana|jaanna|docs|none). The four tasks, evenly spaced, and nothing
-# else: the pass lives on the strip's dot and on घर's tile (decision 018, 17 September).
+# bar: $1 = active (khaana|jaana|jaanna|docs|none). Four icons, evenly spaced, and nothing else:
+# the pass lives on the strip's dot and on घर's tile (decision 018, 17 September), and the words
+# under the icons went on 18 September (decision 027) — two of the four were English in the
+# English catalogue while the pillar names never translate, so the bar read as three Hindi words
+# and one English one. The glyph says it in both.
 bar() {
   local a=$1
-  item() { local col=$muted w=600; [ "$a" = "$1" ] && col=$2 && w=700; echo "<div style=\"display: flex; flex-direction: column; align-items: center; gap: 3px; min-height: 48px; justify-content: center;\">$($3 24 "$col" 1.8)<span style=\"font-size: 11.5px; font-weight: $w; color: $col;\">$4</span></div>"; }
+  item() { local col=$muted bg=none; [ "$a" = "$1" ] && col=$2 && bg=$sand; echo "<div title=\"$4\" style=\"display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 14px; background: $bg;\">$($3 27 "$col" 1.8)</div>"; }
 cat <<S
-  <div style="border-top: 1px solid $line; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px 8px 18px 8px; background: $ground;">
+  <div style="border-top: 1px solid $line; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 5px 8px 14px 8px; background: $ground;">
     $(item khaana "$k_text" thali खाना)
-    $(item jaana "$teal" metro जाना)
+    $(item jaana "$teal" signpost जाना)
     $(item jaanna "$n_text" lantern जानना)
-    $(item docs "$marigoldText" docs दस्तावेज़)
+    $(item docs "$marigoldText" info "ज़रूरी जानकारी")
   </div>
 S
 }

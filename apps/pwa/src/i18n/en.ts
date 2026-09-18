@@ -24,6 +24,7 @@ export const en: Record<StringKey, string> = {
   'strip.room': 'Room {room}',
 
   'nav.back': 'Back',
+  'nav.info': 'Important info',
   'nav.docs': 'Documents',
 
   'pillar.food': 'खाना',

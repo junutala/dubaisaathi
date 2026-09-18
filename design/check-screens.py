@@ -24,6 +24,14 @@ NAME_MARK = 'Dubaisaathi'
 BACK_ICON = 'M15 5l-7 7 7 7'
 TICKET_ICON = 'M4 8a2 2 0 0 1 2-2h12'
 BAR_TOP = 'border-top: 1px solid'
+# The bar carries no words since 18 September (decision 027), so it is checked by the four glyphs
+# themselves — one distinctive path from each. A missing icon is a missing tab.
+BAR_ICONS = {
+    'खाना': 'M12 2.5v1.6',                 # the thali's steam
+    'जाना': 'M12 7.4h6.6l2 2.1-2 2.1H12',  # the signpost's upper arm
+    'जानना': 'M10.4 21.5h3.2',              # the lantern's foot
+    'ज़रूरी जानकारी': 'M12 11.1v5.4',        # the circled i's stem
+}
 LIGHT_SURFACES = ['#FFFDF9', '#F7F3EC', '#E6DED2', '#141826']
 
 failures: list[str] = []
@@ -73,16 +81,20 @@ def main() -> int:
         if 'मेरा होटल' not in text and '>बदलें</span>' not in text:
             fail(name, 'the strip has no hotel row')
 
-        # Rule 4: the bar on every screen — the three pillars and the documents, and nothing
-        # else. The pass is the strip's dot and घर's tile (decision 018, 17 September); a पास लें
-        # button in the bar duplicated both. A fifth item was added and taken out again on 18
-        # September (decision 026, reversed), so the checker now says so in both directions.
-        bar_items = sum(1 for p in PILLARS + ['दस्तावेज़'] if ('>%s</span>' % p) in text)
-        if bar_items < 4:
-            fail(name, 'the bar is missing a pillar or the documents')
-        if 'बात' in text[text.rfind(BAR_TOP):]:
+        # Rule 4: the bar on every screen — the three pillars and ज़रूरी जानकारी, as four icons
+        # and nothing else. The pass is the strip's dot and घर's tile (decision 018, 17
+        # September); a पास लें button in the bar duplicated both, and a fifth item was added and
+        # taken out again on the 18th (decision 026, reversed). The words under the icons went
+        # the same day (decision 027), so the tabs are counted by their glyphs.
+        bar = text[text.rfind(BAR_TOP) :]
+        for label, path in BAR_ICONS.items():
+            if path not in bar:
+                fail(name, 'the bar has no %s icon' % label)
+        if re.search(r'<span[^>]*>[^<]', bar):
+            fail(name, 'the bar carries a word under an icon')
+        if 'बात' in bar:
             fail(name, 'the bar carries बात')
-        if 'पास लें' in text[text.rfind(BAR_TOP):]:
+        if 'पास लें' in bar:
             fail(name, 'the bar carries पास लें')
         if name == 'HomePaid' and 'पास लें' in text:
             fail(name, 'a paid traveller still sees पास लें')

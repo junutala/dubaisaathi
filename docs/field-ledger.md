@@ -18,9 +18,10 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 
 ## On every screen after landing — the bar
 
-| Field                           | Why it is there                                                          |
-| ------------------------------- | ------------------------------------------------------------------------ |
-| खाना · जाना · जानना · दस्तावेज़ | Switch task in one tap, from anywhere; the current one lit in its colour |
+| Field                                 | Why it is there                                                                                |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Four icons: खाना, जाना, जानना, ज़रूरी | Switch task in one tap, from anywhere; the current one lit in its colour on a sand pill        |
+| No words under them (decision 027)    | Two of the four labels translated and two never do; the glyphs say the same in both catalogues |
 
 ## On every screen that is not home — the header
 

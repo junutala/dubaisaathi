@@ -345,25 +345,25 @@ button:not(:disabled) {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   border-top: 1px solid var(--line);
   background: var(--card);
-  padding: 6px 8px 18px;
+  /* The words went on 18 September; the height they took goes to the screen above, not to air. */
+  padding: 5px 8px 14px;
   position: sticky;
   bottom: 0;
 }
+/* Icons alone since 18 September — the word is the accessible name, not painted type. The
+   target is still 48px tall and now a little wider than the glyph, because a thumb aims at the
+   button and not at the drawing. */
 .bar-tab {
   min-height: 48px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
-  font-size: 11.5px;
-  font-weight: 600;
   color: var(--muted);
-  border-radius: 12px;
+  border-radius: 14px;
 }
-/* The pillar the traveller is in, lit in its own colour so they know where they are. */
+/* The pillar the traveller is in, lit in its own colour so they know where they are. With no
+   label to thicken, the sand pill is what carries the difference at a glance. */
 .bar-tab-on {
-  font-weight: 700;
   background: var(--sand);
 }
 
