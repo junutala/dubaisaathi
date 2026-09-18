@@ -50,4 +50,3 @@ trash()   { ic "$1" "$2" "$3"; echo '<path d="M4.5 7h15"></path><path d="M9 7V4.
 share()   { ic "$1" "$2" "$3"; echo '<path d="M12 3v12"></path><path d="M8 7l4-4 4 4"></path><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"></path></svg>'; }
 qr()      { ic "$1" "$2" "$3"; echo '<rect x="4" y="4" width="6" height="6"></rect><rect x="14" y="4" width="6" height="6"></rect><rect x="4" y="14" width="6" height="6"></rect><path d="M14 14h2v2h-2zM18 14h2M14 18h2M18 18h2v2"></path></svg>'; }
 check()   { ic "$1" "$2" "$3"; echo '<path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>'; }
-speech()  { ic "$1" "$2" "$3"; echo '<path d="M3.2 8.3A3.1 3.1 0 0 1 6.3 5.2h7.6a3.1 3.1 0 0 1 3.1 3.1v3.3a3.1 3.1 0 0 1-3.1 3.1H8.4L4.6 18v-3.5a3.1 3.1 0 0 1-1.4-2.6z"></path><path d="M17.6 9.1h.8a2.4 2.4 0 0 1 2.4 2.4v2.6a2.4 2.4 0 0 1-1.1 2v2.7l-2.9-2.4h-3.2"></path></svg>'; }

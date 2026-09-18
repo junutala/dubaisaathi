@@ -20,8 +20,6 @@ export type Route =
   // own address, exactly what it is showing.
   | { readonly screen: 'bolna' }
   | { readonly screen: 'bolnaArabic'; readonly text: string }
-  // घर.7 · बात — tell us something, and send the app on (decision 026)
-  | { readonly screen: 'reach' }
   // 1.1 / 1.2 · खाना — one screen; a dish in the box is what makes it 1.2
   | { readonly screen: 'food'; readonly dish?: string }
   // 1.3 · the outlet, 1.4 · its menu
@@ -57,8 +55,6 @@ export function parseRoute(hash: string): Route {
       return arg ? { screen: 'pass', token: arg } : { screen: 'pass' };
     case 'bolna':
       return { screen: 'bolna' };
-    case 'reach':
-      return { screen: 'reach' };
     case 'bolna-arabic':
       return arg ? { screen: 'bolnaArabic', text: decodeURIComponent(arg) } : { screen: 'bolna' };
     case 'food':
@@ -106,8 +102,6 @@ export function href(route: Route): string {
       return '#/bolna';
     case 'bolnaArabic':
       return `#/bolna-arabic/${encodeURIComponent(route.text)}`;
-    case 'reach':
-      return '#/reach';
     case 'food':
       return route.dish === undefined ? '#/food' : `#/food/${encodeURIComponent(route.dish)}`;
     case 'outlet':
@@ -136,7 +130,7 @@ export function navigate(route: Route): void {
 }
 
 /** Which pillar a screen belongs to, for the header's colour and the bar's lit item. */
-export type Pillar = 'food' | 'go' | 'know' | 'docs' | 'reach' | 'home';
+export type Pillar = 'food' | 'go' | 'know' | 'docs' | 'home';
 
 export function pillarOf(route: Route): Pillar {
   switch (route.screen) {
@@ -157,8 +151,6 @@ export function pillarOf(route: Route): Pillar {
     case 'docAdd':
     case 'docView':
       return 'docs';
-    case 'reach':
-      return 'reach';
     case 'home':
     case 'hotel':
     case 'pass':

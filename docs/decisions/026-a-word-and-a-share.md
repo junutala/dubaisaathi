@@ -76,3 +76,41 @@ already works and what the owner reads the table for.
 - Dexie goes to v7 with `messages`. Every table above it is re-declared unchanged.
 - The screen itself has no board, as बोलना's does not (decision 020): both arrived after the
   Sprint 1 freeze. The chrome around them is on every board and is checked.
+
+---
+
+## Reversed, 18 September, hours after it shipped
+
+The owner, seeing it in the bar:
+
+> _"KILL THIS BAAT at the bottom strip. This will never make to live. and BAAT was the old name
+> we gave while trying offline chat. and this never worked and I clearly told that the old
+> chapter is as good as closed."_
+
+**बात is out of the bar and out of the app.** The bar is four items again: खाना · जाना · जानना ·
+दस्तावेज़. The screen, its outbox, its share block, its strings, its styles, its icon and its
+tests are deleted.
+
+The name was the fault, and it was mine. बात is what the abandoned offline-chat work was called —
+a chapter the owner had already closed — so putting it in the bar read as that thing coming back,
+and it read that way to the one person who knows the history. I chose the word for how it sounds
+beside the pillars and never checked what it had been used for here before. A name is not free
+of its past in the codebase it lives in.
+
+What stays, and why:
+
+- **Dexie's v7 and the `messages` table.** Nothing writes one now. But a phone that opened this
+  morning's build has a v7 database, and Dexie refuses to open a database whose version is above
+  what the schema declares — the traveller's hotel and documents would go with it. A release
+  never takes something away from a phone; the version and `ContactMessage` stay, unused.
+- **The `contact` function and `contact_messages`.** Decision 023 stands: that is the website's
+  form, which works and is unaffected.
+
+Rule 4 in `docs/design-rules.md` goes back to four, and `design/check-screens.py` now fails a
+board that carries बात in the bar — the reverse of what it checked this morning, so this cannot
+return by accident.
+
+**What is undecided.** The owner asked for the thing itself earlier the same day: _"one icon at
+the bottom strip and opening that will render a new screen, exactly the two functions one after
+the other - contact us and share us."_ That request is not withdrawn, the word and the bar
+placement are. Nothing is built for it until he says where it goes and what it is called.

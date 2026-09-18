@@ -59,19 +59,17 @@ cat <<S
   </div>
 S
 }
-# bar: $1 = active (khaana|jaana|jaanna|docs|baat|none). The five tasks, evenly spaced, and
-# nothing else: the pass lives on the strip's dot and on घर's tile (decision 018, 17 September),
-# and बात — tell us something, pass the app on — is the fifth and last (decision 026).
+# bar: $1 = active (khaana|jaana|jaanna|docs|none). The four tasks, evenly spaced, and nothing
+# else: the pass lives on the strip's dot and on घर's tile (decision 018, 17 September).
 bar() {
   local a=$1
   item() { local col=$muted w=600; [ "$a" = "$1" ] && col=$2 && w=700; echo "<div style=\"display: flex; flex-direction: column; align-items: center; gap: 3px; min-height: 48px; justify-content: center;\">$($3 24 "$col" 1.8)<span style=\"font-size: 11.5px; font-weight: $w; color: $col;\">$4</span></div>"; }
 cat <<S
-  <div style="border-top: 1px solid $line; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 6px 8px 18px 8px; background: $ground;">
+  <div style="border-top: 1px solid $line; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px 8px 18px 8px; background: $ground;">
     $(item khaana "$k_text" thali खाना)
     $(item jaana "$teal" metro जाना)
     $(item jaanna "$n_text" lantern जानना)
     $(item docs "$marigoldText" docs दस्तावेज़)
-    $(item baat "$ink" speech बात)
   </div>
 S
 }

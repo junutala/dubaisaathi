@@ -118,12 +118,11 @@ export class SaathiDb extends Dexie {
       transportMeta: 'id',
       savedPhrases: 'id, savedAt',
     });
-    // v7: the outbox — what a traveller wrote to us on घर.7, kept until the phone has a signal
-    // (decision 026). It is a table rather than a field on something else because the thing it
-    // holds is an entity: a `ContactMessage`, the same one the website's form writes straight to
-    // the server. Indexed by `at` so the screen can say what is waiting in the order it was
-    // written, and by `synced` because the only query that matters is "what is still queued" —
-    // the same two indexes the question log has, for the same two reasons.
+    // v7: `messages`, the outbox घर.7 wrote to. The screen was taken out the day it shipped
+    // (decision 026, reversed) and nothing writes one now — but the version stays, because a
+    // phone that opened that build has a v7 database and Dexie refuses to open a database whose
+    // version is higher than the schema declares. Dropping this line would take a traveller's
+    // hotel and documents with it, which is the one thing a release may never do.
     //
     // Every table above is re-declared unchanged, so a phone carrying v6 opens with its hotel,
     // its documents and its unsynced queue intact (rule 6, decision 003).

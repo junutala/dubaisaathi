@@ -18,10 +18,9 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 
 ## On every screen after landing — the bar
 
-| Field                                 | Why it is there                                                                |
-| ------------------------------------- | ------------------------------------------------------------------------------ |
-| खाना · जाना · जानना · दस्तावेज़ · बात | Switch task in one tap, from anywhere; the current one lit in its colour       |
-| बात, fifth and last                   | Something to tell us, or somebody to pass the app to — reachable from anywhere |
+| Field                           | Why it is there                                                          |
+| ------------------------------- | ------------------------------------------------------------------------ |
+| खाना · जाना · जानना · दस्तावेज़ | Switch task in one tap, from anywhere; the current one lit in its colour |
 
 ## On every screen that is not home — the header
 
@@ -130,21 +129,6 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 | सुनाएँ                        | Read aloud for someone who is not looking at the screen                             |
 | One line when it did not work | No signal, no Arabic voice, the phone gave no sound — each said, never a blank      |
 | "यही स्क्रीन दिखा दीजिए"      | What still works when the voice does not                                            |
-
-## घर.7 · बात
-
-| Field                           | Why it is there                                                                                 |
-| ------------------------------- | ----------------------------------------------------------------------------------------------- |
-| हमें कुछ कहना है? and one line  | What this box is for, in the words a traveller would use: what they looked for and did not find |
-| नाम                             | Somebody to ask for when the call is returned                                                   |
-| +91 / +971 · नंबर               | The reply goes by phone; the code says which country, so the number can be dialled              |
-| बात                             | The message itself, in whatever language they write                                             |
-| भेज दीजिए                       | The one action; it writes to the phone, so it never fails in front of anyone                    |
-| मिल गई, and what happens next   | Sent, or kept until there is a signal — the difference is theirs to know                        |
-| "{count} बात भेजी जानी बाकी है" | What is still queued, so nobody wonders whether it went                                         |
-| The invitation, in full         | What will be sent in their name, before it is sent                                              |
-| व्हाट्सऐप पर भेजिए              | The way a traveller's friends actually get things, with nobody chosen for them                  |
-| किसी और तरह से भेजिए            | The phone's own sheet, then the clipboard — a friend who is not on WhatsApp                     |
 
 ## 1.1 · खाना › क्या खाएँ · 1.2 · नतीजे
 
