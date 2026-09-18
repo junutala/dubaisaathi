@@ -1108,9 +1108,9 @@ footer .wrap {
 .qr-card {
   margin: 0;
   display: none;
-  gap: 10px;
+  gap: 12px;
   align-items: center;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: 210px 1fr;
 }
 .qr-card img {
   display: block;
@@ -1128,6 +1128,24 @@ footer .wrap {
   .qr-card {
     display: grid;
   }
+}
+/* The referral half of the aside: a rule above it, because it is a different errand from the
+   two lines about reaching us that sit over it. */
+.pass-it {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+  margin-top: 6px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.pass-it .note {
+  margin: -4px 0 2px;
+}
+/* On a phone the QR is hidden and this is the only way through; on a laptop it is the second,
+   under a QR that is the first. Either way it is the same errand, so it looks the same. */
+.btn-share {
+  margin-top: 2px;
 }
 
 @media (max-width: 860px) {

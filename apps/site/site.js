@@ -41,6 +41,14 @@
       );
     }
     said(saidState);
+    const share = document.getElementById('share-wa');
+    if (share) {
+      const line =
+        lang === 'hi'
+          ? 'दुबई जा रहे हैं? यह ऐप रख लीजिए — बिना इंटरनेट के भी चलता है। https://dubai.saafarsaathi.in'
+          : 'Going to Dubai? Keep this one — it works with no internet. https://dubai.saafarsaathi.in';
+      share.setAttribute('href', 'https://wa.me/?text=' + encodeURIComponent(line));
+    }
   }
 
   function toggle() {
@@ -138,6 +146,21 @@
    * round: a page whose script fails shows every word, and a reader who has asked their phone
    * to stop moving things gets it standing still.
    */
+  /*
+   * "Send on WhatsApp" — the tap for a phone, where the QR beside it is useless because nobody
+   * scans their own screen. The href is written here rather than in the markup for one reason:
+   * the line it carries is longer than the QR's, which had to be short enough to stay scannable.
+   * Both open the reader's own WhatsApp with a contact picker; neither reaches us.
+   */
+  const invite = document.getElementById('share-wa');
+  if (invite) {
+    const line =
+      root.getAttribute('lang') === 'hi'
+        ? 'दुबई जा रहे हैं? यह ऐप रख लीजिए — बिना इंटरनेट के भी चलता है। https://dubai.saafarsaathi.in'
+        : 'Going to Dubai? Keep this one — it works with no internet. https://dubai.saafarsaathi.in';
+    invite.setAttribute('href', 'https://wa.me/?text=' + encodeURIComponent(line));
+  }
+
   const curtain = document.getElementById('bolna');
   const stillPlease = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (curtain && 'IntersectionObserver' in window && !stillPlease.matches) {
