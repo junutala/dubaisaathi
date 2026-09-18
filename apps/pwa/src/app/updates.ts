@@ -21,6 +21,14 @@
  *   3. Nothing is downloaded unless somebody asks, so the app asks: a check on launch and every
  *      half hour the app stays open, because the browser's own schedule is its business and can
  *      be a day.
+ *
+ * Way 2 needed a fourth thing to work, and did not have it until 18 September. It was wired to
+ * the traveller *arriving* on घर, so a traveller already standing there when the download
+ * finished was never asked again — and that is the common case, because घर is where the app
+ * opens. The owner watched बात download to his phone (the http log shows the worker fetching
+ * every asset) and went on looking at the build before it. So the arrival of a worker is now
+ * itself a moment: `watchForUpdate` below notices one finishing, and the screen decides whether
+ * it is a safe time.
  */
 
 /** Set for the life of the tab, so a worker that refuses to activate cannot cause a reload loop. */
@@ -117,5 +125,46 @@ export function startUpdateChecks(): () => void {
   return () => {
     window.clearInterval(timer);
     window.removeEventListener('online', ask);
+  };
+}
+
+/**
+ * Notice a build that finishes downloading while the app is open, and say so once.
+ *
+ * This is the missing half of way 2. `applyUpdateIfIdle` answers "is there one waiting?" at the
+ * moment it is called; nothing was asking that question again while the traveller sat on घर, so
+ * a build that landed a second after the screen painted waited for a navigation that never came.
+ *
+ * The caller decides what to do — this file must not, because only the screen knows whether the
+ * traveller is in the middle of something (see `applyUpdateIfIdle`).
+ */
+export function watchForUpdate(arrived: () => void): () => void {
+  let stopped = false;
+  let watched: ServiceWorkerRegistration | undefined;
+
+  const onStateChange = (worker: ServiceWorker) => () => {
+    // `installed` is the state a worker sits in while it waits for the old one to let go. No
+    // controller means this is a first install with nothing to replace, which is not an update.
+    if (!stopped && worker.state === 'installed' && navigator.serviceWorker.controller) arrived();
+  };
+
+  const onFound = () => {
+    const installing = watched?.installing;
+    if (!installing) return;
+    installing.addEventListener('statechange', onStateChange(installing));
+  };
+
+  void registration().then((found) => {
+    if (stopped || !found) return;
+    watched = found;
+    found.addEventListener('updatefound', onFound);
+    // One may already be waiting: the download can finish between the cold start's check and
+    // this one, which is exactly the gap that let a release sit unseen on a phone.
+    if (found.waiting && navigator.serviceWorker.controller) arrived();
+  });
+
+  return () => {
+    stopped = true;
+    watched?.removeEventListener('updatefound', onFound);
   };
 }
