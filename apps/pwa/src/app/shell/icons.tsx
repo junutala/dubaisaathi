@@ -39,7 +39,11 @@ export type IconName =
   | 'qr'
   // घर.5 · बोलना: the one microphone in the product, and the button that reads Arabic aloud
   | 'mic'
-  | 'sound';
+  | 'sound'
+  // The bar, since 18 September: जाना's signpost and ज़रूरी जानकारी's circled i. Both were
+  // chosen for a bar that carries no words, so the glyph is the whole label.
+  | 'signpost'
+  | 'info';
 
 /**
  * The shapes themselves, not path strings, because some are drawn with rects and filled dots as
@@ -255,6 +259,26 @@ const SHAPES: Record<IconName, ReactNode> = {
       <path d="M4 9.3h3.4L12 5.4v13.2L7.4 14.7H4z" />
       <path d="M15.4 9.2a4 4 0 0 1 0 5.6" />
       <path d="M18.1 6.4a8 8 0 0 1 0 11.2" />
+    </>
+  ),
+  /* जाना's own. A metro train was accurate about the metro and silent about the bus, the taxi
+     and the choice between them, which is the whole pillar. A post with two ways off it says
+     "choose a direction" and names no vehicle — and it survives 24px, which a starburst of
+     seven vehicles does not (18 September). */
+  signpost: (
+    <>
+      <path d="M12 21.2V4.6" />
+      <path d="M12 7.4h6.6l2 2.1-2 2.1H12" />
+      <path d="M12 14.2H5.4l-2 2.1 2 2.1H12" />
+    </>
+  ),
+  /* The one glyph in the set that needs no word under it: an Indian traveller has met it at
+     every railway station and airport. That is what lets the bar carry icons alone. */
+  info: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="7.7" r="1.05" fill="currentColor" stroke="none" />
+      <path d="M12 11.1v5.4" />
     </>
   ),
 };

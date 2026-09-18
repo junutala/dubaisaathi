@@ -27,6 +27,7 @@ export const hi = {
 
   // The bar
   'nav.back': 'वापस',
+  'nav.info': 'ज़रूरी जानकारी',
   'nav.docs': 'दस्तावेज़',
 
   // The blocks on घर. The three pillars are the brand and stay in Devanagari in both

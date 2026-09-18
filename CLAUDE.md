@@ -94,12 +94,14 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
 - **The top strip is on every screen.** The mark and the name (tap → home), online/offline, the
   pass dot, language, theme, and under them **the traveller's hotel** — photographs, room, the
   desk's number, a note, a pin; whatever they want to keep, without limit, on the phone only.
-- **The bar is on every screen.** खाना · जाना · जानना · दस्तावेज़, four items evenly spaced, the
-  current pillar lit in its colour, and nothing else. बोलना is not in the bar: it is a block on
-  घर. The pass lives on the strip's dot and on घर's tile (decision 018); there is no पास लें
-  button in the bar. **A fifth item was added and taken out on 18 September** (decision 026,
-  reversed): the bar is four, and बात is a dead name from the abandoned offline-chat work that
-  must not come back.
+- **The bar is on every screen: four icons, no words** (decision 027). खाना, जाना, जानना and
+  ज़रूरी जानकारी — a thali, a signpost, a lantern and a circled _i_ — each carrying its name as an
+  accessible label, the current one lit in its own colour on a sand pill. The words went because
+  the pillar names never translate and दस्तावेज़ did, so the English catalogue showed three Hindi
+  words and one English one. बोलना is not in the bar: it is a block on घर. The pass lives on the
+  strip's dot and on घर's tile (decision 018); there is no पास लें button in the bar. **A fifth
+  item was added and taken out on 18 September** (decision 026, reversed): the bar is four, and
+  बात is a dead name from the abandoned offline-chat work that must not come back.
 - **घर's one tile is the pass**, alone at the foot under the blocks and above the bar
   (decision 018). **बोलना is the fourth block, not a tile** (decision 020 and its addendum).
   बोलना (घर.5, and घर.6 for its Arabic) is the product's one microphone and its one online-only

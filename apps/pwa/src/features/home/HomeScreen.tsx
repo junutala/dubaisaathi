@@ -41,7 +41,7 @@ const PILLARS: readonly PillarDef[] = [
     key: 'pillar.go',
     roman: 'pillar.go.roman',
     blurb: 'pillar.go.blurb',
-    icon: 'metro',
+    icon: 'signpost',
     route: { screen: 'go' },
     bg: 'var(--go)',
     fg: 'var(--onGo)',
