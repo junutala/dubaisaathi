@@ -22,7 +22,6 @@
   --page: #f6f3ee;
   --marigold: #e8871e;
   --teal: #0b7a6b;
-  --trouble: #8a3a12;
   /* The tints the rider's screen needs, the same values the traveller's app uses, so the two
      tools look like one thing. A rule that names a token this file does not define is silently
      dropped by the browser and shows up nowhere else — which is how the pin's number lost its
@@ -249,12 +248,6 @@ input.short {
 .hint.center {
   text-align: center;
 }
-.trouble {
-  margin: 0;
-  font-size: 14px;
-  color: var(--trouble);
-}
-
 /* ---- the mark, so the tool looks like it belongs to something ------------------------- */
 
 .brand {

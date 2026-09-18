@@ -10,7 +10,7 @@ import { db, keepOurData } from './db.js';
 import { collectorName, setCollectorName } from './collector.js';
 import { waitingPins, type WaitingPin } from './pins.js';
 import { Logo, Wordmark } from './Logo.js';
-import { shrink, FRONT, MENU } from './shrink.js';
+import { shrink, MENU } from './shrink.js';
 import { BUILD } from './version.js';
 import { readMenu } from './readMenu.js';
 import type { Candidate } from './dishCandidates.js';
@@ -18,26 +18,19 @@ import { startSync, syncReports, type SyncOutcome } from './sync.js';
 import { setLang, useStrings, type Key } from './strings.js';
 
 /**
- * One screen, because a collector standing in a shop should never be navigating.
+ * One screen — the desk, where the paper the rider brought back is keyed in (decision 029).
  *
- * Four things are required and everything else is optional: where it is, the name on the board,
- * a photograph of the front, and what kind of kitchen it is. A partial report on a real outlet
- * is worth far more than a skipped one, and a long mandatory form is how you get six visits a
- * day instead of eighteen.
+ * It is never filled in at the shop any more. The rider's own screen banked the fix and the
+ * number at the door; this form starts by picking that number off the list, and the coordinates
+ * ride along with it. So there is no GPS watch here and no frontage photograph: whoever is
+ * sitting at the desk has a stapled form and a menu card in front of them, and the phone in
+ * their hand may be a thousand miles from the kitchen.
  *
- * Nothing is typed that can be captured. The location comes from the phone on its own — the
- * form watches the GPS from the moment it opens and saves the fix the collector is standing on
- * when they press save, so there is no button to forget — the menu comes from the camera, and
- * the address is never asked for at all.
+ * Three things are required and everything else is optional: the pin, the name on the board,
+ * and what kind of kitchen it is. A partial report on a real outlet is worth far more than a
+ * skipped one, and a long mandatory form is how you get six of them keyed in instead of
+ * eighteen. The dishes and their prices still come from the camera rather than the keyboard.
  */
-
-/** A GPS reading, with how good it was and when, so the screen can say so. */
-interface Fix {
-  readonly lat: number;
-  readonly lng: number;
-  readonly accuracyM: number;
-  readonly at: number;
-}
 
 type Answer = 'yes' | 'on-request' | 'no' | null;
 
@@ -79,8 +72,6 @@ const ANSWERS: readonly { value: 'yes' | 'on-request' | 'no'; label: Key }[] = [
 export function CaptureScreen() {
   const { lang, t } = useStrings();
   const [who, setWho] = useState<string | null>(() => collectorName());
-  const [fix, setFix] = useState<Fix | null>(null);
-  const [fixTrouble, setFixTrouble] = useState<string | null>(null);
 
   const [name, setName] = useState('');
   const [nameHi, setNameHi] = useState('');
@@ -89,7 +80,6 @@ export function CaptureScreen() {
   const [kitchen, setKitchen] = useState<KitchenKind | null>(null);
   // Blob rather than File: a photograph is shrunk the moment it is taken, so what sits in the
   // queue is what will be sent. A day's work then costs the phone's storage once, not twice.
-  const [front, setFront] = useState<Blob | null>(null);
   /**
    * The rider's pins waiting for their paper, and the one being completed (decision 029).
    *
@@ -135,61 +125,30 @@ export function CaptureScreen() {
   }, [who, saved]);
 
   /**
-   * The phone is asked the moment there is a collector, and kept asked: a watch rather than one
-   * reading, so the fix saved is where they are standing when they press save, not where they
-   * were when they opened the form outside the previous shop. A browser that reports no
-   * geolocation still gets the call, because only the device gets to say no and it says it
-   * after being asked — the rule this project paid a day for.
+   * Every capture begins with a pin now (the owner, 18 September: he carries forms wherever he
+   * goes, so even his own visits start as paper and a number). The place and the frontage came
+   * from whoever stood at the door; what is left to fill is what the paper says.
    */
-  useEffect(() => {
-    if (who === null) return;
-    const watch = navigator.geolocation.watchPosition(
-      (position) => {
-        setFix({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-          accuracyM: position.coords.accuracy,
-          at: Date.now(),
-        });
-        setFixTrouble(null);
-      },
-      (error) => {
-        setFixTrouble(error.message || t('noLocation'));
-      },
-      { enableHighAccuracy: true, timeout: 20_000, maximumAge: 5_000 },
-    );
-    return () => {
-      navigator.geolocation.clearWatch(watch);
-    };
-    // The language is read once here, on error; the watch does not restart for a word.
-  }, [who, t]);
-
-  /**
-   * A pin already carries the place and the frontage, so completing one needs neither the phone's
-   * fix nor a photograph — only what was written on the paper. A capture on the spot needs both.
-   */
-  const ready =
-    name.trim() !== '' && kitchen !== null && (pin !== null || (fix !== null && front !== null));
+  const ready = pin !== null && name.trim() !== '' && kitchen !== null;
 
   const submit = async () => {
     if (!ready || who === null) return;
     /**
      * Completing a pin writes back to the pin's own row — same id, so the server updates rather
      * than inserts, and the coordinates the rider took at the door are never re-sent or
-     * re-derived. They were banked the moment he pressed the tick.
+     * re-derived. They were banked the moment he pressed the tick. `ready` already proves there
+     * is a pin; TypeScript follows the alias, so there is no second check here.
      */
-    const id = pin?.id ?? crypto.randomUUID();
+    const id = pin.id;
     const now = new Date().toISOString();
-    const where = pin ?? fix;
-    if (where === null) return;
 
     const report: FieldReport = {
       id,
       kind: 'restaurant',
       collectorId: who,
-      capturedAt: pin?.capturedAt ?? now,
-      location: { lat: where.lat, lng: where.lng },
-      ...(pin === null ? {} : { formSerial: pin.formSerial }),
+      capturedAt: pin.capturedAt,
+      location: { lat: pin.lat, lng: pin.lng },
+      formSerial: pin.formSerial,
       name: name.trim(),
       ...(nameHi.trim() === '' ? {} : { nameHi: nameHi.trim() }),
       ...(area === null ? {} : { areaId: area }),
@@ -217,16 +176,13 @@ export function CaptureScreen() {
       ...(price.trim() === '' ? {} : { priceForOneAed: Number(price) }),
       ...(spokeTo.trim() === '' ? {} : { spokeTo: spokeTo.trim() }),
       ...(notes.trim() === '' ? {} : { notes: notes.trim() }),
-      frontPhotoIds: front === null ? [] : [`${id}-front`],
+      frontPhotoIds: [],
       menuPhotoIds: menu.map((_, i) => `${id}-menu-${String(i)}`),
       status: 'queued',
     };
 
     await db.transaction('rw', db.reports, db.photos, async () => {
       await db.reports.put({ ...report, uploaded: false });
-      if (front !== null) {
-        await db.photos.add({ id: `${id}-front`, reportId: id, kind: 'front', bytes: front });
-      }
       for (const [i, file] of menu.entries()) {
         await db.photos.add({
           id: `${id}-menu-${String(i)}`,
@@ -251,7 +207,6 @@ export function CaptureScreen() {
     setArea(null);
     setAreaOther('');
     setKitchen(null);
-    setFront(null);
     setMenu([]);
     setDiet({});
     setDishes([]);
@@ -341,21 +296,6 @@ export function CaptureScreen() {
               </div>
             </>
           )}
-          <p className="hint">
-            <strong>{t('hereAndNow')}</strong> — {t('hereAndNowHint')}
-          </p>
-          {fix === null ? (
-            <p className="hint">{t('askingPhone')}</p>
-          ) : (
-            <p className="hint">
-              {t('located', {
-                m: Math.round(fix.accuracyM),
-                lat: fix.lat.toFixed(5),
-                lng: fix.lng.toFixed(5),
-              })}
-            </p>
-          )}
-          {fixTrouble !== null && <p className="trouble">{fixTrouble}</p>}
         </Section>
       ) : (
         <Section title={t('where')}>
@@ -425,22 +365,6 @@ export function CaptureScreen() {
         )}
         <p className="hint">{t('areaHint')}</p>
       </Section>
-
-      {pin === null && (
-        <Section title={t('frontPhoto')} required>
-          <FilePick
-            label={front === null ? t('takePhoto') : t('retake')}
-            onPick={(f) => {
-              const picked = f[0];
-              if (picked === undefined) return;
-              void shrink(picked, FRONT).then(setFront);
-            }}
-          />
-          {/* The size is shown because it is the collector's own data being spent, and because a
-            number here is the only way anyone can tell the shrinking actually happened. */}
-          {front !== null && <p className="hint">{t('gotIt', { size: kb(front) })}</p>}
-        </Section>
-      )}
 
       <Section title={t('kitchenKind')} required>
         <div className="chips">
