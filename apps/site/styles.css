@@ -220,14 +220,14 @@ a {
 }
 .kicker {
   display: inline-block;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--tealText);
-  background: var(--tealSoft);
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: 999px;
+  background: var(--tealSoft);
+  color: var(--tealText);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 h1 {
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
@@ -247,11 +247,13 @@ h1 {
 }
 /* The three words as three small tiles: the app's home blocks in miniature, each with its own
    icon, set a touch askew as if placed by hand. The brand as a mark, not a line of type. */
+/* Four tiles now, not three (18 September). Two and two: four across is wider than the column
+   and three-then-one reads as an accident rather than a set. */
 h1 .three {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 12px;
-  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 12px;
+  margin-top: 16px;
   font-size: 0.62em;
   line-height: 1;
 }
@@ -286,40 +288,13 @@ h1 .three {
   color: var(--onKnow);
   transform: rotate(-1deg);
 }
+.tile-speak {
+  background: var(--speak);
+  color: var(--onSpeak);
+  transform: rotate(2deg) translateY(1px);
+}
 .tile:hover {
   transform: rotate(0) scale(1.03);
-}
-.lead {
-  font-size: 19px;
-  color: var(--muted);
-  margin: 0 0 22px;
-  max-width: 34em;
-  text-wrap: pretty;
-}
-.cta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-}
-.cta .note {
-  font-size: 14px;
-  color: var(--muted);
-}
-.facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 18px;
-  margin: 22px 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: 15px;
-  font-weight: 600;
-}
-.facts li::before {
-  content: '✓';
-  color: var(--teal);
-  margin-right: 6px;
 }
 
 /* A phone, drawn in CSS, with a real screenshot of the app inside it. */
@@ -421,6 +396,111 @@ h1 .three {
 }
 .play-gone {
   display: none;
+}
+
+/* ---- the hero's four statements ---------------------------------------------------------- */
+/* All four, at once, under the four tiles and in the same order. Each leads in its own pillar's
+   colour so the line and the tile above it are visibly the same thing. */
+.turns {
+  display: grid;
+  gap: 18px;
+  margin: 22px 0 22px;
+  max-width: 30em;
+}
+/* A dot in the pillar's own colour, so four claims read as four rather than as a paragraph —
+   and so the eye can tell them apart from the quiet row of reassurance under them, which is a
+   list of the same shape doing an entirely different job. */
+.turn {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 14px;
+  align-items: start;
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+/* The pillar's own icon, not a bullet — the same drawing the tile above it carries and the
+   same one on the app's home. A reader who has seen it twice on this page knows it on the
+   phone. */
+.turn-icon {
+  width: 24px;
+  height: 24px;
+  margin-top: 0.12em;
+}
+.turn b {
+  font-weight: 700;
+}
+.turn-food {
+  color: var(--food);
+}
+.turn-go {
+  color: var(--go);
+}
+.turn-know {
+  color: var(--know);
+}
+.turn-speak {
+  color: var(--speakText);
+}
+/* The claim is in the pillar's colour; the rest of the sentence is ordinary ink. */
+.turn > span {
+  color: var(--ink);
+}
+.turn b {
+  color: inherit;
+}
+.turn-food b {
+  color: var(--food);
+}
+.turn-go b {
+  color: var(--go);
+}
+.turn-know b {
+  color: var(--know);
+}
+.turn-speak b {
+  color: var(--speakText);
+}
+/* Reassurance, not argument: one small muted row, two lines, no ticks. It answers "what does it
+   cost me" and "how do I install it" — the two questions the four claims above never touch. */
+.reassure {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 4px;
+  max-width: 32em;
+}
+.reassure p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+/* बोलना is the one that needs a signal. A star and a small line say so where a reader who cares
+   will look, without turning a claim into a caveat; the section further down explains it fully. */
+.star {
+  font-size: 0.62em;
+  vertical-align: super;
+  line-height: 0;
+  color: var(--speakText);
+}
+/* Fine print, and no more than that. It is here because the sentence above it needs a rider,
+   not because the rider is worth reading — and the constraint may not be permanent. */
+.turn-note {
+  display: block;
+  margin-top: 4px;
+  font-size: 11.5px;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 18px;
 }
 
 /* ---- the wash: travel glyphs at a whisper behind a band ---------------------------------- */
@@ -532,7 +612,21 @@ h2 {
   font-size: 15px;
   line-height: 1.45;
   opacity: 0.92;
-  min-height: 4.4em;
+}
+/* The claim first, the description under it. A reader who takes one line off each block should
+   take the thing no other app does, not a summary of the screen. */
+.pillar-claim {
+  font-size: 17.5px;
+  font-weight: 700;
+  line-height: 1.32;
+  opacity: 1;
+  margin-bottom: 10px;
+  text-wrap: pretty;
+  /* Two lines' worth, so the three phones below start on one line rather than a staircase. */
+  min-height: 2.7em;
+}
+.pillar p + p {
+  min-height: 7.4em;
 }
 .pillar .phone {
   margin: 14px auto -60px;
@@ -582,14 +676,19 @@ h2 {
   align-items: center;
   justify-content: center;
 }
+/* The line that answers "what will this cost me" before anyone asks. It was set as a dashed
+   aside in muted grey, which is how a page says "footnote" — and this is the opposite of a
+   footnote. Marigold, solid, and the size of something meant to be read. */
 .quote {
-  margin: 18px 0 0;
-  padding: 12px 16px;
-  border-radius: 14px;
-  background: var(--sand);
-  border: 1px dashed var(--line);
-  font-size: 15px;
-  color: var(--muted);
+  margin: 22px 0 0;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: var(--marigoldSoft);
+  border: 1px solid var(--marigold);
+  font-size: 17.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--marigoldText);
 }
 
 /* The pass. */
@@ -712,6 +811,69 @@ footer .wrap {
   text-transform: uppercase;
   color: var(--speakText);
   margin-bottom: 4px;
+}
+/* The reveal. `.curtain` is added by script, so nothing is hidden on a page without it; the
+   parts come up in the order a reader meets them, which is what makes it land as an entrance
+   rather than a fade. */
+.curtain .roman-loud,
+.curtain .bolna-lead,
+.curtain .bolna-head,
+.curtain .bolna-aside,
+.curtain .sub,
+.curtain .bolna-grid,
+.curtain .bolna-note {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.65s ease,
+    transform 0.65s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.curtain-up .roman-loud,
+.curtain-up .bolna-lead,
+.curtain-up .bolna-head,
+.curtain-up .bolna-aside,
+.curtain-up .sub,
+.curtain-up .bolna-grid,
+.curtain-up .bolna-note {
+  opacity: 1;
+  transform: none;
+}
+.curtain .bolna-lead {
+  transition-delay: 0.08s;
+}
+.curtain .bolna-head {
+  transition-delay: 0.16s;
+}
+.curtain .bolna-aside {
+  transition-delay: 0.26s;
+}
+.curtain .sub {
+  transition-delay: 0.34s;
+}
+.curtain .bolna-grid {
+  transition-delay: 0.42s;
+}
+.curtain .bolna-note {
+  transition-delay: 0.5s;
+}
+
+/* बोलना opens like a hero rather than a section (18 September): the owner's line above a
+   headline the size of the page's first one. It is the last thing a reader meets before the
+   pass, and the one they will remember standing in front of a driver. */
+.bolna-lead {
+  margin: 2px 0 6px;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--speakText);
+}
+.bolna-head {
+  font-size: clamp(32px, 4.6vw, 50px);
+  margin-bottom: 6px;
+}
+.bolna-aside {
+  margin: 0 0 18px;
+  font-size: 16px;
+  color: var(--muted);
 }
 .bolna-grid {
   display: grid;
@@ -925,6 +1087,12 @@ footer .wrap {
   gap: 14px;
   justify-items: start;
 }
+/* The contact aside's small print. It used to inherit from the hero's CTA row, which is gone —
+   so it says for itself what it is, which is what it should have done all along. */
+.note {
+  font-size: 14px;
+  color: var(--muted);
+}
 .reach h3 {
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
   font-weight: 600;
@@ -995,11 +1163,6 @@ footer .wrap {
     min-height: 42px;
     padding: 0 12px;
     font-size: 15px;
-  }
-  .facts {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px 12px;
   }
   .hero .phone {
     transform: none;

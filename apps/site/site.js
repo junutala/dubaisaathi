@@ -129,6 +129,32 @@
    * — a data saver, a policy, a codec — the reader is left holding a real control bar they can
    * press themselves, rather than a dimmed poster that did nothing when they tapped it.
    */
+  /*
+   * बोलना arrives rather than being there. The heading two sections up says there are four and
+   * shows three, so the fourth should land when the reader reaches it — the owner's word for it
+   * was "like a movie".
+   *
+   * The section is visible by default and JavaScript is what hides it, never the other way
+   * round: a page whose script fails shows every word, and a reader who has asked their phone
+   * to stop moving things gets it standing still.
+   */
+  const curtain = document.getElementById('bolna');
+  const stillPlease = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (curtain && 'IntersectionObserver' in window && !stillPlease.matches) {
+    curtain.classList.add('curtain');
+    const watcher = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add('curtain-up');
+          watcher.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.2 },
+    );
+    watcher.observe(curtain);
+  }
+
   const play = document.getElementById('tour-play');
   const film = play?.previousElementSibling;
   if (play && film) {
