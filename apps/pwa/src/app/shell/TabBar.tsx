@@ -34,12 +34,25 @@ const SLOTS: readonly Slot[] = [
     route: { screen: 'docs' },
     lit: 'var(--marigoldText)',
   },
+  {
+    pillar: 'reach',
+    key: 'nav.reach',
+    icon: 'speech',
+    route: { screen: 'reach' },
+    // Ink, not a hue: every colour in the bar belongs to a pillar, and बात is not one. Teal
+    // would have lit it in जाना's own colour.
+    lit: 'var(--ink)',
+  },
 ];
 
 /**
- * The bar, on every screen: the three pillars and the documents, and nothing else. The pass lives
- * on the strip's dot and on घर's tile; a पास लें button here duplicated both and read as one more
- * tab (decision 018, 17 September).
+ * The bar, on every screen: the three pillars, the documents, and बात. The pass is not here — it
+ * lives on the strip's dot and on घर's tile, and a पास लें button duplicated both and read as one
+ * more tab (decision 018, 17 September).
+ *
+ * बात is the fifth and last (decision 026). It is in the bar rather than on घर because घर is
+ * full — four blocks and one tile — and because it has to be reachable from the screen a
+ * traveller is on when they have something to say, which is never घर.
  */
 export function TabBar({ current }: { readonly current: Pillar }) {
   const { t } = useSettings();

@@ -80,7 +80,7 @@ describe('upgrading a phone that already has the app', () => {
     const upgraded = new SaathiDb(NAME);
     await upgraded.open();
 
-    expect(upgraded.verno).toBe(6);
+    expect(upgraded.verno).toBe(7);
     expect((await upgraded.phrases.get('taxi-hotel'))?.ar).toBe(PHRASE.ar);
     expect((await upgraded.contentVersions.get('phrases'))?.version).toBe(1);
     // The queue is what the learning loop is: losing it loses labelled recogniser errors that
@@ -90,7 +90,7 @@ describe('upgrading a phone that already has the app', () => {
     upgraded.close();
   });
 
-  it('opens the two new tables on that same upgraded phone, ready to be written to', async () => {
+  it('opens every table added since on that same upgraded phone, ready to be written to', async () => {
     const old = openV2();
     await old.open();
     old.close();
@@ -119,6 +119,22 @@ describe('upgrading a phone that already has the app', () => {
     });
     expect(await upgraded.savedPhrases.count()).toBe(1);
     expect(await upgraded.documents.count()).toBe(1);
+
+    // v7 arrived with the outbox (decision 026). Same rule: the table is there on an old
+    // phone, and nothing that was already on it has moved.
+    await upgraded.messages.add({
+      id: 'message-1',
+      at: '2026-09-18T09:00:00.000Z',
+      name: 'अरुण',
+      country: 'IN',
+      phone: '9876543210',
+      message: 'करामा में साबूदाना खिचड़ी कहाँ मिलेगी?',
+      locale: 'hi',
+      synced: false,
+    });
+    expect(await upgraded.messages.count()).toBe(1);
+    expect(await upgraded.documents.count()).toBe(1);
+    expect(await upgraded.savedPhrases.count()).toBe(1);
     upgraded.close();
   });
 });
