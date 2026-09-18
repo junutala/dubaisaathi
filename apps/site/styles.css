@@ -1103,8 +1103,9 @@ footer .wrap {
   border-color: #1faf54;
   color: #fff;
 }
-/* The QR is for a reader on a laptop, who cannot tap a wa.me link on a machine with no
-   WhatsApp on it. A phone shows the button above instead: nobody scans their own screen. */
+/* The QR is for a reader on a laptop: they point their own phone's camera at it and their own
+   WhatsApp opens with the invitation written (18 September — it carries no number of ours).
+   A phone shows only the button below it, because nobody scans their own screen. */
 .qr-card {
   margin: 0;
   display: none;

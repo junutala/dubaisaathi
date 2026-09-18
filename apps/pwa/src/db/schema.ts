@@ -1,5 +1,6 @@
 import Dexie, { type EntityTable } from 'dexie';
 import type {
+  ContactMessage,
   ContentVersion,
   Phrase,
   SavedPhrase,
@@ -8,7 +9,6 @@ import type {
   VoiceEvent,
 } from '@saathi/shared';
 import type { SavedHotel, TravellerDocument } from '../features/info/records.js';
-import type { ContactMessage } from '../features/reach/records.js';
 import type { TransportMeta } from '../features/transport/network.js';
 
 /**

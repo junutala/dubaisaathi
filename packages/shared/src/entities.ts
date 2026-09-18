@@ -574,3 +574,24 @@ export interface FieldReport {
   readonly status: FieldReportStatus;
   readonly reviewNote?: string;
 }
+
+/**
+ * A message somebody sent us — the website's form writes one straight to `contact_messages`
+ * (decision 023). The traveller's app briefly had a screen that wrote them too; that screen was
+ * removed the day it shipped (decision 026, reversed), and Dexie's `messages` table stays behind
+ * it because a phone that opened that build has a v7 database and must still be able to open it.
+ */
+export interface ContactMessage {
+  /** Made on the device, so a retried send cannot duplicate the row on the server. */
+  readonly id: string;
+  readonly at: string;
+  readonly name: string;
+  /** Which dialling code was picked. The number itself is digits only. */
+  readonly country: 'IN' | 'AE';
+  readonly phone: string;
+  readonly message: string;
+  /** The catalogue they were reading, so the reply goes out in the language they chose. */
+  readonly locale: 'hi' | 'en';
+  /** The phone's own bookkeeping. The server never sees it. */
+  readonly synced: boolean;
+}

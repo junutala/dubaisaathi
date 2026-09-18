@@ -106,7 +106,6 @@ export const hi = {
   'hotel.delete': 'होटल हटाएँ',
 
   // घर.2 · दस्तावेज़ — any document, without limit, on the phone
-  'docs.title': 'दस्तावेज़',
   'docs.none': 'अभी कोई नहीं — पासपोर्ट, बीमा, वापसी की टिकट, जो ज़रूरी लगे',
   'docs.add': 'दस्तावेज़ जोड़ें — फ़ोटो लें, नाम दें',
   'docs.added': 'जोड़ा {date}',
@@ -207,7 +206,6 @@ export const hi = {
   'pass.gives': 'इस पास में क्या-क्या',
 
   // ---- 1 · खाना -------------------------------------------------------------------------
-  'food.title': 'खाना',
   'food.label': 'क्या खाना है?',
   'food.placeholder': 'क्या खाना है? — डोसा, थाली, वड़ा पाव…',
   'food.chip.veg': 'शुद्ध शाकाहारी',
@@ -247,18 +245,14 @@ export const hi = {
   'food.askedBy': '{who} से पूछा गया · {date}',
   'food.askedOn': 'पूछा गया · {date}',
   'food.dishes': 'यहाँ क्या मिलता है',
-  'food.openNow': 'अभी खुला',
   'food.closesAt': 'खुला · {time} तक',
-  'food.shutNow': 'अभी बंद',
   'food.opensAt': 'बंद · {time} से खुलेगा',
-  'food.openLate': 'रात देर तक',
   'food.open24': 'चौबीसों घंटे',
   'food.fixture': 'ये जगहें अभी जाँची नहीं गई हैं — असली जानकारी आनी बाक़ी है.',
   'food.menuTitle': 'मेनू',
   'food.menuNone': 'इस जगह का मेनू अभी नहीं आया है.',
   'food.menuNote': 'मेनू से पढ़ा गया — दाम बदल सकते हैं',
   'food.menuItems': '{count} चीज़ें',
-  'food.gone': 'यह जगह अब सूची में नहीं है.',
   'food.tag.vegetarian': 'वेज',
   'food.tag.jain': 'जैन',
   'food.tag.sattvik': 'सात्विक',
@@ -277,7 +271,6 @@ export const hi = {
   'food.tag.thali': 'थाली',
 
   // ---- 2 · जाना -------------------------------------------------------------------------
-  'go.title': 'जाना',
   'go.label': 'कहाँ जाना है',
   'go.placeholder': 'कहाँ जाना है? — जगह या पता',
   'go.locationWhy': 'रास्ता बताने के लिए साथी को आपकी जगह चाहिए.',
@@ -292,7 +285,6 @@ export const hi = {
     '{area} काफ़ी बड़ा इलाक़ा है. इमारत या पास की कोई मशहूर जगह भी लिख दीजिए — ड्राइवर को आसानी होगी.',
 
   // 2.2 · विकल्प
-  'options.trail': 'विकल्प',
   'options.from': 'मेरा होटल',
   'options.fromHere': 'यहाँ से',
   'options.fromVirtual': '{place} से · आप दुबई से बाहर हैं',
@@ -308,8 +300,6 @@ export const hi = {
   'options.walkDetail': 'गर्मी में नहीं',
 
   // 2.3 · क़दम दर क़दम
-  'steps.trail': 'क़दम दर क़दम',
-  'steps.title': '{mode} से {place}',
   'steps.summary': '{time} · {fare}',
   'steps.nol': 'Nol कार्ड चाहिए',
   'steps.walk': 'पैदल चलिए',
@@ -366,7 +356,6 @@ export const hi = {
   'noLocation.fromHotel': 'होटल से रास्ता देखें',
 
   // ---- 3 · जानना ------------------------------------------------------------------------
-  'know.title': 'जानना',
   'know.label': 'जगह खोजें',
   'know.placeholder': 'जगह खोजें',
   'know.chip.all': 'सब',

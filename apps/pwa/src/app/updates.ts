@@ -25,8 +25,8 @@
  * Way 2 needed a fourth thing to work, and did not have it until 18 September. It was wired to
  * the traveller *arriving* on घर, so a traveller already standing there when the download
  * finished was never asked again — and that is the common case, because घर is where the app
- * opens. The owner watched बात download to his phone (the http log shows the worker fetching
- * every asset) and went on looking at the build before it. So the arrival of a worker is now
+ * opens. The owner watched a new build download to his phone in full (the http log shows the
+ * worker fetching every asset) and went on looking at the build before it. So the arrival of a worker is now
  * itself a moment: `watchForUpdate` below notices one finishing, and the screen decides whether
  * it is a safe time.
  */

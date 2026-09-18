@@ -96,7 +96,6 @@ export const en: Record<StringKey, string> = {
   'hotel.saved': 'Kept',
   'hotel.delete': 'Remove hotel',
 
-  'docs.title': 'Documents',
   'docs.none': 'None yet — passport, insurance, return ticket, whatever matters',
   'docs.add': 'Add a document — take a photo, give it a name',
   'docs.added': 'Added {date}',
@@ -194,7 +193,6 @@ export const en: Record<StringKey, string> = {
   'pass.welcome.go': 'Open Saathi',
   'pass.gives': 'What the pass gives you',
 
-  'food.title': 'खाना',
   'food.label': 'What do you want to eat?',
   'food.placeholder': 'What to eat? — dosa, thali, vada pav…',
   'food.chip.veg': 'Pure veg',
@@ -234,18 +232,14 @@ export const en: Record<StringKey, string> = {
   'food.askedBy': 'Asked of {who} · {date}',
   'food.askedOn': 'Asked · {date}',
   'food.dishes': 'What they make',
-  'food.openNow': 'Open now',
   'food.closesAt': 'Open · until {time}',
-  'food.shutNow': 'Closed now',
   'food.opensAt': 'Closed · opens {time}',
-  'food.openLate': 'Open late',
   'food.open24': '24 hours',
   'food.fixture': 'These places have not been visited yet — real information is still to come.',
   'food.menuTitle': 'Menu',
   'food.menuNone': 'No menu for this place yet.',
   'food.menuNote': 'Read from the menu — prices can change',
   'food.menuItems': '{count} items',
-  'food.gone': 'This place is no longer in the list.',
   'food.tag.vegetarian': 'Veg',
   'food.tag.jain': 'Jain',
   'food.tag.sattvik': 'Sattvik',
@@ -263,7 +257,6 @@ export const en: Record<StringKey, string> = {
   'food.tag.arabic': 'Arabic',
   'food.tag.thali': 'Thali',
 
-  'go.title': 'जाना',
   'go.label': 'Where to',
   'go.placeholder': 'Where to? — a place or an address',
   'go.locationWhy': 'Saathi needs your location to show the way.',
@@ -277,7 +270,6 @@ export const en: Record<StringKey, string> = {
   'go.areaIsBig':
     '{area} is a large area. Add the building or a nearby landmark — it helps the driver.',
 
-  'options.trail': 'Options',
   'options.from': 'My hotel',
   'options.fromHere': 'From here',
   'options.fromVirtual': 'From {place} · you are outside Dubai',
@@ -293,8 +285,6 @@ export const en: Record<StringKey, string> = {
   'options.taxiDetail': 'Careem, or from the street',
   'options.walkDetail': 'Not in the heat',
 
-  'steps.trail': 'Step by step',
-  'steps.title': '{place} by {mode}',
   'steps.summary': '{time} · {fare}',
   'steps.nol': 'Nol card needed',
   'steps.walk': 'Walk',
@@ -347,7 +337,6 @@ export const en: Record<StringKey, string> = {
     'The phone still refused. In phone settings › site › location, allow Saathi, then press this button again.',
   'noLocation.fromHotel': 'Show the way from the hotel',
 
-  'know.title': 'जानना',
   'know.label': 'Find a place',
   'know.placeholder': 'Find a place',
   'know.chip.all': 'All',

@@ -7,11 +7,6 @@
  * precache cache for how many of those files have landed. On a phone that installed earlier
  * both numbers are equal at once, and the landing says ready without pretending to download.
  */
-export interface PackProgress {
-  readonly cached: number;
-  readonly total: number;
-}
-
 /** The number of files the worker will precache, read out of its script. `null` offline. */
 export async function precacheTotal(): Promise<number | null> {
   try {
