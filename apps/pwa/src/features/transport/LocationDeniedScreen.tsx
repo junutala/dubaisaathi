@@ -9,7 +9,7 @@ import { askForLocation, forgetLocation } from '../../lib/location.js';
 /**
  * 2.5 — जाना › जगह की इजाज़त नहीं. The phone's permission is the phone's to give, and nothing
  * here overrides it. So this screen says plainly what stopped working, what still works, offers
- * the one thing that can fix it, and gets out of the way (design rule 30).
+ * the one thing that can fix it, and gets out of the way (design rule 18).
  */
 export function LocationDeniedScreen({ hotel }: { readonly hotel: SavedHotel | undefined }) {
   const { t } = useSettings();

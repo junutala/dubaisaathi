@@ -18,7 +18,7 @@ That is a real cost on a first download, and it is the right one: the pack is al
 megabytes, the fonts are the one part without which nothing is legible, and the alternative is
 a traveller in a taxi looking at boxes.
 
-Consequence for the screens: `design/generate-screens.py` still links Google Fonts, because an
+Consequence for the screens: `design/generate-screens.sh` still links Google Fonts, because an
 artboard renders inside a sandboxed frame that allows exactly that one host. The app and the
 artboards therefore load the same faces by different routes — the same files either way.
 

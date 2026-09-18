@@ -250,6 +250,41 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 A different reader from the app's: sitting at home in India before the trip, deciding whether to
 open the thing at all. The same rule applies — a field with no line here does not exist.
 
+### The hero (18 September)
+
+| Field                             | Why it is there                                                                                                                                      |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "भारतीय यात्रियों के लिए"         | Who this is for, before the headline — a reader decides in one line whether it is about them                                                         |
+| "दुबई — बिना इंटरनेट के।"         | The whole product in four words; the second half in खाना's hue, because that is the surprise                                                         |
+| The four tiles                    | खाना · जाना · जानना · बोलना, the same drawings as the app's own blocks, so the phone is familiar when it opens                                       |
+| The four claims, all four at once | What no other app does, one line each, each behind its own pillar's icon — the owner's instruction: all four on the screen together, never a rotator |
+| "\*सिर्फ़ इंटरनेट पर" under बोलना | The one claim that needs a signal, said small and once — legally there, not a headline                                                               |
+| The reassurance row               | What it costs and how it installs: the two questions a first-time reader has that no claim answers                                                   |
+
+### Four jobs, four sections
+
+| Field                              | Why it is there                                                                         |
+| ---------------------------------- | --------------------------------------------------------------------------------------- |
+| "चार काम, चार हिस्से"              | The count tells the truth about the whole app while the row below shows three of it     |
+| Three blocks, then बोलना on scroll | बोलना arrives as its own hero rather than as a fourth tile — the owner's "like a movie" |
+| Each block leads with its claim    | The description follows; a reader skimming headings still gets the argument             |
+
+### Passing it on — the QR (18 September)
+
+| Field                     | Why it is there                                                                                                                                                                            |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| "किसी को भेज दीजिए"       | The QR's one job now: the reader sends the app on, rather than a second way to reach us                                                                                                    |
+| The code itself, at 210px | It carries `wa.me/?text=…` with no number in it, so the reader's own WhatsApp opens with their own contact picker; 57 modules at 210px is 3.7px a module, which a camera can actually read |
+| The caption               | What will happen when the camera sees it, so nobody scans it to find out                                                                                                                   |
+
+### The film
+
+| Field                              | Why it is there                                                                              |
+| ---------------------------------- | -------------------------------------------------------------------------------------------- |
+| An OFFLINE banner, then the three  | The claim is proved before it is made — the radio is off in every frame                      |
+| An ONLINE banner, then बोलना       | The one feature that asks for a signal is shown after the banner that says it does           |
+| A framed player with real controls | A casual reader could not find the play button when the video was bare (owner, 17 September) |
+
 ### बोलना's section
 
 | Field                                   | Why it is there                                                       |
@@ -275,7 +310,6 @@ open the thing at all. The same rule applies — a field with no line here does 
 | +91 / +971 · नंबर   | The reply goes by phone; the code says which country, so the number can be dialled |
 | आपकी बात            | The message itself                                                                 |
 | भेजिए, and one line | What happened, in their own language — sent, or what to do instead                 |
-| WhatsApp QR         | A reader on a laptop cannot tap `wa.me`; a reader on a phone taps the button       |
 
 - **The strip's second row answers to where the phone is (decision 024).** A saved hotel always
   wins. With no hotel and a fix outside Dubai it explains the BurJuman stand-in instead of asking

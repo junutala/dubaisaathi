@@ -1,7 +1,7 @@
 import type { LatLng } from '@saathi/shared';
 
 /**
- * The one permission this app needs, asked the one time it is needed (design rules 9 and 30).
+ * The one permission this app needs, asked the one time it is needed (design rules 10 and 18).
  *
  * Two rules shape everything here. The reason goes on the screen **before** the phone's own
  * prompt, because a prompt with no reason is a prompt that gets refused. And the phone's answer
@@ -40,7 +40,7 @@ let inFlight: Promise<Location> | null = null;
 /**
  * Screens that need the answer but must never be the one that asks — the top strip is on every
  * screen, and a strip that called `askForLocation` would put the phone's prompt in front of a
- * traveller before any reason for it had been shown (design rules 9 and 30). They watch instead.
+ * traveller before any reason for it had been shown (design rules 10 and 18). They watch instead.
  */
 type Watcher = (location: Location) => void;
 const watchers = new Set<Watcher>();

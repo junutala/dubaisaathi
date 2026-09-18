@@ -2,6 +2,22 @@
 
 **Document revision:** Hindi-only MVP + technical stack + offline STT evaluation
 
+> **How to read this, as of 18 September 2026.** This is the original blueprint and it is still
+> the source of truth for scope, pricing and the data entities. It is **not** a description of
+> what shipped: where the product went another way, the reason is an ADR in `docs/decisions/`,
+> and the ADR wins. The ones that change what is written below:
+>
+> - **The interface is Hindi _and_ English** (007), not Hindi only. Input stays Hindi-Hinglish.
+> - **There is no voice a traveller depends on** (016, after the spike in `docs/spikes/002`).
+>   Every box is typed into. बोलना (020) is one online screen on घर, and it hands its sentence to
+>   a person rather than to the matcher. So this document's STT evaluation is history, not plan.
+> - **Three pillars, not a tile grid** (016): खाना, जाना, जानना, with the hotel and the documents
+>   on the strip and on घर.
+> - **No emergency layer** (002) — and the consulate that decision kept has not shipped either.
+> - **No map** ships; जाना answers in rows and steps (see `docs/transport-and-maps-strategy.md`).
+> - **The backend is Supabase edge functions** (011), not a Node service, and stores no IP.
+> - **Nothing launches before the data is in** (025).
+
 **Working concept:** A Dubai-savvy Indian friend in your pocket  
 **Launch market:** Indian travellers visiting Dubai  
 **Initial platform:** PWA-first, offline-first  

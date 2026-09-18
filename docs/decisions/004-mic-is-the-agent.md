@@ -2,6 +2,13 @@
 
 **Decided:** design review, September 2026.
 
+> **Superseded, 16 September, by decision 016, and finally by 020.** There is no microphone in
+> खाना, जाना or जानना: three days on a real phone showed no offline recogniser hears Dubai place
+> names in an Indian accent inside a Hindi sentence (`docs/spikes/002`). Every box is typed into.
+> The product's one microphone is बोलना (020) — online, on घर, and it hands its sentence to a
+> person rather than to the matcher. Kept because the reasoning below is why the mic was tried at
+> all, and because a later reader should find the argument and its answer together.
+
 The mic on home and in the bar of every child screen means _ask Saathi anything_. Speech goes
 through the offline STT and the local intent parser and lands on the screen that answers it,
 with the answer already on it:

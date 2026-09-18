@@ -4,6 +4,12 @@
 `apps/pwa/src/features/voice/speechGrammar.ts`, `voskStt.ts`, `ListenScreen.tsx`,
 `data/intents/keywords.v1.json`, `VoiceEvent`, `supabase/migrations/0002_voice_events.sql`
 
+> **Superseded, 16 September, by decision 016.** The files this affected —
+> `features/voice/speechGrammar.ts`, `voskStt.ts`, `ListenScreen.tsx` — were removed with the
+> offline recogniser. `data/intents/keywords.v1.json` and `VoiceEvent` are still here and still
+> earn their place: the keywords feed the typed matcher, and the question log records what a
+> traveller asked for and did not get.
+
 ## The problem
 
 Offline Hindi speech works. Measured on a real Android phone in aeroplane mode on 13 September,

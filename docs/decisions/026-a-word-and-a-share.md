@@ -1,6 +1,6 @@
 # 026 — बात: a word to us, and the app passed on
 
-17 September. The owner, after the website's referral QR went live:
+18 September. The owner, after the website's referral QR went live that morning:
 
 > I dont want another tile. That will be cluttered. I am thinking of one icon at the bottom
 > strip and opening that will render a new screen, exactly the two functions one after the
@@ -79,7 +79,7 @@ already works and what the owner reads the table for.
 
 ---
 
-## Reversed, 18 September, hours after it shipped
+## Reversed the same day, hours after it shipped
 
 The owner, seeing it in the bar:
 
