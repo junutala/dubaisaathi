@@ -2017,6 +2017,134 @@ button:not(:disabled) {
   margin: 0;
 }
 
+/* ---- घर.2 · ज़रूरी जानकारी: three capsules, then the one that is open (decision 028) ---- */
+
+/* Prominent on purpose (owner, 18 September): the screen is three errands and which one the
+   traveller is on has to be visible before anything scrolls. Evenly thirded, so no capsule
+   reads as the important one. */
+.caps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.cap {
+  min-height: 46px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: var(--tile);
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: center;
+}
+.cap-on {
+  background: var(--marigoldSoft);
+  border-color: var(--marigoldLine);
+  color: var(--marigoldText);
+}
+/* The dialling number, at the end of a contact row: it is the thing being pressed, so it is
+   type and not a hint. */
+/* A contact row is an anchor, because tapping it dials. Without this it arrives underlined and
+   browser-blue, which is the one colour this app does not own. */
+.row-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+.contact-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--marigoldSoft);
+}
+.contact-number {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--marigoldText);
+  white-space: nowrap;
+}
+/* The feedback form. The message is the one field somebody writes a paragraph into, so its
+   label sits above it and the box grows down. */
+.field-tall {
+  align-items: flex-start;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  flex-direction: column;
+  gap: 4px;
+}
+.field-tall .field-label {
+  width: auto;
+}
+.field-text {
+  width: 100%;
+  min-height: 92px;
+  resize: vertical;
+  padding: 0;
+  line-height: 1.45;
+}
+.dial {
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  padding: 0;
+  flex-shrink: 0;
+  max-width: 96px;
+}
+.missing {
+  margin: 0;
+  color: var(--marigoldText);
+  font-weight: 600;
+}
+/* Kept, and said so where the form was: nobody should have to go looking for the answer to the
+   thing they just pressed. */
+.kept {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--tealSoft);
+  color: var(--tealText);
+}
+.kept-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.kept-head {
+  font-weight: 800;
+  font-size: 15.5px;
+}
+.kept-sub {
+  font-size: 13px;
+  line-height: 1.45;
+}
+.rule {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 6px 0 2px;
+  width: 100%;
+}
+.sub-head {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+}
+/* What will be sent, in the traveller's own name, before they send it. */
+.invite {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--tile);
+  border: 1px solid var(--line);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
 /* ---- a tablet, or a laptop: last, so these rules win over the phone's ------------------ */
 
 /* A tablet, or a laptop. The screens are a phone's, and stay one column: on a wider display the

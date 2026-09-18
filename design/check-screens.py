@@ -17,6 +17,8 @@ PILLARS = ['खाना', 'जाना', 'जानना']
 SPEAK = 'बोलना'
 # The landing page and the names sheet are not screens with chrome.
 NO_CHROME = {'Landing', 'Names'}
+# ज़रूरी जानकारी and the document it opens: the strip keeps its first row and drops the hotel.
+NO_HOTEL_ROW = {'HomeDocs', 'HomeDocView'}
 # घर.n screens and the pillars' children; everything else is home or a state of it.
 HOME = {'Home', 'HomeDark', 'HomeTrial', 'HomePaid'}
 # The lockup's word, the same in both interface languages (decision 021).
@@ -77,8 +79,12 @@ def main() -> int:
         if 'M20 14.5A8.5 8.5' not in text and 'M12 2.5v2.5' not in text:
             fail(name, 'no theme switch on the strip')
         # The hotel row reads "मेरा होटल जोड़ें" until there is one, then the hotel's own name
-        # with बदलें beside it.
-        if 'मेरा होटल' not in text and '>बदलें</span>' not in text:
+        # with बदलें beside it — on every screen but ज़रूरी जानकारी and its children, where the
+        # three capsules are what belongs at the top and the row was in their way (decision 028).
+        if name in NO_HOTEL_ROW:
+            if 'मेरा होटल' in text or '>बदलें</span>' in text:
+                fail(name, 'ज़रूरी जानकारी carries a hotel row')
+        elif 'मेरा होटल' not in text and '>बदलें</span>' not in text:
             fail(name, 'the strip has no hotel row')
 
         # Rule 4: the bar on every screen — the three pillars and ज़रूरी जानकारी, as four icons
@@ -128,6 +134,15 @@ def main() -> int:
                 fail(name, 'home has no pass tile')
             elif not (last < tile < bar):
                 fail(name, 'the pass tile is not between the blocks and the bar')
+
+        # Rule 19: ज़रूरी जानकारी is three capsules, in the owner's order, opening on संपर्क
+        # (decision 028). A board that draws the documents list alone is the screen this replaced.
+        if name == 'HomeDocs':
+            caps = [text.find('>%s</span>' % c) for c in ('संपर्क', 'दस्तावेज़', 'फ़ीडबैक')]
+            if any(i < 0 for i in caps):
+                fail(name, 'ज़रूरी जानकारी is missing one of its three capsules')
+            elif caps != sorted(caps):
+                fail(name, 'the capsules are out of order: संपर्क, दस्तावेज़, फ़ीडबैक')
 
         # Rule 7: every screen that is not home has a way back.
         if name not in HOME and BACK_ICON not in text:

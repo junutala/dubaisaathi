@@ -1,0 +1,52 @@
+{
+  "contentVersion": 2,
+  "publishedAt": "2026-09-18T00:00:00Z",
+  "checkedAt": "2026-09-18",
+  "note": "The four numbers ज़रूरी जानकारी shows. 999/998/997 are the UAE's own three-digit services, confirmed against dubai.ae and eight other sources on 18 September 2026; 112 from a mobile routes to 999 and 901 is Dubai Police's non-emergency line, neither of which is shown because a traveller in trouble needs one number per situation, not five.",
+  "contacts": [
+    {
+      "id": "consulate-india-dubai",
+      "kind": "consulate",
+      "name": {
+        "hi": "भारतीय कॉन्सुलेट",
+        "en": "Indian Consulate",
+        "ar": "القنصلية الهندية"
+      },
+      "phone": "+97143971222",
+      "where": {
+        "hi": "बर दुबई · सोम–शुक्र 9–5",
+        "en": "Bur Dubai · Mon–Fri 9–5"
+      }
+    },
+    {
+      "id": "police-dubai",
+      "kind": "police",
+      "name": { "hi": "पुलिस", "en": "Police", "ar": "الشرطة" },
+      "phone": "999",
+      "where": {
+        "hi": "पूरे यूएई में · 24 घंटे · अंग्रेज़ी में भी बात होती है",
+        "en": "Anywhere in the UAE · 24 hours · they speak English"
+      }
+    },
+    {
+      "id": "ambulance-dubai",
+      "kind": "ambulance",
+      "name": { "hi": "एम्बुलेंस", "en": "Ambulance", "ar": "الإسعاف" },
+      "phone": "998",
+      "where": {
+        "hi": "पूरे यूएई में · 24 घंटे",
+        "en": "Anywhere in the UAE · 24 hours"
+      }
+    },
+    {
+      "id": "fire-dubai",
+      "kind": "fire",
+      "name": { "hi": "फ़ायर ब्रिगेड", "en": "Fire", "ar": "الدفاع المدني" },
+      "phone": "997",
+      "where": {
+        "hi": "सिविल डिफ़ेंस · 24 घंटे",
+        "en": "Civil Defence · 24 hours"
+      }
+    }
+  ]
+}

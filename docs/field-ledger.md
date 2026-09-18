@@ -59,14 +59,20 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 | "सब कुछ आपके फ़ोन पर ही रहता है" | Why it is safe to keep a passport here                                                           |
 | होटल हटाएँ                       | Theirs to remove, and only theirs                                                                |
 
-## घर.2 · दस्तावेज़ · घर.3 · देखें
+## घर.2 · ज़रूरी जानकारी · घर.3 · देखें
 
-| Field                                 | Why it is there                                              |
-| ------------------------------------- | ------------------------------------------------------------ |
-| The list, newest first                | The one added last is the one being looked for               |
-| दस्तावेज़ जोड़ें — फ़ोटो लें, नाम दें | Any document, one photo, one name                            |
-| The document, full width              | The payoff, at the desk                                      |
-| साझा करें · हटाएँ                     | Hand it to WhatsApp or a printer; remove it when they choose |
+| Field                                        | Why it is there                                                                                  |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Three capsules: संपर्क · दस्तावेज़ · फ़ीडबैक | The screen is three errands; which one you are on is visible before anything scrolls             |
+| No hotel row on the strip here               | It is a fourth errand in the way of three, and the hotel is one tap away from every other screen |
+| भारतीय कॉन्सुलेट · +971 4 397 1222           | The number an Indian in trouble in Dubai reaches for, and the one no phone already holds         |
+| पुलिस 999 · एम्बुलेंस 998 · फ़ायर 997        | The three that matter, each one tap from dialling, read off the phone with no signal             |
+| "भारत का 100 यहाँ नहीं लगता"                 | The exact mistake decision 002 was written to prevent                                            |
+| The documents list, and जोड़ें               | घर.2 as it was: any document, as many as they like, on the phone only                            |
+| नाम · नंबर · आपकी बात · भेज दीजिए            | A word to us, written to the phone first so no signal can refuse it                              |
+| मिल गई, and which of the two happened        | Sent, or waiting for a signal — the difference is theirs to know                                 |
+| The invitation, in full                      | What will be sent in their name, before it is sent                                               |
+| व्हाट्सऐप पर भेजिए                           | Their own WhatsApp, their own contact picker, no number of ours in it                            |
 
 ## घर.4 · पास
 

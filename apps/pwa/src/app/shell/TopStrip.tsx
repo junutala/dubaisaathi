@@ -33,9 +33,16 @@ import { useKnownHere } from '../../lib/here.js';
 export function TopStrip({
   validity,
   hotel,
+  showHotel = true,
 }: {
   readonly validity: Validity;
   readonly hotel: SavedHotel | undefined;
+  /**
+   * ज़रूरी जानकारी turns it off (owner, 18 September): that screen's own three capsules are what
+   * belongs at the top of it, and the hotel is already one tap away on every other screen. It is
+   * a row about somewhere else, in the way of the three errands this one exists for.
+   */
+  readonly showHotel?: boolean;
 }) {
   const { t, locale, setLocale, theme, toggleTheme, online } = useSettings();
   const other = LOCALES.find((l) => l !== locale) ?? 'en';
@@ -104,43 +111,49 @@ export function TopStrip({
         </button>
       </div>
 
-      {standingIn ? (
-        <div className="strip-hotel strip-hotel-standin">
-          <Icon name="pin" size={20} strokeWidth={1.9} color="var(--marigoldText)" />
-          <span className="strip-hotel-text">
-            <span className="strip-hotel-name">{t('strip.standIn')}</span>
-            <span className="strip-hotel-why">{t('strip.standInWhy')}</span>
-          </span>
-        </div>
-      ) : (
-        <button
-          type="button"
-          className={hotel ? 'strip-hotel' : 'strip-hotel strip-hotel-empty'}
-          onClick={() => {
-            navigate({ screen: 'hotel' });
-          }}
-        >
-          <Icon name={hotel ? 'pin' : 'plus'} size={20} strokeWidth={1.9} color="var(--marigold)" />
-          {hotel ? (
-            <>
-              <span className="strip-hotel-name">
-                {[
-                  hotel.name,
-                  hotel.room === undefined ? undefined : t('strip.room', { room: hotel.room }),
-                ]
-                  .filter((part): part is string => typeof part === 'string' && part !== '')
-                  .join(' · ') || t('strip.hotel')}
-              </span>
-              <span className="strip-hotel-change">{t('strip.hotelChange')}</span>
-            </>
-          ) : (
+      {showHotel &&
+        (standingIn ? (
+          <div className="strip-hotel strip-hotel-standin">
+            <Icon name="pin" size={20} strokeWidth={1.9} color="var(--marigoldText)" />
             <span className="strip-hotel-text">
-              <span className="strip-hotel-name">{t('strip.hotelAdd')}</span>
-              <span className="strip-hotel-why">{t('strip.hotelAddWhy')}</span>
+              <span className="strip-hotel-name">{t('strip.standIn')}</span>
+              <span className="strip-hotel-why">{t('strip.standInWhy')}</span>
             </span>
-          )}
-        </button>
-      )}
+          </div>
+        ) : (
+          <button
+            type="button"
+            className={hotel ? 'strip-hotel' : 'strip-hotel strip-hotel-empty'}
+            onClick={() => {
+              navigate({ screen: 'hotel' });
+            }}
+          >
+            <Icon
+              name={hotel ? 'pin' : 'plus'}
+              size={20}
+              strokeWidth={1.9}
+              color="var(--marigold)"
+            />
+            {hotel ? (
+              <>
+                <span className="strip-hotel-name">
+                  {[
+                    hotel.name,
+                    hotel.room === undefined ? undefined : t('strip.room', { room: hotel.room }),
+                  ]
+                    .filter((part): part is string => typeof part === 'string' && part !== '')
+                    .join(' · ') || t('strip.hotel')}
+                </span>
+                <span className="strip-hotel-change">{t('strip.hotelChange')}</span>
+              </>
+            ) : (
+              <span className="strip-hotel-text">
+                <span className="strip-hotel-name">{t('strip.hotelAdd')}</span>
+                <span className="strip-hotel-why">{t('strip.hotelAddWhy')}</span>
+              </span>
+            )}
+          </button>
+        ))}
     </div>
   );
 }
