@@ -63,6 +63,15 @@ This file is the working summary; the concept doc wins on any detail it covers.
   impossible: the microphone screen offered रद्द करें and "type it instead" — two live controls,
   both of which threw the speech away — and no way to say "I have finished speaking" at all. When
   checking that a screen works, ask what finishes the task, not what leaves it.
+- **A claim ships with its data, never before it** (decision 025). A sentence on the website or
+  a screen the app cannot honour the moment someone opens it is not marketing that is slightly
+  early — it is this product's one promise, broken on the first tap. `restaurants.v1.json` is
+  empty and the committed RTA feed is the 2021 edition, so neither खाना's nor जाना's headline
+  claim may go live until the real data is published.
+- **No competitor is ever named**, anywhere — not the website, not the app, not `apps/field`.
+  The owner's standing position: we do not give other brands coverage inside our own product.
+  Name the category instead — "on no delivery app" — which is also the clearer sentence for a
+  traveller in Kochi who has never heard of those names.
 - **A release never takes something away from a phone.** A traveller's 42 MB voice download was
   deleted by our own deployments: it shared a cache with a chunk whose name changes every build,
   under a four-entry limit. Five releases in an hour evicted it, and the app then told the owner
