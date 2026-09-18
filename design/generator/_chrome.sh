@@ -30,7 +30,12 @@ cat <<S
     <span style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 999px; border: 1px solid $line;">$themeIcon</span>
   </div>
 S
-if [ "$2" = set ]; then
+# `hidden` draws no hotel row at all — ज़रूरी जानकारी's own three capsules are what belongs at the
+# top of that screen, and the hotel is one tap away from every other one (decision 028). It is not
+# `none`, which has always meant "no hotel saved yet" and draws the dashed invitation.
+if [ "$2" = hidden ]; then
+  :
+elif [ "$2" = set ]; then
 cat <<S
   <div style="margin: 0 16px; display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; border: 1.5px solid $line; min-height: 48px; box-sizing: border-box;">
     $(pin 20 "$marigold" 1.9)

@@ -41,7 +41,7 @@ strip "$2" "$3" "${5:-off}"
 cat <<H
   <div style="flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 12px 16px 10px 16px; min-height: 0;">
 $(tile 'खाना' 'Khaana' 'भारतीय खाना — छोटी दुकानें और कैफ़ेटेरिया जो आपको यूँ नहीं मिलतीं।' "$k_bg" "$k_fg" thali)
-$(tile 'जाना' 'Jaana' 'मेट्रो, बस, ट्राम या टैक्सी — कहीं भी, कितना समय और कितने दिरहम।' "$j_bg" "$j_fg" metro)
+$(tile 'जाना' 'Jaana' 'मेट्रो, बस, ट्राम या टैक्सी — कहीं भी, कितना समय और कितने दिरहम।' "$j_bg" "$j_fg" signpost)
 $(tile 'जानना' 'Jaanna' 'दुबई की जगहें — समय, टिकट, पहुँचने का तरीक़ा, हिंदी में।' "$n_bg" "$n_fg" lantern)
 $bolna
   </div>
@@ -125,28 +125,38 @@ bar none
 close_screen
 } > "$OUT/HomeHotel.dc.html"
 
-# ---- घर.2 · दस्तावेज़
-drow() { # name added
+# ---- घर.2 · ज़रूरी जानकारी — three capsules, and no hotel row (decision 028)
+cap() { # label on
+  local col=$muted bg=$card border=$line
+  [ "$2" = on ] && col=$marigoldText && bg=$marigoldSoft && border=$marigoldLine
+  echo "<span style=\"display: flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 10px; border-radius: 999px; border: 1.5px solid $border; background: $bg; color: $col; font-size: 14.5px; font-weight: 700;\">$1</span>"
+}
+crow() { # name where number
 cat <<T
     <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: $card; border-radius: 16px; border: 1px solid $line;">
-      <span style="width: 44px; height: 56px; border-radius: 8px; background: repeating-linear-gradient(135deg, $sand 0 6px, $line 6px 7px);"></span>
+      <span style="width: 44px; height: 44px; border-radius: 12px; background: $marigoldSoft; display: flex; align-items: center; justify-content: center;">$4</span>
       <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0;"><span class="disp" style="font-size: 18px; font-weight: 600; color: $ink;">$1</span><span style="font-size: 12.5px; color: $muted;">$2</span></span>
-      $(chev 18 "$chev" 2)
+      <span style="font-size: 15px; font-weight: 800; color: $marigoldText; white-space: nowrap;">$3</span>
     </div>
 T
 }
 {
 open_screen
-strip running set
-header docs "$marigoldText" 'दस्तावेज़'
+strip running hidden
+header info "$marigoldText" 'ज़रूरी जानकारी'
 cat <<H
   <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 10px; padding: 6px 16px 12px 16px;">
-$(drow 'पासपोर्ट' 'जोड़ा 12 सितंबर')
-$(drow 'बीमा' 'जोड़ा 12 सितंबर')
-$(drow 'वापसी की टिकट' 'जोड़ा 14 सितंबर')
-$(drow 'होटल बुकिंग' 'जोड़ा 14 सितंबर')
-    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; border-radius: 16px; border: 1.5px dashed $marigold; color: $marigoldText; font-size: 15px; font-weight: 700;">$(plus 20 "$marigoldText" 2)दस्तावेज़ जोड़ें — फ़ोटो लें, नाम दें</div>
-    <span style="font-size: 12.5px; color: $muted; text-align: center; padding-top: 6px; line-height: 1.45;">कोई भी दस्तावेज़, जितने चाहें। फ़ोन पर ही रहते हैं, बिना इंटरनेट खुलते हैं, आप हटाएँ तभी हटते हैं।</span>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">
+      $(cap 'संपर्क' on)
+      $(cap 'दस्तावेज़')
+      $(cap 'फ़ीडबैक')
+    </div>
+    <span style="font-size: 13px; color: $muted; line-height: 1.45;">मुश्किल में यही चार नंबर काम आते हैं। दबाइए, फ़ोन लग जाएगा।</span>
+$(crow 'भारतीय कॉन्सुलेट' 'बर दुबई · सोम–शुक्र 9–5' '+971 4 397 1222' "$(pin 20 "$marigoldText" 1.8)")
+$(crow 'पुलिस' 'पूरे यूएई में · 24 घंटे' '999' "$(phone 20 "$marigoldText" 1.8)")
+$(crow 'एम्बुलेंस' 'पूरे यूएई में · 24 घंटे' '998' "$(phone 20 "$marigoldText" 1.8)")
+$(crow 'फ़ायर ब्रिगेड' 'सिविल डिफ़ेंस · 24 घंटे' '997' "$(phone 20 "$marigoldText" 1.8)")
+    <span style="font-size: 12.5px; color: $muted; text-align: center; padding-top: 6px; line-height: 1.45;">भारत का 100 यहाँ नहीं लगता — दुबई में पुलिस 999 है।</span>
   </div>
 H
 bar docs
@@ -156,8 +166,8 @@ close_screen
 # ---- घर.3 · दस्तावेज़ › देखें
 {
 open_screen
-strip running set
-header docs "$marigoldText" 'दस्तावेज़' 'पासपोर्ट'
+strip running hidden
+header info "$marigoldText" 'ज़रूरी जानकारी' 'पासपोर्ट'
 cat <<H
   <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 6px 16px 12px 16px;">
     $(photo 520 'पासपोर्ट · 12 सितंबर')

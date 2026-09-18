@@ -4,7 +4,7 @@ import type { ReactElement } from 'react';
 import { SettingsProvider } from '../../app/settings.js';
 import { db } from '../../db/schema.js';
 import { cloneKeepingBlobs } from './blobHarness.js';
-import { DocsScreen } from './DocsScreen.js';
+import { InfoScreen } from './InfoScreen.js';
 import { DocumentAddScreen } from './DocumentAddScreen.js';
 import { DocumentScreen } from './DocumentScreen.js';
 import { HotelScreen } from './HotelScreen.js';
@@ -132,10 +132,17 @@ describe('घर.1 · मेरा होटल, with the radio off and no pass'
   });
 });
 
-describe('घर.2 · दस्तावेज़', () => {
+describe('घर.2 · ज़रूरी जानकारी — दस्तावेज़', () => {
+  /** The documents are the second capsule since 18 September (decision 028). */
+  function openDocuments() {
+    const rendered = show(<InfoScreen />);
+    fireEvent.click(screen.getByRole('tab', { name: 'दस्तावेज़' }));
+    return rendered;
+  }
+
   it('lists what is kept and offers to add more, with the radio off', async () => {
     await saveDocument('यात्रा बीमा', photo('insurance'));
-    show(<DocsScreen />);
+    openDocuments();
     expect(await screen.findByText('यात्रा बीमा')).toBeTruthy();
     fireEvent.click(screen.getByText(/दस्तावेज़ जोड़ें/));
     expect(navigate).toHaveBeenCalledWith({ screen: 'docAdd' });
@@ -143,7 +150,7 @@ describe('घर.2 · दस्तावेज़', () => {
 
   it('opens a document from the list', async () => {
     const doc = await saveDocument('पासपोर्ट', photo('passport'));
-    show(<DocsScreen />);
+    openDocuments();
     fireEvent.click(await screen.findByText('पासपोर्ट'));
     expect(navigate).toHaveBeenCalledWith({ screen: 'docView', docId: doc.id });
   });

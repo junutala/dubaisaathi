@@ -17,10 +17,11 @@ describe('the interface catalogues', () => {
     }
   });
 
-  it('keeps the strip and bar labels short enough for a 390px phone', () => {
+  it('keeps the strip labels short enough for a 390px phone', () => {
     // English runs longer than Hindi and the strip has five things on it; a label that wraps
-    // pushes the theme switch off the edge.
-    for (const key of ['strip.offline', 'strip.online', 'strip.pass', 'nav.docs'] as const) {
+    // pushes the theme switch off the edge. The bar is not here any more: since decision 027 it
+    // paints no words, and its names are read aloud rather than laid out.
+    for (const key of ['strip.offline', 'strip.online', 'strip.pass'] as const) {
       expect(translate('en', key).length, key).toBeLessThanOrEqual(10);
       expect(translate('hi', key).length, key).toBeLessThanOrEqual(10);
     }

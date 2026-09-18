@@ -28,7 +28,6 @@ export const hi = {
   // The bar
   'nav.back': 'वापस',
   'nav.info': 'ज़रूरी जानकारी',
-  'nav.docs': 'दस्तावेज़',
 
   // The blocks on घर. The three pillars are the brand and stay in Devanagari in both
   // catalogues; the Roman spelling is a caption, never a translation (16 September). बोलना is
@@ -430,6 +429,38 @@ export const hi = {
   'arabic.tooLong': 'बात बहुत लंबी है — छोटा करके फिर भेजिए.',
   'arabic.nothing': 'पहले कुछ बोलिए या लिखिए.',
   'arabic.retry': 'फिर कोशिश करें',
+  // ---- घर.2 · ज़रूरी जानकारी — three capsules: संपर्क, दस्तावेज़, फ़ीडबैक (decision 028) ----
+  'info.contacts': 'संपर्क',
+  'info.documents': 'दस्तावेज़',
+  'info.feedback': 'फ़ीडबैक',
+  'info.contactsWhy': 'मुश्किल में यही चार नंबर काम आते हैं. दबाइए, फ़ोन लग जाएगा.',
+  'info.contactsNote': 'भारत का 100 यहाँ नहीं लगता — दुबई में पुलिस 999 है.',
+  'info.feedbackWhy': 'जो जगह या खाना यहाँ नहीं मिला, जो ठीक नहीं लगा — लिख दीजिए. हम पढ़ते हैं.',
+  'info.name': 'नाम',
+  'info.namePlaceholder': 'आपका नाम',
+  'info.phone': 'नंबर',
+  'info.phonePlaceholder': 'जिस पर जवाब आए',
+  'info.country': 'देश का कोड',
+  'info.india': 'भारत',
+  'info.uae': 'यूएई',
+  'info.message': 'आपकी बात',
+  'info.messagePlaceholder': 'जो कहना है, अपनी भाषा में.',
+  'info.send': 'भेज दीजिए',
+  'info.missing.name': 'नाम लिख दीजिए — जवाब किसे देना है, यह पता होना चाहिए.',
+  'info.missing.phone': 'नंबर पूरा लिख दीजिए — इसी पर जवाब आएगा.',
+  'info.missing.message': 'कहना क्या है, वह लिख दीजिए.',
+  'info.offlineNote': 'अभी सिग्नल नहीं है — बात फ़ोन में रख ली जाएगी और सिग्नल आते ही चली जाएगी.',
+  'info.waiting': '{count} बात भेजी जानी बाकी है — सिग्नल आते ही चली जाएगी.',
+  'info.keptHead': 'मिल गई',
+  'info.keptSent': 'हम तक पहुँच गई. जवाब उसी नंबर पर आएगा.',
+  'info.keptWaiting': 'फ़ोन में रख ली है. सिग्नल आते ही हम तक पहुँच जाएगी.',
+  'info.shareHead': 'किसी और के काम आए',
+  'info.shareWhy':
+    'दुबई जा रहा कोई जानने वाला है? यह लिंक भेज दीजिए — उनके फ़ोन पर भी बिना इंटरनेट चलेगा.',
+  'info.viaWhatsapp': 'व्हाट्सऐप पर भेजिए',
+  'info.viaAnything': 'किसी और तरह से भेजिए',
+  'info.copied': 'लिंक कॉपी हो गया — जहाँ भेजना है, वहाँ चिपका दीजिए.',
+  'info.shareRefused': 'फ़ोन ने भेजने नहीं दिया — लिंक ऊपर लिखा है, हाथ से भेज दीजिए.',
 } as const;
 
 export type StringKey = keyof typeof hi;

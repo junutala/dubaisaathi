@@ -439,7 +439,7 @@ src/
 │   ├── food/       # 1 · खाना
 │   ├── transport/  # 2 · जाना
 │   ├── know/       # 3 · जानना
-│   ├── info/       # घर.1–घर.3 — the hotel and the documents
+│   ├── info/       # घर.1–घर.3 — the hotel, and ज़रूरी जानकारी's three capsules (028)
 │   ├── pass/       # घर.4 — trial, pass, entitlement
 │   ├── speak/      # घर.5–घर.6 — बोलना: the one microphone, online only (decision 020)
 │   ├── home/       # घर

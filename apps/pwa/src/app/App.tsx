@@ -26,9 +26,10 @@ import { currentLocation } from '../lib/location.js';
 import {
   DocumentAddScreen,
   DocumentScreen,
-  DocsScreen,
+  InfoScreen,
   HotelScreen,
   readHotel,
+  startOutboxSync,
   watchHotel,
   type SavedHotel,
 } from '../features/info/index.js';
@@ -114,17 +115,20 @@ export function App() {
    * A code applied with no signal goes when there is some; a scanned slot is reported when
    * there is some (decision 005); an order left open by a traveller who closed the app during
    * the payment is asked about again (decision 019), so the pass arrives even though nobody
-   * was watching the screen when the money did. All three on boot and on `online`, none of
-   * them ever in the way.
+   * was watching the screen when the money did; and a message written in फ़ीडबैक with no signal
+   * goes when there is some (decision 028). All four on boot and on `online`, none of them ever
+   * in the way.
    */
   useEffect(() => {
     const stopCoupon = startCouponRetry();
     const stopOrder = startOrderResume();
     const stopReconcile = startPassReconcile();
+    const stopOutbox = startOutboxSync();
     return () => {
       stopCoupon();
       stopOrder();
       stopReconcile();
+      stopOutbox();
     };
   }, []);
 
@@ -226,11 +230,13 @@ export function App() {
 
   return (
     <div className="screen">
-      <TopStrip validity={state} hotel={hotel} />
+      {/* ज़रूरी जानकारी and its two children carry no hotel row: the three capsules are what
+          belongs at the top there (owner, 18 September; decision 028). */}
+      <TopStrip validity={state} hotel={hotel} showHotel={pillarOf(route) !== 'docs'} />
       <main className="body">
         {route.screen === 'home' && <HomeScreen tile={tile} />}
         {route.screen === 'hotel' && <HotelScreen hotel={hotel} />}
-        {route.screen === 'docs' && <DocsScreen />}
+        {route.screen === 'docs' && <InfoScreen />}
         {route.screen === 'docAdd' && <DocumentAddScreen />}
         {route.screen === 'docView' && <DocumentScreen docId={route.docId} />}
         {route.screen === 'pass' && <PassScreen token={route.token} />}
