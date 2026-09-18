@@ -412,7 +412,7 @@ h1 .three {
    list of the same shape doing an entirely different job. */
 .turn {
   display: grid;
-  grid-template-columns: 10px 1fr;
+  grid-template-columns: 24px 1fr;
   gap: 14px;
   align-items: start;
   margin: 0;
@@ -421,31 +421,27 @@ h1 .three {
   color: var(--ink);
   text-wrap: pretty;
 }
-.turn::before {
-  content: '';
-  width: 10px;
-  height: 10px;
-  margin-top: 0.55em;
-  border-radius: 999px;
-  background: currentColor;
+/* The pillar's own icon, not a bullet — the same drawing the tile above it carries and the
+   same one on the app's home. A reader who has seen it twice on this page knows it on the
+   phone. */
+.turn-icon {
+  width: 24px;
+  height: 24px;
+  margin-top: 0.12em;
 }
 .turn b {
   font-weight: 700;
 }
-.turn-food,
-.turn-food::before {
+.turn-food {
   color: var(--food);
 }
-.turn-go,
-.turn-go::before {
+.turn-go {
   color: var(--go);
 }
-.turn-know,
-.turn-know::before {
+.turn-know {
   color: var(--know);
 }
-.turn-speak,
-.turn-speak::before {
+.turn-speak {
   color: var(--speakText);
 }
 /* The claim is in the pillar's colour; the rest of the sentence is ordinary ink. */
@@ -810,6 +806,69 @@ footer .wrap {
   text-transform: uppercase;
   color: var(--speakText);
   margin-bottom: 4px;
+}
+/* The reveal. `.curtain` is added by script, so nothing is hidden on a page without it; the
+   parts come up in the order a reader meets them, which is what makes it land as an entrance
+   rather than a fade. */
+.curtain .roman-loud,
+.curtain .bolna-lead,
+.curtain .bolna-head,
+.curtain .bolna-aside,
+.curtain .sub,
+.curtain .bolna-grid,
+.curtain .bolna-note {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.65s ease,
+    transform 0.65s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.curtain-up .roman-loud,
+.curtain-up .bolna-lead,
+.curtain-up .bolna-head,
+.curtain-up .bolna-aside,
+.curtain-up .sub,
+.curtain-up .bolna-grid,
+.curtain-up .bolna-note {
+  opacity: 1;
+  transform: none;
+}
+.curtain .bolna-lead {
+  transition-delay: 0.08s;
+}
+.curtain .bolna-head {
+  transition-delay: 0.16s;
+}
+.curtain .bolna-aside {
+  transition-delay: 0.26s;
+}
+.curtain .sub {
+  transition-delay: 0.34s;
+}
+.curtain .bolna-grid {
+  transition-delay: 0.42s;
+}
+.curtain .bolna-note {
+  transition-delay: 0.5s;
+}
+
+/* बोलना opens like a hero rather than a section (18 September): the owner's line above a
+   headline the size of the page's first one. It is the last thing a reader meets before the
+   pass, and the one they will remember standing in front of a driver. */
+.bolna-lead {
+  margin: 2px 0 6px;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--speakText);
+}
+.bolna-head {
+  font-size: clamp(32px, 4.6vw, 50px);
+  margin-bottom: 6px;
+}
+.bolna-aside {
+  margin: 0 0 18px;
+  font-size: 16px;
+  color: var(--muted);
 }
 .bolna-grid {
   display: grid;
