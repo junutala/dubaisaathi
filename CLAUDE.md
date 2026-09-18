@@ -373,6 +373,13 @@ So delivery is a property of the app, not of the pipeline:
   lose. Reading it as "next launch only" is what made releases arrive a launch late.
 - **When a stale worker is found on one origin, check every origin.** The same defect wears
   different costumes: "wrong app" and "old build" are one bug.
+- **A moment the app waits for must be a moment the app can notice.** On 18 September the owner's
+  phone downloaded a new build in full — the http log shows the worker fetching every asset — and
+  went on showing the previous one, because "apply on घर" had been wired to _arriving_ on घर. He
+  was already there; the arrival never came. A rule tied to a transition misses everyone already
+  past it, and घर is where the app opens, so that was almost everyone. Whatever the app waits for
+  — a worker installing, a signal returning, a fix arriving — needs a listener of its own, not a
+  check that happens to run at the right time.
 
 **A missing style is invisible to every other check.** खाना shipped with its whole outlet card
 unstyled — eleven classes in the JSX with no rule behind any of them — so the name ran into the
@@ -463,35 +470,56 @@ The screens are the design source of truth and live in `design/`:
 - The reviewed canvas: https://claude.ai/code/artifact/3e0e153e-76fe-4a9d-bf95-a5ca966848c5
   — republish to that URL, never a new one.
 
-## Start here (written 16 September, end of the day)
+## Start here (written 18 September, mid-morning)
 
 **Sprint 1 is built to the frozen boards** (decision 016) and is live on three origins:
 `dubai.saafarsaathi.in` (the app), `outlet.saafarsaathi.in` (the collectors' app) and
-`www.saafarsaathi.in` (the one-page website, `apps/site`; the bare name forwards to it from
-GoDaddy). `npm run verify` is green. The day's additions, in the order they happened:
+`saafarsaathi.in` (the one-page website, `apps/site`). `main` is production; Railway builds it.
+`npm run verify` is green.
 
-- **जाना runs on the RTA's own network** (decision 017): `data/transport/rta-gtfs.zip` →
-  `npm run publish:transport` → the pack. Every bus route, both metro lines, the tram; hops are
-  directional and carry first/last departure; 2.3 says "रेड लाइन लीजिए, एक्सपो की ओर" and
-  "पहली 05:05 · आख़िरी 23:14 · हर 4 मिनट में". **The committed feed is the September 2021
-  edition** — Transitland's stale mirror. The current one (Dubai Pulse `rta_gtfs-open`, 21 Jan
-  2026, a `.7z`) is reachable only from inside the UAE: the owner's connection in India, a
-  GitHub runner and this container all time out. The `fetch-rta-feed` workflow and the
-  converter (folder-in-zip, calendar_dates-only, frequencies) are ready for the file the moment
-  someone in Dubai downloads it.
-- **A traveller in India sees Dubai.** A fix outside Dubai measures from the hotel pin, else
-  BurJuman, and every row says so. The trial clock is untouched by the stand-in.
-- **The collectors' app** takes the GPS on its own (no button, no "needed" badge), asks the
-  area (shared `AREAS` list), the number on the board, and keeps the price the camera read next
-  to each dish; migration 0006 and the `outlet` function carry the two new columns. It speaks
-  Hindi and English on a toggle.
-- **No photographs anywhere, by decision.** No hatched placeholders either (design rule 12).
-  3.2 links the attraction's own website instead. Tablets get a framed, wider column and घर's
-  blocks in a row (rule 11).
-- **The website** is Hindi first, English on a tap, and every phone on it is a real screenshot
-  of the app with the radio off. Its images are never cached; only its fonts are.
+**Nothing launches before 25 September, and not then unless the data is in** (decision 025).
+That is the owner's ruling and it governs the website's copy: `restaurants.v1.json` holds zero
+rows and the committed RTA feed is the September 2021 edition, so खाना's headline claim may not
+go live until real kitchens are published. No competitor is ever named anywhere — say "no
+delivery app".
 
-What is left, in this order:
+### What happened on 17–18 September
+
+- **The website became a sales page rather than a description.** The hero is the headline, four
+  tiles (खाना · जाना · जानना · बोलना) and the four claims — all four on the screen at once, never
+  a rotator — then a quiet row saying what it costs and how it installs. "चार काम, चार हिस्से"
+  shows three blocks and reveals बोलना on the scroll as its own hero. The CTA lives in "Try it
+  from India", not the hero, because the header already carries one. Every band has the wash;
+  every phone on the page is a real screenshot with the radio off.
+- **The tour film is two acts** (owner, 17 September): an OFFLINE banner then the three pillars,
+  an ONLINE banner then बोलना. It sits in a framed player with real controls, because a casual
+  reader could not find the play button when it was bare.
+- **The contact form is real and lands in Supabase** (decision 023): migration 0011
+  (`contact_messages`, RLS on, no policies, a `contact_inbox` view) and the `contact` edge
+  function, deployed. No mail provider — the owner reads the table, and an `/admin` screen comes
+  when the volume earns it. Rate limited by the number given, never by IP (decision 011).
+- **The QR is a referral tool, not a second way to reach us.** It carries `wa.me/?text=…` with no
+  number in it, so the reader's own WhatsApp opens with their own contact picker. A QR grows with
+  what is in it — the first draft was 97 modules and unscannable at 150px; the short line is 57
+  and the page renders it at 210px.
+- **The strip says BurJuman when the phone is in India** (decision 024). A traveller outside
+  Dubai is not asked to pin a hotel they are not standing in — the owner's Rolla Residence case,
+  two hotels of nearly one name across one street. The invitation returns the moment the phone
+  says Dubai, घर.1 refuses a pin from anywhere else, and the घर.4 switch that faked a landing is
+  gone. Location matters to us for statistics, not for entitlement.
+- **घर.7 · बात was built and removed the same day** (decision 026 and its reversal). One screen —
+  tell us something, pass the app on — reached by a fifth item in the bar. The owner killed it:
+  बात is the name the abandoned offline-chat work carried here, so it read as that chapter
+  returning. **The bar is four** and `design/check-screens.py` now fails a board that carries बात
+  in it. What he asked for that morning — contact us and share us inside the app — is not
+  withdrawn; only the word and the bar placement are. Nothing gets built for it until he says
+  where it lives and what it is called.
+- **A build now applies where it lands.** The rule was always "apply on घर", but it was wired to
+  _arriving_ on घर — so a traveller already standing there when the download finished never got
+  it. The owner watched the new build download to his phone and went on looking at the old one.
+  `watchForUpdate` makes a worker finishing its download a moment in itself.
+
+### What is left, in this order
 
 1. **The 2026 RTA feed** — one download from a UAE connection, then a file swap and
    `npm run publish:transport`. Give Devanagari names to any station new since 2021 in
@@ -510,13 +538,13 @@ What is left, in this order:
    buttons run the whole flow and an order left open is polled again on the next open. **Not
    live yet** — the lead applies 0008, deploys the two functions, adds `RAZORPAY_WEBHOOK_SECRET`
    and pastes the webhook URL into Razorpay, then sets `VITE_PURCHASE_LIVE=true`. The two
-   switches are now separate: `VITE_PURCHASE_LIVE` only enables the buttons, and the new
-   `VITE_GATE_LIVE` (default false) is the only thing `isGated` reads, so the owner can buy a
-   real pass on a live build while no traveller is ever gated. The website still says purchase
-   opens shortly until the buttons are on.
+   switches are separate: `VITE_PURCHASE_LIVE` only enables the buttons, and `VITE_GATE_LIVE`
+   (default false) is the only thing `isGated` reads, so the owner can buy a real pass on a live
+   build while no traveller is ever gated. The website says purchase opens shortly until the
+   buttons are on.
 3. **Content.** `restaurants.v1.json` is empty and खाना runs on the fixture; the collectors'
    app is live and the pipeline publishes approved reports. `attractions.v1.json` is unchecked
-   on the ground; every row has `checkedAt`.
+   on the ground; every row has `checkedAt`. **This is what decision 025 is waiting for.**
 4. **बोलना's deployment.** The `listen` edge function is written and is not deployed, and its
    secret `SARVAM_API_KEY` is not set — both are the lead's to do. Until they are, the block is
    there when the phone is online and the screen says, in one line, that बोलना is not switched on
@@ -527,7 +555,8 @@ What is left, in this order:
    in the metro tunnels and the screen kept on.
 
 The question log is the thing to read first each morning: `voice_events` rows with
-`nothing-in-pack` are places and dishes travellers asked for and did not get.
+`nothing-in-pack` are places and dishes travellers asked for and did not get. `contact_messages`
+is the second: that is the website's form, and nothing else reads it yet.
 
 ## The spike, for the record
 
