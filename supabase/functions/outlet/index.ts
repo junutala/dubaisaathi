@@ -134,6 +134,8 @@ Deno.serve(async (request: Request): Promise<Response> => {
     lng: at.lng,
     name: report.name,
     name_hi: report.nameHi ?? null,
+    // The paper form's printed number, when this is a rider's pin (decision 029).
+    form_serial: typeof report.formSerial === 'string' ? report.formSerial : null,
     area: report.areaId ?? report.areaName ?? null,
     phone: report.phone ?? null,
     kitchen: report.kitchen ?? null,

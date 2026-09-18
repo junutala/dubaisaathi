@@ -532,6 +532,19 @@ export interface FieldReport {
   readonly location: LatLng;
   readonly name: string;
   readonly nameHi?: string;
+  /**
+   * The number printed on the paper form this pin belongs to (decision 029).
+   *
+   * A rider drops a numbered form at a counter, asks the five questions, staples the takeaway
+   * menu to it, and then stands outside and records where he is. The paper carries the answers
+   * and the menu; this carries the coordinates and the frontage. The serial is what joins them
+   * at review — printed, never handwritten, because OCR on a hand-written 7 that reads as a 1
+   * would put one shop's pin on another shop's answers, and खाना sorts nearest first.
+   *
+   * Its presence marks a report as a pin awaiting its paper: `toRestaurant` refuses to publish
+   * one until the form's answers have been keyed in behind it.
+   */
+  readonly formSerial?: string;
   /** The neighbourhood, from the shared list when the collector tapped one. */
   readonly areaId?: AreaId;
   /** Or as the collector wrote it, when the list did not have it. */
