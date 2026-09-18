@@ -532,7 +532,21 @@ h2 {
   font-size: 15px;
   line-height: 1.45;
   opacity: 0.92;
-  min-height: 4.4em;
+}
+/* The claim first, the description under it. A reader who takes one line off each block should
+   take the thing no other app does, not a summary of the screen. */
+.pillar-claim {
+  font-size: 17.5px;
+  font-weight: 700;
+  line-height: 1.32;
+  opacity: 1;
+  margin-bottom: 10px;
+  text-wrap: pretty;
+  /* Two lines' worth, so the three phones below start on one line rather than a staircase. */
+  min-height: 2.7em;
+}
+.pillar p + p {
+  min-height: 7.4em;
 }
 .pillar .phone {
   margin: 14px auto -60px;
