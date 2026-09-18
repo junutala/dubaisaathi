@@ -387,50 +387,36 @@ h1 .three {
   display: none;
 }
 
-/* ---- the hero's turning lines ------------------------------------------------------------ */
-/* Four claims where a restatement of the headline used to be, one lit at a time, each in its
-   own pillar's colour. The box is as tall as the longest line so nothing under it moves —
-   a headline that jumps every four seconds is worse than no animation at all. */
+/* ---- the hero's four statements ---------------------------------------------------------- */
+/* All four, at once, under the four tiles and in the same order. Each leads in its own pillar's
+   colour so the line and the tile above it are visibly the same thing. */
 .turns {
-  position: relative;
-  margin: 18px 0 26px;
-  max-width: 26em;
-  min-height: 5.2em;
+  display: grid;
+  gap: 11px;
+  margin: 20px 0 24px;
+  max-width: 30em;
 }
 .turn {
-  position: absolute;
-  inset: 0;
   margin: 0;
-  font-size: 19px;
-  line-height: 1.45;
+  font-size: 17px;
+  line-height: 1.4;
   color: var(--muted);
   text-wrap: pretty;
-  opacity: 0;
-  animation: turn 18s infinite;
 }
 .turn b {
   font-weight: 700;
 }
-.turn-food {
-  animation-delay: 0s;
-}
 .turn-food b {
   color: var(--food);
-}
-.turn-go {
-  animation-delay: 4.5s;
 }
 .turn-go b {
   color: var(--go);
 }
-.turn-know {
-  animation-delay: 9s;
-}
 .turn-know b {
   color: var(--know);
 }
-.turn-speak {
-  animation-delay: 13.5s;
+.turn-speak b {
+  color: var(--speakText);
 }
 /* बोलना is the one that needs a signal. A star and a small line say so where a reader who cares
    will look, without turning a claim into a caveat; the section further down explains it fully. */
@@ -444,51 +430,18 @@ h1 .three {
    not because the rider is worth reading — and the constraint may not be permanent. */
 .turn-note {
   display: block;
-  margin-top: 8px;
+  margin-top: 4px;
   font-size: 11.5px;
   letter-spacing: 0.01em;
   color: var(--muted);
   opacity: 0.6;
 }
-.turn-speak b {
-  color: var(--speakText);
-}
-/* Up, hold, away. The line is lit for a quarter of the cycle and rises a little as it arrives,
-   which is what makes it read as the next thing rather than a flicker. */
-@keyframes turn {
-  0% {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  3% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  22% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  26% {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-}
-/* No motion: all four at once, standing still, in the order they turn. */
-@media (prefers-reduced-motion: reduce) {
-  .turns {
-    min-height: 0;
-  }
-  .turn {
-    position: static;
-    opacity: 1;
-    animation: none;
-    transform: none;
-    margin-bottom: 10px;
-  }
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 18px;
 }
 
 /* ---- the wash: travel glyphs at a whisper behind a band ---------------------------------- */
