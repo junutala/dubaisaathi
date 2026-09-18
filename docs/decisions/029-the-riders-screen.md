@@ -17,7 +17,16 @@ and on the numbering, after working through the join:
 
 Hands over an A5 form, asks nothing, collects it filled with a takeaway menu stapled to it. Then,
 standing outside: opens the app, writes the number it is showing into the box on the form,
-photographs the shop front, presses the tick.
+photographs the shop front if he can, presses the tick.
+
+**The photograph is optional**, at the owner's instruction:
+
+> _"if the guy sees a policeman or some women in shopfront, then he will hesitate to take a
+> picture and will be struck."_
+
+A screen that will not let him leave without a picture is a screen that strands him at that
+doorway. The fix is what the pin is for; the frontage is a convenience for matching paper to
+pins later, and a pin without one is still a pin.
 
 **He types nothing.** Not a name, not a number, not a word. The screen is a number to copy, a
 camera and a tick, and it is built to be used by somebody who reads neither Hindi nor English:
@@ -40,7 +49,8 @@ number to write _now_, and an abandoned visit spends nothing.
 
 ## What the pin is, and what it is not
 
-A thin `FieldReport`: `formSerial`, the fix, a frontage photograph, and no name. `dietary` is
+A thin `FieldReport`: `formSerial`, the fix, a frontage photograph when there is one, and no
+name. `dietary` is
 absent, which is why it is now optional on the entity — sending five `false`s would tell the pack
 "no Jain food" about a kitchen nobody has asked, and absent is what a traveller reads as पूछकर.
 `toRestaurant` refuses a row with no kitchen kind and no name, so a pin cannot publish as a bare
@@ -70,5 +80,15 @@ answered by a sheet with a tick on it and the manager's name beside it.
 - `field_reports` gains `form_serial` (migration 0012) and the `outlet` function passes it.
 - The function's duplicate check no longer compares names when there is none: an empty name
   matched every neighbour within 40 m, so every pin beside an existing shop was flagged a twin.
-- Still to build: the desk screen — the picker, and the read endpoint that lists pins waiting for
-  their paper.
+- The desk screen is the old capture form, modified rather than replaced: _"I recommend you
+  modify the existing outlet form to suit our new flow. I dont think we will use the old form."_
+  It opens with the picker, and the pins come from the function's new `GET`.
+- **The desk form no longer reads the phone's GPS, and no longer takes a frontage photograph.**
+  Both belonged to a collector standing at the door, and the owner will not be standing there:
+  _"I will carry my form wherever i go so that I can fill up the form whenever I see any indian
+  restaurant."_ The only honest coordinates at a desk are the ones the pin already carries, so
+  the pin is where they come from — a form filled in at a hotel table must never stamp that table
+  onto a kitchen in Meena Bazaar.
+- Numbers are per phone, not global. Two riders would both start at 0001; the owner's answer was
+  _"That does not bite me"_ — there is one rider — and the pin's own id, not its serial, is what
+  the row is keyed by.
