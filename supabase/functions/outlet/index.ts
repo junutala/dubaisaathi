@@ -115,11 +115,14 @@ Deno.serve(async (request: Request): Promise<Response> => {
     .lte('lng', at.lng + box)
     .neq('id', report.id);
   const tidy = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const mine = tidy(String(report.name ?? ''));
+  // A rider's pin carries no name — the board is in the photograph (decision 029). Comparing an
+  // empty string would match every neighbour, so proximity alone is not enough to call a twin.
   if (
+    mine !== '' &&
     near.data?.some(
       (row: { name: string }) =>
-        tidy(row.name).startsWith(tidy(report.name as string).slice(0, 6)) ||
-        tidy(report.name as string).startsWith(tidy(row.name).slice(0, 6)),
+        tidy(row.name).startsWith(mine.slice(0, 6)) || mine.startsWith(tidy(row.name).slice(0, 6)),
     )
   ) {
     flags.push('looks-like-a-duplicate');

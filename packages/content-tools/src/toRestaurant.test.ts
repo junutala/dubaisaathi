@@ -138,3 +138,37 @@ describe('dishes', () => {
     expect(readDishes([{ name: { en: 'Jain sambar' } }])?.[0]?.name.hi).toBe('Jain sambar');
   });
 });
+
+describe("a rider's pin", () => {
+  /**
+   * The pin carries a serial, a fix and a frontage and nothing else (decision 029): the five
+   * answers and the menu are on paper that has not been keyed in yet. It must not become an
+   * outlet in the pack in the meantime — a card with no kitchen kind and no name is a row a
+   * traveller cannot act on, and खाना would sort it by distance like any other.
+   */
+  it('never publishes before its paper has been read', () => {
+    expect(
+      toRestaurant({
+        ...karama,
+        id: 'pin-1',
+        name: '',
+        kitchen: null,
+        dietary: null,
+        confirmed_dishes: null,
+        hours: null,
+      }),
+    ).toBeNull();
+  });
+
+  it('publishes once the paper behind it is in', () => {
+    const outlet = toRestaurant({
+      ...karama,
+      id: 'pin-1',
+      name: 'Veg World',
+      kitchen: 'pure-veg',
+      dietary: { jain: true, vrat: 'on-request' },
+    });
+    expect(outlet?.name.en).toBe('Veg World');
+    expect(outlet?.dietary?.jain).toBe('yes');
+  });
+});

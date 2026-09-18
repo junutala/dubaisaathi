@@ -304,3 +304,190 @@ input.short {
   color: var(--muted, #6b6257);
   opacity: 0.55;
 }
+
+/* ---- the mode switch, and the rider's screen (decision 029) ---------------------------- */
+
+/* Set once by whoever hands the phone over, then furniture. */
+.mode {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 8px 14px 0;
+}
+.mode-btn {
+  width: 38px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+}
+.mode-btn svg {
+  width: 19px;
+  height: 19px;
+}
+.mode-btn-on {
+  background: var(--marigoldSoft);
+  border-color: var(--marigoldLine);
+  color: var(--marigoldText);
+}
+
+/* The rider reads no Hindi and no English (the owner, 18 September), so this screen is glyphs,
+   digits and one tick. Everything on it is thumb-sized: he is standing on a footpath with a
+   helmet in his other hand. */
+.pin {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 10px 16px 24px;
+  max-width: 520px;
+  margin: 0 auto;
+}
+.pin-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* The fix, as a pin and a number of metres: numerals are the one script everybody here reads. */
+.pin-gps,
+.pin-queue {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px 6px 9px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 800;
+  background: var(--tealSoft);
+  color: var(--tealText);
+}
+.pin-gps svg,
+.pin-queue svg {
+  width: 19px;
+  height: 19px;
+}
+/* No fix yet: marigold and waiting, never red, and never a sentence. */
+.pin-gps-off {
+  background: var(--marigoldSoft);
+  color: var(--marigoldText);
+}
+.pin-queue {
+  background: transparent;
+  color: var(--muted);
+}
+.pin-queue-waiting {
+  background: var(--marigoldSoft);
+  color: var(--marigoldText);
+}
+.pin-serial {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pin-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+/* One field, and it takes digits only. Big enough to check at arm's length against the paper. */
+.pin-input {
+  height: 84px;
+  border-radius: 16px;
+  border: 2px solid var(--line);
+  background: var(--card);
+  font: inherit;
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-align: center;
+  color: var(--ink);
+}
+.pin-input:focus {
+  outline: none;
+  border-color: var(--marigold);
+}
+.pin-camera {
+  position: relative;
+  height: 120px;
+  border-radius: 18px;
+  border: 2px dashed var(--marigold);
+  background: var(--marigoldSoft);
+  color: var(--marigoldText);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pin-camera svg {
+  width: 46px;
+  height: 46px;
+}
+/* Taken: the dashes close up and a tick sits in the corner. No words to read. */
+.pin-camera-got {
+  border-style: solid;
+  border-color: var(--tealLine);
+  background: var(--tealSoft);
+  color: var(--tealText);
+}
+.pin-tick {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--tealText);
+  color: var(--tealSoft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pin-tick svg {
+  width: 19px;
+  height: 19px;
+}
+.pin-file {
+  display: none;
+}
+.pin-done-btn {
+  height: 96px;
+  border-radius: 18px;
+  border: none;
+  background: var(--teal);
+  color: #eafbf7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pin-done-btn svg {
+  width: 54px;
+  height: 54px;
+}
+.pin-done-btn:disabled {
+  background: var(--sand);
+  color: var(--chev);
+}
+/* Saved: a tick and the serial, and it clears itself. At the fiftieth shop nobody should have
+   to dismiss anything. */
+.pin-done {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--tealText);
+}
+.pin-done svg {
+  width: 84px;
+  height: 84px;
+}
+.pin-done-serial {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}

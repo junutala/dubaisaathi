@@ -552,7 +552,12 @@ export interface FieldReport {
   /** The number on the board, asked for whether or not they deliver: a traveller rings to ask. */
   readonly phone?: string;
   /** Asked in person, not read off a sign. */
-  readonly dietary: {
+  /**
+   * Absent on a rider's pin (decision 029): the five answers are on the paper form and are keyed
+   * in behind it. Absent means nobody has asked, which is what the traveller sees as पूछकर — the
+   * one thing that must never be guessed at, in the data or in the interface.
+   */
+  readonly dietary?: {
     readonly jain: boolean | 'on-request';
     readonly vrat: boolean | 'on-request';
     readonly sattvik: boolean | 'on-request';

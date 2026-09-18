@@ -40,7 +40,9 @@ interface Fix {
 
 type Answer = 'yes' | 'on-request' | 'no' | null;
 
-const DIET: readonly { key: keyof FieldReport['dietary']; label: Key }[] = [
+type DietKey = keyof NonNullable<FieldReport['dietary']>;
+
+const DIET: readonly { key: DietKey; label: Key }[] = [
   { key: 'jain', label: 'jain' },
   { key: 'vrat', label: 'vrat' },
   { key: 'sattvik', label: 'sattvik' },
@@ -678,7 +680,7 @@ function FilePick({
 }
 
 /** Asked once, on first open. Attribution, not a login. */
-function WhoAreYou({ onName }: { readonly onName: (name: string) => void }) {
+export function WhoAreYou({ onName }: { readonly onName: (name: string) => void }) {
   const { lang, t } = useStrings();
   const [value, setValue] = useState('');
   return (
