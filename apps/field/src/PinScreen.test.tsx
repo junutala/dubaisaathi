@@ -46,18 +46,16 @@ function photograph(input: HTMLInputElement) {
   fireEvent.change(input);
 }
 
-function type(serial: string) {
-  fireEvent.change(document.querySelector<HTMLInputElement>('.pin-input')!, {
-    target: { value: serial },
-  });
-}
-
 describe('the rider’s pin', () => {
-  it('will not save until there is a number, a photograph and a fix', async () => {
+  it('shows the number to write, and nothing to type', () => {
     const { container } = render(<PinScreen />);
-    expect(container.querySelector('.pin-done-btn')?.hasAttribute('disabled')).toBe(true);
+    expect(container.querySelector('.pin-number')?.textContent).toBe('0001');
+    // The only inputs on the screen are the hidden camera and the tick: he holds a helmet.
+    expect(container.querySelectorAll('input:not([type="file"])')).toHaveLength(0);
+  });
 
-    type('0142');
+  it('will not save until there is a photograph and a fix', async () => {
+    const { container } = render(<PinScreen />);
     expect(container.querySelector('.pin-done-btn')?.hasAttribute('disabled')).toBe(true);
 
     photograph(container.querySelector<HTMLInputElement>('.pin-file')!);
@@ -74,16 +72,9 @@ describe('the rider’s pin', () => {
     });
   });
 
-  it('takes only digits, because that is the one script the rider reads', () => {
-    const { container } = render(<PinScreen />);
-    type('01A4b2');
-    expect(container.querySelector<HTMLInputElement>('.pin-input')!.value).toBe('0142');
-  });
-
   it('saves the serial, the fix and the frontage — and no name it did not ask for', async () => {
     const { container } = render(<PinScreen />);
     watcher?.(position);
-    type('0142');
     photograph(container.querySelector<HTMLInputElement>('.pin-file')!);
     await waitFor(() => {
       expect(container.querySelector('.pin-camera-got')).toBeTruthy();
@@ -94,7 +85,7 @@ describe('the rider’s pin', () => {
       expect(await db.reports.count()).toBe(1);
     });
     const [report] = await db.reports.toArray();
-    expect(report?.formSerial).toBe('0142');
+    expect(report?.formSerial).toBe('0001');
     expect(report?.location).toEqual({ lat: 25.2582, lng: 55.2979 });
     expect(report?.collectorId).toBe('rider');
     // No name and no dietary answers: the board is in the photograph and the five answers are on
@@ -105,16 +96,32 @@ describe('the rider’s pin', () => {
     expect(await db.photos.count()).toBe(1);
   });
 
-  it('shows the serial back and clears itself for the next shop', async () => {
+  it('shows the number back, then moves on to the next one', async () => {
+    localStorage.setItem('saathi.pinCounter', '142');
     const { container } = render(<PinScreen />);
     watcher?.(position);
-    type('0143');
     photograph(container.querySelector<HTMLInputElement>('.pin-file')!);
     await waitFor(() => {
       expect(container.querySelector('.pin-camera-got')).toBeTruthy();
     });
     fireEvent.click(container.querySelector<HTMLButtonElement>('.pin-done-btn')!);
 
-    expect(await screen.findByText('0143')).toBeTruthy();
+    // The one just written, said back to him on the confirmation — not the number waiting on
+    // the form behind it, which is why this looks for the confirmation's own element.
+    await waitFor(() => {
+      expect(document.querySelector('.pin-done-serial')?.textContent).toBe('0142');
+    });
+    // …and the counter has moved on, so the next form gets the next number.
+    await waitFor(() => {
+      expect(localStorage.getItem('saathi.pinCounter')).toBe('143');
+    });
+  });
+
+  it('does not spend a number on a visit that was abandoned', () => {
+    localStorage.setItem('saathi.pinCounter', '7');
+    const { unmount } = render(<PinScreen />);
+    unmount();
+    render(<PinScreen />);
+    expect(screen.getByText('0007')).toBeTruthy();
   });
 });

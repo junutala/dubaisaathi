@@ -23,6 +23,18 @@
   --marigold: #e8871e;
   --teal: #0b7a6b;
   --trouble: #8a3a12;
+  /* The tints the rider's screen needs, the same values the traveller's app uses, so the two
+     tools look like one thing. A rule that names a token this file does not define is silently
+     dropped by the browser and shows up nowhere else — which is how the pin's number lost its
+     box for one build. */
+  --marigoldSoft: #fdf0dc;
+  --marigoldLine: #f2c795;
+  --marigoldText: #9a5b10;
+  --tealSoft: #e1f2ef;
+  --tealLine: #bfe3dd;
+  --tealText: #0a5f54;
+  --sand: #f7f3ec;
+  --chev: #8a8f9e;
   color-scheme: light;
 }
 
@@ -393,22 +405,20 @@ input.short {
   letter-spacing: 0.08em;
   color: var(--muted);
 }
-/* One field, and it takes digits only. Big enough to check at arm's length against the paper. */
-.pin-input {
-  height: 84px;
+/* The number to copy onto the paper. Not a field — there is nothing here to type — but the
+   biggest thing on the screen, because copying it correctly is the whole job. */
+.pin-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 96px;
   border-radius: 16px;
-  border: 2px solid var(--line);
-  background: var(--card);
-  font: inherit;
-  font-size: 44px;
+  border: 2px solid var(--marigoldLine);
+  background: var(--marigoldSoft);
+  font-size: 52px;
   font-weight: 800;
-  letter-spacing: 0.14em;
-  text-align: center;
-  color: var(--ink);
-}
-.pin-input:focus {
-  outline: none;
-  border-color: var(--marigold);
+  letter-spacing: 0.16em;
+  color: var(--marigoldText);
 }
 .pin-camera {
   position: relative;

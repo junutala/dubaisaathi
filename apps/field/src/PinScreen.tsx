@@ -6,6 +6,7 @@ import { shrink } from './shrink.js';
 
 /** The frontage, at the size the full form uses for the same photograph. */
 const FRONT = { edge: 1400, quality: 0.72 };
+import { advanceSerial, currentSerial } from './serial.js';
 import { useStrings } from './strings.js';
 import { startSync, syncReports, type SyncOutcome } from './sync.js';
 
@@ -16,11 +17,11 @@ import { startSync, syncReports, type SyncOutcome } from './sync.js';
  * drops numbered paper at fifty counters in an afternoon and may read neither Hindi nor English
  * (the owner, 18 September). So this screen is built to be used without reading it.
  *
- * Three things, in order, and the glyphs carry them: the number printed on the form, typed on a
- * number pad because digits are the one script everybody here shares; a photograph of the shop
- * front, which is also how we learn the shop's name without anybody typing it; and a tick. The
- * coordinates are never asked for — the phone is watched from the moment the screen opens, and
- * what is saved is where he is standing when he presses the tick.
+ * Two things, and the glyphs carry both: a photograph of the shop front — which is also how we
+ * learn the shop's name without anybody typing it — and a tick. Above them sits the number the
+ * app has chosen, which he copies into the box on the paper with the pen already in his hand.
+ * He types nothing at all. The coordinates are never asked for: the phone is watched from the
+ * moment the screen opens, and what is saved is where he is standing when he presses the tick.
  *
  * The paper carries the five answers and a stapled takeaway menu. This carries the pin. The
  * serial marries them at review, and the serial is printed rather than hand-written because a
@@ -35,7 +36,7 @@ interface Fix {
 
 export function PinScreen() {
   const { t } = useStrings();
-  const [serial, setSerial] = useState('');
+  const [serial, setSerial] = useState(currentSerial);
   const [front, setFront] = useState<Blob | null>(null);
   const [fix, setFix] = useState<Fix | null>(null);
   const [queue, setQueue] = useState<SyncOutcome>({ pending: 0, sent: 0 });
@@ -68,7 +69,7 @@ export function PinScreen() {
     };
   }, []);
 
-  const ready = serial.length >= 3 && front !== null && fix !== null;
+  const ready = front !== null && fix !== null;
 
   async function save() {
     const who = collectorName();
@@ -99,7 +100,7 @@ export function PinScreen() {
     });
 
     setSaved(serial);
-    setSerial('');
+    setSerial(advanceSerial());
     setFront(null);
     setQueue(await syncReports());
   }
@@ -170,21 +171,12 @@ export function PinScreen() {
         </span>
       </div>
 
-      <label className="pin-serial">
+      {/* The number to write on the form, and the only reason to look at this screen before
+          the camera. Nothing to type: he copies it into the printed box. */}
+      <div className="pin-serial">
         <span className="pin-label">फ़ॉर्म नं. · FORM NO.</span>
-        <input
-          className="pin-input"
-          type="text"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          autoComplete="off"
-          value={serial}
-          maxLength={6}
-          onChange={(event) => {
-            setSerial(event.target.value.replace(/\D/g, ''));
-          }}
-        />
-      </label>
+        <output className="pin-number">{serial}</output>
+      </div>
 
       <button
         type="button"
