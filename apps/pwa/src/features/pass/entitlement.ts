@@ -47,6 +47,13 @@ export const PURCHASE_IS_LIVE = import.meta.env.VITE_PURCHASE_LIVE === 'true';
  */
 const GATE_IS_LIVE = import.meta.env.VITE_GATE_LIVE === 'true';
 
+/**
+ * Whether घर.4 offers to take the pass off this phone (`VITE_TESTING_TOOLS`). Deliberately its
+ * own switch: buying a pass twice is a thing the owner needs while the money flow is being
+ * proved, and nothing a traveller should ever be one tap away from.
+ */
+export const TESTING_TOOLS = import.meta.env.VITE_TESTING_TOOLS === 'true';
+
 export const TRIAL_HOURS = 24;
 export const PAID_HOURS = 336;
 
@@ -199,13 +206,15 @@ export function updateEntitlement(patch: Partial<Entitlement>): Entitlement {
   return next;
 }
 
-/** For tests and for a traveller who wants to start again. */
+/** For tests, and for घर.4's "start again" while the money flow is being proved. */
 export function forgetEntitlement(): void {
   try {
     localStorage.removeItem(KEY);
   } catch {
     /* nothing to forget */
   }
+  // Announced like every other change, or the screens go on showing a pass that is gone.
+  if (typeof window !== 'undefined') window.dispatchEvent(new Event(CHANGED));
 }
 
 /**
