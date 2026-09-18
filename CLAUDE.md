@@ -143,11 +143,14 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   still needs repeated readings inside Dubai; the stand-in never starts it.
 - **Every command the app could not fulfil is captured** in the question log (`VoiceEvent`,
   the entity name kept), synced by the `collect` edge function, keyed to the device only.
-- **Content is collected in the field** by our own people with `apps/field`: dietary answers
-  asked in person, the menu read by OCR and confirmed dish by dish with the price the camera
-  read, the area from the shared list, the number on the board, hours, price for one. The GPS
-  is watched from the moment the form opens and saved with the report; there is no button for
-  it.
+- **Content is collected in the field** by our own people with `apps/field`, in two steps
+  (decision 029). A rider drops a paper form at the counter and, outside, pins it: the app shows
+  the number he copies onto the form, he photographs the front if he can, and presses the tick —
+  the GPS is watched from the moment his screen opens, so there is no button for it. Later, at a
+  desk, the filled paper and the scanned menu card are keyed against that pin: dietary answers as
+  the manager wrote them, the menu read by OCR and confirmed dish by dish with the price the
+  camera read, the area from the shared list, the number on the board, hours, price for one. The
+  coordinates always come from the pin, never from the desk's own phone.
 
 ## Non-negotiable rules
 
@@ -245,11 +248,12 @@ the output is new aliases, new phrases and new intents in `data/`, versioned lik
 ## Field collection
 
 `apps/field` is a second, separate PWA for our own collectors — not tourists. It is the one
-place accounts exist (collectors are staff). Offline-capable, because collectors roam: a
-`FieldReport` is filled in at the restaurant (photos of the front and the menu, the dietary
-questions asked in person — Jain, vrat, Sattvik, no onion/garlic, eggless — delivery number,
-hours, price for one, GPS captured on the spot), queued, and uploaded when online. Nothing a
-collector submits reaches the tourist pack unreviewed: a report is approved in
+place accounts exist (collectors are staff). Offline-capable, because collectors roam. One
+`FieldReport` is written twice (decision 029): the rider's screen opens it with a form number and
+the fix taken at the door, and the desk form completes it from the paper that came back — the
+dietary questions as the manager answered them (Jain, vrat, Sattvik, no onion/garlic, eggless),
+the menu from the scan, delivery number, hours, price for one. Both queue offline and upload when
+online. Nothing a collector submits reaches the tourist pack unreviewed: a report is approved in
 `packages/content-tools`, becomes a `Restaurant` + `Menu`, and ships in the next
 `ContentVersion`. The same form covers places, pharmacies and hotels with fewer fields.
 

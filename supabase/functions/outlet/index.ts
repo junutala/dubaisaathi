@@ -17,7 +17,7 @@ import { createClient } from 'jsr:@supabase/supabase-js@2';
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'content-type, authorization, apikey',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
 };
 
 /** Dubai, generously. A report from outside it is a mistake worth a second look. */
@@ -58,7 +58,66 @@ function bytesFromDataUrl(dataUrl: string): Uint8Array | null {
 
 Deno.serve(async (request: Request): Promise<Response> => {
   if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
-  if (request.method !== 'POST') return json({ error: 'POST only' }, 405);
+
+  /**
+   * The pins a rider has dropped and nobody has keyed the paper for yet (decision 029).
+   *
+   * Narrow on purpose: the id, the number written on the form, where it was taken and by whom —
+   * and the frontage photograph, because a list of bare numbers is a miserable thing to match a
+   * stack of paper against. No menu, no dietary, nothing a stranger could use, which is what
+   * makes this read safe in an app that has no accounts by decision.
+   */
+  if (request.method === 'GET') {
+    const db = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+      { auth: { persistSession: false } },
+    );
+    const waiting = await db
+      .from('field_reports')
+      .select('id, form_serial, lat, lng, captured_at, collector')
+      .not('form_serial', 'is', null)
+      .is('kitchen', null)
+      .order('captured_at', { ascending: true })
+      .limit(400);
+    if (waiting.error) return json({ error: waiting.error.message }, 500);
+
+    const ids = (waiting.data ?? []).map((row: { id: string }) => row.id);
+    const shots =
+      ids.length === 0
+        ? { data: [] }
+        : await db
+            .from('field_photos')
+            .select('report_id, image')
+            .eq('kind', 'front')
+            .in('report_id', ids);
+    const frontage = new Map<string, string>();
+    for (const shot of (shots.data ?? []) as { report_id: string; image: string }[]) {
+      // Postgres hands bytea back as `\x…`; the app wants something an <img> can show.
+      const hex = shot.image.startsWith('\\x') ? shot.image.slice(2) : shot.image;
+      const bytes = new Uint8Array((hex.match(/.{2}/g) ?? []).map((pair) => parseInt(pair, 16)));
+      let binary = '';
+      for (const byte of bytes) binary += String.fromCharCode(byte);
+      frontage.set(shot.report_id, `data:image/jpeg;base64,${btoa(binary)}`);
+    }
+
+    return json(
+      {
+        pins: (waiting.data ?? []).map((row: Record<string, unknown>) => ({
+          id: row.id,
+          formSerial: row.form_serial,
+          lat: row.lat,
+          lng: row.lng,
+          capturedAt: row.captured_at,
+          collector: row.collector,
+          front: frontage.get(String(row.id)) ?? null,
+        })),
+      },
+      200,
+    );
+  }
+
+  if (request.method !== 'POST') return json({ error: 'GET or POST' }, 405);
 
   let payload: { report?: Record<string, unknown>; photos?: { kind: string; dataUrl: string }[] };
   try {
@@ -91,6 +150,12 @@ Deno.serve(async (request: Request): Promise<Response> => {
 
   const photos = Array.isArray(payload.photos) ? payload.photos : [];
   if (!photos.some((photo) => photo.kind === 'front')) flags.push('no-front-photo');
+  /**
+   * A rider's pin: a number and a fix, with the five answers still on paper in somebody's bag
+   * (decision 029). It is not an approved outlet and must not read as one in review — it is a
+   * row waiting for its form, and this is what the desk lists.
+   */
+  if (typeof report.formSerial === 'string' && !report.kitchen) flags.push('awaiting-paper');
 
   const price = report.priceForOneAed;
   if (typeof price === 'number' && (price < 3 || price > 500)) flags.push('price-looks-wrong');
@@ -115,11 +180,14 @@ Deno.serve(async (request: Request): Promise<Response> => {
     .lte('lng', at.lng + box)
     .neq('id', report.id);
   const tidy = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const mine = tidy(typeof report.name === 'string' ? report.name : '');
+  // A rider's pin carries no name — the board is in the photograph (decision 029). Comparing an
+  // empty string would match every neighbour, so proximity alone is not enough to call a twin.
   if (
+    mine !== '' &&
     near.data?.some(
       (row: { name: string }) =>
-        tidy(row.name).startsWith(tidy(report.name as string).slice(0, 6)) ||
-        tidy(report.name as string).startsWith(tidy(row.name).slice(0, 6)),
+        tidy(row.name).startsWith(mine.slice(0, 6)) || mine.startsWith(tidy(row.name).slice(0, 6)),
     )
   ) {
     flags.push('looks-like-a-duplicate');
@@ -134,6 +202,8 @@ Deno.serve(async (request: Request): Promise<Response> => {
     lng: at.lng,
     name: report.name,
     name_hi: report.nameHi ?? null,
+    // The paper form's printed number, when this is a rider's pin (decision 029).
+    form_serial: typeof report.formSerial === 'string' ? report.formSerial : null,
     area: report.areaId ?? report.areaName ?? null,
     phone: report.phone ?? null,
     kitchen: report.kitchen ?? null,
