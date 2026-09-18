@@ -494,6 +494,19 @@ input.short {
   font-weight: 800;
   letter-spacing: 0.14em;
 }
+/* The way on into the long form, for whoever is holding the paper as well as the phone. Quiet
+   next to the tick: the rider must be able to ignore it without reading it. */
+.pin-fill {
+  margin-top: 14px;
+  padding: 12px 20px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+}
 
 /* ---- the desk: picking the pin a stack of paper belongs to (decision 029) -------------- */
 

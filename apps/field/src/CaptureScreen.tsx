@@ -69,7 +69,14 @@ const ANSWERS: readonly { value: 'yes' | 'on-request' | 'no'; label: Key }[] = [
   { value: 'no', label: 'no' },
 ];
 
-export function CaptureScreen() {
+export function CaptureScreen({
+  startWith = null,
+  onStarted,
+}: {
+  /** A pin dropped moments ago on the other screen, to open on rather than make him find. */
+  readonly startWith?: string | null;
+  readonly onStarted?: () => void;
+} = {}) {
   const { lang, t } = useStrings();
   const [who, setWho] = useState<string | null>(() => collectorName());
 
@@ -125,9 +132,23 @@ export function CaptureScreen() {
   }, [who, saved]);
 
   /**
-   * Every capture begins with a pin now (the owner, 18 September: he carries forms wherever he
-   * goes, so even his own visits start as paper and a number). The place and the frontage came
-   * from whoever stood at the door; what is left to fill is what the paper says.
+   * Walked in from the pin screen with a pin in hand: open on it. The list is this phone's own
+   * pins as well as the server's, so the one he dropped ninety seconds ago is there whether or
+   * not it has been uploaded yet — and if it somehow is not, he simply gets the picker.
+   */
+  useEffect(() => {
+    if (startWith === null) return;
+    const dropped = pins.find((one) => one.id === startWith);
+    if (dropped === undefined) return;
+    setPin(dropped);
+    onStarted?.();
+  }, [startWith, pins, onStarted]);
+
+  /**
+   * Every capture begins with a pin (the owner, 18 September): he carries blank forms wherever he
+   * goes, so his own visits start at the door too, with a number and a fix taken standing there.
+   * The place and the frontage came from whoever pinned it; what is left to fill is what the
+   * paper says — whether that is done on the pavement a minute later or at a desk that night.
    */
   const ready = pin !== null && name.trim() !== '' && kitchen !== null;
 
@@ -176,7 +197,9 @@ export function CaptureScreen() {
       ...(price.trim() === '' ? {} : { priceForOneAed: Number(price) }),
       ...(spokeTo.trim() === '' ? {} : { spokeTo: spokeTo.trim() }),
       ...(notes.trim() === '' ? {} : { notes: notes.trim() }),
-      frontPhotoIds: [],
+      // The pin's own frontage, where this phone is the one that took it: the photograph is
+      // still in this queue, and a report that forgot its own pointer would leave it orphaned.
+      frontPhotoIds: (await db.reports.get(id))?.frontPhotoIds ?? [],
       menuPhotoIds: menu.map((_, i) => `${id}-menu-${String(i)}`),
       status: 'queued',
     };

@@ -2,10 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { FieldReport } from '@saathi/shared';
 import { collectorName } from './collector.js';
 import { db } from './db.js';
-import { shrink } from './shrink.js';
-
-/** The frontage, at the size the full form uses for the same photograph. */
-const FRONT = { edge: 1400, quality: 0.72 };
+import { FRONT, shrink } from './shrink.js';
 import { advanceSerial, currentSerial } from './serial.js';
 import { useStrings } from './strings.js';
 import { startSync, syncReports, type SyncOutcome } from './sync.js';
@@ -29,8 +26,13 @@ import { startSync, syncReports, type SyncOutcome } from './sync.js';
  * that matters, and the pin is the fix.
  *
  * The paper carries the five answers and a stapled takeaway menu. This carries the pin. The
- * serial marries them at review, and the serial is printed rather than hand-written because a
- * misread digit would put one shop's coordinates on another shop's answers.
+ * number marries them at the desk.
+ *
+ * **Every capture starts here**, including the owner's own (18 September): he carries blank forms
+ * and fills one the moment he sees an Indian kitchen, and he is standing at the door when he does
+ * it — so the door is where the coordinates are taken, and the tick offers to carry straight on
+ * into the long form with this pin already chosen. One flow, whether the rest is filled in on the
+ * pavement or at a desk that night.
  */
 
 interface Fix {
@@ -39,13 +41,13 @@ interface Fix {
   readonly accuracyM: number;
 }
 
-export function PinScreen() {
+export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) => void }) {
   const { t } = useStrings();
   const [serial, setSerial] = useState(currentSerial);
   const [front, setFront] = useState<Blob | null>(null);
   const [fix, setFix] = useState<Fix | null>(null);
   const [queue, setQueue] = useState<SyncOutcome>({ pending: 0, sent: 0 });
-  const [saved, setSaved] = useState<string | null>(null);
+  const [saved, setSaved] = useState<{ serial: string; id: string } | null>(null);
   const camera = useRef<HTMLInputElement>(null);
 
   useEffect(() => startSync(setQueue), []);
@@ -107,25 +109,28 @@ export function PinScreen() {
       }
     });
 
-    setSaved(serial);
+    setSaved({ serial, id });
     setSerial(advanceSerial());
     setFront(null);
     setQueue(await syncReports());
   }
 
-  // The confirmation is the serial in numerals and a tick, and it clears itself: at the fiftieth
-  // shop nobody should have to dismiss anything.
+  // The confirmation is the number in numerals and a tick, and it clears itself: at the fiftieth
+  // shop nobody should have to dismiss anything. Four seconds rather than the old two and a half,
+  // because it now carries a way on into the long form and a button nobody can reach in time is
+  // not a way on at all.
   useEffect(() => {
     if (saved === null) return;
     const timer = window.setTimeout(() => {
       setSaved(null);
-    }, 2600);
+    }, 4000);
     return () => {
       window.clearTimeout(timer);
     };
   }, [saved]);
 
   if (saved !== null) {
+    const pinId = saved.id;
     return (
       <div className="pin-done">
         <svg
@@ -139,7 +144,22 @@ export function PinScreen() {
         >
           <path d="M5 12.5l4.5 4.5L19 7.5" />
         </svg>
-        <p className="pin-done-serial">{saved}</p>
+        <p className="pin-done-serial">{saved.serial}</p>
+        {/* For whoever has the paper in his hand as well as the phone — the owner, usually,
+            standing at the door he has just pinned. It opens the long form on this pin, so the
+            fix and the number are already joined and nothing is asked twice. A rider who only
+            drops paper ignores it and the screen clears itself. */}
+        {onFillIn !== undefined && (
+          <button
+            type="button"
+            className="pin-fill"
+            onClick={() => {
+              onFillIn(pinId);
+            }}
+          >
+            {t('fillItNow')}
+          </button>
+        )}
       </div>
     );
   }

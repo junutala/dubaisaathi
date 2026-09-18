@@ -224,24 +224,32 @@ Deno.serve(async (request: Request): Promise<Response> => {
   const saved = await db.from('field_reports').upsert(row, { onConflict: 'id' });
   if (saved.error) return json({ error: saved.error.message }, 500);
 
-  // Photographs after the row, so a failed image never costs the visit itself.
+  /**
+   * Photographs after the row, so a failed image never costs the visit itself.
+   *
+   * A photograph is identified by its slot — this report's front, its second menu page — and not
+   * by an id minted here (migration 0013). The same report is sent again after a lost response,
+   * and again when a rider's pin is completed into a full outlet on the same phone, and each of
+   * those must leave one row per picture rather than another copy of it.
+   */
   let stored = 0;
-  for (const [index, photo] of photos.entries()) {
+  const seen = { front: 0, menu: 0 };
+  for (const photo of photos) {
     const bytes = bytesFromDataUrl(photo.dataUrl);
     if (!bytes) continue;
-    const id = `${report.id.slice(0, 30)}${photo.kind === 'front' ? 'f' : 'm'}${String(index)}`;
-    const uuid = crypto.randomUUID();
+    const kind = photo.kind === 'front' ? 'front' : 'menu';
+    const ord = seen[kind];
+    seen[kind] += 1;
     const written = await db.from('field_photos').upsert(
       {
-        id: uuid,
         report_id: report.id,
-        kind: photo.kind === 'front' ? 'front' : 'menu',
+        kind,
+        ord,
         image: `\\x${[...bytes].map((b) => b.toString(16).padStart(2, '0')).join('')}`,
       },
-      { onConflict: 'id' },
+      { onConflict: 'report_id,kind,ord' },
     );
     if (!written.error) stored += 1;
-    void id;
   }
 
   return json({ id: report.id, status: row.status, flags, photos: stored });

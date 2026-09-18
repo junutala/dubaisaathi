@@ -126,6 +126,44 @@ describe('the rider’s pin', () => {
     });
   });
 
+  it('hands the pin it just wrote on to the long form, for whoever holds the paper too', async () => {
+    const carried: string[] = [];
+    const { container } = render(
+      <PinScreen
+        onFillIn={(id) => {
+          carried.push(id);
+        }}
+      />,
+    );
+    watcher?.(position);
+    await waitFor(() => {
+      expect(container.querySelector('.pin-done-btn')?.hasAttribute('disabled')).toBe(false);
+    });
+    fireEvent.click(container.querySelector<HTMLButtonElement>('.pin-done-btn')!);
+
+    await waitFor(() => {
+      expect(document.querySelector('.pin-fill')).toBeTruthy();
+    });
+    fireEvent.click(document.querySelector<HTMLButtonElement>('.pin-fill')!);
+
+    const [report] = await db.reports.toArray();
+    // The same row, not a second one: the door was pinned once and the form completes that pin.
+    expect(carried).toEqual([report?.id]);
+  });
+
+  it('offers no way on to a rider who has no long form to fill', async () => {
+    const { container } = render(<PinScreen />);
+    watcher?.(position);
+    await waitFor(() => {
+      expect(container.querySelector('.pin-done-btn')?.hasAttribute('disabled')).toBe(false);
+    });
+    fireEvent.click(container.querySelector<HTMLButtonElement>('.pin-done-btn')!);
+    await waitFor(() => {
+      expect(document.querySelector('.pin-done-serial')).toBeTruthy();
+    });
+    expect(document.querySelector('.pin-fill')).toBeNull();
+  });
+
   it('does not spend a number on a visit that was abandoned', () => {
     localStorage.setItem('saathi.pinCounter', '7');
     const { unmount } = render(<PinScreen />);
