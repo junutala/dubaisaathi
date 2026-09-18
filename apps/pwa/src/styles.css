@@ -346,8 +346,7 @@ button:not(:disabled) {
 
 .bar {
   display: grid;
-  /* Five since decision 026: the three pillars, the documents, and बात. */
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   border-top: 1px solid var(--line);
   background: var(--card);
   padding: 6px 8px 18px;
@@ -2232,103 +2231,6 @@ button:not(:disabled) {
 
 .bolna-wait {
   margin: 0;
-}
-
-/* ---- घर.7 · बात: the message, then the invitation (decision 026) ----------------------- */
-
-.reach-half {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.reach-head {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 800;
-}
-/* The two halves are one screen, not two cards: a rule between them says "and now the other
-   thing" without making either look like a box the traveller has to finish first. */
-.reach-rule {
-  border: none;
-  border-top: 1px solid var(--line);
-  margin: 6px 0 2px;
-  width: 100%;
-}
-.reach-dial {
-  border: none;
-  background: transparent;
-  font: inherit;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--ink);
-  padding: 0;
-  flex-shrink: 0;
-  max-width: 96px;
-}
-/* The message is the one field a person writes a paragraph into, so the label sits above it
-   rather than beside it and the box grows down. */
-.field-tall {
-  align-items: flex-start;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  flex-direction: column;
-  gap: 4px;
-}
-.field-tall .field-label {
-  width: auto;
-}
-.reach-text {
-  width: 100%;
-  min-height: 92px;
-  resize: vertical;
-  padding: 0;
-  line-height: 1.45;
-}
-.reach-missing {
-  margin: 0;
-  color: var(--marigoldText);
-  font-weight: 600;
-}
-.reach-send {
-  margin-top: 2px;
-}
-/* Kept, and said so where the form was: the traveller's eye does not have to go looking for
-   the answer to the thing they just pressed. */
-.reach-kept {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: var(--tealSoft);
-  color: var(--tealText);
-}
-.reach-kept-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-.reach-kept-head {
-  font-weight: 800;
-  font-size: 15.5px;
-}
-.reach-kept-sub {
-  font-size: 13px;
-  line-height: 1.45;
-}
-/* What will be sent, in the traveller's own name, before they send it. */
-.reach-invite {
-  margin: 0;
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: var(--tile);
-  border: 1px solid var(--line);
-  font-size: 14.5px;
-  line-height: 1.5;
-}
-.reach-wa {
-  text-decoration: none;
 }
 
 /* ---- a tablet, or a laptop: last, so these rules win over the phone's ------------------ */

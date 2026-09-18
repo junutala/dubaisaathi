@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 /** The icon set from the screens, as components. Stroke-based, 24px grid, one style. */
 export type IconName =
-  // The pillars, the documents and बात — on the tiles, in the header and in the bar.
+  // The three pillars and the documents, on the tiles, in the header and in the bar.
   | 'thali'
   | 'metro'
   | 'lantern'
@@ -39,9 +39,7 @@ export type IconName =
   | 'qr'
   // घर.5 · बोलना: the one microphone in the product, and the button that reads Arabic aloud
   | 'mic'
-  | 'sound'
-  // घर.7 · बात: the bar's fifth item and its header
-  | 'speech';
+  | 'sound';
 
 /**
  * The shapes themselves, not path strings, because some are drawn with rects and filled dots as
@@ -257,14 +255,6 @@ const SHAPES: Record<IconName, ReactNode> = {
       <path d="M4 9.3h3.4L12 5.4v13.2L7.4 14.7H4z" />
       <path d="M15.4 9.2a4 4 0 0 1 0 5.6" />
       <path d="M18.1 6.4a8 8 0 0 1 0 11.2" />
-    </>
-  ),
-  /* घर.7's own: two bubbles, one ours and one theirs. Deliberately not the microphone — बोलना
-     is a different thing and a traveller may not be made to tell them apart by reading. */
-  speech: (
-    <>
-      <path d="M3.2 8.3A3.1 3.1 0 0 1 6.3 5.2h7.6a3.1 3.1 0 0 1 3.1 3.1v3.3a3.1 3.1 0 0 1-3.1 3.1H8.4L4.6 18v-3.5a3.1 3.1 0 0 1-1.4-2.6z" />
-      <path d="M17.6 9.1h.8a2.4 2.4 0 0 1 2.4 2.4v2.6a2.4 2.4 0 0 1-1.1 2v2.7l-2.9-2.4h-3.2" />
     </>
   ),
 };

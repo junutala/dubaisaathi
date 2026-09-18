@@ -1,11 +1,11 @@
 /**
- * A message a traveller wrote to us, on the phone until it has been sent (decision 026).
+ * A message a traveller wrote to us, on the phone until it has been sent.
  *
- * The website's form posts straight to the `contact` function and is done. This one cannot:
- * the traveller who most wants to tell us something is the one standing in a Karama basement
- * with no signal, and a box that refuses them is worse than no box. So it is written here
- * first and goes when the phone has a connection — the same shape as the question log, for
- * the same reason (CLAUDE.md, rule 1: the network is for freshness, never for answering).
+ * Nothing writes one any more: the screen that did was taken out the day it shipped (decision
+ * 026, reversed). The type and its table stay because a phone that opened that build has a v7
+ * database, and a schema that stops declaring `messages` makes Dexie refuse to open it —
+ * taking the traveller's hotel and documents with it. A release never takes something away
+ * from a phone, and that includes the shape of what is already there.
  */
 export interface ContactMessage {
   /** Made on the device, so a retried send cannot duplicate the row on the server. */
