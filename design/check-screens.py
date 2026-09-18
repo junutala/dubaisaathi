@@ -73,12 +73,16 @@ def main() -> int:
         if 'मेरा होटल' not in text and '>बदलें</span>' not in text:
             fail(name, 'the strip has no hotel row')
 
-        # Rule 4: the bar on every screen — the three pillars and the documents, and nothing
-        # else. The pass is the strip's dot and घर's tile (decision 018, 17 September); a पास लें
-        # button in the bar duplicated both.
-        bar_items = sum(1 for p in PILLARS + ['दस्तावेज़'] if ('>%s</span>' % p) in text)
-        if bar_items < 4:
-            fail(name, 'the bar is missing a pillar or the documents')
+        # Rule 4: the bar on every screen — the three pillars, the documents and बात, and
+        # nothing else. The pass is the strip's dot and घर's tile (decision 018, 17 September);
+        # a पास लें button in the bar duplicated both. बात is the fifth (decision 026) and the
+        # bar is closed: a sixth item makes each one 78px wide on a 390px phone, which is a
+        # label that has to be guessed at.
+        bar_items = sum(1 for p in PILLARS + ['दस्तावेज़', 'बात'] if ('>%s</span>' % p) in text)
+        if bar_items < 5:
+            fail(name, 'the bar is missing a pillar, the documents or बात')
+        if 'repeat(4, minmax(0, 1fr)); padding: 6px 8px 18px' in text:
+            fail(name, 'the bar is still four wide')
         if 'पास लें' in text[text.rfind(BAR_TOP):]:
             fail(name, 'the bar carries पास लें')
         if name == 'HomePaid' and 'पास लें' in text:

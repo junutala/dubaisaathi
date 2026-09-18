@@ -85,10 +85,12 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
 - **The top strip is on every screen.** The mark and the name (tap → home), online/offline, the
   pass dot, language, theme, and under them **the traveller's hotel** — photographs, room, the
   desk's number, a note, a pin; whatever they want to keep, without limit, on the phone only.
-- **The bar is on every screen.** खाना · जाना · जानना · दस्तावेज़, four items evenly spaced, the
-  current pillar lit in its colour, and nothing else. बोलना is not in the bar: it is a block on
-  घर. The pass lives on the strip's dot and on घर's tile (decision 018); there is no पास लें
-  button in the bar.
+- **The bar is on every screen.** खाना · जाना · जानना · दस्तावेज़ · बात, five items evenly
+  spaced, the current pillar lit in its colour, and nothing else. बोलना is not in the bar: it is
+  a block on घर. The pass lives on the strip's dot and on घर's tile (decision 018); there is no
+  पास लें button in the bar. **बात (घर.7) is the fifth and last** (decision 026): one screen with
+  a message to us and the app passed on, written to the phone first and sent when there is a
+  signal. Five is where the bar stops — a sixth item is a label nobody can read.
 - **घर's one tile is the pass**, alone at the foot under the blocks and above the bar
   (decision 018). **बोलना is the fourth block, not a tile** (decision 020 and its addendum).
   बोलना (घर.5, and घर.6 for its Arabic) is the product's one microphone and its one online-only
@@ -209,8 +211,8 @@ it is a cost and failure surface, not a dependency of the core experience.
 `User`, `Device`, `Pass`, `Family`, `FamilyDevice`, `DubaiPlace`, `Restaurant`, `FoodTag`,
 `Menu`, `TransportNode`, `TransportEdge`, `Route`, `Phrase`, `EmergencyPoint`, `ContentVersion`,
 plus `VoiceEvent` (the learning loop), `FieldReport` (field collection, pre-review) and
-`ContactMessage` (the website's form — the one table holding a name and a number, volunteered
-rather than collected, joined to nothing in the app; decision 023).
+`ContactMessage` (the website's form and घर.7 — the one table holding a name and a number,
+volunteered rather than collected, joined to nothing in the app; decisions 023 and 026).
 Reuse these names in code and schema rather than inventing synonyms.
 
 ## Learning loop
@@ -419,6 +421,7 @@ src/
 │   ├── info/       # घर.1–घर.3 — the hotel and the documents
 │   ├── pass/       # घर.4 — trial, pass, entitlement
 │   ├── speak/      # घर.5–घर.6 — बोलना: the one microphone, online only (decision 020)
+│   ├── reach/      # घर.7 — बात: the outbox to us, and the app passed on (decision 026)
 │   ├── home/       # घर
 │   └── landing/    # L
 ├── db/             # Dexie schema + migrations, one file per version bump

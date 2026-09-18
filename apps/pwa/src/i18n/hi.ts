@@ -440,6 +440,37 @@ export const hi = {
   'arabic.tooLong': 'बात बहुत लंबी है — छोटा करके फिर भेजिए.',
   'arabic.nothing': 'पहले कुछ बोलिए या लिखिए.',
   'arabic.retry': 'फिर कोशिश करें',
+
+  // ---- घर.7 · बात — tell us something, and pass the app on (decision 026) ----------------
+  'nav.reach': 'बात',
+  'reach.sayHead': 'हमें कुछ कहना है?',
+  'reach.sayWhy':
+    'जो जगह या खाना यहाँ नहीं मिला, जो ठीक नहीं लगा, जो जुड़वाना है — लिख दीजिए. हम पढ़ते हैं.',
+  'reach.name': 'नाम',
+  'reach.namePlaceholder': 'आपका नाम',
+  'reach.phone': 'नंबर',
+  'reach.phonePlaceholder': 'जिस पर जवाब आए',
+  'reach.country': 'देश का कोड',
+  'reach.india': 'भारत',
+  'reach.uae': 'यूएई',
+  'reach.message': 'आपकी बात',
+  'reach.messagePlaceholder': 'जो कहना है, अपनी भाषा में.',
+  'reach.send': 'भेज दीजिए',
+  'reach.missing.name': 'नाम लिख दीजिए — जवाब किसे देना है, यह पता होना चाहिए.',
+  'reach.missing.phone': 'नंबर पूरा लिख दीजिए — इसी पर जवाब आएगा.',
+  'reach.missing.message': 'कहना क्या है, वह लिख दीजिए.',
+  'reach.offlineNote': 'अभी सिग्नल नहीं है — बात फ़ोन में रख ली जाएगी और सिग्नल आते ही चली जाएगी.',
+  'reach.waiting': '{count} बात भेजी जानी बाकी है — सिग्नल आते ही चली जाएगी.',
+  'reach.keptHead': 'मिल गई',
+  'reach.keptSent': 'हम तक पहुँच गई. जवाब उसी नंबर पर आएगा.',
+  'reach.keptWaiting': 'फ़ोन में रख ली है. सिग्नल आते ही हम तक पहुँच जाएगी.',
+  'reach.shareHead': 'किसी और के काम आए',
+  'reach.shareWhy':
+    'दुबई जा रहा कोई जानने वाला है? यह लिंक भेज दीजिए — उनके फ़ोन पर भी बिना इंटरनेट चलेगा.',
+  'reach.viaWhatsapp': 'व्हाट्सऐप पर भेजिए',
+  'reach.viaAnything': 'किसी और तरह से भेजिए',
+  'reach.copied': 'लिंक कॉपी हो गया — जहाँ भेजना है, वहाँ चिपका दीजिए.',
+  'reach.shareRefused': 'फ़ोन ने भेजने नहीं दिया — लिंक ऊपर लिखा है, हाथ से भेज दीजिए.',
 } as const;
 
 export type StringKey = keyof typeof hi;

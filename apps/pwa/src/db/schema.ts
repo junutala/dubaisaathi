@@ -8,6 +8,7 @@ import type {
   VoiceEvent,
 } from '@saathi/shared';
 import type { SavedHotel, TravellerDocument } from '../features/info/records.js';
+import type { ContactMessage } from '../features/reach/records.js';
 import type { TransportMeta } from '../features/transport/network.js';
 
 /**
@@ -27,6 +28,7 @@ export class SaathiDb extends Dexie {
   transportEdges!: EntityTable<TransportEdge, 'id'>;
   transportMeta!: EntityTable<TransportMeta, 'id'>;
   savedPhrases!: EntityTable<SavedPhrase, 'id'>;
+  messages!: EntityTable<ContactMessage, 'id'>;
 
   constructor(name = 'saathi') {
     super(name);
@@ -115,6 +117,27 @@ export class SaathiDb extends Dexie {
       transportEdges: 'id, fromNodeId, toNodeId',
       transportMeta: 'id',
       savedPhrases: 'id, savedAt',
+    });
+    // v7: the outbox — what a traveller wrote to us on घर.7, kept until the phone has a signal
+    // (decision 026). It is a table rather than a field on something else because the thing it
+    // holds is an entity: a `ContactMessage`, the same one the website's form writes straight to
+    // the server. Indexed by `at` so the screen can say what is waiting in the order it was
+    // written, and by `synced` because the only query that matters is "what is still queued" —
+    // the same two indexes the question log has, for the same two reasons.
+    //
+    // Every table above is re-declared unchanged, so a phone carrying v6 opens with its hotel,
+    // its documents and its unsynced queue intact (rule 6, decision 003).
+    this.version(7).stores({
+      phrases: 'id, situation',
+      contentVersions: 'id, version',
+      voiceEvents: 'id, at, synced',
+      hotels: 'id',
+      documents: 'id, addedAt',
+      transportNodes: 'id',
+      transportEdges: 'id, fromNodeId, toNodeId',
+      transportMeta: 'id',
+      savedPhrases: 'id, savedAt',
+      messages: 'id, at, synced',
     });
   }
 }

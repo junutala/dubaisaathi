@@ -8,6 +8,7 @@ const PILLAR_KEY: Record<Pillar, StringKey> = {
   go: 'pillar.go',
   know: 'pillar.know',
   docs: 'nav.docs',
+  reach: 'nav.reach',
   home: 'strip.home',
 };
 
@@ -16,6 +17,7 @@ const PILLAR_ICON: Record<Pillar, IconName> = {
   go: 'metro',
   know: 'lantern',
   docs: 'docs',
+  reach: 'speech',
   home: 'home',
 };
 
@@ -24,6 +26,7 @@ const PILLAR_COLOUR: Record<Pillar, string> = {
   go: 'var(--goText)',
   know: 'var(--knowText)',
   docs: 'var(--marigoldText)',
+  reach: 'var(--ink)',
   home: 'var(--marigold)',
 };
 
