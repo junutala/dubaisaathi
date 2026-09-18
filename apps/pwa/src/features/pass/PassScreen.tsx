@@ -8,7 +8,9 @@ import type { StringKey } from '../../i18n/index.js';
 import { applyCoupon, pendingCoupon, type CouponOutcome, type PendingCoupon } from './coupon.js';
 import {
   PURCHASE_IS_LIVE,
+  TESTING_TOOLS,
   entitlement,
+  forgetEntitlement,
   markWelcomed,
   unwelcomedPass,
   validity,
@@ -18,7 +20,7 @@ import {
 import { PassWelcome } from './PassWelcome.js';
 import { passLink, qrPath } from './qr.js';
 import { shareFamilyQr, type ShareOutcome } from './shareQr.js';
-import { buyPass, type PurchaseOutcome } from './purchase.js';
+import { buyPass, forgetOrder, type PurchaseOutcome } from './purchase.js';
 import { installFromToken } from './scan.js';
 import type { SignedPass } from './signedPass.js';
 
@@ -135,6 +137,8 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
   const busy = working !== null;
   const [scan, setScan] = useState<'installed' | 'invalid' | null>(null);
   const [shareLine, setShareLine] = useState<StringKey | null>(null);
+  /** The testing control's second tap: nothing is removed on the first one. */
+  const [asking, setAsking] = useState(false);
 
   const now = validity(new Date(), state);
   const paid = state.paid === true;
@@ -474,6 +478,53 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
             </div>
             {shareLine !== null && <p className="muted small center">{t(shareLine)}</p>}
           </>
+        )}
+
+        {/* The one control that takes something off a phone, behind its own switch
+            (`VITE_TESTING_TOOLS`) so no traveller is ever a tap from it. It exists to buy the
+            same pass twice while the money flow is being proved. Two taps, and it says in the
+            second what it will not touch: the hotel and the documents are not its business. */}
+        {TESTING_TOOLS && paid && (
+          <div className="rows">
+            {asking ? (
+              <>
+                <p className="muted small center">{t('pass.startAgainSure')}</p>
+                <div className="grid2">
+                  <button
+                    type="button"
+                    className="btn btn-ghost"
+                    onClick={() => {
+                      forgetOrder();
+                      forgetEntitlement();
+                      setAsking(false);
+                      setState(entitlement());
+                    }}
+                  >
+                    {t('pass.startAgainYes')}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-ghost"
+                    onClick={() => {
+                      setAsking(false);
+                    }}
+                  >
+                    {t('pass.startAgainNo')}
+                  </button>
+                </div>
+              </>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-ghost"
+                onClick={() => {
+                  setAsking(true);
+                }}
+              >
+                {t('pass.startAgain')}
+              </button>
+            )}
+          </div>
         )}
 
         {/* Once paid the tiers go, and what is left has to be what the money bought rather than

@@ -298,3 +298,57 @@ describe('घर.4', () => {
     expect(screen.queryByText(/24 hours free/)).toBeNull();
   });
 });
+
+/**
+ * "Start again" (18 September): the one control that takes a pass off a phone, so that the same
+ * pass can be bought a second time while the money flow is being proved. It sits behind
+ * `VITE_TESTING_TOOLS` and is never one tap — a release that takes something off a traveller's
+ * phone is a defect this project has already paid for once.
+ */
+describe('start again, while the money flow is being proved', () => {
+  /** A phone that has already paid, as घर.4 finds it on the next open. */
+  function alreadyPaid() {
+    localStorage.setItem('saathi.entitlement', JSON.stringify({ paid: true, slot: 1, slots: 1 }));
+  }
+
+  it('is not on the screen at all unless the switch is set', async () => {
+    alreadyPaid();
+    vi.resetModules();
+    await show();
+    expect(screen.queryByRole('button', { name: /फिर से शुरू/ })).toBeNull();
+  });
+
+  it('asks first, and the first tap removes nothing', async () => {
+    alreadyPaid();
+    vi.stubEnv('VITE_TESTING_TOOLS', 'true');
+    vi.resetModules();
+    const { entitlement } = await show();
+    fireEvent.click(screen.getByRole('button', { name: /फिर से शुरू/ }));
+    expect(screen.getByText(/होटल और दस्तावेज़ वहीं रहेंगे/)).toBeTruthy();
+    expect(entitlement().paid).toBe(true);
+  });
+
+  it('takes the pass off on the second tap, with the open order', async () => {
+    alreadyPaid();
+    localStorage.setItem('saathi.order', JSON.stringify({ orderId: 'o1' }));
+    vi.stubEnv('VITE_TESTING_TOOLS', 'true');
+    vi.resetModules();
+    const { entitlement } = await show();
+    fireEvent.click(screen.getByRole('button', { name: /फिर से शुरू/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'पास हटाएँ' }));
+    expect(entitlement().paid).toBeUndefined();
+    expect(localStorage.getItem('saathi.order')).toBeNull();
+    // Back to a screen that can buy: the phone counts are in front of him again.
+    expect(await screen.findByRole('button', { name: /1 फ़ोन/ })).toBeTruthy();
+  });
+
+  it('keeps the pass when the answer is no', async () => {
+    alreadyPaid();
+    vi.stubEnv('VITE_TESTING_TOOLS', 'true');
+    vi.resetModules();
+    const { entitlement } = await show();
+    fireEvent.click(screen.getByRole('button', { name: /फिर से शुरू/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'रहने दें' }));
+    expect(entitlement().paid).toBe(true);
+  });
+});

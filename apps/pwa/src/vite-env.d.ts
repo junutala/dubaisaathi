@@ -22,6 +22,14 @@ interface ImportMetaEnv {
    * traveller is turned away. Default off, and the only thing `isGated` reads.
    */
   readonly VITE_GATE_LIVE?: string;
+  /**
+   * "true" to show घर.4's "start again" — the one control that takes a pass off this phone.
+   * It exists so the owner can buy the same pass a second time while the payment plumbing is
+   * being proved, and it is its own switch rather than an inference from the two above, because
+   * a release must never take something from a traveller's phone by accident (CLAUDE.md). Off
+   * unless somebody deliberately sets it, and it never touches the hotel or the documents.
+   */
+  readonly VITE_TESTING_TOOLS?: string;
 }
 
 interface ImportMeta {
