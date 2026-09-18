@@ -461,6 +461,21 @@ h1 .three {
 .turn-speak {
   animation-delay: 13.5s;
 }
+/* बोलना is the one that needs a signal. A star and a small line say so where a reader who cares
+   will look, without turning a claim into a caveat; the section further down explains it fully. */
+.star {
+  font-size: 0.62em;
+  vertical-align: super;
+  line-height: 0;
+  color: var(--speakText);
+}
+.turn-note {
+  display: block;
+  margin-top: 6px;
+  font-size: 13.5px;
+  color: var(--muted);
+  opacity: 0.85;
+}
 .turn-speak b {
   color: var(--speakText);
 }
