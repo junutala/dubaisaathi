@@ -1,3 +1,4 @@
+import { asDataUrl } from './dataUrl.js';
 import { db, type Photo, type QueuedReport } from './db.js';
 
 /**
@@ -25,20 +26,7 @@ export function outletHeaders(): Record<string, string> {
 
 /** Photographs go as base64 in the same request: one visit, one round trip, one thing to fail. */
 async function encodePhoto(photo: Photo): Promise<{ kind: string; dataUrl: string }> {
-  const dataUrl = await new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      // readAsDataURL always yields a string; the union is there for the other read methods.
-      const result = reader.result;
-      if (typeof result === 'string') resolve(result);
-      else reject(new Error('the photograph did not read as a data URL'));
-    };
-    reader.onerror = () => {
-      reject(new Error('could not read the photograph'));
-    };
-    reader.readAsDataURL(photo.bytes);
-  });
-  return { kind: photo.kind, dataUrl };
+  return { kind: photo.kind, dataUrl: await asDataUrl(photo.bytes) };
 }
 
 export interface SyncOutcome {

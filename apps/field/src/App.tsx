@@ -4,14 +4,18 @@ import { PinScreen } from './PinScreen.js';
 import { collectorName } from './collector.js';
 
 /**
- * Two tools in one app, because they are two jobs done by two people (decision 029).
+ * Two screens in one app, and one flow through them (decision 029).
  *
- * The long form is a collector's: forty fields, asked standing in the kitchen. The pin is a
- * rider's: a number, a photograph, a tick, fifty times in an afternoon. The mode is remembered
- * on the phone, so the rider's phone opens where it left off and he never has to choose.
+ * Every capture starts at the door, on the pin: a number to copy onto the paper, a photograph if
+ * the camera can be raised, a tick. What happens next is the only difference between the two
+ * people who use this. A rider drops fifty forms and never sees the long form at all. The owner,
+ * who carries blank forms and fills one the moment he sees an Indian kitchen, taps "fill this one
+ * in now" and lands in the long form with that pin already chosen — same screens, same pin,
+ * whether he finishes on the pavement or at a desk that night.
  *
  * The switch is deliberately small and unlabelled-by-words: it is set once, by whoever hands
- * the phone over, and after that it is furniture.
+ * the phone over, and after that it is furniture. A hand-off does not touch it — the phone still
+ * opens tomorrow on whichever screen its owner works from.
  */
 
 const MODE_KEY = 'saathi.fieldMode';
@@ -28,6 +32,8 @@ function storedMode(): Mode {
 export function App() {
   const [who, setWho] = useState<string | null>(() => collectorName());
   const [mode, setMode] = useState<Mode>(storedMode);
+  /** A pin just dropped, carried into the long form so nothing about the door is asked twice. */
+  const [handoff, setHandoff] = useState<string | null>(null);
 
   if (who === null) return <WhoAreYou onName={setWho} />;
 
@@ -88,7 +94,23 @@ export function App() {
           </svg>
         </button>
       </div>
-      {mode === 'pin' ? <PinScreen /> : <CaptureScreen />}
+      {mode === 'pin' ? (
+        <PinScreen
+          onFillIn={(pinId) => {
+            setHandoff(pinId);
+            // Not `choose`: the hand-off moves this visit on, it does not change which screen
+            // this phone belongs to.
+            setMode('full');
+          }}
+        />
+      ) : (
+        <CaptureScreen
+          startWith={handoff}
+          onStarted={() => {
+            setHandoff(null);
+          }}
+        />
+      )}
     </>
   );
 }

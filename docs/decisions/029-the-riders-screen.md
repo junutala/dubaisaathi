@@ -83,12 +83,27 @@ answered by a sheet with a tick on it and the manager's name beside it.
 - The desk screen is the old capture form, modified rather than replaced: _"I recommend you
   modify the existing outlet form to suit our new flow. I dont think we will use the old form."_
   It opens with the picker, and the pins come from the function's new `GET`.
-- **The desk form no longer reads the phone's GPS, and no longer takes a frontage photograph.**
-  Both belonged to a collector standing at the door, and the owner will not be standing there:
-  _"I will carry my form wherever i go so that I can fill up the form whenever I see any indian
-  restaurant."_ The only honest coordinates at a desk are the ones the pin already carries, so
-  the pin is where they come from — a form filled in at a hotel table must never stamp that table
-  onto a kitchen in Meena Bazaar.
+- **One flow, and the pin is its door** (the owner, 18 September, correcting a wrong reading of
+  his own words). He carries blank forms so that he can fill one _the moment he sees an Indian
+  kitchen_ — standing there, as his own rider. So the coordinates are not useless at all; they
+  are taken where they always were, at the door, by the pin. What the long form must never do is
+  take a fix of its own, because the phone holding it may be at a hotel table an hour later, and
+  a table in Deira must not be stamped onto a kitchen in Meena Bazaar. It has no geolocation
+  watch and no frontage section; the place comes from the pin, always.
+- **The tick offers the way on.** After a pin is saved, the confirmation carries _"fill this one
+  in now"_, which opens the long form on that pin. Same screens whether the paper is keyed in on
+  the pavement a minute later or at a desk that night, and nothing about the door is asked twice.
+  A rider who only drops forms never sees the button — it is there only when the app has a long
+  form to hand off to — and the confirmation clears itself after four seconds either way.
+- **The picker lists this phone's pins as well as the server's.** A pin dropped ninety seconds
+  ago in a basement has not been uploaded, and a list that only knew what the server knew would
+  be empty exactly when it is needed. The phone's own copy wins on a tie; a frontage that will
+  not read costs the picture and never the row.
+- **A photograph now has a slot rather than a fresh id** (migration 0013). The queue re-sends a
+  whole report until the server acknowledges it, and completing a pin on the same phone sends its
+  frontage a second time — with `crypto.randomUUID()` on the server, every one of those wrote
+  another copy. `(report_id, kind, ord)` is unique, so a photograph lands once however many times
+  it is sent.
 - Numbers are per phone, not global. Two riders would both start at 0001; the owner's answer was
   _"That does not bite me"_ — there is one rider — and the pin's own id, not its serial, is what
   the row is keyed by.
