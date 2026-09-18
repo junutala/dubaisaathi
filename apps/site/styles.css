@@ -528,10 +528,9 @@ h1 .three {
   z-index: 0;
 }
 /* Above the wash, always: a heading the texture shows through is a heading nobody read. */
-.wash + .wrap,
-.hero .wrap,
-.partners .wrap,
-.contact .wrap {
+/* Every band carries one now, so one rule covers them all: the wrap that follows a wash sits
+   above it. Three bands out of ten read as a band nobody finished, not as a choice. */
+.wash + .wrap {
   position: relative;
   z-index: 1;
 }
