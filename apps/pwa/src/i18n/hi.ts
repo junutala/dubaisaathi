@@ -59,6 +59,8 @@ export const hi = {
   'home.tile.why': '14 दिन का पास — एक बार, कोई सब्सक्रिप्शन नहीं',
   'home.tile.paidWhy': 'इस सफ़र में कुछ बंद नहीं होगा',
   'home.build': 'बिल्ड {build}',
+  'home.latest': 'नवीनतम',
+  'home.catchingUp': 'अपडेट हो रहा है…',
 
   // L · लैंडिंग
   'landing.offline': 'खाना · जाना · जानना — आपके साथ, बिना इंटरनेट',

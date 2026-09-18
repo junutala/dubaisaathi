@@ -33,6 +33,7 @@ ARG RAILWAY_GIT_COMMIT_SHA=""
 ARG VITE_PASS_PUBLIC_KEY=""
 ARG VITE_PURCHASE_LIVE=""
 ARG VITE_GATE_LIVE=""
+ARG VITE_TESTING_TOOLS=""
 RUN if [ -n "$RAILWAY_GIT_COMMIT_SHA" ] && [ -z "$VITE_PASS_PUBLIC_KEY" ]; then \
       echo "VITE_PASS_PUBLIC_KEY is not set on this service: a production build would verify passes with the development key. Refusing." >&2; \
       exit 1; \
@@ -42,6 +43,7 @@ RUN VITE_BUILD_SHA="$RAILWAY_GIT_COMMIT_SHA" \
     VITE_PASS_PUBLIC_KEY="$VITE_PASS_PUBLIC_KEY" \
     VITE_PURCHASE_LIVE="$VITE_PURCHASE_LIVE" \
     VITE_GATE_LIVE="$VITE_GATE_LIVE" \
+    VITE_TESTING_TOOLS="$VITE_TESTING_TOOLS" \
     npm run build --workspace @saathi/pwa
 
 FROM nginx:1.27-alpine

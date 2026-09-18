@@ -3,6 +3,7 @@ import { navigate, type Route } from '../../app/routes.js';
 import { Icon, type IconName } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
 import { BUILD } from '../../app/version.js';
+import { useFreshness } from '../../app/useFreshness.js';
 import { HOME_TILES, HomeTile, type HomeTileState } from './HomeTile.js';
 
 interface PillarDef {
@@ -78,6 +79,9 @@ const PILLARS: readonly PillarDef[] = [
  */
 export function HomeScreen({ tile }: { readonly tile: HomeTileState }) {
   const { t } = useSettings();
+  // घर is the safe place to apply a build: no typed sentence, no half-finished journey. Standing
+  // here, the phone also asks the server whether it is current at all (see `useFreshness`).
+  const fresh = useFreshness(true);
   const blocks = PILLARS.filter((pillar) => pillar.needsSignal !== true || tile.online);
   return (
     <div className="home">
@@ -107,10 +111,14 @@ export function HomeScreen({ tile }: { readonly tile: HomeTileState }) {
       {HOME_TILES.filter((def) => def.visible(tile)).map((def) => (
         <HomeTile key={def.id} tile={def} state={tile} />
       ))}
-      {/* Which build this is, on घर only and in the smallest type on the screen. The owner and
-          whoever fixed something need to know they are looking at the new one; nobody else
-          reads it. It can be taken off once a deploy is trusted on sight. */}
-      <span className="home-build">{t('home.build', { build: BUILD })}</span>
+      {/* Which build this is, and — the half that was missing — whether it is the one the
+          server is serving. Standing on घर, the phone asks and says so: नवीनतम, or that it is
+          catching up. Nobody should have to refresh a screen to find out, and nobody should
+          have to be told by us that their phone is out of date. */}
+      <span className="home-build">
+        {t('home.build', { build: BUILD })}
+        {fresh !== 'unknown' && ` · ${t(fresh === 'current' ? 'home.latest' : 'home.catchingUp')}`}
+      </span>
     </div>
   );
 }

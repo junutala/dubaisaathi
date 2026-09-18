@@ -1,6 +1,34 @@
-import { defineConfig } from 'vite';
+import { defineConfig, type PluginOption } from 'vite';
+import type { EmittedAsset } from 'rollup';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+
+/**
+ * `version.json` — the one file that says, authoritatively and in 60 bytes, which build the
+ * server is serving.
+ *
+ * The app compares it with the build it is actually running, which is the only question that
+ * matters after a deploy and the one nothing was asking. It is never cached (nginx says
+ * no-store, the worker never precaches it), so the answer cannot itself be stale.
+ *
+ * `minimumAt` is the lever for the day something ships that is actively wrong: a build older
+ * than this applies the update immediately, wherever the traveller is standing, instead of
+ * waiting for घर. Empty unless somebody sets it on purpose.
+ */
+function versionFile(): PluginOption {
+  return {
+    name: 'saathi-version-file',
+    generateBundle(this: { emitFile: (file: EmittedAsset) => void }) {
+      const build = (process.env.VITE_BUILD_SHA ?? '').slice(0, 7);
+      const at = process.env.VITE_BUILD_TIME ?? '';
+      this.emitFile({
+        type: 'asset',
+        fileName: 'version.json',
+        source: `${JSON.stringify({ build, at, minimumAt: '' })}\n`,
+      });
+    },
+  };
+}
 
 // Offline-first is not a plugin setting, but this is where it starts: everything the shell
 // needs is precached, so a cold start with the radio off still paints.
@@ -10,6 +38,7 @@ export default defineConfig({
   base: './',
   plugins: [
     react(),
+    versionFile(),
     VitePWA({
       registerType: 'prompt',
       // The icons ship in the bundle so the home-screen icon is there before the first launch
@@ -42,6 +71,47 @@ export default defineConfig({
         // else. The default 2 MiB per-file ceiling is raised for the same reason.
         globPatterns: ['**/*.{js,css,html,woff2,json,png,svg}'],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+        /**
+         * The shell is not frozen, and the beacon is never cached.
+         *
+         * `index.html` names the hashed assets, so a precached copy of it *is* the build: while
+         * it sits in the worker's cache, the phone runs that build until the worker agrees to
+         * hand over — which on 18 September it would not, on a phone whose tab never closed, for
+         * four releases in a row. Taking it out of the precache moves the decision to the
+         * network: with a signal the phone loads the shell the server is serving now, and the
+         * assets it names are fetched and kept. Without one, the last good shell answers.
+         */
+        globIgnores: ['index.html', 'version.json'],
+        navigateFallback: null,
+        /** An activated worker takes the open page with it rather than waiting for a new one. */
+        clientsClaim: true,
+        runtimeCaching: [
+          {
+            // The shell: the network decides what the app is, and the cache is the fallback.
+            urlPattern: ({ request }: { request: Request }) => request.mode === 'navigate',
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'saathi-shell',
+              // A basement in Deira answers slowly or not at all; four seconds and the phone
+              // opens on what it has rather than on a spinner.
+              networkTimeoutSeconds: 4,
+              expiration: { maxEntries: 1 },
+            },
+          },
+          {
+            /**
+             * Hashed and immutable, and kept beyond the build that precached them: a shell served
+             * from cache offline may be a build older than the worker, and its assets must still
+             * be there. Sixty entries is a handful of releases.
+             */
+            urlPattern: ({ url }: { url: URL }) => url.pathname.includes('/assets/'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'saathi-assets',
+              expiration: { maxEntries: 60, maxAgeSeconds: 60 * 60 * 24 * 60 },
+            },
+          },
+        ],
       },
     }),
   ],

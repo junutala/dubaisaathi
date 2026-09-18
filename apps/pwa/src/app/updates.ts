@@ -31,8 +31,37 @@
  * it is a safe time.
  */
 
-/** Set for the life of the tab, so a worker that refuses to activate cannot cause a reload loop. */
+/**
+ * When a handover was last attempted in this tab, so a worker that refuses to activate cannot
+ * cause a reload loop — and cannot wedge the tab for ever either. It was a one-shot flag until
+ * 18 September, which meant a single failed handover left that tab on the old build for as long
+ * as it stayed open: the exact state the owner's phone was found in, four releases behind.
+ */
 const APPLIED = 'saathi.updateApplied';
+/** Long enough that a reload loop is impossible, short enough that a failure is not permanent. */
+const RETRY_AFTER_MS = 60_000;
+
+/** A repair takes the worker out of the way entirely; once an hour at most, and never a loop. */
+const REPAIRED = 'saathi.updateRepaired';
+const REPAIR_AFTER_MS = 60 * 60 * 1000;
+
+function triedRecently(key: string, within: number, store: Storage): boolean {
+  try {
+    const at = Number(store.getItem(key) ?? '');
+    return Number.isFinite(at) && at > 0 && Date.now() - at < within;
+  } catch {
+    // Private mode: nothing is remembered, and one extra attempt is better than none.
+    return false;
+  }
+}
+
+function noteTry(key: string, store: Storage): void {
+  try {
+    store.setItem(key, String(Date.now()));
+  } catch {
+    /* private mode, and nothing a traveller should see */
+  }
+}
 
 /** How long to wait for the new worker to take over before reloading anyway. */
 const HANDOVER_TIMEOUT_MS = 3000;
@@ -57,7 +86,7 @@ async function registration(): Promise<ServiceWorkerRegistration | undefined> {
  * must not leave the traveller on a half-replaced build.
  */
 async function handOver(waiting: ServiceWorker): Promise<void> {
-  sessionStorage.setItem(APPLIED, '1');
+  noteTry(APPLIED, sessionStorage);
   waiting.postMessage({ type: 'SKIP_WAITING' });
 
   await new Promise<void>((resolve) => {
@@ -84,7 +113,7 @@ export async function applyPendingUpdate(): Promise<boolean> {
   // `navigator.serviceWorker.controller` is null on the very first load of a fresh install; there
   // is no old build to replace, so there is nothing to apply and no reason to reload.
   if (!navigator.serviceWorker.controller) return false;
-  if (sessionStorage.getItem(APPLIED) !== null) return false;
+  if (triedRecently(APPLIED, RETRY_AFTER_MS, sessionStorage)) return false;
 
   await handOver(waiting);
   return true;
@@ -98,7 +127,7 @@ export async function applyPendingUpdate(): Promise<boolean> {
  * rule forbids, which is why the decision of *when* belongs to the screen and not to this file.
  */
 export async function applyUpdateIfIdle(): Promise<boolean> {
-  if (sessionStorage.getItem(APPLIED) !== null) return false;
+  if (triedRecently(APPLIED, RETRY_AFTER_MS, sessionStorage)) return false;
   const reg = await registration();
   const waiting = reg?.waiting;
   if (!waiting || !navigator.serviceWorker.controller) return false;
@@ -118,14 +147,85 @@ export function startUpdateChecks(): () => void {
   const ask = () => {
     void registration().then((reg) => reg?.update().catch(() => undefined));
   };
+  const askIfVisible = () => {
+    if (document.visibilityState === 'visible') ask();
+  };
   ask();
   const timer = window.setInterval(ask, CHECK_EVERY_MS);
   // A phone coming back to signal is the most likely moment for an update to be available.
   window.addEventListener('online', ask);
+  /**
+   * And the likeliest moment of all: the app coming back to the foreground. A phone in a pocket
+   * never "launches" — the app is resumed, no boot code runs, and on 18 September that was how a
+   * build sat unseen on a phone whose tab had been open since morning.
+   */
+  document.addEventListener('visibilitychange', askIfVisible);
   return () => {
     window.clearInterval(timer);
     window.removeEventListener('online', ask);
+    document.removeEventListener('visibilitychange', askIfVisible);
   };
+}
+
+/** What `version.json` says, which is the server's own answer rather than a worker's. */
+export interface Latest {
+  readonly build: string;
+  readonly at: string;
+  readonly minimumAt: string;
+}
+
+/**
+ * Which build the server is serving, asked so that nothing can answer from a cache.
+ *
+ * This is the question nothing was asking. Every other signal here is about the *worker* — is
+ * one waiting, has it installed — and a worker that misbehaves makes all of them say "nothing to
+ * do" while the traveller looks at last week's app. Sixty bytes, `no-store`, and the phone can
+ * always tell whether it is current.
+ */
+export async function latestBuild(): Promise<Latest | null> {
+  try {
+    const response = await fetch(`version.json?at=${String(Date.now())}`, { cache: 'no-store' });
+    if (!response.ok) return null;
+    const body = (await response.json()) as Partial<Latest>;
+    if (typeof body.build !== 'string') return null;
+    return {
+      build: body.build,
+      at: typeof body.at === 'string' ? body.at : '',
+      minimumAt: typeof body.minimumAt === 'string' ? body.minimumAt : '',
+    };
+  } catch {
+    // No signal, a captive portal, a server between deployments: not knowing is not being behind.
+    return null;
+  }
+}
+
+/**
+ * The last resort, when the server says there is a newer build and the worker will not hand over.
+ *
+ * It takes the worker out of the way — unregistered, its caches deleted — and reloads onto
+ * whatever the network serves. **Nothing of the traveller's is in there**: the documents, the
+ * hotel and the pass live in IndexedDB and localStorage, which this does not touch. What is lost
+ * is the offline copy of the app itself, which the new worker rebuilds on the next load.
+ *
+ * Once an hour at most, so a server that is genuinely unreachable cannot turn this into a loop.
+ */
+export async function repairToLatest(): Promise<boolean> {
+  if (triedRecently(REPAIRED, REPAIR_AFTER_MS, localStorage)) return false;
+  noteTry(REPAIRED, localStorage);
+  try {
+    const regs = await navigator.serviceWorker.getRegistrations();
+    await Promise.all(regs.map((reg) => reg.unregister()));
+  } catch {
+    /* an unregister that fails still leaves the reload below worth doing */
+  }
+  try {
+    const names = await caches.keys();
+    await Promise.all(names.map((name) => caches.delete(name)));
+  } catch {
+    /* same: the shell is network-first, so a stale cache is no longer the authority anyway */
+  }
+  window.location.reload();
+  return true;
 }
 
 /**

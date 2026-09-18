@@ -51,6 +51,8 @@ export const en: Record<StringKey, string> = {
   'home.tile.why': 'A 14-day pass — once, no subscription',
   'home.tile.paidWhy': 'Nothing closes on this trip',
   'home.build': 'build {build}',
+  'home.latest': 'latest',
+  'home.catchingUp': 'updating…',
 
   'landing.offline': 'खाना · जाना · जानना — with you, without internet',
   'landing.job1': 'Places to eat, with no network',
