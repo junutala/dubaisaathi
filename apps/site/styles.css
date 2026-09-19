@@ -694,6 +694,20 @@ h2 {
   font-weight: 700;
   color: var(--marigoldText);
 }
+/* The one thing on this page nobody asks about and everybody should hear: we do not want to
+   know who is reading it. Teal rather than marigold — the price is already marigold three lines
+   above, and two boxes of one colour read as one more sentence rather than as a second promise. */
+.quote {
+  margin: 22px 0 0;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: var(--tealSoft);
+  border: 1px solid var(--teal);
+  font-size: 17.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--tealText);
+}
 .steps li::before {
   counter-increment: step;
   content: counter(step);
