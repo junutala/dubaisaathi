@@ -687,6 +687,13 @@ h2 {
   align-items: flex-start;
   font-size: 17px;
 }
+/* The last step is the price, not an instruction: it says what the four above cost. It carries
+   what a marigold callout used to say under this list, in the owner's own words and in its own
+   weight, because saying it twice ten pixels apart was the page arguing with itself. */
+.steps li:last-child {
+  font-weight: 700;
+  color: var(--marigoldText);
+}
 .steps li::before {
   counter-increment: step;
   content: counter(step);
@@ -700,21 +707,6 @@ h2 {
   align-items: center;
   justify-content: center;
 }
-/* The line that answers "what will this cost me" before anyone asks. It was set as a dashed
-   aside in muted grey, which is how a page says "footnote" — and this is the opposite of a
-   footnote. Marigold, solid, and the size of something meant to be read. */
-.quote {
-  margin: 22px 0 0;
-  padding: 16px 20px;
-  border-radius: 16px;
-  background: var(--marigoldSoft);
-  border: 1px solid var(--marigold);
-  font-size: 17.5px;
-  font-weight: 600;
-  line-height: 1.45;
-  color: var(--marigoldText);
-}
-
 /* The pass. */
 .plans {
   display: grid;
