@@ -45,6 +45,17 @@
         lang === 'hi' ? field.dataset.hiLabel : field.dataset.enLabel,
       );
     }
+    /*
+     * The phones on this page are photographs of the app, and the app has two catalogues. An
+     * English reader was looking at seven Hindi screens, three lines under a claim that the app
+     * speaks both — so each shot exists twice and the pair swaps here with everything else.
+     */
+    for (const shot of document.querySelectorAll('[data-en-src]')) {
+      const wanted = lang === 'hi' ? shot.dataset.hiSrc : shot.dataset.enSrc;
+      if (shot.tagName === 'VIDEO') shot.setAttribute('poster', wanted);
+      else if (shot.getAttribute('src') !== wanted) shot.setAttribute('src', wanted);
+    }
+
     said(saidState);
     const share = document.getElementById('share-wa');
     if (share) {
