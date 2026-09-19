@@ -27,8 +27,13 @@
   function apply(lang) {
     root.setAttribute('lang', lang);
     for (const button of toggles) button.textContent = lang === 'hi' ? 'English' : 'हिंदी';
+    // The name is one word and the same in both catalogues (decision 021). The tab used to
+    // translate it — दुबई साथी in Hindi, Dubai Saathi in English — so a bookmark and a search
+    // result carried a name the brand rule says does not exist. Only the line after it changes.
     document.title =
-      lang === 'hi' ? 'दुबई साथी — बिना इंटरनेट के दुबई' : 'Dubai Saathi — Dubai, with no internet';
+      lang === 'hi'
+        ? 'Dubaisaathi — बिना इंटरनेट के दुबई'
+        : 'Dubaisaathi — Dubai, with no internet';
     // The form's placeholders and labels are attributes, not text, so the two-span trick the
     // rest of the page uses cannot reach them. They carry both languages and get swapped here.
     for (const field of document.querySelectorAll('[data-hi-ph]')) {
@@ -147,19 +152,10 @@
    * to stop moving things gets it standing still.
    */
   /*
-   * "Send on WhatsApp" — the tap for a phone, where the QR beside it is useless because nobody
-   * scans their own screen. The href is written here rather than in the markup for one reason:
-   * the line it carries is longer than the QR's, which had to be short enough to stay scannable.
-   * Both open the reader's own WhatsApp with a contact picker; neither reaches us.
+   * "Send on WhatsApp" is written by `apply()` above, with the rest of the language swap, and
+   * nowhere else. It used to be written here a second time as well: the same sentence in two
+   * places, which is a pair that drifts apart the first time somebody edits one of them.
    */
-  const invite = document.getElementById('share-wa');
-  if (invite) {
-    const line =
-      root.getAttribute('lang') === 'hi'
-        ? 'दुबई जा रहे हैं? यह ऐप रख लीजिए — बिना इंटरनेट के भी चलता है। https://dubai.saafarsaathi.in'
-        : 'Going to Dubai? Keep this one — it works with no internet. https://dubai.saafarsaathi.in';
-    invite.setAttribute('href', 'https://wa.me/?text=' + encodeURIComponent(line));
-  }
 
   const curtain = document.getElementById('bolna');
   const stillPlease = window.matchMedia('(prefers-reduced-motion: reduce)');

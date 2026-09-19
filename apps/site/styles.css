@@ -137,9 +137,13 @@ a {
   fill: var(--marigoldText);
   opacity: 0.55;
 }
-/* The footer carries it too, quieter: whose page this was, at the bottom of it. */
+/* The footer carries it too, quieter: whose page this was, at the bottom of it. It wraps rather
+   than running off a 320px screen — the mark, the name and the line are three things and a
+   narrow phone is allowed to stack them. */
 .brand-foot {
   font-size: 17px;
+  flex-wrap: wrap;
+  max-width: 100%;
 }
 .brand-foot img {
   width: 26px;
@@ -217,8 +221,20 @@ a {
 .hero .wrap {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
-  gap: 40px;
+  grid-template-areas:
+    'lead phone'
+    'rest phone';
+  gap: 0 40px;
   align-items: center;
+}
+.hero-lead {
+  grid-area: lead;
+}
+.hero-rest {
+  grid-area: rest;
+}
+.hero .phone {
+  grid-area: phone;
 }
 .kicker {
   display: inline-block;
@@ -259,7 +275,11 @@ h1 .three {
   font-size: 0.62em;
   line-height: 1;
 }
+/* Anchors since 19 September — each tile jumps to the band that explains it, which is what its
+   hover lift had been promising all along. The underline that came with becoming a link is not
+   wanted: these are blocks, not words in a sentence. */
 .tile {
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 0.28em;
@@ -555,6 +575,10 @@ h1 .three {
 }
 
 /* ---- sections ----------------------------------------------------------------------- */
+/* Every band had the same 56px top and bottom, from the shortest to the tallest, so the page had
+   no way of saying "new subject" — a reader scrolling fast on a phone got no landmark to stop at,
+   which is how four prices two-thirds of the way down go unseen. The long narrative bands breathe;
+   the short ones stay tight. */
 section {
   padding: 56px 0;
   position: relative;
@@ -562,6 +586,22 @@ section {
      it — the partners' buttons jump to the form, and a form whose question is hidden under a
      header is a form nobody answers. */
   scroll-margin-top: 78px;
+}
+#pillars,
+.bolna,
+#pass {
+  padding: 84px 0;
+}
+.partners,
+#more {
+  padding: 44px 0;
+}
+@media (max-width: 700px) {
+  #pillars,
+  .bolna,
+  #pass {
+    padding: 56px 0;
+  }
 }
 h2 {
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
@@ -593,8 +633,12 @@ h2 {
   gap: 8px;
   overflow: hidden;
 }
+/* A shade darker than the खाना marigold everywhere else on this page, and only here: cream on
+   `--food` measures 4.21 against the 4.5 that fifteen-pixel text needs, and this card carries the
+   longest passage on the page — the one that would grey out first on a cheap screen in daylight.
+   The token itself is untouched, so the tiles and the bold words keep the colour the app uses. */
 .pillar-food {
-  background: var(--food);
+  background: #a45a0e;
   color: var(--onFood);
 }
 .pillar-go {
@@ -907,11 +951,13 @@ footer .wrap {
   font-size: 16px;
   color: var(--muted);
 }
+/* Centred, not top-aligned: three short steps beside a 500px phone left a third of this band as
+   an empty left column, which reads as a layout that failed rather than as one that is spacious. */
 .bolna-grid {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
   gap: 32px;
-  align-items: start;
+  align-items: center;
 }
 /* Smaller than the pillars' phones: the steps beside it are three lines, and a full-height
    phone next to three lines leaves a hole where the reader expects something. */
@@ -1188,13 +1234,25 @@ footer .wrap {
   .partner-cards {
     grid-template-columns: 1fr;
   }
-  .hero .wrap,
   .try .wrap,
   .box-wide {
     grid-template-columns: 1fr;
   }
+  /* On a phone the app comes second, straight after the headline and the four tiles, and the
+     claims follow it. The picture is the proof; it should not be below the fold. */
+  .hero .wrap {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'lead'
+      'phone'
+      'rest';
+    gap: 18px 0;
+  }
+  .hero {
+    padding-top: 30px;
+  }
   .hero .phone {
-    margin-top: 12px;
+    margin-top: 0;
   }
   .pillars {
     grid-template-columns: 1fr;
@@ -1207,21 +1265,48 @@ footer .wrap {
   }
 }
 @media (max-width: 600px) {
+  /* The header used to run 7px past the right edge in English — the page slid sideways and the
+     one button that matters was sliced down its side. Hindi fitted, so it went unseen. The row
+     is allowed to shrink now, the gutter is narrower, and the brand gives way before the button
+     does: whatever else goes, the way in stays whole. */
   .top .wrap {
     gap: 8px;
+    padding: 0 14px;
   }
   .top .btn {
     min-height: 42px;
     padding: 0 12px;
     font-size: 15px;
+    flex: 0 0 auto;
+  }
+  .top .brand {
+    min-width: 0;
+    flex: 0 1 auto;
+    overflow: hidden;
+  }
+  .top .wordmark-full {
+    font-size: 21px;
   }
   .hero .phone {
     transform: none;
   }
 }
-@media (max-width: 420px) {
+/* Below this the lockup drops its trail rather than the button losing its words: the drawing is
+   the first thing that can go without costing a reader anything. */
+@media (max-width: 400px) {
+  .top .wordmark-trail {
+    display: none;
+  }
+  .top .wordmark-full {
+    font-size: 19px;
+  }
+}
+/* Four prices are four alternatives, so they stay side by side as long as they can and then go
+   two by two. Stacked one under another they read as four steps to follow, and comparing the
+   first with the last costs a screen and a half of scrolling. */
+@media (max-width: 760px) {
   .plans {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
