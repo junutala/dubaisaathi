@@ -209,13 +209,22 @@
             </h1>
             <!--
               The four things this app does that another app does not, all four on the screen at
-              once, under the four tiles and in the same order. Each leads in its own pillar's
-              colour. बोलना's carries a star and its rider.
+              once, under the four tiles and in the same order.
+
+              The icon is a signal, not the pillar's own glyph (owner, 19 September). The tiles
+              directly above already carry those four drawings, so a second set of them said
+              nothing the reader had not just been told — and left unsaid the one fact that
+              matters: three of these work with the signal off, and बोलना does not.
+
+              It is why the tiles show four and the phone beside them shows three, and it is said
+              in an icon rather than in a rider because the page is text-heavy already: "I dont
+              want explanation to be carried… No more please." The glyphs are the app's own, so a
+              reader meets the same crossed signal on the phone's top strip.
             -->
             <div class="turns" aria-label="खाना, जाना, जानना, बोलना">
               <p class="turn turn-food">
                 <svg
-                  class="turn-icon"
+                  class="turn-icon turn-icon-off"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -224,11 +233,12 @@
                   stroke-linejoin="round"
                   aria-hidden="true"
                 >
-                  <circle cx="12" cy="12" r="9.5" />
-                  <circle cx="8.6" cy="9.2" r="2.1" />
-                  <circle cx="15.4" cy="9.2" r="2.1" />
-                  <circle cx="12" cy="15.3" r="2.1" />
-                  <path d="M12 2.5v1.6" />
+                  <path d="M3 3l18 18" />
+                  <path d="M5 10.5a11.5 11.5 0 0 1 4.6-2.7" />
+                  <path d="M12.8 5.2A11.5 11.5 0 0 1 19 10.5" />
+                  <path d="M8.5 14a6.5 6.5 0 0 1 2.4-1.5" />
+                  <path d="M13.6 12.6a6.5 6.5 0 0 1 1.9 1.4" />
+                  <circle cx="12" cy="18" r="1" fill="currentColor" stroke="none" />
                 </svg>
                 <span class="hi">
                   <b>जैन, व्रत, साबूदाना खिचड़ी</b> — गलियों की वे रसोइयाँ जो किसी डिलीवरी ऐप पर
@@ -241,7 +251,7 @@
               </p>
               <p class="turn turn-go">
                 <svg
-                  class="turn-icon"
+                  class="turn-icon turn-icon-off"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -250,9 +260,12 @@
                   stroke-linejoin="round"
                   aria-hidden="true"
                 >
-                  <path d="M12 21.2V4.6" />
-                  <path d="M12 7.4h6.6l2 2.1-2 2.1H12" />
-                  <path d="M12 14.2H5.4l-2 2.1 2 2.1H12" />
+                  <path d="M3 3l18 18" />
+                  <path d="M5 10.5a11.5 11.5 0 0 1 4.6-2.7" />
+                  <path d="M12.8 5.2A11.5 11.5 0 0 1 19 10.5" />
+                  <path d="M8.5 14a6.5 6.5 0 0 1 2.4-1.5" />
+                  <path d="M13.6 12.6a6.5 6.5 0 0 1 1.9 1.4" />
+                  <circle cx="12" cy="18" r="1" fill="currentColor" stroke="none" />
                 </svg>
                 <span class="hi">
                   <b>मेट्रो · बस · टैक्सी</b> — <b>किराया और समय</b>, आमने-सामने।
@@ -263,7 +276,7 @@
               </p>
               <p class="turn turn-know">
                 <svg
-                  class="turn-icon"
+                  class="turn-icon turn-icon-off"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -272,13 +285,12 @@
                   stroke-linejoin="round"
                   aria-hidden="true"
                 >
-                  <path d="M12 2v1.8" />
-                  <path d="M8.6 3.8h6.8" />
-                  <path
-                    d="M8.8 6.2h6.4l1.6 10.6a1.4 1.4 0 0 1-1.4 1.6H8.6a1.4 1.4 0 0 1-1.4-1.6z"
-                  />
-                  <path d="M12 6.2v12.2" />
-                  <path d="M10.4 21.5h3.2" />
+                  <path d="M3 3l18 18" />
+                  <path d="M5 10.5a11.5 11.5 0 0 1 4.6-2.7" />
+                  <path d="M12.8 5.2A11.5 11.5 0 0 1 19 10.5" />
+                  <path d="M8.5 14a6.5 6.5 0 0 1 2.4-1.5" />
+                  <path d="M13.6 12.6a6.5 6.5 0 0 1 1.9 1.4" />
+                  <circle cx="12" cy="18" r="1" fill="currentColor" stroke="none" />
                 </svg>
                 <span class="hi">
                   <b>कब खुलता है, टिकट कितने का, कितनी देर</b> — दुबई की जगहें, हिंदी में।
@@ -290,7 +302,7 @@
               </p>
               <p class="turn turn-speak">
                 <svg
-                  class="turn-icon"
+                  class="turn-icon turn-icon-on"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -299,10 +311,9 @@
                   stroke-linejoin="round"
                   aria-hidden="true"
                 >
-                  <rect x="9" y="2.5" width="6" height="11" rx="3" />
-                  <path d="M5.5 11a6.5 6.5 0 0 0 13 0" />
-                  <path d="M12 17.5V21" />
-                  <path d="M8.5 21h7" />
+                  <path d="M5 10.5a11.5 11.5 0 0 1 14 0" />
+                  <path d="M8.5 14a6.5 6.5 0 0 1 7 0" />
+                  <circle cx="12" cy="18" r="1" fill="currentColor" stroke="none" />
                 </svg>
                 <span class="hi">
                   <b>किसी भी भाषा में बोलिए</b> — <b>अरबी</b> में सुनिए।<sup class="star">*</sup>

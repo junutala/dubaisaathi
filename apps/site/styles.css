@@ -9,6 +9,8 @@
   --marigoldText: #9a5b10;
   --onMarigold: #231403;
   --teal: #0b7a6b;
+  /* The one red in the product, and it says one thing: this needs a signal. */
+  --needsNet: #b3261e;
   --tealSoft: #e1f2ef;
   --tealText: #0a5f54;
   --sand: #f7f3ec;
@@ -421,13 +423,23 @@ h1 .three {
   color: var(--ink);
   text-wrap: pretty;
 }
-/* The pillar's own icon, not a bullet — the same drawing the tile above it carries and the
-   same one on the app's home. A reader who has seen it twice on this page knows it on the
-   phone. */
+/* A signal, not the pillar's glyph (owner, 19 September). The four tiles directly above carry
+   those drawings already, so repeating them here said nothing new and left the one fact that
+   matters unsaid: three of these work with the signal off, and बोलना does not. Said in an icon
+   rather than in a rider, because the page is text-heavy enough. */
 .turn-icon {
   width: 24px;
   height: 24px;
   margin-top: 0.12em;
+}
+/* Crossed out and in the app's own offline teal: this needs nothing from the network. */
+.turn-icon-off {
+  color: var(--teal);
+}
+/* The one claim that does. Red is used nowhere else in the product — it is here because it is
+   the only mark on the page saying "this one stops working in a basement in Karama". */
+.turn-icon-on {
+  color: var(--needsNet);
 }
 .turn b {
   font-weight: 700;
