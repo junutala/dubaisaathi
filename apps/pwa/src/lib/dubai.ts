@@ -29,3 +29,30 @@ export function distanceKm(a: LatLng, b: LatLng): number {
 export function insideDubai(at: LatLng): boolean {
   return distanceKm(at, DUBAI) <= RADIUS_KM;
 }
+
+/** Dubai's own zone. A phone anywhere in the UAE reports this one. */
+const DUBAI_ZONE = 'Asia/Dubai';
+
+/**
+ * Whether the phone's own clock puts it in Dubai — asked because the alternative was worse.
+ *
+ * The strip must never ask for location (design rules 10 and 18: the reason comes before the
+ * prompt, and the strip is on the first screen a traveller ever sees). So until some pillar had
+ * asked, the strip knew nothing and offered to save a hotel; the moment खाना or जाना got a fix
+ * from India it became the BurJuman stand-in, and at the next cold launch it was back to asking
+ * for a hotel. The owner called it erratic, and it was: the row's identity depended on invisible
+ * history rather than on anything he had done.
+ *
+ * A time zone is free, offline, needs no permission and is right almost always — a phone in
+ * Kochi says Asia/Kolkata, a phone in Deira says Asia/Dubai. It decides only what the screen
+ * *says* while nothing better is known; a real fix always overrules it, and the trial clock
+ * never reads it (that still takes repeated readings inside Dubai, decision 006).
+ */
+export function clockSaysDubai(): boolean {
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone === DUBAI_ZONE;
+  } catch {
+    // An engine that cannot say is not an engine that says no: assume nothing, ask nothing.
+    return true;
+  }
+}

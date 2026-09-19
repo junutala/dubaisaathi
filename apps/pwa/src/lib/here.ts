@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { LatLng } from '@saathi/shared';
 import type { SavedHotel } from '../features/info/index.js';
-import { insideDubai, VIRTUAL_HERE } from './dubai.js';
+import { clockSaysDubai, insideDubai, VIRTUAL_HERE } from './dubai.js';
 import { askForLocation, currentLocation, watchLocation, type Location } from './location.js';
 
 /**
@@ -32,6 +32,13 @@ function resolve(location: Location, hotel: SavedHotel | undefined, settled: boo
   // A fix that is not in Dubai is a traveller at home: show them Dubai from BurJuman.
   if (location.kind === 'here')
     return { at: VIRTUAL_HERE, from: 'virtual', denied: false, settled };
+  /**
+   * No fix yet, or none coming, and the phone's own clock is not Dubai's: the same stand-in,
+   * decided without asking anyone anything. This is what stops the strip changing its mind —
+   * it used to say "add your hotel" until a pillar happened to obtain a fix, then switch to
+   * BurJuman, then forget again at the next launch.
+   */
+  if (!clockSaysDubai()) return { at: VIRTUAL_HERE, from: 'virtual', denied, settled };
   return { from: 'none', denied, settled };
 }
 
