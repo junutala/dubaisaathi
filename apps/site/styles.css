@@ -664,9 +664,11 @@ h2 {
   border-bottom: 1px solid var(--line);
 }
 /* The button is the point of this band, so it is under the middle of it rather than tucked at
-   the left edge of a column (owner, 19 September). */
+   the left edge of a column (owner, 19 September) — and with room above it, because a button
+   resting on the line above reads as part of that sentence rather than as the thing to press. */
 .try .cta {
   justify-content: center;
+  margin-top: 28px;
 }
 /* Two light bands in a row now that this one leads: one seam between them, not two. */
 .try + .watch {
@@ -687,6 +689,27 @@ h2 {
   align-items: flex-start;
   font-size: 17px;
 }
+/* The last step is the price, not an instruction: it says what the four above cost. It carries
+   what a marigold callout used to say under this list, in the owner's own words and in its own
+   weight, because saying it twice ten pixels apart was the page arguing with itself. */
+.steps li:last-child {
+  font-weight: 700;
+  color: var(--marigoldText);
+}
+/* The one thing on this page nobody asks about and everybody should hear: we do not want to
+   know who is reading it. Teal rather than marigold — the price is already marigold three lines
+   above, and two boxes of one colour read as one more sentence rather than as a second promise. */
+.quote {
+  margin: 22px 0 0;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: var(--tealSoft);
+  border: 1px solid var(--teal);
+  font-size: 17.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--tealText);
+}
 .steps li::before {
   counter-increment: step;
   content: counter(step);
@@ -700,21 +723,6 @@ h2 {
   align-items: center;
   justify-content: center;
 }
-/* The line that answers "what will this cost me" before anyone asks. It was set as a dashed
-   aside in muted grey, which is how a page says "footnote" — and this is the opposite of a
-   footnote. Marigold, solid, and the size of something meant to be read. */
-.quote {
-  margin: 22px 0 0;
-  padding: 16px 20px;
-  border-radius: 16px;
-  background: var(--marigoldSoft);
-  border: 1px solid var(--marigold);
-  font-size: 17.5px;
-  font-weight: 600;
-  line-height: 1.45;
-  color: var(--marigoldText);
-}
-
 /* The pass. */
 .plans {
   display: grid;
