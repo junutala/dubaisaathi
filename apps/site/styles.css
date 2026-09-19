@@ -664,9 +664,11 @@ h2 {
   border-bottom: 1px solid var(--line);
 }
 /* The button is the point of this band, so it is under the middle of it rather than tucked at
-   the left edge of a column (owner, 19 September). */
+   the left edge of a column (owner, 19 September) — and with room above it, because a button
+   resting on the line above reads as part of that sentence rather than as the thing to press. */
 .try .cta {
   justify-content: center;
+  margin-top: 28px;
 }
 /* Two light bands in a row now that this one leads: one seam between them, not two. */
 .try + .watch {
