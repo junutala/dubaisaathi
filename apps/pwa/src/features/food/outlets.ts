@@ -7,6 +7,7 @@ import {
 } from '@saathi/shared';
 import fixture from '../../../../../data/restaurants/restaurants.dev.json';
 import collected from '../../../../../data/restaurants/restaurants.v1.json';
+import { packBody } from '../content/index.js';
 
 /**
  * The outlets, as they sit on disk.
@@ -108,13 +109,51 @@ export function parseOutletPack(raw: unknown): readonly Restaurant[] {
   });
 }
 
-/** Collected content the moment there is any; the fixture only while there is none. */
-const pack = collected.restaurants.length > 0 ? collected : fixture;
+/**
+ * Where the outlets come from, in order (decision 030): the pack this phone has downloaded, then
+ * the collected file compiled into this build, then the development fixture.
+ *
+ * The downloaded pack is first because it is the only one that can be newer than the app: a
+ * kitchen collected in Meena Bazaar this afternoon reaches a phone tonight without a release.
+ * The bundled copies stay exactly where they were, which is what makes a first launch — and a
+ * launch with the radio off — work at all.
+ *
+ * Read once, on first use rather than at import, because the packs are loaded from IndexedDB at
+ * boot and a module evaluated before that would have captured the old answer for ever.
+ */
+function source(): { readonly restaurants: readonly unknown[]; readonly status?: string } {
+  const downloaded = packBody('restaurants') as
+    { readonly restaurants?: readonly unknown[]; readonly status?: string } | undefined;
+  if (downloaded?.restaurants && downloaded.restaurants.length > 0) {
+    return {
+      restaurants: downloaded.restaurants,
+      ...(downloaded.status === undefined ? {} : { status: downloaded.status }),
+    };
+  }
+  return collected.restaurants.length > 0 ? collected : fixture;
+}
 
-export const outlets: readonly Restaurant[] = parseOutletPack(pack);
+let held: { pack: ReturnType<typeof source>; outlets: readonly Restaurant[] } | null = null;
+
+function current(): { pack: ReturnType<typeof source>; outlets: readonly Restaurant[] } {
+  held ??= { pack: source(), outlets: [] };
+  if (held.outlets.length === 0) held = { pack: held.pack, outlets: parseOutletPack(held.pack) };
+  return held;
+}
+
+export function outlets(): readonly Restaurant[] {
+  return current().outlets;
+}
 
 /** True while the list is fixture data, so a screen can say so rather than implying we know. */
-export const OUTLETS_ARE_FIXTURE = pack.status === 'development-fixture';
+export function outletsAreFixture(): boolean {
+  return current().pack.status === 'development-fixture';
+}
+
+/** For tests, and for the moment a newly downloaded pack is applied at a launch. */
+export function forgetOutlets(): void {
+  held = null;
+}
 
 /**
  * The tags that say whether a traveller can eat here at all, as opposed to what they fancy.
@@ -137,5 +176,5 @@ export function isDietTag(tag: FoodTag): boolean {
 }
 
 export function outletById(id: string): Restaurant | undefined {
-  return outlets.find((outlet) => outlet.id === id);
+  return outlets().find((outlet) => outlet.id === id);
 }

@@ -6,8 +6,9 @@ import { loadTransportPack } from './db/content.js';
 import { parseTransportPack } from './features/transport/index.js';
 import { requestPersistentStorage } from './db/schema.js';
 import { applyPendingUpdate, startUpdateChecks } from './app/updates.js';
+import { loadPacks, packBody, startPackSync } from './features/content/index.js';
 import { startVoiceEventSync } from './features/ask/index.js';
-import transport from '../../../data/transport/network.v1.json';
+import bundledTransport from '../../../data/transport/network.v1.json';
 import './fonts.css';
 import './styles.css';
 
@@ -23,10 +24,25 @@ await applyPendingUpdate();
 // was live on the server sat unseen on the owner's phone.
 startUpdateChecks();
 
+/**
+ * Content before anything reads it (decision 030). The packs this phone has downloaded are
+ * loaded from IndexedDB here, so the features that read them on first use see the newest thing
+ * the phone holds rather than the copy compiled into this build. A phone that has downloaded
+ * nothing — a first launch — finds nothing and every feature falls back to its bundled copy,
+ * which is why this cannot make a fresh install worse.
+ */
+await loadPacks();
+
 // The pack is content, loaded into IndexedDB once. Documents and the pack must survive a
 // phone running low on space, so ask for persistence on the way in (decision 003).
 void requestPersistentStorage();
-void loadTransportPack(parseTransportPack(transport));
+// The downloaded network where there is one, the built-in one otherwise; `loadTransportPack`
+// compares content versions and ignores anything that is not newer than what is already stored.
+void loadTransportPack(parseTransportPack(packBody('transport') ?? bundledTransport));
+
+// New content, asked for on launch and whenever the phone comes back to signal. What arrives is
+// stored and taken up at the next launch — never mid-journey, the same rule a build follows.
+startPackSync();
 
 // The question log leaves the phone here, and only here. Nothing waits on it: it tries once on
 // boot and again when the phone says it is back online, and a failure leaves the queue intact.

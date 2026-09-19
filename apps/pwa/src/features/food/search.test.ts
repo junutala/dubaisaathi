@@ -51,7 +51,7 @@ describe('a sentence that is not about food', () => {
   it('is reported as unread even though every outlet comes back', () => {
     const found = searchOutlets('mera phone charge karna hai', [], undefined, NOON);
     expect(found.unmatchedWords).toBe(true);
-    expect(found.hits.length).toBe(outlets.length);
+    expect(found.hits.length).toBe(outlets().length);
   });
 
   it('is not raised for a sentence that did read as food', () => {

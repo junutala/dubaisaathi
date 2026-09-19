@@ -163,7 +163,7 @@ export function GoScreen({ placeId }: { readonly placeId?: string | undefined })
 
         <p className="lbl">{t('go.attractions')}</p>
         <div className="rows">
-          {attractions
+          {attractions()
             .map((attraction) => placeById(attraction.placeId))
             .filter((place): place is DubaiPlace => place !== undefined)
             .map((place) => (

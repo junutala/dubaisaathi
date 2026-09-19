@@ -9,6 +9,7 @@ import type {
   VoiceEvent,
 } from '@saathi/shared';
 import type { SavedHotel, TravellerDocument } from '../features/info/records.js';
+import type { StoredPack } from '../features/content/records.js';
 import type { TransportMeta } from '../features/transport/network.js';
 
 /**
@@ -29,6 +30,7 @@ export class SaathiDb extends Dexie {
   transportMeta!: EntityTable<TransportMeta, 'id'>;
   savedPhrases!: EntityTable<SavedPhrase, 'id'>;
   messages!: EntityTable<ContactMessage, 'id'>;
+  packs!: EntityTable<StoredPack, 'id'>;
 
   constructor(name = 'saathi') {
     super(name);
@@ -137,6 +139,30 @@ export class SaathiDb extends Dexie {
       transportMeta: 'id',
       savedPhrases: 'id, savedAt',
       messages: 'id, at, synced',
+    });
+    /**
+     * v8: `packs` — content that arrives without a release (decision 030). The outlets, the
+     * attractions and the RTA network were compiled into the bundle, so a kitchen collected on
+     * a Tuesday needed a deployment and a service-worker handover to reach anybody.
+     *
+     * One row per pack, holding the body as it was published. It lives in IndexedDB rather than
+     * in the worker's cache for the reason a 42 MB voice model once did not: a deploy must never
+     * take from a phone something it spent somebody's data downloading.
+     *
+     * Everything above is re-declared unchanged, so no row of the traveller's moves.
+     */
+    this.version(8).stores({
+      phrases: 'id, situation',
+      contentVersions: 'id, version',
+      voiceEvents: 'id, at, synced',
+      hotels: 'id',
+      documents: 'id, addedAt',
+      transportNodes: 'id',
+      transportEdges: 'id, fromNodeId, toNodeId',
+      transportMeta: 'id',
+      savedPhrases: 'id, savedAt',
+      messages: 'id, at, synced',
+      packs: 'id, version',
     });
   }
 }

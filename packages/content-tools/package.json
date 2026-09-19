@@ -6,6 +6,7 @@
   "scripts": {
     "publish:outlets": "tsx src/publishOutlets.ts",
     "publish:transport": "tsx src/publishTransport.ts",
+    "publish:packs": "tsx src/publishPacks.ts",
     "coupons": "tsx src/makeCoupons.ts",
     "pass:key": "tsx src/passKey.ts",
     "typecheck": "tsc --noEmit",
