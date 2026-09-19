@@ -18,6 +18,7 @@
  * with no policies, so the publishable key sees nothing at all.
  */
 import { createHash } from 'node:crypto';
+import { packDigestInput } from '@saathi/shared';
 import { readFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -92,7 +93,11 @@ async function main(): Promise<void> {
     const own = (body as { contentVersion?: unknown }).contentVersion;
     const version = typeof own === 'number' && own > 0 ? own : (current.get(id) ?? 0) + 1;
     const bytes = Buffer.byteLength(raw, 'utf8');
-    const sha = createHash('sha256').update(raw).digest('hex');
+    /**
+     * Over the body as the phone will hash it, never over the file as it sits on disk. The two
+     * differ by indentation alone, which is enough for every pack to arrive looking damaged.
+     */
+    const sha = createHash('sha256').update(packDigestInput(body)).digest('hex');
 
     if (version < (current.get(id) ?? 0)) {
       throw new Error(`${id}: version ${String(version)} is older than what is published`);

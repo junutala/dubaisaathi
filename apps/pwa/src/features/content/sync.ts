@@ -1,3 +1,4 @@
+import { packDigestInput } from '@saathi/shared';
 import { PROJECT_URL, supabaseHeaders } from '../../lib/supabase.js';
 import { db } from '../../db/schema.js';
 import { isPackId, type PackId, type PackSummary, type StoredPack } from './records.js';
@@ -50,7 +51,7 @@ async function manifest(): Promise<readonly PackSummary[] | null> {
 /** The digest of the body exactly as it will be stored, so a half-download cannot be parsed. */
 async function digest(body: unknown): Promise<string | null> {
   try {
-    const bytes = new TextEncoder().encode(JSON.stringify(body));
+    const bytes = new TextEncoder().encode(packDigestInput(body));
     const hash = await crypto.subtle.digest('SHA-256', bytes);
     return [...new Uint8Array(hash)].map((b) => b.toString(16).padStart(2, '0')).join('');
   } catch {
@@ -99,13 +100,13 @@ export async function syncPacks(): Promise<PackSync> {
     const pack = await fetchPack(id);
     if (pack === null || pack.version < summary.version) continue;
 
-    // The digest the publisher computed is over the file as it was read from disk; ours is over
-    // the body as JSON. They agree when nothing was lost, which is the only thing worth knowing.
+    /**
+     * Both sides hash the same thing — the body, serialised the one way (`packDigestInput`).
+     * A mismatch is a body that lost something on the way, and the dangerous case is the one
+     * that still parses: it would quietly remove outlets rather than fail.
+     */
     const ours = await digest(pack.body);
-    if (ours !== null && summary.sha !== '' && ours !== summary.sha && pack.sha !== ours) {
-      // Arrived damaged. Keep what the phone has and try again on the next round.
-      continue;
-    }
+    if (ours !== null && summary.sha !== '' && ours !== summary.sha) continue;
 
     await db.packs.put(pack);
     downloaded.push(id);
