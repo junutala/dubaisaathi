@@ -21,3 +21,7 @@ apps/field/screenshots/
 
 # Coupon batches from `npm run coupons` — hand them to the advertiser, do not commit them.
 coupons-*.txt
+
+# Scratch scripts at the root — a screenshot or a probe run by hand while working.
+# They belong to whoever is running them and never to the repository.
+/_*.mjs
