@@ -13,6 +13,7 @@
   "scripts": {
     "dev": "npm run dev --workspace @saathi/pwa",
     "coupons": "npm run coupons --workspace @saathi/content-tools --",
+    "publish:packs": "npm run publish:packs --workspace @saathi/content-tools --",
     "pass:key": "npm run pass:key --workspace @saathi/content-tools",
     "build": "npm run build --workspaces --if-present",
     "lint": "eslint . --max-warnings 0",

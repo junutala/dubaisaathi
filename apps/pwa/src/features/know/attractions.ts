@@ -1,5 +1,6 @@
 import { fold, intentCorpus } from '../ask/index.js';
-import pack from '../../../../../data/places/attractions.v1.json';
+import bundled from '../../../../../data/places/attractions.v1.json';
+import { packBody } from '../content/index.js';
 
 /**
  * जानना — the places of Dubai, with what a traveller wants to know before going: what it is,
@@ -29,18 +30,56 @@ function isCategory(value: string): value is Category {
   return (CATEGORIES as readonly string[]).includes(value);
 }
 
-export const attractions: readonly Attraction[] = (
-  pack.attractions as readonly (Omit<Attraction, 'category'> & { readonly category: string })[]
-).map((row) => {
-  if (!isCategory(row.category))
-    throw new Error(`${row.placeId} has an unknown category: ${row.category}`);
-  if (!intentCorpus.places.has(row.placeId))
-    throw new Error(`${row.placeId} is not a place the pack knows`);
-  return { ...row, category: row.category };
-});
+type RawAttraction = Omit<Attraction, 'category'> & { readonly category: string };
+
+/**
+ * The downloaded pack first, the copy in this build second (decision 030). Read on first use
+ * rather than at import, because the phone loads its packs from IndexedDB at boot and a module
+ * evaluated before that would hold the old answer for the life of the tab.
+ *
+ * A row the app cannot read is dropped and the rest are kept: an unknown category or a place the
+ * matcher has never heard of is a mistake in one row, and losing जानना altogether over it would
+ * be a worse answer than showing the twenty rows that are fine.
+ */
+function rowsOf(raw: unknown): readonly unknown[] {
+  if (typeof raw !== 'object' || raw === null) return [];
+  const rows: unknown = (raw as Record<string, unknown>).attractions;
+  return Array.isArray(rows) ? (rows as readonly unknown[]) : [];
+}
+
+function isRaw(value: unknown): value is RawAttraction {
+  const row = value as Partial<RawAttraction> | null;
+  return typeof row?.placeId === 'string' && typeof row.category === 'string';
+}
+
+function parse(raw: unknown): readonly Attraction[] {
+  const kept: Attraction[] = [];
+  for (const row of rowsOf(raw)) {
+    if (!isRaw(row)) continue;
+    if (!isCategory(row.category)) continue;
+    if (!intentCorpus.places.has(row.placeId)) continue;
+    kept.push({ ...row, category: row.category });
+  }
+  return kept;
+}
+
+let held: readonly Attraction[] | null = null;
+
+export function attractions(): readonly Attraction[] {
+  if (held === null) {
+    const downloaded = parse(packBody('attractions'));
+    held = downloaded.length > 0 ? downloaded : parse(bundled);
+  }
+  return held;
+}
+
+/** For tests, and for the launch at which a newly downloaded pack is taken up. */
+export function forgetAttractions(): void {
+  held = null;
+}
 
 export function attractionById(placeId: string): Attraction | undefined {
-  return attractions.find((row) => row.placeId === placeId);
+  return attractions().find((row) => row.placeId === placeId);
 }
 
 /** The rows whose place is named by what was typed, in either script, by any alias. */
@@ -49,7 +88,7 @@ export function searchAttractions(
   category: Category | 'all',
 ): readonly Attraction[] {
   const needle = fold(typed.trim());
-  return attractions.filter((row) => {
+  return attractions().filter((row) => {
     if (category !== 'all' && row.category !== category) return false;
     if (needle === '') return true;
     const place = intentCorpus.places.get(row.placeId);

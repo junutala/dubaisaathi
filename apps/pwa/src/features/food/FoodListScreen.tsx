@@ -12,7 +12,7 @@ import { VIRTUAL_HERE_NAME } from '../../lib/dubai.js';
 import { useHere, type HereFrom } from '../../lib/here.js';
 import { popularDishes } from './dishes.js';
 import { openState } from './openNow.js';
-import { OUTLETS_ARE_FIXTURE } from './outlets.js';
+import { outletsAreFixture } from './outlets.js';
 import { searchOutlets, type Constraint, type OutletHit } from './search.js';
 
 /**
@@ -178,7 +178,7 @@ export function FoodListScreen({
         {searched && result.hits.length > 0 && (
           <p className="muted small center">{t('food.honest')}</p>
         )}
-        {OUTLETS_ARE_FIXTURE && <p className="muted small center">{t('food.fixture')}</p>}
+        {outletsAreFixture() && <p className="muted small center">{t('food.fixture')}</p>}
       </div>
     </>
   );

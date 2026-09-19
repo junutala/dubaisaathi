@@ -93,7 +93,7 @@ export function searchOutlets(
   const cuisines = sentenceTags.filter((tag) => !isDietTag(tag));
 
   const byName =
-    words === '' || dish !== undefined ? [] : outlets.filter((o) => nameMatches(o, words));
+    words === '' || dish !== undefined ? [] : outlets().filter((o) => nameMatches(o, words));
 
   let matched: readonly { readonly outlet: Restaurant; readonly confirmed: boolean }[];
   if (dish !== undefined) {
@@ -101,7 +101,7 @@ export function searchOutlets(
     // tags say — the person standing in it knows better than our label. A kitchen of its kind
     // comes after, and only if it can serve the diet the dish implies.
     const dishDiet = dish.tags.filter(isDietTag);
-    matched = outlets
+    matched = outlets()
       .map((outlet) => ({
         outlet,
         confirmed: confirmedHere(outlet, dish),
@@ -113,7 +113,7 @@ export function searchOutlets(
   } else if (byName.length > 0) {
     matched = byName.map((outlet) => ({ outlet, confirmed: false }));
   } else {
-    matched = outlets
+    matched = outlets()
       .filter((outlet) => {
         if (!servesDiet(outlet, diet)) return false;
         if (cuisines.length === 0) return true;

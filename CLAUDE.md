@@ -282,7 +282,9 @@ devices share one expiry.
 - Any new persisted data needs a Dexie schema version bump and a migration.
 - Content (places, restaurants, phrases, transport) is **data, not code**: seed files under
   `data/`, versioned via `ContentVersion`, loaded into IndexedDB. Do not hardcode content in
-  components.
+  components. Since decision 030 a pack also **reaches a phone without a release**: publish it
+  with `npm run publish:packs` and phones take it up at their next launch. The copy in the bundle
+  is the floor a first launch falls back to, never the source of truth.
 - Test the offline path explicitly. A feature test that only passes with network is incomplete.
 - Curated content is fine for the MVP (including menu photographs) — don't block a feature on
   a live data source.
@@ -422,11 +424,11 @@ dubaisaathi/
 │   ├── field/             # collectors' PWA: FieldReport capture, offline queue, upload
 │   └── site/              # the one-page website at saafarsaathi.in — static, Hindi and English
 ├── supabase/              # the backend (decision 011) — replaces apps/api
-│   ├── migrations/        # ten tables: devices, families, passes, orders, coupons,
+│   ├── migrations/        # eleven tables: devices, families, passes, orders, coupons,
 │   │                      #   coupon_redemptions, voice_events, field_reports, field_photos,
-│   │                      #   contact_messages
-│   ├── functions/         # nine: collect, contact, listen, translate, outlet, redeem, bind,
-│   │                      #   order, webhook
+│   │                      #   contact_messages, content_packs
+│   ├── functions/         # ten: collect, contact, listen, translate, outlet, redeem, bind,
+│   │                      #   order, webhook, packs
 │   └── tests/             # SQL that checks what the schema must refuse
 └── packages/
     ├── shared/            # entity types shared by pwa and api — one definition, imported twice
@@ -443,6 +445,7 @@ src/
 │   ├── food/       # 1 · खाना
 │   ├── transport/  # 2 · जाना
 │   ├── know/       # 3 · जानना
+│   ├── content/    # the packs: what this phone has downloaded, and what it asks for (030)
 │   ├── info/       # घर.1–घर.3 — the hotel, and ज़रूरी जानकारी's three capsules (028)
 │   ├── pass/       # घर.4 — trial, pass, entitlement
 │   ├── speak/      # घर.5–घर.6 — बोलना: the one microphone, online only (decision 020)
