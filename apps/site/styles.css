@@ -1224,3 +1224,38 @@ footer .wrap {
     grid-template-columns: 1fr;
   }
 }
+
+/* ---- WhatsApp, from anywhere on the page ------------------------------------------------ */
+/* Fixed at the corner rather than waiting at the foot of the contact form, because the question
+   a reader has arrives while they are reading. WhatsApp's own green, because a message app that
+   arrives in our marigold is one nobody recognises in the half-second they give it. */
+.wa-float {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 60;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #25d366;
+  color: #fff;
+  box-shadow: 0 10px 24px rgb(20 24 38 / 0.28);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.wa-float:hover,
+.wa-float:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgb(20 24 38 / 0.34);
+}
+/* A thumb reaches the corner on a phone; the button is 58px so it is a target and not a dot. */
+@media (max-width: 560px) {
+  .wa-float {
+    right: 14px;
+    bottom: 14px;
+  }
+}

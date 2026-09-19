@@ -12,6 +12,9 @@ export default tseslint.config(
       '**/node_modules/**',
       // A checkout of this repo made for an agent to work in, not source of its own.
       '.claude/worktrees/**',
+      // Scratch scripts run by hand at the root — a screenshot, a probe. They are git-ignored,
+      // and the gate should not fail on a file nobody is shipping.
+      '_*.mjs',
       // Deno, not the app: different runtime, different globals, its own type-checking.
       'supabase/functions/**',
       // A screenshot tool for looking at the collectors' app; it holds no product logic.
