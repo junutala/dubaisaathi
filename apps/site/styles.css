@@ -647,7 +647,11 @@ h2 {
   box-shadow: 0 16px 30px rgb(0 0 0 / 0.25);
 }
 
-/* Try it from India: the stand-in location, shown on the app's own screen. */
+/* Try it from India: the stand-in location, shown on the app's own screen.
+
+   It sits second on the page, right under the hero (owner, 19 September). A reader who has just
+   arrived from an advertisement has one question — can I see this for myself, now, from here —
+   and this band is the only answer to it; everything below explains what they will find. */
 .try .wrap {
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;
@@ -658,6 +662,15 @@ h2 {
   background: var(--card);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
+}
+/* The button is the point of this band, so it is under the middle of it rather than tucked at
+   the left edge of a column (owner, 19 September). */
+.try .cta {
+  justify-content: center;
+}
+/* Two light bands in a row now that this one leads: one seam between them, not two. */
+.try + .watch {
+  border-top: 0;
 }
 .steps {
   margin: 0;
