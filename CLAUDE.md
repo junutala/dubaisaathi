@@ -66,8 +66,9 @@ This file is the working summary; the concept doc wins on any detail it covers.
 - **A claim ships with its data, never before it** (decision 025). A sentence on the website or
   a screen the app cannot honour the moment someone opens it is not marketing that is slightly
   early — it is this product's one promise, broken on the first tap. `restaurants.v1.json` is
-  empty and the committed RTA feed is the 2021 edition, so neither खाना's nor जाना's headline
-  claim may go live until the real data is published.
+  still empty, so खाना's headline claim may not go live. **जाना's data is now in** — the RTA's
+  own August 2025 feed, converted on 22 September — so that half of decision 025 is answered on
+  the facts; whether the claim goes up is still the owner's word, not this file's.
 - **No competitor is ever named**, anywhere — not the website, not the app, not `apps/field`.
   The owner's standing position: we do not give other brands coverage inside our own product.
   Name the category instead — "on no delivery app" — which is also the clearer sentence for a
@@ -533,10 +534,13 @@ delivery app".
 
 ### What is left, in this order
 
-1. **The 2026 RTA feed** — one download from a UAE connection, then a file swap and
-   `npm run publish:transport`. Give Devanagari names to any station new since 2021 in
-   `data/transport/stations.v1.json`. **The owner is in Dubai from 22 September**: the feed
-   downloads on his phone there, and he collects Meena Bazaar's eateries that day (about three
+1. **The RTA feed is in** (22 September, `GTFS_20250823`, downloaded in Dubai and converted:
+   186 lines, 2,727 stops, 6,360 hops, pack v3). Dubai Pulse answers only from a UAE connection —
+   not this container, not a GitHub runner — so a refresh is always a person standing in Dubai.
+   Ten metro stations had been renamed since 2021 (Etisalat is e&, UAE Exchange is Life Pharmacy,
+   Jabal Ali is National Paints); `docs/transport-and-maps-strategy.md` has the table and the
+   repacking recipe. **What is left of this item is the content.** The owner is in Dubai from
+   22 September: he collects Meena Bazaar's eateries that day (about three
    hours) and Karama over the following two — the first real content for खाना. Before he goes:
    a dry run of the collectors' app in India, one made-up outlet uploaded, published with
    `npm run publish:outlets -- --rows` and deleted, so the chain is proven. After each of his
