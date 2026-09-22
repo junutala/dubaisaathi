@@ -268,6 +268,33 @@ export interface TaxiFare {
 }
 
 /**
+ * What a journey costs — its own pack, published on its own (`data/transport/fares.v1.json`).
+ *
+ * It used to live inside the transport network, which meant correcting a flag fall republished
+ * 1.7 MB of stations to change four numbers. The RTA re-sets the taxi per-km rate every month
+ * against fuel, so that is a monthly 1.7 MB for every phone. Split out it is under a kilobyte,
+ * and a fare correction never has to wait behind a feed refresh or risk one.
+ *
+ * Nothing here comes from the RTA's GTFS: the feed carries no fare_attributes.txt and no
+ * fare_rules.txt, so every figure is entered by hand against the published tariff and carries
+ * the date it took effect.
+ */
+export interface FarePack {
+  /** Moves whenever a figure below changes, and only then. Phones take the higher number. */
+  readonly fareVersion: number;
+  /** The date the RTA's tariff these figures describe came into force. */
+  readonly effectiveFrom: string;
+  readonly publishedAt: string;
+  /** ISO 4217. Every amount in this pack is in it. */
+  readonly currency: string;
+  /** Where each figure was read from, so the next person does not have to guess. */
+  readonly source: string;
+  /** Nol, charged by the distance a journey covers. */
+  readonly transitBandsAed: readonly FareBand[];
+  readonly taxi: TaxiFare;
+}
+
+/**
  * The transport network as it ships: `data/transport/network.v1.json`, written by
  * `packages/content-tools/src/publishTransport.ts` from the RTA's GTFS feed and read by रास्ता.
  * Content, not code: a corrected station is a data release, and nothing here is fetched at
@@ -281,10 +308,6 @@ export interface TransportNetwork {
   /** The line the licence asks us to show wherever the rows are shown. */
   readonly attribution: string;
   readonly walkingMetresPerMinute: number;
-  readonly fares: {
-    readonly transitBandsAed: readonly FareBand[];
-    readonly taxi: TaxiFare;
-  };
   /** What a traveller spends on the platform before the doors open, by mode, when the line's own headway is not known. */
   readonly waitSeconds: Readonly<Record<'metro' | 'bus', number>>;
   readonly lines: readonly TransportLine[];

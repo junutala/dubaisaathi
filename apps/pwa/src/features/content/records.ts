@@ -24,7 +24,7 @@ export interface PackSummary {
 }
 
 /** The packs a phone knows how to read. A name outside this list is ignored, never guessed at. */
-export const PACK_IDS = ['restaurants', 'attractions', 'transport'] as const;
+export const PACK_IDS = ['restaurants', 'attractions', 'transport', 'fares'] as const;
 export type PackId = (typeof PACK_IDS)[number];
 
 export function isPackId(id: string): id is PackId {

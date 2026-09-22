@@ -1,0 +1,18 @@
+{
+  "fareVersion": 1,
+  "effectiveFrom": "2026-09-22",
+  "publishedAt": "2026-09-22T09:30:00Z",
+  "currency": "AED",
+  "source": "Entered by hand against the RTA's published tariffs. Nothing here comes from the GTFS feed: it carries no fare_attributes.txt and no fare_rules.txt, and never has, so no feed refresh can refresh a price. Nol is charged by the distance a journey covers, silver-card rates. The taxi figures are the street-hail ones: flag fall AED 5 between 06:00 and 22:00 and AED 5.50 after, a minimum of AED 12 however short the trip, and a per-km rate the RTA revises monthly with fuel (2.14-2.26 through 2026). Salik is not modelled — a toll gate is AED 4 off-peak and AED 6 in the peak — so a journey over one is quoted light by that much. The Nol bands are distance bands and the real tariff is zonal: the feed gives every stop a zone_id (0001-0007), and until a journey is priced by zones crossed rather than kilometres these bands overstate a long trip inside one zone.",
+  "transitBandsAed": [
+    { "maxKm": 3, "aed": 3 },
+    { "maxKm": 13, "aed": 5 },
+    { "maxKm": 1000, "aed": 7.5 }
+  ],
+  "taxi": {
+    "flagFallAed": 5,
+    "perKmAed": 2.2,
+    "minimumAed": 12,
+    "spreadPercent": 15
+  }
+}

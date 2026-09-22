@@ -287,9 +287,12 @@ unaffected: metro 05:00–23:56, tram 06:00–00:51.
 ## Fares (22 September 2026)
 
 **The RTA's GTFS feed has no fares in it.** No `fare_attributes.txt`, no `fare_rules.txt`, in the
-2021 archive or the 2025 one. So `publishTransport.ts` copies the fare block across from the pack
-it replaces, and a refresh of the feed never refreshes a price. Correcting a fare means editing
-`data/transport/network.v1.json` by hand and re-running the publisher, which leaves it alone.
+2021 archive or the 2025 one. A refresh of the feed can never refresh a price.
+
+**Fares are their own pack** (decision 031): `data/transport/fares.v1.json`, versioned with
+`fareVersion` and published on its own. Correcting a tariff is **1.2 kB**, not the 1,774.8 kB of
+stations it used to drag along — which matters because the RTA re-sets the taxi per-km rate every
+month against fuel. Edit that file, bump `fareVersion`, and `npm run publish:packs -- --only fares`.
 
 What the pack holds:
 
@@ -304,7 +307,8 @@ What the pack holds:
 ### Two things that were wrong until today
 
 **The flag fall was AED 12** — the minimum fare, entered in the flag-fall field as well, so every
-taxi quote carried AED 7 that no meter charges.
+taxi quote carried AED 7 that no meter charges. `parseFarePack` now refuses a tariff whose minimum
+is not above its flag fall, which is that defect exactly.
 
 **2.3 and 2.4 disagreed.** Each screen worked the fare out for itself. The taxi card allowed for
 roads not being straight (a 1.2 factor) and the options card did not, and they rounded to

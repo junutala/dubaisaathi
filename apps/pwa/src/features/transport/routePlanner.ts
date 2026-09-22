@@ -1,5 +1,6 @@
 import type { DubaiPlace, LatLng, Route, RouteLeg, TransportMode } from '@saathi/shared';
 import { metresBetween, type TransportNetwork } from './network.js';
+import type { FarePack } from './fares.js';
 import { meteredMetres, taxiFareBand } from './taxiFare.js';
 
 /**
@@ -361,12 +362,12 @@ function toLegs(steps: readonly Step[]): readonly PlannedLeg[] {
   return legs;
 }
 
-function fareForDistance(network: TransportNetwork, metres: number): number {
+function fareForDistance(fares: FarePack, metres: number): number {
   const km = metres / 1000;
-  for (const band of network.fares.transitBandsAed) {
+  for (const band of fares.transitBandsAed) {
     if (km <= band.maxKm) return band.aed;
   }
-  return network.fares.transitBandsAed.at(-1)?.aed ?? 0;
+  return fares.transitBandsAed.at(-1)?.aed ?? 0;
 }
 
 function assemble(id: RouteOptionId, legs: readonly PlannedLeg[], fare: number): RouteOption {
@@ -408,6 +409,7 @@ export function planRoutes(
   network: TransportNetwork,
   origin: LatLng,
   destination: DubaiPlace,
+  fares: FarePack,
 ): readonly RouteOption[] {
   const ready = prepare(network);
   const nearest = ready.index.nearestMetres(origin);
@@ -449,7 +451,7 @@ export function planRoutes(
     const ridden = legs.filter((leg) => rides.includes(leg.mode));
     if (ridden.length === 0) continue;
     const riddenM = ridden.reduce((sum, leg) => sum + leg.distanceM, 0);
-    candidates.push(assemble(id, legs, fareForDistance(network, riddenM)));
+    candidates.push(assemble(id, legs, fareForDistance(fares, riddenM)));
   }
 
   if (directM <= DIRECT_WALK_METRES) {
@@ -472,7 +474,7 @@ export function planRoutes(
   }
 
   // The taxi is always there, and it is the reason this screen can never be empty inside Dubai.
-  const fare = taxiFareBand(network.fares.taxi, directM);
+  const fare = taxiFareBand(fares.taxi, directM);
   const taxiOption = assemble(
     'taxi',
     [

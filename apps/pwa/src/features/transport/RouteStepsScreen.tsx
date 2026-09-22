@@ -7,6 +7,7 @@ import type { SavedHotel } from '../info/index.js';
 import { localName, placeById } from './destinations.js';
 import { VIRTUAL_HERE_NAME } from '../../lib/dubai.js';
 import { useOrigin } from './origin.js';
+import { currentFares } from './fares.js';
 import { planRoutes, type RouteOptionId } from './routePlanner.js';
 import { useTransportNetwork } from './useNetwork.js';
 import { fareText, legStep, minutes, modeLabel, type Words } from './describeLeg.js';
@@ -41,7 +42,10 @@ export function RouteStepsScreen({
 
   const option = useMemo(() => {
     if (!network || !destination || origin.kind === 'asking' || origin.kind === 'none') return null;
-    return planRoutes(network, origin.at, destination).find((o) => o.id === optionId) ?? null;
+    return (
+      planRoutes(network, origin.at, destination, currentFares()).find((o) => o.id === optionId) ??
+      null
+    );
   }, [network, destination, origin, optionId]);
 
   useEffect(() => {

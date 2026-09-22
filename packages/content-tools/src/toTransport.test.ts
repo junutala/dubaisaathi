@@ -100,10 +100,6 @@ const OPTIONS = {
   publishedAt: '2026-09-16T00:00:00Z',
   stations: STATIONS,
   walkingMetresPerMinute: 75,
-  fares: {
-    transitBandsAed: [{ maxKm: 3, aed: 3 }],
-    taxi: { flagFallAed: 12, perKmAed: 2.2, minimumAed: 12, spreadPercent: 15 },
-  },
   waitSeconds: { metro: 240, bus: 600 },
 };
 
