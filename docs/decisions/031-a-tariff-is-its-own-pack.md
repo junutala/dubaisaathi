@@ -53,16 +53,44 @@ above the flag fall is not doing anything. That is exactly the shape of the defe
 week — AED 12 in both fields — and the totals stayed plausible throughout, so nothing else would
 have caught it.
 
-## What this does not fix
+## Addendum, the same afternoon: it is charged by zones
 
-The Nol bands are still **distance** bands, and the real tariff is **zonal**. The feed gives every
-stop a `zone_id` (0001–0007 across 2,755 of 2,819 stops), so the exact fare is computable from data
-already in the repository. Today we overstate: Union → e& is 9 km inside one zone, a AED 3 journey
-we quote at AED 5.
+The owner brought back the RTA's published tariff, and the structure was the thing that was
+wrong, not the amounts. `3 / 5 / 7.5` is exactly the Silver Card fare. But Nol is charged by
+**zones passed through**, never by distance — RTA's wording is "you will be charged according to
+the total number of zones you have passed" — and we were charging by the kilometre.
 
-It is not done here because the counting rule is not established — whether the RTA charges by zones
-crossed or zones passed through — and the stop sequence supports either. Guessing is how AED 12
-became a flag fall. It waits on a real Nol tap.
+We only ever overcharged, which is why nobody noticed:
+
+| journey                         | zones | Nol   | we charged |
+| ------------------------------- | ----- | ----- | ---------- |
+| Union → e&                      | 1     | AED 3 | AED 5      |
+| BurJuman → Mall of the Emirates | 2     | AED 5 | AED 7.5    |
+| Al Ghubaiba → National Paints   | 2     | AED 5 | AED 7.5    |
+
+Al Ghubaiba to National Paints is 28 km inside two zones. Distance is simply the wrong axis.
+
+So `TransportNode` now carries its `zone` — the feed has had `zone_id` on every stop all along,
+'0001' to '0007', on 2,688 of our 2,727 nodes. The 39 without are Sharjah, Ajman, Fujairah,
+Masafi and Dhaid, which run on a different tariff; a journey touching one is shown with its
+steps and its time and no fare, rather than a Dubai price it will not be charged.
+
+The pack carries **every class** the RTA publishes — Silver, Personal, Gold, Red Ticket and Red
+Ticket Gold — and names the one we quote. A traveller on a 14-day trip holds a Silver card, so
+that is what the card shows; the rest are there for a screen that wants them, without a data
+change. The journey rules are in it too (3 transfers, 180 minutes, 30 between modes); no journey
+we plan exceeds them today, and now something holds them.
+
+### The bug inside the fix
+
+Counting a leg's two ends is not counting the zones passed. `toLegs` collapses a whole ride on
+one line into a single leg and keeps only where the traveller boarded and alighted — so the first
+version priced BurJuman → Expo at AED 5, because the Red Line runs the length of zone 0002
+without stopping at either end of it. Every fare it produced was a real published fare. The
+zones are counted over the search's steps instead, before that collapse, and a test pins it: the
+sabotage that restores the old behaviour fails three cases.
+
+## What this still does not fix
 
 Salik is still not modelled: AED 4 off-peak, AED 6 in the peak, and the pack has no gate positions.
 Written down in the tariff's own `source` rather than left silent.

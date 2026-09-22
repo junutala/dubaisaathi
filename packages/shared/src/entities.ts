@@ -214,6 +214,15 @@ export interface TransportNode {
   readonly location: LatLng;
   /** Modes served at this node; an interchange serves more than one. */
   readonly modes: readonly TransportMode[];
+  /**
+   * The Nol zone, '0001' to '0007'. Nol is charged by the number of zones a journey passes
+   * through, never by its length, so this is what a fare is worked out from.
+   *
+   * Absent where the RTA does not put the stop in a Nol zone at all — the inter-emirate stops
+   * in Sharjah, Ajman and Fujairah, and the marine stations. Those are a different tariff, and
+   * a journey touching one cannot be priced from this table.
+   */
+  readonly zone?: string;
 }
 
 /**
@@ -253,10 +262,33 @@ export interface TransportLine {
   readonly towards?: readonly { readonly en: string; readonly hi: string }[];
 }
 
-/** Nol charges the whole journey by the distance it covers; this is that table. */
-export interface FareBand {
-  readonly maxKm: number;
-  readonly aed: number;
+/**
+ * Nol's tariff for one class of card.
+ *
+ * Charged by the number of zones a journey passes through, never by how far it goes. Dubai has
+ * seven; the RTA's own wording is "you will be charged according to the total number of zones
+ * you have passed", and its table names exactly these three bands.
+ */
+export interface ZoneFare {
+  readonly oneZone: number;
+  /** Two zones, which for a journey that passes through them are always adjacent. */
+  readonly twoZones: number;
+  readonly moreZones: number;
+}
+
+/** The classes of Nol the RTA publishes a fare for. */
+export const NOL_CLASSES = ['silver', 'personal', 'gold', 'redTicket', 'redTicketGold'] as const;
+export type NolClass = (typeof NOL_CLASSES)[number];
+
+/**
+ * What the RTA allows inside one journey. A journey that breaks these is two journeys and two
+ * fares, so a plan that exceeds them is quoting a price the traveller will not be charged.
+ */
+export interface JourneyRules {
+  readonly maxTransfers: number;
+  readonly maxJourneyMinutes: number;
+  /** Leaving one mode and boarding another inside this many minutes keeps it one journey. */
+  readonly modeChangeMinutes: number;
 }
 
 export interface TaxiFare {
@@ -289,8 +321,11 @@ export interface FarePack {
   readonly currency: string;
   /** Where each figure was read from, so the next person does not have to guess. */
   readonly source: string;
-  /** Nol, charged by the distance a journey covers. */
-  readonly transitBandsAed: readonly FareBand[];
+  /** The class we quote on screen. A traveller on a 14-day trip holds a Silver card. */
+  readonly quote: NolClass;
+  /** Every class the RTA publishes, so a screen can show another without a data change. */
+  readonly nol: Readonly<Record<NolClass, ZoneFare>>;
+  readonly journeyRules: JourneyRules;
   readonly taxi: TaxiFare;
 }
 

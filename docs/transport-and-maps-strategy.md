@@ -296,13 +296,15 @@ month against fuel. Edit that file, bump `fareVersion`, and `npm run publish:pac
 
 What the pack holds:
 
-|                | value           | where it comes from                                      |
-| -------------- | --------------- | -------------------------------------------------------- |
-| Nol bands      | AED 3 / 5 / 7.5 | RTA's published zones — one, two, three-plus             |
-| Taxi flag fall | AED 5           | street hail, 06:00–22:00; AED 5.50 after 22:00           |
-| Taxi per km    | AED 2.20        | RTA revises it monthly with fuel, 2.14–2.26 through 2026 |
-| Taxi minimum   | AED 12          | a street-hail fare cannot come to less                   |
-| Spread         | ±15%            | a meter is not a timetable; the answer is a range        |
+|                 | value            | where it comes from                                      |
+| --------------- | ---------------- | -------------------------------------------------------- |
+| Nol, Silver     | AED 3 / 5 / 7.5  | one zone, two zones, more — from rta.ae, 22 Sep 2026     |
+| Nol, Red Ticket | AED 4 / 6 / 8.50 | what a traveller pays before they own a card             |
+| Nol, Gold       | AED 6 / 10 / 15  | double, and the pack carries it                          |
+| Taxi flag fall  | AED 5            | street hail, 06:00–22:00; AED 5.50 after 22:00           |
+| Taxi per km     | AED 2.20         | RTA revises it monthly with fuel, 2.14–2.26 through 2026 |
+| Taxi minimum    | AED 12           | a street-hail fare cannot come to less                   |
+| Spread          | ±15%             | a meter is not a timetable; the answer is a range        |
 
 ### Two things that were wrong until today
 
@@ -320,6 +322,26 @@ journey believes neither, and the second one is the screen they hold up to the d
 Both now call `features/transport/taxiFare.ts`, which is the only place a taxi fare is worked
 out. `taxiFare.test.ts` pins it, including that the minimum binds the bottom of the range: quoting
 AED 10 would be quoting a fare the tariff does not permit.
+
+### Zones, not kilometres
+
+Nol is charged on **the number of zones a journey passes through**, never on its length. RTA's
+wording: "you will be charged according to the total number of zones you have passed". Dubai has
+seven, and the feed puts a `zone_id` on every stop — so `TransportNode` carries it and the fare
+is counted, not measured.
+
+Two things that are easy to get wrong here, and both were:
+
+- **Counting the ends is not counting the zones passed.** `toLegs` collapses a whole ride on one
+  line into a single leg, keeping only where the traveller boarded and alighted. Counting those
+  priced BurJuman → Expo at AED 5, because the Red Line crosses the whole of zone 0002 without
+  stopping at either end of it. The count runs over the search's steps, before the collapse.
+- **Not every stop is in a Nol zone.** 39 of our 2,727 are Sharjah, Ajman, Fujairah, Masafi and
+  Dhaid, on a different tariff entirely. Those journeys are shown with their steps and their time
+  and no fare, rather than a Dubai price the traveller will never be charged.
+
+The metro's zone bands are contiguous — Red runs `0002 | 0006 | 0005`, Green `0006 | 0005` — so
+rail never doubles back through a zone. Buses can, which is why the count is over every hop.
 
 ### Salik is not modelled
 

@@ -21,7 +21,7 @@ export function meteredMetres(directMetres: number): number {
   return directMetres * ROAD_FACTOR;
 }
 
-export interface FareBand {
+export interface FareRange {
   /** The middle of the range — what the meter is most likely to read. */
   readonly likely: number;
   readonly min: number;
@@ -39,7 +39,7 @@ export interface FareBand {
  * pack does not know where the gates are or which one a road crosses, so a Sheikh Zayed Road
  * journey is quoted low by that much. Saying so here is better than a number that pretends.
  */
-export function taxiFareBand(taxi: TaxiFare, directMetres: number): FareBand {
+export function taxiFareBand(taxi: TaxiFare, directMetres: number): FareRange {
   const metered = meteredMetres(directMetres) / 1000;
   const likely = Math.max(taxi.minimumAed, taxi.flagFallAed + metered * taxi.perKmAed);
   const spread = likely * (taxi.spreadPercent / 100);
