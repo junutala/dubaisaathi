@@ -285,8 +285,15 @@ devices share one expiry.
   `data/`, versioned via `ContentVersion`, loaded into IndexedDB. Do not hardcode content in
   components. Since decision 030 a pack also **reaches a phone without a release**: publish it
   with `npm run publish:packs` and phones take it up at their next launch. The copy in the bundle
-  is the floor a first launch falls back to, never the source of truth.
+  is the floor a first launch falls back to, never the source of truth. **Fares are their own pack**
+  (decision 031): `data/transport/fares.v1.json`, versioned by `fareVersion`, so correcting a
+  tariff is 1.2 kB rather than the 1.7 MB of stations it used to travel with. The GTFS feed carries
+  no fares and never has, so no feed refresh can refresh a price.
 - Test the offline path explicitly. A feature test that only passes with network is incomplete.
+  `features/transport/offline.test.ts` is the one that guards the whole promise: it shuts `fetch`,
+  `XMLHttpRequest`, `WebSocket`, `EventSource` and `sendBeacon`, plans real journeys through them,
+  and fails if anything in जाना reaches for a network. It carries a test of its own proving the
+  trap is armed, because a trap that is not armed passes everything and means nothing.
 - Curated content is fine for the MVP (including menu photographs) — don't block a feature on
   a live data source.
 

@@ -44,7 +44,6 @@ export interface ConvertOptions {
   readonly publishedAt: string;
   readonly stations: readonly CuratedStation[];
   readonly walkingMetresPerMinute: number;
-  readonly fares: TransportNetwork['fares'];
   readonly waitSeconds: TransportNetwork['waitSeconds'];
 }
 
@@ -647,15 +646,12 @@ export function toTransportNetwork(feed: GtfsFiles, options: ConvertOptions): Tr
       'and stop sequences from the feed; rail platforms collapsed into stations and named from ' +
       'data/transport/stations.v1.json; bus stops keep the RTA English name. Durations are the ' +
       'median over the feed; first/last departures and headways are for a typical weekday (the ' +
-      "feed's Monday services). Fares are not from the feed and never can be — the RTA's GTFS " +
-      'carries no fare_attributes.txt or fare_rules.txt — so the Nol bands and the taxi tariff ' +
-      'are entered by hand against the published rates: street-hail flag fall AED 5 by day and ' +
-      'AED 5.50 after 22:00, a minimum of AED 12, and a per-km rate the RTA revises monthly with ' +
-      'fuel. Salik is not modelled, so a journey over a toll gate is quoted AED 4-6 light per ' +
-      'gate. Nothing here is fetched at runtime and no tiles are downloaded (CLAUDE.md rule 7).',
+      "feed's Monday services). No fares are in here: the RTA's GTFS carries no " +
+      'fare_attributes.txt or fare_rules.txt, so what a journey costs is its own pack, ' +
+      'data/transport/fares.v1.json, versioned and published on its own. Nothing here is ' +
+      'fetched at runtime and no tiles are downloaded (CLAUDE.md rule 7).',
     attribution: 'Transport data: Roads and Transport Authority (RTA), Dubai — open data.',
     walkingMetresPerMinute: options.walkingMetresPerMinute,
-    fares: options.fares,
     waitSeconds: options.waitSeconds,
     lines: packLines,
     nodes: packNodes,

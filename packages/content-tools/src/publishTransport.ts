@@ -6,8 +6,9 @@
  * The archive is `data/transport/rta-gtfs.zip`, committed as data and fetched by a person a few
  * times a year (docs/transport-and-maps-strategy.md): a build that depends on a government
  * portal being up is a build that fails on a Sunday. The station names come from
- * `data/transport/stations.v1.json`; the fares and the fallback waits are kept from the pack
- * being replaced, because the feed carries neither.
+ * `data/transport/stations.v1.json`; the fallback waits are kept from the pack being replaced,
+ * because the feed carries none. Fares are not here at all — they are their own pack,
+ * `data/transport/fares.v1.json`, so correcting a tariff does not republish the stations.
  */
 import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
@@ -52,7 +53,6 @@ async function main(): Promise<void> {
     publishedAt: previous.publishedAt,
     stations,
     walkingMetresPerMinute: previous.walkingMetresPerMinute,
-    fares: previous.fares,
     waitSeconds: previous.waitSeconds,
   });
 

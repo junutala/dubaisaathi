@@ -9,6 +9,7 @@ import { distanceKm, distanceLabel } from '../../lib/distance.js';
 import { localName, placeById } from './destinations.js';
 import { VIRTUAL_HERE_NAME } from '../../lib/dubai.js';
 import { useOrigin } from './origin.js';
+import { currentFares } from './fares.js';
 import { planRoutes, type RouteBadge, type RouteOption } from './routePlanner.js';
 import { useTransportNetwork } from './useNetwork.js';
 import { fareText, legSummary, minutes, modeIcon, modeLabel, type Words } from './describeLeg.js';
@@ -50,7 +51,7 @@ export function RouteOptionsScreen({
 
   const options = useMemo(() => {
     if (!network || !destination || origin.kind === 'asking' || origin.kind === 'none') return null;
-    return planRoutes(network, origin.at, destination);
+    return planRoutes(network, origin.at, destination, currentFares());
   }, [network, destination, origin]);
 
   if (!destination) return null;

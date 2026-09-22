@@ -16,10 +16,10 @@ describe('the transport pack, offline', () => {
     const network = await transportNetwork();
     expect(network?.nodes.length).toBe(pack.nodes.length);
     expect(network?.edges.length).toBe(pack.edges.length);
-    // The fares and the walking speed come back with the stations they were priced for — a
-    // journey planned from the device must not be priced from the bundle.
-    expect(network?.fares.taxi.perKmAed).toBe(pack.fares.taxi.perKmAed);
+    // The walking speed comes back with the stations it was measured for. Fares do not: they
+    // are their own pack now, so a tariff correction never republishes the graph.
     expect(network?.walkingMetresPerMinute).toBe(pack.walkingMetresPerMinute);
+    expect(network).not.toHaveProperty('fares');
   });
 
   it('is idempotent, so booting twice does not duplicate the network', async () => {

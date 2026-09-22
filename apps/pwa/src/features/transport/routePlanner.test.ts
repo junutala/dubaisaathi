@@ -3,6 +3,7 @@ import type { DubaiPlace, LatLng } from '@saathi/shared';
 import { parseTransportPack } from './network.js';
 import { planRoutes } from './routePlanner.js';
 import { placeById, placeFromText } from './destinations.js';
+import { BUNDLED_FARES } from './fares.js';
 import raw from '../../../../../data/transport/network.v1.json';
 
 /**
@@ -30,19 +31,21 @@ describe('planning a journey on the device', () => {
   it('answers with the network off — nothing here can reach a server', () => {
     // If any of this needed a network it would need to be async, and it is not: the whole
     // journey is a synchronous function of the pack (rule 1, non-negotiable).
-    const options = planRoutes(network, BUR_DUBAI, place('karama'));
+    const options = planRoutes(network, BUR_DUBAI, place('karama'), BUNDLED_FARES);
     expect(options.length).toBeGreaterThan(0);
     expect(options.some((option) => option.route.totalDurationSeconds > 0)).toBe(true);
   });
 
   it('offers the metro, a bus and a taxi from a hotel in Bur Dubai to Karama', () => {
-    const ids = planRoutes(network, BUR_DUBAI, place('karama')).map((option) => option.id);
+    const ids = planRoutes(network, BUR_DUBAI, place('karama'), BUNDLED_FARES).map(
+      (option) => option.id,
+    );
     expect(ids).toContain('taxi');
     expect(ids.length).toBe(3);
   });
 
   it('gives every leg a start, an end and a time, so the steps screen cannot go blank', () => {
-    for (const option of planRoutes(network, BUR_DUBAI, place('dubai-mall'))) {
+    for (const option of planRoutes(network, BUR_DUBAI, place('dubai-mall'), BUNDLED_FARES)) {
       expect(option.route.legs.length, option.id).toBeGreaterThan(0);
       for (const leg of option.route.legs) {
         expect(leg.fromNodeId, option.id).not.toBe('');
@@ -53,7 +56,7 @@ describe('planning a journey on the device', () => {
   });
 
   it('joins the legs up: each one starts where the last one ended', () => {
-    for (const option of planRoutes(network, BUR_DUBAI, place('mall-of-emirates'))) {
+    for (const option of planRoutes(network, BUR_DUBAI, place('mall-of-emirates'), BUNDLED_FARES)) {
       const legs = option.route.legs;
       expect(legs[0]?.fromNodeId, option.id).toBe('origin');
       expect(legs.at(-1)?.toNodeId, option.id).toBe('destination');
@@ -64,7 +67,7 @@ describe('planning a journey on the device', () => {
   });
 
   it('quotes a fare a traveller could hand over, and a range for the meter', () => {
-    const options = planRoutes(network, BUR_DUBAI, place('karama'));
+    const options = planRoutes(network, BUR_DUBAI, place('karama'), BUNDLED_FARES);
     const taxi = options.find((option) => option.id === 'taxi');
     expect(taxi?.fareAedMin).toBeGreaterThan(0);
     expect(taxi?.fareAedMax).toBeGreaterThan(taxi?.fareAedMin ?? 0);
@@ -77,7 +80,7 @@ describe('planning a journey on the device', () => {
   });
 
   it('never puts a mode on a card the journey does not use', () => {
-    for (const option of planRoutes(network, BUR_DUBAI, place('dubai-marina'))) {
+    for (const option of planRoutes(network, BUR_DUBAI, place('dubai-marina'), BUNDLED_FARES)) {
       if (option.id === 'metro') {
         expect(
           option.route.legs.some((leg) => leg.mode === 'metro' || leg.mode === 'tram'),
@@ -95,7 +98,7 @@ describe('planning a journey on the device', () => {
 
   /** Every badge on the screen has to be true, or the screen is lying about the trade-off. */
   it('awards each badge to the option that actually wins it', () => {
-    const options = planRoutes(network, BUR_DUBAI, place('mall-of-emirates'));
+    const options = planRoutes(network, BUR_DUBAI, place('mall-of-emirates'), BUNDLED_FARES);
     const fastest = Math.min(...options.map((o) => o.route.totalDurationSeconds));
     const cheapest = Math.min(...options.map((o) => o.fareAedMax));
     for (const option of options) {
@@ -116,7 +119,7 @@ describe('planning a journey on the device', () => {
   it.each([['jumeirah'], ['global-village']])(
     'still answers for %s, which no metro line reaches',
     (id) => {
-      expect(planRoutes(network, BUR_DUBAI, place(id)).length).toBeGreaterThan(0);
+      expect(planRoutes(network, BUR_DUBAI, place(id), BUNDLED_FARES).length).toBeGreaterThan(0);
     },
   );
 
@@ -135,7 +138,9 @@ describe('planning a journey on the device', () => {
       'dxb-airport',
       'gold-souk',
     ]) {
-      expect(planRoutes(network, BUR_DUBAI, place(id)).length, id).toBeGreaterThan(0);
+      expect(planRoutes(network, BUR_DUBAI, place(id), BUNDLED_FARES).length, id).toBeGreaterThan(
+        0,
+      );
     }
   });
 
@@ -145,7 +150,9 @@ describe('planning a journey on the device', () => {
    * could not work the journey out and offer the Arabic instead.
    */
   it('says nothing rather than inventing a journey from outside Dubai', () => {
-    expect(planRoutes(network, { lat: 18.5204, lng: 73.8567 }, place('karama'))).toEqual([]);
+    expect(
+      planRoutes(network, { lat: 18.5204, lng: 73.8567 }, place('karama'), BUNDLED_FARES),
+    ).toEqual([]);
   });
 
   /** Rule 4: the same place typed either way is the same journey, not a near miss. */
@@ -155,8 +162,8 @@ describe('planning a journey on the device', () => {
     expect(devanagari?.id).toBe('mall-of-emirates');
     expect(roman?.id).toBe(devanagari?.id);
 
-    const a = planRoutes(network, BUR_DUBAI, devanagari!);
-    const b = planRoutes(network, BUR_DUBAI, roman!);
+    const a = planRoutes(network, BUR_DUBAI, devanagari!, BUNDLED_FARES);
+    const b = planRoutes(network, BUR_DUBAI, roman!, BUNDLED_FARES);
     expect(a.map((o) => [o.id, o.route.totalDurationSeconds, o.fareAedMax])).toEqual(
       b.map((o) => [o.id, o.route.totalDurationSeconds, o.fareAedMax]),
     );

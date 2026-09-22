@@ -8,5 +8,6 @@ export { RouteOptionsScreen } from './RouteOptionsScreen.js';
 export { RouteStepsScreen } from './RouteStepsScreen.js';
 export { TaxiScreen } from './TaxiScreen.js';
 export { parseTransportPack, type TransportNetwork } from './network.js';
+export { currentFares, parseFarePack, FARES_PACK_ID, type FarePack } from './fares.js';
 export { planRoutes, type RouteOption, type RouteOptionId } from './routePlanner.js';
 export { placeById, localName } from './destinations.js';

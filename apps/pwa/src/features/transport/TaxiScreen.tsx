@@ -7,8 +7,8 @@ import type { SavedHotel } from '../info/index.js';
 import { distanceKm } from '../../lib/distance.js';
 import { useHere } from '../../lib/here.js';
 import { localName, placeById } from './destinations.js';
+import { currentFares } from './fares.js';
 import { taxiFareBand } from './taxiFare.js';
-import { useTransportNetwork } from './useNetwork.js';
 
 /**
  * 2.4 — जाना › टैक्सी. The destination big, in Arabic as well when we have it, the fare the
@@ -31,7 +31,6 @@ export function TaxiScreen({
   readonly hotel: SavedHotel | undefined;
 }) {
   const { t, locale } = useSettings();
-  const network = useTransportNetwork();
   const here = useHere(hotel);
   const [copied, setCopied] = useState(false);
 
@@ -52,8 +51,8 @@ export function TaxiScreen({
     .join(' · ');
 
   const fare = (() => {
-    if (!network || !place || here.at === undefined) return null;
-    return taxiFareBand(network.fares.taxi, distanceKm(here.at, place.location) * 1000);
+    if (!place || here.at === undefined) return null;
+    return taxiFareBand(currentFares().taxi, distanceKm(here.at, place.location) * 1000);
   })();
 
   const copy = () => {
