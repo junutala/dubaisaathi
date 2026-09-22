@@ -492,8 +492,8 @@ The screens are the design source of truth and live in `design/`:
 
 **Nothing launches before 25 September, and not then unless the data is in** (decision 025).
 That is the owner's ruling and it governs the website's copy: `restaurants.v1.json` holds zero
-rows and the committed RTA feed is the September 2021 edition, so खाना's headline claim may not
-go live until real kitchens are published. No competitor is ever named anywhere — say "no
+rows, so खाना's headline claim may not go live until real kitchens are published. जाना's half is
+answered — the RTA's August 2025 feed went in on 22 September, replacing the 2021 edition. No competitor is ever named anywhere — say "no
 delivery app".
 
 ### What happened on 17–18 September
