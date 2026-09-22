@@ -283,3 +283,50 @@ the refresh added and dropped.
 `calendar.txt` runs 2025-08-29 to 2025-12-31. The converter reads it only for which services run
 on a Monday, never for whether a date is in range, so the typical-weekday times it quotes are
 unaffected: metro 05:00–23:56, tram 06:00–00:51.
+
+## Fares (22 September 2026)
+
+**The RTA's GTFS feed has no fares in it.** No `fare_attributes.txt`, no `fare_rules.txt`, in the
+2021 archive or the 2025 one. So `publishTransport.ts` copies the fare block across from the pack
+it replaces, and a refresh of the feed never refreshes a price. Correcting a fare means editing
+`data/transport/network.v1.json` by hand and re-running the publisher, which leaves it alone.
+
+What the pack holds:
+
+|                | value           | where it comes from                                      |
+| -------------- | --------------- | -------------------------------------------------------- |
+| Nol bands      | AED 3 / 5 / 7.5 | RTA's published zones — one, two, three-plus             |
+| Taxi flag fall | AED 5           | street hail, 06:00–22:00; AED 5.50 after 22:00           |
+| Taxi per km    | AED 2.20        | RTA revises it monthly with fuel, 2.14–2.26 through 2026 |
+| Taxi minimum   | AED 12          | a street-hail fare cannot come to less                   |
+| Spread         | ±15%            | a meter is not a timetable; the answer is a range        |
+
+### Two things that were wrong until today
+
+**The flag fall was AED 12** — the minimum fare, entered in the flag-fall field as well, so every
+taxi quote carried AED 7 that no meter charges.
+
+**2.3 and 2.4 disagreed.** Each screen worked the fare out for itself. The taxi card allowed for
+roads not being straight (a 1.2 factor) and the options card did not, and they rounded to
+different things, so BurJuman → Mall of the Emirates read **AED 45–60 on the card and AED 50–70
+one tap later**. The totals were not far off, because the inflated flag fall happened to cancel
+the missing road factor — which is why nobody caught it. A traveller who sees two prices for one
+journey believes neither, and the second one is the screen they hold up to the driver.
+
+Both now call `features/transport/taxiFare.ts`, which is the only place a taxi fare is worked
+out. `taxiFare.test.ts` pins it, including that the minimum binds the bottom of the range: quoting
+AED 10 would be quoting a fare the tariff does not permit.
+
+### Salik is not modelled
+
+A toll gate is AED 4 off-peak and AED 6 in the peak (06:00–10:00 and 16:00–20:00, nothing between
+01:00 and 06:00). The pack does not know where the gates are or which ones a road crosses, so any
+Sheikh Zayed Road journey is quoted light by AED 4–12. Modelling it needs gate positions and a
+road geometry we deliberately do not ship (`shapes.txt` is dropped). Left out and written down
+rather than guessed at — the owner's call whether it is worth the data.
+
+### Checking them
+
+The fares are the one part of the pack a web page cannot settle. A real meter reading in Dubai —
+distance travelled and final fare — is better evidence than any of the sources above, and one
+trip is enough to confirm or correct the per-km rate.

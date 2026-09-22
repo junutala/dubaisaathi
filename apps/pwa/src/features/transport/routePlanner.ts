@@ -1,5 +1,6 @@
 import type { DubaiPlace, LatLng, Route, RouteLeg, TransportMode } from '@saathi/shared';
 import { metresBetween, type TransportNetwork } from './network.js';
+import { meteredMetres, taxiFareBand } from './taxiFare.js';
 
 /**
  * How a traveller gets from where they are standing to where they said they want to go —
@@ -392,11 +393,6 @@ function assemble(id: RouteOptionId, legs: readonly PlannedLeg[], fare: number):
   };
 }
 
-/** Fares are read off a card, not a receipt: whole dirhams is the honest precision here. */
-function roundFare(aed: number): number {
-  return Math.round(aed);
-}
-
 /** The modes each card may ride. The tram is part of the metro answer: it is Nol, rail and a change at DMCC. */
 const RIDES: Readonly<Record<'metro' | 'bus', readonly TransportMode[]>> = {
   metro: ['metro', 'tram'],
@@ -476,9 +472,7 @@ export function planRoutes(
   }
 
   // The taxi is always there, and it is the reason this screen can never be empty inside Dubai.
-  const { taxi } = network.fares;
-  const taxiFare = Math.max(taxi.minimumAed, taxi.flagFallAed + (directM / 1000) * taxi.perKmAed);
-  const spread = taxiFare * (taxi.spreadPercent / 100);
+  const fare = taxiFareBand(network.fares.taxi, directM);
   const taxiOption = assemble(
     'taxi',
     [
@@ -486,14 +480,14 @@ export function planRoutes(
         mode: 'taxi',
         fromNodeId: ORIGIN_NODE_ID,
         toNodeId: DESTINATION_NODE_ID,
-        // Roads are not straight: a meter runs about a fifth longer than the crow flies, and
-        // 32 km/h is what Dubai traffic actually averages across a day.
-        durationSeconds: Math.max(300, Math.round(((directM * 1.2) / 1000 / 32) * 3600)),
+        // 32 km/h is what Dubai traffic actually averages across a day, over the distance the
+        // road covers rather than the straight line between the pins.
+        durationSeconds: Math.max(300, Math.round((meteredMetres(directM) / 1000 / 32) * 3600)),
         stops: 1,
         distanceM: directM,
       },
     ],
-    roundFare(taxiFare),
+    fare.likely,
   );
 
   const quickest = [...candidates].sort(
@@ -501,11 +495,7 @@ export function planRoutes(
   );
   const options = [
     ...quickest.slice(0, 2),
-    {
-      ...taxiOption,
-      fareAedMin: roundFare(taxiFare - spread),
-      fareAedMax: roundFare(taxiFare + spread),
-    },
+    { ...taxiOption, fareAedMin: fare.min, fareAedMax: fare.max },
   ];
   return withBadges(options);
 }

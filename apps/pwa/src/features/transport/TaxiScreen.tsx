@@ -7,6 +7,7 @@ import type { SavedHotel } from '../info/index.js';
 import { distanceKm } from '../../lib/distance.js';
 import { useHere } from '../../lib/here.js';
 import { localName, placeById } from './destinations.js';
+import { taxiFareBand } from './taxiFare.js';
 import { useTransportNetwork } from './useNetwork.js';
 
 /**
@@ -52,11 +53,7 @@ export function TaxiScreen({
 
   const fare = (() => {
     if (!network || !place || here.at === undefined) return null;
-    const { taxi } = network.fares;
-    const km = distanceKm(here.at, place.location);
-    const aed = Math.max(taxi.minimumAed, taxi.flagFallAed + km * 1.2 * taxi.perKmAed);
-    const spread = aed * (taxi.spreadPercent / 100);
-    return { min: Math.round((aed - spread) / 5) * 5, max: Math.round((aed + spread) / 5) * 5 };
+    return taxiFareBand(network.fares.taxi, distanceKm(here.at, place.location) * 1000);
   })();
 
   const copy = () => {
