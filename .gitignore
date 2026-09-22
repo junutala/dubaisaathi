@@ -25,3 +25,7 @@ coupons-*.txt
 # Scratch scripts at the root — a screenshot or a probe run by hand while working.
 # They belong to whoever is running them and never to the repository.
 /_*.mjs
+
+# A GTFS archive belongs at data/transport/rta-gtfs.zip and nowhere else. A .7z dropped at
+# the repository root or in data/ is an upload that landed in the wrong place.
+*.7z
