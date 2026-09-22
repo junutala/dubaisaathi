@@ -48,18 +48,28 @@ export interface ConvertOptions {
   readonly waitSeconds: TransportNetwork['waitSeconds'];
 }
 
-/** The feed's own route codes for the rail lines, and the ids the app has always used. */
+/**
+ * The feed's own route codes for the rail lines, and the ids the app has always used.
+ *
+ * The RTA re-cut the Red Line between the 2021 and 2025 feeds: `MRed` (Centrepoint–Expo) and
+ * `MBrch` (the UAE Exchange branch) became `MRed1` and `MRed2`, which are the same two services
+ * under new codes — MRed1 still runs to Expo, MRed2 to Life Pharmacy, the station that was UAE
+ * Exchange. Both spellings stay here, so an older archive still converts to the same line ids
+ * and the pack's edge ids do not churn.
+ */
 const RAIL_LINE_IDS: Readonly<Record<string, string>> = {
   MRed: 'red',
+  MRed1: 'red',
   MGrn: 'green',
   MBrch: 'red-branch',
+  MRed2: 'red-branch',
   T1: 'tram',
 };
 
 const RAIL_LINE_NAMES: Readonly<Record<string, { readonly en: string; readonly hi: string }>> = {
   red: { en: 'Red Line', hi: 'रेड लाइन' },
   green: { en: 'Green Line', hi: 'ग्रीन लाइन' },
-  'red-branch': { en: 'Red Line (UAE Exchange branch)', hi: 'रेड लाइन (यूएई एक्सचेंज शाखा)' },
+  'red-branch': { en: 'Red Line (Life Pharmacy branch)', hi: 'रेड लाइन (लाइफ़ फ़ार्मेसी शाखा)' },
   tram: { en: 'Tram', hi: 'ट्राम' },
 };
 
@@ -452,9 +462,22 @@ export function toTransportNetwork(feed: GtfsFiles, options: ConvertOptions): Tr
     if (known !== undefined) return known;
     const stop = stops.get(stopId);
     if (!stop) return undefined;
+    /**
+     * A pinned entry names one bay and no other. It has to be kept out of the distance fallback
+     * as well, or a neighbour fifty metres away takes the name first simply by being reached
+     * first — which is how our "Al Sabkha" ended up printed over Deira Post Office once the
+     * Sabkha bay left the feed, and how Dubai Mall's name landed on bay 2 while the pin said 7.
+     */
     const curated =
       options.stations.find((s) => s.mode === 'bus' && s.stopId === stopId) ??
-      curatedFor(options.stations, 'bus', stop.name, stop.location, CURATED_BUS_METRES, false);
+      curatedFor(
+        options.stations.filter((s) => s.stopId === undefined),
+        'bus',
+        stop.name,
+        stop.location,
+        CURATED_BUS_METRES,
+        false,
+      );
     const { id, name } = claim(curated, usedCurated, stop.name, `s${stopId}`);
     nodes.set(id, {
       id,

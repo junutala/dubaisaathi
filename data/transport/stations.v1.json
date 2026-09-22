@@ -1,7 +1,7 @@
 {
-  "contentVersion": 1,
-  "publishedAt": "2026-09-16T00:00:00Z",
-  "source": "Hand-curated station names: the English name as signed on the platform, its Devanagari form, and Roman/Devanagari aliases. Applied to the RTA feed by location (packages/content-tools/src/publishTransport.ts): a feed stop of the same mode within 250 m takes this name. Bus stops keep the English name the RTA gives them.",
+  "contentVersion": 2,
+  "publishedAt": "2026-09-22T00:00:00Z",
+  "source": "Hand-curated station names: the English name as signed on the platform, its Devanagari form, and Roman/Devanagari aliases. A station the RTA renames keeps its old name as an alias. Applied to the RTA feed by location (packages/content-tools/src/publishTransport.ts): a feed stop of the same mode within 300 m takes this name, and a bus bay is pinned by the feed's own stop id. Every location here comes from the feed itself, not from a map by hand — a coordinate that is out by a few hundred metres works until the day a name changes, and then it is the only thing left.",
   "stations": [
     {
       "id": "centrepoint",
@@ -12,8 +12,8 @@
         "aliases": ["rashidiya", "रशीदिया"]
       },
       "location": {
-        "lat": 25.2419,
-        "lng": 55.3773
+        "lat": 25.23012,
+        "lng": 55.39154
       }
     },
     {
@@ -25,8 +25,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.2477,
-        "lng": 55.381
+        "lat": 25.24112,
+        "lng": 55.36567
       }
     },
     {
@@ -38,8 +38,8 @@
         "aliases": ["terminal 3", "टर्मिनल 3"]
       },
       "location": {
-        "lat": 25.2479,
-        "lng": 55.3617
+        "lat": 25.24516,
+        "lng": 55.35939
       }
     },
     {
@@ -51,21 +51,21 @@
         "aliases": ["terminal 1", "टर्मिनल 1"]
       },
       "location": {
-        "lat": 25.2486,
-        "lng": 55.352
+        "lat": 25.24828,
+        "lng": 55.35264
       }
     },
     {
-      "id": "ggico",
+      "id": "al-garhoud",
       "mode": "metro",
       "name": {
-        "en": "GGICO",
-        "hi": "जीजीको",
-        "aliases": []
+        "en": "Al Garhoud",
+        "hi": "अल ग़रहूद",
+        "aliases": ["garhoud", "ggico", "गरहूद", "जीजीको"]
       },
       "location": {
-        "lat": 25.2529,
-        "lng": 55.3402
+        "lat": 25.24947,
+        "lng": 55.33994
       }
     },
     {
@@ -74,11 +74,11 @@
       "name": {
         "en": "Deira City Centre",
         "hi": "देरा सिटी सेंटर",
-        "aliases": ["city centre", "सिटी सेंटर"]
+        "aliases": ["city centre", "city centre deira", "सिटी सेंटर", "सिटी सेंटर देरा"]
       },
       "location": {
-        "lat": 25.2524,
-        "lng": 55.3322
+        "lat": 25.25426,
+        "lng": 55.33029
       }
     },
     {
@@ -90,8 +90,8 @@
         "aliases": ["rigga", "रिग्गा"]
       },
       "location": {
-        "lat": 25.2639,
-        "lng": 55.3222
+        "lat": 25.26319,
+        "lng": 55.32416
       }
     },
     {
@@ -103,8 +103,8 @@
         "aliases": ["al ittihad", "अल इत्तिहाद"]
       },
       "location": {
-        "lat": 25.2661,
-        "lng": 55.3163
+        "lat": 25.26621,
+        "lng": 55.31376
       }
     },
     {
@@ -116,8 +116,8 @@
         "aliases": ["bur juman", "बुर जुमान"]
       },
       "location": {
-        "lat": 25.2548,
-        "lng": 55.3043
+        "lat": 25.25499,
+        "lng": 55.30426
       }
     },
     {
@@ -129,8 +129,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.2466,
-        "lng": 55.2947
+        "lat": 25.24476,
+        "lng": 55.29828
       }
     },
     {
@@ -142,8 +142,8 @@
         "aliases": ["jafiliya", "जाफ़िलिया", "max"]
       },
       "location": {
-        "lat": 25.24,
-        "lng": 55.2861
+        "lat": 25.23298,
+        "lng": 55.29177
       }
     },
     {
@@ -155,8 +155,8 @@
         "aliases": ["wtc", "ट्रेड सेंटर"]
       },
       "location": {
-        "lat": 25.2288,
-        "lng": 55.283
+        "lat": 25.22549,
+        "lng": 55.28549
       }
     },
     {
@@ -168,8 +168,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.2177,
-        "lng": 55.2795
+        "lat": 25.21718,
+        "lng": 55.27979
       }
     },
     {
@@ -181,8 +181,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.2114,
-        "lng": 55.2793
+        "lat": 25.21096,
+        "lng": 55.27549
       }
     },
     {
@@ -194,8 +194,8 @@
         "aliases": ["dubai mall", "दुबई मॉल", "burj khalifa", "बुर्ज ख़लीफ़ा"]
       },
       "location": {
-        "lat": 25.2019,
-        "lng": 55.279
+        "lat": 25.20147,
+        "lng": 55.26957
       }
     },
     {
@@ -207,8 +207,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.1867,
-        "lng": 55.2637
+        "lat": 25.19136,
+        "lng": 55.26044
       }
     },
     {
@@ -220,8 +220,8 @@
         "aliases": ["noor bank", "नूर बैंक", "Al Safa"]
       },
       "location": {
-        "lat": 25.1718,
-        "lng": 55.2449
+        "lat": 25.15525,
+        "lng": 55.2283
       }
     },
     {
@@ -233,8 +233,8 @@
         "aliases": ["al safa", "अल सफ़ा", "Umm Al Sheif", "first abu dhabi bank"]
       },
       "location": {
-        "lat": 25.1553,
-        "lng": 55.2318
+        "lat": 25.12647,
+        "lng": 55.20748
       }
     },
     {
@@ -246,21 +246,21 @@
         "aliases": ["moe", "एमिरेट्स मॉल"]
       },
       "location": {
-        "lat": 25.1201,
-        "lng": 55.2004
+        "lat": 25.1205,
+        "lng": 55.19937
       }
     },
     {
-      "id": "mashreq",
+      "id": "insurancemarket",
       "mode": "metro",
       "name": {
-        "en": "Mashreq",
-        "hi": "मशरिक़",
-        "aliases": []
+        "en": "InsuranceMarket",
+        "hi": "इंश्योरेंसमार्केट",
+        "aliases": ["insurance market", "mashreq", "इंश्योरेंस मार्केट", "मशरिक़"]
       },
       "location": {
-        "lat": 25.1105,
-        "lng": 55.1913
+        "lat": 25.11453,
+        "lng": 55.19052
       }
     },
     {
@@ -272,21 +272,21 @@
         "aliases": ["internet city", "इंटरनेट सिटी"]
       },
       "location": {
-        "lat": 25.0992,
-        "lng": 55.175
+        "lat": 25.10183,
+        "lng": 55.17366
       }
     },
     {
-      "id": "al-khail",
+      "id": "al-fardan-exchange",
       "mode": "metro",
       "name": {
-        "en": "Al Khail",
-        "hi": "अल ख़ैल",
-        "aliases": []
+        "en": "Al Fardan Exchange",
+        "hi": "अल फ़रदान एक्सचेंज",
+        "aliases": ["al khail", "fardan", "अल ख़ैल", "फ़रदान"]
       },
       "location": {
-        "lat": 25.09,
-        "lng": 55.161
+        "lat": 25.08883,
+        "lng": 55.15795
       }
     },
     {
@@ -298,8 +298,8 @@
         "aliases": ["dubai marina", "दुबई मरीना", "damac properties"]
       },
       "location": {
-        "lat": 25.077,
-        "lng": 55.1465
+        "lat": 25.08029,
+        "lng": 55.14805
       }
     },
     {
@@ -311,21 +311,21 @@
         "aliases": ["jlt", "jumeirah lakes towers"]
       },
       "location": {
-        "lat": 25.0685,
-        "lng": 55.1405
+        "lat": 25.07128,
+        "lng": 55.1391
       }
     },
     {
-      "id": "jabal-ali",
+      "id": "national-paints",
       "mode": "metro",
       "name": {
-        "en": "Jabal Ali",
-        "hi": "जबल अली",
-        "aliases": ["jebel ali", "जेबल अली"]
+        "en": "National Paints",
+        "hi": "नेशनल पेंट्स",
+        "aliases": ["jabal ali", "jebel ali", "जबल अली", "जेबल अली"]
       },
       "location": {
-        "lat": 25.047,
-        "lng": 55.1215
+        "lat": 25.0576,
+        "lng": 55.1271
       }
     },
     {
@@ -337,8 +337,8 @@
         "aliases": ["ibn batuta", "इब्न बतूता मॉल"]
       },
       "location": {
-        "lat": 25.0448,
-        "lng": 55.1189
+        "lat": 25.04657,
+        "lng": 55.11733
       }
     },
     {
@@ -350,8 +350,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.033,
-        "lng": 55.108
+        "lat": 25.02613,
+        "lng": 55.10116
       }
     },
     {
@@ -363,34 +363,34 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.023,
-        "lng": 55.099
+        "lat": 25.00092,
+        "lng": 55.0956
       }
     },
     {
-      "id": "uae-exchange",
+      "id": "life-pharmacy",
       "mode": "metro",
       "name": {
-        "en": "UAE Exchange",
-        "hi": "यूएई एक्सचेंज",
-        "aliases": []
+        "en": "Life Pharmacy",
+        "hi": "लाइफ़ फ़ार्मेसी",
+        "aliases": ["life pharmacy metro", "uae exchange", "यूएई एक्सचेंज"]
       },
       "location": {
-        "lat": 25.0148,
-        "lng": 55.0908
+        "lat": 24.97723,
+        "lng": 55.0909
       }
     },
     {
-      "id": "etisalat",
+      "id": "e-and",
       "mode": "metro",
       "name": {
-        "en": "Etisalat",
-        "hi": "एतिसालात",
-        "aliases": ["etisalat by e&"]
+        "en": "e&",
+        "hi": "ई ऐंड",
+        "aliases": ["e and", "etisalat", "etisalat by e&", "एतिसालात"]
       },
       "location": {
-        "lat": 25.2941,
-        "lng": 55.3811
+        "lat": 25.25484,
+        "lng": 55.40099
       }
     },
     {
@@ -402,8 +402,8 @@
         "aliases": ["qusais", "क़ुसैस"]
       },
       "location": {
-        "lat": 25.2874,
-        "lng": 55.3733
+        "lat": 25.26257,
+        "lng": 55.38767
       }
     },
     {
@@ -415,8 +415,8 @@
         "aliases": ["dafza"]
       },
       "location": {
-        "lat": 25.2818,
-        "lng": 55.367
+        "lat": 25.26988,
+        "lng": 55.37522
       }
     },
     {
@@ -428,8 +428,8 @@
         "aliases": ["nahda", "नहदा"]
       },
       "location": {
-        "lat": 25.2793,
-        "lng": 55.3604
+        "lat": 25.27327,
+        "lng": 55.36947
       }
     },
     {
@@ -441,8 +441,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.274,
-        "lng": 55.3512
+        "lat": 25.27772,
+        "lng": 55.36178
       }
     },
     {
@@ -454,8 +454,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.2732,
-        "lng": 55.3435
+        "lat": 25.27788,
+        "lng": 55.35293
       }
     },
     {
@@ -467,8 +467,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.2795,
-        "lng": 55.3355
+        "lat": 25.27532,
+        "lng": 55.34638
       }
     },
     {
@@ -480,8 +480,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.2783,
-        "lng": 55.3275
+        "lat": 25.27089,
+        "lng": 55.33285
       }
     },
     {
@@ -493,8 +493,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.274,
-        "lng": 55.3232
+        "lat": 25.27039,
+        "lng": 55.32105
       }
     },
     {
@@ -506,8 +506,8 @@
         "aliases": ["baniyas", "बनियास"]
       },
       "location": {
-        "lat": 25.2673,
-        "lng": 55.3093
+        "lat": 25.26892,
+        "lng": 55.30745
       }
     },
     {
@@ -519,8 +519,8 @@
         "aliases": ["sona bazaar", "सोना बाज़ार"]
       },
       "location": {
-        "lat": 25.2706,
-        "lng": 55.299
+        "lat": 25.27598,
+        "lng": 55.30155
       }
     },
     {
@@ -532,8 +532,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.2679,
-        "lng": 55.2937
+        "lat": 25.26872,
+        "lng": 55.29384
       }
     },
     {
@@ -545,8 +545,8 @@
         "aliases": ["ghubaiba", "ग़ुबैबा"]
       },
       "location": {
-        "lat": 25.2637,
-        "lng": 55.293
+        "lat": 25.26535,
+        "lng": 55.28917
       }
     },
     {
@@ -558,8 +558,8 @@
         "aliases": ["al fahidi", "अल फ़हीदी"]
       },
       "location": {
-        "lat": 25.2591,
-        "lng": 55.2965
+        "lat": 25.25841,
+        "lng": 55.29743
       }
     },
     {
@@ -571,8 +571,8 @@
         "aliases": ["oudmetha", "ऊद मेथा"]
       },
       "location": {
-        "lat": 25.2456,
-        "lng": 55.3121
+        "lat": 25.24405,
+        "lng": 55.31582
       }
     },
     {
@@ -584,8 +584,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.236,
-        "lng": 55.3235
+        "lat": 25.23089,
+        "lng": 55.32276
       }
     },
     {
@@ -597,8 +597,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.2245,
-        "lng": 55.3306
+        "lat": 25.22514,
+        "lng": 55.33343
       }
     },
     {
@@ -610,8 +610,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.2178,
-        "lng": 55.3388
+        "lat": 25.21896,
+        "lng": 55.33892
       }
     },
     {
@@ -623,8 +623,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.271,
-        "lng": 55.297
+        "lat": 25.2759,
+        "lng": 55.30237
       },
       "stopId": "100001"
     },
@@ -632,15 +632,15 @@
       "id": "bus-al-sabkha",
       "mode": "bus",
       "name": {
-        "en": "Al Sabkha",
-        "hi": "अल सबखा",
-        "aliases": []
+        "en": "Sabkha",
+        "hi": "सबख़ा",
+        "aliases": ["al sabkha", "अल सबख़ा", "sabkha turnoff"]
       },
       "location": {
-        "lat": 25.269,
-        "lng": 55.304
+        "lat": 25.27188,
+        "lng": 55.3032
       },
-      "stopId": "106001"
+      "stopId": "107001"
     },
     {
       "id": "bus-al-ghubaiba",
@@ -651,8 +651,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.264,
-        "lng": 55.2925
+        "lat": 25.26311,
+        "lng": 55.28831
       },
       "stopId": "385001"
     },
@@ -665,8 +665,8 @@
         "aliases": ["karama", "करामा"]
       },
       "location": {
-        "lat": 25.2455,
-        "lng": 55.304
+        "lat": 25.25052,
+        "lng": 55.29195
       },
       "stopId": "125501"
     },
@@ -679,10 +679,10 @@
         "aliases": ["satwa", "सतवा"]
       },
       "location": {
-        "lat": 25.227,
-        "lng": 55.274
+        "lat": 25.22812,
+        "lng": 55.27428
       },
-      "stopId": "503003"
+      "stopId": "503009"
     },
     {
       "id": "bus-jumeirah-beach",
@@ -693,8 +693,8 @@
         "aliases": ["jumeirah", "जुमेरा"]
       },
       "location": {
-        "lat": 25.205,
-        "lng": 55.243
+        "lat": 25.20406,
+        "lng": 55.2421
       }
     },
     {
@@ -706,8 +706,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.1195,
-        "lng": 55.2
+        "lat": 25.12019,
+        "lng": 55.19999
       },
       "stopId": "567501"
     },
@@ -720,8 +720,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.045,
-        "lng": 55.119
+        "lat": 25.04568,
+        "lng": 55.1172
       },
       "stopId": "903501"
     },
@@ -734,8 +734,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.242,
-        "lng": 55.377
+        "lat": 25.22924,
+        "lng": 55.39152
       },
       "stopId": "961502"
     },
@@ -748,10 +748,10 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.198,
-        "lng": 55.28
+        "lat": 25.19935,
+        "lng": 55.2822
       },
-      "stopId": "344101"
+      "stopId": "888807"
     },
     {
       "id": "tram-al-sufouh",
@@ -762,8 +762,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.1023,
-        "lng": 55.1583
+        "lat": 25.10799,
+        "lng": 55.16491
       }
     },
     {
@@ -775,8 +775,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.103,
-        "lng": 55.1626
+        "lat": 25.10424,
+        "lng": 55.16148
       }
     },
     {
@@ -788,8 +788,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.0982,
-        "lng": 55.155
+        "lat": 25.09832,
+        "lng": 55.15571
       }
     },
     {
@@ -801,8 +801,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.0943,
-        "lng": 55.1511
+        "lat": 25.09463,
+        "lng": 55.15197
       }
     },
     {
@@ -814,8 +814,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.0884,
-        "lng": 55.1482
+        "lat": 25.09108,
+        "lng": 55.14856
       }
     },
     {
@@ -827,8 +827,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.0837,
-        "lng": 55.1452
+        "lat": 25.08676,
+        "lng": 55.14995
       }
     },
     {
@@ -840,8 +840,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.0801,
-        "lng": 55.1423
+        "lat": 25.08114,
+        "lng": 55.14731
       }
     },
     {
@@ -853,8 +853,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.0779,
-        "lng": 55.1362
+        "lat": 25.07973,
+        "lng": 55.13822
       }
     },
     {
@@ -866,8 +866,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.0724,
-        "lng": 55.1326
+        "lat": 25.07371,
+        "lng": 55.13225
       }
     },
     {
@@ -879,8 +879,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.0692,
-        "lng": 55.1382
+        "lat": 25.0719,
+        "lng": 55.13809
       }
     },
     {
@@ -892,8 +892,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.0446,
-        "lng": 55.1338
+        "lat": 25.04352,
+        "lng": 55.13518
       }
     },
     {
@@ -905,8 +905,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.0396,
-        "lng": 55.1391
+        "lat": 25.03521,
+        "lng": 55.14536
       }
     },
     {
@@ -918,8 +918,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.0321,
-        "lng": 55.1424
+        "lat": 25.03041,
+        "lng": 55.15219
       }
     },
     {
@@ -931,8 +931,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.011,
-        "lng": 55.1516
+        "lat": 25.01779,
+        "lng": 55.16325
       }
     },
     {
@@ -944,8 +944,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 24.9873,
-        "lng": 55.1573
+        "lat": 25.00555,
+        "lng": 55.1557
       }
     },
     {
@@ -957,8 +957,8 @@
         "aliases": []
       },
       "location": {
-        "lat": 24.9655,
-        "lng": 55.1502
+        "lat": 24.96353,
+        "lng": 55.14605
       }
     },
     {
@@ -970,7 +970,7 @@
         "aliases": []
       },
       "location": {
-        "lat": 25.07632,
+        "lat": 25.07633,
         "lng": 55.14203
       }
     }

@@ -13,6 +13,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { TransportNetwork } from '@saathi/shared';
+import { csvRows } from './gtfs/csv.ts';
 import { readZip } from './gtfs/zip.ts';
 import { toTransportNetwork, type CuratedStation } from './toTransport.ts';
 
@@ -68,11 +69,26 @@ async function main(): Promise<void> {
         publishedAt: new Date().toISOString(),
       };
 
-  if (pack.edges.length < previous.edges.length) {
-    // A feed that shrinks the network is a broken feed or a broken converter, never a release.
-    throw new Error(
-      `converted pack has ${String(pack.edges.length)} edges, the current one ${String(previous.edges.length)}. Nothing written.`,
-    );
+  /**
+   * A feed that collapses the network is a broken feed or a broken converter, never a release.
+   *
+   * It is not a straight "never smaller", though, because a real feed does shrink in places: the
+   * 2025 edition renumbered the bus network — 11A and 11B became 11, the 20 became 20A and 20B —
+   * and came out with twenty-six more lines, two hundred more stops and seventy-five fewer hops.
+   * A percentage tells the two apart: churn moves a point or two, a broken conversion loses most
+   * of the network at once.
+   */
+  const FLOOR = 0.9;
+  for (const [what, now, before] of [
+    ['edges', pack.edges.length, previous.edges.length],
+    ['nodes', pack.nodes.length, previous.nodes.length],
+  ] as const) {
+    if (now < before * FLOOR) {
+      throw new Error(
+        `converted pack has ${String(now)} ${what}, the current one ${String(before)} — more than ` +
+          `${String(Math.round((1 - FLOOR) * 100))}% down. Nothing written.`,
+      );
+    }
   }
 
   if (!same) await writeFile(OUT, `${JSON.stringify(pack)}\n`, 'utf8');
@@ -80,8 +96,37 @@ async function main(): Promise<void> {
   console.log(
     `${String(pack.lines.length)} lines, ${String(pack.nodes.length)} stops, ${String(pack.edges.length)} hops → ${OUT} (v${String(pack.contentVersion)})`,
   );
+  console.log(
+    `  was ${String(previous.lines.length)} lines, ${String(previous.nodes.length)} stops, ${String(previous.edges.length)} hops`,
+  );
+
+  // Which lines the RTA added and dropped: the one summary worth reading on every refresh.
+  const before = new Set(previous.lines.map((line) => line.id));
+  const now = new Set(pack.lines.map((line) => line.id));
+  const gone = [...before].filter((id) => !now.has(id)).sort();
+  const added = [...now].filter((id) => !before.has(id)).sort();
+  if (gone.length > 0) console.log(`  lines gone: ${gone.join(' ')}`);
+  if (added.length > 0) console.log(`  lines new:  ${added.join(' ')}`);
+
   const unnamed = stations.filter((s) => !pack.nodes.some((n) => n.id === s.id));
   for (const s of unnamed) console.log(`  curated station not found in the feed: ${s.id}`);
+
+  /**
+   * A bus bay is pinned by the feed's own stop id, and the RTA retires those. When a pinned id
+   * is gone the curated name does not go with it — it falls through to the nearest bay within
+   * 150 m and is printed over whatever stands there. That is how "Al Sabkha" came to be the name
+   * of Deira Post Office. A name on the wrong stop sends somebody to the wrong door, so a dead
+   * pin is said out loud rather than quietly absorbed.
+   */
+  const inFeed = new Set(csvRows(feed['stops.txt'] ?? '').map((row) => row.stop_id ?? ''));
+  for (const s of stations) {
+    if (s.stopId !== undefined && !inFeed.has(s.stopId)) {
+      console.log(
+        `  ** ${s.id} is pinned to stop ${s.stopId}, which this feed does not have — ` +
+          `repin it or the name lands on a neighbour`,
+      );
+    }
+  }
 }
 
 await main();

@@ -7,11 +7,11 @@ pack, and `npm run publish:transport` builds `data/transport/network.v1.json` fr
 the shipped pack carries every bus route, both metro lines and the tram, with directional hops and
 first and last departures.
 
-**One thing the table does not say and the product must:** the committed feed
-(`data/transport/rta-gtfs.zip`) is the **September 2021** edition off Transitland's mirror. The
-current one (Dubai Pulse `rta_gtfs-open`, 21 January 2026) is reachable only from inside the UAE.
-The network's shape is largely right; its timetable numbers are five years old, and decision 025
-holds the launch until the 2026 file is in.
+**The committed feed is now the RTA's own `GTFS_20250823`** (22 September 2026), downloaded in
+Dubai. It replaced the September 2021 edition off Transitland's mirror, which had been the
+pipeline's proof rather than the product's answer. Dubai Pulse answers only from a UAE connection:
+this container cannot reach it and neither can a GitHub runner, so refreshing the feed is a person
+with a Dubai connection and nothing else will do. See "What four years changed" below.
 
 The map question below is still open and still the owner's.
 
@@ -178,26 +178,108 @@ it mirrors as `f-dubai~rta`. It is committed as `data/transport/rta-gtfs.zip` (1
   branch), 1 tram, 10 marine (`route_type` 4, not carried: the app has no mode for them).
   2,584 stops, 58,113 trips, 1.44 million stop times. `shapes.txt` **is present** (154,830
   points) — the geometry for a map, when there is one. `translations.txt` carries an Arabic
-  name for every stop.
-- **It is the September 2021 edition** (`calendar.txt` runs 2021-09-09 to 2021-12-31, and the
-  weekend is Friday–Saturday, as it was then). Transitland's crawl of the RTA stopped there.
-  **That is not the network a 2026 traveller stands in** — routes and stops have changed — so
-  the 2021 pack is the pipeline's proof, not the product's answer. The current edition is on
-  Dubai Pulse: dataset `rta_gtfs-open`, resource `gtfs.7z`, last updated 21 January 2026, at
-  `https://www.dubaipulse.gov.ae/dataset/73765e8f-e8c4-443c-9687-288072ed9d12/resource/11515bd3-bdba-466f-ab65-f057bd123ab5/download/gtfs.7z`.
-  It is a 7z, which the converter does not read: extract it, zip the `.txt` files, replace
-  `data/transport/rta-gtfs.zip`, re-run. The converter takes a zip with a folder inside it, a
-  feed with only `calendar_dates.txt`, and `frequencies.txt`, so a differently shaped 2026 file
-  should convert first time. The pack quotes a typical weekday (Monday services) and says so on
-  2.3.
+  name for every stop. **All of this is the 2021 feed and is kept here as the before picture;
+  what ships is the 2025 one described below.**
+- **It was the September 2021 edition** (`calendar.txt` ran 2021-09-09 to 2021-12-31, and the
+  weekend was Friday–Saturday, as it was then). Transitland's crawl of the RTA stopped there,
+  which is why it had to be replaced.
 - **Rail platforms collapse into stations** (the feed lists "BurJuman Metro Station 1" and "…
   2"), named from `data/transport/stations.v1.json` — the sign's English, its Devanagari, and
   aliases including the feed's own spelling where it differs ("max" for Al Jafiliya). Bus stops
   keep the RTA's English name, one node per bay.
-- **The pack**: 160 lines, 2,499 stops, 6,435 directed hops, 1.6 MB of JSON (about a quarter of
-  that over the wire). Every hop carries its direction and the first and last departure from
+- **The pack, from the 2021 feed**: 160 lines, 2,499 stops, 6,435 directed hops, 1.6 MB of JSON
+  (about a quarter of that over the wire). Every hop carries its direction and the first and last departure from
   its stop; every line its measured daytime headway and the headsign each way. The planner
   (`routePlanner.ts`) no longer mirrors edges, indexes stops on a grid, and plans a journey in
   under 70 ms on a laptop.
 - **Attribution**: "Transport data: Roads and Transport Authority (RTA), Dubai — open data" on
   2.3, from the pack's `attribution` field.
+
+## What four years changed (22 September 2026, the 2025 feed)
+
+The owner downloaded `gtfs.7z` on a Dubai connection and it went into the repository as
+`data/transport/rta-gtfs.zip`. The archive inside is `GTFS_20250823`: 201 routes, 2,817 stops,
+66,563 trips, 1.44 million stop times. The pack it converts to is **186 lines, 2,727 stops,
+6,360 directed hops** (v3) — 26 more lines and 228 more stops than the 2021 pack, and 75 fewer
+hops, because the bus network was renumbered: 11A and 11B became 11, the 20 became 20A and 20B.
+
+### Getting the file
+
+Dubai Pulse serves only from inside the UAE. A `curl` from this container is refused by the
+proxy; a GitHub Actions runner gave up after 133 seconds on `Failed to connect to
+www.dubaipulse.gov.ae`. So the download is a person standing in Dubai, and the workflow at
+`.github/workflows/fetch-rta-feed.yml` will not do it for you. The dataset is `rta_gtfs-open`,
+resource `gtfs.7z`, at
+`https://www.dubaipulse.gov.ae/dataset/73765e8f-e8c4-443c-9687-288072ed9d12/resource/11515bd3-bdba-466f-ab65-f057bd123ab5/download/gtfs.7z`.
+
+### Repacking it
+
+It arrives as a 7z, which the converter does not read. Unpack it and zip the `.txt` files. Two
+files do not go in:
+
+- `shapes.txt` (11 MB) is map geometry and nothing reads it.
+- `translations.txt` is **130 MB**, and 1,327,940 of its 1,330,759 rows are `stop_times`
+  headsigns. Keep the 2,819 `stops` rows — an Arabic name for every station, which the taxi
+  screen will want — and drop the rest. That is 226 KB instead of 130 MB.
+
+The result is 9.8 MB, against 11 for the 2021 archive.
+
+### The Red Line was re-cut
+
+`MRed` and `MBrch` are gone. The two services are now `MRed1` (Centrepoint–Expo) and `MRed2`
+(Centrepoint–Life Pharmacy) — the same two lines under new codes. `RAIL_LINE_IDS` in
+`toTransport.ts` carries both spellings, so an older archive still converts to the same ids and
+the pack's edge ids do not churn. The branch went from 8 hops to 56; it was barely represented
+in the 2021 feed.
+
+### Ten metro stations were renamed
+
+| was               | is now                                                 |
+| ----------------- | ------------------------------------------------------ |
+| Al Khail          | Al Fardan Exchange                                     |
+| GGICO             | Al Garhoud                                             |
+| Etisalat          | e&                                                     |
+| Mashreq           | InsuranceMarket                                        |
+| UAE Exchange      | Life Pharmacy                                          |
+| Jabal Ali         | National Paints                                        |
+| Deira City Centre | City Centre Deira _(word order only; our name stands)_ |
+| Al Safa           | Onpassive _(already curated)_                          |
+| Umm Al Sheif      | Equiti _(already curated)_                             |
+| EXPO              | Expo 2020 _(spelling only)_                            |
+
+Each keeps its old name as an alias in both scripts. A traveller who last came in 2019 still
+asks for Etisalat, and the sign they are standing under says e&.
+
+### What the renames exposed
+
+Six of them came out of the converter named in English **with the English repeated in the Hindi
+field**. A curated name is matched by name first and by distance second, so when the name stops
+matching, the coordinate is all that is left — and 56 of the 74 curated coordinates were more
+than 100 m out, one by 4 km. They were typed off a map by hand and had never been tested,
+because the name had always matched first. **Every location in `stations.v1.json` now comes from
+the feed itself.**
+
+The same fault had already reached a live screen: **"Al Sabkha" was printed over Deira Post
+Office.** The Sabkha bay left the feed, the curated entry fell through to the nearest stop 200 m
+away, and a traveller told to get off at अल सबख़ा would have got off at the post office. Three
+things came of it:
+
+- A pinned bay is now genuinely pinned. `busStop()` keeps pinned entries out of the distance
+  fallback, so no neighbour can take a name by being reached first — Dubai Mall's name had
+  landed on bay 2 while the pin said bay 7.
+- `publishTransport.ts` prints a line when a curated `stopId` is not in the feed. The RTA
+  retires bay ids, and a dead pin must never be absorbed quietly.
+- Sabkha points at `Sabkha, Turnoff` (107001), Satwa at bay 9 (503009), Dubai Mall at 888807.
+
+### The shrink guard
+
+`publishTransport.ts` refused this feed outright — 6,360 hops against 6,435 — which was its rule
+working and its rule being wrong. A renumbering really does lose hops. It is now a 10% floor on
+hops and stops, which still catches a collapsed conversion, and the publisher prints which lines
+the refresh added and dropped.
+
+### The calendar is expired, and it does not matter
+
+`calendar.txt` runs 2025-08-29 to 2025-12-31. The converter reads it only for which services run
+on a Monday, never for whether a date is in range, so the typical-weekday times it quotes are
+unaffected: metro 05:00–23:56, tram 06:00–00:51.
