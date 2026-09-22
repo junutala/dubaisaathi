@@ -196,3 +196,62 @@ describe('the transport pack', () => {
     }
   });
 });
+
+/**
+ * Nol is charged by the zones a journey passes through, and these are the fares the RTA
+ * publishes for a Silver card. Transcribed from rta.ae on 22 September 2026; if one of these
+ * changes it is a tariff change and this test is what should be updated, deliberately.
+ */
+describe('what a journey costs', () => {
+  const station = (id: string) => {
+    const found = network.nodes.find((node) => node.id === id);
+    if (!found) throw new Error(`the pack has no station ${id}`);
+    return found;
+  };
+  const to = (id: string): DubaiPlace => ({
+    id,
+    name: { en: id, hi: id, aliases: [] },
+    kind: 'landmark',
+    location: station(id).location,
+  });
+  const ride = (from: string, dest: string) => {
+    const options = planRoutes(network, station(from).location, to(dest), BUNDLED_FARES);
+    const metro = options.find((option) => option.id === 'metro');
+    if (!metro) throw new Error(`no metro journey from ${from} to ${dest}`);
+    return metro;
+  };
+
+  it.each([
+    ['union', 'e-and', 3, 'both ends and everything between are zone 0005'],
+    ['burjuman', 'airport-t3', 5, 'zones 0006 and 0005'],
+    ['burjuman', 'mall-of-the-emirates', 5, 'zones 0006 and 0002'],
+    ['burjuman', 'expo', 7.5, 'zones 0006, 0002 and 0001'],
+    ['centrepoint', 'life-pharmacy', 7.5, 'the length of the Red Line and its branch'],
+  ])('%s → %s is AED %s (%s)', (from, dest, aed) => {
+    expect(ride(from, dest).fareAedMin).toBe(aed);
+  });
+
+  /**
+   * The bug this test exists for. `toLegs` collapses a whole ride on one line into a single leg
+   * and keeps only where the traveller boarded and alighted, so counting a leg's two ends counts
+   * the ends of the journey — the one thing the RTA's rule says not to do. BurJuman to Expo runs
+   * the length of zone 0002 without stopping at either end of it, and was priced at AED 5 for a
+   * AED 7.5 journey. Every fare still looked like a real published fare.
+   */
+  it('counts the zones a train passes through, not the two a traveller stands in', () => {
+    const long = ride('burjuman', 'expo');
+    const short = ride('burjuman', 'mall-of-the-emirates');
+    // Both are two stations on the Red Line; only the zones crossed separate them.
+    expect(long.fareAedMin).toBeGreaterThan(short.fareAedMin);
+    expect(long.route.legs.filter((leg) => leg.mode !== 'walk').length).toBeLessThanOrEqual(2);
+  });
+
+  it('never charges Dubai prices for a journey that leaves the Nol zones', () => {
+    // Sharjah, Ajman and Fujairah stops carry no Nol zone: their tariff is not in this pack.
+    const outside = network.nodes.filter((node) => node.zone === undefined);
+    expect(outside.length).toBeGreaterThan(0);
+    for (const node of outside) {
+      expect(node.name.en, node.id).toMatch(/Sharjah|Ajman|Fujairah|Masafi|Dhaid|Thoban/i);
+    }
+  });
+});

@@ -1,4 +1,4 @@
-import type { FarePack } from '@saathi/shared';
+import { NOL_CLASSES, type FarePack } from '@saathi/shared';
 import { packBody } from '../content/index.js';
 import shipped from '../../../../../data/transport/fares.v1.json';
 
@@ -15,7 +15,7 @@ import shipped from '../../../../../data/transport/fares.v1.json';
  * and a test can price a journey against a tariff that is not today's.
  */
 
-export type { FarePack } from '@saathi/shared';
+export type { FarePack, NolClass, ZoneFare } from '@saathi/shared';
 
 export const FARES_PACK_ID = 'fares';
 
@@ -33,14 +33,42 @@ export function parseFarePack(raw: unknown): FarePack {
     throw new Error('fare pack: no fareVersion');
   }
 
-  const bands: unknown = pack.transitBandsAed;
-  if (!Array.isArray(bands) || bands.length === 0) throw new Error('fare pack: no Nol bands');
-  for (const [at, entry] of (bands as unknown[]).entries()) {
-    const band = entry as Record<string, unknown>;
-    const maxKm = band.maxKm;
-    const aed = band.aed;
-    if (typeof maxKm !== 'number' || maxKm <= 0 || typeof aed !== 'number' || aed <= 0) {
-      throw new Error(`fare pack: Nol band ${String(at + 1)} is not a fare`);
+  const nol = pack.nol;
+  if (typeof nol !== 'object' || nol === null) throw new Error('fare pack: no Nol tariff');
+  const classes = nol as Record<string, unknown>;
+  for (const name of NOL_CLASSES) {
+    const tariff = classes[name];
+    if (typeof tariff !== 'object' || tariff === null) {
+      throw new Error(`fare pack: no ${name} tariff`);
+    }
+    const bands = tariff as Record<string, unknown>;
+    let last = 0;
+    for (const band of ['oneZone', 'twoZones', 'moreZones'] as const) {
+      const aed = bands[band];
+      if (typeof aed !== 'number' || !(aed > 0)) {
+        throw new Error(`fare pack: ${name} ${band} is not a fare`);
+      }
+      if (aed < last) {
+        // Every published tariff charges more for more zones. One that does not has had two
+        // columns transposed, which is silent and prices most journeys wrong.
+        throw new Error(`fare pack: ${name} charges less for ${band} than for fewer zones`);
+      }
+      last = aed;
+    }
+  }
+
+  const quote = pack.quote;
+  if (typeof quote !== 'string' || !(NOL_CLASSES as readonly string[]).includes(quote)) {
+    throw new Error('fare pack: quote must name one of the Nol classes');
+  }
+
+  const rules = pack.journeyRules;
+  if (typeof rules !== 'object' || rules === null) throw new Error('fare pack: no journeyRules');
+  const limits = rules as Record<string, unknown>;
+  for (const field of ['maxTransfers', 'maxJourneyMinutes', 'modeChangeMinutes'] as const) {
+    const limit = limits[field];
+    if (typeof limit !== 'number' || !(limit > 0)) {
+      throw new Error(`fare pack: journeyRules ${field} is not a limit`);
     }
   }
 
@@ -69,6 +97,21 @@ export function parseFarePack(raw: unknown): FarePack {
   }
 
   return raw as FarePack;
+}
+
+/**
+ * What Nol charges for a journey that passes through `zones` of them, on the class we quote.
+ *
+ * `undefined` where the journey leaves the Nol zones altogether — a bus to Sharjah, Ajman or
+ * Fujairah, or a marine crossing. Those run on a different tariff that this pack does not hold,
+ * and a Dubai fare printed on one would be a number the traveller is never charged.
+ */
+export function nolFareAed(fares: FarePack, zones: number): number | undefined {
+  if (!Number.isFinite(zones) || zones < 1) return undefined;
+  const tariff = fares.nol[fares.quote];
+  if (zones === 1) return tariff.oneZone;
+  if (zones === 2) return tariff.twoZones;
+  return tariff.moreZones;
 }
 
 /** The copy compiled into this build: the floor a first launch falls back to. */

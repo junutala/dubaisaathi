@@ -20,21 +20,7 @@
 import { createHash } from 'node:crypto';
 import { packDigestInput } from '@saathi/shared';
 import { readFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const here = dirname(fileURLToPath(import.meta.url));
-const data = resolve(here, '..', '..', '..', 'data');
-
-/** The packs that may be published, and the file each one is read from. */
-const PACKS = {
-  restaurants: resolve(data, 'restaurants', 'restaurants.v1.json'),
-  attractions: resolve(data, 'places', 'attractions.v1.json'),
-  transport: resolve(data, 'transport', 'network.v1.json'),
-  fares: resolve(data, 'transport', 'fares.v1.json'),
-} as const;
-
-type PackId = keyof typeof PACKS;
+import { PACK_FILES, checkPack, versionField, type PackId } from './packCheck.ts';
 
 interface Existing {
   readonly id: string;
@@ -46,42 +32,6 @@ function argOf(flag: string): string | undefined {
   return at < 0 ? undefined : process.argv[at + 1];
 }
 
-/** Where each pack keeps its rows. A tariff has none — it is checked by its own shape. */
-const ROWS_IN: Readonly<Record<PackId, string | null>> = {
-  restaurants: 'items',
-  attractions: 'items',
-  transport: 'nodes',
-  fares: null,
-};
-
-/**
- * A pack that will not parse, or that is empty, is not published. An empty `restaurants.v1.json`
- * is the normal state before the first collection day and must not replace a phone's copy with
- * nothing — the rule the whole product turns on is that a claim ships with its data (decision
- * 025), and publishing emptiness over a phone's outlets is that rule broken from our side.
- */
-function check(id: PackId, body: unknown): asserts body is Record<string, unknown> {
-  if (typeof body !== 'object' || body === null) throw new Error(`${id}: not an object`);
-
-  if (id === 'fares') {
-    const pack = body as { taxi?: { minimumAed?: unknown }; transitBandsAed?: unknown };
-    if (!Array.isArray(pack.transitBandsAed) || pack.transitBandsAed.length === 0) {
-      throw new Error('fares: no Nol bands — is this the right file?');
-    }
-    if (typeof pack.taxi?.minimumAed !== 'number') throw new Error('fares: no taxi tariff');
-    return;
-  }
-
-  const field = ROWS_IN[id];
-  const rows = field === null ? undefined : (body as Record<string, unknown>)[field];
-  if (id !== 'transport' && !Array.isArray(rows)) {
-    throw new Error(`${id}: no items array — is this the right file?`);
-  }
-  if (Array.isArray(rows) && rows.length === 0) {
-    throw new Error(`${id}: empty. Nothing is published over a phone's copy with nothing.`);
-  }
-}
-
 async function main(): Promise<void> {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -91,8 +41,8 @@ async function main(): Promise<void> {
   if (!dry && (!url || !key)) {
     throw new Error('SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required (or pass --dry)');
   }
-  if (only !== undefined && !(only in PACKS)) {
-    throw new Error(`--only must be one of ${Object.keys(PACKS).join(', ')}`);
+  if (only !== undefined && !(only in PACK_FILES)) {
+    throw new Error(`--only must be one of ${Object.keys(PACK_FILES).join(', ')}`);
   }
 
   const current = new Map<string, number>();
@@ -104,16 +54,15 @@ async function main(): Promise<void> {
     for (const row of (await response.json()) as Existing[]) current.set(row.id, row.version);
   }
 
-  for (const id of Object.keys(PACKS) as PackId[]) {
+  for (const id of Object.keys(PACK_FILES) as PackId[]) {
     if (only !== undefined && id !== only) continue;
-    const raw = await readFile(PACKS[id], 'utf8');
+    const raw = await readFile(PACK_FILES[id], 'utf8');
     const body: unknown = JSON.parse(raw);
-    check(id, body);
+    checkPack(id, body);
 
     // Each pack carries its own version under its own name: the tariff moves when a fare
     // changes, the network when a station does, and neither drags the other along.
-    const versioned = body as { contentVersion?: unknown; fareVersion?: unknown };
-    const own = id === 'fares' ? versioned.fareVersion : versioned.contentVersion;
+    const own = body[versionField(id)];
     const version = typeof own === 'number' && own > 0 ? own : (current.get(id) ?? 0) + 1;
     const bytes = Buffer.byteLength(raw, 'utf8');
     /**

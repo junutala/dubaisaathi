@@ -1,6 +1,13 @@
-import type { DubaiPlace, LatLng, Route, RouteLeg, TransportMode } from '@saathi/shared';
+import type {
+  DubaiPlace,
+  LatLng,
+  Route,
+  RouteLeg,
+  TransportMode,
+  TransportNode,
+} from '@saathi/shared';
 import { metresBetween, type TransportNetwork } from './network.js';
-import type { FarePack } from './fares.js';
+import { nolFareAed, type FarePack } from './fares.js';
 import { meteredMetres, taxiFareBand } from './taxiFare.js';
 
 /**
@@ -141,6 +148,8 @@ interface Prepared {
   readonly graph: Graph;
   readonly index: StopIndex;
   readonly headway: ReadonlyMap<string, number>;
+  /** Every stop by id — built here anyway, and the fare needs it for each hop's zone. */
+  readonly byId: ReadonlyMap<string, TransportNode>;
 }
 
 /**
@@ -192,7 +201,7 @@ function prepare(network: TransportNetwork): Prepared {
     if (line.headwaySeconds !== undefined) headway.set(line.id, line.headwaySeconds);
   }
 
-  const result = { graph, index, headway };
+  const result = { graph, index, headway, byId };
   prepared.set(network, result);
   return result;
 }
@@ -362,12 +371,35 @@ function toLegs(steps: readonly Step[]): readonly PlannedLeg[] {
   return legs;
 }
 
-function fareForDistance(fares: FarePack, metres: number): number {
-  const km = metres / 1000;
-  for (const band of fares.transitBandsAed) {
-    if (km <= band.maxKm) return band.aed;
+/**
+ * The Nol zones a journey passes through — the only thing its fare depends on.
+ *
+ * Every stop the traveller is carried through counts, not just the two ends: the RTA charges on
+ * "the total number of zones you have passed". A metro trip and a bus trip taken together are
+ * one journey over the zones of both, which falls out of counting the whole ride at once.
+ *
+ * `null` where any part of the ride leaves the Nol zones — a bus into Sharjah or Ajman. That
+ * journey is on a different tariff and this pack cannot price it.
+ */
+function zonesPassed(
+  ready: Prepared,
+  steps: readonly Step[],
+  ridden: readonly TransportMode[],
+): number | null {
+  const zones = new Set<string>();
+  for (const step of steps) {
+    if (!ridden.includes(step.link.mode)) continue;
+    // Every hop, not every leg: `toLegs` collapses a whole ride on one line into a single leg
+    // and keeps only where the traveller got on and off. Counting those two would be counting
+    // the ends of the journey, which is the one thing the RTA's rule says not to do — the
+    // Red Line from BurJuman to Expo passes through zone 2 without stopping at either end of it.
+    for (const nodeId of [step.from, step.link.to]) {
+      const zone = ready.byId.get(nodeId)?.zone;
+      if (zone === undefined) return null;
+      zones.add(zone);
+    }
   }
-  return fares.transitBandsAed.at(-1)?.aed ?? 0;
+  return zones.size === 0 ? null : zones.size;
 }
 
 function assemble(id: RouteOptionId, legs: readonly PlannedLeg[], fare: number): RouteOption {
@@ -450,8 +482,11 @@ export function planRoutes(
     // would put "मेट्रो" on a card with no train in it.
     const ridden = legs.filter((leg) => rides.includes(leg.mode));
     if (ridden.length === 0) continue;
-    const riddenM = ridden.reduce((sum, leg) => sum + leg.distanceM, 0);
-    candidates.push(assemble(id, legs, fareForDistance(fares, riddenM)));
+    const zones = zonesPassed(ready, steps, rides);
+    // A journey we cannot price is still a journey worth showing: the steps and the time are
+    // right, and a fare of nothing says so rather than inventing a Dubai price for Sharjah.
+    const fare = zones === null ? undefined : nolFareAed(fares, zones);
+    candidates.push(assemble(id, legs, fare ?? 0));
   }
 
   if (directM <= DIRECT_WALK_METRES) {

@@ -79,6 +79,17 @@ const MODE_OF_ROUTE_TYPE: Readonly<Record<string, TransportMode>> = {
   '3': 'bus',
 };
 
+/**
+ * Dubai's seven Nol zones, as `stops.txt` labels them.
+ *
+ * The feed puts a `zone_id` on every stop, but not all of them are Nol zones: the Sharjah,
+ * Ajman and Fujairah stops carry their own stop id in that column, and the marine stations
+ * carry theirs. Those journeys are priced by a different tariff altogether, so a stop outside
+ * this set carries no zone rather than a wrong one — the fare then says it does not know,
+ * which is the only honest answer for a bus to Ajman.
+ */
+const NOL_ZONES = new Set(['0001', '0002', '0003', '0004', '0005', '0006', '0007']);
+
 /** A rail platform this close to a curated station, or a bus stop this close to a curated bus station, takes its name. */
 const CURATED_RAIL_METRES = 300;
 const CURATED_BUS_METRES = 150;
@@ -92,6 +103,8 @@ interface Stop {
   readonly id: string;
   readonly name: string;
   readonly location: LatLng;
+  /** The Nol zone the RTA puts this stop in, when it is one of Dubai's seven. */
+  readonly zone: string | undefined;
 }
 
 interface Trip {
@@ -207,7 +220,13 @@ function readStops(feed: GtfsFiles): Map<string, Stop> {
     const lng = Number(row.stop_lon);
     const id = row.stop_id ?? '';
     if (!Number.isFinite(lat) || !Number.isFinite(lng) || id === '') continue;
-    stops.set(id, { id, name: tidy(row.stop_name ?? ''), location: { lat, lng } });
+    const zone = row.zone_id ?? '';
+    stops.set(id, {
+      id,
+      name: tidy(row.stop_name ?? ''),
+      location: { lat, lng },
+      zone: NOL_ZONES.has(zone) ? zone : undefined,
+    });
   }
   return stops;
 }
@@ -329,6 +348,14 @@ interface Station {
   location: LatLng;
 }
 
+/** A station's zone is whatever its platforms agree on; they are metres apart, so they do. */
+function zoneOf(stopIds: readonly string[], stops: ReadonlyMap<string, Stop>): string | undefined {
+  const votes = stopIds
+    .map((id) => stops.get(id)?.zone)
+    .filter((zone): zone is string => zone !== undefined);
+  return votes.length === 0 ? undefined : mostCommon(votes);
+}
+
 /**
  * Rail platforms → stations. Group by the feed's stop-id prefix (one station's platforms share
  * it), then merge groups that carry the same name and stand together: BurJuman's Red Line
@@ -447,11 +474,13 @@ export function toTransportNetwork(feed: GtfsFiles, options: ConvertOptions): Tr
       station.name,
       `${station.mode}-${slug(station.name)}`,
     );
+    const zone = zoneOf(station.stopIds, stops);
     nodes.set(id, {
       id,
       name,
       location: { lat: round5(station.location.lat), lng: round5(station.location.lng) },
       modes: [station.mode],
+      ...(zone === undefined ? {} : { zone }),
     });
     for (const stopId of station.stopIds) nodeOfStop.set(stopId, id);
   }
@@ -483,6 +512,7 @@ export function toTransportNetwork(feed: GtfsFiles, options: ConvertOptions): Tr
       name,
       location: { lat: round5(stop.location.lat), lng: round5(stop.location.lng) },
       modes: ['bus'],
+      ...(stop.zone === undefined ? {} : { zone: stop.zone }),
     });
     nodeOfStop.set(stopId, id);
     return id;
