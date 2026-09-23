@@ -214,6 +214,7 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
 | Payments     | UPI-first INR aggregator (Razorpay / Cashfree / PhonePe PG): order → intent or QR → webhook                                                                                                                                         |
 | Speech       | Online only, in बोलना: Sarvam `saaras:v3` behind the `listen` function; no mic elsewhere (020)                                                                                                                                      |
 | Card reading | QR first (BarcodeDetector, else jsQR), then tesseract.js in a worker on the phone, घर.1 only; fetched on first use, kept in its own cache (032)                                                                                     |
+| Menu reading | Claude, reading the page images at review (033): pulled by the `Pull menu pages for review` workflow onto `menu-pages`, never tesseract                                                                                             |
 
 Deviating from this table needs a reason recorded in `docs/decisions/`.
 
@@ -559,7 +560,9 @@ delivery app".
    days, pull the approved rows, publish, deploy. **Every report from Dubai is real, whatever the
    collector's name** (the owner, 23 September: the "arun" rehearsal rule ended on 22 September;
    he collects himself to gauge the response). His first walk, 23 September, pinned forms
-   0001–0026 in Bur Dubai around Meena Bazaar. Rows from India are flagged outside-dubai by the
+   0001–0026 in Bur Dubai around Meena Bazaar. That evening four were keyed and **read by Claude**
+   (decision 033): 0002 Buhari, 0004 FoodBowl, 0013 Sita Ram, 0014 Woodlands — the other 22 are
+   keyed and read the same way. Rows from India are flagged outside-dubai by the
    outlet function; publishing is by hand, never automatic.
 2. **Buying a pass.** Built (decision 019): `order` creates the Razorpay order and answers the
    phone's polling for its status; `webhook` verifies Razorpay's signature, signs one pass per
