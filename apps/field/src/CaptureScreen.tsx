@@ -98,7 +98,8 @@ export function CaptureScreen({
   const [pins, setPins] = useState<readonly WaitingPin[]>([]);
   const [pin, setPin] = useState<WaitingPin | null>(null);
   const [menu, setMenu] = useState<Blob[]>([]);
-  const [pdf, setPdf] = useState<'opening' | 'failed' | null>(null);
+  /** A PDF being opened, or the reason one would not: a bare "would not open" cannot be fixed. */
+  const [pdf, setPdf] = useState<{ readonly failed?: string } | null>(null);
 
   const [diet, setDiet] = useState<Record<string, Answer>>({});
   const [dishes, setDishes] = useState<ConfirmedDish[]>([]);
@@ -574,8 +575,8 @@ export function CaptureScreen({
           multiple
           onPick={(f) => {
             // Files in the order picked; a PDF becomes its pages, in its own order.
-            const anyPdf = f.some(isPdf);
-            if (anyPdf) setPdf('opening');
+            const pdfs = f.filter(isPdf);
+            if (pdfs.length > 0) setPdf({});
             void Promise.all(
               f.map((file) =>
                 isPdf(file) ? pdfPages(file, MENU) : shrink(file, MENU).then((b) => [b]),
@@ -585,14 +586,20 @@ export function CaptureScreen({
                 setMenu((was) => [...was, ...pages.flat()]);
                 setPdf(null);
               },
-              () => {
-                setPdf('failed');
+              (error: unknown) => {
+                const size = pdfs.map((file) => `${file.name}, ${kb(file.size)}`).join('; ');
+                const why = error instanceof Error ? error.message : String(error);
+                setPdf({ failed: `${size} — ${why}` });
               },
             );
           }}
         />
         {pdf !== null && (
-          <p className="hint">{t(pdf === 'opening' ? 'menuPdfOpening' : 'menuPdfFailed')}</p>
+          <p className="hint">
+            {pdf.failed === undefined
+              ? t('menuPdfOpening')
+              : t('menuPdfFailed', { why: pdf.failed })}
+          </p>
         )}
         {menu.length > 0 && (
           <p className="hint">
