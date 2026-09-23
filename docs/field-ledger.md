@@ -62,13 +62,14 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 | यहीं पिन लगाएँ                             | On the first screen, because a pin below the fold is a pin nobody presses                         |
 | सबमिट करें                                 | The one thing that finishes the step; reads the card, and goes on even when it could not          |
 | "सब कुछ आपके फ़ोन पर ही रहता है"           | Why it is safe to photograph a card here — it is read on the phone, not sent to be read           |
+| होटल हटाएँ, the bin, once there is a hotel | Theirs to remove from either step, in the header, where it costs no row                           |
 
 **What the card said**
 
 | Field                                     | Why it is there                                                                               |
 | ----------------------------------------- | --------------------------------------------------------------------------------------------- |
 | The two sides, small; tap to retake       | The card is what a driver reads; a better photograph reads again and fills what is empty      |
-| Earlier photos, only if a phone has them  | Taken before 23 September and still theirs; a release never takes something away              |
+| Earlier photos, only if a phone has them  | Taken before 23 September and still theirs; removing one asks first, because it cannot return |
 | "आपके कार्ड से पढ़ा गया", beside the card | A value the traveller did not type says where it came from (design rule 30)                   |
 | पढ़ा नहीं जा सका / सिग्नल चाहिए           | What the phone actually said, and that the boxes still work; reads itself when signal returns |
 | होटल                                      | Read from the card's own web address; the strip and जाना say it                               |

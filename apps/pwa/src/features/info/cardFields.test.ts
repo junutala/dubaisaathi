@@ -184,7 +184,7 @@ describe('reading a hotel card into its fields', () => {
   it('leaves the name empty when two lines could each be it', () => {
     const lines = read(
       `Palm Heights Hotel
-      Sister property of Creek View Residence`,
+      Sister property of Golden Sands Residence`,
     );
     expect(cardFields(lines).name).toBeUndefined();
   });
@@ -224,6 +224,56 @@ describe('reading a hotel card into its fields', () => {
     expect(cardFields(lines).address).toBe(
       'Al Rigga Road, Deira, Building 18, Discovery Gardens, Dubai',
     );
+  });
+
+  it('knows a fax by its label however long the label is', () => {
+    expect(cardFields(read('Fax No.: 04 111 2222 | Telephone: 04 335 7210')).phone).toBe(
+      '+971 4 335 7210',
+    );
+    expect(cardFields(read('Facsimile: 04 111 2222')).phone).toBeUndefined();
+    expect(cardFields(read('Tel.: 04 335 7210')).phone).toBe('+971 4 335 7210');
+  });
+
+  it('never makes a Dubai number out of seven bare digits nobody labelled a telephone', () => {
+    expect(cardFields(read('Plot 3456789, Al Quoz')).phone).toBeUndefined();
+    expect(cardFields(read('Licence 7654321')).phone).toBeUndefined();
+  });
+
+  it('keeps the street when the hotel is named after it', () => {
+    const lines = read(
+      `AL RIGGA HOTEL
+      www.alriggahotel.com
+      Al Rigga Road, Deira`,
+    );
+    expect(cardFields(lines)).toMatchObject({
+      name: 'Al Rigga Hotel',
+      address: 'Al Rigga Road, Deira, Dubai',
+    });
+  });
+
+  it('keeps street names with hyphens, apostrophes and ordinals', () => {
+    expect(cardFields(read('Al-Rigga Road, Deira')).address).toBe('Al-Rigga Road, Deira, Dubai');
+    expect(cardFields(read("2nd Street, Za'abeel Road")).address).toBe(
+      "2nd Street, Za'abeel Road, Dubai",
+    );
+  });
+
+  it('never takes a landmark in the address for the hotel', () => {
+    const lines = read(
+      `Near Clock Tower
+      Opp. BurJuman Tower, Bur Dubai`,
+    );
+    expect(cardFields(lines).name).toBeUndefined();
+    expect(cardFields(lines).address).toContain('Clock Tower');
+  });
+
+  it("takes the card's own name over a chain's brand", () => {
+    const lines = read(
+      `ROTANA
+      Al Bandar Rotana - Dubai Creek
+      www.rotana.com`,
+    );
+    expect(cardFields(lines).name).toBe('Al Bandar Rotana');
   });
 
   it('finds nothing on a card it could not read, and says nothing rather than guessing', () => {

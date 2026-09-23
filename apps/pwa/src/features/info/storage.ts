@@ -47,6 +47,7 @@ const LISTED: Record<HotelField, true> = {
   cardPhoto: true,
   cardBack: true,
   submittedAt: true,
+  cardUnread: true,
   gatePhoto: true,
   photos: true,
 };

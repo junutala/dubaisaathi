@@ -24,7 +24,7 @@ import { readable, textRunsSideways, toGrey, type Grey } from './cardImage.js';
  */
 
 /** Where the Dockerfile puts the worker, the core and eng.traineddata.gz. Versioned, so immutable. */
-export const OCR_PATH = '/ocr/v7/';
+const OCR_PATH = '/ocr/v7/';
 
 export interface CardReading {
   readonly lines: readonly CardLine[];
@@ -52,14 +52,39 @@ export function turnsFor(looksSideways: boolean): readonly number[] {
   return looksSideways ? [90, 270, 0, 180] : [0, 90, 270, 180];
 }
 
-export async function readCard(
-  photos: readonly Blob[],
-  onProgress?: (fraction: number) => void,
-): Promise<CardReading> {
+/**
+ * How long the engine may take to start: the first time it is ~4.5 MB over the phone's own
+ * connection; after that it comes off the phone in seconds. Without a limit, an engine whose
+ * English could not be fetched never answers at all, and Submit would say "Reading…" for ever.
+ */
+const START_MS = { online: 120_000, offline: 25_000 };
+/** How long one reading of one side may take on a slow phone. */
+const READ_MS = 60_000;
+
+/** The promise, or a refusal after `ms` — the engine's silence is an answer too. */
+function within<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = window.setTimeout(() => {
+      reject(new Error('the card reader did not answer'));
+    }, ms);
+    promise.then(
+      (value) => {
+        window.clearTimeout(timer);
+        resolve(value);
+      },
+      (error: unknown) => {
+        window.clearTimeout(timer);
+        reject(error instanceof Error ? error : new Error(String(error)));
+      },
+    );
+  });
+}
+
+export async function readCard(photos: readonly Blob[]): Promise<CardReading> {
   if (photos.length === 0) return { lines: [], failed: false };
   try {
     const { createWorker } = await import('tesseract.js');
-    const worker = await createWorker('eng', 1, {
+    const starting = createWorker('eng', 1, {
       workerPath: `${OCR_PATH}worker.min.js`,
       corePath: OCR_PATH,
       langPath: OCR_PATH,
@@ -67,6 +92,14 @@ export async function readCard(
       // A worker from our own origin, not from a blob: the app's policy allows the first only.
       workerBlobURL: false,
     });
+    let worker: Awaited<typeof starting>;
+    try {
+      worker = await within(starting, navigator.onLine ? START_MS.online : START_MS.offline);
+    } catch (error) {
+      // Given up on: if it starts after all, it is stopped rather than left holding a thread.
+      void starting.then((late) => late.terminate()).catch(() => undefined);
+      throw error;
+    }
     try {
       // A phone photograph carries no resolution the engine believes, and it guesses 25 dpi —
       // at which a photographed card read as noise on 23 September and read whole at 300. The
@@ -74,22 +107,20 @@ export async function readCard(
       // three desk numbers in twelve cards and the whole-card one misread none.
       await worker.setParameters({ user_defined_dpi: '300' });
       const lines: CardLine[] = [];
-      for (const [index, photo] of photos.entries()) {
+      for (const photo of photos) {
         const grey = readable(await greyOf(photo));
         let best: { lines: CardLine[]; sure: number } | undefined;
         for (const turn of turnsFor(textRunsSideways(grey))) {
           // `rotateAuto` straightens the few degrees a hand tilts a card; the turns do the rest.
-          const { data } = await worker.recognize(
-            canvasOf(grey, turn),
-            { rotateAuto: true },
-            { blocks: true },
+          const { data } = await within(
+            worker.recognize(canvasOf(grey, turn), { rotateAuto: true }, { blocks: true }),
+            READ_MS,
           );
           const read = linesOf(data.blocks ?? []);
           if (best === undefined || read.sure > best.sure) best = read;
           if (read.sure >= SURE_WORDS) break;
         }
         lines.push(...(best?.lines ?? []));
-        onProgress?.((index + 1) / photos.length);
       }
       return { lines, failed: false };
     } finally {

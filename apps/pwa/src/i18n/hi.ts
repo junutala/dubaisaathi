@@ -88,6 +88,7 @@ export const hi = {
   'hotel.readFailed': 'यह फ़ोन कार्ड नहीं पढ़ पाया। जो बाक़ी है, लिख दें।',
   'hotel.readOffline': 'पढ़ने के लिए एक बार सिग्नल चाहिए। सिग्नल आते ही ख़ुद पढ़ लेगा।',
   'hotel.photoOlder': 'होटल की पहले की फ़ोटो',
+  'hotel.photoOlderRemove': 'यह फ़ोटो फ़ोन से हटा दें? फिर वापस नहीं आएगी।',
   'hotel.name': 'होटल',
   'hotel.namePlaceholder': 'होटल का नाम',
   'hotel.room': 'कमरा',

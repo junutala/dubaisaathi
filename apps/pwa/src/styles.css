@@ -330,6 +330,11 @@ button:not(:disabled) {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+/* A screen's own action at the far end of the header: 48 px, design rule 26. */
+.hdr-action {
+  width: 48px;
+  height: 48px;
+}
 .hdr-trail {
   font-size: 13px;
   color: var(--muted);
@@ -968,6 +973,11 @@ button:not(:disabled) {
 .hotel-card {
   aspect-ratio: 1.6;
   cursor: pointer;
+}
+/* While the card is read, its sides are held still. */
+.hotel-cards-busy {
+  pointer-events: none;
+  opacity: 0.6;
 }
 .hotel-card-empty {
   position: absolute;

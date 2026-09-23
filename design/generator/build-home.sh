@@ -121,7 +121,7 @@ strip running none
 header pin "$marigold" 'मेरा होटल'
 cat <<H
   <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 10px; padding: 6px 16px 12px 16px;">
-    <span style="font-size: 14.5px; line-height: 1.4; color: $ink;">रिसेप्शन के कार्ड के दोनों तरफ़ की फ़ोटो लें और होटल पर पिन लगाएँ। बाक़ी कार्ड से भर जाएगा।</span>
+    <span style="font-size: 14.5px; line-height: 1.4; color: $ink;">कार्ड के दोनों तरफ़ की फ़ोटो लें और होटल पर पिन लगाएँ। बाक़ी कार्ड से भर जाएगा।</span>
     <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
       $(photo 106 'कार्ड · आगे')
       $(photo 106 'कार्ड · पीछे')

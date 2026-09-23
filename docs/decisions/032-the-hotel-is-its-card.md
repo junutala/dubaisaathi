@@ -67,8 +67,12 @@ under the lockfile, so the build fetches nothing from a host of anybody else's. 
 slow on a real phone, `fast` is the first thing to try.
 
 With no signal the first time, the screen says the card needs a signal once, the boxes stay live,
-and the card is read by itself the moment the phone comes back online — a listener of its own,
-because nothing else on the screen would notice.
+and the hotel is marked `cardUnread`. The card is then read by itself at launch and every time the
+phone comes back online, from whichever screen the traveller is on — a job of the app's, started at
+boot like the outbox, because a listener on घर.1 dies when the traveller leaves it. The engine is
+given two minutes to start online and twenty-five seconds offline, and a minute a side to read: an
+engine whose English could not be fetched never answers at all, and Submit must not say
+"Reading…" for ever.
 
 ## How it reads, and what was measured
 

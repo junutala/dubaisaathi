@@ -48,6 +48,11 @@ export interface SavedHotel {
    */
   readonly submittedAt?: Timestamp;
   /**
+   * The card could not be read when it was submitted — no signal the first time, or the engine
+   * would not start. Read again at launch and whenever the signal returns, from any screen.
+   */
+  readonly cardUnread?: boolean;
+  /**
    * The front of the building, from before 23 September. Nothing asks for it now; a phone that
    * holds one keeps it until the traveller removes it, because a release never takes something
    * away from a phone.

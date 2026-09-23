@@ -10,8 +10,7 @@ import { areaFor } from './nearestArea.js';
 import { pinHere } from './pin.js';
 import { insideDubai } from '../../lib/dubai.js';
 import type { SavedHotel } from './records.js';
-import { cardFields, type CardFields } from './cardFields.js';
-import { readCard } from './readCard.js';
+import { currentReading, readHotelCard, watchReading, type ReadOutcome } from './cardReading.js';
 import { deleteHotel, saveHotelCapture, type HotelCapture } from './storage.js';
 
 /**
@@ -27,82 +26,33 @@ import { deleteHotel, saveHotelCapture, type HotelCapture } from './storage.js';
  * On the phone and nowhere else (decision 003): the card is read here, not sent to be read.
  */
 export function HotelScreen({ hotel }: { readonly hotel: SavedHotel | undefined }) {
-  /** What the last reading came to, said once on the second step. */
-  const [outcome, setOutcome] = useState<ReadOutcome>();
-  const [reading, setReading] = useState(false);
+  const { online } = useSettings();
+  /** What the last reading came to — the app's, not this screen's: a card can be read anywhere. */
+  const [reading, setReading] = useState(currentReading);
+  useEffect(() => watchReading(setReading), []);
 
-  /**
-   * Reads whichever sides are given and fills only what is still empty — a value the traveller
-   * typed is theirs, and a second reading never writes over it.
-   */
-  const read = async (photos: readonly Blob[], current: SavedHotel | undefined) => {
-    setReading(true);
-    const result = await readCard(photos);
-    const found = cardFields(result.lines);
-    const capture: { -readonly [K in keyof CardFields]: CardFields[K] } = {};
-    for (const field of FILLED) {
-      const value = found[field];
-      if (value !== undefined && (current?.[field] ?? '').trim() === '') capture[field] = value;
-    }
-    const saved = await saveHotelCapture({ ...capture, submittedAt: new Date().toISOString() });
-    setReading(false);
-    setOutcome(
-      result.failed
-        ? navigator.onLine
-          ? 'failed'
-          : 'offline'
-        : Object.keys(found).length > 0
-          ? 'read'
-          : photos.length > 0
-            ? 'nothing'
-            : undefined,
-    );
-    return saved;
-  };
+  // A card still waiting to be read says so, even on a later visit or after a restart.
+  const outcome: ReadOutcome | undefined =
+    reading ?? (hotel?.cardUnread === true ? (online ? 'failed' : 'offline') : undefined);
 
-  /*
-   * A card that could not be read for want of a signal is read the moment the signal returns
-   * — its own listener, because nothing else on this screen would notice (CLAUDE.md: a moment
-   * the app waits for must be a moment the app can notice).
-   */
-  const latest = useRef(hotel);
-  latest.current = hotel;
-  useEffect(() => {
-    if (outcome !== 'offline') return;
-    const again = () => {
-      const now = latest.current;
-      void read(cardsOf(now), now);
-    };
-    window.addEventListener('online', again, { once: true });
-    return () => {
-      window.removeEventListener('online', again);
-    };
-  }, [outcome]);
-
-  const submitted = hotel !== undefined && (hotel.submittedAt !== undefined || hasWords(hotel));
-  return submitted ? (
+  return hotel !== undefined && pastTheCard(hotel) ? (
     <HotelDetails
       hotel={hotel}
-      outcome={reading ? 'reading' : outcome}
+      outcome={outcome}
       onRetake={(capture) => {
-        void saveHotelCapture(capture).then((saved) => read(cardsOf(saved), saved));
+        void saveHotelCapture(capture).then(() => readHotelCard());
       }}
     />
   ) : (
     <HotelCard
       hotel={hotel}
-      reading={reading}
+      reading={reading === 'reading'}
       onSubmit={() => {
-        void read(cardsOf(hotel), hotel);
+        void readHotelCard();
       }}
     />
   );
 }
-
-/** The three fields a card can fill. The room is never on one. */
-const FILLED = ['name', 'phone', 'address'] as const;
-
-type ReadOutcome = 'reading' | 'read' | 'nothing' | 'failed' | 'offline';
 
 const OUTCOME_LINE: Record<ReadOutcome, StringKey> = {
   reading: 'hotel.reading',
@@ -112,14 +62,40 @@ const OUTCOME_LINE: Record<ReadOutcome, StringKey> = {
   offline: 'hotel.readOffline',
 };
 
-function cardsOf(hotel: SavedHotel | undefined): Blob[] {
-  return [hotel?.cardPhoto, hotel?.cardBack].filter((blob): blob is Blob => blob !== undefined);
+/**
+ * Whether घर.1 opens on what the card said rather than on the card. Submitted, or a hotel from
+ * before the card screen with words or photographs in it — step one would hide those, and a
+ * photograph that cannot be seen looks deleted.
+ */
+function pastTheCard(hotel: SavedHotel): boolean {
+  return (
+    hotel.submittedAt !== undefined ||
+    hotel.gatePhoto !== undefined ||
+    (hotel.photos?.length ?? 0) > 0 ||
+    [hotel.name, hotel.room, hotel.phone, hotel.address, hotel.note].some(
+      (value) => (value ?? '').trim() !== '',
+    )
+  );
 }
 
-/** A hotel someone has already written into, from before the card screen existed. */
-function hasWords(hotel: SavedHotel): boolean {
-  return [hotel.name, hotel.room, hotel.phone, hotel.address, hotel.note].some(
-    (value) => (value ?? '').trim() !== '',
+/** होटल हटाएँ, at the far end of the header on both steps. */
+function RemoveHotel({ onRemove }: { readonly onRemove?: () => void }) {
+  const { t } = useSettings();
+  return (
+    <button
+      type="button"
+      className="hdr-btn hdr-action"
+      aria-label={t('hotel.delete')}
+      title={t('hotel.delete')}
+      onClick={() => {
+        onRemove?.();
+        void deleteHotel().then(() => {
+          navigate({ screen: 'home' });
+        });
+      }}
+    >
+      <Icon name="trash" size={21} strokeWidth={1.9} />
+    </button>
   );
 }
 
@@ -136,10 +112,17 @@ function HotelCard({
   const { t } = useSettings();
   return (
     <>
-      <ScreenHeader pillar="home" icon="pin" title={t('hotel.title')} />
+      <ScreenHeader
+        pillar="home"
+        icon="pin"
+        title={t('hotel.title')}
+        action={hotel !== undefined ? <RemoveHotel /> : undefined}
+      />
       <div className="flow hotel-flow">
         <p className="hotel-lead">{t('hotel.cardLead')}</p>
-        <div className="hotel-cards">
+        {/* Held still while the card is read: a side changed mid-reading would be kept while the
+            boxes filled from the side it replaced. */}
+        <div className={reading ? 'hotel-cards hotel-cards-busy' : 'hotel-cards'}>
           <CardSide
             blob={hotel?.cardPhoto}
             caption={t('hotel.cardFront')}
@@ -179,30 +162,67 @@ function HotelDetails({
   const { t } = useSettings();
   const [fields, setFields] = useState(() => textOf(hotel));
   const timer = useRef<number | undefined>(undefined);
-  /** The boxes typed into since the last save — while any is waiting, a reading does not undo it. */
-  const dirty = useRef(new Set<TextField>());
+  /** The boxes typed into since the last save, and what they held. */
+  const pending = useRef<Partial<Record<TextField, string>>>({});
 
+  /*
+   * The boxes follow the saved hotel — a reading that lands, a retake — except where the box
+   * already says it. A box saved trimmed ("Al" for "Al ") keeps its space, or the next word
+   * would run into the last.
+   */
   useEffect(() => {
-    if (dirty.current.size === 0) setFields(textOf(hotel));
+    setFields((shown) => {
+      const saved = textOf(hotel);
+      const next = { ...saved };
+      for (const field of TEXT_FIELDS) {
+        if (pending.current[field] !== undefined || shown[field].trim() === saved[field]) {
+          next[field] = shown[field];
+        }
+      }
+      return next;
+    });
   }, [hotel]);
 
+  const save = () => {
+    window.clearTimeout(timer.current);
+    const typed = pending.current;
+    pending.current = {};
+    if (Object.keys(typed).length === 0) return;
+    const change: Partial<Record<TextField, string | undefined>> = {};
+    for (const field of TEXT_FIELDS) {
+      const value = typed[field];
+      if (value === undefined) continue;
+      // An emptied box is no value, not an empty one: '' would reach जाना as a hotel with no name.
+      change[field] = value.trim() === '' ? undefined : value.trim();
+    }
+    // Typing is past the card, so the screen stays on this step even if every box is emptied.
+    void saveHotelCapture({
+      ...change,
+      submittedAt: hotel.submittedAt ?? new Date().toISOString(),
+    });
+  };
+
+  /*
+   * Leaving the screen saves what was typed a moment ago rather than dropping it; removing the
+   * hotel cancels it, so a keystroke cannot bring back a hotel the traveller has just removed.
+   */
+  const saveRef = useRef(save);
+  saveRef.current = save;
+  useEffect(
+    () => () => {
+      saveRef.current();
+    },
+    [],
+  );
+
   const typeInto = (field: TextField, value: string) => {
-    const next = { ...fields, [field]: value };
-    setFields(next);
-    dirty.current.add(field);
+    setFields((shown) => ({ ...shown, [field]: value }));
+    pending.current = { ...pending.current, [field]: value };
     window.clearTimeout(timer.current);
     // Saved a moment after the last keystroke, not on every one: a phone should not write a row
     // per letter, and the traveller should not have to find a button. Only the boxes typed into
     // are written, so a card reading that lands meanwhile keeps what it found in the others.
-    timer.current = window.setTimeout(() => {
-      const change: Partial<Record<TextField, string | undefined>> = {};
-      for (const typed of dirty.current) {
-        const text = next[typed].trim();
-        change[typed] = text === '' ? undefined : text;
-      }
-      dirty.current.clear();
-      void saveHotelCapture(change);
-    }, 400);
+    timer.current = window.setTimeout(save, 400);
   };
 
   const older = [
@@ -217,19 +237,12 @@ function HotelDetails({
         icon="pin"
         title={t('hotel.title')}
         action={
-          <button
-            type="button"
-            className="hdr-btn"
-            aria-label={t('hotel.delete')}
-            title={t('hotel.delete')}
-            onClick={() => {
-              void deleteHotel().then(() => {
-                navigate({ screen: 'home' });
-              });
+          <RemoveHotel
+            onRemove={() => {
+              window.clearTimeout(timer.current);
+              pending.current = {};
             }}
-          >
-            <Icon name="trash" size={21} strokeWidth={1.9} />
-          </button>
+          />
         }
       />
       <div className="flow hotel-flow">
@@ -290,6 +303,7 @@ function HotelDetails({
 }
 
 type TextField = 'name' | 'room' | 'phone' | 'address' | 'note';
+const TEXT_FIELDS: readonly TextField[] = ['name', 'room', 'phone', 'address', 'note'];
 
 function textOf(hotel: SavedHotel): Record<TextField, string> {
   return {
@@ -397,8 +411,8 @@ function PinBox({
         setRefused('hotel.pinOutsideDubai');
         return;
       }
-      const area = areaFor(result.at);
-      void saveHotelCapture(area ? { pin: result.at, area } : { pin: result.at });
+      // The area goes with the pin: a new pin where no area is known must not keep the old one's.
+      void saveHotelCapture({ pin: result.at, area: areaFor(result.at) });
     });
   };
 
@@ -486,7 +500,10 @@ function OlderPhoto({ blob, onRemove }: { readonly blob: Blob; readonly onRemove
     <button
       type="button"
       className="hotel-older"
-      onClick={onRemove}
+      onClick={() => {
+        // A photograph goes for good, so the one tap that removes it asks first.
+        if (window.confirm(t('hotel.photoOlderRemove'))) onRemove();
+      }}
       aria-label={`${t('docView.delete')} · ${t('hotel.photoOlder')}`}
     >
       {url && <img src={url} alt={t('hotel.photoOlder')} />}

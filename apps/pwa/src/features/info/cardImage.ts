@@ -42,11 +42,18 @@ function middle(grey: Grey): number[] {
 
 /**
  * A card printed light on dark. Judged on the middle of the frame, because a white card on a dark
- * table is still a white card.
+ * table is still a white card — and by which side of the ink's threshold most of the card is on,
+ * not by how bright it is: a white card in a dim lobby is dim, and still has dark print on it.
  */
 export function isDarkCard(grey: Grey): boolean {
   const values = middle(grey);
-  return (values[Math.floor(values.length / 2)] ?? 255) < 110;
+  const threshold = inkThreshold({
+    width: values.length,
+    height: 1,
+    pixels: Uint8Array.from(values),
+  });
+  const darker = values.filter((value) => value <= threshold).length;
+  return darker * 2 > values.length;
 }
 
 /**
