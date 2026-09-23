@@ -312,7 +312,8 @@ input.short {
 
 /* ---- the mode switch, and the rider's screen (decision 029) ---------------------------- */
 
-/* Set once by whoever hands the phone over, then furniture. */
+/* Set once by whoever hands the phone over, then furniture. Each button says its name: two bare
+   icons hid the desk form from the owner himself (23 September). */
 .mode {
   display: flex;
   justify-content: flex-end;
@@ -320,11 +321,13 @@ input.short {
   padding: 8px 14px 0;
 }
 .mode-btn {
-  width: 38px;
   height: 34px;
+  padding: 0 11px;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
+  font-size: 14px;
   border-radius: 10px;
   border: 1px solid var(--line);
   background: transparent;
