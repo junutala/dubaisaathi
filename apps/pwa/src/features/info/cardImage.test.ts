@@ -51,6 +51,13 @@ describe('getting a card photograph ready to read', () => {
     expect(isDarkCard(card())).toBe(false);
   });
 
+  it('does not take a white card in a dim lobby for a dark one', () => {
+    // Paper at 95, print at 20: dim, and still dark print on a light card.
+    const dim = card();
+    const pixels = Uint8Array.from(dim.pixels, (value) => (value > 100 ? 95 : 20));
+    expect(isDarkCard({ ...dim, pixels })).toBe(false);
+  });
+
   it('turns a dark card into dark print on a light card, which is what the reader reads', () => {
     const fixed = readable(card({ dark: true }));
     expect(isDarkCard(fixed)).toBe(false);

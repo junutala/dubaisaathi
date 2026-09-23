@@ -79,6 +79,7 @@ export const en: Record<StringKey, string> = {
   'hotel.readFailed': 'This phone could not read the card. Type what is missing.',
   'hotel.readOffline': 'Reading needs a signal once. It reads itself when one is back.',
   'hotel.photoOlder': 'An earlier photo of the hotel',
+  'hotel.photoOlderRemove': 'Remove this photo from the phone? It cannot be brought back.',
   'hotel.name': 'Hotel',
   'hotel.namePlaceholder': 'Hotel name',
   'hotel.room': 'Room',

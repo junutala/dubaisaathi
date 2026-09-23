@@ -10,6 +10,7 @@ import { DocumentScreen } from './DocumentScreen.js';
 import { HotelScreen } from './HotelScreen.js';
 import { listDocuments, readHotel, saveDocument, saveHotelCapture } from './storage.js';
 import type { CardReading } from './readCard.js';
+import { startCardRetry } from './cardReading.js';
 
 /**
  * The hotel and the documents never disappear (rule 6), and the way that rule breaks is never
@@ -193,32 +194,105 @@ describe('घर.1 · मेरा होटल, with the radio off and no pass'
     expect(screen.getByPlaceholderText('होटल का नाम')).toBeTruthy();
   });
 
-  it('reads the card by itself when the signal comes back', async () => {
+  it('reads the card by itself when the signal comes back, even after leaving घर.1', async () => {
+    const stop = startCardRetry();
+    try {
+      const hotel = await saveHotelCapture({ cardPhoto: photo('front') });
+      const { rerender, unmount } = show(<HotelScreen hotel={hotel} />);
+      fireEvent.click(screen.getByText('सबमिट करें'));
+      await waitFor(async () => {
+        expect((await readHotel())?.cardUnread).toBe(true);
+      });
+      rerender(
+        <SettingsProvider>
+          <HotelScreen hotel={await readHotel()} />
+        </SettingsProvider>,
+      );
+      await screen.findByText(/एक बार सिग्नल चाहिए/);
+      // The traveller goes elsewhere; the signal returns while nothing of घर.1 is on screen.
+      unmount();
+      readCard.mockResolvedValue({
+        failed: false,
+        lines: [
+          { text: 'AL WASMI RESIDENCE', height: 44 },
+          { text: 'T +971 4 335 7210', height: 16 },
+          { text: 'www.alwasmiresidence.ae', height: 14 },
+        ],
+      });
+      Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
+      window.dispatchEvent(new Event('online'));
+      await waitFor(async () => {
+        expect((await readHotel())?.name).toBe('Al Wasmi Residence');
+      });
+      expect((await readHotel())?.cardUnread).toBeUndefined();
+    } finally {
+      stop();
+    }
+  });
+
+  it('keeps trying at every signal while the reading keeps failing', async () => {
+    const stop = startCardRetry();
+    try {
+      await saveHotelCapture({ cardPhoto: photo('front'), cardUnread: true });
+      Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
+      window.dispatchEvent(new Event('online'));
+      await waitFor(() => {
+        expect(readCard).toHaveBeenCalledTimes(1);
+      });
+      await waitFor(async () => {
+        expect((await readHotel())?.cardUnread).toBe(true);
+      });
+      window.dispatchEvent(new Event('online'));
+      await waitFor(() => {
+        expect(readCard).toHaveBeenCalledTimes(2);
+      });
+    } finally {
+      stop();
+    }
+  });
+
+  it('does not bring back a hotel removed while its card was being read', async () => {
+    let finish: (reading: CardReading) => void = () => undefined;
+    readCard.mockReturnValue(
+      new Promise<CardReading>((resolve) => {
+        finish = resolve;
+      }),
+    );
     const hotel = await saveHotelCapture({ cardPhoto: photo('front') });
-    const { rerender } = show(<HotelScreen hotel={hotel} />);
+    show(<HotelScreen hotel={hotel} />);
     fireEvent.click(screen.getByText('सबमिट करें'));
-    await waitFor(async () => {
-      expect((await readHotel())?.submittedAt).toBeDefined();
+    await waitFor(() => {
+      expect(readCard).toHaveBeenCalled();
     });
+    fireEvent.click(screen.getByRole('button', { name: 'होटल हटाएँ' }));
+    await waitFor(async () => {
+      expect(await readHotel()).toBeUndefined();
+    });
+    finish({ failed: false, lines: [{ text: 'www.alwasmiresidence.ae', height: 14 }] });
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(await readHotel()).toBeUndefined();
+  });
+
+  it('keeps a space typed before a pause, so the next word does not run into the last', async () => {
+    const hotel = await saveHotelCapture({ submittedAt: '2026-09-23T06:00:00.000Z' });
+    const { rerender } = show(<HotelScreen hotel={hotel} />);
+    vi.useFakeTimers();
+    try {
+      fireEvent.change(screen.getByPlaceholderText('होटल का नाम'), { target: { value: 'Al ' } });
+      await vi.advanceTimersByTimeAsync(500);
+    } finally {
+      vi.useRealTimers();
+    }
+    await waitFor(async () => {
+      expect((await readHotel())?.name).toBe('Al');
+    });
+    // The saved hotel comes back trimmed, as it does in the app after every save.
     rerender(
       <SettingsProvider>
         <HotelScreen hotel={await readHotel()} />
       </SettingsProvider>,
     );
-    await screen.findByText(/एक बार सिग्नल चाहिए/);
-    readCard.mockResolvedValue({
-      failed: false,
-      lines: [
-        { text: 'AL WASMI RESIDENCE', height: 44 },
-        { text: 'T +971 4 335 7210', height: 16 },
-        { text: 'www.alwasmiresidence.ae', height: 14 },
-      ],
-    });
-    Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
-    window.dispatchEvent(new Event('online'));
-    await waitFor(async () => {
-      expect((await readHotel())?.name).toBe('Al Wasmi Residence');
-    });
+    expect(screen.getByPlaceholderText('होटल का नाम')).toHaveProperty('value', 'Al ');
   });
 
   it('keeps whatever is typed into two boxes in quick succession, without a button', async () => {
@@ -266,6 +340,8 @@ describe('घर.1 · मेरा होटल, with the radio off and no pass'
     show(<HotelScreen hotel={saved} />);
     expect(screen.getByDisplayValue('203')).toBeTruthy();
     expect(screen.getAllByAltText('होटल की पहले की फ़ोटो')).toHaveLength(2);
+    // It asks first, because a photograph removed cannot be brought back.
+    vi.spyOn(window, 'confirm').mockReturnValue(true);
     fireEvent.click(screen.getAllByRole('button', { name: /होटल की पहले की फ़ोटो/ })[1]!);
     await waitFor(async () => {
       expect((await readHotel())?.photos).toEqual([]);

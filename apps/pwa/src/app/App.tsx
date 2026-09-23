@@ -30,6 +30,7 @@ import {
   HotelScreen,
   readHotel,
   startOutboxSync,
+  startCardRetry,
   watchHotel,
   type SavedHotel,
 } from '../features/info/index.js';
@@ -116,19 +117,21 @@ export function App() {
    * there is some (decision 005); an order left open by a traveller who closed the app during
    * the payment is asked about again (decision 019), so the pass arrives even though nobody
    * was watching the screen when the money did; and a message written in फ़ीडबैक with no signal
-   * goes when there is some (decision 028). All four on boot and on `online`, none of them ever
-   * in the way.
+   * goes when there is some (decision 028); and a hotel card that could not be read is read when
+   * it can be (decision 032). All five on boot and on `online`, none of them ever in the way.
    */
   useEffect(() => {
     const stopCoupon = startCouponRetry();
     const stopOrder = startOrderResume();
     const stopReconcile = startPassReconcile();
     const stopOutbox = startOutboxSync();
+    const stopCard = startCardRetry();
     return () => {
       stopCoupon();
       stopOrder();
       stopReconcile();
       stopOutbox();
+      stopCard();
     };
   }, []);
 

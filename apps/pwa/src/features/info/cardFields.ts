@@ -91,7 +91,13 @@ function looksLikeWords(text: string): boolean {
 }
 
 function isContact(text: string): boolean {
-  return EMAIL.test(text) || WEB.test(text) || /\d{3}/.test(text);
+  return (
+    EMAIL.test(text) ||
+    WEB.test(text) ||
+    /\d{3}/.test(text) ||
+    // A web address read without its www: "alwasmiresidence.ae".
+    /[a-z0-9-]\.(com|ae|net|org|co|in|biz|info|hotel|travel)\b/i.test(text)
+  );
 }
 
 /** The hotel's own name for itself, from its email or website: `alwasmiresidence`. */
@@ -129,8 +135,23 @@ function hotelName(lines: readonly string[]): string | undefined {
   //    correctly off a photographed card was found this way and no other.
   for (const domain of domains(lines)) {
     for (const text of candidates) {
-      const found = inDomain(text, domain);
-      if (found === undefined) continue;
+      const matched = inDomain(text, domain);
+      if (matched === undefined) continue;
+      // A chain's domain is its brand, not this hotel: "ROTANA" is in rotana.com, and the card's
+      // own name is the fuller line that carries the brand — "Al Bandar Rotana".
+      // The part before a dash is the name: "Al Bandar Rotana - Dubai Creek".
+      const own = (line: string) => line.split(/\s+[-–—|]\s+/)[0] ?? line;
+      const fuller = candidates
+        .map(own)
+        .find(
+          (other) =>
+            other !== text &&
+            letters(other).includes(letters(matched)) &&
+            other.split(' ').length > matched.split(' ').length &&
+            !ADDRESS_WORD.test(other) &&
+            !AREA.test(other),
+        );
+      const found = fuller ?? matched;
       // "Marjan Pearl" over "HOTEL APARTMENTS": a line that is only the kind of hotel belongs to
       // the name above it — unless the domain already said so ("Saffron Crest Hotel" + "HOTEL").
       const after = lines[lines.indexOf(text) + 1]?.replace(LEGAL_SUFFIX, '');
@@ -149,6 +170,9 @@ function hotelName(lines: readonly string[]): string | undefined {
   const named = candidates.filter(
     (text) =>
       HOTEL_WORD.test(text) &&
+      // "Near Clock Tower", "Opp. BurJuman Tower": a tower named in an address is not the hotel.
+      !ADDRESS_WORD.test(text) &&
+      !AREA.test(text) &&
       text
         .replace(LEGAL_SUFFIX, '')
         .split(' ')
@@ -233,12 +257,20 @@ function deskPhone(lines: readonly string[]): string | undefined {
   const NUMBER = /(\+|00)?\s?\(?\d[\d\s().-]{5,}\d/g;
   const desks: { e164: string; labelled: boolean }[] = [];
   for (const text of lines) {
+    let since = 0;
     for (const match of text.matchAll(NUMBER)) {
-      const label = text.slice(Math.max(0, match.index - 8), match.index);
-      if (/fax|\bf\b\s*:?\s*$/i.test(label)) continue;
-      const e164 = dubaiLandline(match[0].replace(/\D/g, ''));
+      // The label is whatever was printed since the last number on the line — "Fax No.:",
+      // "Telephone:", "T" — not a fixed few characters, which "Facsimile:" outgrows.
+      const label = text.slice(Math.max(since, match.index - 24), match.index);
+      since = match.index + match[0].length;
+      if (/\b(fax|facsimile|f)\b[\s\w.]*:?\s*$/i.test(label)) continue;
+      const labelled =
+        /\b(t|tel|ph|phone|p|telephone|landline|reception)\b\.?\s*(no\.?|number)?\s*:?\s*$/i.test(
+          label,
+        );
+      const e164 = dubaiLandline(match[0].replace(/\D/g, ''), labelled);
       if (e164 === undefined) continue;
-      desks.push({ e164, labelled: /\b(t|tel|ph|phone|p|telephone)\b\s*:?\s*$/i.test(label) });
+      desks.push({ e164, labelled });
     }
   }
   const choice = desks.find((desk) => desk.labelled) ?? desks[0];
@@ -249,15 +281,17 @@ function deskPhone(lines: readonly string[]): string | undefined {
 
 /**
  * A number as Dubai dials it, if it is a Dubai landline: `97142586682`. A P.O. Box, a licence
- * number and a building number are digits too, and none of them has this shape.
+ * number and a building number are digits too, and none of them has this shape once a code is
+ * required of it.
  */
-function dubaiLandline(digits: string): string | undefined {
+function dubaiLandline(digits: string, labelled: boolean): string | undefined {
   let local: string | undefined;
   if (digits.startsWith('00971')) local = digits.slice(5);
   else if (digits.startsWith('971')) local = digits.slice(3);
   else if (digits.startsWith('0')) local = digits.slice(1);
-  // Printed without its code, the way a Dubai card often does — but 800 is toll-free, not Dubai.
-  else if (digits.length === 7 && !digits.startsWith('800')) local = `4${digits}`;
+  // Printed without its code, the way a Dubai card often does — but only beside a telephone's
+  // label: seven bare digits are as often a plot or a licence. And 800 is toll-free, not Dubai.
+  else if (labelled && digits.length === 7 && !digits.startsWith('800')) local = `4${digits}`;
   return local !== undefined && /^4\d{7}$/.test(local) ? `971${local}` : undefined;
 }
 
@@ -284,9 +318,13 @@ function streetAddress(
     // Two columns read as one line: "Saffron Crest Khalid Bin Al Waleed Road" is the name and
     // the street side by side. The name is already in its own box.
     if (name !== undefined) {
-      for (const word of name.split(' ')) {
-        text = text.replace(new RegExp(`^\\s*${escape(word)}\\s+`, 'i'), '');
-      }
+      const words = text.trim().split(/\s+/);
+      const own = name.toLowerCase().split(' ');
+      let taken = 0;
+      while (taken < words.length && own.includes((words[taken] ?? '').toLowerCase())) taken += 1;
+      // "Al Rigga Hotel" on "Al Rigga Road": the words before "Road" are the street's name, and
+      // stay. Only a name that runs into something else is the hotel's, read across columns.
+      if (taken > 0 && !ADDRESS_WORD.test(words[taken] ?? '')) text = words.slice(taken).join(' ');
     }
     for (const piece of text.split(/\s*[,|•·–—:]\s*|\s+-\s+|\s-$/)) {
       const words = piece
@@ -329,10 +367,13 @@ function keepsInAddress(word: string, index: number): boolean {
   // A number with its letter is a street or a building; a lone digit opening the piece is noise.
   if (/^\d+[A-Za-z]?$/.test(word)) return !(index === 0 && word.length === 1);
   if (/^(al|st|rd|bin|no|el|bur|opp)\.?$/i.test(word)) return true;
+  // "2nd Street", "14th Road".
+  if (/^\d+(st|nd|rd|th)$/i.test(word)) return true;
   const plain = word.replace(/[.,]$/, '');
-  return /^[A-Za-z]{2,}\d?[A-Za-z]*$/.test(plain) && plain.length >= 3 && /[aeiouy]/i.test(plain);
-}
-
-function escape(text: string): string {
-  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  // "Al-Rigga", "Za'abeel", and a letter the reader took for a digit ("Rigg2").
+  return (
+    /^[A-Za-z][A-Za-z'’-]*[A-Za-z]\d?[A-Za-z]*$/.test(plain) &&
+    plain.length >= 3 &&
+    /[aeiouy]/i.test(plain)
+  );
 }
