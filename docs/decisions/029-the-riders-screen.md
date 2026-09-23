@@ -131,3 +131,20 @@ the kind of kitchen, the dishes and the prices are read off the menu at review, 
 form carries `keyedAt` — that, not a kitchen, is what takes a pin off the waiting list — and the
 server holds it as `read-from-menu` until review has filled what the menu says. Everything else
 the old form asked is still there, below Submit, folded under "More, if you know it".
+
+## Addendum, 23 September, later: Save means the server has it
+
+The first three forms keyed that way came back wrong: 0002 with no pages and 0004 with 32. The
+24-page 0002 PDF was still opening when Save was pressed; 0002 went up empty, and its pages landed
+in 0004 when they finished. The owner: _"Your code combined 0002 and 0004"_, and then: _"Unless
+you are sure that the server captured the document, do not enable the CTA."_
+
+- Save is locked while any menu file is still opening ("Wait — the menu is still opening"), and a
+  file that finishes after its form was saved is dropped, never added to the next form.
+- Save sends the form there and then and stays on the screen, counting pages onto the server. The
+  form clears only when the server has answered every batch and counted every photograph in it
+  ("Form 0004 is on the server, 8 menu page(s)"). Anything less says so beside the button, keeps
+  the form, and Save sends it again.
+- A form keyed again replaces its pages on the laptop, and only the pages a form lists are sent.
+- On the server, 0002's 24 pages (1375 × 2000) were moved back from 0004, whose own eight
+  (943 × 2001) became pages 0–7 again.

@@ -15,7 +15,7 @@ import { isPdf, pdfPages } from './pdfPages.js';
 import { BUILD } from './version.js';
 import { readMenu } from './readMenu.js';
 import type { Candidate } from './dishCandidates.js';
-import { startSync, syncReports, type SyncOutcome } from './sync.js';
+import { sendReport, startSync, syncReports, type SyncOutcome } from './sync.js';
 import { setLang, useStrings, type Key } from './strings.js';
 
 /**
@@ -121,7 +121,20 @@ export function CaptureScreen({
 
   const [queue, setQueue] = useState<SyncOutcome>({ pending: 0, sent: 0 });
   const [saved, setSaved] = useState<string | null>(null);
+  /** Save in flight, page by page; or why the server does not hold it yet. */
+  const [sending, setSending] = useState<{ readonly done: number; readonly total: number } | null>(
+    null,
+  );
+  const [notSent, setNotSent] = useState<string | null>(null);
   const top = useRef<HTMLDivElement>(null);
+  /**
+   * Menu files still being opened, and which form they were picked for. On 23 September a 24-page
+   * PDF was still opening when 0002 was saved: 0002 went up with no pages, and the pages landed in
+   * 0004 when they finished. Save waits for every file to open, and a file that finishes after its
+   * form was saved is dropped — never added to the next one.
+   */
+  const [opening, setOpening] = useState(0);
+  const formGen = useRef(0);
 
   useEffect(() => {
     void keepOurData();
@@ -159,7 +172,7 @@ export function CaptureScreen({
    * dishes and the prices are read off the menu at review. An hour went on 0004 when the form asked
    * for those at the desk as well.
    */
-  const ready = pin !== null;
+  const ready = pin !== null && opening === 0 && sending === null;
 
   const submit = async () => {
     if (!ready || who === null) return;
@@ -222,6 +235,12 @@ export function CaptureScreen({
 
     await db.transaction('rw', db.reports, db.photos, async () => {
       await db.reports.put({ ...report, uploaded: false });
+      // A form keyed again replaces its pages: the last attempt's are not this one's.
+      await db.photos
+        .where('reportId')
+        .equals(id)
+        .filter((photo) => photo.kind === 'menu')
+        .delete();
       for (const [i, file] of menu.entries()) {
         // `put`: a form keyed a second time against the same number replaces its pages.
         await db.photos.put({
@@ -233,14 +252,33 @@ export function CaptureScreen({
       }
     });
 
-    setSaved(report.name);
+    /**
+     * The form stays on the screen until the server says it holds every page (the owner,
+     * 23 September). Kept on the laptop either way, so a failure costs a press of Save, never
+     * the keying.
+     */
+    setNotSent(null);
+    setSending({ done: 0, total: menu.length });
+    const sent = await sendReport({ ...report, uploaded: false }, (done, total) => {
+      setSending({ done, total });
+    });
+    setSending(null);
+    if (!sent.ok) {
+      setNotSent(sent.why);
+      return;
+    }
+    setSaved(t('savedOnServer', { serial: pin.formSerial, n: sent.pages }));
     clear();
     top.current?.scrollIntoView({ behavior: 'smooth' });
+    void waitingPins().then(setPins);
     setQueue(await syncReports());
   };
 
   // The fix is not cleared: the phone keeps watching, and the next shop gets its own.
   const clear = () => {
+    formGen.current += 1;
+    setOpening(0);
+    setPdf(null);
     setPin(null);
     setName('');
     setNameHi('');
@@ -302,7 +340,7 @@ export function CaptureScreen({
         </span>
       </header>
 
-      {saved !== null && <p className="saved">{t('savedNext', { name: saved })}</p>}
+      {saved !== null && <p className="saved">{saved}</p>}
 
       {/* Where this outlet is comes from one of two places (decision 029): a pin the rider
           dropped, or the phone under the collector's own feet. The picker is first because it
@@ -393,20 +431,27 @@ export function CaptureScreen({
           onPick={(f) => {
             // Files in the order picked; a PDF becomes its pages, in its own order.
             const pdfs = f.filter(isPdf);
+            const gen = formGen.current;
+            const mine = () => gen === formGen.current;
             if (pdfs.length > 0) setPdf({});
+            setOpening((n) => n + 1);
             void Promise.all(
               f.map((file) =>
                 isPdf(file) ? pdfPages(file, MENU) : shrink(file, MENU).then((b) => [b]),
               ),
             ).then(
               (pages) => {
+                if (!mine()) return;
                 setMenu((was) => [...was, ...pages.flat()]);
                 setPdf(null);
+                setOpening((n) => n - 1);
               },
               (error: unknown) => {
+                if (!mine()) return;
                 const size = pdfs.map((file) => `${file.name}, ${kb(file.size)}`).join('; ');
                 const why = error instanceof Error ? error.message : String(error);
                 setPdf({ failed: `${size} — ${why}` });
+                setOpening((n) => n - 1);
               },
             );
           }}
@@ -433,8 +478,15 @@ export function CaptureScreen({
           void submit();
         }}
       >
-        {ready ? t('save') : t('saveFirst')}
+        {sending !== null
+          ? t('saveSending', { done: sending.done, total: sending.total })
+          : ready
+            ? t('save')
+            : pin === null
+              ? t('saveFirst')
+              : t('saveOpening')}
       </button>
+      {notSent !== null && <p className="hint warn">{t('saveNotSent', { why: notSent })}</p>}
       <p className="hint center">{t('savesFirst')}</p>
 
       {/* Everything review can read off the menu. Kept for a collector who knows it, never asked. */}
