@@ -24,9 +24,46 @@ export function outletHeaders(): Record<string, string> {
   };
 }
 
-/** Photographs go as base64 in the same request: one visit, one round trip, one thing to fail. */
-async function encodePhoto(photo: Photo): Promise<{ kind: string; dataUrl: string }> {
-  return { kind: photo.kind, dataUrl: await asDataUrl(photo.bytes) };
+interface SentPhoto {
+  readonly kind: string;
+  readonly dataUrl: string;
+  readonly ord: number;
+}
+
+/**
+ * About 4 MB of base64 per request. Photographs go as base64 beside the report, and a short menu
+ * is one request as it always was; a 24-page menu (form 0002, 23 September) is several, so no
+ * single request is one a hotel's wifi or the function's gateway will refuse for its size.
+ */
+export const BATCH_CHARS = 4_000_000;
+
+/**
+ * Each photograph with its page: its place in the report's own list, not its place in the table.
+ * Ids sort as strings, so page 10 came before page 2, and a menu read out of order is a menu with
+ * prices under the wrong dishes.
+ */
+function pageOf(report: QueuedReport, photo: Photo, fallback: number): number {
+  const list = photo.kind === 'front' ? report.frontPhotoIds : report.menuPhotoIds;
+  const at = list.indexOf(photo.id);
+  return at >= 0 ? at : fallback;
+}
+
+export function batches(photos: readonly SentPhoto[], budget = BATCH_CHARS): SentPhoto[][] {
+  const out: SentPhoto[][] = [];
+  let current: SentPhoto[] = [];
+  let size = 0;
+  for (const photo of photos) {
+    if (current.length > 0 && size + photo.dataUrl.length > budget) {
+      out.push(current);
+      current = [];
+      size = 0;
+    }
+    current.push(photo);
+    size += photo.dataUrl.length;
+  }
+  // A report with no photographs is still one request: the report itself.
+  out.push(current);
+  return out;
 }
 
 export interface SyncOutcome {
@@ -52,16 +89,25 @@ export async function syncReports(): Promise<SyncOutcome> {
 
 async function sendOne(report: QueuedReport): Promise<boolean> {
   try {
-    const photos = await db.photos.where('reportId').equals(report.id).toArray();
-    const response = await fetch(ENDPOINT, {
-      method: 'POST',
-      headers: outletHeaders(),
-      body: JSON.stringify({
-        report: { ...report, uploaded: undefined },
-        photos: await Promise.all(photos.map(encodePhoto)),
-      }),
-    });
-    if (!response.ok) return false;
+    const held = await db.photos.where('reportId').equals(report.id).toArray();
+    const counted = { front: 0, menu: 0 };
+    const photos: SentPhoto[] = [];
+    for (const photo of held) {
+      const ord = pageOf(report, photo, 1000 + counted[photo.kind]);
+      counted[photo.kind] += 1;
+      photos.push({ kind: photo.kind, dataUrl: await asDataUrl(photo.bytes), ord });
+    }
+    photos.sort((a, b) => a.ord - b.ord);
+    // Every batch carries the report, so each request stands alone; the server keys each
+    // photograph by its page, so sending a batch twice after a lost response stores it once.
+    for (const batch of batches(photos)) {
+      const response = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: outletHeaders(),
+        body: JSON.stringify({ report: { ...report, uploaded: undefined }, photos: batch }),
+      });
+      if (!response.ok) return false;
+    }
     await db.reports.update(report.id, { uploaded: true });
     return true;
   } catch {
