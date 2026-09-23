@@ -1,0 +1,50 @@
+name: Pull menu pages for review
+
+# The collectors' desk sends each form's menu pages to the `outlet` function, and review reads the
+# dishes off them (decision 029's addendum, 23 September). The development container cannot reach
+# Supabase, while a GitHub runner can. Run by hand with the form numbers: it downloads each form's
+# pages and commits them to the `menu-pages` branch — never to main, so no menu photograph travels
+# with the app's code. Delete the branch once the pages are read.
+
+on:
+  workflow_dispatch:
+    inputs:
+      forms:
+        description: Form numbers, separated by spaces (e.g. 0002 0013 0014)
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    env:
+      # Publishable by design, and already in apps/field/src/sync.ts: it names the project, it
+      # grants nothing on its own.
+      KEY: sb_publishable_kPj5Kv8cbgwrkyp9tRfLRg_Wy4olS5H
+      ENDPOINT: https://pixlnjmpksmfqheotinp.supabase.co/functions/v1/outlet
+    steps:
+      - name: Download each form's pages
+        run: |
+          mkdir -p pages
+          for form in ${{ github.event.inputs.forms }}; do
+            mkdir -p "pages/$form"
+            curl -sS --fail --retry 3 -H "authorization: Bearer $KEY" -H "apikey: $KEY" \
+              "$ENDPOINT?menu=$form" -o "pages/$form/index.json"
+            for page in $(jq -r '.pages[]' "pages/$form/index.json"); do
+              curl -sS --fail --retry 3 -H "authorization: Bearer $KEY" -H "apikey: $KEY" \
+                "$ENDPOINT?menu=$form&page=$page" -o "pages/$form/$(printf '%02d' "$page").jpg"
+            done
+            echo "$form: $(ls pages/$form/*.jpg 2>/dev/null | wc -l) pages"
+          done
+
+      - name: Commit to the menu-pages branch
+        run: |
+          cd pages
+          git init -q -b menu-pages
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Menu pages: ${{ github.event.inputs.forms }}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" menu-pages
