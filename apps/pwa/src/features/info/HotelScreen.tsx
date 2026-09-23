@@ -6,14 +6,14 @@ import { Icon } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
 import { PhotoInput } from './PhotoInput.js';
 import { useBlobUrl } from './photos.js';
-import { areaFor } from './nearestArea.js';
+import { choosePin, pinFromStanding } from './cardQr.js';
 import { pinHere } from './pin.js';
 import { insideDubai } from '../../lib/dubai.js';
 import { distanceLabel } from '../../lib/distance.js';
 import { localName, nearestStops, useTransportNetwork } from '../transport/index.js';
 import type { SavedHotel } from './records.js';
 import { currentReading, readHotelCard, watchReading, type ReadOutcome } from './cardReading.js';
-import { deleteHotel, saveHotelCapture, type HotelCapture } from './storage.js';
+import { deleteHotel, readHotel, saveHotelCapture, type HotelCapture } from './storage.js';
 
 /**
  * घर.1 — मेरा होटल, in two steps (decision 032, the owner, 23 September).
@@ -298,7 +298,13 @@ function HotelDetails({
         </div>
 
         <PinBox hotel={hotel} compact />
-        {hotel.pin !== undefined && <NearStopsRow at={hotel.pin} />}
+        {/* Only while the card and the traveller disagree, and in the nearby row's place: step
+            two stays one screen. The answer brings the row back. */}
+        {hotel.pin !== undefined && hotel.cardPin !== undefined ? (
+          <PinChoice hotel={hotel} />
+        ) : (
+          hotel.pin !== undefined && <NearStopsRow at={hotel.pin} />
+        )}
       </div>
     </>
   );
@@ -390,6 +396,8 @@ function PinBox({
   const [pinning, setPinning] = useState(false);
   /** What the phone said when it would not give a fix. Only ever set by an actual refusal. */
   const [refused, setRefused] = useState<StringKey>();
+  /** The pin came from the card's QR code, not from where the traveller stood. */
+  const fromCard = hotel?.pinFrom === 'card';
 
   const pin = () => {
     setPinning(true);
@@ -414,7 +422,8 @@ function PinBox({
         return;
       }
       // The area goes with the pin: a new pin where no area is known must not keep the old one's.
-      void saveHotelCapture({ pin: result.at, area: areaFor(result.at) });
+      // A card's place far from here is kept, for step two to ask which is right.
+      void readHotel().then((now) => saveHotelCapture(pinFromStanding(now, result.at)));
     });
   };
 
@@ -434,15 +443,19 @@ function PinBox({
               : !hotel?.pin
                 ? t('hotel.pinNow')
                 : compact && hotel.area
-                  ? t('hotel.pinnedShort', { area: hotel.area[locale] })
-                  : t('hotel.pinned')}
+                  ? t(fromCard ? 'hotel.pinnedCardShort' : 'hotel.pinnedShort', {
+                      area: hotel.area[locale],
+                    })
+                  : t(compact && fromCard ? 'hotel.pinnedCard' : 'hotel.pinned')}
           </span>
           {!compact && (
             <span className="pinbox-sub">
               {hotel?.pin
                 ? hotel.area
-                  ? t('hotel.pinnedWhere', { area: hotel.area[locale] })
-                  : t('hotel.pinnedNoArea')
+                  ? t(fromCard ? 'hotel.pinnedCardWhere' : 'hotel.pinnedWhere', {
+                      area: hotel.area[locale],
+                    })
+                  : t(fromCard ? 'hotel.pinnedCard' : 'hotel.pinnedNoArea')
                 : t('hotel.pinWhy')}
             </span>
           )}
@@ -451,6 +464,41 @@ function PinBox({
       </button>
       {refused !== undefined && <p className="muted small">{t(refused)}</p>}
     </>
+  );
+}
+
+/**
+ * The card's QR code puts the hotel more than 200 m from where the traveller pinned it (decision
+ * 032, addendum). Neither is thrown away and neither is assumed: both are shown, each with the
+ * area it falls in, and the traveller picks. Either answer ends the question.
+ */
+function PinChoice({ hotel }: { readonly hotel: SavedHotel }) {
+  const { t, locale } = useSettings();
+  const options = [
+    { choice: 'stood' as const, label: 'hotel.choiceStood' as const, area: hotel.area },
+    { choice: 'card' as const, label: 'hotel.choiceCard' as const, area: hotel.cardPin?.area },
+  ];
+  return (
+    <div className="hotel-choice" role="group" aria-label={t('hotel.choiceLead')}>
+      <p className="hotel-choice-lead">{t('hotel.choiceLead')}</p>
+      <div className="hotel-choice-row">
+        {options.map(({ choice, label, area }) => (
+          <button
+            key={choice}
+            type="button"
+            className="hotel-choice-btn"
+            onClick={() => {
+              void saveHotelCapture(choosePin(hotel, choice));
+            }}
+          >
+            <span className="hotel-choice-head">{t(label)}</span>
+            <span className="hotel-choice-sub">
+              {area !== undefined ? area[locale] : t('hotel.choiceNoArea')}
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
 

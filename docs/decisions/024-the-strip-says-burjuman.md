@@ -77,3 +77,10 @@ still answers, and what it said is what the traveller is told.
 
 Everything else on घर.1 — the name, the room, the desk's number, photographs, a note — can be
 filled in from India as before. It is only the pin that has to be taken where it means something.
+
+**One exception, 23 September (decision 032, the owner's addendum).** A maps QR code on the
+hotel's card may set the pin: it is Google's own pin for the building, not a street read off the
+print, and it is taken only inside Dubai and only when no pin was placed first. When the traveller
+has pinned where they stood and the card's place is more than 200 m away, neither wins: घर.1 shows
+both and the traveller picks. The printed address still never becomes a pin, and a pin outside
+Dubai is still refused — from the card exactly as from the phone.

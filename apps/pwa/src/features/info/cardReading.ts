@@ -1,7 +1,11 @@
+import type { MapsPlace } from '@saathi/shared';
 import { cardFields, type CardFields } from './cardFields.js';
+import { cardQrOf, pinFromCard } from './cardQr.js';
+import { followShortLink } from './mapLink.js';
 import { readCard } from './readCard.js';
+import { readQr } from './readQr.js';
 import type { SavedHotel } from './records.js';
-import { readHotel, saveHotelCapture } from './storage.js';
+import { readHotel, saveHotelCapture, type HotelCapture } from './storage.js';
 
 /**
  * Reading the saved hotel's card and filling its empty boxes (decision 032) — one reading at a
@@ -73,12 +77,30 @@ export function readHotelCard(): Promise<void> {
   return running;
 }
 
+/**
+ * One reading, in the order the owner asked for: the QR codes first, because they take a moment
+ * and a maps link names the hotel exactly; the print after, for everything else. The card's
+ * engine is started as soon as the codes are decoded, and a short link is followed while it works.
+ */
 async function readOnce(): Promise<void> {
   const before = await readHotel();
   const photos = cardsOf(before);
   announce('reading');
-  const result = await readCard(photos);
-  const found = cardFields(result.lines);
+  const qr = cardQrOf(await readQr(photos));
+  const printed = readCard(photos);
+
+  let place = qr.place;
+  let linkWaiting: string | undefined;
+  if (place === undefined && qr.shortLink !== undefined) {
+    const followed = await followShortLink(qr.shortLink);
+    if (followed.kind === 'place') place = followed.place;
+    else if (followed.kind === 'waiting') linkWaiting = qr.shortLink;
+  }
+  // Shown the moment it is known, not when the print has been read.
+  const fromQr = place !== undefined && (await placeOnHotel(place, before !== undefined));
+
+  const result = await printed;
+  const found = cardFields([...qr.lines, ...result.lines]);
   const now = await readHotel();
   // Removed while the card was being read: the traveller's word is the last one.
   if (before !== undefined && now === undefined) {
@@ -98,13 +120,15 @@ async function readOnce(): Promise<void> {
     submittedAt: now?.submittedAt ?? new Date().toISOString(),
     // A card the engine never got to read is read again when it can be; one it read is done.
     cardUnread: result.failed && photos.length > 0 ? true : undefined,
+    // A short link with no signal to follow it waits for one; any other reading clears it.
+    cardLink: linkWaiting,
   });
   announce(
     result.failed
       ? navigator.onLine
         ? 'failed'
         : 'offline'
-      : Object.keys(found).length > 0
+      : Object.keys(found).length > 0 || fromQr
         ? 'read'
         : photos.length > 0
           ? 'nothing'
@@ -113,14 +137,56 @@ async function readOnce(): Promise<void> {
 }
 
 /**
+ * What a maps link on the card fills, the moment it is read: the name, only into an empty box,
+ * and the pin by the rule in `pinFromCard`. True when it filled or asked something. Nothing is
+ * written to a hotel removed meanwhile.
+ */
+async function placeOnHotel(place: MapsPlace, hadHotel: boolean): Promise<boolean> {
+  const now = await readHotel();
+  if (hadHotel && now === undefined) return false;
+  const capture: { -readonly [K in keyof HotelCapture]: HotelCapture[K] } = {
+    ...(place.at === undefined ? {} : pinFromCard(now, place.at)),
+  };
+  if (place.name !== undefined && (now?.name ?? '').trim() === '') capture.name = place.name;
+  const changed =
+    capture.name !== undefined || capture.pin !== undefined || capture.cardPin !== undefined;
+  if (Object.keys(capture).length === 0) return false;
+  await saveHotelCapture({
+    ...capture,
+    // Past the card: step two opens on what the code said while the print is still being read.
+    submittedAt: now?.submittedAt ?? new Date().toISOString(),
+  });
+  return changed;
+}
+
+/**
+ * A short link that had no signal, followed now. The print was read at the time, so only the link
+ * is: the name into an empty box, the pin by the card's rule — and a link that turns out not to be
+ * a maps place is dropped.
+ */
+async function followWaitingLink(link: string): Promise<void> {
+  const followed = await followShortLink(link);
+  if (followed.kind === 'waiting') return;
+  const now = await readHotel();
+  // Removed, or read again meanwhile with a different card: this link is no longer the hotel's.
+  if (now?.cardLink !== link) return;
+  if (followed.kind === 'place') await placeOnHotel(followed.place, true);
+  if ((await readHotel()) !== undefined) await saveHotelCapture({ cardLink: undefined });
+}
+
+/**
  * Reads a card that is still waiting, at launch and every time the phone regains a signal, from
- * any screen. Returns the function that stops it.
+ * any screen — and follows a short maps link off a card that was read with no signal to follow
+ * it. Returns the function that stops it.
  */
 export function startCardRetry(): () => void {
   const tryNow = () => {
     if (!navigator.onLine) return;
     void readHotel().then((hotel) => {
       if (hotel?.cardUnread === true) void readHotelCard();
+      else if (hotel?.cardLink !== undefined && running === undefined) {
+        void followWaitingLink(hotel.cardLink);
+      }
     });
   };
   tryNow();

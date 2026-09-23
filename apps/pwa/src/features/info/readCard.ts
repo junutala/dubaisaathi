@@ -4,8 +4,9 @@ import { readable, textRunsSideways, toGrey, type Grey } from './cardImage.js';
 /**
  * Reading the reception card's two sides, on the phone (decision 032).
  *
- * **On the phone, never on a server.** घर.1 promises under every hotel that nothing is sent
- * anywhere, and the website promises it too. The card is read here or not at all.
+ * **On the phone, never on a server.** घर.1 promises under every hotel that the card stays on the
+ * phone, and the website promises it too. The card is read here or not at all; the one thing that
+ * may go out is a short maps link from its QR code (`mapLink.ts`), never a photograph.
  *
  * **Loaded only when asked.** The engine and its English are about 3.4 MB over the wire, and a
  * traveller who never presses Submit with a card on the screen never pays for them. The import
