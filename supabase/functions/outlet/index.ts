@@ -60,6 +60,48 @@ Deno.serve(async (request: Request): Promise<Response> => {
   if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
 
   /**
+   * One form's menu pages, for review to read (23 September): `?menu=0013` lists the pages it holds
+   * and `?menu=0013&page=0` answers with that page as a JPEG. A menu is a card the restaurant hands
+   * to anyone who asks, so this is no more private than the paper; nothing else about the report
+   * comes with it.
+   */
+  const url = new URL(request.url);
+  const menu = url.searchParams.get('menu');
+  if (request.method === 'GET' && menu !== null) {
+    const db = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+      { auth: { persistSession: false } },
+    );
+    const found = await db.from('field_reports').select('id').eq('form_serial', menu).limit(1);
+    const id = (found.data?.[0] as { id?: string } | undefined)?.id;
+    if (id === undefined) return json({ error: 'no such form' }, 404);
+    const page = url.searchParams.get('page');
+    if (page === null) {
+      const pages = await db
+        .from('field_photos')
+        .select('ord')
+        .eq('report_id', id)
+        .eq('kind', 'menu')
+        .order('ord');
+      return json({ form: menu, pages: (pages.data ?? []).map((row: { ord: number }) => row.ord) });
+    }
+    const shot = await db
+      .from('field_photos')
+      .select('image')
+      .eq('report_id', id)
+      .eq('kind', 'menu')
+      .eq('ord', Number(page))
+      .limit(1);
+    const image = (shot.data?.[0] as { image?: string } | undefined)?.image;
+    if (image === undefined) return json({ error: 'no such page' }, 404);
+    const hex = image.startsWith('\\x') ? image.slice(2) : image;
+    const bytes = new Uint8Array(hex.length / 2);
+    for (let i = 0; i < bytes.length; i += 1) bytes[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
+    return new Response(bytes, { headers: { ...CORS, 'content-type': 'image/jpeg' } });
+  }
+
+  /**
    * The pins a rider has dropped and nobody has keyed the paper for yet (decision 029).
    *
    * Narrow on purpose: the id, the number written on the form, where it was taken and by whom —
