@@ -102,6 +102,8 @@ export const hi = {
   'hotel.pinned': 'जगह की पिन लगी है',
   'hotel.pinnedWhere': 'यहीं खड़े होकर लगाई गई · {area}',
   'hotel.pinnedShort': 'पिन लगी है · {area}',
+  'hotel.nearMetro': 'मेट्रो · {distance}',
+  'hotel.nearBus': 'बस स्टॉप · {distance}',
   'hotel.pinnedNoArea': 'यहीं खड़े होकर लगाई गई',
   'hotel.pinNow': 'यहीं पिन लगाएँ',
   'hotel.pinWhy': 'होटल में खड़े होकर दबाएँ — GPS से जगह याद रहेगी',
@@ -113,7 +115,6 @@ export const hi = {
     'जगह की इजाज़त नहीं मिली. फ़ोन की सेटिंग में चालू कीजिए — बाक़ी सब वैसे ही रखा जाएगा.',
   'hotel.pinUnavailable': 'अभी जगह नहीं मिली. बाद में फिर दबाइए — बाक़ी सब रखा जाएगा.',
   'hotel.pinTimeout': 'जगह मिलने में देर लगी. फिर दबाइए — बाक़ी सब रखा जाएगा.',
-  'hotel.onlyHereShort': 'सिर्फ़ इसी फ़ोन पर रखा है।',
   'hotel.onlyHere': 'सब कुछ आपके फ़ोन पर ही रहता है। कहीं भेजा नहीं जाता।',
   'hotel.delete': 'होटल हटाएँ',
 

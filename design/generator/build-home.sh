@@ -146,8 +146,8 @@ header pin "$marigold" 'मेरा होटल' '' trash
 cat <<H
   <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 8px; padding: 6px 16px 10px 16px;">
     <div style="display: flex; align-items: center; gap: 10px; padding-top: 2px;">
-      <div style="width: 80px; flex: none;">$(photo 52 'कार्ड · आगे')</div>
-      <div style="width: 80px; flex: none;">$(photo 52 'कार्ड · पीछे')</div>
+      <div style="width: 76px; flex: none;">$(photo 48 'कार्ड · आगे')</div>
+      <div style="width: 76px; flex: none;">$(photo 48 'कार्ड · पीछे')</div>
       <span style="flex: 1; font-size: 12.5px; line-height: 1.35; font-weight: 600; color: $tealText;">आपके कार्ड से पढ़ा गया। देख लें, ग़लत हो तो ठीक करें।</span>
     </div>
     <div style="display: flex; flex-direction: column; gap: 8px;">
@@ -164,7 +164,10 @@ cat <<H
       <span style="flex: 1; font-size: 14.5px; font-weight: 700; color: $tealText;">पिन लगी है · देरा</span>
       <span style="font-size: 12.5px; font-weight: 700; color: $tealText;">फिर से</span>
     </div>
-    <span style="font-size: 13px; color: $muted; text-align: center;">सिर्फ़ इसी फ़ोन पर रखा है।</span>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;">
+      <div style="display: flex; align-items: center; gap: 8px; padding: 2px 10px; border-radius: 12px; background: $sand;">$(metro 18 "$j_bg" 1.9)<span style="display: flex; flex-direction: column;"><span style="font-size: 13.5px; font-weight: 700; color: $ink; line-height: 1.35;">अल रिग्गा</span><span style="font-size: 12px; color: $muted; line-height: 1.35;">मेट्रो · 450 मी</span></span></div>
+      <div style="display: flex; align-items: center; gap: 8px; padding: 2px 10px; border-radius: 12px; background: $sand;">$(bus 18 "$j_bg" 1.9)<span style="display: flex; flex-direction: column;"><span style="font-size: 13.5px; font-weight: 700; color: $ink; line-height: 1.35;">Ghurair City 1</span><span style="font-size: 12px; color: $muted; line-height: 1.35;">बस स्टॉप · 250 मी</span></span></div>
+    </div>
   </div>
 H
 bar none

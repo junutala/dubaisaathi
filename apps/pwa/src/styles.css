@@ -1004,8 +1004,8 @@ button:not(:disabled) {
 }
 .hotel-card-small {
   flex: none;
-  width: 80px;
-  height: 52px;
+  width: 76px;
+  height: 48px;
   aspect-ratio: auto;
   padding: 4px 5px;
 }
@@ -1017,8 +1017,8 @@ button:not(:disabled) {
 .hotel-older {
   position: relative;
   flex: none;
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   border-radius: 12px;
   overflow: hidden;
   background: var(--sand);
@@ -1062,6 +1062,39 @@ button:not(:disabled) {
 }
 .hotel-fields .field-input {
   min-height: 46px;
+}
+/* The metro and the bus stop nearest the pin, side by side in one row. */
+.hotel-near {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.hotel-near-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 2px 10px;
+  border-radius: 12px;
+  background: var(--sand);
+}
+.hotel-near-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.hotel-near-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hotel-near-sub {
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--muted);
 }
 /* The room beside the desk's number: short, and the one the card never has. */
 .hotel-pair {

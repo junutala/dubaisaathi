@@ -114,3 +114,20 @@ is the first real test.
   on a table reads worse. Finding the four corners would help most and is not built.
 - It does not store where a value came from. The line on step two says so at the moment of reading;
   a hotel opened later shows its values without it.
+
+## Addendum, the same day: the nearest metro and bus stop
+
+The owner, after the card screen shipped: _"I am tempted to add … Nearest Bus stop, Nearest Metro
+station, Nearest landmark. Not sure if we can auto populate some"_ — and, told that two of the three
+can be, _"yes, build metro and bus stop after this ships"_.
+
+Once the hotel is pinned, step two names the metro station and the bus stop nearest the pin, with
+the distance to each, read off the RTA network the phone already carries — no signal, no typing,
+and nothing stored: they are worked out from the pin each time, so a new network pack moves them
+with it. From the owner's Al Rigga pin: Al Rigga metro, 450 m; Ghurair City 1, 250 m.
+
+**The landmark is not built.** The phone knows 22 landmarks and malls, and from Al Rigga the
+nearest is Deira City Centre at 1.8 km — too far to tell a driver anything. It waits for the data.
+
+To keep step two on one screen with the new row, its one-line "kept on this phone only" footer
+went; step one still says it in full, where the card is photographed.

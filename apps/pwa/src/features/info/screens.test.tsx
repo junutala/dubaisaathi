@@ -351,6 +351,18 @@ describe('घर.1 · मेरा होटल, with the radio off and no pass'
     expect(await hotel?.cardPhoto?.text()).toBe('card');
   });
 
+  it('names the metro station and the bus stop nearest the pin, with the radio off', async () => {
+    const hotel = await saveHotelCapture({
+      submittedAt: '2026-09-23T06:00:00.000Z',
+      pin: { lat: 25.2637, lng: 55.3197 },
+    });
+    show(<HotelScreen hotel={hotel} />);
+    expect(await screen.findByText('अल रिग्गा', {}, { timeout: 5000 })).toBeTruthy();
+    expect(screen.getByText('Ghurair City 1')).toBeTruthy();
+    expect(screen.getByText(/^मेट्रो · \d+ मी$/)).toBeTruthy();
+    expect(screen.getByText(/^बस स्टॉप · \d+ मी$/)).toBeTruthy();
+  });
+
   it('removes the hotel from the header, and only when asked, then goes home', async () => {
     const hotel = await saveHotelCapture({ name: 'Citymax', room: '412' });
     show(<HotelScreen hotel={hotel} />);

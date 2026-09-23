@@ -11,3 +11,5 @@ export { parseTransportPack, type TransportNetwork } from './network.js';
 export { currentFares, parseFarePack, FARES_PACK_ID, type FarePack } from './fares.js';
 export { planRoutes, type RouteOption, type RouteOptionId } from './routePlanner.js';
 export { placeById, localName } from './destinations.js';
+export { nearestStops, type NearStops } from './nearestStops.js';
+export { useTransportNetwork } from './useNetwork.js';
