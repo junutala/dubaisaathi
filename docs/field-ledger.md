@@ -66,20 +66,20 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 
 **What the card said**
 
-| Field                                            | Why it is there                                                                                      |
-| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
-| The two sides, small; tap to retake              | Which card this hotel is; a better photograph reads again and fills what is empty                    |
-| Earlier photos, only if a phone has them         | Taken before 23 September and still theirs; removing one asks first, because it cannot return        |
-| "आपके कार्ड से पढ़ा गया", beside the card        | A value the traveller did not type says where it came from (design rule 30)                          |
-| पढ़ा नहीं जा सका / सिग्नल चाहिए                  | What the phone actually said, and that the boxes still work; reads itself when signal returns        |
-| होटल                                             | Read from the card's own web address; the strip and जाना say it                                      |
-| कमरा                                             | The one box always typed: no card carries it                                                         |
-| रिसेप्शन                                         | Only a Dubai landline is filled — never the manager's mobile or the fax; it dials                    |
-| पता                                              | The street and the area, what a driver asks for; the P.O. Box is dropped                             |
-| नोट                                              | Theirs, never filled                                                                                 |
-| पिन लगी है · the area, in one line               | The why was on the first step; never taken from the card's address (decision 024)                    |
-| होटल हटाएँ, the bin in the header                | Theirs to remove, and only theirs; in the header, where it costs the screen no row                   |
-| Nearest metro · nearest bus stop, with distances | Read off the RTA network from the pin, offline; what a traveller needs to get back, and nobody types |
+| Field                                            | Why it is there                                                                                            |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| The two sides, small; tap to see full size       | The card at full size is what a driver reads; retaking is a button there, and a new photograph reads again |
+| Earlier photos, only if a phone has them         | Taken before 23 September and still theirs; removing one asks first, because it cannot return              |
+| "आपके कार्ड से पढ़ा गया", beside the card        | A value the traveller did not type says where it came from (design rule 30)                                |
+| पढ़ा नहीं जा सका / सिग्नल चाहिए                  | What the phone actually said, and that the boxes still work; reads itself when signal returns              |
+| होटल                                             | Read from the card's own web address; the strip and जाना say it                                            |
+| कमरा                                             | The one box always typed: no card carries it                                                               |
+| रिसेप्शन                                         | Only a Dubai landline is filled — never the manager's mobile or the fax; it dials                          |
+| पता                                              | The street and the area, what a driver asks for; the P.O. Box is dropped                                   |
+| नोट                                              | Theirs, never filled                                                                                       |
+| पिन लगी है · the area, in one line               | The why was on the first step; never taken from the card's address (decision 024)                          |
+| होटल हटाएँ, the bin in the header                | Theirs to remove, and only theirs; in the header, where it costs the screen no row                         |
+| Nearest metro · nearest bus stop, with distances | Read off the RTA network from the pin, offline; what a traveller needs to get back, and nobody types       |
 
 ## घर.2 · ज़रूरी जानकारी · घर.3 · देखें
 

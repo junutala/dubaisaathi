@@ -160,7 +160,7 @@ describe('घर.1 · मेरा होटल, with the radio off and no pass'
     expect(await screen.findByText(/आपके कार्ड से पढ़ा गया/)).toBeTruthy();
     expect(screen.getByDisplayValue('Sabtbir Hotel Apartments')).toBeTruthy();
     expect(screen.getByDisplayValue('23D St, Al Rigga, Dubai')).toBeTruthy();
-    expect(screen.getByPlaceholderText('412')).toHaveProperty('value', '');
+    expect(screen.getByPlaceholderText('लिखें')).toHaveProperty('value', '');
   });
 
   it('never writes a reading over what the traveller typed', async () => {
@@ -174,13 +174,19 @@ describe('घर.1 · मेरा होटल, with the radio off and no pass'
     });
     const typed = await saveHotelCapture({ name: 'Rigga Palm, Deira', cardBack: photo('back') });
     show(<HotelScreen hotel={typed} />);
-    // A hotel written into before the card screen opens on its fields; retaking a side reads it.
-    const inputs = document.querySelectorAll<HTMLInputElement>('input[type="file"]');
-    choose(inputs[1]!, photo('back-again'));
+    // A hotel written into before the card screen opens on its fields. Tapping the photographed
+    // side opens it full size; retaking it there reads it again.
+    fireEvent.click(screen.getByRole('button', { name: /कार्ड · पीछे/ }));
+    expect(screen.getByRole('dialog', { name: 'कार्ड · पीछे' })).toBeTruthy();
+    const retake = screen.getByText('यह तरफ़ फिर से लें').closest('label')!;
+    choose(retake.querySelector<HTMLInputElement>('input[type="file"]')!, photo('back-again'));
     await waitFor(async () => {
       expect((await readHotel())?.phone).toBe('+971 4 268 0455');
     });
     expect((await readHotel())?.name).toBe('Rigga Palm, Deira');
+    expect(await (await readHotel())?.cardBack?.text()).toBe('back-again');
+    // The viewer closes on the new photograph; nothing opened the camera from the card itself.
+    expect(screen.queryByRole('dialog')).toBeNull();
   });
 
   it('goes on to the boxes when the card cannot be read with the radio off, and says why', async () => {
@@ -327,7 +333,7 @@ describe('घर.1 · मेरा होटल, with the radio off and no pass'
       fireEvent.change(screen.getByPlaceholderText('होटल का नाम'), {
         target: { value: 'Citymax Bur Dubai' },
       });
-      fireEvent.change(screen.getByPlaceholderText('412'), { target: { value: '412' } });
+      fireEvent.change(screen.getByPlaceholderText('लिखें'), { target: { value: '412' } });
       await vi.advanceTimersByTimeAsync(500);
     } finally {
       vi.useRealTimers();

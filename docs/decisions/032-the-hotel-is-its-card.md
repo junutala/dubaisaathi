@@ -24,8 +24,8 @@ extra ones, and added an address field filled from the card.
 
 **Step one, the card.** Front, back, the pin, Submit. Nothing to type. One screen.
 
-**Step two, what the card said.** The two sides small at the top (tap to retake — a retaken side is
-read again) with a line beside them saying the values were read from the card, then होटल, कमरा
+**Step two, what the card said.** The two sides small at the top (tap one to see it full size, for a
+driver; retake it from there, and a retaken side is read again) with a line beside them saying the values were read from the card, then होटल, कमरा
 beside रिसेप्शन, पता and नोट, then the pin in one line. होटल हटाएँ is a bin in the header, where it
 costs no row. One screen — measured at 360 × 672, the owner's phone with its browser bars, in both
 languages. Everything saves as it is typed.
@@ -131,3 +131,7 @@ nearest is Deira City Centre at 1.8 km — too far to tell a driver anything. It
 
 To keep step two on one screen with the new row, its one-line "kept on this phone only" footer
 went; step one still says it in full, where the card is photographed.
+
+The owner, later that day, on step two: the room box showed "412" in grey and read as filled in —
+the example is now "लिखें" / "Type it". And a tap on a card photograph opened the camera; it now
+opens the card full size, uncropped, with the retake as a button there.
