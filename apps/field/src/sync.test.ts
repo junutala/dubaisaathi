@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { FieldReport } from '@saathi/shared';
 import { cloneKeepingBlobs } from './blobHarness.js';
 import { db } from './db.js';
-import { syncReports } from './sync.js';
+import { batches, syncReports } from './sync.js';
 
 /**
  * A collector's morning, and the one way it can be destroyed.
@@ -123,5 +123,52 @@ describe('a visit on its way to the server', () => {
     await syncReports();
     await syncReports();
     expect(calls).toBe(1);
+  });
+});
+
+/** Form 0002's menu is 24 pages (23 September). */
+describe('a long menu', () => {
+  async function queueMenu(pages: number) {
+    const ids = Array.from({ length: pages }, (_, i) => `${REPORT.id}-menu-${String(i)}`);
+    await db.reports.add({ ...REPORT, frontPhotoIds: [], menuPhotoIds: ids });
+    for (const [i, id] of ids.entries()) {
+      await db.photos.add({
+        id,
+        reportId: REPORT.id,
+        kind: 'menu',
+        bytes: new Blob([`page ${String(i)}`], { type: 'image/jpeg' }),
+      });
+    }
+  }
+
+  it('sends every page with its place in the menu, page 10 after page 9', async () => {
+    await queueMenu(12);
+    const sent: { ord: number; dataUrl: string }[] = [];
+    vi.stubGlobal('fetch', (_url: string, init: RequestInit) => {
+      const body = JSON.parse(init.body as string) as {
+        photos: { ord: number; dataUrl: string }[];
+      };
+      sent.push(...body.photos);
+      return Promise.resolve(new Response('{}', { status: 200 }));
+    });
+
+    await syncReports();
+    expect(sent.map((photo) => photo.ord)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+    expect(atob(sent[10]?.dataUrl.split(',')[1] ?? '')).toBe('page 10');
+  });
+
+  it('is not uploaded until every batch has landed', async () => {
+    await queueMenu(3);
+    vi.stubGlobal('fetch', () => Promise.resolve(new Response('no', { status: 500 })));
+    await syncReports();
+    expect((await db.reports.get(REPORT.id))?.uploaded).toBe(false);
+  });
+
+  it('splits by size and never leaves a photograph out', () => {
+    const photo = (ord: number) => ({ kind: 'menu', ord, dataUrl: 'x'.repeat(1500) });
+    const split = batches([0, 1, 2, 3, 4].map(photo), 3000);
+    expect(split.map((batch) => batch.map((p) => p.ord))).toEqual([[0, 1], [2, 3], [4]]);
+    // A report with no photographs still goes: the report is the visit.
+    expect(batches([])).toEqual([[]]);
   });
 });

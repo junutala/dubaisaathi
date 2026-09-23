@@ -11,6 +11,7 @@ import { collectorName, setCollectorName } from './collector.js';
 import { waitingPins, type WaitingPin } from './pins.js';
 import { Logo, Wordmark } from './Logo.js';
 import { shrink, MENU } from './shrink.js';
+import { isPdf, pdfPages } from './pdfPages.js';
 import { BUILD } from './version.js';
 import { readMenu } from './readMenu.js';
 import type { Candidate } from './dishCandidates.js';
@@ -97,6 +98,7 @@ export function CaptureScreen({
   const [pins, setPins] = useState<readonly WaitingPin[]>([]);
   const [pin, setPin] = useState<WaitingPin | null>(null);
   const [menu, setMenu] = useState<Blob[]>([]);
+  const [pdf, setPdf] = useState<'opening' | 'failed' | null>(null);
 
   const [diet, setDiet] = useState<Record<string, Answer>>({});
   const [dishes, setDishes] = useState<ConfirmedDish[]>([]);
@@ -207,7 +209,8 @@ export function CaptureScreen({
     await db.transaction('rw', db.reports, db.photos, async () => {
       await db.reports.put({ ...report, uploaded: false });
       for (const [i, file] of menu.entries()) {
-        await db.photos.add({
+        // `put`: a form keyed a second time against the same number replaces its pages.
+        await db.photos.put({
           id: `${id}-menu-${String(i)}`,
           reportId: id,
           kind: 'menu',
@@ -570,11 +573,27 @@ export function CaptureScreen({
           label={t('menuPhotos')}
           multiple
           onPick={(f) => {
-            void Promise.all(f.map((file) => shrink(file, MENU))).then((shrunk) => {
-              setMenu((was) => [...was, ...shrunk]);
-            });
+            // Files in the order picked; a PDF becomes its pages, in its own order.
+            const anyPdf = f.some(isPdf);
+            if (anyPdf) setPdf('opening');
+            void Promise.all(
+              f.map((file) =>
+                isPdf(file) ? pdfPages(file, MENU) : shrink(file, MENU).then((b) => [b]),
+              ),
+            ).then(
+              (pages) => {
+                setMenu((was) => [...was, ...pages.flat()]);
+                setPdf(null);
+              },
+              () => {
+                setPdf('failed');
+              },
+            );
           }}
         />
+        {pdf !== null && (
+          <p className="hint">{t(pdf === 'opening' ? 'menuPdfOpening' : 'menuPdfFailed')}</p>
+        )}
         {menu.length > 0 && (
           <p className="hint">
             {t('menuCount', { n: menu.length, size: kb(menu.reduce((sum, m) => sum + m.size, 0)) })}
@@ -719,7 +738,7 @@ function FilePick({
       {label}
       <input
         type="file"
-        accept="image/*"
+        accept="image/*,application/pdf"
         multiple={multiple === true}
         onChange={(e) => {
           onPick([...(e.target.files ?? [])]);

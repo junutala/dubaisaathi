@@ -119,7 +119,10 @@ Deno.serve(async (request: Request): Promise<Response> => {
 
   if (request.method !== 'POST') return json({ error: 'GET or POST' }, 405);
 
-  let payload: { report?: Record<string, unknown>; photos?: { kind: string; dataUrl: string }[] };
+  let payload: {
+    report?: Record<string, unknown>;
+    photos?: { kind: string; dataUrl: string; ord?: number }[];
+  };
   try {
     payload = await request.json();
   } catch {
@@ -149,7 +152,19 @@ Deno.serve(async (request: Request): Promise<Response> => {
   }
 
   const photos = Array.isArray(payload.photos) ? payload.photos : [];
-  if (!photos.some((photo) => photo.kind === 'front')) flags.push('no-front-photo');
+  /**
+   * A front already held counts. A long menu arrives in several requests, only one of which can
+   * carry the front, and a desk completing a rider's pin on another device never had the front
+   * at all — the rider's phone sent it.
+   */
+  if (!photos.some((photo) => photo.kind === 'front')) {
+    const held = await db
+      .from('field_photos')
+      .select('report_id', { count: 'exact', head: true })
+      .eq('report_id', report.id)
+      .eq('kind', 'front');
+    if ((held.count ?? 0) === 0) flags.push('no-front-photo');
+  }
   /**
    * A rider's pin: a number and a fix, with the five answers still on paper in somebody's bag
    * (decision 029). It is not an approved outlet and must not read as one in review — it is a
@@ -233,12 +248,19 @@ Deno.serve(async (request: Request): Promise<Response> => {
    * those must leave one row per picture rather than another copy of it.
    */
   let stored = 0;
+  let readable = 0;
   const seen = { front: 0, menu: 0 };
   for (const photo of photos) {
     const bytes = bytesFromDataUrl(photo.dataUrl);
     if (!bytes) continue;
+    readable += 1;
     const kind = photo.kind === 'front' ? 'front' : 'menu';
-    const ord = seen[kind];
+    // A batch of a long menu says which page each photo is; a whole report in one request may
+    // leave it to its order.
+    const ord =
+      typeof photo.ord === 'number' && Number.isInteger(photo.ord) && photo.ord >= 0
+        ? photo.ord
+        : seen[kind];
     seen[kind] += 1;
     const written = await db.from('field_photos').upsert(
       {
@@ -252,5 +274,11 @@ Deno.serve(async (request: Request): Promise<Response> => {
     if (!written.error) stored += 1;
   }
 
+  // A page that did not store is not a report that arrived: the phone keeps it queued and sends
+  // the batch again, which the slots above make harmless. One that could not be decoded would
+  // fail the same way for ever, so it does not hold the visit back.
+  if (stored < readable) {
+    return json({ error: 'photos not all stored', stored, sent: readable }, 502);
+  }
   return json({ id: report.id, status: row.status, flags, photos: stored });
 });
