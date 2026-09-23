@@ -204,11 +204,22 @@ export async function latestBuild(): Promise<Latest | null> {
  *
  * It takes the worker out of the way — unregistered, its caches deleted — and reloads onto
  * whatever the network serves. **Nothing of the traveller's is in there**: the documents, the
- * hotel and the pass live in IndexedDB and localStorage, which this does not touch. What is lost
- * is the offline copy of the app itself, which the new worker rebuilds on the next load.
+ * hotel and the pass live in IndexedDB and localStorage, which this does not touch, and the card
+ * reader's engine lives in a cache this spares by name. What is lost is the offline copy of the
+ * app itself, which the new worker rebuilds on the next load.
  *
  * Once an hour at most, so a server that is genuinely unreachable cannot turn this into a loop.
  */
+/**
+ * Caches the repair leaves alone, because they hold something a traveller waited for rather than
+ * a copy of the app: the card reader's engine (decision 032). Nothing in them decides which build
+ * runs, so keeping them cannot keep a phone on an old one.
+ */
+const KEPT_CACHES: ReadonlySet<string> = new Set([
+  // The name vite.config.ts gives the engine's runtime cache. Change one, change both.
+  'saathi-ocr',
+]);
+
 export async function repairToLatest(): Promise<boolean> {
   if (triedRecently(REPAIRED, REPAIR_AFTER_MS, localStorage)) return false;
   noteTry(REPAIRED, localStorage);
@@ -220,7 +231,9 @@ export async function repairToLatest(): Promise<boolean> {
   }
   try {
     const names = await caches.keys();
-    await Promise.all(names.map((name) => caches.delete(name)));
+    await Promise.all(
+      names.filter((name) => !KEPT_CACHES.has(name)).map((name) => caches.delete(name)),
+    );
   } catch {
     /* same: the shell is network-first, so a stale cache is no longer the authority anyway */
   }

@@ -46,6 +46,24 @@ RUN VITE_BUILD_SHA="$RAILWAY_GIT_COMMIT_SHA" \
     VITE_TESTING_TOOLS="$VITE_TESTING_TOOLS" \
     npm run build --workspace @saathi/pwa
 
+# The card reader's engine, on our own origin (decision 032). The hotel's card is read on the
+# phone and nowhere else, so the engine has to come from here: the worker, one core for each kind
+# of phone (the worker picks the one the phone can run), and the English it reads with — all
+# out of packages the lockfile pins, so nothing is fetched from anybody else's host at build
+# time either. `best_int` English, the engine's own default: a card's small print photographed
+# in a lobby is exactly the case where the faster data gives up accuracy.
+#
+# Copied in AFTER the build, so the Workbox precache never sees these files: a traveller who
+# never reads a card never downloads them. Versioned in the path, so they can be cached forever.
+FROM node:22-alpine AS ocr
+WORKDIR /ocr/v7
+COPY --from=build /repo/node_modules/tesseract.js/dist/worker.min.js ./
+COPY --from=build /repo/node_modules/tesseract.js-core/tesseract-core-relaxedsimd-lstm.wasm.js ./
+COPY --from=build /repo/node_modules/tesseract.js-core/tesseract-core-simd-lstm.wasm.js ./
+COPY --from=build /repo/node_modules/tesseract.js-core/tesseract-core-lstm.wasm.js ./
+COPY --from=build /repo/node_modules/@tesseract.js-data/eng/4.0.0_best_int/eng.traineddata.gz ./
+RUN ls -la /ocr/v7
+
 FROM nginx:1.27-alpine
 # nginx cannot read an environment variable from a config file, and Railway hands the port in at
 # runtime. The official image's entrypoint substitutes templates on the way up; the filter limits
@@ -54,3 +72,4 @@ ENV NGINX_ENVSUBST_FILTER=PORT
 ENV PORT=8080
 COPY deploy/nginx.conf /etc/nginx/templates/default.conf.template
 COPY --from=build /repo/apps/pwa/dist /usr/share/nginx/html
+COPY --from=ocr /ocr /usr/share/nginx/html/ocr

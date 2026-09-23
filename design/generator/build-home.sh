@@ -95,35 +95,81 @@ cat <<H
 H
 } > "$OUT/Landing.dc.html"
 
-# ---- घर.1 · मेरा होटल (free-form record)
-{
-open_screen
-strip running set
-header pin "$marigold" 'मेरा होटल'
-cat <<H
-  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 6px 16px 12px 16px;">
-    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
-      $(photo 120 'रिसेप्शन का कार्ड')
-      $(photo 120 'होटल का सामने का हिस्सा')
-    </div>
-    <div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 14px; border: 1.5px dashed $line; color: $muted; font-size: 14px; font-weight: 600;">$(camera 20 "$muted" 1.9)एक और फ़ोटो जोड़ें</div>
-    <div style="display: flex; flex-direction: column; gap: 8px;">
-      <div style="display: flex; align-items: center; gap: 10px; padding: 0 14px; min-height: 50px; border-radius: 14px; background: $card; border: 1px solid $line;"><span style="font-size: 12.5px; font-weight: 700; color: $muted; width: 92px;">होटल</span><span style="font-size: 16px; color: $ink;">Citymax Bur Dubai</span></div>
-      <div style="display: flex; align-items: center; gap: 10px; padding: 0 14px; min-height: 50px; border-radius: 14px; background: $card; border: 1px solid $line;"><span style="font-size: 12.5px; font-weight: 700; color: $muted; width: 92px;">कमरा</span><span style="font-size: 16px; color: $ink;">412</span></div>
-      <div style="display: flex; align-items: center; gap: 10px; padding: 0 14px; min-height: 50px; border-radius: 14px; background: $card; border: 1px solid $line;"><span style="font-size: 12.5px; font-weight: 700; color: $muted; width: 92px;">रिसेप्शन</span><span style="font-size: 16px; color: $ink; flex: 1;">+971 4 000 0000</span>$(phone 20 "$teal" 1.9)</div>
-      <div style="display: flex; align-items: center; gap: 10px; padding: 0 14px; min-height: 50px; border-radius: 14px; background: $card; border: 1px solid $line;"><span style="font-size: 12.5px; font-weight: 700; color: $muted; width: 92px;">नोट</span><span style="font-size: 16px; color: $muted;">नाश्ता 7 से 10 …</span></div>
-    </div>
+# ---- घर.1 · मेरा होटल, step one: the card (decision 032). Both sides of the reception's card, the
+# pin, and Submit — on the first screen, because a pin below the fold is a pin nobody presses.
+field() { # label value muted?
+  local col=$ink; [ "${3:-}" = muted ] && col=$muted
+  echo "<div style=\"display: flex; align-items: center; gap: 10px; padding: 0 14px; min-height: 48px; border-radius: 14px; background: $card; border: 1px solid $line; box-sizing: border-box;\"><span style=\"font-size: 12.5px; font-weight: 700; color: $muted; width: 84px; flex-shrink: 0;\">$1</span><span style=\"font-size: 16px; color: $col; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;\">$2</span></div>"
+}
+stacked() { # label value extra
+  echo "<div style=\"display: flex; flex-direction: column; justify-content: center; padding: 3px 12px 0 12px; min-height: 48px; border-radius: 14px; background: $card; border: 1px solid $line; box-sizing: border-box;\"><span style=\"font-size: 11.5px; font-weight: 700; color: $muted;\">$1</span><span style=\"display: flex; align-items: center; justify-content: space-between; font-size: 16px; color: $ink; min-height: 28px;\">$2$3</span></div>"
+}
+pinned() { # now | done
+  local head='जगह की पिन लगी है' sub='यहीं खड़े होकर लगाई गई · देरा' again='फिर से'
+  [ "$1" = now ] && head='यहीं पिन लगाएँ' && sub='होटल में खड़े होकर दबाएँ — GPS से जगह याद रहेगी' && again=''
+cat <<P
     <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: $tealSoft;">
       $(pin 22 "$teal" 1.9)
-      <span style="display: flex; flex-direction: column; gap: 1px; flex: 1;"><span style="font-size: 14.5px; font-weight: 700; color: $tealText;">जगह की पिन लगी है</span><span style="font-size: 12.5px; color: $tealText;">यहीं खड़े होकर लगाई गई · बुर दुबई</span></span>
-      <span style="font-size: 12.5px; font-weight: 700; color: $tealText;">फिर से</span>
+      <span style="display: flex; flex-direction: column; gap: 1px; flex: 1;"><span style="font-size: 14.5px; font-weight: 700; color: $tealText;">$head</span><span style="font-size: 12.5px; color: $tealText;">$sub</span></span>
+      <span style="font-size: 12.5px; font-weight: 700; color: $tealText;">$again</span>
     </div>
-    <span style="font-size: 12.5px; color: $muted; text-align: center; padding-top: 4px;">सब कुछ आपके फ़ोन पर ही रहता है। कहीं भेजा नहीं जाता।</span>
+P
+}
+{
+open_screen
+strip running none
+header pin "$marigold" 'मेरा होटल'
+cat <<H
+  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 10px; padding: 6px 16px 12px 16px;">
+    <span style="font-size: 14.5px; line-height: 1.4; color: $ink;">रिसेप्शन के कार्ड के दोनों तरफ़ की फ़ोटो लें और होटल पर पिन लगाएँ। बाक़ी कार्ड से भर जाएगा।</span>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+      $(photo 106 'कार्ड · आगे')
+      $(photo 106 'कार्ड · पीछे')
+    </div>
+$(pinned now)
+    <div style="flex: 1;"></div>
+    <span style="display: flex; align-items: center; justify-content: center; min-height: 50px; border-radius: 14px; background: $marigold; color: $onMarigold; font-size: 15.5px; font-weight: 700;">सबमिट करें</span>
+    <span style="font-size: 12.5px; color: $muted; text-align: center;">सब कुछ आपके फ़ोन पर ही रहता है। कहीं भेजा नहीं जाता।</span>
   </div>
 H
 bar none
 close_screen
 } > "$OUT/HomeHotel.dc.html"
+
+# ---- घर.1 · मेरा होटल, step two: what the card said (decision 032). Read on the phone, in boxes the
+# traveller corrects, under a line saying so beside the card; the room is typed, because no card
+# carries it. होटल हटाएँ is the bin in the header. All of it on one screen at 360 × 672.
+{
+open_screen
+strip running set
+header pin "$marigold" 'मेरा होटल' '' trash
+cat <<H
+  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 8px; padding: 6px 16px 10px 16px;">
+    <div style="display: flex; align-items: center; gap: 10px; padding-top: 2px;">
+      <div style="width: 80px; flex: none;">$(photo 52 'कार्ड · आगे')</div>
+      <div style="width: 80px; flex: none;">$(photo 52 'कार्ड · पीछे')</div>
+      <span style="flex: 1; font-size: 12.5px; line-height: 1.35; font-weight: 600; color: $tealText;">आपके कार्ड से पढ़ा गया। देख लें, ग़लत हो तो ठीक करें।</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      $(field 'होटल' 'Sabtbir Hotel Apartments')
+      <div style="display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); gap: 8px;">
+        $(stacked 'कमरा' '<span style="color: '"$muted"';">412</span>' '')
+        $(stacked 'रिसेप्शन' '+971 4 258 6682' "$(phone 20 "$teal" 1.9)")
+      </div>
+      $(field 'पता' '23D St, Al Rigga, Dubai')
+      $(field 'नोट' 'नाश्ता 7 से 10 …' muted)
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; padding: 0 14px; min-height: 48px; border-radius: 14px; background: $tealSoft;">
+      $(pin 22 "$teal" 1.9)
+      <span style="flex: 1; font-size: 14.5px; font-weight: 700; color: $tealText;">पिन लगी है · देरा</span>
+      <span style="font-size: 12.5px; font-weight: 700; color: $tealText;">फिर से</span>
+    </div>
+    <span style="font-size: 13px; color: $muted; text-align: center;">सिर्फ़ इसी फ़ोन पर रखा है।</span>
+  </div>
+H
+bar none
+close_screen
+} > "$OUT/HomeHotelRead.dc.html"
 
 # ---- घर.2 · ज़रूरी जानकारी — three capsules, and no hotel row (decision 028)
 cap() { # label on

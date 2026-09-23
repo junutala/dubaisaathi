@@ -55,12 +55,13 @@ cat <<S
 S
 fi
 }
-# header: $1 = icon fn, $2 = colour, $3 = title, $4 = crumb (may be empty)
+# header: $1 = icon fn, $2 = colour, $3 = title, $4 = crumb (may be empty), $5 = an icon fn for
+# one control at the far end (may be empty) — घर.1's second step puts होटल हटाएँ there (decision 032)
 header() {
 cat <<S
   <div style="display: flex; align-items: center; gap: 8px; padding: 10px 8px 4px 8px;">
     <span style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;">$(back 22 "$ink" 2)</span>
-    <span style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">$($1 22 "$2" 1.9)<span class="disp" style="font-size: 24px; font-weight: 700; color: $ink; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">$3</span>$( [ -n "$4" ] && echo "<span style=\"font-size: 13px; color: $muted; white-space: nowrap;\">› $4</span>")</span>
+    <span style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">$($1 22 "$2" 1.9)<span class="disp" style="font-size: 24px; font-weight: 700; color: $ink; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">$3</span>$( [ -n "$4" ] && echo "<span style=\"font-size: 13px; color: $muted; white-space: nowrap;\">› $4</span>")</span>$( [ -n "${5:-}" ] && echo "<span style=\"width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;\">$($5 21 "$ink" 1.9)</span>")
   </div>
 S
 }

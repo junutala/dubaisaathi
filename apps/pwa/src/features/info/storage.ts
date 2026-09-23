@@ -7,8 +7,14 @@ import { HOTEL_ID, type SavedHotel, type TravellerDocument } from './records.js'
  * a lobby with the radio off is readable a fortnight later with the radio still off.
  */
 
-/** A change to the hotel. Any one field is a hotel on its own. */
-export type HotelCapture = Omit<SavedHotel, 'id' | 'savedAt'>;
+/**
+ * A change to the hotel. Any one field is a hotel on its own, and a field given as `undefined`
+ * is taken off the row: an emptied box is no value, not an empty one — '' would reach जाना as a
+ * hotel with no name.
+ */
+export type HotelCapture = {
+  readonly [K in keyof Omit<SavedHotel, 'id' | 'savedAt'>]?: SavedHotel[K] | undefined;
+};
 
 const watchers = new Set<() => void>();
 
@@ -24,6 +30,36 @@ export async function readHotel(): Promise<SavedHotel | undefined> {
   return db.hotels.get(HOTEL_ID);
 }
 
+type HotelField = Exclude<keyof SavedHotel, 'id' | 'savedAt'>;
+
+/**
+ * Every optional field of the hotel, which a capture is merged over. A record rather than a list
+ * so the compiler refuses it the day a field is added to SavedHotel and not here.
+ */
+const LISTED: Record<HotelField, true> = {
+  name: true,
+  room: true,
+  phone: true,
+  address: true,
+  note: true,
+  pin: true,
+  area: true,
+  cardPhoto: true,
+  cardBack: true,
+  submittedAt: true,
+  gatePhoto: true,
+  photos: true,
+};
+// Object.keys widens to string[]; the record above is exactly these keys.
+const HOTEL_FIELDS = Object.keys(LISTED) as HotelField[];
+
+type MutableHotel = { -readonly [K in keyof SavedHotel]: SavedHotel[K] };
+
+/** A field onto the row, or off it: undefined is no value, and the row does not carry one. */
+function keep<K extends HotelField>(hotel: MutableHotel, key: K, value: SavedHotel[K] | undefined) {
+  if (value !== undefined) hotel[key] = value;
+}
+
 /**
  * घर.1 saves one thing at a time, so a capture merges into whatever is already there: pin in
  * the lobby now, photograph the card when someone hands one over tomorrow. Doing a second never
@@ -34,12 +70,8 @@ export async function saveHotelCapture(capture: HotelCapture): Promise<SavedHote
   // the phone worth keeping. Best-effort by design: it changes nothing the traveller can see.
   void requestPersistentStorage();
   const existing = await readHotel();
-  const hotel: SavedHotel = {
-    ...existing,
-    ...capture,
-    id: HOTEL_ID,
-    savedAt: new Date().toISOString(),
-  };
+  const hotel: MutableHotel = { id: HOTEL_ID, savedAt: new Date().toISOString() };
+  for (const key of HOTEL_FIELDS) keep(hotel, key, key in capture ? capture[key] : existing?.[key]);
   await db.hotels.put(hotel);
   for (const notify of watchers) notify();
   return hotel;

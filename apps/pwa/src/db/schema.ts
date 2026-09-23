@@ -164,6 +164,28 @@ export class SaathiDb extends Dexie {
       messages: 'id, at, synced',
       packs: 'id, version',
     });
+    /**
+     * v9: the hotel is read off its card (decision 032). The row gains the card's other side, the
+     * address the card prints, and when Submit was pressed. No index changes, because nothing
+     * queries them; the version exists so the shape change is recorded here. The front of the
+     * building and the extra photographs a phone may already hold are not touched: nothing asks
+     * for them now, and a release never takes something away from a phone.
+     *
+     * Everything above is re-declared unchanged, so no row of the traveller's moves.
+     */
+    this.version(9).stores({
+      phrases: 'id, situation',
+      contentVersions: 'id, version',
+      voiceEvents: 'id, at, synced',
+      hotels: 'id',
+      documents: 'id, addedAt',
+      transportNodes: 'id',
+      transportEdges: 'id, fromNodeId, toNodeId',
+      transportMeta: 'id',
+      savedPhrases: 'id, savedAt',
+      messages: 'id, at, synced',
+      packs: 'id, version',
+    });
   }
 }
 

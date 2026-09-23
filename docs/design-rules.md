@@ -30,19 +30,20 @@ rule is agreed, it is added here before the screen is drawn. Sprint 1, frozen 16
 
 ## Content and honesty
 
-| #   | Rule                                                                                                                                                  | Enforced by |
-| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 19  | A dietary answer nobody asked shows as पूछकर, never as a no.                                                                                          | review      |
-| 20  | Hours show the closing time while open and the opening time while closed, computed in Dubai time.                                                     | review      |
-| 21  | The menu is a grid of dishes and prices read from the card, not a photograph.                                                                         | review      |
-| 22  | A near spelling of a place is a question with the place's own Devanagari name on it; the app never transliterates a traveller's letters into a guess. | review      |
-| 23  | A place we do not know is said so, and the words go to the taxi screen as they are. Never a dead end.                                                 | review      |
-| 24  | The hotel and the documents are on the phone only, without limit, and go only when the traveller deletes them.                                        | review      |
-| 25  | Nothing tech-facing reaches the tourist: no model names, sizes, versions, colour values or template tokens.                                           | checker     |
-| 26  | Every control is at least 48px.                                                                                                                       | review      |
-| 27  | Dark screens carry no light surfaces. Theme follows the phone; the switch is on the strip.                                                            | checker     |
-| 28  | Devanagari line boxes are 1.35 or looser wherever overflow is hidden or clamped.                                                                      | review      |
-| 29  | The canvas and the files on disk agree; every artboard carries its screen number and is named by a pillar.                                            | checker     |
+| #   | Rule                                                                                                                                                        | Enforced by |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 19  | A dietary answer nobody asked shows as पूछकर, never as a no.                                                                                                | review      |
+| 20  | Hours show the closing time while open and the opening time while closed, computed in Dubai time.                                                           | review      |
+| 21  | The menu is a grid of dishes and prices read from the card, not a photograph.                                                                               | review      |
+| 22  | A near spelling of a place is a question with the place's own Devanagari name on it; the app never transliterates a traveller's letters into a guess.       | review      |
+| 23  | A place we do not know is said so, and the words go to the taxi screen as they are. Never a dead end.                                                       | review      |
+| 24  | The hotel and the documents are on the phone only, and go only when the traveller deletes them. Documents without limit; the hotel is its card, both sides. | review      |
+| 25  | Nothing tech-facing reaches the tourist: no model names, sizes, versions, colour values or template tokens.                                                 | checker     |
+| 26  | Every control is at least 48px.                                                                                                                             | review      |
+| 27  | Dark screens carry no light surfaces. Theme follows the phone; the switch is on the strip.                                                                  | checker     |
+| 28  | Devanagari line boxes are 1.35 or looser wherever overflow is hidden or clamped.                                                                            | review      |
+| 29  | The canvas and the files on disk agree; every artboard carries its screen number and is named by a pillar.                                                  | checker     |
+| 30  | A value the phone filled in says where it came from and stays editable; a reading never writes over what the traveller typed.                               | review      |
 
 ## Dropped, so they are not proposed again
 

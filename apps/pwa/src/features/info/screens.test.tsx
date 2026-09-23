@@ -9,6 +9,7 @@ import { DocumentAddScreen } from './DocumentAddScreen.js';
 import { DocumentScreen } from './DocumentScreen.js';
 import { HotelScreen } from './HotelScreen.js';
 import { listDocuments, readHotel, saveDocument, saveHotelCapture } from './storage.js';
+import type { CardReading } from './readCard.js';
 
 /**
  * The hotel and the documents never disappear (rule 6), and the way that rule breaks is never
@@ -26,6 +27,15 @@ vi.mock('../../app/routes.js', async (importOriginal) => ({
   navigate: (...args: unknown[]) => {
     navigate(...args);
   },
+}));
+
+/**
+ * The card reader, stood in for: jsdom has no canvas and no wasm, and what these tests prove is
+ * what the screen does with each thing the reader can say — including that it could not read.
+ */
+const readCard = vi.fn<(photos: readonly Blob[]) => Promise<CardReading>>();
+vi.mock('./readCard.js', () => ({
+  readCard: (photos: readonly Blob[]) => readCard(photos),
 }));
 
 function show(ui: ReactElement) {
@@ -46,6 +56,8 @@ function choose(input: HTMLInputElement, file: File) {
 
 beforeEach(async () => {
   navigate.mockClear();
+  readCard.mockReset();
+  readCard.mockResolvedValue({ lines: [], failed: true });
   // Without this the harness stores photographs and keeps none of them — see blobHarness.ts.
   vi.stubGlobal('structuredClone', cloneKeepingBlobs);
   await db.delete();
@@ -77,29 +89,143 @@ describe('घर.1 · मेरा होटल, with the radio off and no pass'
     expect(pin?.disabled).toBe(false);
   });
 
+  it('puts the card, the pin and Submit on the first screen, and nothing else to fill in', () => {
+    // The owner, 23 September: a pin below the fold is a pin nobody presses.
+    const { container } = show(<HotelScreen hotel={undefined} />);
+    expect(screen.getByText('कार्ड · आगे')).toBeTruthy();
+    expect(screen.getByText('कार्ड · पीछे')).toBeTruthy();
+    expect(screen.getByText('यहीं पिन लगाएँ')).toBeTruthy();
+    expect(screen.getByText('सबमिट करें')).toBeTruthy();
+    expect(container.querySelectorAll('input[type="file"]').length).toBe(2);
+    expect(container.querySelectorAll('input:not([type="file"])').length).toBe(0);
+  });
+
   it('says what happened and keeps everything else when the fix does not come', async () => {
     show(<HotelScreen hotel={undefined} />);
     fireEvent.click(screen.getByText('यहीं पिन लगाएँ').closest('button')!);
     expect(await screen.findByText(/अभी जगह नहीं मिली/)).toBeTruthy();
-    expect(screen.getByText('रिसेप्शन का कार्ड')).toBeTruthy();
-    expect(screen.getByText('होटल का सामने का हिस्सा')).toBeTruthy();
+    expect(screen.getByText('कार्ड · आगे')).toBeTruthy();
+    expect(screen.getByText('सबमिट करें')).toBeTruthy();
   });
 
-  it('keeps a card photo with no pin and no permission', async () => {
+  it('keeps both sides of the card with no pin and no permission', async () => {
     const { container } = show(<HotelScreen hotel={undefined} />);
     const inputs = container.querySelectorAll<HTMLInputElement>('input[type="file"]');
-    expect(inputs.length).toBeGreaterThanOrEqual(3);
-    choose(inputs[0]!, photo('reception-card'));
+    choose(inputs[0]!, photo('card-front'));
     await waitFor(async () => {
-      expect(await db.hotels.count()).toBe(1);
+      expect(await (await readHotel())?.cardPhoto?.text()).toBe('card-front');
     });
-    expect(await (await readHotel())?.cardPhoto?.text()).toBe('reception-card');
+    choose(inputs[1]!, photo('card-back'));
+    await waitFor(async () => {
+      expect(await (await readHotel())?.cardBack?.text()).toBe('card-back');
+    });
+    expect(await (await readHotel())?.cardPhoto?.text()).toBe('card-front');
   });
 
-  it('keeps whatever is typed — room, desk number, a note — without a button', async () => {
+  it('fills what the card says, leaves the room to be typed, and says it was read', async () => {
+    readCard.mockResolvedValue({
+      failed: false,
+      lines: [
+        { text: 'SABTBIR HOTEL APARTMENTS L.L.C', height: 30 },
+        { text: 'Tel: 04 258 6682', height: 16 },
+        { text: 'reservations@sabtbirhotelapts.com', height: 14 },
+        { text: 'P.O. Box 184184, 23D St, Al Rigga, Dubai, UAE', height: 14 },
+      ],
+    });
+    const hotel = await saveHotelCapture({ cardPhoto: photo('front'), cardBack: photo('back') });
+    const { rerender } = show(<HotelScreen hotel={hotel} />);
+    fireEvent.click(screen.getByText('सबमिट करें'));
+    await waitFor(async () => {
+      expect((await readHotel())?.submittedAt).toBeDefined();
+    });
+    const saved = await readHotel();
+    expect(readCard.mock.calls[0]?.[0]).toHaveLength(2);
+    expect(saved?.name).toBe('Sabtbir Hotel Apartments');
+    expect(saved?.phone).toBe('+971 4 258 6682');
+    expect(saved?.address).toBe('23D St, Al Rigga, Dubai');
+    expect(saved?.room).toBeUndefined();
+
+    rerender(
+      <SettingsProvider>
+        <HotelScreen hotel={saved} />
+      </SettingsProvider>,
+    );
+    expect(await screen.findByText(/आपके कार्ड से पढ़ा गया/)).toBeTruthy();
+    expect(screen.getByDisplayValue('Sabtbir Hotel Apartments')).toBeTruthy();
+    expect(screen.getByDisplayValue('23D St, Al Rigga, Dubai')).toBeTruthy();
+    expect(screen.getByPlaceholderText('412')).toHaveProperty('value', '');
+  });
+
+  it('never writes a reading over what the traveller typed', async () => {
+    readCard.mockResolvedValue({
+      failed: false,
+      lines: [
+        { text: 'RIGGA PALM', height: 48 },
+        { text: 'Tel: +971 4 268 0455', height: 16 },
+        { text: 'www.riggapalminn.com', height: 14 },
+      ],
+    });
+    const typed = await saveHotelCapture({ name: 'Rigga Palm, Deira', cardBack: photo('back') });
+    show(<HotelScreen hotel={typed} />);
+    // A hotel written into before the card screen opens on its fields; retaking a side reads it.
+    const inputs = document.querySelectorAll<HTMLInputElement>('input[type="file"]');
+    choose(inputs[1]!, photo('back-again'));
+    await waitFor(async () => {
+      expect((await readHotel())?.phone).toBe('+971 4 268 0455');
+    });
+    expect((await readHotel())?.name).toBe('Rigga Palm, Deira');
+  });
+
+  it('goes on to the boxes when the card cannot be read with the radio off, and says why', async () => {
+    const hotel = await saveHotelCapture({ cardPhoto: photo('front') });
+    const { rerender } = show(<HotelScreen hotel={hotel} />);
+    fireEvent.click(screen.getByText('सबमिट करें'));
+    await waitFor(async () => {
+      expect((await readHotel())?.submittedAt).toBeDefined();
+    });
+    rerender(
+      <SettingsProvider>
+        <HotelScreen hotel={await readHotel()} />
+      </SettingsProvider>,
+    );
+    expect(await screen.findByText(/एक बार सिग्नल चाहिए/)).toBeTruthy();
+    // The typing path is live: a way out that is also a way through.
+    expect(screen.getByPlaceholderText('होटल का नाम')).toBeTruthy();
+  });
+
+  it('reads the card by itself when the signal comes back', async () => {
+    const hotel = await saveHotelCapture({ cardPhoto: photo('front') });
+    const { rerender } = show(<HotelScreen hotel={hotel} />);
+    fireEvent.click(screen.getByText('सबमिट करें'));
+    await waitFor(async () => {
+      expect((await readHotel())?.submittedAt).toBeDefined();
+    });
+    rerender(
+      <SettingsProvider>
+        <HotelScreen hotel={await readHotel()} />
+      </SettingsProvider>,
+    );
+    await screen.findByText(/एक बार सिग्नल चाहिए/);
+    readCard.mockResolvedValue({
+      failed: false,
+      lines: [
+        { text: 'AL WASMI RESIDENCE', height: 44 },
+        { text: 'T +971 4 335 7210', height: 16 },
+        { text: 'www.alwasmiresidence.ae', height: 14 },
+      ],
+    });
+    Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
+    window.dispatchEvent(new Event('online'));
+    await waitFor(async () => {
+      expect((await readHotel())?.name).toBe('Al Wasmi Residence');
+    });
+  });
+
+  it('keeps whatever is typed into two boxes in quick succession, without a button', async () => {
+    const hotel = await saveHotelCapture({ submittedAt: '2026-09-23T06:00:00.000Z' });
     vi.useFakeTimers();
     try {
-      show(<HotelScreen hotel={undefined} />);
+      show(<HotelScreen hotel={hotel} />);
       fireEvent.change(screen.getByPlaceholderText('होटल का नाम'), {
         target: { value: 'Citymax Bur Dubai' },
       });
@@ -108,27 +234,55 @@ describe('घर.1 · मेरा होटल, with the radio off and no pass'
     } finally {
       vi.useRealTimers();
     }
-    const hotel = await readHotel();
-    expect(hotel?.name).toBe('Citymax Bur Dubai');
-    expect(hotel?.room).toBe('412');
+    const saved = await readHotel();
+    expect(saved?.name).toBe('Citymax Bur Dubai');
+    expect(saved?.room).toBe('412');
   });
 
-  it('shows a saved hotel back, and adds a third photograph without losing the first two', async () => {
+  it('takes an emptied box off the hotel rather than keeping it as an empty name', async () => {
+    const hotel = await saveHotelCapture({ name: 'Citymax', room: '412' });
+    vi.useFakeTimers();
+    try {
+      show(<HotelScreen hotel={hotel} />);
+      fireEvent.change(screen.getByDisplayValue('Citymax'), { target: { value: '  ' } });
+      await vi.advanceTimersByTimeAsync(500);
+    } finally {
+      vi.useRealTimers();
+    }
+    const saved = await readHotel();
+    expect(saved !== undefined && 'name' in saved).toBe(false);
+    expect(saved?.room).toBe('412');
+  });
+
+  it('keeps the photographs taken before the card screen, until the traveller removes one', async () => {
+    // A release never takes something away from a phone: the front of the building and the
+    // lift, photographed before 23 September, are still there and still the traveller's.
     const saved = await saveHotelCapture({
-      name: 'Citymax',
+      room: '203',
       cardPhoto: photo('card'),
       gatePhoto: photo('gate'),
+      photos: [photo('lift')],
     });
-    const { container } = show(<HotelScreen hotel={saved} />);
-    expect(screen.getByDisplayValue('Citymax')).toBeTruthy();
-    const inputs = container.querySelectorAll<HTMLInputElement>('input[type="file"]');
-    choose(inputs[inputs.length - 1]!, photo('lift'));
+    show(<HotelScreen hotel={saved} />);
+    expect(screen.getByDisplayValue('203')).toBeTruthy();
+    expect(screen.getAllByAltText('होटल की पहले की फ़ोटो')).toHaveLength(2);
+    fireEvent.click(screen.getAllByRole('button', { name: /होटल की पहले की फ़ोटो/ })[1]!);
     await waitFor(async () => {
-      expect((await readHotel())?.photos?.length).toBe(1);
+      expect((await readHotel())?.photos).toEqual([]);
     });
     const hotel = await readHotel();
-    expect(await hotel?.cardPhoto?.text()).toBe('card');
     expect(await hotel?.gatePhoto?.text()).toBe('gate');
+    expect(await hotel?.cardPhoto?.text()).toBe('card');
+  });
+
+  it('removes the hotel from the header, and only when asked, then goes home', async () => {
+    const hotel = await saveHotelCapture({ name: 'Citymax', room: '412' });
+    show(<HotelScreen hotel={hotel} />);
+    fireEvent.click(screen.getByRole('button', { name: 'होटल हटाएँ' }));
+    await waitFor(async () => {
+      expect(await readHotel()).toBeUndefined();
+    });
+    expect(navigate).toHaveBeenCalledWith({ screen: 'home' });
   });
 });
 

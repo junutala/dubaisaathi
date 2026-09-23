@@ -93,8 +93,10 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   3.x जानना; घर.1–घर.4 are the strip's and the bar's children (hotel, documents, a document,
   the pass).
 - **The top strip is on every screen.** The mark and the name (tap → home), online/offline, the
-  pass dot, language, theme, and under them **the traveller's hotel** — photographs, room, the
-  desk's number, a note, a pin; whatever they want to keep, without limit, on the phone only.
+  pass dot, language, theme, and under them **the traveller's hotel** — on the phone only.
+  **घर.1 is the hotel's card** (decision 032): both sides and a pin on one screen, then Submit
+  reads the card on the phone and fills the name, the desk's landline and the address for the
+  traveller to correct; the room is typed, because no card carries it.
 - **The bar is on every screen: four icons, no words** (decision 027). खाना, जाना, जानना and
   ज़रूरी जानकारी — a thali, a signpost, a lantern and a circled _i_ — each carrying its name as an
   accessible label, the current one lit in its own colour on a sand pill. The words went because
@@ -209,6 +211,7 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
 | Auth         | None. Entitlement keyed to the device; family devices join by short-lived QR token                                                                                                                                                  |
 | Payments     | UPI-first INR aggregator (Razorpay / Cashfree / PhonePe PG): order → intent or QR → webhook                                                                                                                                         |
 | Speech       | Online only, in बोलना: Sarvam `saaras:v3` behind the `listen` function; no mic elsewhere (020)                                                                                                                                      |
+| Card reading | tesseract.js in a worker on the phone, घर.1 only; fetched on first use, kept in its own cache (032)                                                                                                                                 |
 
 Deviating from this table needs a reason recorded in `docs/decisions/`.
 
@@ -264,7 +267,7 @@ online. Nothing a collector submits reaches the tourist pack unreviewed: a repor
    the menu grid
 2. जाना — place or address in, every way there with time and fare, the steps, the taxi hand-off
 3. जानना — attractions with hours, tickets, how long, whom to ring, in Hindi
-4. मेरा होटल — on the strip, whatever the traveller wants to keep, on the phone only
+4. मेरा होटल — on the strip; the card read on the phone, the room typed, a pin; on the phone only
 5. दस्तावेज़ — any document, without limit, on the phone only
 6. The pass — free in India; 24 hours free on landing; ₹199 / ₹299 / ₹399 / ₹499 for 1–4
    phones, 14 days from landing; paid once, never gated
