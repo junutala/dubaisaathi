@@ -9,6 +9,7 @@
  * The renderer is loaded only when a PDF is picked: a phone at a shop door never pays for it.
  */
 
+import type { PDFDocumentProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { fitWithin } from './shrink.js';
 
 export function isPdf(file: File): boolean {
@@ -29,29 +30,44 @@ export async function pdfPages(
   const pages: Blob[] = [];
   try {
     for (let number = 1; number <= doc.numPages; number += 1) {
-      const page = await doc.getPage(number);
-      const natural = page.getViewport({ scale: 1 });
-      // A PDF page is measured in points; draw it at the size a menu photograph is kept.
-      const size = fitWithin(natural.width * 4, natural.height * 4, edge);
-      const viewport = page.getViewport({ scale: size.width / natural.width });
-      const canvas = document.createElement('canvas');
-      canvas.width = Math.round(viewport.width);
-      canvas.height = Math.round(viewport.height);
-      const context = canvas.getContext('2d');
-      if (context === null) throw new Error('no canvas');
-      // A page with no background of its own is transparent, and JPEG turns transparent black.
-      context.fillStyle = '#ffffff';
-      context.fillRect(0, 0, canvas.width, canvas.height);
-      await page.render({ canvas, canvasContext: context, viewport }).promise;
-      const blob = await new Promise<Blob | null>((resolve) => {
-        canvas.toBlob(resolve, 'image/jpeg', quality);
-      });
-      if (blob === null) throw new Error('page not encoded');
-      pages.push(blob);
-      page.cleanup();
+      pages.push(await pageAsPhoto(doc, number, edge, quality));
     }
   } finally {
     await doc.destroy();
   }
   return pages;
+}
+
+/** One page, and when it fails, which one: "page 17 of 24" is where the next look starts. */
+async function pageAsPhoto(
+  doc: PDFDocumentProxy,
+  number: number,
+  edge: number,
+  quality: number,
+): Promise<Blob> {
+  try {
+    const page = await doc.getPage(number);
+    const natural = page.getViewport({ scale: 1 });
+    // A PDF page is measured in points; draw it at the size a menu photograph is kept.
+    const size = fitWithin(natural.width * 4, natural.height * 4, edge);
+    const viewport = page.getViewport({ scale: size.width / natural.width });
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.round(viewport.width);
+    canvas.height = Math.round(viewport.height);
+    const context = canvas.getContext('2d');
+    if (context === null) throw new Error('no canvas');
+    // A page with no background of its own is transparent, and JPEG turns transparent black.
+    context.fillStyle = '#ffffff';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    await page.render({ canvas, canvasContext: context, viewport }).promise;
+    const blob = await new Promise<Blob | null>((resolve) => {
+      canvas.toBlob(resolve, 'image/jpeg', quality);
+    });
+    if (blob === null) throw new Error('page not encoded');
+    page.cleanup();
+    return blob;
+  } catch (error) {
+    const why = error instanceof Error ? error.message : String(error);
+    throw new Error(`page ${String(number)} of ${String(doc.numPages)}: ${why}`);
+  }
 }
