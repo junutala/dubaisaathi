@@ -93,6 +93,8 @@ export const en: Record<StringKey, string> = {
   'hotel.pinned': 'Location pinned',
   'hotel.pinnedWhere': 'Pinned where you stood · {area}',
   'hotel.pinnedShort': 'Pinned · {area}',
+  'hotel.nearMetro': 'Metro · {distance}',
+  'hotel.nearBus': 'Bus stop · {distance}',
   'hotel.pinnedNoArea': 'Pinned where you stood',
   'hotel.pinNow': 'Pin here',
   'hotel.pinWhy': 'Press it standing at the hotel — GPS remembers the spot',
@@ -104,7 +106,6 @@ export const en: Record<StringKey, string> = {
     'Location was refused. Turn it on in the phone settings — everything else is kept as it is.',
   'hotel.pinUnavailable': 'No fix right now. Try again later — everything else is kept.',
   'hotel.pinTimeout': 'The fix took too long. Press again — everything else is kept.',
-  'hotel.onlyHereShort': 'Kept on this phone only.',
   'hotel.onlyHere': 'All of it stays on your phone. Nothing is sent anywhere.',
   'hotel.delete': 'Remove hotel',
 

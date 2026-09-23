@@ -9,6 +9,8 @@ import { useBlobUrl } from './photos.js';
 import { areaFor } from './nearestArea.js';
 import { pinHere } from './pin.js';
 import { insideDubai } from '../../lib/dubai.js';
+import { distanceLabel } from '../../lib/distance.js';
+import { localName, nearestStops, useTransportNetwork } from '../transport/index.js';
 import type { SavedHotel } from './records.js';
 import { currentReading, readHotelCard, watchReading, type ReadOutcome } from './cardReading.js';
 import { deleteHotel, saveHotelCapture, type HotelCapture } from './storage.js';
@@ -296,7 +298,7 @@ function HotelDetails({
         </div>
 
         <PinBox hotel={hotel} compact />
-        <p className="muted small center">{t('hotel.onlyHereShort')}</p>
+        {hotel.pin !== undefined && <NearStopsRow at={hotel.pin} />}
       </div>
     </>
   );
@@ -449,6 +451,38 @@ function PinBox({
       </button>
       {refused !== undefined && <p className="muted small">{t(refused)}</p>}
     </>
+  );
+}
+
+/**
+ * The metro station and the bus stop nearest the pin, from the RTA network on the phone
+ * (owner, 23 September): what a traveller needs to get back, and what nobody has to type.
+ */
+function NearStopsRow({ at }: { readonly at: NonNullable<SavedHotel['pin']> }) {
+  const { t, locale } = useSettings();
+  const network = useTransportNetwork();
+  if (network === null) return null;
+  const near = nearestStops(network.nodes, at);
+  const items = [
+    { stop: near.metro, icon: 'metro' as const, kind: 'hotel.nearMetro' as const },
+    { stop: near.bus, icon: 'bus' as const, kind: 'hotel.nearBus' as const },
+  ];
+  return (
+    <div className="hotel-near">
+      {items.map(({ stop, icon, kind }) =>
+        stop === undefined ? null : (
+          <span key={icon} className="hotel-near-item">
+            <Icon name={icon} size={18} strokeWidth={1.9} color="var(--goText)" />
+            <span className="hotel-near-text">
+              <span className="hotel-near-name">{localName(stop.node.name, locale)}</span>
+              <span className="hotel-near-sub">
+                {t(kind, { distance: distanceLabel(t, stop.km) })}
+              </span>
+            </span>
+          </span>
+        ),
+      )}
+    </div>
   );
 }
 
