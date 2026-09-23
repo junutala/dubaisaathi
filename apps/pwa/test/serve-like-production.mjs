@@ -15,7 +15,10 @@ const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '../dist');
 
 const conf = readFileSync(resolve(here, '../../../deploy/nginx.conf'), 'utf8');
-const csp = /add_header Content-Security-Policy "([^"]+)"/.exec(conf)?.[1];
+// Held in `$csp` since decision 032, so that a location with headers of its own can repeat it.
+const csp =
+  /set \$csp "([^"]+)"/.exec(conf)?.[1] ??
+  /add_header Content-Security-Policy "([^"]+)"/.exec(conf)?.[1];
 if (!csp) throw new Error('no Content-Security-Policy found in deploy/nginx.conf');
 
 const TYPES = {
