@@ -106,6 +106,13 @@ export const hi = {
   'hotel.nearMetro': 'मेट्रो · {distance}',
   'hotel.nearBus': 'बस स्टॉप · {distance}',
   'hotel.pinnedNoArea': 'यहीं खड़े होकर लगाई गई',
+  'hotel.pinnedCard': 'कार्ड से पिन लगी',
+  'hotel.pinnedCardShort': 'कार्ड से पिन · {area}',
+  'hotel.pinnedCardWhere': 'कार्ड से पिन लगी · {area}',
+  'hotel.choiceLead': 'कार्ड होटल को कहीं और बताता है। कौन-सी जगह सही है?',
+  'hotel.choiceStood': 'जहाँ आप खड़े थे',
+  'hotel.choiceCard': 'कार्ड वाली जगह',
+  'hotel.choiceNoArea': 'इलाक़ा पता नहीं',
   'hotel.pinNow': 'यहीं पिन लगाएँ',
   'hotel.pinWhy': 'होटल में खड़े होकर दबाएँ — GPS से जगह याद रहेगी',
   'hotel.pinAgain': 'फिर से',
@@ -116,7 +123,7 @@ export const hi = {
     'जगह की इजाज़त नहीं मिली. फ़ोन की सेटिंग में चालू कीजिए — बाक़ी सब वैसे ही रखा जाएगा.',
   'hotel.pinUnavailable': 'अभी जगह नहीं मिली. बाद में फिर दबाइए — बाक़ी सब रखा जाएगा.',
   'hotel.pinTimeout': 'जगह मिलने में देर लगी. फिर दबाइए — बाक़ी सब रखा जाएगा.',
-  'hotel.onlyHere': 'सब कुछ आपके फ़ोन पर ही रहता है। कहीं भेजा नहीं जाता।',
+  'hotel.onlyHere': 'सब कुछ आपके फ़ोन पर ही रहता है। बस कार्ड पर छपा मैप-लिंक ऑनलाइन खोला जाता है।',
   'hotel.delete': 'होटल हटाएँ',
 
   // घर.2 · दस्तावेज़ — any document, without limit, on the phone

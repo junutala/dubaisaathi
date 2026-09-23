@@ -80,7 +80,7 @@ describe('upgrading a phone that already has the app', () => {
     const upgraded = new SaathiDb(NAME);
     await upgraded.open();
 
-    expect(upgraded.verno).toBe(9);
+    expect(upgraded.verno).toBe(10);
     expect((await upgraded.phrases.get('taxi-hotel'))?.ar).toBe(PHRASE.ar);
     expect((await upgraded.contentVersions.get('phrases'))?.version).toBe(1);
     // The queue is what the learning loop is: losing it loses labelled recogniser errors that
@@ -174,7 +174,7 @@ describe('upgrading a phone that already has the app', () => {
 
     const upgraded = new SaathiDb(NAME);
     await upgraded.open();
-    expect(upgraded.verno).toBe(9);
+    expect(upgraded.verno).toBe(10);
     const hotel = await upgraded.hotels.get('hotel');
     expect(hotel?.room).toBe('203');
     expect(await hotel?.cardPhoto?.text()).toBe('card');
@@ -185,6 +185,55 @@ describe('upgrading a phone that already has the app', () => {
     expect(hotel !== undefined && 'name' in hotel).toBe(false);
     expect(hotel !== undefined && 'phone' in hotel).toBe(false);
     expect(hotel !== undefined && 'note' in hotel).toBe(false);
+    upgraded.close();
+  });
+  it('carries a pinned hotel across v10 untouched, still a pin where the traveller stood', async () => {
+    // v10 lets the card's QR code place the pin (decision 032, addendum). A hotel pinned before
+    // it has no `pinFrom`, which is what "pinned where you stood" means — so nothing is rewritten.
+    const v9 = new Dexie(NAME);
+    v9.version(9).stores({
+      phrases: 'id, situation',
+      contentVersions: 'id, version',
+      voiceEvents: 'id, at, synced',
+      hotels: 'id',
+      documents: 'id, addedAt',
+      transportNodes: 'id',
+      transportEdges: 'id, fromNodeId, toNodeId',
+      transportMeta: 'id',
+      savedPhrases: 'id, savedAt',
+      messages: 'id, at, synced',
+      packs: 'id, version',
+    });
+    await v9.open();
+    await v9.table('hotels').put({
+      id: 'hotel',
+      savedAt: '2026-09-23T09:00:00.000Z',
+      name: 'Rigga Palm Inn',
+      pin: { lat: 25.2637, lng: 55.3197 },
+      area: { hi: 'अल रिग्गा', en: 'Al Rigga' },
+      submittedAt: '2026-09-23T09:00:00.000Z',
+      cardPhoto: new Blob(['card'], { type: 'image/jpeg' }),
+    });
+    v9.close();
+
+    const upgraded = new SaathiDb(NAME);
+    await upgraded.open();
+    expect(upgraded.verno).toBe(10);
+    const hotel = await upgraded.hotels.get('hotel');
+    expect(hotel?.name).toBe('Rigga Palm Inn');
+    expect(hotel?.pin).toEqual({ lat: 25.2637, lng: 55.3197 });
+    expect(hotel?.area?.en).toBe('Al Rigga');
+    expect(await hotel?.cardPhoto?.text()).toBe('card');
+    expect(hotel?.pinFrom).toBeUndefined();
+    expect(hotel?.cardPin).toBeUndefined();
+    expect(hotel?.cardLink).toBeUndefined();
+    // And the new fields can be written on the upgraded phone.
+    await upgraded.hotels.put({
+      ...hotel!,
+      cardPin: { at: { lat: 25.2521, lng: 55.3012 } },
+      cardLink: 'https://maps.app.goo.gl/Xy12',
+    });
+    expect((await upgraded.hotels.get('hotel'))?.cardLink).toBe('https://maps.app.goo.gl/Xy12');
     upgraded.close();
   });
 });

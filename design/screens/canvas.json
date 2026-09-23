@@ -65,8 +65,17 @@
    "page": "all"
   },
   {
-   "file": "HomeDocs.dc.html",
+   "file": "HomeHotelChoice.dc.html",
    "x": 940,
+   "y": 1000,
+   "w": 390,
+   "h": 844,
+   "title": "घर.1 · मेरा होटल › दो जगहें",
+   "page": "all"
+  },
+  {
+   "file": "HomeDocs.dc.html",
+   "x": 1410,
    "y": 1000,
    "w": 390,
    "h": 844,
@@ -75,7 +84,7 @@
   },
   {
    "file": "HomeDocView.dc.html",
-   "x": 1410,
+   "x": 1880,
    "y": 1000,
    "w": 390,
    "h": 844,
@@ -84,7 +93,7 @@
   },
   {
    "file": "HomePass.dc.html",
-   "x": 1880,
+   "x": 2350,
    "y": 1000,
    "w": 390,
    "h": 844,
@@ -93,7 +102,7 @@
   },
   {
    "file": "HomePassWelcome.dc.html",
-   "x": 2350,
+   "x": 2820,
    "y": 1000,
    "w": 390,
    "h": 844,

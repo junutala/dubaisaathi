@@ -203,6 +203,28 @@ export class SaathiDb extends Dexie {
             if (blank(hotel.note)) delete hotel.note;
           });
       });
+    /**
+     * v10: the card's QR code (decision 032, the owner's addendum). The hotel row may carry where
+     * its pin came from (`pinFrom`), the card's own place while it disagrees with the traveller's
+     * pin (`cardPin`), and a short maps link waiting for a signal (`cardLink`). No index changes,
+     * because nothing queries them, and no row is rewritten: a hotel without them is a hotel
+     * pinned where the traveller stood, which is what every hotel before v10 was.
+     *
+     * Everything above is re-declared unchanged, so no row of the traveller's moves.
+     */
+    this.version(10).stores({
+      phrases: 'id, situation',
+      contentVersions: 'id, version',
+      voiceEvents: 'id, at, synced',
+      hotels: 'id',
+      documents: 'id, addedAt',
+      transportNodes: 'id',
+      transportEdges: 'id, fromNodeId, toNodeId',
+      transportMeta: 'id',
+      savedPhrases: 'id, savedAt',
+      messages: 'id, at, synced',
+      packs: 'id, version',
+    });
   }
 }
 

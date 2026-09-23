@@ -4,7 +4,8 @@
  * camera, an engine or a screen — so every rule below is tested against real readings.
  *
  * It fills three fields and no others. The room is never on a card. The pin is never taken from
- * one (decision 024): a street on a card is not a place the traveller stood.
+ * the print (decision 024): a street on a card is not a place the traveller stood. Only a maps QR
+ * code on the card can place it, and that is `cardQr.ts`, not this.
  *
  * Every guess is a proposal. The traveller sees it on the next screen, in a box they can
  * correct, under a line saying it was read from the card — so a field left empty is always

@@ -35,3 +35,18 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+/**
+ * The browser's own QR reader (Shape Detection API), which lib.dom does not describe yet. Declared
+ * optional on `window` because many browsers lack it — the card's QR code is then read by the
+ * decoder bundled with the app (features/info/readQr.ts), never declared unreadable.
+ */
+interface DetectedBarcode {
+  readonly rawValue: string;
+}
+interface BarcodeDetector {
+  detect(image: ImageBitmapSource): Promise<DetectedBarcode[]>;
+}
+interface Window {
+  readonly BarcodeDetector?: new (options?: { formats?: string[] }) => BarcodeDetector;
+}

@@ -129,7 +129,7 @@ cat <<H
 $(pinned now)
     <div style="flex: 1;"></div>
     <span style="display: flex; align-items: center; justify-content: center; min-height: 50px; border-radius: 14px; background: $marigold; color: $onMarigold; font-size: 15.5px; font-weight: 700;">सबमिट करें</span>
-    <span style="font-size: 12.5px; color: $muted; text-align: center;">सब कुछ आपके फ़ोन पर ही रहता है। कहीं भेजा नहीं जाता।</span>
+    <span style="font-size: 12.5px; color: $muted; text-align: center;">सब कुछ आपके फ़ोन पर ही रहता है। बस कार्ड पर छपा मैप-लिंक ऑनलाइन खोला जाता है।</span>
   </div>
 H
 bar none
@@ -139,7 +139,30 @@ close_screen
 # ---- घर.1 · मेरा होटल, step two: what the card said (decision 032). Read on the phone, in boxes the
 # traveller corrects, under a line saying so beside the card; the room is typed, because no card
 # carries it. होटल हटाएँ is the bin in the header. All of it on one screen at 360 × 672.
-{
+choice() { # head area
+  echo "<span style=\"display: flex; flex-direction: column; justify-content: center; min-height: 48px; padding: 3px 12px; border-radius: 12px; border: 1.5px solid $teal; background: $card; box-sizing: border-box;\"><span style=\"font-size: 13.5px; font-weight: 700; color: $ink; line-height: 1.3;\">$1</span><span style=\"font-size: 12px; color: $muted; line-height: 1.3;\">$2</span></span>"
+}
+below() { # near | choice — the nearby row, or, while the card and the pin disagree, the question
+  if [ "$1" = choice ]; then
+cat <<C
+    <div style="display: flex; flex-direction: column; gap: 4px;">
+      <span style="font-size: 12.5px; line-height: 1.35; font-weight: 600; color: $tealText;">कार्ड होटल को कहीं और बताता है। कौन-सी जगह सही है?</span>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;">
+        $(choice 'जहाँ आप खड़े थे' 'देरा')
+        $(choice 'कार्ड वाली जगह' 'अल रिग्गा')
+      </div>
+    </div>
+C
+  else
+cat <<N
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;">
+      <div style="display: flex; align-items: center; gap: 8px; padding: 2px 10px; border-radius: 12px; background: $sand;">$(metro 18 "$j_bg" 1.9)<span style="display: flex; flex-direction: column;"><span style="font-size: 13.5px; font-weight: 700; color: $ink; line-height: 1.35;">अल रिग्गा</span><span style="font-size: 12px; color: $muted; line-height: 1.35;">मेट्रो · 450 मी</span></span></div>
+      <div style="display: flex; align-items: center; gap: 8px; padding: 2px 10px; border-radius: 12px; background: $sand;">$(bus 18 "$j_bg" 1.9)<span style="display: flex; flex-direction: column;"><span style="font-size: 13.5px; font-weight: 700; color: $ink; line-height: 1.35;">Ghurair City 1</span><span style="font-size: 12px; color: $muted; line-height: 1.35;">बस स्टॉप · 250 मी</span></span></div>
+    </div>
+N
+  fi
+}
+hotel_read() { # near | choice
 open_screen
 strip running set
 header pin "$marigold" 'मेरा होटल' '' trash
@@ -164,15 +187,18 @@ cat <<H
       <span style="flex: 1; font-size: 14.5px; font-weight: 700; color: $tealText;">पिन लगी है · देरा</span>
       <span style="font-size: 12.5px; font-weight: 700; color: $tealText;">फिर से</span>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;">
-      <div style="display: flex; align-items: center; gap: 8px; padding: 2px 10px; border-radius: 12px; background: $sand;">$(metro 18 "$j_bg" 1.9)<span style="display: flex; flex-direction: column;"><span style="font-size: 13.5px; font-weight: 700; color: $ink; line-height: 1.35;">अल रिग्गा</span><span style="font-size: 12px; color: $muted; line-height: 1.35;">मेट्रो · 450 मी</span></span></div>
-      <div style="display: flex; align-items: center; gap: 8px; padding: 2px 10px; border-radius: 12px; background: $sand;">$(bus 18 "$j_bg" 1.9)<span style="display: flex; flex-direction: column;"><span style="font-size: 13.5px; font-weight: 700; color: $ink; line-height: 1.35;">Ghurair City 1</span><span style="font-size: 12px; color: $muted; line-height: 1.35;">बस स्टॉप · 250 मी</span></span></div>
-    </div>
+$(below "$1")
   </div>
 H
 bar none
 close_screen
-} > "$OUT/HomeHotelRead.dc.html"
+}
+hotel_read near > "$OUT/HomeHotelRead.dc.html"
+
+# ---- घर.1 · मेरा होटल, step two, when the card's QR code puts the hotel more than 200 m from where
+# the traveller pinned it (decision 032, addendum): both places, each with its area, one tap to
+# pick — in the nearby row's place, so step two stays one screen.
+hotel_read choice > "$OUT/HomeHotelChoice.dc.html"
 
 # ---- घर.2 · ज़रूरी जानकारी — three capsules, and no hotel row (decision 028)
 cap() { # label on

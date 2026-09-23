@@ -1131,6 +1131,52 @@ button:not(:disabled) {
   line-height: 1.35;
   color: var(--muted);
 }
+/* The card and the traveller disagree about where the hotel is: both, side by side, one tap. */
+.hotel-choice {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.hotel-choice-lead {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: var(--tealText);
+  font-weight: 600;
+}
+.hotel-choice-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.hotel-choice-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+  min-height: 48px;
+  padding: 3px 12px;
+  border: 1.5px solid var(--teal);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--ink);
+  text-align: left;
+}
+.hotel-choice-head {
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.hotel-choice-sub {
+  max-width: 100%;
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 /* The room beside the desk's number: short, and the one the card never has. */
 .hotel-pair {
   display: grid;

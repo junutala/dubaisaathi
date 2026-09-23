@@ -17,6 +17,7 @@ import {
 } from './storage.js';
 import type { CardReading } from './readCard.js';
 import { readHotelCard, startCardRetry } from './cardReading.js';
+import { cardFields } from './cardFields.js';
 
 /**
  * The hotel and the documents never disappear (rule 6), and the way that rule breaks is never
@@ -45,6 +46,15 @@ vi.mock('./readCard.js', () => ({
   readCard: (photos: readonly Blob[]) => readCard(photos),
 }));
 
+/**
+ * The QR reader, stood in for the same way: what it decoded off the card's sides is the input,
+ * and what the screen and the hotel do with it is what is under test.
+ */
+const readQr = vi.fn<(photos: readonly Blob[]) => Promise<string[]>>();
+vi.mock('./readQr.js', () => ({
+  readQr: (photos: readonly Blob[]) => readQr(photos),
+}));
+
 function show(ui: ReactElement) {
   return render(<SettingsProvider>{ui}</SettingsProvider>);
 }
@@ -65,6 +75,8 @@ beforeEach(async () => {
   navigate.mockClear();
   readCard.mockReset();
   readCard.mockResolvedValue({ lines: [], failed: true });
+  readQr.mockReset();
+  readQr.mockResolvedValue([]);
   // Without this the harness stores photographs and keeps none of them — see blobHarness.ts.
   vi.stubGlobal('structuredClone', cloneKeepingBlobs);
   await db.delete();
@@ -401,6 +413,247 @@ describe('घर.1 · मेरा होटल, with the radio off and no pass'
       expect(await readHotel()).toBeUndefined();
     });
     expect(navigate).toHaveBeenCalledWith({ screen: 'home' });
+  });
+});
+
+/**
+ * The QR code on the card (decision 032, the owner's addendum): read first, a maps link names
+ * and pins the hotel, and anything else — the WhatsApp link most cards carry — changes nothing.
+ */
+describe('घर.1 · the card’s QR code, with the radio off', () => {
+  const CITYMAX =
+    'https://www.google.com/maps/place/Citymax+Hotel+Bur+Dubai/@25.2521937,55.2986377,17z/data=!3m1!4b1!4m9!3m8!8m2!3d25.2521889!4d55.3012126';
+  const RIGGA = { lat: 25.2637, lng: 55.3197 };
+
+  it('fills the name and the pin from a maps link before the print has been read', async () => {
+    readQr.mockResolvedValue(['https://wa.me/971501234567', CITYMAX]);
+    let finish: (reading: CardReading) => void = () => undefined;
+    readCard.mockReturnValue(
+      new Promise<CardReading>((resolve) => {
+        finish = resolve;
+      }),
+    );
+    const hotel = await saveHotelCapture({ cardPhoto: photo('front'), cardBack: photo('back') });
+    show(<HotelScreen hotel={hotel} />);
+    fireEvent.click(screen.getByText('सबमिट करें'));
+    // The print is still being read, and the hotel already has its name and its place.
+    await waitFor(async () => {
+      expect((await readHotel())?.name).toBe('Citymax Hotel Bur Dubai');
+    });
+    const early = await readHotel();
+    expect(early?.pin).toEqual({ lat: 25.2521889, lng: 55.3012126 });
+    expect(early?.pinFrom).toBe('card');
+    expect(early?.area).toBeDefined();
+    expect(early?.submittedAt).toBeDefined();
+    expect(readQr.mock.calls[0]?.[0]).toHaveLength(2);
+
+    // The print lands, with a name of its own: the code's name is kept, the rest is filled.
+    finish({
+      failed: false,
+      lines: [
+        { text: 'CITY MAX HOTELS', height: 40 },
+        { text: 'Tel: 04 355 5000', height: 16 },
+        { text: 'www.citymaxhotels.com', height: 14 },
+      ],
+    });
+    await waitFor(async () => {
+      expect((await readHotel())?.phone).toBe('+971 4 355 5000');
+    });
+    expect((await readHotel())?.name).toBe('Citymax Hotel Bur Dubai');
+  });
+
+  it('shows the name on step two while the print is still being read', async () => {
+    readQr.mockResolvedValue([CITYMAX]);
+    let finish: (reading: CardReading) => void = () => undefined;
+    readCard.mockReturnValue(
+      new Promise<CardReading>((resolve) => {
+        finish = resolve;
+      }),
+    );
+    const hotel = await saveHotelCapture({ cardPhoto: photo('front') });
+    const { rerender } = show(<HotelScreen hotel={hotel} />);
+    fireEvent.click(screen.getByText('सबमिट करें'));
+    await waitFor(async () => {
+      expect((await readHotel())?.submittedAt).toBeDefined();
+    });
+    rerender(
+      <SettingsProvider>
+        <HotelScreen hotel={await readHotel()} />
+      </SettingsProvider>,
+    );
+    expect(await screen.findByDisplayValue('Citymax Hotel Bur Dubai')).toBeTruthy();
+    expect(screen.getByText('कार्ड पढ़ रहे हैं…')).toBeTruthy();
+    expect(screen.getByText(/कार्ड से पिन/)).toBeTruthy();
+    // The reading is let finish, so the next test starts with none running.
+    finish({ failed: false, lines: [] });
+    await waitFor(() => {
+      expect(screen.queryByText('कार्ड पढ़ रहे हैं…')).toBeNull();
+    });
+  });
+
+  it('never pins a place outside Dubai, even from the card', async () => {
+    readQr.mockResolvedValue([
+      'https://www.google.com/maps/place/Hotel+Sea+Princess/@19.1,72.8,17z/data=!3d19.1036!4d72.8266',
+    ]);
+    const hotel = await saveHotelCapture({ cardPhoto: photo('front') });
+    show(<HotelScreen hotel={hotel} />);
+    fireEvent.click(screen.getByText('सबमिट करें'));
+    await waitFor(async () => {
+      expect((await readHotel())?.submittedAt).toBeDefined();
+    });
+    const saved = await readHotel();
+    expect(saved?.pin).toBeUndefined();
+    expect(saved?.pinFrom).toBeUndefined();
+    expect(saved?.cardPin).toBeUndefined();
+  });
+
+  it('changes nothing for a WhatsApp code: the print fills the boxes and the pin stays the traveller’s', async () => {
+    const fetched = vi.fn(() => Promise.reject(new Error('the radio is off')));
+    vi.stubGlobal('fetch', fetched);
+    readQr.mockResolvedValue(['https://wa.me/971501234567?text=Hello']);
+    const lines = [
+      { text: 'RIGGA PALM', height: 48 },
+      { text: 'Tel: +971 4 268 0455', height: 16 },
+      { text: 'www.riggapalminn.com', height: 14 },
+    ];
+    readCard.mockResolvedValue({ failed: false, lines });
+    const hotel = await saveHotelCapture({ cardPhoto: photo('front') });
+    show(<HotelScreen hotel={hotel} />);
+    fireEvent.click(screen.getByText('सबमिट करें'));
+    await waitFor(async () => {
+      expect((await readHotel())?.phone).toBe('+971 4 268 0455');
+    });
+    const saved = await readHotel();
+    // Exactly what the print alone gives.
+    expect(saved?.name).toBe(cardFields(lines).name);
+    expect(saved?.pin).toBeUndefined();
+    expect(saved?.cardLink).toBeUndefined();
+    // Nothing about a WhatsApp link is sent anywhere.
+    expect(fetched).not.toHaveBeenCalled();
+  });
+
+  it('asks which place is right when the card is far from where the traveller pinned', async () => {
+    readQr.mockResolvedValue([CITYMAX]);
+    await saveHotelCapture({
+      cardPhoto: photo('front'),
+      pin: RIGGA,
+      area: { hi: 'अल रिग्गा', en: 'Al Rigga' },
+    });
+    await readHotelCard();
+    const saved = await readHotel();
+    // The traveller's pin stands until they answer; the card's place waits beside it.
+    expect(saved?.pin).toEqual(RIGGA);
+    expect(saved?.cardPin?.at).toEqual({ lat: 25.2521889, lng: 55.3012126 });
+
+    const { rerender } = show(<HotelScreen hotel={saved} />);
+    expect(screen.getByText(/कार्ड होटल को कहीं और बताता है/)).toBeTruthy();
+    expect(screen.getByText('जहाँ आप खड़े थे')).toBeTruthy();
+    fireEvent.click(screen.getByText('कार्ड वाली जगह').closest('button')!);
+    await waitFor(async () => {
+      expect((await readHotel())?.cardPin).toBeUndefined();
+    });
+    const chosen = await readHotel();
+    expect(chosen?.pin).toEqual({ lat: 25.2521889, lng: 55.3012126 });
+    expect(chosen?.pinFrom).toBe('card');
+    rerender(
+      <SettingsProvider>
+        <HotelScreen hotel={chosen} />
+      </SettingsProvider>,
+    );
+    expect(screen.queryByText(/कार्ड होटल को कहीं और बताता है/)).toBeNull();
+  });
+
+  it('keeps the traveller’s pin when they say where they stood was right', async () => {
+    readQr.mockResolvedValue([CITYMAX]);
+    await saveHotelCapture({ cardPhoto: photo('front'), pin: RIGGA });
+    await readHotelCard();
+    show(<HotelScreen hotel={await readHotel()} />);
+    fireEvent.click(screen.getByText('जहाँ आप खड़े थे').closest('button')!);
+    await waitFor(async () => {
+      expect((await readHotel())?.cardPin).toBeUndefined();
+    });
+    expect((await readHotel())?.pin).toEqual(RIGGA);
+    expect((await readHotel())?.pinFrom).toBeUndefined();
+  });
+
+  it('does not ask when the card and the traveller agree within 200 m', async () => {
+    readQr.mockResolvedValue(['https://maps.google.com/?q=25.2640,55.3199']);
+    await saveHotelCapture({ cardPhoto: photo('front'), pin: RIGGA });
+    await readHotelCard();
+    const saved = await readHotel();
+    expect(saved?.pin).toEqual(RIGGA);
+    expect(saved?.cardPin).toBeUndefined();
+  });
+
+  it('asks when the traveller pins, standing far from the place the card gave', async () => {
+    Object.defineProperty(navigator, 'geolocation', {
+      configurable: true,
+      value: {
+        getCurrentPosition: (ok: PositionCallback) => {
+          ok({ coords: { latitude: RIGGA.lat, longitude: RIGGA.lng } } as GeolocationPosition);
+        },
+      },
+    });
+    try {
+      readQr.mockResolvedValue([CITYMAX]);
+      await saveHotelCapture({ cardPhoto: photo('front') });
+      await readHotelCard();
+      expect((await readHotel())?.pinFrom).toBe('card');
+      show(<HotelScreen hotel={await readHotel()} />);
+      fireEvent.click(screen.getByText('फिर से').closest('button')!);
+      await waitFor(async () => {
+        expect((await readHotel())?.pin).toEqual(RIGGA);
+      });
+      const saved = await readHotel();
+      expect(saved?.pinFrom).toBeUndefined();
+      expect(saved?.cardPin?.at).toEqual({ lat: 25.2521889, lng: 55.3012126 });
+    } finally {
+      Reflect.deleteProperty(navigator, 'geolocation');
+    }
+  });
+
+  it('keeps a short maps link until there is a signal, then follows it and sends only the link', async () => {
+    const stop = startCardRetry();
+    try {
+      readQr.mockResolvedValue(['https://maps.app.goo.gl/Xy12AbCd']);
+      readCard.mockResolvedValue({
+        failed: false,
+        lines: [{ text: 'Tel: 04 355 5000', height: 16 }],
+      });
+      await saveHotelCapture({ cardPhoto: photo('front') });
+      await readHotelCard();
+      const waiting = await readHotel();
+      expect(waiting?.cardLink).toBe('https://maps.app.goo.gl/Xy12AbCd');
+      expect(waiting?.name).toBeUndefined();
+      expect(waiting?.phone).toBe('+971 4 355 5000');
+
+      const sent: { url: string; body: string }[] = [];
+      vi.stubGlobal('fetch', (url: string, init: RequestInit) => {
+        sent.push({ url, body: typeof init.body === 'string' ? init.body : '' });
+        return Promise.resolve(
+          new Response(JSON.stringify({ url: CITYMAX }), {
+            status: 200,
+            headers: { 'content-type': 'application/json' },
+          }),
+        );
+      });
+      Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
+      window.dispatchEvent(new Event('online'));
+      await waitFor(async () => {
+        expect((await readHotel())?.cardLink).toBeUndefined();
+      });
+      const followed = await readHotel();
+      expect(followed?.name).toBe('Citymax Hotel Bur Dubai');
+      expect(followed?.pinFrom).toBe('card');
+      expect(sent).toHaveLength(1);
+      expect(sent[0]?.url).toContain('/functions/v1/maplink');
+      // The link printed on the card, and nothing else about the hotel or the traveller.
+      expect(JSON.parse(sent[0]?.body ?? '')).toEqual({ url: 'https://maps.app.goo.gl/Xy12AbCd' });
+      // The print was read at the time and is not read again for a link.
+      expect(readCard).toHaveBeenCalledTimes(1);
+    } finally {
+      stop();
+    }
   });
 });
 

@@ -33,8 +33,9 @@ languages. Everything saves as it is typed.
 - **Only empty boxes are filled.** A reading never writes over what the traveller typed, and a box
   typed into while a reading is on its way is not undone by it.
 - **The room is never filled.** No card carries it.
-- **The pin is never taken from the card.** Decision 024: the address on a card is not a place the
-  traveller stood, and a wrong pin is quietly wrong in all three pillars.
+- **The pin is never taken from the card's print.** Decision 024: the address on a card is not a
+  place the traveller stood, and a wrong pin is quietly wrong in all three pillars. A maps QR code
+  on the card is the one exception — see the addendum below on the QR code.
 - **No Arabic** is read, shown or kept as text. The photograph carries it for a driver.
 - **An emptied box is taken off the row**, not kept as `''` — which reached जाना as a hotel with no
   name (" · मेरा होटल"). The v9 upgrade takes the empty text off hotels already saved that way.
@@ -46,6 +47,18 @@ languages. Everything saves as it is typed.
 घर.1 promises under every hotel, and the website promises in public, that nothing about the hotel
 leaves the phone (decisions 001, 003, design rule 24). The card is read by tesseract.js — the
 engine the collectors' app already uses for menus (decision 029) — in a worker on the phone.
+
+**One thing can go out, and the screen says so.** Since the QR addendum below, a _short_ maps link
+printed on the card as a QR code (maps.app.goo.gl and its kin) is sent to our own `maplink`
+function to be followed, because a short link says nothing until it is. Exactly this leaves the
+phone: `{"url": "<the link as printed>"}`, after the traveller pressed Submit (or retook a side),
+and at a later signal if there was none then. Never the photographs, the name, the room, the
+number, the pin, a device id or anything else. It is a public address Google prints for a
+business, the same for every guest who is handed the card. A long maps link, a WhatsApp code or
+no code sends nothing at all. The line under Submit now says it: _"सब कुछ आपके फ़ोन पर ही रहता है।
+बस कार्ड पर छपा मैप-लिंक ऑनलाइन खोला जाता है।"_ The website's sentence — the hotel, the photographs and
+the documents never leave the phone — stays true of everything the traveller keeps; whether it
+should also mention the link is the owner's call.
 
 This reverses one line of decision 016, which took WebAssembly out of the security policy when the
 offline recogniser went. `'wasm-unsafe-eval'` is back in `script-src` for this and nothing else. It
@@ -135,3 +148,46 @@ went; step one still says it in full, where the card is photographed.
 The owner, later that day, on step two: the room box showed "412" in grey and read as filled in —
 the example is now "लिखें" / "Type it". And a tap on a card photograph opened the camera; it now
 opens the card full size, uncropped, with the retake as a button there.
+
+## Addendum, the same day: the QR code on the card
+
+The owner, after the card screen shipped: many Dubai hotel cards carry a QR code that opens Google
+Maps — read that first, then the print. Asked whether a short link may be followed online and
+whether the code may set the pin, he said: _"yes to both, build it. But if the QR code does not
+read either and points to their whatsapp, then we go our usual way of OCRing and drop pin
+options."_
+
+**What Submit does now**, in this order:
+
+1. **The QR codes on both sides are decoded**, on the phone. The browser's own reader
+   (`BarcodeDetector`) is tried first; where there is none, or it finds nothing, jsQR — a small
+   decoder the app carries in its own chunk, kept by the worker, so it works offline — reads the
+   same photograph. Neither decides the phone cannot: each is tried (`readQr.ts`). jsQR is 131 kB
+   (47 kB over the wire) and is in the precache with the rest of the app — the one cost of this to
+   a phone that never reads a card, taken so that the first card read with no signal still has it.
+2. **A long Google Maps link is read offline** (`packages/shared/src/mapsLink.ts`): the place
+   Google pinned (`!3d…!4d…`), else a coordinate in `q=`, `query=`, `ll=`, else the `@` of the
+   view; and the name from `/maps/place/<name>/`. The name fills an empty box **at once**, and
+   step two opens on it while the print is still being read.
+3. **A short link is followed by `maplink`**, our edge function, while the print is read. It
+   accepts only maps.app.goo.gl, goo.gl/maps and g.co/kgs; follows at most five redirects by hand,
+   each to another of those or to a Google Maps page, which it never fetches — its address is the
+   answer; stores nothing, reads no device id, logs no address (decision 011). The phone reads the
+   place off the long link itself, with the same code. With no signal the link is kept on the hotel
+   (`cardLink`) and followed at launch or when the signal returns, like an unread card.
+4. **The print is read as before**, and fills only what is still empty. A vCard or MECARD code is
+   read as printed lines through the same rules, so only a Dubai landline becomes the desk number.
+5. **Anything else is ignored entirely** — a WhatsApp link, a website, Wi-Fi, a code that will not
+   decode: the print fills the boxes, the pin stays the traveller's, and nothing is sent.
+
+**The pin, from the card** (and decision 024's one exception): the card's place sets the pin only
+inside Dubai, and only when there is no pin yet — or the pin already came from the card. When the
+traveller pinned where they stood and the card's place is within 200 m, their pin stands and
+nothing is asked. Further than that, neither is thrown away and neither is assumed: step two shows
+_"कार्ड होटल को कहीं और बताता है। कौन-सी जगह सही है?"_ with **जहाँ आप खड़े थे** and **कार्ड वाली जगह**,
+each with its area, in the nearby row's place so the step stays one screen at 360 × 672. Pressing
+यहीं पिन लगाएँ later asks the same question if it lands 200 m from the card's place. The hotel
+row carries `pinFrom: 'card'` for a pin from the card (the one-line pin then says कार्ड से पिन),
+`cardPin` while the question is open, and `cardLink` while a short link waits — Dexie v10, with
+no rewrite of any row: a hotel without them is pinned where the traveller stood, which is what
+every hotel before was.
