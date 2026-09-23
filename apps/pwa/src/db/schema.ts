@@ -167,25 +167,42 @@ export class SaathiDb extends Dexie {
     /**
      * v9: the hotel is read off its card (decision 032). The row gains the card's other side, the
      * address the card prints, and when Submit was pressed. No index changes, because nothing
-     * queries them; the version exists so the shape change is recorded here. The front of the
-     * building and the extra photographs a phone may already hold are not touched: nothing asks
-     * for them now, and a release never takes something away from a phone.
+     * queries them. The front of the building and the extra photographs a phone may already hold
+     * are not touched: nothing asks for them now, and a release never takes something away from
+     * a phone.
+     *
+     * The one thing the upgrade does is take empty text off the hotel. Until v9 घर.1 saved every
+     * box whenever any was typed into, so a phone with only a room number stored `name: ''` —
+     * which जाना printed as " · मेरा होटल". An empty box is no value; the row stops carrying one.
      *
      * Everything above is re-declared unchanged, so no row of the traveller's moves.
      */
-    this.version(9).stores({
-      phrases: 'id, situation',
-      contentVersions: 'id, version',
-      voiceEvents: 'id, at, synced',
-      hotels: 'id',
-      documents: 'id, addedAt',
-      transportNodes: 'id',
-      transportEdges: 'id, fromNodeId, toNodeId',
-      transportMeta: 'id',
-      savedPhrases: 'id, savedAt',
-      messages: 'id, at, synced',
-      packs: 'id, version',
-    });
+    this.version(9)
+      .stores({
+        phrases: 'id, situation',
+        contentVersions: 'id, version',
+        voiceEvents: 'id, at, synced',
+        hotels: 'id',
+        documents: 'id, addedAt',
+        transportNodes: 'id',
+        transportEdges: 'id, fromNodeId, toNodeId',
+        transportMeta: 'id',
+        savedPhrases: 'id, savedAt',
+        messages: 'id, at, synced',
+        packs: 'id, version',
+      })
+      .upgrade(async (tx) => {
+        const blank = (value: unknown) => typeof value === 'string' && value.trim() === '';
+        await tx
+          .table<{ name?: unknown; room?: unknown; phone?: unknown; note?: unknown }>('hotels')
+          .toCollection()
+          .modify((hotel) => {
+            if (blank(hotel.name)) delete hotel.name;
+            if (blank(hotel.room)) delete hotel.room;
+            if (blank(hotel.phone)) delete hotel.phone;
+            if (blank(hotel.note)) delete hotel.note;
+          });
+      });
   }
 }
 

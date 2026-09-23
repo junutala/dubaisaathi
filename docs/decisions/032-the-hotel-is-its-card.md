@@ -37,7 +37,7 @@ languages. Everything saves as it is typed.
   traveller stood, and a wrong pin is quietly wrong in all three pillars.
 - **No Arabic** is read, shown or kept as text. The photograph carries it for a driver.
 - **An emptied box is taken off the row**, not kept as `''` — which reached जाना as a hotel with no
-  name (" · मेरा होटल").
+  name (" · मेरा होटल"). The v9 upgrade takes the empty text off hotels already saved that way.
 - **Photographs taken before today are kept** and shown small beside the card until the traveller
   removes them. A release never takes something away from a phone.
 

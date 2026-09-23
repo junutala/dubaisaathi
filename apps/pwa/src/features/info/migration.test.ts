@@ -162,6 +162,10 @@ describe('upgrading a phone that already has the app', () => {
       id: 'hotel',
       savedAt: '2026-09-22T09:00:00.000Z',
       room: '203',
+      // What घर.1 saved before v9 when only the room was typed.
+      name: '',
+      phone: '',
+      note: '  ',
       cardPhoto: new Blob(['card'], { type: 'image/jpeg' }),
       gatePhoto: new Blob(['gate'], { type: 'image/jpeg' }),
       photos: [new Blob(['lift'], { type: 'image/jpeg' })],
@@ -177,6 +181,10 @@ describe('upgrading a phone that already has the app', () => {
     expect(await hotel?.gatePhoto?.text()).toBe('gate');
     expect(await hotel?.photos?.[0]?.text()).toBe('lift');
     expect(hotel?.submittedAt).toBeUndefined();
+    // An empty box is no value: जाना must not print " · मेरा होटल" for a hotel with no name.
+    expect(hotel !== undefined && 'name' in hotel).toBe(false);
+    expect(hotel !== undefined && 'phone' in hotel).toBe(false);
+    expect(hotel !== undefined && 'note' in hotel).toBe(false);
     upgraded.close();
   });
 });
