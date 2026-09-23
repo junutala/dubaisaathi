@@ -211,7 +211,7 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
 | Auth         | None. Entitlement keyed to the device; family devices join by short-lived QR token                                                                                                                                                  |
 | Payments     | UPI-first INR aggregator (Razorpay / Cashfree / PhonePe PG): order → intent or QR → webhook                                                                                                                                         |
 | Speech       | Online only, in बोलना: Sarvam `saaras:v3` behind the `listen` function; no mic elsewhere (020)                                                                                                                                      |
-| Card reading | tesseract.js in a worker on the phone, घर.1 only; fetched on first use, kept in its own cache (032)                                                                                                                                 |
+| Card reading | QR first (BarcodeDetector, else jsQR), then tesseract.js in a worker on the phone, घर.1 only; fetched on first use, kept in its own cache (032)                                                                                     |
 
 Deviating from this table needs a reason recorded in `docs/decisions/`.
 
@@ -438,8 +438,8 @@ dubaisaathi/
 │   ├── migrations/        # eleven tables: devices, families, passes, orders, coupons,
 │   │                      #   coupon_redemptions, voice_events, field_reports, field_photos,
 │   │                      #   contact_messages, content_packs
-│   ├── functions/         # ten: collect, contact, listen, translate, outlet, redeem, bind,
-│   │                      #   order, webhook, packs
+│   ├── functions/         # eleven: collect, contact, listen, translate, outlet, redeem, bind,
+│   │                      #   order, webhook, packs, maplink
 │   └── tests/             # SQL that checks what the schema must refuse
 └── packages/
     ├── shared/            # entity types shared by pwa and api — one definition, imported twice
@@ -554,10 +554,11 @@ delivery app".
    hours) and Karama over the following two — the first real content for खाना. Before he goes:
    a dry run of the collectors' app in India, one made-up outlet uploaded, published with
    `npm run publish:outlets -- --rows` and deleted, so the chain is proven. After each of his
-   days, pull the approved rows, publish, deploy. **Until 22 September, reports whose collector
-   is "arun" are rehearsals and never publish; reports from "chand" are real.** Rehearsal rows
-   come from India and are flagged outside-dubai by the outlet function anyway; publishing is
-   by hand, never automatic.
+   days, pull the approved rows, publish, deploy. **Every report from Dubai is real, whatever the
+   collector's name** (the owner, 23 September: the "arun" rehearsal rule ended on 22 September;
+   he collects himself to gauge the response). His first walk, 23 September, pinned forms
+   0001–0026 in Bur Dubai around Meena Bazaar. Rows from India are flagged outside-dubai by the
+   outlet function; publishing is by hand, never automatic.
 2. **Buying a pass.** Built (decision 019): `order` creates the Razorpay order and answers the
    phone's polling for its status; `webhook` verifies Razorpay's signature, signs one pass per
    slot and settles the order through `settle_order` in migration 0008; घर.4's UPI and QR
