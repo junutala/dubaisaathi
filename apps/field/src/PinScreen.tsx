@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { FieldReport } from '@saathi/shared';
 import { collectorName } from './collector.js';
 import { db } from './db.js';
-import { FRONT, shrink } from './shrink.js';
 import { advanceSerial, currentSerial } from './serial.js';
 import { useStrings } from './strings.js';
 import { startSync, syncReports, type SyncOutcome } from './sync.js';
@@ -14,16 +13,16 @@ import { startSync, syncReports, type SyncOutcome } from './sync.js';
  * drops numbered paper at fifty counters in an afternoon and may read neither Hindi nor English
  * (the owner, 18 September). So this screen is built to be used without reading it.
  *
- * A number to copy, a camera and a tick. He types nothing at all: the number is chosen by the
- * app and he writes it into the box on the paper with the pen already in his hand. The
- * coordinates are never asked for either — the phone is watched from the moment the screen
- * opens, and what is saved is where he is standing when he presses the tick.
+ * A number to copy and a tick. He types nothing at all: the number is chosen by the app and he
+ * writes it into the box on the paper with the pen already in his hand. The coordinates are never
+ * asked for either — the phone is watched from the moment the screen opens, and what is saved is
+ * where he is standing when he presses the tick.
  *
- * **The photograph is optional** (the owner, 18 September): a policeman on the pavement or women
- * standing in the shopfront, and a man who would rather not raise his camera is a man stuck at a
- * screen that will not let him finish. It earns its place when it is there — it is what makes
- * the desk's picker a list of shopfronts rather than of bare numbers — but the pin is the thing
- * that matters, and the pin is the fix.
+ * **No photograph, ever** (the owner, 23 September): photographing shops in Dubai draws the kind
+ * of attention nobody collecting menus should have to explain, and there are plainclothesmen on
+ * those pavements. The camera that was here as "optional" was still a camera on the screen, and
+ * the server marked every pin without a picture as if something were missing. Both are gone. The
+ * menu on the paper says what the shop is; the pin says where.
  *
  * The paper carries the five answers and a stapled takeaway menu. This carries the pin. The
  * number marries them at the desk.
@@ -44,11 +43,9 @@ interface Fix {
 export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) => void }) {
   const { t } = useStrings();
   const [serial, setSerial] = useState(currentSerial);
-  const [front, setFront] = useState<Blob | null>(null);
   const [fix, setFix] = useState<Fix | null>(null);
   const [queue, setQueue] = useState<SyncOutcome>({ pending: 0, sent: 0 });
   const [saved, setSaved] = useState<{ serial: string; id: string } | null>(null);
-  const camera = useRef<HTMLInputElement>(null);
 
   useEffect(() => startSync(setQueue), []);
 
@@ -85,8 +82,8 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
     const id = crypto.randomUUID();
 
     /**
-     * A thin report: a serial, a pin and a frontage. No name, because the rider types nothing
-     * but digits — the board is in the photograph and review reads it there. Nothing is invented
+     * A thin report: a serial and a pin. No name, because the rider types nothing but digits —
+     * the name is on the menu stapled to the paper, and review reads it there. Nothing is invented
      * to fill a field: an empty name is honest about what was captured.
      */
     const report: FieldReport = {
@@ -97,21 +94,15 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
       location: { lat: fix.lat, lng: fix.lng },
       name: '',
       formSerial: serial,
-      frontPhotoIds: front === null ? [] : [`${id}-front`],
+      frontPhotoIds: [],
       menuPhotoIds: [],
       status: 'queued',
     };
 
-    await db.transaction('rw', db.reports, db.photos, async () => {
-      await db.reports.add({ ...report, uploaded: false });
-      if (front !== null) {
-        await db.photos.add({ id: `${id}-front`, reportId: id, kind: 'front', bytes: front });
-      }
-    });
+    await db.reports.add({ ...report, uploaded: false });
 
     setSaved({ serial, id });
     setSerial(advanceSerial());
-    setFront(null);
     setQueue(await syncReports());
   }
 
@@ -199,62 +190,12 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
         </span>
       </div>
 
-      {/* The number to write on the form, and the only reason to look at this screen before
-          the camera. Nothing to type: he copies it into the printed box. */}
+      {/* The number to write on the form, and the only reason to look at this screen. Nothing to
+          type: he copies it into the printed box. */}
       <div className="pin-serial">
         <span className="pin-label">फ़ॉर्म नं. · FORM NO.</span>
         <output className="pin-number">{serial}</output>
       </div>
-
-      <button
-        type="button"
-        className={front === null ? 'pin-camera' : 'pin-camera pin-camera-got'}
-        onClick={() => camera.current?.click()}
-        aria-label={t('frontPhoto')}
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M4 8.5h3l1.5-2.5h7L17 8.5h3v10H4z" />
-          <circle cx="12" cy="13.5" r="3.2" />
-        </svg>
-        {front !== null && (
-          <span className="pin-tick">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M5 12.5l4.5 4.5L19 7.5" />
-            </svg>
-          </span>
-        )}
-      </button>
-      {/* The camera is opened by the button above; the input itself is never seen. `capture`
-          asks Android for the camera rather than the gallery, and a phone that ignores it falls
-          back to the picker, which still works. */}
-      <input
-        ref={camera}
-        className="pin-file"
-        type="file"
-        accept="image/*"
-        capture="environment"
-        onChange={(event) => {
-          const file = event.target.files?.[0];
-          if (file) void shrink(file, FRONT).then(setFront);
-          event.target.value = '';
-        }}
-      />
 
       <button type="button" className="pin-done-btn" disabled={!ready} onClick={() => void save()}>
         <svg

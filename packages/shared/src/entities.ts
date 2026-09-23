@@ -591,6 +591,13 @@ export interface FieldReport {
   readonly name: string;
   readonly nameHi?: string;
   /**
+   * When the desk sent this pin's form (the owner, 23 September): the form number, the paper's
+   * answers and the menu, and nothing else required. The name and the kind of kitchen may be left
+   * for review to read off the menu, so a keyed form can have no kitchen — this, not the kitchen,
+   * is what says the paper has been keyed.
+   */
+  readonly keyedAt?: Timestamp;
+  /**
    * The number printed on the paper form this pin belongs to (decision 029).
    *
    * A rider drops a numbered form at a counter, asks the five questions, staples the takeaway

@@ -39,19 +39,13 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-/** A photograph, the way the file input hands one over. */
-function photograph(input: HTMLInputElement) {
-  const file = new File(['frontage'], 'front.jpg', { type: 'image/jpeg' });
-  Object.defineProperty(input, 'files', { value: [file], configurable: true });
-  fireEvent.change(input);
-}
-
 describe('the rider’s pin', () => {
   it('shows the number to write, and nothing to type', () => {
     const { container } = render(<PinScreen />);
     expect(container.querySelector('.pin-number')?.textContent).toBe('0001');
-    // The only inputs on the screen are the hidden camera and the tick: he holds a helmet.
-    expect(container.querySelectorAll('input:not([type="file"])')).toHaveLength(0);
+    // Nothing to type and no camera: he holds a helmet, and a photograph of a shop is not a thing
+    // to be seen taking on a Dubai pavement (the owner, 23 September).
+    expect(container.querySelectorAll('input')).toHaveLength(0);
   });
 
   it('waits for a fix, which is the one thing it cannot do without', async () => {
@@ -64,7 +58,7 @@ describe('the rider’s pin', () => {
     });
   });
 
-  it('saves without a photograph, because sometimes he cannot take one', async () => {
+  it('saves a pin with no photograph at all', async () => {
     const { container } = render(<PinScreen />);
     watcher?.(position);
     // The fix arrives from outside React, so wait for the tick to come alive before pressing it.
@@ -81,12 +75,11 @@ describe('the rider’s pin', () => {
     expect(await db.photos.count()).toBe(0);
   });
 
-  it('saves the serial, the fix and the frontage — and no name it did not ask for', async () => {
+  it('saves the serial and the fix — and no name it did not ask for', async () => {
     const { container } = render(<PinScreen />);
     watcher?.(position);
-    photograph(container.querySelector<HTMLInputElement>('.pin-file')!);
     await waitFor(() => {
-      expect(container.querySelector('.pin-camera-got')).toBeTruthy();
+      expect(container.querySelector('.pin-done-btn')?.hasAttribute('disabled')).toBe(false);
     });
     fireEvent.click(container.querySelector<HTMLButtonElement>('.pin-done-btn')!);
 
@@ -97,21 +90,20 @@ describe('the rider’s pin', () => {
     expect(report?.formSerial).toBe('0001');
     expect(report?.location).toEqual({ lat: 25.2582, lng: 55.2979 });
     expect(report?.collectorId).toBe('rider');
-    // No name and no dietary answers: the board is in the photograph and the five answers are on
+    // No name and no dietary answers: the name is on the stapled menu and the five answers are on
     // the paper. Absent is the honest value — a `false` here would say "no Jain food" about a
     // kitchen nobody asked.
     expect(report?.name).toBe('');
     expect(report?.dietary).toBeUndefined();
-    expect(await db.photos.count()).toBe(1);
+    expect(await db.photos.count()).toBe(0);
   });
 
   it('shows the number back, then moves on to the next one', async () => {
     localStorage.setItem('saathi.pinCounter', '142');
     const { container } = render(<PinScreen />);
     watcher?.(position);
-    photograph(container.querySelector<HTMLInputElement>('.pin-file')!);
     await waitFor(() => {
-      expect(container.querySelector('.pin-camera-got')).toBeTruthy();
+      expect(container.querySelector('.pin-done-btn')?.hasAttribute('disabled')).toBe(false);
     });
     fireEvent.click(container.querySelector<HTMLButtonElement>('.pin-done-btn')!);
 

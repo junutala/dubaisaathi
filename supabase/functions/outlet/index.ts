@@ -73,11 +73,13 @@ Deno.serve(async (request: Request): Promise<Response> => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
       { auth: { persistSession: false } },
     );
+    // Waiting is what the POST below says it is: a pin whose paper has not been keyed. Since the
+    // desk may leave the kitchen for review (23 September), a missing kitchen no longer means it.
     const waiting = await db
       .from('field_reports')
       .select('id, form_serial, lat, lng, captured_at, collector')
       .not('form_serial', 'is', null)
-      .is('kitchen', null)
+      .contains('flags', ['awaiting-paper'])
       .order('captured_at', { ascending: true })
       .limit(400);
     if (waiting.error) return json({ error: waiting.error.message }, 500);
@@ -152,25 +154,24 @@ Deno.serve(async (request: Request): Promise<Response> => {
   }
 
   const photos = Array.isArray(payload.photos) ? payload.photos : [];
-  /**
-   * A front already held counts. A long menu arrives in several requests, only one of which can
-   * carry the front, and a desk completing a rider's pin on another device never had the front
-   * at all — the rider's phone sent it.
-   */
-  if (!photos.some((photo) => photo.kind === 'front')) {
-    const held = await db
-      .from('field_photos')
-      .select('report_id', { count: 'exact', head: true })
-      .eq('report_id', report.id)
-      .eq('kind', 'front');
-    if ((held.count ?? 0) === 0) flags.push('no-front-photo');
-  }
+  // No photograph of the shop is ever asked for, so none is missing (the owner, 23 September:
+  // photographing shops in Dubai is a risk he will not take). Nothing is flagged for its absence.
+
   /**
    * A rider's pin: a number and a fix, with the five answers still on paper in somebody's bag
    * (decision 029). It is not an approved outlet and must not read as one in review — it is a
    * row waiting for its form, and this is what the desk lists.
    */
-  if (typeof report.formSerial === 'string' && !report.kitchen) flags.push('awaiting-paper');
+  if (typeof report.formSerial === 'string' && !report.kitchen && !report.keyedAt) {
+    flags.push('awaiting-paper');
+  }
+  /**
+   * Keyed at the desk in the owner's four steps — number, questions, menu, submit — with the name
+   * or the kind of kitchen left for review to read off the menu. Held until it has been.
+   */
+  if (report.keyedAt && (String(report.name ?? '').trim() === '' || !report.kitchen)) {
+    flags.push('read-from-menu');
+  }
 
   const price = report.priceForOneAed;
   if (typeof price === 'number' && (price < 3 || price > 500)) flags.push('price-looks-wrong');

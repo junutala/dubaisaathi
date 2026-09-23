@@ -53,10 +53,15 @@ async function frontage(bytes: Blob): Promise<string | null> {
   }
 }
 
-/** This phone's own pins: a serial written, and no kitchen kind yet, which is what unfilled means. */
+/** This phone's own pins: a serial written, and the paper not yet keyed at the desk. */
 async function fromThisPhone(): Promise<readonly WaitingPin[]> {
   const rows = await db.reports
-    .filter((report) => typeof report.formSerial === 'string' && report.kitchen === undefined)
+    .filter(
+      (report) =>
+        typeof report.formSerial === 'string' &&
+        report.kitchen === undefined &&
+        report.keyedAt === undefined,
+    )
     .toArray();
   return Promise.all(
     rows.map(async (row) => {

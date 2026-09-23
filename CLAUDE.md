@@ -148,12 +148,14 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   the entity name kept), synced by the `collect` edge function, keyed to the device only.
 - **Content is collected in the field** by our own people with `apps/field`, in two steps
   (decision 029). A rider drops a paper form at the counter and, outside, pins it: the app shows
-  the number he copies onto the form, he photographs the front if he can, and presses the tick —
+  the number he copies onto the form, and presses the tick — **never a photograph of the shop**
+  (the owner, 23 September: photographing shops in Dubai is a risk he will not take, and there is no
+  camera on that screen) —
   the GPS is watched from the moment his screen opens, so there is no button for it. Later, at a
-  desk, the filled paper and the scanned menu card are keyed against that pin: dietary answers as
-  the manager wrote them, the menu read by OCR and confirmed dish by dish with the price the
-  camera read, the area from the shared list, the number on the board, hours, price for one. The
-  coordinates always come from the pin, never from the desk's own phone.
+  desk, the filled paper and the menu (photos or a PDF) are keyed against that pin in the owner's
+  sequence (23 September): pick the form number, the paper's questions, the menu, Submit. Nothing
+  else is required — the name, the kind of kitchen, the dishes and prices are read off the menu at
+  review. The coordinates always come from the pin, never from the desk's own phone.
 
 ## Non-negotiable rules
 

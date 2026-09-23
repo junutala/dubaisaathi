@@ -416,48 +416,6 @@ input.short {
   letter-spacing: 0.16em;
   color: var(--marigoldText);
 }
-.pin-camera {
-  position: relative;
-  height: 120px;
-  border-radius: 18px;
-  border: 2px dashed var(--marigold);
-  background: var(--marigoldSoft);
-  color: var(--marigoldText);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.pin-camera svg {
-  width: 46px;
-  height: 46px;
-}
-/* Taken: the dashes close up and a tick sits in the corner. No words to read. */
-.pin-camera-got {
-  border-style: solid;
-  border-color: var(--tealLine);
-  background: var(--tealSoft);
-  color: var(--tealText);
-}
-.pin-tick {
-  position: absolute;
-  right: 12px;
-  bottom: 10px;
-  width: 30px;
-  height: 30px;
-  border-radius: 999px;
-  background: var(--tealText);
-  color: var(--tealSoft);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.pin-tick svg {
-  width: 19px;
-  height: 19px;
-}
-.pin-file {
-  display: none;
-}
 .pin-done-btn {
   height: 96px;
   border-radius: 18px;
@@ -566,4 +524,20 @@ input.short {
   gap: 2px;
   flex: 1;
   min-width: 0;
+}
+
+/* Everything review reads off the menu, folded below Submit (decision 029's addendum). */
+.more {
+  margin-top: 18px;
+}
+.more > summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--muted);
+  font-size: 15px;
+}
+.more[open] > summary {
+  margin-bottom: 12px;
 }
