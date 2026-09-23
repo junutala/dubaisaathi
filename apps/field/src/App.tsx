@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { CaptureScreen, WhoAreYou } from './CaptureScreen.js';
 import { PinScreen } from './PinScreen.js';
 import { collectorName } from './collector.js';
+import { useStrings } from './strings.js';
 
 /**
  * Two screens in one app, and one flow through them (decision 029).
@@ -34,6 +35,7 @@ export function App() {
   const [mode, setMode] = useState<Mode>(storedMode);
   /** A pin just dropped, carried into the long form so nothing about the door is asked twice. */
   const [handoff, setHandoff] = useState<string | null>(null);
+  const { t } = useStrings();
 
   if (who === null) return <WhoAreYou onName={setWho} />;
 
@@ -52,7 +54,6 @@ export function App() {
         <button
           type="button"
           className={mode === 'full' ? 'mode-btn mode-btn-on' : 'mode-btn'}
-          aria-label="Full form"
           onClick={() => {
             choose('full');
           }}
@@ -71,11 +72,11 @@ export function App() {
             <path d="M8 12.5h8" />
             <path d="M8 16h5" />
           </svg>
+          <span>{t('modeForm')}</span>
         </button>
         <button
           type="button"
           className={mode === 'pin' ? 'mode-btn mode-btn-on' : 'mode-btn'}
-          aria-label="Form pin"
           onClick={() => {
             choose('pin');
           }}
@@ -92,6 +93,7 @@ export function App() {
             <path d="M12 21.5s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z" />
             <circle cx="12" cy="10.5" r="2.4" />
           </svg>
+          <span>{t('modePin')}</span>
         </button>
       </div>
       {mode === 'pin' ? (
