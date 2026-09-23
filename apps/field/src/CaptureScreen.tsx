@@ -700,6 +700,11 @@ function Section({
   );
 }
 
+/**
+ * No `capture` attribute: on Android it opens the camera and hides the gallery, and the desk form
+ * is filled after the walk from menu pages already photographed (the owner, 23 September).
+ * Without it the phone offers both.
+ */
 function FilePick({
   label,
   multiple,
@@ -715,7 +720,6 @@ function FilePick({
       <input
         type="file"
         accept="image/*"
-        capture="environment"
         multiple={multiple === true}
         onChange={(e) => {
           onPick([...(e.target.files ?? [])]);
