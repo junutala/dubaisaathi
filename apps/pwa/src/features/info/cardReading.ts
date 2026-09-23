@@ -82,6 +82,9 @@ async function readOnce(): Promise<void> {
   const now = await readHotel();
   // Removed while the card was being read: the traveller's word is the last one.
   if (before !== undefined && now === undefined) {
+    // And a reading asked for before the removal is not run against a hotel that is gone: with
+    // nothing to read it would save an empty hotel back onto the strip.
+    queued.again = false;
     announce(undefined);
     return;
   }

@@ -8,9 +8,15 @@ import { InfoScreen } from './InfoScreen.js';
 import { DocumentAddScreen } from './DocumentAddScreen.js';
 import { DocumentScreen } from './DocumentScreen.js';
 import { HotelScreen } from './HotelScreen.js';
-import { listDocuments, readHotel, saveDocument, saveHotelCapture } from './storage.js';
+import {
+  deleteHotel,
+  listDocuments,
+  readHotel,
+  saveDocument,
+  saveHotelCapture,
+} from './storage.js';
 import type { CardReading } from './readCard.js';
-import { startCardRetry } from './cardReading.js';
+import { readHotelCard, startCardRetry } from './cardReading.js';
 
 /**
  * The hotel and the documents never disappear (rule 6), and the way that rule breaks is never
@@ -270,6 +276,24 @@ describe('घर.1 · मेरा होटल, with the radio off and no pass'
     });
     finish({ failed: false, lines: [{ text: 'www.alwasmiresidence.ae', height: 14 }] });
     await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(await readHotel()).toBeUndefined();
+  });
+
+  it('does not bring back a removed hotel through a reading queued behind another', async () => {
+    let finish: (reading: CardReading) => void = () => undefined;
+    readCard.mockReturnValue(
+      new Promise<CardReading>((resolve) => {
+        finish = resolve;
+      }),
+    );
+    await saveHotelCapture({ cardPhoto: photo('front'), submittedAt: '2026-09-23T06:00:00.000Z' });
+    const first = readHotelCard();
+    // A side retaken while the first reading runs queues a second.
+    await saveHotelCapture({ cardBack: photo('back') });
+    void readHotelCard();
+    await deleteHotel();
+    finish({ failed: false, lines: [] });
+    await first;
     expect(await readHotel()).toBeUndefined();
   });
 

@@ -68,7 +68,7 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 
 | Field                                            | Why it is there                                                                                      |
 | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
-| The two sides, small; tap to retake              | The card is what a driver reads; a better photograph reads again and fills what is empty             |
+| The two sides, small; tap to retake              | Which card this hotel is; a better photograph reads again and fills what is empty                    |
 | Earlier photos, only if a phone has them         | Taken before 23 September and still theirs; removing one asks first, because it cannot return        |
 | "आपके कार्ड से पढ़ा गया", beside the card        | A value the traveller did not type says where it came from (design rule 30)                          |
 | पढ़ा नहीं जा सका / सिग्नल चाहिए                  | What the phone actually said, and that the boxes still work; reads itself when signal returns        |

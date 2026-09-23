@@ -276,6 +276,23 @@ describe('reading a hotel card into its fields', () => {
     expect(cardFields(lines).name).toBe('Al Bandar Rotana');
   });
 
+  it('keeps the area when the hotel is named after it and a comma follows', () => {
+    const lines = read(
+      `AL RIGGA HOTEL
+      www.alriggahotel.com
+      Al Rigga, Deira`,
+    );
+    expect(cardFields(lines).address).toBe('Al Rigga, Deira, Dubai');
+  });
+
+  it('never puts a sister hotel or a tagline into the address', () => {
+    const lines = read(
+      `Sister property of Deira Palace Hotel
+      Al Rigga Road, Deira`,
+    );
+    expect(cardFields(lines).address).toBe('Al Rigga Road, Deira, Dubai');
+  });
+
   it('finds nothing on a card it could not read, and says nothing rather than guessing', () => {
     expect(cardFields(read('RE CH Se ene:\n#\n#\ni\nSER\nribealoneic'))).toEqual({});
     expect(cardFields([])).toEqual({});
