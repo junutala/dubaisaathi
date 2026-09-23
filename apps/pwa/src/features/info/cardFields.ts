@@ -311,6 +311,8 @@ function streetAddress(
     if (!ADDRESS_WORD.test(raw) && !AREA.test(raw) && !/p\.?\s?o\.?\s?box/i.test(raw)) continue;
     // "RIGGA PALM" names an area and is the hotel, not its street.
     if (name !== undefined && letters(name).includes(letters(raw))) continue;
+    // A line naming a hotel and no street is a name — this one's, unfound, or a sister's.
+    if (HOTEL_WORD.test(raw) && !ADDRESS_WORD.test(raw)) continue;
     let text = raw
       .replace(/p\.?\s?o\.?\s?box[\s.:#-]*\d*/gi, ' ')
       .replace(/\b(united\s+arab\s+emirates|u\.?a\.?e\.?)(?![a-z])/gi, ' ')
@@ -319,12 +321,23 @@ function streetAddress(
     // the street side by side. The name is already in its own box.
     if (name !== undefined) {
       const words = text.trim().split(/\s+/);
-      const own = name.toLowerCase().split(' ');
+      const bare = (word: string) => word.toLowerCase().replace(/[^a-z]/g, '');
+      const own = name.split(' ').map(bare);
       let taken = 0;
-      while (taken < words.length && own.includes((words[taken] ?? '').toLowerCase())) taken += 1;
-      // "Al Rigga Hotel" on "Al Rigga Road": the words before "Road" are the street's name, and
-      // stay. Only a name that runs into something else is the hotel's, read across columns.
-      if (taken > 0 && !ADDRESS_WORD.test(words[taken] ?? '')) text = words.slice(taken).join(' ');
+      while (taken < words.length && own.includes(bare(words[taken] ?? ''))) taken += 1;
+      const prefix = words.slice(0, taken).join(' ');
+      // "Al Rigga Hotel" on "Al Rigga Road" or "Al Rigga, Deira": the words are the street's or
+      // the area's own name, and stay. Only a name that runs into something else is the hotel's,
+      // read across columns — and never a lone "Al", nor a prefix that is itself an area.
+      if (
+        taken > 0 &&
+        !ADDRESS_WORD.test(words[taken] ?? '') &&
+        !/[,;:]$/.test(prefix) &&
+        bare(prefix) !== 'al' &&
+        !AREA.test(prefix)
+      ) {
+        text = words.slice(taken).join(' ');
+      }
     }
     for (const piece of text.split(/\s*[,|•·–—:]\s*|\s+-\s+|\s-$/)) {
       const words = piece
