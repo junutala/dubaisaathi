@@ -18,10 +18,11 @@ export interface AreaName {
 }
 
 /**
- * The hotel, as the traveller wants to keep it (owner, 16 September): a photo of the card, a
- * photo of the front, the room number, the desk's number, a note, a pin — any of them, all of
- * them, none of them typed if they would rather not. Every field is optional because a pin with
- * nothing else is a hotel, and so is a card photo with nothing else.
+ * The hotel, as the traveller wants to keep it. Since 23 September (decision 032) the way in is
+ * the reception's card, both sides, and a pin: the phone reads the card and fills in what it can,
+ * and the traveller corrects it. The room is never on a card, so it is the one field they type.
+ * Every field is still optional, because a pin with nothing else is a hotel, and so is a card
+ * with nothing else.
  */
 export interface SavedHotel {
   readonly id: string;
@@ -29,16 +30,30 @@ export interface SavedHotel {
   readonly name?: string;
   readonly room?: string;
   readonly phone?: string;
+  /** The street and the area, as the card prints them — what a driver asks for. */
+  readonly address?: string;
   readonly note?: string;
   /** यहीं पिन लगाएँ: where the traveller was standing when they pressed it. */
   readonly pin?: LatLng;
   /** The area that pin fell in, read off the place pack on the device. */
   readonly area?: AreaName;
-  /** The reception's card, which is the thing a driver already understands. */
+  /** The reception's card, the side with the name on it. */
   readonly cardPhoto?: Blob;
-  /** The entrance, for recognising the building on the way back. */
+  /** The card's other side, which on most Dubai cards is the one with the number and street. */
+  readonly cardBack?: Blob;
+  /**
+   * When the traveller pressed Submit on the card screen. Set whether or not the phone could read
+   * anything, because it is what moves घर.1 from the card to the fields — a card that read
+   * nothing must still lead to the boxes where the traveller types it.
+   */
+  readonly submittedAt?: Timestamp;
+  /**
+   * The front of the building, from before 23 September. Nothing asks for it now; a phone that
+   * holds one keeps it until the traveller removes it, because a release never takes something
+   * away from a phone.
+   */
   readonly gatePhoto?: Blob;
-  /** Anything else they photographed — the lift, the street, the breakfast times. */
+  /** Anything else photographed before 23 September — kept for the same reason. */
   readonly photos?: readonly Blob[];
 }
 

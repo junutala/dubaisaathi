@@ -51,13 +51,34 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 
 ## घर.1 · मेरा होटल
 
-| Field                            | Why it is there                                                                                  |
-| -------------------------------- | ------------------------------------------------------------------------------------------------ |
-| Card photo · front photo · more  | The card is what a driver reads; the front is how the building is recognised; the rest is theirs |
-| होटल · कमरा · रिसेप्शन · नोट     | Typed if they want, never required; the desk's number dials                                      |
-| यहीं पिन लगाएँ / लगी है          | The one thing nobody has to type, taken where they stand                                         |
-| "सब कुछ आपके फ़ोन पर ही रहता है" | Why it is safe to keep a passport here                                                           |
-| होटल हटाएँ                       | Theirs to remove, and only theirs                                                                |
+Two steps since 23 September (decision 032), each one screen with nothing below the fold.
+
+**The card**
+
+| Field                                      | Why it is there                                                                                   |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| "दोनों तरफ़ की फ़ोटो लें … बाक़ी कार्ड से" | Says what the screen is for and what happens next, so the traveller does not type what is printed |
+| कार्ड · आगे · कार्ड · पीछे                 | A Dubai card carries its name on one side and its number and street on the other                  |
+| यहीं पिन लगाएँ                             | On the first screen, because a pin below the fold is a pin nobody presses                         |
+| सबमिट करें                                 | The one thing that finishes the step; reads the card, and goes on even when it could not          |
+| "सब कुछ आपके फ़ोन पर ही रहता है"           | Why it is safe to photograph a card here — it is read on the phone, not sent to be read           |
+
+**What the card said**
+
+| Field                                     | Why it is there                                                                               |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------- |
+| The two sides, small; tap to retake       | The card is what a driver reads; a better photograph reads again and fills what is empty      |
+| Earlier photos, only if a phone has them  | Taken before 23 September and still theirs; a release never takes something away              |
+| "आपके कार्ड से पढ़ा गया", beside the card | A value the traveller did not type says where it came from (design rule 30)                   |
+| पढ़ा नहीं जा सका / सिग्नल चाहिए           | What the phone actually said, and that the boxes still work; reads itself when signal returns |
+| होटल                                      | Read from the card's own web address; the strip and जाना say it                               |
+| कमरा                                      | The one box always typed: no card carries it                                                  |
+| रिसेप्शन                                  | Only a Dubai landline is filled — never the manager's mobile or the fax; it dials             |
+| पता                                       | The street and the area, what a driver asks for; the P.O. Box is dropped                      |
+| नोट                                       | Theirs, never filled                                                                          |
+| पिन लगी है · the area, in one line        | The why was on the first step; never taken from the card's address (decision 024)             |
+| होटल हटाएँ, the bin in the header         | Theirs to remove, and only theirs; in the header, where it costs the screen no row            |
+| "सिर्फ़ इसी फ़ोन पर रखा है"               | The promise again, in one line, where the card's words now sit                                |
 
 ## घर.2 · ज़रूरी जानकारी · घर.3 · देखें
 

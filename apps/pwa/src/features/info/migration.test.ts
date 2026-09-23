@@ -80,7 +80,7 @@ describe('upgrading a phone that already has the app', () => {
     const upgraded = new SaathiDb(NAME);
     await upgraded.open();
 
-    expect(upgraded.verno).toBe(8);
+    expect(upgraded.verno).toBe(9);
     expect((await upgraded.phrases.get('taxi-hotel'))?.ar).toBe(PHRASE.ar);
     expect((await upgraded.contentVersions.get('phrases'))?.version).toBe(1);
     // The queue is what the learning loop is: losing it loses labelled recogniser errors that
@@ -135,6 +135,56 @@ describe('upgrading a phone that already has the app', () => {
     expect(await upgraded.messages.count()).toBe(1);
     expect(await upgraded.documents.count()).toBe(1);
     expect(await upgraded.savedPhrases.count()).toBe(1);
+    upgraded.close();
+  });
+
+  it('carries a hotel photographed before the card screen across v9, every photograph intact', async () => {
+    // Decision 032 stopped asking for the front of the building and for extra photographs. A
+    // phone that already holds them must open v9 with them still there: nothing asks for them
+    // now, and a release never takes something away from a phone.
+    // Written as the shipped v8 build wrote it.
+    const v8 = new Dexie(NAME);
+    v8.version(8).stores({
+      phrases: 'id, situation',
+      contentVersions: 'id, version',
+      voiceEvents: 'id, at, synced',
+      hotels: 'id',
+      documents: 'id, addedAt',
+      transportNodes: 'id',
+      transportEdges: 'id, fromNodeId, toNodeId',
+      transportMeta: 'id',
+      savedPhrases: 'id, savedAt',
+      messages: 'id, at, synced',
+      packs: 'id, version',
+    });
+    await v8.open();
+    await v8.table('hotels').put({
+      id: 'hotel',
+      savedAt: '2026-09-22T09:00:00.000Z',
+      room: '203',
+      // What घर.1 saved before v9 when only the room was typed.
+      name: '',
+      phone: '',
+      note: '  ',
+      cardPhoto: new Blob(['card'], { type: 'image/jpeg' }),
+      gatePhoto: new Blob(['gate'], { type: 'image/jpeg' }),
+      photos: [new Blob(['lift'], { type: 'image/jpeg' })],
+    });
+    v8.close();
+
+    const upgraded = new SaathiDb(NAME);
+    await upgraded.open();
+    expect(upgraded.verno).toBe(9);
+    const hotel = await upgraded.hotels.get('hotel');
+    expect(hotel?.room).toBe('203');
+    expect(await hotel?.cardPhoto?.text()).toBe('card');
+    expect(await hotel?.gatePhoto?.text()).toBe('gate');
+    expect(await hotel?.photos?.[0]?.text()).toBe('lift');
+    expect(hotel?.submittedAt).toBeUndefined();
+    // An empty box is no value: जाना must not print " · मेरा होटल" for a hotel with no name.
+    expect(hotel !== undefined && 'name' in hotel).toBe(false);
+    expect(hotel !== undefined && 'phone' in hotel).toBe(false);
+    expect(hotel !== undefined && 'note' in hotel).toBe(false);
     upgraded.close();
   });
 });

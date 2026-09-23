@@ -283,7 +283,7 @@ describe('the repair, when the worker will not hand over', () => {
     });
     const deleted: string[] = [];
     vi.stubGlobal('caches', {
-      keys: () => Promise.resolve(['workbox-precache', 'saathi-shell']),
+      keys: () => Promise.resolve(['workbox-precache', 'saathi-shell', 'saathi-ocr']),
       delete: (name: string) => {
         deleted.push(name);
         return Promise.resolve(true);
@@ -297,7 +297,8 @@ describe('the repair, when the worker will not hand over', () => {
     const { unregistered, deleted } = stubWorkerAndCaches();
     expect(await repairToLatest()).toBe(true);
     expect(unregistered).toEqual(['sw']);
-    // The app's own offline copy, and nothing else: documents, hotel and pass are not in here.
+    // The app's own offline copy, and nothing else: documents, hotel and pass are not in here,
+    // and the card reader a traveller already downloaded is theirs (decision 032).
     expect(deleted).toEqual(['workbox-precache', 'saathi-shell']);
     expect(reload).toHaveBeenCalledTimes(1);
   });

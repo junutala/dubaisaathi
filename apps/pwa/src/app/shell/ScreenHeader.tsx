@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { useSettings } from '../settings.js';
 import type { Pillar } from '../routes.js';
 import { Icon, type IconName } from './icons.js';
@@ -39,6 +40,7 @@ export function ScreenHeader({
   trail,
   icon,
   onBack,
+  action,
 }: {
   readonly pillar: Pillar;
   /** Shown instead of the pillar's name, for घर.n screens that are not a pillar. */
@@ -46,6 +48,8 @@ export function ScreenHeader({
   readonly trail?: string;
   readonly icon?: IconName;
   readonly onBack?: () => void;
+  /** One control at the far end, for a screen whose own action would otherwise cost a row. */
+  readonly action?: ReactNode;
 }) {
   const { t } = useSettings();
   const colour = PILLAR_COLOUR[pillar];
@@ -67,6 +71,7 @@ export function ScreenHeader({
         <span className="hdr-title">{title ?? t(PILLAR_KEY[pillar])}</span>
         {trail !== undefined && <span className="hdr-trail">› {trail}</span>}
       </span>
+      {action}
     </div>
   );
 }

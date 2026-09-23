@@ -111,6 +111,24 @@ export default defineConfig({
               expiration: { maxEntries: 60, maxAgeSeconds: 60 * 60 * 24 * 60 },
             },
           },
+          {
+            /**
+             * The card reader's engine (decision 032), fetched the first time a traveller reads a
+             * hotel card and then theirs. A cache of its own, with no expiry and no entry limit,
+             * because a shared one with a limit is how a release deleted a traveller's 42 MB voice
+             * model: five builds in an hour pushed it out. The paths are versioned, so a new
+             * engine is a new name and never an eviction; `repairToLatest` spares this cache by
+             * name (app/updates.ts). Never in the precache — the files are copied into the image
+             * after the build, so Workbox never sees them, and nobody who does not read a card
+             * downloads them.
+             */
+            urlPattern: ({ url }: { url: URL }) => url.pathname.startsWith('/ocr/'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'saathi-ocr',
+              cacheableResponse: { statuses: [200] },
+            },
+          },
         ],
       },
     }),
