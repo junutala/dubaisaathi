@@ -34,6 +34,14 @@ const REPORT: FieldReport & { uploaded: boolean } = {
   uploaded: false,
 };
 
+/** The server's own answer: every photograph in the batch, counted as held. */
+function holdsAll(_url: string, init: RequestInit) {
+  const body = JSON.parse(init.body as string) as { photos: unknown[] };
+  return Promise.resolve(
+    new Response(JSON.stringify({ photos: body.photos.length }), { status: 200 }),
+  );
+}
+
 const online = (yes: boolean) => {
   Object.defineProperty(navigator, 'onLine', { value: yes, configurable: true });
 };
@@ -63,7 +71,7 @@ async function queueOne() {
 describe('a visit on its way to the server', () => {
   it('marks it uploaded only when the server took it', async () => {
     await queueOne();
-    vi.stubGlobal('fetch', () => Promise.resolve(new Response('{}', { status: 200 })));
+    vi.stubGlobal('fetch', holdsAll);
 
     expect(await syncReports()).toMatchObject({ pending: 0, sent: 1 });
     expect((await db.reports.get(REPORT.id))?.uploaded).toBe(true);
@@ -75,6 +83,17 @@ describe('a visit on its way to the server', () => {
     vi.stubGlobal('fetch', () => Promise.resolve(new Response('no', { status: 500 })));
 
     expect(await syncReports()).toMatchObject({ pending: 1, sent: 0, skipped: 'failed' });
+    expect((await db.reports.get(REPORT.id))?.uploaded).toBe(false);
+  });
+
+  /** "Unless you are sure that the server captured the document" — the owner, 23 September. */
+  it('keeps it queued when the server answers but holds fewer photographs than were sent', async () => {
+    await queueOne();
+    vi.stubGlobal('fetch', () =>
+      Promise.resolve(new Response(JSON.stringify({ photos: 0 }), { status: 200 })),
+    );
+
+    expect(await syncReports()).toMatchObject({ pending: 1, sent: 0 });
     expect((await db.reports.get(REPORT.id))?.uploaded).toBe(false);
   });
 
@@ -115,9 +134,9 @@ describe('a visit on its way to the server', () => {
   it('never sends the same visit twice', async () => {
     await queueOne();
     let calls = 0;
-    vi.stubGlobal('fetch', () => {
+    vi.stubGlobal('fetch', (url: string, init: RequestInit) => {
       calls += 1;
-      return Promise.resolve(new Response('{}', { status: 200 }));
+      return holdsAll(url, init);
     });
 
     await syncReports();

@@ -541,3 +541,9 @@ input.short {
 .more[open] > summary {
   margin-bottom: 12px;
 }
+
+/* Said when the server does not hold a form yet: plain, and next to the button that retries. */
+.hint.warn {
+  color: var(--marigoldText);
+  font-weight: 600;
+}

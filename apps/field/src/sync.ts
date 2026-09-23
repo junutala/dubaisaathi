@@ -87,17 +87,42 @@ export async function syncReports(): Promise<SyncOutcome> {
   return { pending: left, sent, ...(sent === 0 ? { skipped: 'failed' as const } : {}) };
 }
 
+/** What the server said about one report: every page held, or why not. */
+export type SendOutcome =
+  { readonly ok: true; readonly pages: number } | { readonly ok: false; readonly why: string };
+
 async function sendOne(report: QueuedReport): Promise<boolean> {
+  return (await sendReport(report)).ok;
+}
+
+/**
+ * Sends one report and reports what the server confirmed, batch by batch.
+ *
+ * "Uploaded" means the server answered every batch and counted every photograph in it — the
+ * owner, 23 September: "unless you are sure that the server captured the document, do not enable
+ * the CTA". Only the photographs the report lists are sent: a form keyed twice must not carry the
+ * first attempt's pages along with the second's.
+ */
+export async function sendReport(
+  report: QueuedReport,
+  onProgress?: (done: number, total: number) => void,
+): Promise<SendOutcome> {
   try {
-    const held = await db.photos.where('reportId').equals(report.id).toArray();
-    const counted = { front: 0, menu: 0 };
+    const listed = new Set([...report.frontPhotoIds, ...report.menuPhotoIds]);
+    const held = (await db.photos.where('reportId').equals(report.id).toArray()).filter((photo) =>
+      listed.has(photo.id),
+    );
     const photos: SentPhoto[] = [];
     for (const photo of held) {
-      const ord = pageOf(report, photo, 1000 + counted[photo.kind]);
-      counted[photo.kind] += 1;
-      photos.push({ kind: photo.kind, dataUrl: await asDataUrl(photo.bytes), ord });
+      photos.push({
+        kind: photo.kind,
+        dataUrl: await asDataUrl(photo.bytes),
+        ord: pageOf(report, photo, photos.length),
+      });
     }
     photos.sort((a, b) => a.ord - b.ord);
+    let done = 0;
+    onProgress?.(done, photos.length);
     // Every batch carries the report, so each request stands alone; the server keys each
     // photograph by its page, so sending a batch twice after a lost response stores it once.
     for (const batch of batches(photos)) {
@@ -106,13 +131,22 @@ async function sendOne(report: QueuedReport): Promise<boolean> {
         headers: outletHeaders(),
         body: JSON.stringify({ report: { ...report, uploaded: undefined }, photos: batch }),
       });
-      if (!response.ok) return false;
+      if (!response.ok) return { ok: false, why: `server said ${String(response.status)}` };
+      const answer = (await response.json().catch(() => ({}))) as { photos?: unknown };
+      if (answer.photos !== batch.length) {
+        return {
+          ok: false,
+          why: `server held ${String(answer.photos)} of ${String(batch.length)}`,
+        };
+      }
+      done += batch.length;
+      onProgress?.(done, photos.length);
     }
     await db.reports.update(report.id, { uploaded: true });
-    return true;
-  } catch {
+    return { ok: true, pages: photos.length };
+  } catch (error) {
     // A dead radio, a proxy, a basement. The report stays queued and goes again.
-    return false;
+    return { ok: false, why: error instanceof Error ? error.message : 'no connection' };
   }
 }
 
