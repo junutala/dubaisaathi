@@ -506,20 +506,83 @@ function CardSide({
   readonly small?: boolean;
 }) {
   const url = useBlobUrl(blob);
-  return (
-    <PhotoInput
-      className={`photo-frame hotel-card${small ? ' hotel-card-small' : ''}`}
-      onPhoto={onPhoto}
-    >
-      {url ? (
-        <img src={url} alt={caption} />
-      ) : (
+  const [open, setOpen] = useState(false);
+  const frame = `photo-frame hotel-card${small ? ' hotel-card-small' : ''}`;
+  // An empty side opens the camera; a photographed one opens the card at full size, where it
+  // can be shown to a driver — retaking is a button there, never the tap on the card itself.
+  if (url === undefined) {
+    return (
+      <PhotoInput className={frame} onPhoto={onPhoto}>
         <span className="hotel-card-empty">
           <Icon name="camera" size={small ? 18 : 26} strokeWidth={1.8} />
         </span>
+        <span className="photo-cap">{caption}</span>
+      </PhotoInput>
+    );
+  }
+  return (
+    <>
+      <button
+        type="button"
+        className={frame}
+        onClick={() => {
+          setOpen(true);
+        }}
+      >
+        <img src={url} alt={caption} />
+        <span className="photo-cap">{caption}</span>
+      </button>
+      {open && (
+        <CardFull
+          url={url}
+          caption={caption}
+          onClose={() => {
+            setOpen(false);
+          }}
+          onPhoto={(photo) => {
+            setOpen(false);
+            onPhoto(photo);
+          }}
+        />
       )}
-      <span className="photo-cap">{caption}</span>
-    </PhotoInput>
+    </>
+  );
+}
+
+/** One side of the card over the whole screen, uncropped, the way a driver needs to read it. */
+function CardFull({
+  url,
+  caption,
+  onClose,
+  onPhoto,
+}: {
+  readonly url: string;
+  readonly caption: string;
+  readonly onClose: () => void;
+  readonly onPhoto: (photo: Blob) => void;
+}) {
+  const { t } = useSettings();
+  return (
+    <div className="card-full" role="dialog" aria-label={caption}>
+      <div className="card-full-head">
+        <button
+          type="button"
+          className="hdr-btn hdr-action"
+          onClick={onClose}
+          aria-label={t('nav.back')}
+        >
+          <Icon name="left" size={22} strokeWidth={2} />
+        </button>
+        <span className="card-full-title">{caption}</span>
+      </div>
+      <span className="card-full-photo">
+        <img src={url} alt={caption} />
+      </span>
+      <PhotoInput className="btn btn-ghost card-full-retake" onPhoto={onPhoto}>
+        <Icon name="camera" size={20} strokeWidth={1.9} />
+        {t('hotel.retake')}
+      </PhotoInput>
+    </div>
   );
 }
 

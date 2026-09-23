@@ -153,7 +153,7 @@ cat <<H
     <div style="display: flex; flex-direction: column; gap: 8px;">
       $(field 'होटल' 'Sabtbir Hotel Apartments')
       <div style="display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); gap: 8px;">
-        $(stacked 'कमरा' '<span style="color: '"$muted"';">412</span>' '')
+        $(stacked 'कमरा' '<span style="color: '"$muted"';">लिखें</span>' '')
         $(stacked 'रिसेप्शन' '+971 4 258 6682' "$(phone 20 "$teal" 1.9)")
       </div>
       $(field 'पता' '23D St, Al Rigga, Dubai')
