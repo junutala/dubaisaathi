@@ -153,7 +153,13 @@ export function CaptureScreen({
    * The place and the frontage came from whoever pinned it; what is left to fill is what the
    * paper says — whether that is done on the pavement a minute later or at a desk that night.
    */
-  const ready = pin !== null && name.trim() !== '' && kitchen !== null;
+  /**
+   * The desk's whole job is the owner's sequence (23 September): pick the form number, the paper's
+   * questions, the menu, submit. Only the number is required — the name, the kind of kitchen, the
+   * dishes and the prices are read off the menu at review. An hour went on 0004 when the form asked
+   * for those at the desk as well.
+   */
+  const ready = pin !== null;
 
   const submit = async () => {
     if (!ready || who === null) return;
@@ -174,18 +180,25 @@ export function CaptureScreen({
       location: { lat: pin.lat, lng: pin.lng },
       formSerial: pin.formSerial,
       name: name.trim(),
+      keyedAt: now,
       ...(nameHi.trim() === '' ? {} : { nameHi: nameHi.trim() }),
       ...(area === null ? {} : { areaId: area }),
       ...(area !== null || areaOther.trim() === '' ? {} : { areaName: areaOther.trim() }),
       ...(phone.trim() === '' ? {} : { phone: phone.trim() }),
-      kitchen,
-      dietary: {
-        jain: answerFor(diet.jain),
-        vrat: answerFor(diet.vrat),
-        sattvik: answerFor(diet.sattvik),
-        noOnionGarlic: answerFor(diet.noOnionGarlic),
-        eggless: answerFor(diet.eggless),
-      },
+      ...(kitchen === null ? {} : { kitchen }),
+      // Questions left blank are not answers: with none answered there is no dietary record at
+      // all, rather than five "no"s nobody said.
+      ...(Object.keys(diet).length === 0
+        ? {}
+        : {
+            dietary: {
+              jain: answerFor(diet.jain),
+              vrat: answerFor(diet.vrat),
+              sattvik: answerFor(diet.sattvik),
+              noOnionGarlic: answerFor(diet.noOnionGarlic),
+              eggless: answerFor(diet.eggless),
+            },
+          }),
       ...(dishes.length === 0 ? {} : { confirmedDishes: dishes }),
       ...(open24
         ? { hours: { open24: true }, hoursConfirmedAt: now }
@@ -347,69 +360,6 @@ export function CaptureScreen({
         </Section>
       )}
 
-      <Section title={t('nameOnBoard')} required>
-        <input
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-          placeholder={t('asWritten')}
-        />
-        <input
-          value={nameHi}
-          onChange={(e) => {
-            setNameHi(e.target.value);
-          }}
-          placeholder={t('inHindi')}
-          lang="hi"
-        />
-      </Section>
-
-      <Section title={t('whichArea')}>
-        <div className="chips">
-          {AREAS.map((row) => (
-            <button
-              key={row.id}
-              type="button"
-              className={area === row.id ? 'chip on' : 'chip'}
-              onClick={() => {
-                setArea(area === row.id ? null : row.id);
-                setAreaOther('');
-              }}
-            >
-              {row.en}
-            </button>
-          ))}
-        </div>
-        {area === null && (
-          <input
-            value={areaOther}
-            onChange={(e) => {
-              setAreaOther(e.target.value);
-            }}
-            placeholder={t('somewhereElse')}
-          />
-        )}
-        <p className="hint">{t('areaHint')}</p>
-      </Section>
-
-      <Section title={t('kitchenKind')} required>
-        <div className="chips">
-          {KITCHENS.map((k) => (
-            <button
-              key={k.value}
-              type="button"
-              className={kitchen === k.value ? 'chip on' : 'chip'}
-              onClick={() => {
-                setKitchen(k.value);
-              }}
-            >
-              {t(k.label)}
-            </button>
-          ))}
-        </div>
-      </Section>
-
       <Section title={t('askThem')}>
         {DIET.map((row) => (
           <div key={row.key} className="row">
@@ -433,140 +383,7 @@ export function CaptureScreen({
         <p className="hint">{t('askPerson')}</p>
       </Section>
 
-      <Section title={t('dishesNamed')}>
-        <div className="row">
-          <input
-            value={dishName}
-            onChange={(e) => {
-              setDishName(e.target.value);
-            }}
-            placeholder={t('dishExample')}
-          />
-          <input
-            className="short"
-            value={dishPrice}
-            onChange={(e) => {
-              setDishPrice(e.target.value);
-            }}
-            placeholder="AED"
-            inputMode="decimal"
-          />
-          <button
-            type="button"
-            className="btn"
-            onClick={() => {
-              if (dishName.trim() === '') return;
-              const priceAed = Number(dishPrice);
-              setDishes([
-                ...dishes,
-                {
-                  name: { en: dishName.trim(), hi: dishName.trim(), aliases: [] },
-                  tags: [],
-                  ...(dishPrice.trim() !== '' && priceAed > 0 ? { priceAed } : {}),
-                },
-              ]);
-              setDishName('');
-              setDishPrice('');
-            }}
-          >
-            {t('add')}
-          </button>
-        </div>
-        {dishes.length > 0 && (
-          <div className="chips">
-            {dishes.map((d) => (
-              <button
-                key={d.name.en}
-                type="button"
-                className="chip on"
-                onClick={() => {
-                  setDishes((was) => was.filter((x) => x.name.en !== d.name.en));
-                }}
-              >
-                {d.name.en}
-                {d.priceAed === undefined ? '' : ` · ${String(d.priceAed)}`} ×
-              </button>
-            ))}
-          </div>
-        )}
-        <p className="hint">{t('dishHint')}</p>
-      </Section>
-
-      <Section title={t('hours')}>
-        <label className="check">
-          <input
-            type="checkbox"
-            checked={open24}
-            onChange={(e) => {
-              setOpen24(e.target.checked);
-            }}
-          />
-          {t('open24')}
-        </label>
-        {!open24 && (
-          <div className="row">
-            <input
-              type="time"
-              value={opens}
-              onChange={(e) => {
-                setOpens(e.target.value);
-              }}
-            />
-            <span>{t('to')}</span>
-            <input
-              type="time"
-              value={closes}
-              onChange={(e) => {
-                setCloses(e.target.value);
-              }}
-            />
-          </div>
-        )}
-        <p className="hint">{t('hoursHint')}</p>
-      </Section>
-
-      <Section title={t('phoneDelivery')}>
-        <input
-          value={phone}
-          onChange={(e) => {
-            setPhone(e.target.value);
-          }}
-          placeholder={t('phoneOnBoard')}
-          inputMode="tel"
-        />
-        <div className="chips">
-          {(['yes', 'no'] as const).map((value) => (
-            <button
-              key={value}
-              type="button"
-              className={delivers === value ? 'chip on' : 'chip'}
-              onClick={() => {
-                setDelivers(value);
-              }}
-            >
-              {t(value)}
-            </button>
-          ))}
-        </div>
-        <p className="hint">{t('phoneHint')}</p>
-      </Section>
-
-      <Section title={t('theRest')}>
-        <input
-          value={price}
-          onChange={(e) => {
-            setPrice(e.target.value);
-          }}
-          placeholder={t('priceForOne')}
-          inputMode="numeric"
-        />
-        <input
-          value={spokeTo}
-          onChange={(e) => {
-            setSpokeTo(e.target.value);
-          }}
-          placeholder={t('spokeTo')}
-        />
+      <Section title={t('theMenu')}>
         {/* Straight-on and filling the frame is worth more to the reader than any setting: a menu
             shot at an angle loses whole lines. Said where the photo is taken, not in a manual. */}
         <p className="hint">{t('menuHint')}</p>
@@ -606,75 +423,6 @@ export function CaptureScreen({
             {t('menuCount', { n: menu.length, size: kb(menu.reduce((sum, m) => sum + m.size, 0)) })}
           </p>
         )}
-
-        {/*
-          The camera does the typing; the collector does the knowing. Nothing here becomes a dish
-          until it is tapped, because the person holding the phone is standing in front of the
-          board and is the only one who can tell whether it says Sabudana or Sambudana. Read three
-          days later, nobody can.
-        */}
-        {menu.length > 0 && (
-          <button
-            type="button"
-            className="btn"
-            disabled={reading === 'yes'}
-            onClick={() => {
-              setReading('yes');
-              void readMenu(menu).then((found) => {
-                setCandidates(found.candidates);
-                setReading(found.failed ? 'failed' : 'no');
-              });
-            }}
-          >
-            {reading === 'yes' ? t('readingMenu') : t('readMenu')}
-          </button>
-        )}
-        {reading === 'failed' && <p className="hint">{t('couldNotRead')}</p>}
-        {candidates.length > 0 && (
-          <>
-            <p className="hint">{t('tapServed')}</p>
-            <div className="chips">
-              {candidates.map((candidate) => {
-                const on = dishes.some((d) => d.name.en === candidate.text);
-                return (
-                  <button
-                    key={candidate.text}
-                    type="button"
-                    className={on ? 'chip on' : 'chip'}
-                    onClick={() => {
-                      setDishes((was) =>
-                        on
-                          ? was.filter((d) => d.name.en !== candidate.text)
-                          : [
-                              ...was,
-                              {
-                                name: { en: candidate.text, hi: candidate.text, aliases: [] },
-                                tags: [],
-                                // The price the camera read next to it, carried onto the grid.
-                                ...(candidate.priceAed === undefined
-                                  ? {}
-                                  : { priceAed: candidate.priceAed }),
-                              },
-                            ],
-                      );
-                    }}
-                  >
-                    {candidate.text}
-                    {candidate.priceAed === undefined ? '' : ` · ${String(candidate.priceAed)}`}
-                  </button>
-                );
-              })}
-            </div>
-          </>
-        )}
-        <textarea
-          value={notes}
-          onChange={(e) => {
-            setNotes(e.target.value);
-          }}
-          placeholder={t('notes')}
-          rows={3}
-        />
       </Section>
 
       <button
@@ -688,6 +436,277 @@ export function CaptureScreen({
         {ready ? t('save') : t('saveFirst')}
       </button>
       <p className="hint center">{t('savesFirst')}</p>
+
+      {/* Everything review can read off the menu. Kept for a collector who knows it, never asked. */}
+      <details className="more">
+        <summary>{t('moreOptional')}</summary>
+        <Section title={t('nameOnBoard')}>
+          <input
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+            placeholder={t('asWritten')}
+          />
+          <input
+            value={nameHi}
+            onChange={(e) => {
+              setNameHi(e.target.value);
+            }}
+            placeholder={t('inHindi')}
+            lang="hi"
+          />
+        </Section>
+
+        <Section title={t('whichArea')}>
+          <div className="chips">
+            {AREAS.map((row) => (
+              <button
+                key={row.id}
+                type="button"
+                className={area === row.id ? 'chip on' : 'chip'}
+                onClick={() => {
+                  setArea(area === row.id ? null : row.id);
+                  setAreaOther('');
+                }}
+              >
+                {row.en}
+              </button>
+            ))}
+          </div>
+          {area === null && (
+            <input
+              value={areaOther}
+              onChange={(e) => {
+                setAreaOther(e.target.value);
+              }}
+              placeholder={t('somewhereElse')}
+            />
+          )}
+          <p className="hint">{t('areaHint')}</p>
+        </Section>
+
+        <Section title={t('kitchenKind')}>
+          <div className="chips">
+            {KITCHENS.map((k) => (
+              <button
+                key={k.value}
+                type="button"
+                className={kitchen === k.value ? 'chip on' : 'chip'}
+                onClick={() => {
+                  setKitchen(k.value);
+                }}
+              >
+                {t(k.label)}
+              </button>
+            ))}
+          </div>
+        </Section>
+
+        <Section title={t('dishesNamed')}>
+          <div className="row">
+            <input
+              value={dishName}
+              onChange={(e) => {
+                setDishName(e.target.value);
+              }}
+              placeholder={t('dishExample')}
+            />
+            <input
+              className="short"
+              value={dishPrice}
+              onChange={(e) => {
+                setDishPrice(e.target.value);
+              }}
+              placeholder="AED"
+              inputMode="decimal"
+            />
+            <button
+              type="button"
+              className="btn"
+              onClick={() => {
+                if (dishName.trim() === '') return;
+                const priceAed = Number(dishPrice);
+                setDishes([
+                  ...dishes,
+                  {
+                    name: { en: dishName.trim(), hi: dishName.trim(), aliases: [] },
+                    tags: [],
+                    ...(dishPrice.trim() !== '' && priceAed > 0 ? { priceAed } : {}),
+                  },
+                ]);
+                setDishName('');
+                setDishPrice('');
+              }}
+            >
+              {t('add')}
+            </button>
+          </div>
+          {dishes.length > 0 && (
+            <div className="chips">
+              {dishes.map((d) => (
+                <button
+                  key={d.name.en}
+                  type="button"
+                  className="chip on"
+                  onClick={() => {
+                    setDishes((was) => was.filter((x) => x.name.en !== d.name.en));
+                  }}
+                >
+                  {d.name.en}
+                  {d.priceAed === undefined ? '' : ` · ${String(d.priceAed)}`} ×
+                </button>
+              ))}
+            </div>
+          )}
+          <p className="hint">{t('dishHint')}</p>
+        </Section>
+
+        <Section title={t('hours')}>
+          <label className="check">
+            <input
+              type="checkbox"
+              checked={open24}
+              onChange={(e) => {
+                setOpen24(e.target.checked);
+              }}
+            />
+            {t('open24')}
+          </label>
+          {!open24 && (
+            <div className="row">
+              <input
+                type="time"
+                value={opens}
+                onChange={(e) => {
+                  setOpens(e.target.value);
+                }}
+              />
+              <span>{t('to')}</span>
+              <input
+                type="time"
+                value={closes}
+                onChange={(e) => {
+                  setCloses(e.target.value);
+                }}
+              />
+            </div>
+          )}
+          <p className="hint">{t('hoursHint')}</p>
+        </Section>
+
+        <Section title={t('phoneDelivery')}>
+          <input
+            value={phone}
+            onChange={(e) => {
+              setPhone(e.target.value);
+            }}
+            placeholder={t('phoneOnBoard')}
+            inputMode="tel"
+          />
+          <div className="chips">
+            {(['yes', 'no'] as const).map((value) => (
+              <button
+                key={value}
+                type="button"
+                className={delivers === value ? 'chip on' : 'chip'}
+                onClick={() => {
+                  setDelivers(value);
+                }}
+              >
+                {t(value)}
+              </button>
+            ))}
+          </div>
+          <p className="hint">{t('phoneHint')}</p>
+        </Section>
+
+        <Section title={t('theRest')}>
+          <input
+            value={price}
+            onChange={(e) => {
+              setPrice(e.target.value);
+            }}
+            placeholder={t('priceForOne')}
+            inputMode="numeric"
+          />
+          <input
+            value={spokeTo}
+            onChange={(e) => {
+              setSpokeTo(e.target.value);
+            }}
+            placeholder={t('spokeTo')}
+          />
+          {/*
+          The camera does the typing; the collector does the knowing. Nothing here becomes a dish
+          until it is tapped, because the person holding the phone is standing in front of the
+          board and is the only one who can tell whether it says Sabudana or Sambudana. Read three
+          days later, nobody can.
+        */}
+          {menu.length > 0 && (
+            <button
+              type="button"
+              className="btn"
+              disabled={reading === 'yes'}
+              onClick={() => {
+                setReading('yes');
+                void readMenu(menu).then((found) => {
+                  setCandidates(found.candidates);
+                  setReading(found.failed ? 'failed' : 'no');
+                });
+              }}
+            >
+              {reading === 'yes' ? t('readingMenu') : t('readMenu')}
+            </button>
+          )}
+          {reading === 'failed' && <p className="hint">{t('couldNotRead')}</p>}
+          {candidates.length > 0 && (
+            <>
+              <p className="hint">{t('tapServed')}</p>
+              <div className="chips">
+                {candidates.map((candidate) => {
+                  const on = dishes.some((d) => d.name.en === candidate.text);
+                  return (
+                    <button
+                      key={candidate.text}
+                      type="button"
+                      className={on ? 'chip on' : 'chip'}
+                      onClick={() => {
+                        setDishes((was) =>
+                          on
+                            ? was.filter((d) => d.name.en !== candidate.text)
+                            : [
+                                ...was,
+                                {
+                                  name: { en: candidate.text, hi: candidate.text, aliases: [] },
+                                  tags: [],
+                                  // The price the camera read next to it, carried onto the grid.
+                                  ...(candidate.priceAed === undefined
+                                    ? {}
+                                    : { priceAed: candidate.priceAed }),
+                                },
+                              ],
+                        );
+                      }}
+                    >
+                      {candidate.text}
+                      {candidate.priceAed === undefined ? '' : ` · ${String(candidate.priceAed)}`}
+                    </button>
+                  );
+                })}
+              </div>
+            </>
+          )}
+          <textarea
+            value={notes}
+            onChange={(e) => {
+              setNotes(e.target.value);
+            }}
+            placeholder={t('notes')}
+            rows={3}
+          />
+        </Section>
+      </details>
       {/* Which build this is, so "did my fix reach the phone?" is answerable by looking. */}
       <p className="build">{BUILD}</p>
     </div>

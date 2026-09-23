@@ -107,3 +107,27 @@ answered by a sheet with a tick on it and the manager's name beside it.
 - Numbers are per phone, not global. Two riders would both start at 0001; the owner's answer was
   _"That does not bite me"_ — there is one rider — and the pin's own id, not its serial, is what
   the row is keyed by.
+
+## Addendum, 23 September: no photograph of the shop, and the desk is four steps
+
+The owner, after the first real walk (forms 0001–0026 in Bur Dubai):
+
+> _"shopfront photos is a NO GO. Taking photos in dubai is a risky subject and you find
+> plainclothsmen all around"_
+
+The camera on the rider's screen was "optional", which still put a camera on the screen and still
+had the server mark every pin without one `no-front-photo`, as if something were missing. Both
+are gone: the pin screen is the number and the tick, and the flag is no longer raised. The one
+photograph already held as a front (0025) is a menu page he took when his pen went missing, and
+is filed as that form's menu.
+
+And on the desk, after an hour spent failing to submit 0004:
+
+> _"select the sequence, menu questions, upload, submit. you take care from there."_
+
+So the desk form is that sequence: the form number, the paper's dietary questions, the menu
+(photos or a PDF, turned into pages on the laptop), Submit. Only the number is required. The name,
+the kind of kitchen, the dishes and the prices are read off the menu at review, so a submitted
+form carries `keyedAt` — that, not a kitchen, is what takes a pin off the waiting list — and the
+server holds it as `read-from-menu` until review has filled what the menu says. Everything else
+the old form asked is still there, below Submit, folded under "More, if you know it".

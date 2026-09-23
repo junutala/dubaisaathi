@@ -7,13 +7,9 @@
  * money and his afternoon, and none of those megabytes reach a traveller: the pack needs a small
  * picture, and review needs a readable one.
  *
- * So the two kinds are not treated alike:
- *
- *   - **The front** is for recognising a shop while standing in front of it. 1280px is more than
- *     a phone screen can show and about 200 KB.
- *   - **The menu** is read, not glanced at — it is where the dishes come from. It keeps 2000px
- *     and a higher quality, because a menu compressed until the prices blur has cost the visit
- *     rather than saved data.
+ * **The menu** is read, not glanced at — it is where the dishes come from. It keeps 2000px and a
+ * high quality, because a menu compressed until the prices blur has cost the visit rather than
+ * saved data. (There is no second kind: shopfronts are not photographed — the owner, 23 September.)
  *
  * If anything here fails — an old browser, a format the canvas will not decode, a photo too large
  * to hold in memory — the original file is returned unchanged. A collector who walked to a shop
@@ -21,8 +17,6 @@
  * it. Slow is recoverable; missing is not.
  */
 
-/** The front of a shop: recognisable, not archival. */
-export const FRONT = { edge: 1280, quality: 0.75 };
 /** A menu is read. Cheaper to send a bigger file than to send one nobody can use. */
 export const MENU = { edge: 2000, quality: 0.82 };
 

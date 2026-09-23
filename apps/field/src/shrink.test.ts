@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { fitWithin, FRONT, MENU } from './shrink.js';
+import { fitWithin } from './shrink.js';
 
 describe('fitting a photo inside an edge', () => {
   it('scales a landscape phone photo down by its longest side', () => {
@@ -21,12 +21,5 @@ describe('fitting a photo inside an edge', () => {
 
   it('survives a zero-sized image rather than dividing by it', () => {
     expect(fitWithin(0, 0, 1280)).toEqual({ width: 0, height: 0 });
-  });
-});
-
-describe('the two kinds are deliberately different', () => {
-  it('keeps menus larger than shopfronts, because a menu is read', () => {
-    expect(MENU.edge).toBeGreaterThan(FRONT.edge);
-    expect(MENU.quality).toBeGreaterThan(FRONT.quality);
   });
 });
