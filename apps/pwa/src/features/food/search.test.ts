@@ -1,6 +1,15 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { searchOutlets } from './search.js';
 import { outlets } from './outlets.js';
+
+/**
+ * These are tests of how search behaves, so they run on the development fixture, whose kitchens
+ * were written to exercise every rule — not on whatever the field collected this week, which
+ * changes with every publish (the first real outlets landed on 24 September).
+ */
+vi.mock('../../../../../data/restaurants/restaurants.v1.json', () => ({
+  default: { contentVersion: 1, status: 'collected', restaurants: [] },
+}));
 
 /** A hotel in Karama, so "nearest first" has something to measure from. */
 const KARAMA = { lat: 25.245, lng: 55.305 };

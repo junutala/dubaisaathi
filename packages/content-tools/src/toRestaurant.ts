@@ -34,6 +34,8 @@ export interface ReportRow {
   readonly price_for_one_aed: number | null;
   readonly spoke_to: string | null;
   readonly status: string;
+  /** The paper form's printed number (decision 029); a menu reading is filed under it (033). */
+  readonly form_serial?: string | null;
 }
 
 /**
