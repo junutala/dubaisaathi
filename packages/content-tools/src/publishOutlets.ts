@@ -8,6 +8,7 @@
  *
  *   SUPABASE_URL=… SUPABASE_SERVICE_ROLE_KEY=… npm run publish:outlets --workspace @saathi/content-tools
  *   npm run publish:outlets --workspace @saathi/content-tools -- --rows rows.json
+ *   … -- --readings <dir>   # dishes from review's menu readings, <dir>/<serial>/menu.json
  *
  * The key is read from the environment and never written to the repo, and it has to be the
  * service role: `field_reports` has RLS on with no policies by design, so the anon key sees
@@ -24,9 +25,11 @@
  * script nobody can run again.
  */
 import { readFile, writeFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { toRestaurant, type ReportRow } from './toRestaurant.ts';
+import { dishesFromReading, type MenuReading } from './readings.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(here, '..', '..', '..', 'data', 'restaurants', 'restaurants.v1.json');
@@ -50,7 +53,32 @@ const COLUMNS = [
   'price_for_one_aed',
   'spoke_to',
   'status',
+  'form_serial',
 ].join(',');
+
+/**
+ * The dishes review read off a form's menu (decision 033), for every row that carries none of its
+ * own. A row that already has dishes — keyed at the desk — keeps them: the person at the counter
+ * outranks the reading.
+ */
+async function withReadings(rows: readonly ReportRow[]): Promise<readonly ReportRow[]> {
+  const flag = process.argv.indexOf('--readings');
+  if (flag === -1) return rows;
+  const dir = process.argv[flag + 1];
+  if (dir === undefined) throw new Error('--readings needs a directory');
+  const out: ReportRow[] = [];
+  for (const row of rows) {
+    const file = resolve(process.cwd(), dir, row.form_serial ?? '', 'menu.json');
+    const has = (row.confirmed_dishes ?? []).length > 0;
+    if (has || row.form_serial === null || row.form_serial === undefined || !existsSync(file)) {
+      out.push(row);
+      continue;
+    }
+    const reading = JSON.parse(await readFile(file, 'utf8')) as MenuReading;
+    out.push({ ...row, confirmed_dishes: dishesFromReading(reading) });
+  }
+  return out;
+}
 
 /** Rows from Supabase, or from a file when the key is somebody else's to hold. */
 async function readRows(): Promise<readonly ReportRow[]> {
@@ -79,7 +107,7 @@ async function readRows(): Promise<readonly ReportRow[]> {
 
 async function main(): Promise<void> {
   // Approved only, whichever way the rows arrived — a file must not become a way past the checks.
-  const rows = (await readRows()).filter(
+  const rows = (await withReadings(await readRows())).filter(
     (row) => row.status === 'approved' && (row.kind ?? 'restaurant') === 'restaurant',
   );
 
