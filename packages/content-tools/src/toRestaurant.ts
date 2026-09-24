@@ -114,6 +114,7 @@ export function readDishes(raw: readonly unknown[] | null): readonly ConfirmedDi
       name?: { en?: unknown; hi?: unknown };
       tags?: unknown;
       priceAed?: unknown;
+      section?: unknown;
     };
     const en = typeof dish.name?.en === 'string' ? dish.name.en : undefined;
     if (en === undefined || en.trim() === '') continue;
@@ -125,10 +126,12 @@ export function readDishes(raw: readonly unknown[] | null): readonly ConfirmedDi
       typeof dish.priceAed === 'number' && Number.isFinite(dish.priceAed)
         ? dish.priceAed
         : undefined;
+    const section = typeof dish.section === 'string' ? dish.section.trim() : '';
     dishes.push({
       name: { en, hi, aliases: [] },
       tags,
       ...(priceAed === undefined ? {} : { priceAed }),
+      ...(section === '' ? {} : { section }),
     });
   }
   return dishes.length > 0 ? dishes : undefined;

@@ -16,6 +16,7 @@ export interface ReadDish {
   readonly name: string;
   readonly priceAed?: number | null;
   readonly veg?: boolean | null;
+  readonly section?: string | null;
 }
 
 export interface MenuReading {
@@ -28,6 +29,7 @@ export interface ReportDish {
   readonly name: { readonly en: string };
   readonly tags: readonly string[];
   readonly priceAed?: number;
+  readonly section?: string;
 }
 
 /**
@@ -44,10 +46,12 @@ export function dishesFromReading(reading: MenuReading): readonly ReportDish[] {
     seen.add(key);
     const price =
       typeof dish.priceAed === 'number' && Number.isFinite(dish.priceAed) ? dish.priceAed : null;
+    const section = typeof dish.section === 'string' ? dish.section.trim() : '';
     out.push({
       name: { en: name },
       tags: dish.veg === true ? ['vegetarian'] : [],
       ...(price === null ? {} : { priceAed: price }),
+      ...(section === '' ? {} : { section }),
     });
   }
   return out;

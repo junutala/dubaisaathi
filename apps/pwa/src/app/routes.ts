@@ -22,8 +22,7 @@ export type Route =
   | { readonly screen: 'bolnaArabic'; readonly text: string }
   // 1.1 / 1.2 · खाना — one screen; a dish in the box is what makes it 1.2
   | { readonly screen: 'food'; readonly dish?: string }
-  // 1.3 · the outlet, 1.4 · its menu
-  | { readonly screen: 'outlet'; readonly outletId: string }
+  // 1.3 · the kitchen, which is its menu (the separate outlet screen went on 24 September)
   | { readonly screen: 'menu'; readonly outletId: string }
   // 2.1 · जाना, with the box already filled when a place was handed in
   | { readonly screen: 'go'; readonly placeId?: string }
@@ -60,7 +59,8 @@ export function parseRoute(hash: string): Route {
     case 'food':
       return arg ? { screen: 'food', dish: decodeURIComponent(arg) } : { screen: 'food' };
     case 'outlet':
-      return arg ? { screen: 'outlet', outletId: arg } : { screen: 'food' };
+      // A link saved before 24 September opens the kitchen, which is its menu now.
+      return arg ? { screen: 'menu', outletId: arg } : { screen: 'food' };
     case 'menu':
       return arg ? { screen: 'menu', outletId: arg } : { screen: 'food' };
     case 'go':
@@ -104,8 +104,6 @@ export function href(route: Route): string {
       return `#/bolna-arabic/${encodeURIComponent(route.text)}`;
     case 'food':
       return route.dish === undefined ? '#/food' : `#/food/${encodeURIComponent(route.dish)}`;
-    case 'outlet':
-      return `#/outlet/${route.outletId}`;
     case 'menu':
       return `#/menu/${route.outletId}`;
     case 'go':
@@ -135,7 +133,6 @@ export type Pillar = 'food' | 'go' | 'know' | 'docs' | 'home';
 export function pillarOf(route: Route): Pillar {
   switch (route.screen) {
     case 'food':
-    case 'outlet':
     case 'menu':
       return 'food';
     case 'go':

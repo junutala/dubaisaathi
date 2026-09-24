@@ -43,7 +43,9 @@ export type PlaceKind =
   | 'beach'
   | 'souk'
   | 'park'
-  | 'transport';
+  | 'transport'
+  /** A kitchen from खाना, handed to जाना so "how do I get there" goes to its door (24 September). */
+  | 'restaurant';
 
 export interface DubaiPlace {
   readonly id: string;
@@ -165,6 +167,13 @@ export interface ConfirmedDish {
   readonly name: LocalisedName;
   readonly tags: readonly FoodTag[];
   readonly priceAed?: number;
+  /**
+   * The heading the restaurant printed it under — "Morning Breakfast", "Biryani", "Chinese".
+   * The menu screen groups by it in the card's own order, because breakfast is not served at
+   * four in the afternoon and a traveller should not have to find that out by asking (owner,
+   * 24 September).
+   */
+  readonly section?: string;
 }
 
 /**

@@ -1,6 +1,7 @@
 import type { DubaiPlace } from '@saathi/shared';
 import type { Locale } from '../../i18n/index.js';
 import { GLUE, ROMAN_GLUE, fold, intentCorpus, parseIntent } from '../ask/index.js';
+import { outletById } from '../food/index.js';
 
 /**
  * Turning what a traveller typed into a place we know — the one job screen 2.1 has before it
@@ -12,7 +13,30 @@ import { GLUE, ROMAN_GLUE, fold, intentCorpus, parseIntent } from '../ask/index.
  * new alias is a row in `data/intents/places.v1.json` and this picks it up for free.
  */
 
+/** A kitchen from खाना, as जाना addresses it: `outlet:<id>`. */
+const OUTLET = 'outlet:';
+
+export function outletPlaceId(outletId: string): string {
+  return `${OUTLET}${outletId}`;
+}
+
+/**
+ * A place we know — or a kitchen from खाना, so "how do I get there" from its menu goes to the
+ * kitchen's own door rather than to the middle of its neighbourhood (owner, 24 September). Its
+ * pin is where the collector stood at the counter.
+ */
 export function placeById(placeId: string): DubaiPlace | undefined {
+  if (placeId.startsWith(OUTLET)) {
+    const outlet = outletById(placeId.slice(OUTLET.length));
+    if (!outlet) return undefined;
+    return {
+      id: placeId,
+      name: outlet.name,
+      kind: 'restaurant',
+      location: outlet.location,
+      ...(outlet.areaId === undefined ? {} : { areaId: outlet.areaId }),
+    };
+  }
   return intentCorpus.places.get(placeId);
 }
 

@@ -1677,7 +1677,7 @@ button:not(:disabled) {
   }
 }
 
-/* ---- 1.3 · the outlet, 1.4 · the menu grid --------------------------------------------- */
+/* ---- 1.3 · the kitchen and its menu grid --------------------------------------------- */
 
 .outlet-title {
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
@@ -1693,21 +1693,47 @@ button:not(:disabled) {
   flex-wrap: wrap;
   gap: 4px 8px;
 }
-.answers {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+/* The kitchen's three actions stay put while the menu scrolls (24 September); the name is already
+   in the header's trail, so it may scroll away and give the menu the room. */
+.kitchen-head {
+  display: flex;
+  flex-direction: column;
   gap: 8px;
 }
-.answer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.kitchen-actions {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
-  padding: 10px 12px;
-  border-radius: 12px;
+  margin: 0 -16px;
+  padding: 8px 16px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+.btn-off {
+  opacity: 0.45;
+}
+.answers-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.answer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
   background: var(--tile);
   border: 1px solid var(--line);
-  font-size: 14px;
+  font-size: 13px;
+}
+.menu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 .answer-a {
   font-size: 13px;

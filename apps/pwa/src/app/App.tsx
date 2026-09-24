@@ -6,7 +6,7 @@ import { TopStrip } from './shell/TopStrip.js';
 import { TabBar } from './shell/TabBar.js';
 import { HomeScreen } from '../features/home/HomeScreen.js';
 import type { HomeTileState } from '../features/home/HomeTile.js';
-import { FoodListScreen, MenuScreen, OutletScreen } from '../features/food/index.js';
+import { FoodListScreen, MenuScreen } from '../features/food/index.js';
 import {
   PassScreen,
   entitlement,
@@ -246,8 +246,7 @@ export function App() {
         {route.screen === 'bolna' && <BolnaScreen />}
         {route.screen === 'bolnaArabic' && <ArabicScreen text={route.text} />}
         {route.screen === 'food' && <FoodListScreen dish={route.dish} hotel={hotel} />}
-        {route.screen === 'outlet' && <OutletScreen outletId={route.outletId} hotel={hotel} />}
-        {route.screen === 'menu' && <MenuScreen outletId={route.outletId} />}
+        {route.screen === 'menu' && <MenuScreen outletId={route.outletId} hotel={hotel} />}
         {route.screen === 'go' && <GoScreen placeId={route.placeId} />}
         {route.screen === 'options' && <RouteOptionsScreen placeId={route.placeId} hotel={hotel} />}
         {route.screen === 'steps' && (
