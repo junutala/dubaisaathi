@@ -121,8 +121,9 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
 - **खाना is dish first.** The dish is the search, the place is the answer: kitchens where a
   collector confirmed it first, kitchens of its kind after, nearest first. A constraint the
   traveller states (pure veg, Jain, no onion-garlic, vrat, open now) is honoured; a taste is
-  never predicted. An answer nobody asked shows as पूछकर, never as a no. The menu is a **grid**
-  of dishes and prices the collector read off the card by OCR, not a photograph.
+  never predicted. An answer nobody asked shows as पूछकर, never as a no. **Tapping a kitchen opens
+  its menu** (decision 034): नक्शा, जाना and फ़ोन held at the top, then the menu as a **grid** of
+  dishes and prices read off the card at review (033), grouped under the card's own headings.
 - **Hours are Dubai's.** Open or closed is computed in Asia/Dubai, never on the phone's clock,
   and the row shows the closing time while open and the opening time while closed.
 - **जाना is a box, a suggestion, and every way there.** A place we know goes to the options;

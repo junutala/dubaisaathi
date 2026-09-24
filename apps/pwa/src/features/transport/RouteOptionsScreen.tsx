@@ -97,6 +97,12 @@ export function RouteOptionsScreen({
           </div>
         )}
 
+        {/* Said, not left out: a traveller who sees no metro row should know there is none, rather
+            than wonder whether the app forgot (owner, 24 September). */}
+        {options !== null && options.length > 0 && missingTransit(options) !== null && (
+          <p className="muted small">{t(missingTransit(options) ?? 'options.noMetroBus')}</p>
+        )}
+
         {words !== null && options !== null && options.length > 0 && (
           <div className="rows">
             {options.map((option) => (
@@ -173,4 +179,16 @@ function OptionCard({
       </span>
     </button>
   );
+}
+
+/** Which of metro and bus the plan has no row for, as the line that says so — or nothing. */
+function missingTransit(
+  options: readonly RouteOption[],
+): 'options.noMetroBus' | 'options.noMetro' | 'options.noBus' | null {
+  const metro = options.some((option) => option.id === 'metro');
+  const bus = options.some((option) => option.id === 'bus');
+  if (!metro && !bus) return 'options.noMetroBus';
+  if (!metro) return 'options.noMetro';
+  if (!bus) return 'options.noBus';
+  return null;
 }

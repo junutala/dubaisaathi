@@ -38,6 +38,7 @@ interface RawOutlet {
     readonly name: { readonly en: string; readonly hi: string };
     readonly tags?: readonly string[];
     readonly priceAed?: number;
+    readonly section?: string;
   }[];
   readonly hours?: {
     readonly everyDay?: { readonly opens: string; readonly closes: string };
@@ -100,6 +101,7 @@ export function parseOutletPack(raw: unknown): readonly Restaurant[] {
               name: { en: dish.name.en, hi: dish.name.hi, aliases: [] },
               tags: (dish.tags ?? []).filter(isFoodTag),
               ...(dish.priceAed === undefined ? {} : { priceAed: dish.priceAed }),
+              ...(dish.section === undefined ? {} : { section: dish.section }),
             })),
           }),
       ...(row.hours === undefined ? {} : { hours: row.hours }),

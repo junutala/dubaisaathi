@@ -197,7 +197,7 @@ function OutletRow({ hit, from }: { readonly hit: OutletHit; readonly from: Here
       type="button"
       className="row-card"
       onClick={() => {
-        navigate({ screen: 'outlet', outletId: outlet.id });
+        navigate({ screen: 'menu', outletId: outlet.id });
       }}
     >
       <span className="row-card-thumb">
