@@ -15,6 +15,8 @@ const position = {
 } as GeolocationPosition;
 
 let watcher: ((p: GeolocationPosition) => void) | null = null;
+/** What the phone answers when asked afresh at the tick; null is a phone that gives nothing. */
+let fresh: GeolocationPosition | null = null;
 
 beforeEach(async () => {
   await db.delete();
@@ -22,6 +24,7 @@ beforeEach(async () => {
   localStorage.clear();
   localStorage.setItem('saathi.collector', 'rider');
   watcher = null;
+  fresh = null;
   vi.stubGlobal('navigator', {
     onLine: false,
     geolocation: {
@@ -30,6 +33,10 @@ beforeEach(async () => {
         return 1;
       },
       clearWatch: () => undefined,
+      getCurrentPosition: (ok: (p: GeolocationPosition) => void, fail: () => void) => {
+        if (fresh === null) fail();
+        else ok(fresh);
+      },
     },
   });
 });
@@ -96,6 +103,25 @@ describe('the rider’s pin', () => {
     expect(report?.name).toBe('');
     expect(report?.dietary).toBeUndefined();
     expect(await db.photos.count()).toBe(0);
+  });
+
+  it('pins where he stands at the tick, not where the watch last reported', async () => {
+    const { container } = render(<PinScreen />);
+    watcher?.(position);
+    await waitFor(() => {
+      expect(container.querySelector('.pin-done-btn')?.hasAttribute('disabled')).toBe(false);
+    });
+    // Across the road: the watch has gone quiet, but a reading asked for now knows better.
+    fresh = {
+      coords: { latitude: 25.2607, longitude: 55.2953, accuracy: 7 },
+    } as GeolocationPosition;
+    fireEvent.click(container.querySelector<HTMLButtonElement>('.pin-done-btn')!);
+
+    await waitFor(async () => {
+      expect(await db.reports.count()).toBe(1);
+    });
+    const [report] = await db.reports.toArray();
+    expect(report?.location).toEqual({ lat: 25.2607, lng: 55.2953 });
   });
 
   it('shows the number back, then moves on to the next one', async () => {

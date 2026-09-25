@@ -40,12 +40,42 @@ interface Fix {
   readonly accuracyM: number;
 }
 
+function toFix(position: GeolocationPosition): Fix {
+  return {
+    lat: position.coords.latitude,
+    lng: position.coords.longitude,
+    accuracyM: position.coords.accuracy,
+  };
+}
+
+/**
+ * A reading taken at the moment of the tick, never one from the cache. The watch alone is not
+ * enough: a phone that believes it has not moved does not report again, so on 23 September two
+ * pairs of shops got one pin each — 0022 and 0023 from either side of a 100-foot road, 76 seconds
+ * apart, to the seventh decimal. Null when the phone gives nothing in time, and the watched fix is
+ * then what is saved, so the tick is never left dead.
+ */
+function freshFix(): Promise<Fix | null> {
+  return new Promise((resolve) => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve(toFix(position));
+      },
+      () => {
+        resolve(null);
+      },
+      { enableHighAccuracy: true, timeout: 8_000, maximumAge: 0 },
+    );
+  });
+}
+
 export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) => void }) {
   const { t } = useStrings();
   const [serial, setSerial] = useState(currentSerial);
   const [fix, setFix] = useState<Fix | null>(null);
   const [queue, setQueue] = useState<SyncOutcome>({ pending: 0, sent: 0 });
   const [saved, setSaved] = useState<{ serial: string; id: string } | null>(null);
+  const [taking, setTaking] = useState(false);
 
   useEffect(() => startSync(setQueue), []);
 
@@ -57,11 +87,7 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
   useEffect(() => {
     const watch = navigator.geolocation.watchPosition(
       (position) => {
-        setFix({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-          accuracyM: position.coords.accuracy,
-        });
+        setFix(toFix(position));
       },
       () => {
         setFix(null);
@@ -78,7 +104,12 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
 
   async function save() {
     const who = collectorName();
-    if (!ready || who === null) return;
+    if (!ready || who === null || taking) return;
+    setTaking(true);
+    const fresh = await freshFix();
+    setTaking(false);
+    const at = fresh ?? fix;
+    if (fresh !== null) setFix(fresh);
     const id = crypto.randomUUID();
 
     /**
@@ -91,7 +122,7 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
       kind: 'restaurant',
       collectorId: who,
       capturedAt: new Date().toISOString(),
-      location: { lat: fix.lat, lng: fix.lng },
+      location: { lat: at.lat, lng: at.lng },
       name: '',
       formSerial: serial,
       frontPhotoIds: [],
@@ -197,7 +228,12 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
         <output className="pin-number">{serial}</output>
       </div>
 
-      <button type="button" className="pin-done-btn" disabled={!ready} onClick={() => void save()}>
+      <button
+        type="button"
+        className="pin-done-btn"
+        disabled={!ready || taking}
+        onClick={() => void save()}
+      >
         <svg
           viewBox="0 0 24 24"
           fill="none"
