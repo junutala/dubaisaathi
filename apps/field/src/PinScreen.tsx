@@ -82,6 +82,8 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
   const [firstPage, setFirstPage] = useState<Blob | null>(null);
   const [photographed, setPhotographed] = useState(false);
   const [fromQr, setFromQr] = useState(false);
+  /** Anything else the desk should know: "WhatsApp 050… for the menu" (the owner, 25 September). */
+  const [note, setNote] = useState('');
 
   useEffect(() => startSync(setQueue), []);
 
@@ -122,6 +124,7 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
     const menuAt = [
       ...(photographed ? ['menu photographed on the collector’s phone'] : []),
       ...(fromQr ? ['menu downloaded from the counter’s QR'] : []),
+      ...(note.trim() === '' ? [] : [note.trim()]),
     ].join('; ');
 
     /**
@@ -153,6 +156,7 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
     setFirstPage(null);
     setPhotographed(false);
     setFromQr(false);
+    setNote('');
 
     setSaved({ serial, id });
     setSerial(advanceSerial());
@@ -326,6 +330,18 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
           <span>{t('pinFromQr')}</span>
         </button>
       </div>
+      {/* Optional, and the one place he types: what the counter said about the menu — "send a
+          WhatsApp to 050… and we will send it". It reaches review with the pin. */}
+      <textarea
+        className="pin-note"
+        rows={2}
+        value={note}
+        placeholder={t('pinNote')}
+        aria-label={t('pinNote')}
+        onChange={(e) => {
+          setNote(e.target.value);
+        }}
+      />
 
       <button
         type="button"

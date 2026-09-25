@@ -162,5 +162,9 @@ the tick:
   pin. Either it is on the phone's own camera roll, or it was downloaded from the counter's QR.
   They go to review as the report's notes, so the desk knows where to look.
 
-None of the three is required, and the tick never waits on them. The fresh GPS reading at the
+- **A note**: one optional line of free text, added the same evening. Some counters say "send
+  us a WhatsApp and we will send you the menu". The number and the promise go to review with
+  the pin.
+
+None of these is required, and the tick never waits on them. The fresh GPS reading at the
 tick (25 September, after 0022 and 0023 shared a pin) is unchanged.

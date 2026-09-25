@@ -156,7 +156,8 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   camera on that screen for the shop) —
   the GPS is watched from the moment his screen opens, so there is no button for it. **The menu's
   first page is another matter** (the owner, 25 September): one optional picture of it on the pin,
-  or two ticks — photographed on the phone, downloaded from the QR — saying where it is instead. Later, at a
+  or two ticks — photographed on the phone, downloaded from the QR — saying where it is instead,
+  and one optional note for what the counter said ("WhatsApp 050… and we will send it"). Later, at a
   desk, the filled paper and the menu (photos or a PDF) are keyed against that pin in the owner's
   sequence (23 September): pick the form number, the paper's questions, the menu, Submit. Nothing
   else is required — the name, the kind of kitchen, the dishes and prices are read off the menu at

@@ -450,6 +450,10 @@ input.short {
   background: var(--tealSoft);
   color: var(--tealText);
 }
+.pin-note {
+  min-height: 56px;
+  font-size: 16px;
+}
 .pin-done-btn {
   height: 96px;
   border-radius: 18px;
