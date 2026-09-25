@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-25T13:15:26.301Z",
+  "publishedAt": "2026-09-25T13:24:30.347Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -32854,6 +32854,3349 @@
           "tags": ["vegetarian"],
           "priceAed": 32,
           "section": "Combo Meals (from 12 noon)"
+        }
+      ]
+    },
+    {
+      "id": "3d1cb46f-c003-4670-8967-ff795c1f24c7",
+      "name": {
+        "en": "Haji Ali Juice Center",
+        "hi": "Haji Ali Juice Center",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2604372,
+        "lng": 55.2949654
+      },
+      "areaId": "meena-bazaar",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian"],
+      "phone": "04 491 8188",
+      "confirmedDishes": [
+        {
+          "name": {
+            "en": "Veg. Cheese Grill",
+            "hi": "Veg. Cheese Grill",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Sandwich Grill"
+        },
+        {
+          "name": {
+            "en": "Mushroom Veg. Cheese Grill",
+            "hi": "Mushroom Veg. Cheese Grill",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Sandwich Grill"
+        },
+        {
+          "name": {
+            "en": "Schezwan Veg. Cheese Grill",
+            "hi": "Schezwan Veg. Cheese Grill",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Sandwich Grill"
+        },
+        {
+          "name": {
+            "en": "Mozzarella Veg. Grill",
+            "hi": "Mozzarella Veg. Grill",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Sandwich Grill"
+        },
+        {
+          "name": {
+            "en": "Haji Ali Special Sandwich",
+            "hi": "Haji Ali Special Sandwich",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Sandwich Grill"
+        },
+        {
+          "name": {
+            "en": "Mushroom Mozzarella Grill",
+            "hi": "Mushroom Mozzarella Grill",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Sandwich Grill"
+        },
+        {
+          "name": {
+            "en": "Bhaji Cheese Grill",
+            "hi": "Bhaji Cheese Grill",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Sandwich Grill"
+        },
+        {
+          "name": {
+            "en": "Schezwan Bhaji Sandwich",
+            "hi": "Schezwan Bhaji Sandwich",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Sandwich Grill"
+        },
+        {
+          "name": {
+            "en": "Mozzarella Grill",
+            "hi": "Mozzarella Grill",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Sandwich Grill"
+        },
+        {
+          "name": {
+            "en": "Paneer Bhaji Grill",
+            "hi": "Paneer Bhaji Grill",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Sandwich Grill"
+        },
+        {
+          "name": {
+            "en": "Veg. Cheese Burger",
+            "hi": "Veg. Cheese Burger",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15
+        },
+        {
+          "name": {
+            "en": "Schezwan Burger",
+            "hi": "Schezwan Burger",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16
+        },
+        {
+          "name": {
+            "en": "Cheese Grill (Only Cheese)",
+            "hi": "Cheese Grill (Only Cheese)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15
+        },
+        {
+          "name": {
+            "en": "Chutney Grill",
+            "hi": "Chutney Grill",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8
+        },
+        {
+          "name": {
+            "en": "Bread Butter Grill",
+            "hi": "Bread Butter Grill",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8
+        },
+        {
+          "name": {
+            "en": "Butter Jam Grill",
+            "hi": "Butter Jam Grill",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8
+        },
+        {
+          "name": {
+            "en": "Jain Veg. Cheese Grill",
+            "hi": "Jain Veg. Cheese Grill",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17
+        },
+        {
+          "name": {
+            "en": "Jain Paneer Veg Grill",
+            "hi": "Jain Paneer Veg Grill",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18
+        },
+        {
+          "name": {
+            "en": "Bombay Sandwich (Non Grilled)",
+            "hi": "Bombay Sandwich (Non Grilled)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16
+        },
+        {
+          "name": {
+            "en": "Cheese Chutney Sandwich",
+            "hi": "Cheese Chutney Sandwich",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15
+        },
+        {
+          "name": {
+            "en": "Chilly Cheese Toast",
+            "hi": "Chilly Cheese Toast",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15
+        },
+        {
+          "name": {
+            "en": "Potato N Cheese Sandwich",
+            "hi": "Potato N Cheese Sandwich",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15
+        },
+        {
+          "name": {
+            "en": "French Fries",
+            "hi": "French Fries",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12
+        },
+        {
+          "name": {
+            "en": "Veg. Cheese Mix Roll",
+            "hi": "Veg. Cheese Mix Roll",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Rolls"
+        },
+        {
+          "name": {
+            "en": "Bhaji Cheese Mix Roll",
+            "hi": "Bhaji Cheese Mix Roll",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Rolls"
+        },
+        {
+          "name": {
+            "en": "Paneer Bhaji Roll",
+            "hi": "Paneer Bhaji Roll",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Rolls"
+        },
+        {
+          "name": {
+            "en": "Schezwan Roll",
+            "hi": "Schezwan Roll",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Rolls"
+        },
+        {
+          "name": {
+            "en": "Mushroom Cheese Mix Roll",
+            "hi": "Mushroom Cheese Mix Roll",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Rolls"
+        },
+        {
+          "name": {
+            "en": "Schezwan Bhaji Roll",
+            "hi": "Schezwan Bhaji Roll",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Rolls"
+        },
+        {
+          "name": {
+            "en": "Mushroom Mozzarella Cheese Mix Roll",
+            "hi": "Mushroom Mozzarella Cheese Mix Roll",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Rolls"
+        },
+        {
+          "name": {
+            "en": "Veg. Mozzarella Roll",
+            "hi": "Veg. Mozzarella Roll",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Rolls"
+        },
+        {
+          "name": {
+            "en": "Jain Veg. Cheese Roll",
+            "hi": "Jain Veg. Cheese Roll",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Rolls"
+        },
+        {
+          "name": {
+            "en": "Cheese Jam Roll",
+            "hi": "Cheese Jam Roll",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Rolls"
+        },
+        {
+          "name": {
+            "en": "Mayonnaise Veg. Cheese Roll",
+            "hi": "Mayonnaise Veg. Cheese Roll",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Rolls"
+        },
+        {
+          "name": {
+            "en": "Cheese Roll (Only Cheese)",
+            "hi": "Cheese Roll (Only Cheese)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Rolls"
+        },
+        {
+          "name": {
+            "en": "Haji Ali Special Roll",
+            "hi": "Haji Ali Special Roll",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Rolls"
+        },
+        {
+          "name": {
+            "en": "Jain Veg. Paneer Roll",
+            "hi": "Jain Veg. Paneer Roll",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Rolls"
+        },
+        {
+          "name": {
+            "en": "Veg. Cheese Pizza",
+            "hi": "Veg. Cheese Pizza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Mushroom Cheese Pizza",
+            "hi": "Mushroom Cheese Pizza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Veg. Mozzarella Cheese Pizza",
+            "hi": "Veg. Mozzarella Cheese Pizza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Paneer Pizza",
+            "hi": "Paneer Pizza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Schezwan Pizza",
+            "hi": "Schezwan Pizza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Mozzarella with Mushroom Pizza",
+            "hi": "Mozzarella with Mushroom Pizza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Schezwan Mozzarella Pizza",
+            "hi": "Schezwan Mozzarella Pizza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Haji Ali Special Pizza",
+            "hi": "Haji Ali Special Pizza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Jain Pizza",
+            "hi": "Jain Pizza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Jain Paneer Pizza",
+            "hi": "Jain Paneer Pizza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Cheese Pizza (Cheddar or Mozzarella)",
+            "hi": "Cheese Pizza (Cheddar or Mozzarella)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Samosa Chaat",
+            "hi": "Samosa Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Bhelpuri",
+            "hi": "Bhelpuri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Panipuri",
+            "hi": "Panipuri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Sev Batata Puri",
+            "hi": "Sev Batata Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Dahi Batata Puri",
+            "hi": "Dahi Batata Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Dahi Bhalle",
+            "hi": "Dahi Bhalle",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Raj Kachori",
+            "hi": "Raj Kachori",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Papdi Chaat",
+            "hi": "Papdi Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Haji Ali Special Chaat",
+            "hi": "Haji Ali Special Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Mango (Fruit Juices)",
+            "hi": "Mango (Fruit Juices)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Orange",
+            "hi": "Orange",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Pineapple (Fruit Juices)",
+            "hi": "Pineapple (Fruit Juices)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Musambi",
+            "hi": "Musambi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Ganga Jumuna (Orange & Musambi)",
+            "hi": "Ganga Jumuna (Orange & Musambi)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Ganga Jamuna Saraswati (Orange, Musambi & Pineapple)",
+            "hi": "Ganga Jamuna Saraswati (Orange, Musambi & Pineapple)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Carronge (Carrot & Orange)",
+            "hi": "Carronge (Carrot & Orange)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Maramari (Orange & Pineapple)",
+            "hi": "Maramari (Orange & Pineapple)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Pomegranate",
+            "hi": "Pomegranate",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Cocktail (Apple, Pineapple, Grapes & Anar)",
+            "hi": "Cocktail (Apple, Pineapple, Grapes & Anar)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "ABC Cocktail (Apple, Beetroot, Carrot)",
+            "hi": "ABC Cocktail (Apple, Beetroot, Carrot)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Special Cocktail (Mango, Strawberry, Orange & Banana)",
+            "hi": "Special Cocktail (Mango, Strawberry, Orange & Banana)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Cucumber Cooler",
+            "hi": "Cucumber Cooler",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Apple (Fruit Juices)",
+            "hi": "Apple (Fruit Juices)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Carrot",
+            "hi": "Carrot",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Water Melon (Fruit Juices)",
+            "hi": "Water Melon (Fruit Juices)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Sweet Melon (Fruit Juices)",
+            "hi": "Sweet Melon (Fruit Juices)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Grape Fruit",
+            "hi": "Grape Fruit",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Grape",
+            "hi": "Grape",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Vegetable Juice (Tomato, Beetroot, Carrot)",
+            "hi": "Vegetable Juice (Tomato, Beetroot, Carrot)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Fresh Lime Juice",
+            "hi": "Fresh Lime Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Lime Mint Cooler",
+            "hi": "Lime Mint Cooler",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Sugarcane",
+            "hi": "Sugarcane",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Fruit Juices"
+        },
+        {
+          "name": {
+            "en": "Strawberry (Seasonal Juices)",
+            "hi": "Strawberry (Seasonal Juices)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Seasonal Juices"
+        },
+        {
+          "name": {
+            "en": "Kiwi (Seasonal Juices)",
+            "hi": "Kiwi (Seasonal Juices)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Seasonal Juices"
+        },
+        {
+          "name": {
+            "en": "Cherry (Seasonal Juices)",
+            "hi": "Cherry (Seasonal Juices)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Seasonal Juices"
+        },
+        {
+          "name": {
+            "en": "Lichee (Seasonal Juices)",
+            "hi": "Lichee (Seasonal Juices)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Seasonal Juices"
+        },
+        {
+          "name": {
+            "en": "Peach (Seasonal Juices)",
+            "hi": "Peach (Seasonal Juices)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Seasonal Juices"
+        },
+        {
+          "name": {
+            "en": "Plum (Seasonal Juices)",
+            "hi": "Plum (Seasonal Juices)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Seasonal Juices"
+        },
+        {
+          "name": {
+            "en": "Mango (Milk Shakes)",
+            "hi": "Mango (Milk Shakes)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Avocado",
+            "hi": "Avocado",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Chickoo",
+            "hi": "Chickoo",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Banana",
+            "hi": "Banana",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Water Melon (Milk Shakes)",
+            "hi": "Water Melon (Milk Shakes)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Pineapple (Milk Shakes)",
+            "hi": "Pineapple (Milk Shakes)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Vanilla",
+            "hi": "Vanilla",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Chocolate",
+            "hi": "Chocolate",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Abood Shake (Mango, Sweetmelon & Vanilla)",
+            "hi": "Abood Shake (Mango, Sweetmelon & Vanilla)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Butter Scotch",
+            "hi": "Butter Scotch",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Rose",
+            "hi": "Rose",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Rooh Afza",
+            "hi": "Rooh Afza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Cold Coffee with Ice Cream",
+            "hi": "Cold Coffee with Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Apple (Milk Shakes)",
+            "hi": "Apple (Milk Shakes)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Sweet Melon (Milk Shakes)",
+            "hi": "Sweet Melon (Milk Shakes)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Chickado (Chickoo, Avocado & Honey)",
+            "hi": "Chickado (Chickoo, Avocado & Honey)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Avango (Avocado, Mango & Honey)",
+            "hi": "Avango (Avocado, Mango & Honey)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Strawberry (Seasonal Milk Shake)",
+            "hi": "Strawberry (Seasonal Milk Shake)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Seasonal Milk Shake"
+        },
+        {
+          "name": {
+            "en": "Kiwi (Seasonal Milk Shake)",
+            "hi": "Kiwi (Seasonal Milk Shake)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Seasonal Milk Shake"
+        },
+        {
+          "name": {
+            "en": "Cherry (Seasonal Milk Shake)",
+            "hi": "Cherry (Seasonal Milk Shake)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Seasonal Milk Shake"
+        },
+        {
+          "name": {
+            "en": "Custard Apple",
+            "hi": "Custard Apple",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Seasonal Milk Shake"
+        },
+        {
+          "name": {
+            "en": "Lichee (Seasonal Milk Shake)",
+            "hi": "Lichee (Seasonal Milk Shake)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Seasonal Milk Shake"
+        },
+        {
+          "name": {
+            "en": "Peach (Seasonal Milk Shake)",
+            "hi": "Peach (Seasonal Milk Shake)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Seasonal Milk Shake"
+        },
+        {
+          "name": {
+            "en": "Fresh Anjeer",
+            "hi": "Fresh Anjeer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Seasonal Milk Shake"
+        },
+        {
+          "name": {
+            "en": "Plum (Seasonal Milk Shake)",
+            "hi": "Plum (Seasonal Milk Shake)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Seasonal Milk Shake"
+        },
+        {
+          "name": {
+            "en": "Rose Falooda",
+            "hi": "Rose Falooda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Kesar Falooda",
+            "hi": "Kesar Falooda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Butter Scotch Falooda",
+            "hi": "Butter Scotch Falooda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Mango Falooda",
+            "hi": "Mango Falooda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Dry Fruit Falooda",
+            "hi": "Dry Fruit Falooda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Fruit Falooda",
+            "hi": "Fruit Falooda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Chocolate Falooda",
+            "hi": "Chocolate Falooda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Kulfi Falooda",
+            "hi": "Kulfi Falooda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Strawberry Falooda",
+            "hi": "Strawberry Falooda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Rose Falooda Cream",
+            "hi": "Rose Falooda Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Special Falooda Cream"
+        },
+        {
+          "name": {
+            "en": "Kesar Falooda Cream",
+            "hi": "Kesar Falooda Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Special Falooda Cream"
+        },
+        {
+          "name": {
+            "en": "Fruit Falooda Cream",
+            "hi": "Fruit Falooda Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Special Falooda Cream"
+        },
+        {
+          "name": {
+            "en": "Mango Falooda Cream",
+            "hi": "Mango Falooda Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Special Falooda Cream"
+        },
+        {
+          "name": {
+            "en": "Kesar Royal Milk Shake",
+            "hi": "Kesar Royal Milk Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Dry Fruits"
+        },
+        {
+          "name": {
+            "en": "Kesar Pista Milk Shake",
+            "hi": "Kesar Pista Milk Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Dry Fruits"
+        },
+        {
+          "name": {
+            "en": "Anjeer Dry Fruit Milk Shake",
+            "hi": "Anjeer Dry Fruit Milk Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Dry Fruits"
+        },
+        {
+          "name": {
+            "en": "Badam Pista Milk Shake",
+            "hi": "Badam Pista Milk Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Dry Fruits"
+        },
+        {
+          "name": {
+            "en": "Kaju Anjeer Milk Shake",
+            "hi": "Kaju Anjeer Milk Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Dry Fruits"
+        },
+        {
+          "name": {
+            "en": "Anjeer Milk Shake",
+            "hi": "Anjeer Milk Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Dry Fruits"
+        },
+        {
+          "name": {
+            "en": "Kaju Milk Shake",
+            "hi": "Kaju Milk Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Dry Fruits"
+        },
+        {
+          "name": {
+            "en": "Lassi Sweet",
+            "hi": "Lassi Sweet",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Lassi Salt",
+            "hi": "Lassi Salt",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Mango Lassi",
+            "hi": "Mango Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Chickoo Lassi",
+            "hi": "Chickoo Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Strawberry Lassi",
+            "hi": "Strawberry Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Kesar Dry Fruit Cream",
+            "hi": "Kesar Dry Fruit Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 26,
+          "section": "Our Specialities"
+        },
+        {
+          "name": {
+            "en": "Badam Pista Cream",
+            "hi": "Badam Pista Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 26,
+          "section": "Our Specialities"
+        },
+        {
+          "name": {
+            "en": "Dry Fruit Cream",
+            "hi": "Dry Fruit Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Our Specialities"
+        },
+        {
+          "name": {
+            "en": "Kesar Badam Pista Cream",
+            "hi": "Kesar Badam Pista Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 26,
+          "section": "Our Specialities"
+        },
+        {
+          "name": {
+            "en": "Kaju Anjeer Cream",
+            "hi": "Kaju Anjeer Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Our Specialities"
+        },
+        {
+          "name": {
+            "en": "Mix Fruit Cream",
+            "hi": "Mix Fruit Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Fruit Cream"
+        },
+        {
+          "name": {
+            "en": "Chickoo Cream",
+            "hi": "Chickoo Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Fruit Cream"
+        },
+        {
+          "name": {
+            "en": "Chocolate Cream",
+            "hi": "Chocolate Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 24,
+          "section": "Fruit Cream"
+        },
+        {
+          "name": {
+            "en": "Kesar Mix Fruit Cream",
+            "hi": "Kesar Mix Fruit Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 27,
+          "section": "Fruit Cream"
+        },
+        {
+          "name": {
+            "en": "Avocado Cream",
+            "hi": "Avocado Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 27,
+          "section": "Fruit Cream"
+        },
+        {
+          "name": {
+            "en": "Strawberry Cream",
+            "hi": "Strawberry Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 27,
+          "section": "Seasonal Fruit Cream"
+        },
+        {
+          "name": {
+            "en": "Mango Cream",
+            "hi": "Mango Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 27,
+          "section": "Seasonal Fruit Cream"
+        },
+        {
+          "name": {
+            "en": "Fresh Anjeer Cream",
+            "hi": "Fresh Anjeer Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 27,
+          "section": "Seasonal Fruit Cream"
+        },
+        {
+          "name": {
+            "en": "Custard Apple Cream",
+            "hi": "Custard Apple Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 28,
+          "section": "Seasonal Fruit Cream"
+        },
+        {
+          "name": {
+            "en": "Kiwi Cream",
+            "hi": "Kiwi Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 26,
+          "section": "Seasonal Fruit Cream"
+        },
+        {
+          "name": {
+            "en": "Cherry Cream",
+            "hi": "Cherry Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 26,
+          "section": "Seasonal Fruit Cream"
+        },
+        {
+          "name": {
+            "en": "Lichee Cream",
+            "hi": "Lichee Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 27,
+          "section": "Seasonal Fruit Cream"
+        },
+        {
+          "name": {
+            "en": "Chocolate Sitaphal Cream",
+            "hi": "Chocolate Sitaphal Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 27,
+          "section": "Seasonal Fruit Cream"
+        },
+        {
+          "name": {
+            "en": "Kesar Sitaphal Cream",
+            "hi": "Kesar Sitaphal Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 27,
+          "section": "Seasonal Fruit Cream"
+        },
+        {
+          "name": {
+            "en": "Mix Fruit with Ice Cream",
+            "hi": "Mix Fruit with Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Fruit with Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Mango with Ice Cream",
+            "hi": "Mango with Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 27,
+          "section": "Fruit with Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Strawberry with Ice Cream",
+            "hi": "Strawberry with Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 27,
+          "section": "Fruit with Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Jelly with Ice Cream",
+            "hi": "Jelly with Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Fruit with Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Lichee with Ice Cream",
+            "hi": "Lichee with Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 27,
+          "section": "Fruit with Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Kiwi with Ice Cream",
+            "hi": "Kiwi with Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 26,
+          "section": "Fruit with Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Jelly Bowl",
+            "hi": "Jelly Bowl",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Fruit with Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Fruit Bowl",
+            "hi": "Fruit Bowl",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 26,
+          "section": "Fruit with Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Mango Bowl",
+            "hi": "Mango Bowl",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 28,
+          "section": "Fruit with Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Water Bottle Small",
+            "hi": "Water Bottle Small",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Soft Drinks"
+        },
+        {
+          "name": {
+            "en": "Water Bottle Big",
+            "hi": "Water Bottle Big",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Soft Drinks"
+        },
+        {
+          "name": {
+            "en": "Mint Lime Soda",
+            "hi": "Mint Lime Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Soft Drinks"
+        },
+        {
+          "name": {
+            "en": "Fresh Lime Soda",
+            "hi": "Fresh Lime Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Soft Drinks"
+        },
+        {
+          "name": {
+            "en": "Kashmiri Soda",
+            "hi": "Kashmiri Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Soft Drinks"
+        },
+        {
+          "name": {
+            "en": "Ginger Lime Soda",
+            "hi": "Ginger Lime Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Soft Drinks"
+        }
+      ]
+    },
+    {
+      "id": "a8af3f77-571d-4561-89dc-45037192228a",
+      "name": {
+        "en": "Lassi Home",
+        "hi": "Lassi Home",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2607195,
+        "lng": 55.295309
+      },
+      "areaId": "meena-bazaar",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian"],
+      "phone": "04 341 0884",
+      "confirmedDishes": [
+        {
+          "name": {
+            "en": "Sweet Lassi",
+            "hi": "Sweet Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Mango Lassi",
+            "hi": "Mango Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Banana Lassi",
+            "hi": "Banana Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Mango Banana Lassi",
+            "hi": "Mango Banana Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Mix Fruit Lassi",
+            "hi": "Mix Fruit Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Chickoo Lassi",
+            "hi": "Chickoo Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Blueberry Lassi",
+            "hi": "Blueberry Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Strawberry Lassi",
+            "hi": "Strawberry Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Passion Fruit Lassi",
+            "hi": "Passion Fruit Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Dry Fruit Lassi",
+            "hi": "Dry Fruit Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Zaffran Lassi",
+            "hi": "Zaffran Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Lassi Home Lassi",
+            "hi": "Lassi Home Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Mango Zafran Lassi",
+            "hi": "Mango Zafran Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Lassi"
+        },
+        {
+          "name": {
+            "en": "Anjeer",
+            "hi": "Anjeer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Dry Shakes"
+        },
+        {
+          "name": {
+            "en": "Badam",
+            "hi": "Badam",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Dry Shakes"
+        },
+        {
+          "name": {
+            "en": "Cashew (Dry Shakes)",
+            "hi": "Cashew (Dry Shakes)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Dry Shakes"
+        },
+        {
+          "name": {
+            "en": "Dates",
+            "hi": "Dates",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Dry Shakes"
+        },
+        {
+          "name": {
+            "en": "Protein Monster",
+            "hi": "Protein Monster",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Dry Shakes"
+        },
+        {
+          "name": {
+            "en": "Cashew & Almond",
+            "hi": "Cashew & Almond",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Dry Shakes"
+        },
+        {
+          "name": {
+            "en": "Hard Rock Coffee",
+            "hi": "Hard Rock Coffee",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Cold Coffee"
+        },
+        {
+          "name": {
+            "en": "White Coffee",
+            "hi": "White Coffee",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Cold Coffee"
+        },
+        {
+          "name": {
+            "en": "Chocolate Coffee",
+            "hi": "Chocolate Coffee",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Cold Coffee"
+        },
+        {
+          "name": {
+            "en": "Ferrero Coffee",
+            "hi": "Ferrero Coffee",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Cold Coffee"
+        },
+        {
+          "name": {
+            "en": "Oreo Coffee",
+            "hi": "Oreo Coffee",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Cold Coffee"
+        },
+        {
+          "name": {
+            "en": "Biscoff Espresso",
+            "hi": "Biscoff Espresso",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Cold Coffee"
+        },
+        {
+          "name": {
+            "en": "Misu Overload",
+            "hi": "Misu Overload",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Cold Coffee"
+        },
+        {
+          "name": {
+            "en": "Bubble Tea",
+            "hi": "Bubble Tea",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Boba Tea"
+        },
+        {
+          "name": {
+            "en": "Strawberry Boba",
+            "hi": "Strawberry Boba",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Boba Tea"
+        },
+        {
+          "name": {
+            "en": "Vanilla Caramel Boba",
+            "hi": "Vanilla Caramel Boba",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Boba Tea"
+        },
+        {
+          "name": {
+            "en": "Boba Macchiato",
+            "hi": "Boba Macchiato",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Boba Tea"
+        },
+        {
+          "name": {
+            "en": "Ferrero Rocher Boba",
+            "hi": "Ferrero Rocher Boba",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Boba Tea"
+        },
+        {
+          "name": {
+            "en": "Purple Boba",
+            "hi": "Purple Boba",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Boba Tea"
+        },
+        {
+          "name": {
+            "en": "Blue Boba",
+            "hi": "Blue Boba",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Boba Tea"
+        },
+        {
+          "name": {
+            "en": "French Kiss",
+            "hi": "French Kiss",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Boba Tea"
+        },
+        {
+          "name": {
+            "en": "Arabian Boba",
+            "hi": "Arabian Boba",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Boba Tea"
+        },
+        {
+          "name": {
+            "en": "Oreo Dark Boba",
+            "hi": "Oreo Dark Boba",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Boba Tea"
+        },
+        {
+          "name": {
+            "en": "Matcha Cheesecake Boba",
+            "hi": "Matcha Cheesecake Boba",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 17,
+          "section": "Boba Tea"
+        },
+        {
+          "name": {
+            "en": "Taro Cheesecake Boba",
+            "hi": "Taro Cheesecake Boba",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 17,
+          "section": "Boba Tea"
+        },
+        {
+          "name": {
+            "en": "Banana Mass",
+            "hi": "Banana Mass",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 5,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Chickoo",
+            "hi": "Chickoo",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Cocktail",
+            "hi": "Cocktail",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 11,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Belgium Chocolate",
+            "hi": "Belgium Chocolate",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 11,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Avocado",
+            "hi": "Avocado",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Mango (Mocktails)",
+            "hi": "Mango (Mocktails)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Brain Freezer",
+            "hi": "Brain Freezer",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Ferrero Rocher",
+            "hi": "Ferrero Rocher",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Custard Apple",
+            "hi": "Custard Apple",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Tender Shake",
+            "hi": "Tender Shake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Mississippi Mud",
+            "hi": "Mississippi Mud",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Avopassion",
+            "hi": "Avopassion",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Mango Passion",
+            "hi": "Mango Passion",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Oreo Dark",
+            "hi": "Oreo Dark",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Dynamite Lotus",
+            "hi": "Dynamite Lotus",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Dynamite Pistachio",
+            "hi": "Dynamite Pistachio",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Dynamite Bueno",
+            "hi": "Dynamite Bueno",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Mocktails"
+        },
+        {
+          "name": {
+            "en": "Falooda",
+            "hi": "Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Malabar",
+            "hi": "Malabar",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Kulfi Falooda",
+            "hi": "Kulfi Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Royal Falooda",
+            "hi": "Royal Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Mango Falooda",
+            "hi": "Mango Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Turkish Falooda",
+            "hi": "Turkish Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Lassi Home Falooda",
+            "hi": "Lassi Home Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Tender Coconut Falooda",
+            "hi": "Tender Coconut Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Passion Fruit Falooda",
+            "hi": "Passion Fruit Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Spanish Falooda",
+            "hi": "Spanish Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "King of Falooda",
+            "hi": "King of Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Tender Mango Falooda",
+            "hi": "Tender Mango Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Chikkoo Falooda",
+            "hi": "Chikkoo Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Chocolate Falooda",
+            "hi": "Chocolate Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Blueberry Falooda",
+            "hi": "Blueberry Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Avocado Falooda",
+            "hi": "Avocado Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Mango Kulfi Falooda",
+            "hi": "Mango Kulfi Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Viral Kunafa Falooda",
+            "hi": "Viral Kunafa Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Mango Blueberry Falooda",
+            "hi": "Mango Blueberry Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Jack Tango Falooda",
+            "hi": "Jack Tango Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 17,
+          "section": "Falooda"
+        },
+        {
+          "name": {
+            "en": "Strawberry Coconut",
+            "hi": "Strawberry Coconut",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Matcha Series"
+        },
+        {
+          "name": {
+            "en": "Classic Coconut",
+            "hi": "Classic Coconut",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Matcha Series"
+        },
+        {
+          "name": {
+            "en": "Mango Coconut",
+            "hi": "Mango Coconut",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Matcha Series"
+        },
+        {
+          "name": {
+            "en": "Matcha Cheesecake",
+            "hi": "Matcha Cheesecake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Matcha Series"
+        },
+        {
+          "name": {
+            "en": "Matcha Boba",
+            "hi": "Matcha Boba",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Matcha Series"
+        },
+        {
+          "name": {
+            "en": "Kesar Cream Falooda",
+            "hi": "Kesar Cream Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Cream Falooda"
+        },
+        {
+          "name": {
+            "en": "Dry Fruit Cream Falooda",
+            "hi": "Dry Fruit Cream Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Cream Falooda"
+        },
+        {
+          "name": {
+            "en": "Mango Cream Falooda",
+            "hi": "Mango Cream Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Cream Falooda"
+        },
+        {
+          "name": {
+            "en": "Fresh Lime",
+            "hi": "Fresh Lime",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Juice"
+        },
+        {
+          "name": {
+            "en": "Grape Lime",
+            "hi": "Grape Lime",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Juice"
+        },
+        {
+          "name": {
+            "en": "Mint Lime",
+            "hi": "Mint Lime",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Juice"
+        },
+        {
+          "name": {
+            "en": "Ginger Lime",
+            "hi": "Ginger Lime",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Juice"
+        },
+        {
+          "name": {
+            "en": "Mexican Lime",
+            "hi": "Mexican Lime",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Juice"
+        },
+        {
+          "name": {
+            "en": "Orange",
+            "hi": "Orange",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Juice"
+        },
+        {
+          "name": {
+            "en": "Mango (Juice)",
+            "hi": "Mango (Juice)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Juice"
+        },
+        {
+          "name": {
+            "en": "Carrot",
+            "hi": "Carrot",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Juice"
+        },
+        {
+          "name": {
+            "en": "Beetroot",
+            "hi": "Beetroot",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Juice"
+        },
+        {
+          "name": {
+            "en": "Passion Fruit (Juice)",
+            "hi": "Passion Fruit (Juice)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Juice"
+        },
+        {
+          "name": {
+            "en": "Pineapple",
+            "hi": "Pineapple",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Juice"
+        },
+        {
+          "name": {
+            "en": "Apple",
+            "hi": "Apple",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Juice"
+        },
+        {
+          "name": {
+            "en": "Pomegranate",
+            "hi": "Pomegranate",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Juice"
+        },
+        {
+          "name": {
+            "en": "Pineapple Mango",
+            "hi": "Pineapple Mango",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Juice"
+        },
+        {
+          "name": {
+            "en": "Orange Mango",
+            "hi": "Orange Mango",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Juice"
+        },
+        {
+          "name": {
+            "en": "ABC (Apple, Beetroot, Carrot)",
+            "hi": "ABC (Apple, Beetroot, Carrot)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Juice"
+        },
+        {
+          "name": {
+            "en": "Avil Milk",
+            "hi": "Avil Milk",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Avil Milk"
+        },
+        {
+          "name": {
+            "en": "Fruit Avil Milk",
+            "hi": "Fruit Avil Milk",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Avil Milk"
+        },
+        {
+          "name": {
+            "en": "Chocolate Avil Milk",
+            "hi": "Chocolate Avil Milk",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 9,
+          "section": "Avil Milk"
+        },
+        {
+          "name": {
+            "en": "Dates Avil Milk",
+            "hi": "Dates Avil Milk",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Avil Milk"
+        },
+        {
+          "name": {
+            "en": "Oreo Avil Milk",
+            "hi": "Oreo Avil Milk",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 9,
+          "section": "Avil Milk"
+        },
+        {
+          "name": {
+            "en": "Lotus Avil Milk",
+            "hi": "Lotus Avil Milk",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 9,
+          "section": "Avil Milk"
+        },
+        {
+          "name": {
+            "en": "Mango (Avil Milk)",
+            "hi": "Mango (Avil Milk)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Avil Milk"
+        },
+        {
+          "name": {
+            "en": "Cashew (Avil Milk)",
+            "hi": "Cashew (Avil Milk)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Avil Milk"
+        },
+        {
+          "name": {
+            "en": "Butterscotch",
+            "hi": "Butterscotch",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Avil Milk"
+        },
+        {
+          "name": {
+            "en": "Arabian Avil Milk",
+            "hi": "Arabian Avil Milk",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Avil Milk"
+        },
+        {
+          "name": {
+            "en": "Kulfi",
+            "hi": "Kulfi",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Avil Milk"
+        },
+        {
+          "name": {
+            "en": "Tender Mango Avil Milk",
+            "hi": "Tender Mango Avil Milk",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Avil Milk"
+        },
+        {
+          "name": {
+            "en": "Tender Special",
+            "hi": "Tender Special",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Avil Milk"
+        },
+        {
+          "name": {
+            "en": "Spanish Delight",
+            "hi": "Spanish Delight",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Avil Milk"
+        },
+        {
+          "name": {
+            "en": "Pistachio Avil Milk",
+            "hi": "Pistachio Avil Milk",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Avil Milk"
+        },
+        {
+          "name": {
+            "en": "Mango Passion Sundae",
+            "hi": "Mango Passion Sundae",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Sundae"
+        },
+        {
+          "name": {
+            "en": "Fruit Passion Sundae",
+            "hi": "Fruit Passion Sundae",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Sundae"
+        },
+        {
+          "name": {
+            "en": "Red Velvet Sundae",
+            "hi": "Red Velvet Sundae",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Sundae"
+        },
+        {
+          "name": {
+            "en": "Lotus Biscoff Sundae",
+            "hi": "Lotus Biscoff Sundae",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Sundae"
+        },
+        {
+          "name": {
+            "en": "Berry Blast Sundae",
+            "hi": "Berry Blast Sundae",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Sundae"
+        },
+        {
+          "name": {
+            "en": "Love Triangle Sundae",
+            "hi": "Love Triangle Sundae",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Sundae"
+        },
+        {
+          "name": {
+            "en": "Cookies Sundae",
+            "hi": "Cookies Sundae",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Sundae"
+        },
+        {
+          "name": {
+            "en": "Ishq Mango Fustuq",
+            "hi": "Ishq Mango Fustuq",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Sundae"
+        },
+        {
+          "name": {
+            "en": "Mango Kushari",
+            "hi": "Mango Kushari",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Sundae"
+        },
+        {
+          "name": {
+            "en": "Parfait Sundae",
+            "hi": "Parfait Sundae",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Sundae"
+        },
+        {
+          "name": {
+            "en": "Sitafal Mango Malai",
+            "hi": "Sitafal Mango Malai",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Sundae"
+        },
+        {
+          "name": {
+            "en": "Caramel Custard Sundae",
+            "hi": "Caramel Custard Sundae",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Sundae"
+        },
+        {
+          "name": {
+            "en": "Nutella Pistachio Sundae",
+            "hi": "Nutella Pistachio Sundae",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Sundae"
+        },
+        {
+          "name": {
+            "en": "Choco Baklava Sundae",
+            "hi": "Choco Baklava Sundae",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 17,
+          "section": "Sundae"
+        },
+        {
+          "name": {
+            "en": "Brownie with Ice Cream",
+            "hi": "Brownie with Ice Cream",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Gud Bud",
+            "hi": "Gud Bud",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Creek Tower",
+            "hi": "Creek Tower",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Nutella Brownie",
+            "hi": "Nutella Brownie",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Nutella Butterscotch",
+            "hi": "Nutella Butterscotch",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Nutella Cookies",
+            "hi": "Nutella Cookies",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Mangalore Gud Bud",
+            "hi": "Mangalore Gud Bud",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Truffle Butterscotch",
+            "hi": "Truffle Butterscotch",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Sizzling Brownie",
+            "hi": "Sizzling Brownie",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Ice Cream"
+        },
+        {
+          "name": {
+            "en": "Avocai Smoothie",
+            "hi": "Avocai Smoothie",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Acai Bowl"
+        },
+        {
+          "name": {
+            "en": "Magnificent",
+            "hi": "Magnificent",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Acai Bowl"
+        },
+        {
+          "name": {
+            "en": "Rainbow Bowl",
+            "hi": "Rainbow Bowl",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Acai Bowl"
+        },
+        {
+          "name": {
+            "en": "Berry Acai",
+            "hi": "Berry Acai",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Acai Bowl"
+        },
+        {
+          "name": {
+            "en": "Tropical Acai",
+            "hi": "Tropical Acai",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 22,
+          "section": "Acai Bowl"
+        },
+        {
+          "name": {
+            "en": "Peanut Berries",
+            "hi": "Peanut Berries",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 22,
+          "section": "Acai Bowl"
+        },
+        {
+          "name": {
+            "en": "Dry Frutanza",
+            "hi": "Dry Frutanza",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Acai Bowl"
+        },
+        {
+          "name": {
+            "en": "Arabian Acai Bowl",
+            "hi": "Arabian Acai Bowl",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Acai Bowl"
+        },
+        {
+          "name": {
+            "en": "Soda Lime",
+            "hi": "Soda Lime",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Mojito"
+        },
+        {
+          "name": {
+            "en": "Nannari Soda",
+            "hi": "Nannari Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Mojito"
+        },
+        {
+          "name": {
+            "en": "Nellikka Kanthari",
+            "hi": "Nellikka Kanthari",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Mojito"
+        },
+        {
+          "name": {
+            "en": "Virgin Mojito",
+            "hi": "Virgin Mojito",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Mojito"
+        },
+        {
+          "name": {
+            "en": "Blue Ocean",
+            "hi": "Blue Ocean",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Mojito"
+        },
+        {
+          "name": {
+            "en": "Passion Fruit (Mojito)",
+            "hi": "Passion Fruit (Mojito)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Mojito"
+        },
+        {
+          "name": {
+            "en": "Passion Kanthari",
+            "hi": "Passion Kanthari",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Mojito"
+        },
+        {
+          "name": {
+            "en": "Vanilla Strawberry Salad",
+            "hi": "Vanilla Strawberry Salad",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 11,
+          "section": "Fruit Salad"
+        },
+        {
+          "name": {
+            "en": "Mango Vanilla Salad",
+            "hi": "Mango Vanilla Salad",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 11,
+          "section": "Fruit Salad"
+        },
+        {
+          "name": {
+            "en": "Butter Kulfi Salad",
+            "hi": "Butter Kulfi Salad",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Fruit Salad"
+        },
+        {
+          "name": {
+            "en": "Fresh Cut Fruits",
+            "hi": "Fresh Cut Fruits",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Fruit Salad"
+        },
+        {
+          "name": {
+            "en": "Cut Fruits & Dryfruit",
+            "hi": "Cut Fruits & Dryfruit",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Fruit Salad"
+        },
+        {
+          "name": {
+            "en": "Spanish Delight Salad",
+            "hi": "Spanish Delight Salad",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Fruit Salad"
+        },
+        {
+          "name": {
+            "en": "Lassi Home Salad",
+            "hi": "Lassi Home Salad",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Fruit Salad"
+        },
+        {
+          "name": {
+            "en": "Kesar Pista Salad",
+            "hi": "Kesar Pista Salad",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Fruit Salad"
+        },
+        {
+          "name": {
+            "en": "Avo Smoothie Bowl",
+            "hi": "Avo Smoothie Bowl",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Smoothie Bowl"
+        },
+        {
+          "name": {
+            "en": "Protein Smoothie Bowl",
+            "hi": "Protein Smoothie Bowl",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Smoothie Bowl"
         }
       ]
     }
