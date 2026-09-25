@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-25T13:31:58.487Z",
+  "publishedAt": "2026-09-25T13:48:25.976Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -41119,6 +41119,1623 @@
           "tags": ["vegetarian"],
           "priceAed": 10,
           "section": "Madhura's Famous Sweets & Namkins - Savories & Namkins (Per Kg.)"
+        }
+      ]
+    },
+    {
+      "id": "fae67325-1f16-48e9-82b4-571d943a264f",
+      "name": {
+        "en": "The Hub Express",
+        "hi": "The Hub Express",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2594318,
+        "lng": 55.2956616
+      },
+      "areaId": "bur-dubai",
+      "kitchen": "mixed",
+      "tags": [],
+      "confirmedDishes": [
+        {
+          "name": {
+            "en": "Chicken Burger Deal",
+            "hi": "Chicken Burger Deal",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Deals (with bubble tea)"
+        },
+        {
+          "name": {
+            "en": "Chicken Shawarma Deal",
+            "hi": "Chicken Shawarma Deal",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 9,
+          "section": "Deals (with bubble tea)"
+        },
+        {
+          "name": {
+            "en": "Crispy Chicken Deal",
+            "hi": "Crispy Chicken Deal",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Deals (with bubble tea)"
+        },
+        {
+          "name": {
+            "en": "Pizza Deal",
+            "hi": "Pizza Deal",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Deals (with bubble tea)"
+        },
+        {
+          "name": {
+            "en": "Chicken Rice Deal",
+            "hi": "Chicken Rice Deal",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Deals (with bubble tea)"
+        },
+        {
+          "name": {
+            "en": "Zinger Chicken Wrap Deal",
+            "hi": "Zinger Chicken Wrap Deal",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 11,
+          "section": "Deals (with bubble tea)"
+        },
+        {
+          "name": {
+            "en": "Chicken Tikka Shawarma",
+            "hi": "Chicken Tikka Shawarma",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 5,
+          "section": "Shawarma & Rolls"
+        },
+        {
+          "name": {
+            "en": "Chicken Tikka Shawarma Spicy",
+            "hi": "Chicken Tikka Shawarma Spicy",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 6,
+          "section": "Shawarma & Rolls"
+        },
+        {
+          "name": {
+            "en": "Chicken Tikka Paratha Roll",
+            "hi": "Chicken Tikka Paratha Roll",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 7,
+          "section": "Shawarma & Rolls"
+        },
+        {
+          "name": {
+            "en": "Spicy Chicken Wrap",
+            "hi": "Spicy Chicken Wrap",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Shawarma & Rolls"
+        },
+        {
+          "name": {
+            "en": "Malai Tikka Paratha Roll",
+            "hi": "Malai Tikka Paratha Roll",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Shawarma & Rolls"
+        },
+        {
+          "name": {
+            "en": "Chicken Tikka Shawarma, Big",
+            "hi": "Chicken Tikka Shawarma, Big",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Shawarma & Rolls"
+        },
+        {
+          "name": {
+            "en": "Chicken Tikka Shawarma Spicy, Big",
+            "hi": "Chicken Tikka Shawarma Spicy, Big",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 11,
+          "section": "Shawarma & Rolls"
+        },
+        {
+          "name": {
+            "en": "Chicken Zinger Burger with Fries",
+            "hi": "Chicken Zinger Burger with Fries",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Combo Burger"
+        },
+        {
+          "name": {
+            "en": "Grilled Chicken Burger with Fries",
+            "hi": "Grilled Chicken Burger with Fries",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Combo Burger"
+        },
+        {
+          "name": {
+            "en": "Chicken Zinger Burger",
+            "hi": "Chicken Zinger Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Plain Burger"
+        },
+        {
+          "name": {
+            "en": "Grilled Chicken Burger",
+            "hi": "Grilled Chicken Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Plain Burger"
+        },
+        {
+          "name": {
+            "en": "Zinger Rice Bowl",
+            "hi": "Zinger Rice Bowl",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Rice Bowl"
+        },
+        {
+          "name": {
+            "en": "Spicy Chicken Rice Bowl",
+            "hi": "Spicy Chicken Rice Bowl",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Rice Bowl"
+        },
+        {
+          "name": {
+            "en": "Malai Tikka Rice Bowl",
+            "hi": "Malai Tikka Rice Bowl",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Rice Bowl"
+        },
+        {
+          "name": {
+            "en": "BBQ Chicken Tikka Rice Bowl",
+            "hi": "BBQ Chicken Tikka Rice Bowl",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Rice Bowl"
+        },
+        {
+          "name": {
+            "en": "Fried Chicken Rice Bowl",
+            "hi": "Fried Chicken Rice Bowl",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Rice Bowl"
+        },
+        {
+          "name": {
+            "en": "Grill Chicken Rice Bowl",
+            "hi": "Grill Chicken Rice Bowl",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Rice Bowl"
+        },
+        {
+          "name": {
+            "en": "Big Yellow Rice",
+            "hi": "Big Yellow Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Small Yellow Rice",
+            "hi": "Small Yellow Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 5,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Chicken Crown Pizza",
+            "hi": "Chicken Crown Pizza",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 30,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Creamy Pizza",
+            "hi": "Creamy Pizza",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 26,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Hawaiian Pizza",
+            "hi": "Hawaiian Pizza",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Chicken Tikka Pizza",
+            "hi": "Chicken Tikka Pizza",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Vegetarian Pizza",
+            "hi": "Vegetarian Pizza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Margarita Pizza",
+            "hi": "Margarita Pizza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Pepperoni Pizza",
+            "hi": "Pepperoni Pizza",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Butter Chicken Pizza",
+            "hi": "Butter Chicken Pizza",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Pizza"
+        },
+        {
+          "name": {
+            "en": "Fried Chicken 10 Pcs",
+            "hi": "Fried Chicken 10 Pcs",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 55,
+          "section": "Fried Chicken"
+        },
+        {
+          "name": {
+            "en": "Fried Chicken 20 Pcs",
+            "hi": "Fried Chicken 20 Pcs",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 90,
+          "section": "Fried Chicken"
+        },
+        {
+          "name": {
+            "en": "3 Pcs Crispy Chicken Combo (1 bun, fries, 1 bubble tea)",
+            "hi": "3 Pcs Crispy Chicken Combo (1 bun, fries, 1 bubble tea)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 26,
+          "section": "Fried Chicken"
+        },
+        {
+          "name": {
+            "en": "5 Pcs Fried Chicken Combo (3 buns, fries, 2 bubble tea)",
+            "hi": "5 Pcs Fried Chicken Combo (3 buns, fries, 2 bubble tea)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 39,
+          "section": "Fried Chicken"
+        },
+        {
+          "name": {
+            "en": "7 Pcs Fried Chicken Combo (4 buns, fries, 2 bubble tea)",
+            "hi": "7 Pcs Fried Chicken Combo (4 buns, fries, 2 bubble tea)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 53,
+          "section": "Fried Chicken"
+        },
+        {
+          "name": {
+            "en": "9 Pcs Fried Chicken Combo (5 buns, fries, 3 bubble tea)",
+            "hi": "9 Pcs Fried Chicken Combo (5 buns, fries, 3 bubble tea)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 73,
+          "section": "Fried Chicken"
+        },
+        {
+          "name": {
+            "en": "Broasted Fried Chicken (2 pcs)",
+            "hi": "Broasted Fried Chicken (2 pcs)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 11,
+          "section": "Fried Chicken"
+        },
+        {
+          "name": {
+            "en": "Broasted Fried Chicken (10 pcs + 5 bubble tea)",
+            "hi": "Broasted Fried Chicken (10 pcs + 5 bubble tea)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 69,
+          "section": "Fried Chicken"
+        },
+        {
+          "name": {
+            "en": "Fried Chicken 2 Pcs (CFC)",
+            "hi": "Fried Chicken 2 Pcs (CFC)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "CFC"
+        },
+        {
+          "name": {
+            "en": "Fried Chicken 5 Pcs (CFC)",
+            "hi": "Fried Chicken 5 Pcs (CFC)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 34,
+          "section": "CFC"
+        },
+        {
+          "name": {
+            "en": "Fried Chicken 10 Pcs (CFC)",
+            "hi": "Fried Chicken 10 Pcs (CFC)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 65,
+          "section": "CFC"
+        },
+        {
+          "name": {
+            "en": "Fried Chicken 20 Pcs (CFC)",
+            "hi": "Fried Chicken 20 Pcs (CFC)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 129,
+          "section": "CFC"
+        },
+        {
+          "name": {
+            "en": "Fried Chicken 3 Pcs Combo (1 bun, fries, drink)",
+            "hi": "Fried Chicken 3 Pcs Combo (1 bun, fries, drink)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 26,
+          "section": "CFC"
+        },
+        {
+          "name": {
+            "en": "Fried Chicken 5 Pcs Combo (3 buns, fries, drink)",
+            "hi": "Fried Chicken 5 Pcs Combo (3 buns, fries, drink)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 39,
+          "section": "CFC"
+        },
+        {
+          "name": {
+            "en": "Fried Chicken 7 Pcs Combo (4 buns, fries, 2 drinks)",
+            "hi": "Fried Chicken 7 Pcs Combo (4 buns, fries, 2 drinks)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 53,
+          "section": "CFC"
+        },
+        {
+          "name": {
+            "en": "Fried Chicken 9 Pcs Combo (5 buns, fries, 1.5 L drink)",
+            "hi": "Fried Chicken 9 Pcs Combo (5 buns, fries, 1.5 L drink)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 73,
+          "section": "CFC"
+        },
+        {
+          "name": {
+            "en": "Fried Chicken 8 Pcs with Strips Combo (4 strips, family fries, 4 buns, 1.5 L drink)",
+            "hi": "Fried Chicken 8 Pcs with Strips Combo (4 strips, family fries, 4 buns, 1.5 L drink)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 78,
+          "section": "CFC"
+        },
+        {
+          "name": {
+            "en": "Fried Chicken 12 Pcs with Strips Combo (4 strips, family fries, 4 buns, 1.5 L drink)",
+            "hi": "Fried Chicken 12 Pcs with Strips Combo (4 strips, family fries, 4 buns, 1.5 L drink)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 108,
+          "section": "CFC"
+        },
+        {
+          "name": {
+            "en": "Fried Chicken 16 Pcs with Strips Combo (6 strips, family fries, 6 buns, 1.5 L drink)",
+            "hi": "Fried Chicken 16 Pcs with Strips Combo (6 strips, family fries, 6 buns, 1.5 L drink)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 131,
+          "section": "CFC"
+        },
+        {
+          "name": {
+            "en": "Fried Chicken 20 Pcs with Strips Combo (6 strips, 2 family fries, 6 buns, 2.25 L drink)",
+            "hi": "Fried Chicken 20 Pcs with Strips Combo (6 strips, 2 family fries, 6 buns, 2.25 L drink)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 166,
+          "section": "CFC"
+        },
+        {
+          "name": {
+            "en": "Spicy Chicken Strip 3 Pcs",
+            "hi": "Spicy Chicken Strip 3 Pcs",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "CFC"
+        },
+        {
+          "name": {
+            "en": "Spicy Chicken Strip 5 Pcs",
+            "hi": "Spicy Chicken Strip 5 Pcs",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 19,
+          "section": "CFC"
+        },
+        {
+          "name": {
+            "en": "Matcha Coffee Milk Tea (promotion)",
+            "hi": "Matcha Coffee Milk Tea (promotion)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Matcha Mania Promotion"
+        },
+        {
+          "name": {
+            "en": "Matcha Blueberry Milk Tea (promotion)",
+            "hi": "Matcha Blueberry Milk Tea (promotion)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Matcha Mania Promotion"
+        },
+        {
+          "name": {
+            "en": "Matcha Mango Milk Tea (promotion)",
+            "hi": "Matcha Mango Milk Tea (promotion)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Matcha Mania Promotion"
+        },
+        {
+          "name": {
+            "en": "Matcha Vanilla Milk Tea (promotion)",
+            "hi": "Matcha Vanilla Milk Tea (promotion)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Matcha Mania Promotion"
+        },
+        {
+          "name": {
+            "en": "Matcha Strawberry Milk Tea (promotion)",
+            "hi": "Matcha Strawberry Milk Tea (promotion)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Matcha Mania Promotion"
+        },
+        {
+          "name": {
+            "en": "Matcha Mango Smoothie (promotion)",
+            "hi": "Matcha Mango Smoothie (promotion)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Matcha Mania Promotion"
+        },
+        {
+          "name": {
+            "en": "Matcha Strawberry Smoothie (promotion)",
+            "hi": "Matcha Strawberry Smoothie (promotion)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Matcha Mania Promotion"
+        },
+        {
+          "name": {
+            "en": "Matcha Blueberry Smoothie (promotion)",
+            "hi": "Matcha Blueberry Smoothie (promotion)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Matcha Mania Promotion"
+        },
+        {
+          "name": {
+            "en": "Matcha Coffee Smoothie (promotion)",
+            "hi": "Matcha Coffee Smoothie (promotion)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Matcha Mania Promotion"
+        },
+        {
+          "name": {
+            "en": "Matcha Vanilla Smoothie (promotion)",
+            "hi": "Matcha Vanilla Smoothie (promotion)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Matcha Mania Promotion"
+        },
+        {
+          "name": {
+            "en": "Mango Smoothie",
+            "hi": "Mango Smoothie",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Coconut Smoothie",
+            "hi": "Coconut Smoothie",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Chocolate Smoothie",
+            "hi": "Chocolate Smoothie",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Matcha Smoothie",
+            "hi": "Matcha Smoothie",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Taro Smoothie",
+            "hi": "Taro Smoothie",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Hamimelon Smoothie",
+            "hi": "Hamimelon Smoothie",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Strawberry Smoothie",
+            "hi": "Strawberry Smoothie",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Vanilla Smoothie",
+            "hi": "Vanilla Smoothie",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Blueberry Smoothie",
+            "hi": "Blueberry Smoothie",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Coffee Smoothie",
+            "hi": "Coffee Smoothie",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Mango Milk Tea",
+            "hi": "Mango Milk Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Coconut Milk Tea",
+            "hi": "Coconut Milk Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Hamimelon Milk Tea",
+            "hi": "Hamimelon Milk Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Matcha Milk Tea",
+            "hi": "Matcha Milk Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Taro Milk Tea",
+            "hi": "Taro Milk Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Chocolate Milk Tea",
+            "hi": "Chocolate Milk Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Strawberry Milk Tea",
+            "hi": "Strawberry Milk Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Vanilla Milk Tea",
+            "hi": "Vanilla Milk Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Blueberry Milk Tea",
+            "hi": "Blueberry Milk Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Coffee Milk Tea",
+            "hi": "Coffee Milk Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Blueberry Fruit Tea",
+            "hi": "Blueberry Fruit Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Caramel Fruit Tea",
+            "hi": "Caramel Fruit Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Orange Fruit Tea",
+            "hi": "Orange Fruit Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Strawberry Fruit Tea",
+            "hi": "Strawberry Fruit Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Bubble Tea (buy 1 get 1 free)",
+            "hi": "Bubble Tea (buy 1 get 1 free)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Bubble Gum Milk Tea",
+            "hi": "Bubble Gum Milk Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Bubble Gum Smoothie",
+            "hi": "Bubble Gum Smoothie",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Thai Milk Tea",
+            "hi": "Thai Milk Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Thai Milk Smoothie",
+            "hi": "Thai Milk Smoothie",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Red Velvet Milk Tea",
+            "hi": "Red Velvet Milk Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Red Velvet Smoothie",
+            "hi": "Red Velvet Smoothie",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Summer Promotion"
+        },
+        {
+          "name": {
+            "en": "Matcha Coffee Milk Tea (Boston Cooler)",
+            "hi": "Matcha Coffee Milk Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Matcha Blueberry Milk Tea (Boston Cooler)",
+            "hi": "Matcha Blueberry Milk Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Matcha Mango Milk Tea (Boston Cooler)",
+            "hi": "Matcha Mango Milk Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Matcha Vanilla Milk Tea (Boston Cooler)",
+            "hi": "Matcha Vanilla Milk Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Matcha Strawberry Milk Tea (Boston Cooler)",
+            "hi": "Matcha Strawberry Milk Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Coconut Milk Tea (Boston Cooler)",
+            "hi": "Coconut Milk Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Matcha Milk Tea (Boston Cooler)",
+            "hi": "Matcha Milk Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Taro Milk Tea (Boston Cooler)",
+            "hi": "Taro Milk Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Chocolate Milk Tea (Boston Cooler)",
+            "hi": "Chocolate Milk Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Strawberry Milk Tea (Boston Cooler)",
+            "hi": "Strawberry Milk Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Hamimelon Milk Tea (Boston Cooler)",
+            "hi": "Hamimelon Milk Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Vanilla Milk Tea (Boston Cooler)",
+            "hi": "Vanilla Milk Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Blueberry Milk Tea (Boston Cooler)",
+            "hi": "Blueberry Milk Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Coffee Milk Tea (Boston Cooler)",
+            "hi": "Coffee Milk Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Matcha Mango Smoothie (Boston Cooler)",
+            "hi": "Matcha Mango Smoothie (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Matcha Strawberry Smoothie (Boston Cooler)",
+            "hi": "Matcha Strawberry Smoothie (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Matcha Blueberry Smoothie (Boston Cooler)",
+            "hi": "Matcha Blueberry Smoothie (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Matcha Coffee Smoothie (Boston Cooler)",
+            "hi": "Matcha Coffee Smoothie (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Matcha Vanilla Smoothie (Boston Cooler)",
+            "hi": "Matcha Vanilla Smoothie (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Coconut Smoothie (Boston Cooler)",
+            "hi": "Coconut Smoothie (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Chocolate Smoothie (Boston Cooler)",
+            "hi": "Chocolate Smoothie (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Matcha Smoothie (Boston Cooler)",
+            "hi": "Matcha Smoothie (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Taro Smoothie (Boston Cooler)",
+            "hi": "Taro Smoothie (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Hamimelon Smoothie (Boston Cooler)",
+            "hi": "Hamimelon Smoothie (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Strawberry Smoothie (Boston Cooler)",
+            "hi": "Strawberry Smoothie (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Vanilla Smoothie (Boston Cooler)",
+            "hi": "Vanilla Smoothie (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Blueberry Smoothie (Boston Cooler)",
+            "hi": "Blueberry Smoothie (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Coffee Smoothie (Boston Cooler)",
+            "hi": "Coffee Smoothie (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Blueberry Fruit Tea (Boston Cooler)",
+            "hi": "Blueberry Fruit Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Caramel Fruit Tea (Boston Cooler)",
+            "hi": "Caramel Fruit Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Orange Fruit Tea (Boston Cooler)",
+            "hi": "Orange Fruit Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Strawberry Fruit Tea (Boston Cooler)",
+            "hi": "Strawberry Fruit Tea (Boston Cooler)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Boston Coolers"
+        },
+        {
+          "name": {
+            "en": "Americano",
+            "hi": "Americano",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Caffe Latte",
+            "hi": "Caffe Latte",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Hot Chocolate",
+            "hi": "Hot Chocolate",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Espresso",
+            "hi": "Espresso",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Double Espresso",
+            "hi": "Double Espresso",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Cappuccino",
+            "hi": "Cappuccino",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Green Tea",
+            "hi": "Green Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Lemon Tea",
+            "hi": "Lemon Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Black Tea",
+            "hi": "Black Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Ice Coffee Latte",
+            "hi": "Ice Coffee Latte",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Ice Coffee Americano",
+            "hi": "Ice Coffee Americano",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Ice Caramel Latte",
+            "hi": "Ice Caramel Latte",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Ice Chocolate",
+            "hi": "Ice Chocolate",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Classic Ice Tea",
+            "hi": "Classic Ice Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Refreshing Lemonade with Mint",
+            "hi": "Refreshing Lemonade with Mint",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Mojito Fusion Orange",
+            "hi": "Mojito Fusion Orange",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Mojito Fusion Blueberry",
+            "hi": "Mojito Fusion Blueberry",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Lassi Sweet or Salty",
+            "hi": "Lassi Sweet or Salty",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Pepsi",
+            "hi": "Pepsi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3.5,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Mountain Dew",
+            "hi": "Mountain Dew",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3.5,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Sprite",
+            "hi": "Sprite",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3.5,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Coca Cola",
+            "hi": "Coca Cola",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3.5,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Water Small",
+            "hi": "Water Small",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Water Big",
+            "hi": "Water Big",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Khubus",
+            "hi": "Khubus",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Sides"
+        },
+        {
+          "name": {
+            "en": "Side Salad",
+            "hi": "Side Salad",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Sides"
+        },
+        {
+          "name": {
+            "en": "French Fries Big",
+            "hi": "French Fries Big",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Sides"
+        },
+        {
+          "name": {
+            "en": "French Fries Small",
+            "hi": "French Fries Small",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Sides"
+        },
+        {
+          "name": {
+            "en": "Bun",
+            "hi": "Bun",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Sides"
+        },
+        {
+          "name": {
+            "en": "Garlic Sauce",
+            "hi": "Garlic Sauce",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Sides"
+        },
+        {
+          "name": {
+            "en": "Hot Sauce",
+            "hi": "Hot Sauce",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Sides"
+        },
+        {
+          "name": {
+            "en": "Spicy Sauce",
+            "hi": "Spicy Sauce",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Sides"
         }
       ]
     }
