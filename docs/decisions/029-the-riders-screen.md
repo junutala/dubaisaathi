@@ -166,5 +166,9 @@ the tick:
   us a WhatsApp and we will send you the menu". The number and the promise go to review with
   the pin.
 
+- **WhatsApp no.**: a second camera for a close picture of the WhatsApp number alone. On a poor
+  card the number cannot be read in a picture of the whole page. It is sent as the pin's last
+  menu page, and the notes say so.
+
 None of these is required, and the tick never waits on them. The fresh GPS reading at the
 tick (25 September, after 0022 and 0023 shared a pin) is unchanged.

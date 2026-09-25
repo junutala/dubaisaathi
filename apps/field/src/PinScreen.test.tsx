@@ -57,8 +57,9 @@ describe('the rider’s pin', () => {
     // for the shop — and one optional note. Nothing else to type: he holds a helmet.
     expect(container.querySelectorAll('textarea')).toHaveLength(1);
     const inputs = [...container.querySelectorAll('input')];
-    expect(inputs.map((input) => input.type)).toEqual(['file']);
-    expect(inputs[0]?.accept).toBe('image/*');
+    // Two cameras: the menu's first page, and the WhatsApp number held close.
+    expect(inputs.map((input) => input.type)).toEqual(['file', 'file']);
+    expect(inputs.every((input) => input.accept === 'image/*')).toBe(true);
   });
 
   it('waits for a fix, which is the one thing it cannot do without', async () => {
