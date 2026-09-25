@@ -136,10 +136,12 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   the tram, the direction the vehicle is headed, and the first and last departure from the stop
   the traveller boards at (decision 017). **A walk never crosses the Creek; the abra does**, for a
   dirham in cash (decision 036).
-- **जानना is attractions only.** Hours, ticket, how long, whom to ring, a Hindi blurb, and a
-  जाना button. No hotels or homestays. A line at the bottom lets the traveller name a place we
-  missed; it goes into the question log for the next pack. **3.3 · काम की बातें is parked for
-  Sprint 2.**
+- **जानना is knowing, on tabs** (decision 037, 25 September). **जगहें**: attractions with hours,
+  ticket, how long, whom to ring, a Hindi blurb and a जाना button; no hotels or homestays; a line
+  at the bottom lets the traveller name a place we missed, into the question log. **सफ़र** (3.3):
+  topics for getting around, first **Nol कार्ड** (3.4), whose every figure comes from the fares
+  pack. **ख़रीदारी** (dates, oud) comes when its first topic is written — a tab with nothing in it
+  is never shown.
 - **No login, no account, no gate.** Entitlement is keyed to the device. A pass is a signed
   token verified offline (decision 005). Location is asked at first need with the reason on the
   screen; a refusal gets one screen saying what will not work and what still does.
@@ -588,7 +590,7 @@ delivery app".
    secret `SARVAM_API_KEY` is not set — both are the lead's to do. Until they are, the block is
    there when the phone is online and the screen says, in one line, that बोलना is not switched on
    yet; nothing else is affected.
-5. **Sprint 2**: 3.3 · काम की बातें (parked on the canvas's second page), and the owner's
+5. **Sprint 2**: the owner's
    "I'm on this bus" toggle — a countdown of stops to alight with a buzz one stop before,
    built on the leg's stop sequence and GPS, with the timetable's running times as the fallback
    in the metro tunnels and the screen kept on.

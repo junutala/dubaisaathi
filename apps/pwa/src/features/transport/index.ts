@@ -8,7 +8,15 @@ export { RouteOptionsScreen } from './RouteOptionsScreen.js';
 export { RouteStepsScreen } from './RouteStepsScreen.js';
 export { TaxiScreen } from './TaxiScreen.js';
 export { parseTransportPack, type TransportNetwork } from './network.js';
-export { currentFares, parseFarePack, FARES_PACK_ID, type FarePack } from './fares.js';
+export {
+  currentFares,
+  parseFarePack,
+  FARES_PACK_ID,
+  PASS_LENGTHS,
+  type FarePack,
+  type PassLength,
+  type ZoneFare,
+} from './fares.js';
 export {
   planRoutes,
   ORIGIN_NODE_ID,

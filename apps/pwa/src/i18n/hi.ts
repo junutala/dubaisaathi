@@ -421,6 +421,46 @@ export const hi = {
   'know.go': 'जाना',
   'know.fromHotel': 'होटल से {distance}',
   'know.gone': 'यह जगह अब सूची में नहीं है.',
+  'know.tab.places': 'जगहें',
+  'know.tab.travel': 'सफ़र',
+  'know.tab.shopping': 'ख़रीदारी',
+  'tips.nol.title': 'Nol कार्ड',
+  'tips.nol.sub': 'सिल्वर, गोल्ड, लाल टिकट और पास — कौन-सा लें, कितने का',
+  'tips.nol.aed': 'AED {aed}',
+  'tips.nol.lead':
+    'मेट्रो, ट्राम और बस का किराया Nol कार्ड या काग़ज़ के लाल टिकट से कटता है — गेट पर छुआना होता है। किराया इस पर तय होता है कि सफ़र कितने ज़ोन से गुज़रता है, दूरी पर नहीं।',
+  'tips.nol.whichTitle': 'कौन-सा लें',
+  'tips.nol.silver': 'सिल्वर कार्ड',
+  'tips.nol.silverWhy':
+    'सबके लिए। किसी भी मेट्रो स्टेशन पर मिलता है; रिचार्ज करते रहें और पूरी यात्रा में चलाएँ।',
+  'tips.nol.gold': 'गोल्ड कार्ड',
+  'tips.nol.goldWhy': 'मेट्रो के आगे वाले गोल्ड क्लास डिब्बे के लिए — कम भीड़, दोगुना किराया।',
+  'tips.nol.red': 'लाल टिकट',
+  'tips.nol.redGold': 'लाल टिकट, गोल्ड',
+  'tips.nol.redWhy':
+    'दो-चार सफ़र के लिए काग़ज़ का टिकट। बनवाने के AED {aed}, फिर हर सफ़र का किराया।',
+  'tips.nol.redWhyNoFee': 'दो-चार सफ़र के लिए काग़ज़ का टिकट; हर सफ़र का किराया अलग।',
+  'tips.nol.tripTitle': 'एक सफ़र',
+  'tips.nol.zone1': '1 ज़ोन',
+  'tips.nol.zone2': '2 ज़ोन',
+  'tips.nol.zone3': '3 या ज़्यादा',
+  'tips.nol.shortHop': 'दो ज़ोन का सफ़र अगर {km} किमी से छोटा हो, तो एक ज़ोन गिना जाता है।',
+  'tips.nol.dayTitle': 'एक दिन का टिकट',
+  'tips.nol.day': 'पूरे दिन हर ज़ोन में जितना चाहें: AED {regular}, गोल्ड क्लास में AED {gold}।',
+  'tips.nol.passTitle': 'पास',
+  'tips.nol.passWhy':
+    'तय दिनों तक जितना चाहें, जितने ज़ोन के लिए लें उसी हिसाब से दाम। तभी फ़ायदा है जब रोज़ चलें।',
+  'tips.nol.days7': '7 दिन',
+  'tips.nol.days30': '30 दिन',
+  'tips.nol.days90': '90 दिन',
+  'tips.nol.days365': '365 दिन',
+  'tips.nol.knowTitle': 'काम की बात',
+  'tips.nol.children':
+    '{years} साल से छोटे, या {cm} सेमी से कम लंबे बच्चे मेट्रो और ट्राम में मुफ़्त।',
+  'tips.nol.minimum': 'कार्ड में कम से कम AED {aed} रखें, वरना गेट नहीं खुलेगा।',
+  'tips.nol.rules':
+    '{minutes} मिनट के अंदर बदलें तो एक ही सफ़र और एक ही किराया — ज़्यादा से ज़्यादा {transfers} बार बदलना, कुल {total} मिनट।',
+  'tips.nol.source': 'बुरजुमान स्टेशन पर RTA के बोर्ड से, 25 सितंबर 2026 को मिलाया गया।',
 
   // ---- घर.5 · बोलना · घर.6 · अरबी में (decision 020) -------------------------------------
   // The one place in the product with a microphone, and the only screens that need a signal.

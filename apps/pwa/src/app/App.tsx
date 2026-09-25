@@ -41,7 +41,7 @@ import {
   RouteStepsScreen,
   TaxiScreen,
 } from '../features/transport/index.js';
-import { KnowScreen, PlaceScreen } from '../features/know/index.js';
+import { KnowScreen, NolScreen, PlaceScreen } from '../features/know/index.js';
 import { MapScreen, startMapKeeping } from '../features/map/index.js';
 import { ArabicScreen, BolnaScreen } from '../features/speak/index.js';
 import { navigate } from './routes.js';
@@ -260,7 +260,8 @@ export function App() {
         {route.screen === 'taxi' && <TaxiScreen placeId={route.placeId} hotel={hotel} />}
         {route.screen === 'nolocation' && <LocationDeniedScreen hotel={hotel} />}
         {route.screen === 'map' && <MapScreen placeId={route.placeId} hotel={hotel} />}
-        {route.screen === 'know' && <KnowScreen />}
+        {route.screen === 'know' && <KnowScreen tab={route.tab ?? 'places'} />}
+        {route.screen === 'tip' && <NolScreen />}
         {route.screen === 'place' && <PlaceScreen placeId={route.placeId} hotel={hotel} />}
       </main>
       <TabBar current={pillarOf(route)} />

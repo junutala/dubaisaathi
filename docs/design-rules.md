@@ -52,6 +52,5 @@ rule is agreed, it is added here before the screen is drawn. Sprint 1, frozen 16
   it is online, it is one block on घर, and it hands its sentence to a person, never to the matcher
   (decision 020).
 - The Arabic phrase screens; the taxi card carries the one Arabic a driver needs.
-- 3.3 · काम की बातें — parked for Sprint 2, not for this one.
 - Hotels and homestays in जानना.
 - Find-my-family, SOS to a contact in India, a settings screen, auto-deleting documents.
