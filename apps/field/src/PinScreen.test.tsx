@@ -41,8 +41,11 @@ beforeEach(async () => {
   });
 });
 
-afterEach(() => {
+afterEach(async () => {
   cleanup();
+  // A tick goes on to sync the queue after the confirmation shows, and a test may end on the
+  // confirmation. Let that finish here, before the next test deletes the database under it.
+  await new Promise((resolve) => setTimeout(resolve, 100));
   vi.unstubAllGlobals();
 });
 
