@@ -33,6 +33,7 @@ const MODE_KEY = {
   tram: 'mode.tram',
   taxi: 'mode.taxi',
   walk: 'mode.walk',
+  abra: 'mode.abra',
 } as const satisfies Record<PlannedLeg['mode'], StringKey>;
 
 const MODE_ICON = {
@@ -41,6 +42,7 @@ const MODE_ICON = {
   tram: 'metro',
   taxi: 'taxi',
   walk: 'walk',
+  abra: 'boat',
 } as const satisfies Record<PlannedLeg['mode'], IconName>;
 
 export function modeLabel(words: Words, mode: PlannedLeg['mode']): string {
@@ -106,6 +108,8 @@ export function serviceLine(words: Words, leg: PlannedLeg): string | null {
 /** One line summarising a leg, for the strip along the bottom of an option card on 1.3. */
 export function legSummary(words: Words, leg: PlannedLeg): string {
   if (leg.mode === 'walk') return minutes(words, leg.durationSeconds);
+  if (leg.mode === 'abra')
+    return `${modeLabel(words, leg.mode)} · ${minutes(words, leg.durationSeconds)}`;
   if (leg.mode === 'taxi') {
     return words.t('unit.direct', { km: (leg.distanceM / 1000).toFixed(1) });
   }
@@ -129,6 +133,15 @@ export function legStep(words: Words, leg: PlannedLeg): LegStep {
       icon: 'walk',
       title: words.t('steps.walk'),
       detail: words.t('steps.toPlace', { place: nodeLabel(words, leg.toNodeId) }),
+      time,
+    };
+  }
+  if (leg.mode === 'abra') {
+    // Across, not along: a pier and the pier opposite, and the dirham in cash (decision 036).
+    return {
+      icon: 'boat',
+      title: words.t('steps.abra', { place: nodeLabel(words, leg.toNodeId) }),
+      detail: words.t('steps.abraDetail', { from: nodeLabel(words, leg.fromNodeId) }),
       time,
     };
   }

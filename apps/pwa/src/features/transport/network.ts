@@ -1,4 +1,5 @@
 import { TRANSPORT_MODES, type TransportNetwork, type TransportNode } from '@saathi/shared';
+import abras from '../../../../../data/transport/abras.v1.json';
 
 /**
  * The transport network, as it ships: `data/transport/network.v1.json`, written from the RTA's
@@ -60,4 +61,27 @@ export function metresBetween(
   const dLng = (b.lng - a.lng) * toRad;
   const h = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
   return 2 * earthRadiusM * Math.asin(Math.sqrt(h));
+}
+
+/**
+ * The network with the Creek's abras in it (decision 036). They are not in the RTA pack — its
+ * feed has only two of the four crossings — so they ride beside it, in the network's own shape,
+ * from `data/transport/abras.v1.json`, and join whatever pack the phone holds, shipped or
+ * downloaded. Adding them twice is a no-op.
+ */
+export function withAbras(network: TransportNetwork): TransportNetwork {
+  const extra = parseTransportPack({
+    ...network,
+    ...abras,
+    lines: abras.lines,
+    nodes: abras.nodes,
+    edges: abras.edges,
+  });
+  if (network.nodes.some((node) => node.id === extra.nodes[0]?.id)) return network;
+  return {
+    ...network,
+    nodes: [...network.nodes, ...extra.nodes],
+    lines: [...network.lines, ...extra.lines],
+    edges: [...network.edges, ...extra.edges],
+  };
 }

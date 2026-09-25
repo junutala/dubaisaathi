@@ -38,7 +38,9 @@ export type Route =
   | { readonly screen: 'place'; readonly placeId: string };
 
 function isOptionId(value: string | undefined): value is RouteOptionId {
-  return value === 'metro' || value === 'bus' || value === 'walk' || value === 'taxi';
+  return (
+    value === 'metro' || value === 'bus' || value === 'abra' || value === 'walk' || value === 'taxi'
+  );
 }
 
 export function parseRoute(hash: string): Route {

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { DubaiPlace, LatLng } from '@saathi/shared';
-import { parseTransportPack } from './network.js';
+import { metresBetween, parseTransportPack, withAbras } from './network.js';
+import { walkCrossesWater } from './water.js';
 import { planRoutes } from './routePlanner.js';
 import { placeById, placeFromText } from './destinations.js';
 import { BUNDLED_FARES } from './fares.js';
@@ -253,5 +254,85 @@ describe('what a journey costs', () => {
     for (const node of outside) {
       expect(node.name.en, node.id).toMatch(/Sharjah|Ajman|Fujairah|Masafi|Dhaid|Thoban/i);
     }
+  });
+});
+
+describe('the Creek is water, not a pavement (decision 036)', () => {
+  // As the phone holds it: the RTA pack with the Creek's abras beside it.
+  const withBoats = withAbras(network);
+  /** The owner's hotel in Al Rigga, and Woodlands in Meena Bazaar across the Creek. */
+  const AL_RIGGA: LatLng = { lat: 25.2637, lng: 55.3197 };
+  const WOODLANDS: DubaiPlace = {
+    id: 'outlet:woodlands',
+    kind: 'restaurant',
+    name: { en: 'Woodlands Restaurant', hi: 'Woodlands Restaurant', aliases: [] },
+    location: { lat: 25.2605, lng: 55.2976 },
+  };
+  const byId = new Map(withBoats.nodes.map((node) => [node.id, node.location]));
+  const at = (id: string): LatLng =>
+    id === 'origin'
+      ? AL_RIGGA
+      : id === 'destination'
+        ? WOODLANDS.location
+        : (byId.get(id) ?? AL_RIGGA);
+
+  it('never walks across it — every walk leg stays on one bank', () => {
+    const options = planRoutes(withBoats, AL_RIGGA, WOODLANDS, BUNDLED_FARES);
+    expect(options.length).toBeGreaterThan(1);
+    for (const option of options) {
+      for (const leg of option.route.legs) {
+        if (leg.mode !== 'walk') continue;
+        for (let i = 1; i < leg.path.length; i++) {
+          const from = at(leg.path[i - 1] ?? '');
+          const to = at(leg.path[i] ?? '');
+          expect(
+            walkCrossesWater(from, to, metresBetween(from, to)),
+            `${option.id}: ${leg.path.join(' → ')}`,
+          ).toBe(false);
+        }
+      }
+    }
+  });
+
+  it('does not offer "walk" to a kitchen on the other bank', () => {
+    const ids = planRoutes(withBoats, AL_RIGGA, WOODLANDS, BUNDLED_FARES).map(
+      (option) => option.id,
+    );
+    expect(ids).not.toContain('walk');
+    expect(ids).toContain('metro');
+  });
+
+  it('still lets a traveller walk along one bank', () => {
+    const burJuman: LatLng = { lat: 25.2549, lng: 55.3043 };
+    expect(
+      walkCrossesWater(WOODLANDS.location, burJuman, metresBetween(WOODLANDS.location, burJuman)),
+    ).toBe(false);
+    expect(
+      walkCrossesWater(AL_RIGGA, WOODLANDS.location, metresBetween(AL_RIGGA, WOODLANDS.location)),
+    ).toBe(true);
+  });
+
+  /** A hotel by the Gold Souk in Deira: the owner's side of the Creek on 25 September. */
+  const GOLD_SOUK: LatLng = { lat: 25.2697, lng: 55.2981 };
+
+  it('offers the abra from Deira to Meena Bazaar: walk, across for a dirham, walk', () => {
+    const abra = planRoutes(withBoats, GOLD_SOUK, WOODLANDS, BUNDLED_FARES).find(
+      (option) => option.id === 'abra',
+    );
+    expect(abra).toBeDefined();
+    expect(abra?.route.legs.map((leg) => leg.mode)).toEqual(['walk', 'abra', 'walk']);
+    expect(abra?.fareAedMin).toBe(1);
+    for (const leg of abra?.route.legs ?? []) {
+      if (leg.mode !== 'walk') continue;
+      const [from, to] = leg.path.map((id) =>
+        id === 'origin' ? GOLD_SOUK : id === 'destination' ? WOODLANDS.location : at(id),
+      );
+      if (!from || !to) throw new Error('a walk leg with no ends');
+      expect(walkCrossesWater(from, to, metresBetween(from, to))).toBe(false);
+    }
+  });
+
+  it('adds the abras once, however often the network is loaded', () => {
+    expect(withAbras(withBoats).nodes.length).toBe(withBoats.nodes.length);
   });
 });

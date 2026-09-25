@@ -1,0 +1,184 @@
+{
+  "source": "The Creek's four abra crossings as OpenStreetMap maps them (ferry routes 'Bur Dubai - Deira Old Souk (Abra)', 'Dubai Old Souk - Al Sabkha (Abra)', and the two from the Al Fahidi Marine Transport Station), piers at each route's two ends, from the Protomaps build of 24 September 2026. The RTA's GTFS carries only the Al Fahidi pair (CR4, CR5) and not the two busiest. Crossing times are estimates by length; the fare is the AED 1 paid in cash on board. Decision 036.",
+  "attribution": "© OpenStreetMap contributors (ODbL)",
+  "nodes": [
+    {
+      "id": "abra-bur-dubai",
+      "name": { "en": "Bur Dubai Abra Station", "hi": "बर दुबई अब्रा स्टेशन", "aliases": [] },
+      "location": { "lat": 25.26469, "lng": 55.29305 },
+      "modes": ["abra"]
+    },
+    {
+      "id": "abra-deira-old-souk",
+      "name": {
+        "en": "Deira Old Souk Abra Station",
+        "hi": "देरा ओल्ड सूक अब्रा स्टेशन",
+        "aliases": []
+      },
+      "location": { "lat": 25.26714, "lng": 55.29799 },
+      "modes": ["abra"]
+    },
+    {
+      "id": "abra-dubai-old-souk",
+      "name": {
+        "en": "Dubai Old Souk Abra Station",
+        "hi": "दुबई ओल्ड सूक अब्रा स्टेशन",
+        "aliases": []
+      },
+      "location": { "lat": 25.26499, "lng": 55.29525 },
+      "modes": ["abra"]
+    },
+    {
+      "id": "abra-al-sabkha",
+      "name": { "en": "Al Sabkha Abra Station", "hi": "अल सबख़ा अब्रा स्टेशन", "aliases": [] },
+      "location": { "lat": 25.26726, "lng": 55.30316 },
+      "modes": ["abra"]
+    },
+    {
+      "id": "abra-al-fahidi",
+      "name": { "en": "Al Fahidi Abra Station", "hi": "अल फ़हीदी अब्रा स्टेशन", "aliases": [] },
+      "location": { "lat": 25.26558, "lng": 55.30077 },
+      "modes": ["abra"]
+    }
+  ],
+  "lines": [
+    {
+      "id": "abra-bur-dubai--deira-old-souk",
+      "mode": "abra",
+      "name": {
+        "en": "abra, Bur Dubai – Deira Old Souk",
+        "hi": "अब्रा, बर दुबई – देरा ओल्ड सूक",
+        "aliases": []
+      },
+      "headwaySeconds": 600,
+      "towards": [
+        { "en": "Deira Old Souk", "hi": "देरा ओल्ड सूक" },
+        { "en": "Bur Dubai", "hi": "बर दुबई" }
+      ]
+    },
+    {
+      "id": "abra-dubai-old-souk--al-sabkha",
+      "mode": "abra",
+      "name": {
+        "en": "abra, Dubai Old Souk – Al Sabkha",
+        "hi": "अब्रा, दुबई ओल्ड सूक – अल सबख़ा",
+        "aliases": []
+      },
+      "headwaySeconds": 600,
+      "towards": [
+        { "en": "Al Sabkha", "hi": "अल सबख़ा" },
+        { "en": "Dubai Old Souk", "hi": "दुबई ओल्ड सूक" }
+      ]
+    },
+    {
+      "id": "abra-al-fahidi--deira-old-souk",
+      "mode": "abra",
+      "name": {
+        "en": "abra, Al Fahidi – Deira Old Souk",
+        "hi": "अब्रा, अल फ़हीदी – देरा ओल्ड सूक",
+        "aliases": []
+      },
+      "headwaySeconds": 600,
+      "towards": [
+        { "en": "Deira Old Souk", "hi": "देरा ओल्ड सूक" },
+        { "en": "Al Fahidi", "hi": "अल फ़हीदी" }
+      ]
+    },
+    {
+      "id": "abra-al-fahidi--al-sabkha",
+      "mode": "abra",
+      "name": {
+        "en": "abra, Al Fahidi – Al Sabkha",
+        "hi": "अब्रा, अल फ़हीदी – अल सबख़ा",
+        "aliases": []
+      },
+      "headwaySeconds": 600,
+      "towards": [
+        { "en": "Al Sabkha", "hi": "अल सबख़ा" },
+        { "en": "Al Fahidi", "hi": "अल फ़हीदी" }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "abra-bur-dubai--deira-old-souk:0",
+      "fromNodeId": "abra-bur-dubai",
+      "toNodeId": "abra-deira-old-souk",
+      "mode": "abra",
+      "durationSeconds": 300,
+      "fareAed": 1,
+      "line": "abra-bur-dubai--deira-old-souk",
+      "direction": 0
+    },
+    {
+      "id": "abra-bur-dubai--deira-old-souk:1",
+      "fromNodeId": "abra-deira-old-souk",
+      "toNodeId": "abra-bur-dubai",
+      "mode": "abra",
+      "durationSeconds": 300,
+      "fareAed": 1,
+      "line": "abra-bur-dubai--deira-old-souk",
+      "direction": 1
+    },
+    {
+      "id": "abra-dubai-old-souk--al-sabkha:0",
+      "fromNodeId": "abra-dubai-old-souk",
+      "toNodeId": "abra-al-sabkha",
+      "mode": "abra",
+      "durationSeconds": 420,
+      "fareAed": 1,
+      "line": "abra-dubai-old-souk--al-sabkha",
+      "direction": 0
+    },
+    {
+      "id": "abra-dubai-old-souk--al-sabkha:1",
+      "fromNodeId": "abra-al-sabkha",
+      "toNodeId": "abra-dubai-old-souk",
+      "mode": "abra",
+      "durationSeconds": 420,
+      "fareAed": 1,
+      "line": "abra-dubai-old-souk--al-sabkha",
+      "direction": 1
+    },
+    {
+      "id": "abra-al-fahidi--deira-old-souk:0",
+      "fromNodeId": "abra-al-fahidi",
+      "toNodeId": "abra-deira-old-souk",
+      "mode": "abra",
+      "durationSeconds": 240,
+      "fareAed": 1,
+      "line": "abra-al-fahidi--deira-old-souk",
+      "direction": 0
+    },
+    {
+      "id": "abra-al-fahidi--deira-old-souk:1",
+      "fromNodeId": "abra-deira-old-souk",
+      "toNodeId": "abra-al-fahidi",
+      "mode": "abra",
+      "durationSeconds": 240,
+      "fareAed": 1,
+      "line": "abra-al-fahidi--deira-old-souk",
+      "direction": 1
+    },
+    {
+      "id": "abra-al-fahidi--al-sabkha:0",
+      "fromNodeId": "abra-al-fahidi",
+      "toNodeId": "abra-al-sabkha",
+      "mode": "abra",
+      "durationSeconds": 240,
+      "fareAed": 1,
+      "line": "abra-al-fahidi--al-sabkha",
+      "direction": 0
+    },
+    {
+      "id": "abra-al-fahidi--al-sabkha:1",
+      "fromNodeId": "abra-al-sabkha",
+      "toNodeId": "abra-al-fahidi",
+      "mode": "abra",
+      "durationSeconds": 240,
+      "fareAed": 1,
+      "line": "abra-al-fahidi--al-sabkha",
+      "direction": 1
+    }
+  ]
+}

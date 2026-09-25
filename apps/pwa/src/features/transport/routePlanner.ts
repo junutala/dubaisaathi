@@ -9,6 +9,7 @@ import type {
 import { metresBetween, type TransportNetwork } from './network.js';
 import { nolFareAed, type FarePack } from './fares.js';
 import { meteredMetres, taxiFareBand } from './taxiFare.js';
+import { walkCrossesWater } from './water.js';
 
 /**
  * How a traveller gets from where they are standing to where they said they want to go —
@@ -62,7 +63,7 @@ export interface PlannedRoute extends Omit<Route, 'legs'> {
   readonly legs: readonly PlannedLeg[];
 }
 
-export type RouteOptionId = 'metro' | 'bus' | 'walk' | 'taxi';
+export type RouteOptionId = 'metro' | 'bus' | 'abra' | 'walk' | 'taxi';
 
 export interface RouteOption {
   readonly id: RouteOptionId;
@@ -85,6 +86,8 @@ interface Link {
   readonly direction?: 0 | 1;
   readonly firstDeparture?: string;
   readonly lastDeparture?: string;
+  /** A fare the hop itself carries — the abra's dirham. Nol hops are priced by zone instead. */
+  readonly fareAed?: number;
 }
 
 type Graph = ReadonlyMap<string, readonly Link[]>;
@@ -184,6 +187,7 @@ function prepare(network: TransportNetwork): Prepared {
       line: edge.line,
       distanceM: metresBetween(from.location, to.location),
       ...(edge.direction === undefined ? {} : { direction: edge.direction }),
+      ...(edge.fareAed === undefined ? {} : { fareAed: edge.fareAed }),
       ...(edge.firstDeparture === undefined ? {} : { firstDeparture: edge.firstDeparture }),
       ...(edge.lastDeparture === undefined ? {} : { lastDeparture: edge.lastDeparture }),
     });
@@ -192,6 +196,8 @@ function prepare(network: TransportNetwork): Prepared {
   for (const a of network.nodes) {
     for (const { node: b, metres } of index.within(a.location, TRANSFER_METRES)) {
       if (a.id === b.id) continue;
+      // Two stops facing each other across the Creek are not a change on foot (decision 036).
+      if (walkCrossesWater(a.location, b.location, metres)) continue;
       push(graph, a.id, {
         to: b.id,
         seconds: walkSeconds(network, metres),
@@ -339,6 +345,12 @@ function search(
   return steps.length > 0 ? steps : null;
 }
 
+/** A journey we cannot price is still worth showing: a fare of nothing says so rather than
+ * inventing a Dubai price for Sharjah. */
+function nolFare(fares: FarePack, zones: number | null): number | undefined {
+  return zones === null ? undefined : nolFareAed(fares, zones);
+}
+
 function waitFor(network: TransportNetwork, ready: Prepared, link: Link): number {
   const headway = link.line === undefined ? undefined : ready.headway.get(link.line);
   if (headway !== undefined) return Math.max(60, Math.round(headway / 2));
@@ -435,9 +447,11 @@ function assemble(id: RouteOptionId, legs: readonly PlannedLeg[], fare: number):
 }
 
 /** The modes each card may ride. The tram is part of the metro answer: it is Nol, rail and a change at DMCC. */
-const RIDES: Readonly<Record<'metro' | 'bus', readonly TransportMode[]>> = {
+const RIDES: Readonly<Record<'metro' | 'bus' | 'abra', readonly TransportMode[]>> = {
   metro: ['metro', 'tram'],
   bus: ['bus'],
+  // Walk to the pier, across by abra, walk on: how Deira reaches Meena Bazaar (decision 036).
+  abra: ['abra'],
 };
 
 /**
@@ -461,6 +475,8 @@ export function planRoutes(
   for (const [from, links] of ready.graph) graph.set(from, [...links]);
 
   for (const { node, metres } of ready.index.within(origin, ACCESS_METRES)) {
+    // A walk is a straight line, so one that would cross the Creek is not a walk (decision 036).
+    if (walkCrossesWater(origin, node.location, metres)) continue;
     push(graph, ORIGIN_NODE_ID, {
       to: node.id,
       seconds: walkSeconds(network, metres),
@@ -470,6 +486,7 @@ export function planRoutes(
     });
   }
   for (const { node, metres } of ready.index.within(destination.location, ACCESS_METRES)) {
+    if (walkCrossesWater(node.location, destination.location, metres)) continue;
     push(graph, node.id, {
       to: DESTINATION_NODE_ID,
       seconds: walkSeconds(network, metres),
@@ -481,7 +498,7 @@ export function planRoutes(
 
   const candidates: RouteOption[] = [];
 
-  for (const id of ['metro', 'bus'] as const) {
+  for (const id of ['metro', 'bus', 'abra'] as const) {
     const rides = RIDES[id];
     const steps = search(network, ready, graph, new Set<TransportMode>(['walk', ...rides]));
     if (steps === null) continue;
@@ -490,14 +507,15 @@ export function planRoutes(
     // would put "मेट्रो" on a card with no train in it.
     const ridden = legs.filter((leg) => rides.includes(leg.mode));
     if (ridden.length === 0) continue;
-    const zones = zonesPassed(ready, steps, rides);
-    // A journey we cannot price is still a journey worth showing: the steps and the time are
-    // right, and a fare of nothing says so rather than inventing a Dubai price for Sharjah.
-    const fare = zones === null ? undefined : nolFareAed(fares, zones);
+    // An abra is not Nol: a dirham in cash, per crossing, as the pack's edge says.
+    const fare =
+      id === 'abra'
+        ? steps.reduce((sum, step) => sum + (step.link.fareAed ?? 0), 0)
+        : nolFare(fares, zonesPassed(ready, steps, rides));
     candidates.push(assemble(id, legs, fare ?? 0));
   }
 
-  if (directM <= DIRECT_WALK_METRES) {
+  if (directM <= DIRECT_WALK_METRES && !walkCrossesWater(origin, destination.location, directM)) {
     candidates.push(
       assemble(
         'walk',

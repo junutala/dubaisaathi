@@ -214,7 +214,8 @@ export interface MenuItem {
 
 // --- Transport ----------------------------------------------------------------------------
 
-export const TRANSPORT_MODES = ['walk', 'metro', 'tram', 'bus', 'taxi'] as const;
+/** `abra`: the Creek's wooden boats, AED 1 in cash — the way across on foot (decision 036). */
+export const TRANSPORT_MODES = ['walk', 'metro', 'tram', 'bus', 'taxi', 'abra'] as const;
 export type TransportMode = (typeof TRANSPORT_MODES)[number];
 
 export interface TransportNode {
