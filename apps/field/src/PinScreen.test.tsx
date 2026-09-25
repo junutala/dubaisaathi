@@ -57,8 +57,9 @@ describe('the rider’s pin', () => {
     // for the shop — and one optional note. Nothing else to type: he holds a helmet.
     expect(container.querySelectorAll('textarea')).toHaveLength(1);
     const inputs = [...container.querySelectorAll('input')];
-    expect(inputs.map((input) => input.type)).toEqual(['file']);
-    expect(inputs[0]?.accept).toBe('image/*');
+    // Two cameras: the menu's first page, and the WhatsApp number held close.
+    expect(inputs.map((input) => input.type)).toEqual(['file', 'file']);
+    expect(inputs.every((input) => input.accept === 'image/*')).toBe(true);
   });
 
   it('waits for a fix, which is the one thing it cannot do without', async () => {
@@ -123,11 +124,14 @@ describe('the rider’s pin', () => {
     } as GeolocationPosition;
     fireEvent.click(container.querySelector<HTMLButtonElement>('.pin-done-btn')!);
 
-    await waitFor(async () => {
-      expect(await db.reports.count()).toBe(1);
+    // The confirmation comes at once; the fresh reading moves the pin just after it.
+    await waitFor(() => {
+      expect(document.querySelector('.pin-done-serial')).toBeTruthy();
     });
-    const [report] = await db.reports.toArray();
-    expect(report?.location).toEqual({ lat: 25.2607, lng: 55.2953 });
+    await waitFor(async () => {
+      const [report] = await db.reports.toArray();
+      expect(report?.location).toEqual({ lat: 25.2607, lng: 55.2953 });
+    });
   });
 
   it('says where the menu is when it did not come with the pin', async () => {

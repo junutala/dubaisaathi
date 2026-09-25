@@ -416,10 +416,10 @@ input.short {
   letter-spacing: 0.16em;
   color: var(--marigoldText);
 }
-/* How the menu came back: three thumb-sized glyphs with a word under each, lit teal when on. */
+/* How the menu came back: four thumb-sized glyphs, two by two, with a word under each, lit teal when on. */
 .pin-menu {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
 .pin-menu-opt {

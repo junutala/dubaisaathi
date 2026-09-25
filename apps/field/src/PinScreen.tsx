@@ -77,9 +77,15 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
   const [fix, setFix] = useState<Fix | null>(null);
   const [queue, setQueue] = useState<SyncOutcome>({ pending: 0, sent: 0 });
   const [saved, setSaved] = useState<{ serial: string; id: string } | null>(null);
-  const [taking, setTaking] = useState(false);
+  const [saving, setSaving] = useState(false);
   /** The menu's first page, shrunk as it was picked. Optional: many counters do not hand one over. */
   const [firstPage, setFirstPage] = useState<Blob | null>(null);
+  /**
+   * A close picture of the WhatsApp number alone (the owner, Karama, 25 September): on a poor card
+   * the number is unreadable in a picture of the whole page, and "WhatsApp us for the menu" is
+   * what many counters say.
+   */
+  const [whatsapp, setWhatsapp] = useState<Blob | null>(null);
   const [photographed, setPhotographed] = useState(false);
   const [fromQr, setFromQr] = useState(false);
   /** Anything else the desk should know: "WhatsApp 050… for the menu" (the owner, 25 September). */
@@ -112,18 +118,21 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
 
   async function save() {
     const who = collectorName();
-    if (!ready || who === null || taking) return;
-    setTaking(true);
-    const fresh = await freshFix();
-    setTaking(false);
-    const at = fresh ?? fix;
-    if (fresh !== null) setFix(fresh);
+    if (!ready || who === null || saving) return;
+    setSaving(true);
+    const at = fix;
     const id = crypto.randomUUID();
     const pageId = `${id}-menu-0`;
+    const whatsappId = `${id}-menu-whatsapp`;
+    const pages = [
+      ...(firstPage === null ? [] : [{ id: pageId, bytes: firstPage }]),
+      ...(whatsapp === null ? [] : [{ id: whatsappId, bytes: whatsapp }]),
+    ];
     // For review, not for the rider: where the menu is when it is not attached to this pin.
     const menuAt = [
       ...(photographed ? ['menu photographed on the collector’s phone'] : []),
       ...(fromQr ? ['menu downloaded from the counter’s QR'] : []),
+      ...(whatsapp === null ? [] : ['WhatsApp number photographed (the last page on this pin)']),
       ...(note.trim() === '' ? [] : [note.trim()]),
     ].join('; ');
 
@@ -141,25 +150,43 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
       name: '',
       formSerial: serial,
       frontPhotoIds: [],
-      menuPhotoIds: firstPage === null ? [] : [pageId],
+      menuPhotoIds: pages.map((page) => page.id),
       ...(menuAt === '' ? {} : { notes: menuAt }),
       status: 'queued',
     };
 
     await db.transaction('rw', db.reports, db.photos, async () => {
       await db.reports.add({ ...report, uploaded: false });
-      if (firstPage !== null) {
-        await db.photos.add({ id: pageId, reportId: id, kind: 'menu', bytes: firstPage });
+      for (const page of pages) {
+        await db.photos.add({ id: page.id, reportId: id, kind: 'menu', bytes: page.bytes });
       }
     });
 
     setFirstPage(null);
+    setWhatsapp(null);
     setPhotographed(false);
     setFromQr(false);
     setNote('');
 
     setSaved({ serial, id });
     setSerial(advanceSerial());
+    setSaving(false);
+
+    /**
+     * The fresh reading is taken after the confirmation, never before it. Waiting for it at the
+     * tick greyed the button for up to eight seconds on a cold GPS, and the owner refreshed the
+     * page thinking the next number would never come (Karama, 25 September). The pin is saved at
+     * once on the watched fix, then moved to the fresh reading when the phone gives one — and
+     * sent again if it had already gone, which the server takes as the same row.
+     */
+    const fresh = await freshFix();
+    if (fresh !== null) {
+      setFix(fresh);
+      await db.reports.update(id, {
+        location: { lat: fresh.lat, lng: fresh.lng },
+        uploaded: false,
+      });
+    }
     setQueue(await syncReports());
   }
 
@@ -254,8 +281,9 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
         <output className="pin-number">{serial}</output>
       </div>
 
-      {/* How the menu came back, in glyphs: a camera that takes its first page now, or two ticks
-          for a menu that is elsewhere. All three optional — the tick below never waits on them. */}
+      {/* How the menu came back, in glyphs: a camera for its first page, two ticks for a menu that
+          is elsewhere, and a camera held close to the WhatsApp number. All optional — the tick
+          below never waits on them. */}
       <div className="pin-menu">
         <label className={firstPage === null ? 'pin-menu-opt' : 'pin-menu-opt pin-menu-on'}>
           <svg
@@ -329,6 +357,31 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
           </svg>
           <span>{t('pinFromQr')}</span>
         </button>
+        <label className={whatsapp === null ? 'pin-menu-opt' : 'pin-menu-opt pin-menu-on'}>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.9"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 19l1.2-3.6A7.5 7.5 0 1 1 9 18.3z" />
+            <path d="M9.3 9.2c0 2.9 2.6 5.5 5.5 5.5l.9-1.4-1.8-.9-.8.8a4 4 0 0 1-2.3-2.3l.8-.8-.9-1.8z" />
+          </svg>
+          <span>{t('pinWhatsapp')}</span>
+          <input
+            type="file"
+            accept="image/*"
+            capture="environment"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file === undefined) return;
+              void shrink(file, MENU).then(setWhatsapp);
+            }}
+          />
+        </label>
       </div>
       {/* Optional, and the one place he types: what the counter said about the menu — "send a
           WhatsApp to 050… and we will send it". It reaches review with the pin. */}
@@ -346,7 +399,7 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
       <button
         type="button"
         className="pin-done-btn"
-        disabled={!ready || taking}
+        disabled={!ready || saving}
         onClick={() => void save()}
       >
         <svg
