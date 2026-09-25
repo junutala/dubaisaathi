@@ -49,6 +49,12 @@ describe('a dish, searched', () => {
     const kms = found.hits.map((hit) => hit.km ?? 0);
     expect([...kms].sort((a, b) => a - b)).toEqual(kms);
   });
+
+  it('orders by name when there is nowhere to measure from, never by upload order', () => {
+    const names = searchOutlets('', [], undefined, NOON).hits.map((hit) => hit.outlet.name.en);
+    expect(names.length).toBeGreaterThan(1);
+    expect([...names].sort((a, b) => a.localeCompare(b, 'en'))).toEqual(names);
+  });
 });
 
 /**
