@@ -1,4 +1,7 @@
-import { recordVoiceEvent } from './voiceEvent.js';
+import type { LatLng } from '@saathi/shared';
+import { insideDubai } from '../../lib/dubai.js';
+import { currentLocation } from '../../lib/location.js';
+import { recordVoiceEvent, type Region } from './voiceEvent.js';
 
 /**
  * How Saathi is used, recorded for the owner and never shown to the traveller (the owner,
@@ -18,7 +21,11 @@ const OPENED_ON = 'saathi.usage.openedOn';
 const ARRIVED = 'saathi.usage.arrived';
 
 /** One usage row. `subject` is what was opened — an outlet, a place, a topic — never a person. */
-export function recordUsage(what: UsageEvent, subject = ''): void {
+export function recordUsage(
+  what: UsageEvent,
+  subject = '',
+  where?: { readonly region: Region; readonly installed: boolean },
+): void {
   void recordVoiceEvent({
     transcript: subject,
     intent: 'use',
@@ -26,7 +33,45 @@ export function recordUsage(what: UsageEvent, subject = ''): void {
     landedOn: what,
     sttEngine: 'usage',
     sttModel: 'v1',
+    ...where,
   }).catch(() => undefined);
+}
+
+/** A rough box around India — enough to tell Kochi from Karama, never a position. */
+function inIndia(at: LatLng): boolean {
+  return at.lat > 6 && at.lat < 36.5 && at.lng > 68 && at.lng < 97.5;
+}
+
+/**
+ * Which country the phone is using Saathi from, and nothing finer (the owner, 25 September:
+ * "users testing in India, users in Dubai"). A fix the app already holds decides it — Saathi never
+ * asks for location for this — and without one, the phone's own time zone. Only the bucket is
+ * kept; no coordinate is ever recorded (0004: "I do not want to know if and where Arun went").
+ */
+export function regionNow(): Region {
+  const location = currentLocation();
+  if (location.kind === 'here') {
+    if (insideDubai(location.at)) return 'dubai';
+    return inIndia(location.at) ? 'india' : 'elsewhere';
+  }
+  try {
+    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (zone === 'Asia/Dubai') return 'dubai';
+    if (zone === 'Asia/Kolkata' || zone === 'Asia/Calcutta') return 'india';
+    return zone === '' ? 'unknown' : 'elsewhere';
+  } catch {
+    return 'unknown';
+  }
+}
+
+/** Opened from the home screen as an installed app, rather than in a browser tab. */
+export function openedInstalled(): boolean {
+  try {
+    const standalone = (navigator as Navigator & { standalone?: boolean }).standalone === true;
+    return standalone || window.matchMedia('(display-mode: standalone)').matches;
+  } catch {
+    return false;
+  }
 }
 
 /** Today's date in Dubai, so a day of use is a Dubai day wherever the phone's clock is set. */
@@ -71,12 +116,15 @@ export function startUsageRecording(): () => void {
     if (typeof document !== 'undefined' && document.visibilityState === 'hidden') return;
     if (read(ARRIVED) === null) {
       write(ARRIVED, '1');
-      recordUsage('arrived', arrivalSource(new URL(window.location.href)));
+      recordUsage('arrived', arrivalSource(new URL(window.location.href)), {
+        region: regionNow(),
+        installed: openedInstalled(),
+      });
     }
     const today = dubaiDay();
     if (read(OPENED_ON) !== today) {
       write(OPENED_ON, today);
-      recordUsage('opened', today);
+      recordUsage('opened', today, { region: regionNow(), installed: openedInstalled() });
     }
   };
   mark();

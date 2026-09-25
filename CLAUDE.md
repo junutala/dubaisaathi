@@ -359,7 +359,8 @@ So, every time:
   Three services, three origins: `pwa` (deploy/Dockerfile) is the traveller's app at
   `dubai.saafarsaathi.in`; `outlet` (deploy/Dockerfile.field) is the collectors' app at
   `outlet.saafarsaathi.in`; `site` (deploy/Dockerfile.site, static, no build) is the one-page
-  website at `saafarsaathi.in`. Mail to `hello@saafarsaathi.in` (and any other name on the
+  website at `saafarsaathi.in`; `admin` (deploy/Dockerfile.admin, static) is the owner's page at
+  `admin.saafarsaathi.in` — marketing numbers behind a passphrase (decision 040). Mail to `hello@saafarsaathi.in` (and any other name on the
   domain) is forwarded to the owner by ImprovMX (free plan, catch-all alias): two MX records and
   an SPF TXT on GoDaddy, set up 17 September. Work on any other branch reaches nobody until it is merged
   there. It built from a working branch until 14 September, which is how a day's work went
@@ -446,13 +447,14 @@ dubaisaathi/
 ├── apps/
 │   ├── pwa/               # the React + TS + Vite client — the product
 │   ├── field/             # collectors' PWA: FieldReport capture, offline queue, upload
-│   └── site/              # the one-page website at saafarsaathi.in — static, Hindi and English
+│   ├── site/              # the one-page website at saafarsaathi.in — static, Hindi and English
+│   └── admin/             # the owner's page at admin.saafarsaathi.in — static, one call (040)
 ├── supabase/              # the backend (decision 011) — replaces apps/api
 │   ├── migrations/        # eleven tables: devices, families, passes, orders, coupons,
 │   │                      #   coupon_redemptions, voice_events, field_reports, field_photos,
 │   │                      #   contact_messages, content_packs
-│   ├── functions/         # eleven: collect, contact, listen, translate, outlet, redeem, bind,
-│   │                      #   order, webhook, packs, maplink
+│   ├── functions/         # twelve: collect, contact, listen, translate, outlet, redeem, bind,
+│   │                      #   order, webhook, packs, maplink, admin
 │   └── tests/             # SQL that checks what the schema must refuse
 └── packages/
     ├── shared/            # entity types shared by pwa and api — one definition, imported twice

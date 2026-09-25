@@ -132,10 +132,18 @@ export default tseslint.config(
   {
     // The website's one script: a plain browser file served as-is by nginx, with no build and no
     // types to check it against (apps/site).
-    files: ['apps/site/*.js'],
+    files: ['apps/site/*.js', 'apps/admin/*.js'],
     extends: [tseslint.configs.disableTypeChecked],
     languageOptions: {
       globals: { ...globals.browser },
+    },
+  },
+  {
+    // The admin app's placeholder worker, which only unregisters itself (decision 040).
+    files: ['apps/admin/sw.js'],
+    extends: [tseslint.configs.disableTypeChecked],
+    languageOptions: {
+      globals: { ...globals.serviceworker },
     },
   },
   {
