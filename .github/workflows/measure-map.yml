@@ -3,13 +3,18 @@ on:
   push:
     branches: [claude/gallant-lovelace-92jkrq]
     paths: [deploy/build-map.sh, .github/workflows/measure-map.yml]
+permissions:
+  contents: write
 jobs:
   measure:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        zoom: [13, 14]
     steps:
       - uses: actions/checkout@v4
-      - run: sh deploy/build-map.sh "$RUNNER_TEMP/map" ${{ matrix.zoom }}
-      - run: cat "$RUNNER_TEMP/map/files.json" | head -c 400; du -sh "$RUNNER_TEMP/map"/*
+      - run: sh deploy/build-map.sh "$RUNNER_TEMP/map" 14
+      - name: Keep a copy on map-preview for local testing
+        run: |
+          cd "$RUNNER_TEMP/map"
+          git init -q -b map-preview
+          git config user.name "github-actions"; git config user.email "actions@github.com"
+          git add -A && git commit -qm "Dubai map extract for local testing"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" map-preview
