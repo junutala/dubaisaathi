@@ -81,11 +81,17 @@ describe('the fare pack', () => {
 describe('rupees beside dirhams (the owner, 25 September)', () => {
   const at = (rate: number) => ({ ...BUNDLED_FARES, inrPerAed: rate });
 
-  it('rounds the way a person says it, grouped the Indian way', () => {
+  it('rounds to the nearest ten rupees, grouped the Indian way', () => {
     expect(rupees(5, at(26))).toBe('130');
+    expect(rupees(6, at(26))).toBe('160');
     expect(rupees(38, at(26))).toBe('990');
     expect(rupees(50, at(26))).toBe('1,300');
-    expect(rupees(1.5, at(26))).toBe('39');
+    expect(rupees(1.5, at(26))).toBe('40');
+  });
+
+  it('never calls a price that is not free ≈ ₹0', () => {
+    expect(rupees(0.1, at(26))).toBe('10');
+    expect(rupees(0, at(26))).toBe('0');
   });
 
   it('shows nothing rather than a guess when the pack has no rate', () => {

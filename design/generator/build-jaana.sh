@@ -61,7 +61,7 @@ cat <<H
       <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 8px; height: 8px; border-radius: 999px; background: $teal;"></span><span class="disp" style="font-size: 18px; font-weight: 600; color: $ink;">बुर्ज ख़लीफ़ा</span><span style="font-size: 12.5px; color: $muted;">· 9 किमी</span></div>
     </div>
     $(label 'कैसे जाएँ')
-$(opt metro 'मेट्रो' 'लाल लाइन · 1 बार बदलें · 800 मी पैदल' '38 मिनट' 'AED 6 · ≈ ₹155' yes)
+$(opt metro 'मेट्रो' 'लाल लाइन · 1 बार बदलें · 800 मी पैदल' '38 मिनट' 'AED 6 · ≈ ₹160' yes)
 $(opt bus 'बस' 'C7 फिर 27 · 300 मी पैदल' '55 मिनट' 'AED 5 · ≈ ₹130' no)
 $(opt taxi 'टैक्सी' 'Careem या सड़क से' '20 मिनट' '≈ AED 35 · ≈ ₹910' no)
 $(opt walk 'पैदल' 'गर्मी में नहीं' '1 घं 50 मि' 'मुफ़्त' no)
@@ -87,7 +87,7 @@ strip running set
 header metro "$teal" 'जाना' 'बुर्ज ख़लीफ़ा › मेट्रो'
 cat <<H
   <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 6px; padding: 6px 16px 12px 16px;">
-    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: 14px; background: $tealSoft;"><span style="font-size: 14px; font-weight: 700; color: $tealText;">38 मिनट · AED 6 · ≈ ₹155 · Nol कार्ड</span>$(clock 18 "$tealText" 2)</div>
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: 14px; background: $tealSoft;"><span style="font-size: 14px; font-weight: 700; color: $tealText;">38 मिनट · AED 6 · ≈ ₹160 · Nol कार्ड</span>$(clock 18 "$tealText" 2)</div>
     <div style="display: flex; flex-direction: column; padding-top: 8px;">
 $(step walk 'पैदल 500 मी — BurJuman स्टेशन तक' 'होटल से बाएँ, Khalid Bin Al Waleed रोड पर। 7 मिनट।')
 $(step metro 'BurJuman से लाल लाइन, Expo की ओर' 'पहली ट्रेन 5:00 · आख़िरी 12:00 · हर 4 मिनट में')

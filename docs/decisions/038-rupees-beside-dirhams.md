@@ -15,15 +15,15 @@ dirham's peg of 3.6725 that is ₹26.07. The rate lives in the fares pack (`inrP
 `inrRateOn` for the day it was fixed). It changes only when we decide the gap has grown too wide,
 and then by republishing the pack.
 
-Rupees are rounded the way a person says them: to the rupee under ₹100, to ₹5 under ₹1,000, to
-₹10 above. They are grouped the Indian way (₹1,300) and always carry "≈", because they are never
-what is charged.
+Rupees are rounded to the nearest ₹10, because the owner said they need not be exact. A price
+that is not free never reads ≈ ₹0. They are grouped the Indian way (₹1,300) and always carry "≈",
+because they are never what is charged.
 
 ## Why
 
 The budget traveller is the market. A family of four pays AED 20 more for chai and samosa at one
 counter than at the next. In rupees that is ₹520, and a person feels it at once in rupees and not
-in dirhams. On the options screen, the metro at ≈ ₹155 beside a taxi at ≈ ₹910 is the app's case
+in dirhams. On the options screen, the metro at ≈ ₹160 beside a taxi at ≈ ₹910 is the app's case
 made without a word.
 
 ## And so

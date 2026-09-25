@@ -56,7 +56,7 @@ cat <<H
     <span style="font-size: 13px; color: $muted;">4 जगहों पर मिलती है · नज़दीक पहले</span>
 $(orow 'Karama Cafe' 'करामा' 'शुद्ध शाकाहारी' 'AED 12 · ≈ ₹310 · व्रत हाँ' '650 मी')
 $(orow 'Puranmal' 'बुर दुबई' 'शुद्ध शाकाहारी' 'AED 15 · ≈ ₹390 · व्रत पूछकर' '1.4 किमी')
-$(orow 'Shree Krishna Bhavan' 'देरा' 'शुद्ध शाकाहारी' 'AED 14 · ≈ ₹365 · जैन पूछकर' '2.1 किमी')
+$(orow 'Shree Krishna Bhavan' 'देरा' 'शुद्ध शाकाहारी' 'AED 14 · ≈ ₹360 · जैन पूछकर' '2.1 किमी')
 $(orow 'Aangan Dhaba' 'डिस्कवरी गार्डन्स' 'मिश्रित' 'AED 18 · ≈ ₹470' '9 किमी')
     <span style="font-size: 12.5px; color: $muted; text-align: center; line-height: 1.45; padding-top: 4px;">हर जवाब किसी व्यक्ति से पूछा गया है। जहाँ नहीं पूछा गया, वहाँ "पूछकर" लिखा है।</span>
   </div>
@@ -92,12 +92,12 @@ cat <<H
     <div style="display: flex; flex-wrap: wrap; gap: 6px;">$(apill 'जैन' 'पूछकर' "$marigoldText")$(apill 'व्रत' 'पूछकर' "$marigoldText")$(apill 'बिना प्याज़-लहसुन' 'पूछकर' "$marigoldText")</div>
     $(label 'Dosas')
     <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;">
-      $(mitem 'Masala Dosa' 'AED 9 · ≈ ₹235' 'शाकाहारी')$(mitem 'Ghee Roast' 'AED 11 · ≈ ₹285' 'शाकाहारी')
-      $(mitem 'Onion Rava Dosa' 'AED 11 · ≈ ₹285' 'शाकाहारी')$(mitem 'Paper Roast' 'AED 12 · ≈ ₹310' 'शाकाहारी')
+      $(mitem 'Masala Dosa' 'AED 9 · ≈ ₹230' 'शाकाहारी')$(mitem 'Ghee Roast' 'AED 11 · ≈ ₹290' 'शाकाहारी')
+      $(mitem 'Onion Rava Dosa' 'AED 11 · ≈ ₹290' 'शाकाहारी')$(mitem 'Paper Roast' 'AED 12 · ≈ ₹310' 'शाकाहारी')
     </div>
     $(label 'Special Dosas')
     <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;">
-      $(mitem 'Butter Masala Dosa' 'AED 13 · ≈ ₹340' 'शाकाहारी')$(mitem 'Paneer Burji Dosa' 'AED 21 · ≈ ₹545' 'शाकाहारी')
+      $(mitem 'Butter Masala Dosa' 'AED 13 · ≈ ₹340' 'शाकाहारी')$(mitem 'Paneer Burji Dosa' 'AED 21 · ≈ ₹550' 'शाकाहारी')
     </div>
   </div>
 H
