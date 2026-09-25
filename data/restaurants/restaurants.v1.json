@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-25T13:48:25.976Z",
+  "publishedAt": "2026-09-25T14:04:34.748Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -42736,6 +42736,1054 @@
           "tags": ["vegetarian"],
           "priceAed": 2,
           "section": "Sides"
+        }
+      ]
+    },
+    {
+      "id": "113d8e4e-2f27-4183-9489-f6e25bacc658",
+      "name": {
+        "en": "AKG Soda Center",
+        "hi": "AKG Soda Center",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2581121,
+        "lng": 55.2978611
+      },
+      "areaId": "bur-dubai",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian"],
+      "phone": "04 546 9525",
+      "confirmedDishes": [
+        {
+          "name": {
+            "en": "Plain Soda",
+            "hi": "Plain Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Fizzy Drinks (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Masala Soda",
+            "hi": "Masala Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Fizzy Drinks (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Nimbu Soda",
+            "hi": "Nimbu Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Fizzy Drinks (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Nimbu Masala Soda",
+            "hi": "Nimbu Masala Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Fizzy Drinks (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Sing Soda (peanuts and kala khatta)",
+            "hi": "Sing Soda (peanuts and kala khatta)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Fizzy Drinks (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Jeera-Masala Soda",
+            "hi": "Jeera-Masala Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Fizzy Drinks (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Rim-Zim",
+            "hi": "Rim-Zim",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Fizzy Drinks (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Sosyo",
+            "hi": "Sosyo",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Fizzy Drinks (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Mazza Mango",
+            "hi": "Mazza Mango",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Fizzy Drinks (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Frooti",
+            "hi": "Frooti",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Fizzy Drinks (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Fountain Soda",
+            "hi": "Fountain Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Fizzy Drinks (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Special Soda",
+            "hi": "Special Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Fizzy Drinks (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Plain Goti Soda",
+            "hi": "Plain Goti Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Goti Soda (250 ml)"
+        },
+        {
+          "name": {
+            "en": "Masala Goti Soda",
+            "hi": "Masala Goti Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Goti Soda (250 ml)"
+        },
+        {
+          "name": {
+            "en": "Nimbu Goti Soda",
+            "hi": "Nimbu Goti Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Goti Soda (250 ml)"
+        },
+        {
+          "name": {
+            "en": "Nimbu Masala Goti Soda",
+            "hi": "Nimbu Masala Goti Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Goti Soda (250 ml)"
+        },
+        {
+          "name": {
+            "en": "Flavored Goti Soda",
+            "hi": "Flavored Goti Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Goti Soda (250 ml)"
+        },
+        {
+          "name": {
+            "en": "Limca Masala Soda",
+            "hi": "Limca Masala Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "AKG's Special (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Nimbu Pani",
+            "hi": "Nimbu Pani",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "AKG's Special (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Chhas Soda",
+            "hi": "Chhas Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "AKG's Special (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Falsa Drink",
+            "hi": "Falsa Drink",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "AKG's Special (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Sikanji",
+            "hi": "Sikanji",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "AKG's Special (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Fruit Salad",
+            "hi": "Fruit Salad",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "AKG's Special (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Jamun Shots",
+            "hi": "Jamun Shots",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "AKG's Special (300 ml)"
+        },
+        {
+          "name": {
+            "en": "AKG's Special Ice Dish (butterscotch)",
+            "hi": "AKG's Special Ice Dish (butterscotch)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Ice Dish Gola"
+        },
+        {
+          "name": {
+            "en": "Love Dose Ice Dish (strawberry & lychee)",
+            "hi": "Love Dose Ice Dish (strawberry & lychee)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Ice Dish Gola"
+        },
+        {
+          "name": {
+            "en": "Choco Chips Ice Dish",
+            "hi": "Choco Chips Ice Dish",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Ice Dish Gola"
+        },
+        {
+          "name": {
+            "en": "Mango Ice Dish",
+            "hi": "Mango Ice Dish",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Ice Dish Gola"
+        },
+        {
+          "name": {
+            "en": "Ice Dish Customised",
+            "hi": "Ice Dish Customised",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Ice Dish Gola"
+        },
+        {
+          "name": {
+            "en": "Plain Ice Dish",
+            "hi": "Plain Ice Dish",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Ice Dish Gola"
+        },
+        {
+          "name": {
+            "en": "Ice Gola",
+            "hi": "Ice Gola",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Ice Dish Gola"
+        },
+        {
+          "name": {
+            "en": "Ice Gola Customised",
+            "hi": "Ice Gola Customised",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Ice Dish Gola"
+        },
+        {
+          "name": {
+            "en": "Snow Ice Cup",
+            "hi": "Snow Ice Cup",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Ice Dish Gola"
+        },
+        {
+          "name": {
+            "en": "Mango Falooda",
+            "hi": "Mango Falooda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "AKG's Falooda (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Strawberry Falooda",
+            "hi": "Strawberry Falooda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "AKG's Falooda (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Pista Falooda",
+            "hi": "Pista Falooda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "AKG's Falooda (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Rose Falooda",
+            "hi": "Rose Falooda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "AKG's Falooda (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Butterscotch Falooda",
+            "hi": "Butterscotch Falooda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "AKG's Falooda (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Chocolate Falooda",
+            "hi": "Chocolate Falooda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "AKG's Falooda (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Kulfi Falooda",
+            "hi": "Kulfi Falooda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "AKG's Falooda (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Sugarcane Juice",
+            "hi": "Sugarcane Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Sugarcane with Pineapple",
+            "hi": "Sugarcane with Pineapple",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Fresh Juice",
+            "hi": "Fresh Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Kulfi",
+            "hi": "Kulfi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Ice Cream & Kulfi"
+        },
+        {
+          "name": {
+            "en": "Cone Ice Cream",
+            "hi": "Cone Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Ice Cream & Kulfi"
+        },
+        {
+          "name": {
+            "en": "Rajbhog Ice Cream",
+            "hi": "Rajbhog Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Ice Cream & Kulfi"
+        },
+        {
+          "name": {
+            "en": "Kaju-Draksh Ice Cream",
+            "hi": "Kaju-Draksh Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Ice Cream & Kulfi"
+        },
+        {
+          "name": {
+            "en": "Butterscotch Ice Cream",
+            "hi": "Butterscotch Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Ice Cream & Kulfi"
+        },
+        {
+          "name": {
+            "en": "American Dry-Fruits Ice Cream",
+            "hi": "American Dry-Fruits Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Ice Cream & Kulfi"
+        },
+        {
+          "name": {
+            "en": "Vanilla Ice Cream",
+            "hi": "Vanilla Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Ice Cream & Kulfi"
+        },
+        {
+          "name": {
+            "en": "Ice Cream",
+            "hi": "Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Ice Cream & Kulfi"
+        },
+        {
+          "name": {
+            "en": "Passion Fruit Mocktail",
+            "hi": "Passion Fruit Mocktail",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Mocktails (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Raspberry Mocktail",
+            "hi": "Raspberry Mocktail",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Mocktails (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Grape Mocktail",
+            "hi": "Grape Mocktail",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Mocktails (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Peach Mocktail",
+            "hi": "Peach Mocktail",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Mocktails (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Irish Coffee Mocktail",
+            "hi": "Irish Coffee Mocktail",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Mocktails (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Mixed Dried Fruit Lassi",
+            "hi": "Mixed Dried Fruit Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Lassi (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Kesar Lassi",
+            "hi": "Kesar Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Lassi (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Mango Lassi",
+            "hi": "Mango Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Lassi (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Pineapple Lassi",
+            "hi": "Pineapple Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Lassi (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Strawberry Lassi",
+            "hi": "Strawberry Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Lassi (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Chocolate Lassi",
+            "hi": "Chocolate Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Lassi (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Plain Sweet Lassi",
+            "hi": "Plain Sweet Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Lassi (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Masala Lassi",
+            "hi": "Masala Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Lassi (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Blue Curaçao",
+            "hi": "Blue Curaçao",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Cordials (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Piña Colada",
+            "hi": "Piña Colada",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Cordials (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Citrus Punch",
+            "hi": "Citrus Punch",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Cordials (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Grenadine",
+            "hi": "Grenadine",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Cordials (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Ginger & Lime",
+            "hi": "Ginger & Lime",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Cordials (300 ml)"
+        },
+        {
+          "name": {
+            "en": "AKG's Milkshake",
+            "hi": "AKG's Milkshake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Milk Shake (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Badam Shake",
+            "hi": "Badam Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Milk Shake (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Chocolate Shake",
+            "hi": "Chocolate Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Milk Shake (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Kaju Gulkand Shake",
+            "hi": "Kaju Gulkand Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Milk Shake (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Kitkat Shake",
+            "hi": "Kitkat Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Milk Shake (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Oreo Shake",
+            "hi": "Oreo Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Milk Shake (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Ferrero Rocher Shake",
+            "hi": "Ferrero Rocher Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Milk Shake (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Original Mojito",
+            "hi": "Original Mojito",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Mojito (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Mojito Lime & Mint",
+            "hi": "Mojito Lime & Mint",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Mojito (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Strawberry Mojito",
+            "hi": "Strawberry Mojito",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Mojito (300 ml)"
+        },
+        {
+          "name": {
+            "en": "Kesar-Pista Shrikhand",
+            "hi": "Kesar-Pista Shrikhand",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Shrikhand"
+        },
+        {
+          "name": {
+            "en": "Rajbhog Shrikhand",
+            "hi": "Rajbhog Shrikhand",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Shrikhand"
+        },
+        {
+          "name": {
+            "en": "Plain Shrikhand",
+            "hi": "Plain Shrikhand",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Shrikhand"
+        },
+        {
+          "name": {
+            "en": "Black Tea",
+            "hi": "Black Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Tea"
+        },
+        {
+          "name": {
+            "en": "AKG's Chai",
+            "hi": "AKG's Chai",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Tea"
+        },
+        {
+          "name": {
+            "en": "Kashmiri Tea",
+            "hi": "Kashmiri Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Tea"
+        },
+        {
+          "name": {
+            "en": "Hot Chocolate",
+            "hi": "Hot Chocolate",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Tea"
+        },
+        {
+          "name": {
+            "en": "Lemon Tea",
+            "hi": "Lemon Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Tea"
+        },
+        {
+          "name": {
+            "en": "Matcha (hot / iced)",
+            "hi": "Matcha (hot / iced)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Tea"
+        },
+        {
+          "name": {
+            "en": "Roasted Sandwich (Jain)",
+            "hi": "Roasted Sandwich (Jain)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Jain Food"
+        },
+        {
+          "name": {
+            "en": "Jain Sandwich",
+            "hi": "Jain Sandwich",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Jain Food"
+        },
+        {
+          "name": {
+            "en": "Jain Puff",
+            "hi": "Jain Puff",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Jain Food"
+        },
+        {
+          "name": {
+            "en": "Cheese Sandwich",
+            "hi": "Cheese Sandwich",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Something to Eat"
+        },
+        {
+          "name": {
+            "en": "Bombay Sandwich",
+            "hi": "Bombay Sandwich",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Something to Eat"
+        },
+        {
+          "name": {
+            "en": "Aloo Sandwich",
+            "hi": "Aloo Sandwich",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Something to Eat"
+        },
+        {
+          "name": {
+            "en": "Veg Sandwich",
+            "hi": "Veg Sandwich",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Something to Eat"
+        },
+        {
+          "name": {
+            "en": "Chinese Puff",
+            "hi": "Chinese Puff",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Something to Eat"
+        },
+        {
+          "name": {
+            "en": "Veg Puff",
+            "hi": "Veg Puff",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Something to Eat"
+        },
+        {
+          "name": {
+            "en": "Dabeli (1 piece)",
+            "hi": "Dabeli (1 piece)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Something to Eat"
+        },
+        {
+          "name": {
+            "en": "Pani Puri (6+1 pieces)",
+            "hi": "Pani Puri (6+1 pieces)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Something to Eat"
+        },
+        {
+          "name": {
+            "en": "Special Maska Bun (with tea)",
+            "hi": "Special Maska Bun (with tea)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Something to Eat"
+        },
+        {
+          "name": {
+            "en": "Stick Waffle (Rocher Wand / Oreo Stick)",
+            "hi": "Stick Waffle (Rocher Wand / Oreo Stick)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Waffles & Desserts"
+        },
+        {
+          "name": {
+            "en": "Waffle (Oreo Crumbles / Ferrero Delight)",
+            "hi": "Waffle (Oreo Crumbles / Ferrero Delight)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Waffles & Desserts"
+        },
+        {
+          "name": {
+            "en": "Brownie (2 pieces)",
+            "hi": "Brownie (2 pieces)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 4,
+          "section": "Waffles & Desserts"
         }
       ]
     }
