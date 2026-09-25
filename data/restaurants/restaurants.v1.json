@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-25T08:19:15.974Z",
+  "publishedAt": "2026-09-25T08:35:37.841Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -16318,6 +16318,684 @@
           "tags": ["vegetarian"],
           "priceAed": 6.25,
           "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Veg Fried Rice",
+            "hi": "Veg Fried Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10.5,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Schezwan Fried Rice",
+            "hi": "Schezwan Fried Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12.5,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg Hakka Noodles",
+            "hi": "Veg Hakka Noodles",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12.5,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg Chow Mein",
+            "hi": "Veg Chow Mein",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12.5,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg Hakka Noodles with Manchurian",
+            "hi": "Veg Hakka Noodles with Manchurian",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg Manchurian Gravy / Dry",
+            "hi": "Veg Manchurian Gravy / Dry",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12.5,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg Manchurian Triple Rice",
+            "hi": "Veg Manchurian Triple Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg Schezwan Triple Rice",
+            "hi": "Veg Schezwan Triple Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Hot & Sour Soup",
+            "hi": "Hot & Sour Soup",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10.5,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg Manchow Soup",
+            "hi": "Veg Manchow Soup",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10.5,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Tomato Soup",
+            "hi": "Tomato Soup",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8.5,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg Spring Roll",
+            "hi": "Veg Spring Roll",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12.5,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg Lollipop",
+            "hi": "Veg Lollipop",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12.5,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg Chinese Bhel",
+            "hi": "Veg Chinese Bhel",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10.5,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg Crispy",
+            "hi": "Veg Crispy",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12.5,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg Schezwan Noodles",
+            "hi": "Veg Schezwan Noodles",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14.75,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Paneer Chilli Dry",
+            "hi": "Paneer Chilli Dry",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16.75,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Paneer Manchurian Dry",
+            "hi": "Paneer Manchurian Dry",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16.75,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Paneer Manchurian Gravy",
+            "hi": "Paneer Manchurian Gravy",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16.75,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Jeera Fried Rice",
+            "hi": "Jeera Fried Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10.5,
+          "section": "Bombay Chinese"
+        },
+        {
+          "name": {
+            "en": "Schezwan Rice with Manchurian",
+            "hi": "Schezwan Rice with Manchurian",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Bombay Chinese"
+        }
+      ]
+    },
+    {
+      "id": "d187ec7c-4d8a-42f0-a11f-60e96504b866",
+      "name": {
+        "en": "Bharat Restaurant",
+        "hi": "Bharat Restaurant",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2598061,
+        "lng": 55.2978162
+      },
+      "areaId": "meena-bazaar",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian"],
+      "phone": "04 359 6651",
+      "confirmedDishes": [
+        {
+          "name": {
+            "en": "Aloo Paratha + Dal + Dahi",
+            "hi": "Aloo Paratha + Dal + Dahi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Hara Bhara Paratha + Dal + Dahi",
+            "hi": "Hara Bhara Paratha + Dal + Dahi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Gobi Paratha + Dal + Dahi",
+            "hi": "Gobi Paratha + Dal + Dahi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Methi Paratha + Dal + Dahi",
+            "hi": "Methi Paratha + Dal + Dahi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Methi Aloo Paratha + Dal + Dahi",
+            "hi": "Methi Aloo Paratha + Dal + Dahi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Aloo Gobi Mix Paratha + Dal + Dahi",
+            "hi": "Aloo Gobi Mix Paratha + Dal + Dahi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Koki Paratha (Sindhi Special) + Dal + Dahi",
+            "hi": "Koki Paratha (Sindhi Special) + Dal + Dahi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Pudina Paratha Mix + Dal + Dahi",
+            "hi": "Pudina Paratha Mix + Dal + Dahi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Cocktail Paratha Mix + Dal + Dahi",
+            "hi": "Cocktail Paratha Mix + Dal + Dahi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Kali Mirchi Paratha + Dal + Dahi",
+            "hi": "Kali Mirchi Paratha + Dal + Dahi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Mooli Paratha (seasonal)",
+            "hi": "Mooli Paratha (seasonal)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Paneer Paratha",
+            "hi": "Paneer Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Moong Paratha",
+            "hi": "Moong Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Special Poha",
+            "hi": "Special Poha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Puri Bhaji (4 pcs)",
+            "hi": "Puri Bhaji (4 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Dal Pakwan (2 pcs)",
+            "hi": "Dal Pakwan (2 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Seyal Phulka (Sindhi dish)",
+            "hi": "Seyal Phulka (Sindhi dish)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Chole Bhature",
+            "hi": "Chole Bhature",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Break Your Fast (from 8 am)"
+        },
+        {
+          "name": {
+            "en": "Special Lassi",
+            "hi": "Special Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Cold Drink",
+            "hi": "Cold Drink",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Water Bottle (big)",
+            "hi": "Water Bottle (big)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Water Bottle (small)",
+            "hi": "Water Bottle (small)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Mango Lassi",
+            "hi": "Mango Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Raj Kachori",
+            "hi": "Raj Kachori",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Pav Bhaji",
+            "hi": "Pav Bhaji",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Vada Pav",
+            "hi": "Vada Pav",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Samosa Pav",
+            "hi": "Samosa Pav",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Bhel Puri",
+            "hi": "Bhel Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Dahi Puri",
+            "hi": "Dahi Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Pani Puri",
+            "hi": "Pani Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Sev Puri",
+            "hi": "Sev Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Chana Chaat",
+            "hi": "Chana Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Tikki Chaat",
+            "hi": "Tikki Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Aloo Chaat",
+            "hi": "Aloo Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Papdi Chaat",
+            "hi": "Papdi Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Samosa Chaat",
+            "hi": "Samosa Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Kachori Chaat",
+            "hi": "Kachori Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Onion Kachori Chaat",
+            "hi": "Onion Kachori Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Onion Kachori Dahi",
+            "hi": "Onion Kachori Dahi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Veg Burger",
+            "hi": "Veg Burger",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Dabeli",
+            "hi": "Dabeli",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Misal Pav",
+            "hi": "Misal Pav",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Chat Pata Chaat (4 pm – 11 pm)"
+        },
+        {
+          "name": {
+            "en": "Unlimited Veg Thali (on table)",
+            "hi": "Unlimited Veg Thali (on table)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Thali"
+        },
+        {
+          "name": {
+            "en": "Thali Parcel",
+            "hi": "Thali Parcel",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Thali"
+        },
+        {
+          "name": {
+            "en": "Full Parcel",
+            "hi": "Full Parcel",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Thali"
+        },
+        {
+          "name": {
+            "en": "Extra Roti (each)",
+            "hi": "Extra Roti (each)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Thali"
         }
       ]
     }
