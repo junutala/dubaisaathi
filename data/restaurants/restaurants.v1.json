@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-25T08:41:47.381Z",
+  "publishedAt": "2026-09-25T09:09:48.051Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -18544,6 +18544,1477 @@
           "tags": ["vegetarian"],
           "priceAed": 4,
           "section": "SOFT & HOT DRINK"
+        }
+      ]
+    },
+    {
+      "id": "dba80210-719f-4068-bee0-18be09edf60b",
+      "name": {
+        "en": "Al Ustad Special Kabab",
+        "hi": "Al Ustad Special Kabab",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2596452,
+        "lng": 55.2986077
+      },
+      "areaId": "bur-dubai",
+      "kitchen": "mixed",
+      "tags": [],
+      "phone": "04 397 1469",
+      "confirmedDishes": [
+        {
+          "name": {
+            "en": "Cholo Khoresht (Okra Meat / Egg Plant Meat / Potato Meat / Potato Chicken)",
+            "hi": "Cholo Khoresht (Okra Meat / Egg Plant Meat / Potato Meat / Potato Chicken)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 38,
+          "section": "Lunch"
+        },
+        {
+          "name": {
+            "en": "Cholo Gousht (boiled mutton with rice)",
+            "hi": "Cholo Gousht (boiled mutton with rice)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 38,
+          "section": "Lunch"
+        },
+        {
+          "name": {
+            "en": "Cholo Mourgh (half chicken fried, with rice)",
+            "hi": "Cholo Mourgh (half chicken fried, with rice)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 38,
+          "section": "Lunch"
+        },
+        {
+          "name": {
+            "en": "Cholo Mahi (fried fish with rice)",
+            "hi": "Cholo Mahi (fried fish with rice)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 38,
+          "section": "Lunch"
+        },
+        {
+          "name": {
+            "en": "Kabab Khas (Special Kabab), mutton or chicken",
+            "hi": "Kabab Khas (Special Kabab), mutton or chicken",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 42,
+          "section": "Dinner"
+        },
+        {
+          "name": {
+            "en": "Kabab Koubideh (minced mutton or chicken, with bread)",
+            "hi": "Kabab Koubideh (minced mutton or chicken, with bread)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 48,
+          "section": "Dinner"
+        },
+        {
+          "name": {
+            "en": "Cholo Kabab (minced mutton or chicken, with rice)",
+            "hi": "Cholo Kabab (minced mutton or chicken, with rice)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 42,
+          "section": "Dinner"
+        },
+        {
+          "name": {
+            "en": "Joujeh Kabab (saffron chicken)",
+            "hi": "Joujeh Kabab (saffron chicken)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 42,
+          "section": "Dinner"
+        },
+        {
+          "name": {
+            "en": "Sultani (mutton tenderloin and minced kabab, with rice)",
+            "hi": "Sultani (mutton tenderloin and minced kabab, with rice)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 60,
+          "section": "Dinner"
+        },
+        {
+          "name": {
+            "en": "Khorak Sultani (Koubideh and Barg, with bread)",
+            "hi": "Khorak Sultani (Koubideh and Barg, with bread)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 50,
+          "section": "Dinner"
+        },
+        {
+          "name": {
+            "en": "Cholo Barg (tenderloin meat with rice)",
+            "hi": "Cholo Barg (tenderloin meat with rice)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 44,
+          "section": "Dinner"
+        },
+        {
+          "name": {
+            "en": "Khorak Barg (tenderloin meat with bread)",
+            "hi": "Khorak Barg (tenderloin meat with bread)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 34,
+          "section": "Dinner"
+        },
+        {
+          "name": {
+            "en": "Khorak Bahraini (mutton or chicken in dry lemon)",
+            "hi": "Khorak Bahraini (mutton or chicken in dry lemon)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 42,
+          "section": "Dinner"
+        },
+        {
+          "name": {
+            "en": "Chicken Breast (barbecued)",
+            "hi": "Chicken Breast (barbecued)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 42,
+          "section": "Dinner"
+        },
+        {
+          "name": {
+            "en": "Mix 1 (mutton and chicken with yoghurt, shish kabab)",
+            "hi": "Mix 1 (mutton and chicken with yoghurt, shish kabab)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 53,
+          "section": "Different Mixes"
+        },
+        {
+          "name": {
+            "en": "Mix 2 (mutton and chicken with yoghurt, joujeh kabab, shish kabab)",
+            "hi": "Mix 2 (mutton and chicken with yoghurt, joujeh kabab, shish kabab)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 53,
+          "section": "Different Mixes"
+        },
+        {
+          "name": {
+            "en": "Mix 3 (mutton and chicken with yoghurt)",
+            "hi": "Mix 3 (mutton and chicken with yoghurt)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 42,
+          "section": "Different Mixes"
+        },
+        {
+          "name": {
+            "en": "Mix 4 (joujeh kabab and shish kabab)",
+            "hi": "Mix 4 (joujeh kabab and shish kabab)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 53,
+          "section": "Different Mixes"
+        },
+        {
+          "name": {
+            "en": "Mix 5 (Bahraini mix and chicken shish kabab)",
+            "hi": "Mix 5 (Bahraini mix and chicken shish kabab)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 58,
+          "section": "Different Mixes"
+        },
+        {
+          "name": {
+            "en": "Soup (chicken soup)",
+            "hi": "Soup (chicken soup)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Different Mixes"
+        },
+        {
+          "name": {
+            "en": "Rice (white rice with saffron or mixed rice)",
+            "hi": "Rice (white rice with saffron or mixed rice)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Different Mixes"
+        },
+        {
+          "name": {
+            "en": "Green Rice (with broad beans)",
+            "hi": "Green Rice (with broad beans)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Different Mixes"
+        },
+        {
+          "name": {
+            "en": "Hummus",
+            "hi": "Hummus",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Different Mixes"
+        }
+      ]
+    },
+    {
+      "id": "710c8e3a-e49a-4f35-b328-f4a60b0fc240",
+      "name": {
+        "en": "Hot Burger Cafeteria",
+        "hi": "Hot Burger Cafeteria",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2553239,
+        "lng": 55.3035753
+      },
+      "areaId": "bur-dubai",
+      "kitchen": "mixed",
+      "tags": [],
+      "phone": "04 397 5090",
+      "confirmedDishes": [
+        {
+          "name": {
+            "en": "Grilled Chicken (Spicy / Normal)",
+            "hi": "Grilled Chicken (Spicy / Normal)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 17,
+          "section": "Grilling"
+        },
+        {
+          "name": {
+            "en": "Shawarma Special",
+            "hi": "Shawarma Special",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Shawarma"
+        },
+        {
+          "name": {
+            "en": "Shawarma Plate",
+            "hi": "Shawarma Plate",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Shawarma"
+        },
+        {
+          "name": {
+            "en": "Arabic Shawarma",
+            "hi": "Arabic Shawarma",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Shawarma"
+        },
+        {
+          "name": {
+            "en": "Kerala Shawarma",
+            "hi": "Kerala Shawarma",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 7,
+          "section": "Shawarma"
+        },
+        {
+          "name": {
+            "en": "Shawarma",
+            "hi": "Shawarma",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 6,
+          "section": "Shawarma"
+        },
+        {
+          "name": {
+            "en": "Big Shawarma",
+            "hi": "Big Shawarma",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Shawarma"
+        },
+        {
+          "name": {
+            "en": "Shawarma Club",
+            "hi": "Shawarma Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Shawarma"
+        },
+        {
+          "name": {
+            "en": "Shawarma Poratta",
+            "hi": "Shawarma Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 7,
+          "section": "Shawarma"
+        },
+        {
+          "name": {
+            "en": "Falafel Sandwich",
+            "hi": "Falafel Sandwich",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Shawarma"
+        },
+        {
+          "name": {
+            "en": "Strips Meal (5 pcs, fries, bun)",
+            "hi": "Strips Meal (5 pcs, fries, bun)",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Broasted Chicken"
+        },
+        {
+          "name": {
+            "en": "Mini Family Strips Meal (10 pcs)",
+            "hi": "Mini Family Strips Meal (10 pcs)",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Broasted Chicken"
+        },
+        {
+          "name": {
+            "en": "Snack Meal (2 pcs chicken, fries, bun, Pepsi)",
+            "hi": "Snack Meal (2 pcs chicken, fries, bun, Pepsi)",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Broasted Chicken"
+        },
+        {
+          "name": {
+            "en": "Jumbo Meal (6 pcs chicken, fries, coleslaw, bun, 2 Pepsi)",
+            "hi": "Jumbo Meal (6 pcs chicken, fries, coleslaw, bun, 2 Pepsi)",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Broasted Chicken"
+        },
+        {
+          "name": {
+            "en": "Family Meal (10 pcs chicken, fries, bun, garlic, Pepsi)",
+            "hi": "Family Meal (10 pcs chicken, fries, bun, garlic, Pepsi)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 50,
+          "section": "Broasted Chicken"
+        },
+        {
+          "name": {
+            "en": "Chicken Noodles",
+            "hi": "Chicken Noodles",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Noodles"
+        },
+        {
+          "name": {
+            "en": "Beef Noodles",
+            "hi": "Beef Noodles",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Noodles"
+        },
+        {
+          "name": {
+            "en": "Mix Noodles",
+            "hi": "Mix Noodles",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Noodles"
+        },
+        {
+          "name": {
+            "en": "Veg / Egg Noodles",
+            "hi": "Veg / Egg Noodles",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Noodles"
+        },
+        {
+          "name": {
+            "en": "Prawns Noodles",
+            "hi": "Prawns Noodles",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Noodles"
+        },
+        {
+          "name": {
+            "en": "Chicken Fried Rice",
+            "hi": "Chicken Fried Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Fried Rice"
+        },
+        {
+          "name": {
+            "en": "Beef Fried Rice",
+            "hi": "Beef Fried Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Fried Rice"
+        },
+        {
+          "name": {
+            "en": "Mix Fried Rice",
+            "hi": "Mix Fried Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Fried Rice"
+        },
+        {
+          "name": {
+            "en": "Veg / Egg Fried Rice",
+            "hi": "Veg / Egg Fried Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Fried Rice"
+        },
+        {
+          "name": {
+            "en": "Prawns Fried Rice",
+            "hi": "Prawns Fried Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Fried Rice"
+        },
+        {
+          "name": {
+            "en": "Chicken Schezwan Noodles / Fried Rice",
+            "hi": "Chicken Schezwan Noodles / Fried Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Schezwan Noodles / Fried Rice"
+        },
+        {
+          "name": {
+            "en": "Beef Schezwan Noodles / Fried Rice",
+            "hi": "Beef Schezwan Noodles / Fried Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 17,
+          "section": "Schezwan Noodles / Fried Rice"
+        },
+        {
+          "name": {
+            "en": "Prawns Schezwan Noodles / Fried Rice",
+            "hi": "Prawns Schezwan Noodles / Fried Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 17,
+          "section": "Schezwan Noodles / Fried Rice"
+        },
+        {
+          "name": {
+            "en": "Egg Schezwan Noodles / Fried Rice",
+            "hi": "Egg Schezwan Noodles / Fried Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Schezwan Noodles / Fried Rice"
+        },
+        {
+          "name": {
+            "en": "Veg Schezwan Noodles / Fried Rice",
+            "hi": "Veg Schezwan Noodles / Fried Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Schezwan Noodles / Fried Rice"
+        },
+        {
+          "name": {
+            "en": "Mix Schezwan Noodles / Fried Rice",
+            "hi": "Mix Schezwan Noodles / Fried Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 19,
+          "section": "Schezwan Noodles / Fried Rice"
+        },
+        {
+          "name": {
+            "en": "Chicken Pasta",
+            "hi": "Chicken Pasta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Pasta Special"
+        },
+        {
+          "name": {
+            "en": "Beef Pasta",
+            "hi": "Beef Pasta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Pasta Special"
+        },
+        {
+          "name": {
+            "en": "Veg Pasta",
+            "hi": "Veg Pasta",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Pasta Special"
+        },
+        {
+          "name": {
+            "en": "Egg Pasta",
+            "hi": "Egg Pasta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Pasta Special"
+        },
+        {
+          "name": {
+            "en": "Mix Pasta",
+            "hi": "Mix Pasta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Pasta Special"
+        },
+        {
+          "name": {
+            "en": "Grill Chicken with Rice",
+            "hi": "Grill Chicken with Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Plate Items Special"
+        },
+        {
+          "name": {
+            "en": "Broasted with Rice",
+            "hi": "Broasted with Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Plate Items Special"
+        },
+        {
+          "name": {
+            "en": "Chicken Fried Wings",
+            "hi": "Chicken Fried Wings",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Plate Items Special"
+        },
+        {
+          "name": {
+            "en": "Chicken Fried Lollipop",
+            "hi": "Chicken Fried Lollipop",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Plate Items Special"
+        },
+        {
+          "name": {
+            "en": "Chicken Loaded Fries",
+            "hi": "Chicken Loaded Fries",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Plate Items Special"
+        },
+        {
+          "name": {
+            "en": "Momos Veg / Chicken (6 pcs)",
+            "hi": "Momos Veg / Chicken (6 pcs)",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Plate Items Special"
+        },
+        {
+          "name": {
+            "en": "French Fries",
+            "hi": "French Fries",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Plate Items Special"
+        },
+        {
+          "name": {
+            "en": "Green Salad",
+            "hi": "Green Salad",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Plate Items Special"
+        },
+        {
+          "name": {
+            "en": "Hummus Set",
+            "hi": "Hummus Set",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Plate Items Special"
+        },
+        {
+          "name": {
+            "en": "Chicken Popcorn Plate",
+            "hi": "Chicken Popcorn Plate",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Plate Items Special"
+        },
+        {
+          "name": {
+            "en": "Potato Wedges",
+            "hi": "Potato Wedges",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Plate Items Special"
+        },
+        {
+          "name": {
+            "en": "Falafel Plate",
+            "hi": "Falafel Plate",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Plate Items Special"
+        },
+        {
+          "name": {
+            "en": "Chicken Nuggets Plate",
+            "hi": "Chicken Nuggets Plate",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Plate Items Special"
+        },
+        {
+          "name": {
+            "en": "Chicken Fillet Plate",
+            "hi": "Chicken Fillet Plate",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Plate Items Special"
+        },
+        {
+          "name": {
+            "en": "Mega Zinger Burger",
+            "hi": "Mega Zinger Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Burger Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Hammour Burger",
+            "hi": "Hammour Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Burger Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Chicken / Beef Burger",
+            "hi": "Chicken / Beef Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Burger Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Vegetable Burger",
+            "hi": "Vegetable Burger",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Burger Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Cajun Burger",
+            "hi": "Cajun Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Burger Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Chicken Lemon Burger",
+            "hi": "Chicken Lemon Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Burger Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Zinger Burger",
+            "hi": "Zinger Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Burger Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Mexican Burger",
+            "hi": "Mexican Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Burger Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Chicken Tikka Burger",
+            "hi": "Chicken Tikka Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Burger Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Italian Burger",
+            "hi": "Italian Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Burger Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Chicken Fillet Combo",
+            "hi": "Chicken Fillet Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Combo Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Egg Combo",
+            "hi": "Egg Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Combo Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Veg Combo",
+            "hi": "Veg Combo",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Combo Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Cajun Combo",
+            "hi": "Cajun Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Combo Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Kabab Combo",
+            "hi": "Kabab Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Combo Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Nuggets Combo",
+            "hi": "Nuggets Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Combo Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Italian Combo",
+            "hi": "Italian Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Combo Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Chicken Tikka Combo",
+            "hi": "Chicken Tikka Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Combo Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Mexican Combo",
+            "hi": "Mexican Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Combo Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Zinger Combo",
+            "hi": "Zinger Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Combo Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Chicken Lemon Combo",
+            "hi": "Chicken Lemon Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Combo Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Hotdog Combo",
+            "hi": "Hotdog Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Combo Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Veg Club",
+            "hi": "Veg Club",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Club Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Chicken / Beef Club",
+            "hi": "Chicken / Beef Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Club Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Zinger Club",
+            "hi": "Zinger Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Club Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Hammour Club",
+            "hi": "Hammour Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Club Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Italian Club",
+            "hi": "Italian Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Club Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Tandoori Club",
+            "hi": "Tandoori Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Club Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Kabab Club",
+            "hi": "Kabab Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Club Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Zinger Wrap",
+            "hi": "Zinger Wrap",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Wrap Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Italian Twister",
+            "hi": "Italian Twister",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Wrap Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Veg Wrap",
+            "hi": "Veg Wrap",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Wrap Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Chicken Mayonnaise Poratta",
+            "hi": "Chicken Mayonnaise Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 5,
+          "section": "Poratta Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Beef Poratta",
+            "hi": "Beef Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 6,
+          "section": "Poratta Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Chicken Chilli Poratta",
+            "hi": "Chicken Chilli Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 6,
+          "section": "Poratta Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Egg Omelette Poratta",
+            "hi": "Egg Omelette Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 4,
+          "section": "Poratta Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Oman Chips Poratta",
+            "hi": "Oman Chips Poratta",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Poratta Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Hotdog Poratta",
+            "hi": "Hotdog Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 6,
+          "section": "Poratta Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Zinger Poratta",
+            "hi": "Zinger Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Poratta Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Francisco Poratta",
+            "hi": "Francisco Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Poratta Sandwiches"
+        },
+        {
+          "name": {
+            "en": "Chicken Slice",
+            "hi": "Chicken Slice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 5,
+          "section": "Slices"
+        },
+        {
+          "name": {
+            "en": "Omelette Slice",
+            "hi": "Omelette Slice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 4,
+          "section": "Slices"
+        },
+        {
+          "name": {
+            "en": "Veg Slice",
+            "hi": "Veg Slice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Slices"
+        },
+        {
+          "name": {
+            "en": "Boiled Egg Slice",
+            "hi": "Boiled Egg Slice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 4,
+          "section": "Slices"
+        },
+        {
+          "name": {
+            "en": "Tea",
+            "hi": "Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Hot Drinks"
+        },
+        {
+          "name": {
+            "en": "Fresh Milk",
+            "hi": "Fresh Milk",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Hot Drinks"
+        },
+        {
+          "name": {
+            "en": "Horlicks",
+            "hi": "Horlicks",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Hot Drinks"
+        },
+        {
+          "name": {
+            "en": "Boost",
+            "hi": "Boost",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Hot Drinks"
+        },
+        {
+          "name": {
+            "en": "Coffee",
+            "hi": "Coffee",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Hot Drinks"
+        },
+        {
+          "name": {
+            "en": "Avocado Juice",
+            "hi": "Avocado Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Strawberry Juice",
+            "hi": "Strawberry Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Mango Juice",
+            "hi": "Mango Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Apple Juice",
+            "hi": "Apple Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Pomegranate Juice",
+            "hi": "Pomegranate Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Sweet Melon Juice",
+            "hi": "Sweet Melon Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Chickoo Juice",
+            "hi": "Chickoo Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Grape Juice",
+            "hi": "Grape Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Pineapple Juice",
+            "hi": "Pineapple Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Papaya Juice",
+            "hi": "Papaya Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Lemon Juice",
+            "hi": "Lemon Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Lemon Mint",
+            "hi": "Lemon Mint",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Banana Juice",
+            "hi": "Banana Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Orange Juice",
+            "hi": "Orange Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Watermelon Juice",
+            "hi": "Watermelon Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Carrot Juice",
+            "hi": "Carrot Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Kiwi Juice",
+            "hi": "Kiwi Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Guava Juice",
+            "hi": "Guava Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Lemon Mint Mojito",
+            "hi": "Lemon Mint Mojito",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Blue Lagoon Mojito",
+            "hi": "Blue Lagoon Mojito",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Passion Fruit Mojito",
+            "hi": "Passion Fruit Mojito",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Fresh Juices"
+        },
+        {
+          "name": {
+            "en": "Mango / Strawberry / Avocado Falooda",
+            "hi": "Mango / Strawberry / Avocado Falooda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Special Juices & Milkshakes"
+        },
+        {
+          "name": {
+            "en": "Snickers Milkshake",
+            "hi": "Snickers Milkshake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Special Juices & Milkshakes"
+        },
+        {
+          "name": {
+            "en": "Galaxy Milkshake",
+            "hi": "Galaxy Milkshake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Special Juices & Milkshakes"
+        },
+        {
+          "name": {
+            "en": "Oreo Milkshake",
+            "hi": "Oreo Milkshake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Special Juices & Milkshakes"
         }
       ]
     }
