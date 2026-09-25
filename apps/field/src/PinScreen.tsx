@@ -77,7 +77,7 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
   const [fix, setFix] = useState<Fix | null>(null);
   const [queue, setQueue] = useState<SyncOutcome>({ pending: 0, sent: 0 });
   const [saved, setSaved] = useState<{ serial: string; id: string } | null>(null);
-  const [taking, setTaking] = useState(false);
+  const [saving, setSaving] = useState(false);
   /** The menu's first page, shrunk as it was picked. Optional: many counters do not hand one over. */
   const [firstPage, setFirstPage] = useState<Blob | null>(null);
   /**
@@ -118,12 +118,9 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
 
   async function save() {
     const who = collectorName();
-    if (!ready || who === null || taking) return;
-    setTaking(true);
-    const fresh = await freshFix();
-    setTaking(false);
-    const at = fresh ?? fix;
-    if (fresh !== null) setFix(fresh);
+    if (!ready || who === null || saving) return;
+    setSaving(true);
+    const at = fix;
     const id = crypto.randomUUID();
     const pageId = `${id}-menu-0`;
     const whatsappId = `${id}-menu-whatsapp`;
@@ -173,6 +170,23 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
 
     setSaved({ serial, id });
     setSerial(advanceSerial());
+    setSaving(false);
+
+    /**
+     * The fresh reading is taken after the confirmation, never before it. Waiting for it at the
+     * tick greyed the button for up to eight seconds on a cold GPS, and the owner refreshed the
+     * page thinking the next number would never come (Karama, 25 September). The pin is saved at
+     * once on the watched fix, then moved to the fresh reading when the phone gives one — and
+     * sent again if it had already gone, which the server takes as the same row.
+     */
+    const fresh = await freshFix();
+    if (fresh !== null) {
+      setFix(fresh);
+      await db.reports.update(id, {
+        location: { lat: fresh.lat, lng: fresh.lng },
+        uploaded: false,
+      });
+    }
     setQueue(await syncReports());
   }
 
@@ -385,7 +399,7 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
       <button
         type="button"
         className="pin-done-btn"
-        disabled={!ready || taking}
+        disabled={!ready || saving}
         onClick={() => void save()}
       >
         <svg

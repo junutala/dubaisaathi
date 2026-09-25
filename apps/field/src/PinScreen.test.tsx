@@ -124,11 +124,14 @@ describe('the rider’s pin', () => {
     } as GeolocationPosition;
     fireEvent.click(container.querySelector<HTMLButtonElement>('.pin-done-btn')!);
 
-    await waitFor(async () => {
-      expect(await db.reports.count()).toBe(1);
+    // The confirmation comes at once; the fresh reading moves the pin just after it.
+    await waitFor(() => {
+      expect(document.querySelector('.pin-done-serial')).toBeTruthy();
     });
-    const [report] = await db.reports.toArray();
-    expect(report?.location).toEqual({ lat: 25.2607, lng: 55.2953 });
+    await waitFor(async () => {
+      const [report] = await db.reports.toArray();
+      expect(report?.location).toEqual({ lat: 25.2607, lng: 55.2953 });
+    });
   });
 
   it('says where the menu is when it did not come with the pin', async () => {
