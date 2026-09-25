@@ -131,7 +131,9 @@ export function searchOutlets(
     }))
     .sort((a, b) => {
       if (a.confirmed !== b.confirmed) return a.confirmed ? -1 : 1;
-      return (a.km ?? 0) - (b.km ?? 0);
+      // Nearest first; with no location at all, by name — never the order they were uploaded in.
+      const nearer = (a.km ?? 0) - (b.km ?? 0);
+      return nearer !== 0 ? nearer : a.outlet.name.en.localeCompare(b.outlet.name.en, 'en');
     });
 
   return {
