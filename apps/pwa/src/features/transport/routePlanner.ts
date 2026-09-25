@@ -45,6 +45,12 @@ export interface PlannedLeg extends RouteLeg {
   /** Stations or stops passed, so 2.2 can say "रेड लाइन · 4 स्टेशन". */
   readonly stops: number;
   readonly distanceM: number;
+  /**
+   * Every stop the leg passes, boarding stop first, alighting stop last — what नक्शा draws the
+   * ride through (decision 035). The journey's own two ends appear as `ORIGIN_NODE_ID` and
+   * `DESTINATION_NODE_ID`.
+   */
+  readonly path: readonly string[];
   /** Which way the vehicle is headed, for "Expo की ओर" (`TransportLine.towards`). */
   readonly direction?: 0 | 1;
   /** First and last departure from the boarding stop on this line, weekday, Dubai clock. */
@@ -351,6 +357,7 @@ function toLegs(steps: readonly Step[]): readonly PlannedLeg[] {
         durationSeconds: last.durationSeconds + step.link.seconds,
         stops: last.stops + 1,
         distanceM: last.distanceM + step.link.distanceM,
+        path: [...last.path, step.link.to],
       };
       continue;
     }
@@ -362,6 +369,7 @@ function toLegs(steps: readonly Step[]): readonly PlannedLeg[] {
       durationSeconds: link.seconds,
       stops: 1,
       distanceM: link.distanceM,
+      path: [step.from, link.to],
       ...(link.line === undefined ? {} : { line: link.line }),
       ...(link.direction === undefined ? {} : { direction: link.direction }),
       ...(link.firstDeparture === undefined ? {} : { firstDeparture: link.firstDeparture }),
@@ -501,6 +509,7 @@ export function planRoutes(
             durationSeconds: walkSeconds(network, directM),
             stops: 1,
             distanceM: directM,
+            path: [ORIGIN_NODE_ID, DESTINATION_NODE_ID],
           },
         ],
         0,
@@ -522,6 +531,7 @@ export function planRoutes(
         durationSeconds: Math.max(300, Math.round((meteredMetres(directM) / 1000 / 32) * 3600)),
         stops: 1,
         distanceM: directM,
+        path: [ORIGIN_NODE_ID, DESTINATION_NODE_ID],
       },
     ],
     fare.likely,

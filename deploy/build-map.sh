@@ -47,7 +47,7 @@ for font in "Noto Sans Regular" "Noto Sans Medium" "Noto Sans Italic"; do
   done
 done
 mkdir -p "$OUT/sprites"
-for f in light.json light.png light@2x.json light@2x.png; do
+for f in light.json light.png light@2x.json light@2x.png dark.json dark.png dark@2x.json dark@2x.png; do
   curl -fsSL --retry 5 --retry-all-errors -o "$OUT/sprites/$f" "$ASSETS/sprites/v4/$f"
 done
 

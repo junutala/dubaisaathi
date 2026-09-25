@@ -328,6 +328,16 @@ export const en: Record<StringKey, string> = {
   'steps.serviceNote': 'Times from the RTA timetable, for a normal weekday. Weekends can differ.',
   'steps.source': '{attribution}',
 
+  'map.title': 'Map',
+  'map.ways': 'Ways to go',
+  'map.steps': 'Step by step',
+  'map.downloading':
+    'Dubai street map downloading · {done} of {total} MB. Once it is on the phone it works without internet.',
+  'map.notYet':
+    'The street map is not on this phone yet — it downloads by itself the next time there is internet. The way and the distance are drawn above.',
+  'map.failed': 'The street map did not download ({why}).',
+  'map.retry': 'Try again',
+
   'taxi.trail': 'Taxi',
   'taxi.going': 'Going to',
   'taxi.copy': 'Copy address',

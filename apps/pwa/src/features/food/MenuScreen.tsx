@@ -35,11 +35,6 @@ const QUESTIONS: readonly { readonly id: string; readonly key: StringKey }[] = [
   { id: 'sattvik', key: 'food.diet.sattvik' },
 ];
 
-/** Directions to a pin in the phone's map app — its own route, its own distance, from wherever it is. */
-function directionsLink(at: { readonly lat: number; readonly lng: number }): string {
-  return `https://www.google.com/maps/dir/?api=1&destination=${String(at.lat)},${String(at.lng)}`;
-}
-
 /** The menu's own sections, in the order the card prints them; a heading printed twice is one. */
 export function menuSections(
   dishes: readonly ConfirmedDish[],
@@ -121,17 +116,18 @@ export function MenuScreen({
         </div>
         {/* Stays at the top while the menu scrolls: the traveller's actions never scroll away. */}
         <div className="kitchen-actions">
-          {/* The phone's own map, with the route and the distance to the collector's pin. We ship
-                no map (CLAUDE.md, Stack); this is a hand-off, like the taxi screen's to Careem. */}
-          <a
+          {/* Our own map, with the route and the distance to the collector's pin — offline, which
+                a hand-off to another map app is not (owner, 25 September; decision 035). */}
+          <button
+            type="button"
             className="btn btn-ghost"
-            href={directionsLink(outlet.location)}
-            target="_blank"
-            rel="noopener noreferrer"
+            onClick={() => {
+              navigate({ screen: 'map', placeId: outletPlaceId(outlet.id) });
+            }}
           >
             <Icon name="pin" size={20} strokeWidth={1.9} />
             {t('food.map')}
-          </a>
+          </button>
           <button
             type="button"
             className="btn btn-go"

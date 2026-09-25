@@ -31,6 +31,8 @@ export type Route =
   | { readonly screen: 'steps'; readonly placeId: string; readonly optionId: RouteOptionId }
   | { readonly screen: 'taxi'; readonly placeId: string }
   | { readonly screen: 'nolocation' }
+  // 2.6 · नक्शा — the way there on our own map, offline (decision 035)
+  | { readonly screen: 'map'; readonly placeId: string }
   // 3.1 · जानना, 3.2 · one place
   | { readonly screen: 'know' }
   | { readonly screen: 'place'; readonly placeId: string };
@@ -75,6 +77,8 @@ export function parseRoute(hash: string): Route {
       return arg ? { screen: 'taxi', placeId: arg } : { screen: 'go' };
     case 'nolocation':
       return { screen: 'nolocation' };
+    case 'map':
+      return arg ? { screen: 'map', placeId: arg } : { screen: 'go' };
     case 'know':
       return { screen: 'know' };
     case 'place':
@@ -116,6 +120,8 @@ export function href(route: Route): string {
       return `#/taxi/${route.placeId}`;
     case 'nolocation':
       return '#/nolocation';
+    case 'map':
+      return `#/map/${route.placeId}`;
     case 'know':
       return '#/know';
     case 'place':
@@ -141,6 +147,9 @@ export function pillarOf(route: Route): Pillar {
     case 'taxi':
     case 'nolocation':
       return 'go';
+    case 'map':
+      // A kitchen's map is still खाना: the traveller came from its menu and goes back to it.
+      return route.placeId.startsWith('outlet:') ? 'food' : 'go';
     case 'know':
     case 'place':
       return 'know';

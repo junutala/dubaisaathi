@@ -212,12 +212,14 @@ export async function latestBuild(): Promise<Latest | null> {
  */
 /**
  * Caches the repair leaves alone, because they hold something a traveller waited for rather than
- * a copy of the app: the card reader's engine (decision 032). Nothing in them decides which build
+ * a copy of the app: the card reader's engine (decision 032) and the street map (035). Nothing in them decides which build
  * runs, so keeping them cannot keep a phone on an old one.
  */
 const KEPT_CACHES: ReadonlySet<string> = new Set([
   // The name vite.config.ts gives the engine's runtime cache. Change one, change both.
   'saathi-ocr',
+  // नक्शा's street map (decision 035), 16 MB a traveller downloaded once. features/map/mapFiles.ts.
+  'saathi-map',
 ]);
 
 export async function repairToLatest(): Promise<boolean> {

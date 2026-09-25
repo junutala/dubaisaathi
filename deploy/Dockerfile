@@ -64,6 +64,18 @@ COPY --from=build /repo/node_modules/tesseract.js-core/tesseract-core-lstm.wasm.
 COPY --from=build /repo/node_modules/@tesseract.js-data/eng/4.0.0_best_int/eng.traineddata.gz ./
 RUN ls -la /ocr/v7
 
+# नक्शा's street map (decision 035): Dubai cut out of Protomaps' OpenStreetMap build at zoom 14,
+# with the glyphs and sprites its style names — 16 MB, served from our origin and kept on the phone.
+# The build machine has open internet; the development container does not. Copied in after the
+# build like the OCR engine, so the precache never carries it: the app downloads it on its own,
+# once, into a cache no release touches. Docker's layer cache keeps the same map across releases
+# until the script changes; a failure here fails the build rather than shipping a नक्शा with no map.
+FROM debian:bookworm-slim AS map
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+COPY deploy/build-map.sh /build-map.sh
+RUN sh /build-map.sh /map/v1 14
+
 FROM nginx:1.27-alpine
 # nginx cannot read an environment variable from a config file, and Railway hands the port in at
 # runtime. The official image's entrypoint substitutes templates on the way up; the filter limits
@@ -73,3 +85,4 @@ ENV PORT=8080
 COPY deploy/nginx.conf /etc/nginx/templates/default.conf.template
 COPY --from=build /repo/apps/pwa/dist /usr/share/nginx/html
 COPY --from=ocr /ocr /usr/share/nginx/html/ocr
+COPY --from=map /map /usr/share/nginx/html/map

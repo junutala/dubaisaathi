@@ -19,7 +19,7 @@ will show them the options with approximate cost. If bus and metro are not avail
   moves into the menu screen's head. `#/outlet/<id>` links saved before today open it too. The
   boards are regenerated: K3 is `1.3 · खाना › मेनू`, and K4 is gone.
 - **नक्शा · जाना · फ़ोन sit at the top and stay there** (`position: sticky`) while the menu scrolls.
-  - **नक्शा** hands the kitchen's pin to the phone's own map app, which draws the route and says the
+  - **नक्शा** — _replaced on 25 September by decision 035: our own map, offline._ It first handed the kitchen's pin to the phone's own map app, which draws the route and says the
     distance. Dubai Saathi still ships no map of its own (CLAUDE.md, Stack; the MapLibre question
     stays open in `docs/transport-and-maps-strategy.md`) — this is a hand-off, like 2.4's to Careem,
     and the phone decides whether it can answer offline.
