@@ -9,6 +9,7 @@ import { distanceKm, distanceLabel } from '../../lib/distance.js';
 import { VIRTUAL_HERE_NAME } from '../../lib/dubai.js';
 import { useHere } from '../../lib/here.js';
 import { localName, placeById } from '../transport/index.js';
+import { recordUsage } from '../ask/index.js';
 import { attractionById } from './attractions.js';
 
 /**
@@ -23,6 +24,10 @@ export function PlaceScreen({
   readonly hotel: SavedHotel | undefined;
 }) {
   const { t, locale } = useSettings();
+  // For the owner's count of what travellers open; nothing is shown (the owner, 25 September).
+  useEffect(() => {
+    recordUsage('place', placeId);
+  }, [placeId]);
   const row = attractionById(placeId);
   const place = placeById(placeId);
   const here = useHere(hotel);

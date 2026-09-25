@@ -50,6 +50,8 @@ interface IncomingEvent {
   clarifierChoice?: string;
   resultCount?: number;
   resolvedPlaceId?: string;
+  /** Whether the phone had a signal when this was recorded (migration 0015). */
+  online?: boolean;
 }
 
 function json(body: unknown, status = 200): Response {
@@ -123,6 +125,7 @@ Deno.serve(async (request: Request): Promise<Response> => {
       clarifier_choice: event.clarifierChoice ?? null,
       result_count: event.resultCount ?? null,
       resolved_place_id: event.resolvedPlaceId ?? null,
+      online: typeof event.online === 'boolean' ? event.online : null,
     }));
 
   // Ignore duplicates rather than erroring: a phone that synced and lost the response will send

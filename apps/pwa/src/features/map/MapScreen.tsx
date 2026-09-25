@@ -25,6 +25,7 @@ import { distanceLabel } from '../../lib/distance.js';
 import { VIRTUAL_HERE_NAME } from '../../lib/dubai.js';
 import { ensureMap, useMapStatus, type MapStatus } from './keepMap.js';
 import { routeShape, type RouteShape } from './routeShape.js';
+import { recordUsage } from '../ask/index.js';
 import type { Basemap, MapView } from './mapView.js';
 
 /**
@@ -45,6 +46,10 @@ export function MapScreen({
   readonly hotel: SavedHotel | undefined;
 }) {
   const { t, locale, theme, online } = useSettings();
+  // For the owner's count of what travellers open; nothing is shown (the owner, 25 September).
+  useEffect(() => {
+    recordUsage('map', placeId);
+  }, [placeId]);
   const network = useTransportNetwork();
   const origin = useOrigin(hotel);
   const destination = placeById(placeId);
