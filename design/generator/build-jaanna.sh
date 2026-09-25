@@ -13,6 +13,11 @@ cat <<T
     </div>
 T
 }
+tabs() { # which is on: places | travel
+  local a b
+  if [ "$1" = places ]; then a="background: $n_text; color: $n_fg; font-weight: 700;"; b="color: $ink; font-weight: 600;"; else a="color: $ink; font-weight: 600;"; b="background: $n_text; color: $n_fg; font-weight: 700;"; fi
+  echo "<div style=\"display: flex; gap: 4px; padding: 4px; border-radius: 14px; background: $sand; flex-shrink: 0;\"><span style=\"flex: 1; text-align: center; padding: 11px 0; border-radius: 10px; font-size: 14.5px; $a\">जगहें</span><span style=\"flex: 1; text-align: center; padding: 11px 0; border-radius: 10px; font-size: 14.5px; $b\">सफ़र</span></div>"
+}
 # ---- 3.1 · जानना › जगहें
 {
 open_screen
@@ -20,6 +25,7 @@ strip running set
 header lantern "$n_text" 'जानना'
 cat <<H
   <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 6px 16px 12px 16px;">
+    $(tabs places)
     <div style="display: flex; align-items: center; gap: 10px; padding: 0 14px; min-height: 54px; border-radius: 16px; background: $card; border: 1.5px solid $line;">
       $(search 20 "$muted" 2)
       <span style="flex: 1; font-size: 17px; color: $muted;">जगह खोजें</span>
@@ -65,3 +71,53 @@ bar jaanna
 close_screen
 } > "$OUT/N2.dc.html"
 
+
+# ---- 3.3 · जानना › सफ़र — a tab of topics (decision 037)
+{
+open_screen
+strip running set
+header lantern "$n_text" 'जानना'
+cat <<H
+  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 6px 16px 12px 16px;">
+    $(tabs travel)
+    <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: $card; border-radius: 16px; border: 1px solid $line;">
+      <span style="width: 48px; height: 48px; border-radius: 12px; background: $sand; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">$(metro 26 "$n_text" 1.7)</span>
+      <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0;">
+        <span class="disp" style="font-size: 19px; font-weight: 600; color: $ink;">Nol कार्ड</span>
+        <span style="font-size: 12.5px; color: $muted; line-height: 1.35;">सिल्वर, गोल्ड, लाल टिकट और पास — कौन-सा लें, कितने का</span>
+      </span>
+      $(chev 18 "$muted" 2)
+    </div>
+  </div>
+H
+bar jaanna
+close_screen
+} > "$OUT/N3.dc.html"
+
+# ---- 3.4 · जानना › सफ़र › Nol कार्ड
+row() { echo "<tr><th style=\"text-align: left; padding: 7px 4px; border-bottom: 1px solid $line; font-weight: 600;\">$1</th><td style=\"text-align: right; padding: 7px 4px; border-bottom: 1px solid $line;\">$2</td><td style=\"text-align: right; padding: 7px 4px; border-bottom: 1px solid $line;\">$3</td><td style=\"text-align: right; padding: 7px 4px; border-bottom: 1px solid $line;\">$4</td></tr>"; }
+{
+open_screen
+strip running set
+header lantern "$n_text" 'जानना' 'Nol कार्ड'
+cat <<H
+  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 10px; padding: 6px 16px 12px 16px;">
+    <span style="font-size: 14px; line-height: 1.45; color: $ink;">मेट्रो, ट्राम और बस का किराया Nol कार्ड या लाल टिकट से कटता है। किराया ज़ोन से तय होता है, दूरी से नहीं।</span>
+    <span style="font-size: 16px; font-weight: 700; color: $ink;">कौन-सा लें</span>
+    <div style="display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; background: $card; border-radius: 12px; border: 1px solid $line; font-size: 13px; line-height: 1.4; color: $ink;"><b>सिल्वर कार्ड</b>सबके लिए — किसी भी मेट्रो स्टेशन पर, रिचार्ज करते रहें।</div>
+    <div style="display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; background: $card; border-radius: 12px; border: 1px solid $line; font-size: 13px; line-height: 1.4; color: $ink;"><b>लाल टिकट</b>दो-चार सफ़र के लिए काग़ज़ का टिकट। बनवाने के AED 2, फिर हर सफ़र का किराया।</div>
+    <span style="font-size: 16px; font-weight: 700; color: $ink;">एक सफ़र</span>
+    <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: $ink;">
+      <tr><th></th><th style="text-align: right; font-size: 11.5px; color: $muted; padding: 4px;">1 ज़ोन</th><th style="text-align: right; font-size: 11.5px; color: $muted; padding: 4px;">2 ज़ोन</th><th style="text-align: right; font-size: 11.5px; color: $muted; padding: 4px;">3 या ज़्यादा</th></tr>
+      $(row 'सिल्वर कार्ड' 'AED 3' 'AED 5' 'AED 7.5')
+      $(row 'गोल्ड कार्ड' 'AED 6' 'AED 10' 'AED 15')
+      $(row 'लाल टिकट' 'AED 4' 'AED 6' 'AED 8.5')
+    </table>
+    <span style="font-size: 12px; color: $muted;">दो ज़ोन का सफ़र अगर 3 किमी से छोटा हो, तो एक ज़ोन गिना जाता है।</span>
+    <span style="font-size: 16px; font-weight: 700; color: $ink;">एक दिन का टिकट</span>
+    <span style="font-size: 13.5px; color: $ink;">पूरे दिन हर ज़ोन में जितना चाहें: AED 20, गोल्ड क्लास में AED 40।</span>
+  </div>
+H
+bar jaanna
+close_screen
+} > "$OUT/N4.dc.html"

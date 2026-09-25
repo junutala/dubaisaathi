@@ -402,6 +402,49 @@ export const en: Record<StringKey, string> = {
   'know.go': 'जाना',
   'know.fromHotel': '{distance} from the hotel',
   'know.gone': 'This place is no longer in the list.',
+  'know.tab.places': 'Attractions',
+  'know.tab.travel': 'Local travel',
+  'know.tab.shopping': 'Shopping',
+  'tips.nol.title': 'Nol card',
+  'tips.nol.sub': 'Silver, Gold, the red ticket and passes — which one, and what it costs',
+  'tips.nol.aed': 'AED {aed}',
+  'tips.nol.lead':
+    'The metro, tram and buses are paid with a Nol card or a paper red ticket, tapped at the gate. The fare depends on how many zones the journey passes through, not on how far it goes.',
+  'tips.nol.whichTitle': 'Which one to buy',
+  'tips.nol.silver': 'Silver card',
+  'tips.nol.silverWhy':
+    'For everyone. Buy it at any metro station, top it up, and use it for your whole trip.',
+  'tips.nol.gold': 'Gold card',
+  'tips.nol.goldWhy':
+    'For the Gold Class carriage at the front of the metro: quieter, double the fare.',
+  'tips.nol.red': 'Red ticket',
+  'tips.nol.redGold': 'Red ticket, Gold',
+  'tips.nol.redWhy':
+    'A paper ticket for a few rides. It costs AED {aed} to issue, then the fare of each trip.',
+  'tips.nol.redWhyNoFee': 'A paper ticket for a few rides, paid trip by trip.',
+  'tips.nol.tripTitle': 'One trip',
+  'tips.nol.zone1': '1 zone',
+  'tips.nol.zone2': '2 zones',
+  'tips.nol.zone3': '3 or more',
+  'tips.nol.shortHop':
+    'A trip across two zones that is shorter than {km} km is charged as one zone.',
+  'tips.nol.dayTitle': 'Day ticket',
+  'tips.nol.day':
+    'Unlimited travel in every zone for one day: AED {regular}, or AED {gold} in Gold Class.',
+  'tips.nol.passTitle': 'Passes',
+  'tips.nol.passWhy':
+    'Unlimited travel for a set number of days, priced on the zones it covers. Worth it only if you ride every day.',
+  'tips.nol.days7': '7 days',
+  'tips.nol.days30': '30 days',
+  'tips.nol.days90': '90 days',
+  'tips.nol.days365': '365 days',
+  'tips.nol.knowTitle': 'Good to know',
+  'tips.nol.children':
+    'Children under {years}, or shorter than {cm} cm, ride the metro and tram free.',
+  'tips.nol.minimum': 'Keep at least AED {aed} on the card, or the gate will not open.',
+  'tips.nol.rules':
+    'Change within {minutes} minutes and it stays one journey and one fare — up to {transfers} changes, and {total} minutes in all.',
+  'tips.nol.source': 'From the RTA board at BurJuman station, checked 25 September 2026.',
 
   // घर.5 · बोलना and घर.6 · its Arabic (decision 020) — online only, and the screens say so.
   // Its block on घर is named by the `pillar.speak` keys above, with the other three.

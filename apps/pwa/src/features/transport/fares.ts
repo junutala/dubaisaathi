@@ -1,4 +1,4 @@
-import { NOL_CLASSES, type FarePack } from '@saathi/shared';
+import { NOL_CLASSES, PASS_LENGTHS, type FarePack } from '@saathi/shared';
 import { packBody } from '../content/index.js';
 import shipped from '../../../../../data/transport/fares.v1.json';
 
@@ -15,7 +15,30 @@ import shipped from '../../../../../data/transport/fares.v1.json';
  * and a test can price a journey against a tariff that is not today's.
  */
 
-export type { FarePack, NolClass, ZoneFare } from '@saathi/shared';
+export type { FarePack, NolClass, PassLength, ZoneFare } from '@saathi/shared';
+export { PASS_LENGTHS } from '@saathi/shared';
+
+/** A price that must be a real amount when it is there at all. */
+function checkAmount(value: unknown, what: string): void {
+  if (value === undefined) return;
+  if (typeof value !== 'number' || !Number.isFinite(value) || !(value > 0)) {
+    throw new Error(`fare pack: ${what} is not an amount`);
+  }
+}
+
+/** Three bands that are all amounts and never fall as the zones rise. */
+function checkBands(value: unknown, what: string): void {
+  if (typeof value !== 'object' || value === null) throw new Error(`fare pack: no ${what}`);
+  const bands = value as Record<string, unknown>;
+  let last = 0;
+  for (const band of ['oneZone', 'twoZones', 'moreZones'] as const) {
+    const aed = bands[band];
+    checkAmount(aed, `${what} ${band}`);
+    if (typeof aed !== 'number') throw new Error(`fare pack: no ${what} ${band}`);
+    if (aed < last) throw new Error(`fare pack: ${what} charges less for ${band}`);
+    last = aed;
+  }
+}
 
 export const FARES_PACK_ID = 'fares';
 
@@ -94,6 +117,39 @@ export function parseFarePack(raw: unknown): FarePack {
      * quote. The totals stayed plausible, so nothing but this check would have caught it.
      */
     throw new Error('fare pack: the minimum is not above the flag fall — one of them is the other');
+  }
+
+  // What 3.4 · Nol कार्ड shows. Each is optional; one that is there must be right, because the
+  // screen prints it as a price a traveller will be asked for at the machine.
+  checkAmount(pack.redTicketIssueAed, 'red ticket issue charge');
+  checkAmount(pack.minimumBalanceAed, 'minimum balance');
+  checkAmount(pack.oneZoneWithinKm, 'one-zone distance');
+  const day = pack.dayTicket;
+  if (day !== undefined) {
+    if (typeof day !== 'object' || day === null) throw new Error('fare pack: day ticket');
+    const fares = day as Record<string, unknown>;
+    checkAmount(fares.regular ?? 0, 'day ticket');
+    checkAmount(fares.gold ?? 0, 'gold day ticket');
+  }
+  const passes = pack.passes;
+  if (passes !== undefined) {
+    if (typeof passes !== 'object' || passes === null) throw new Error('fare pack: passes');
+    for (const cls of ['regular', 'gold'] as const) {
+      const lengths = (passes as Record<string, unknown>)[cls];
+      if (typeof lengths !== 'object' || lengths === null) {
+        throw new Error(`fare pack: no ${cls} passes`);
+      }
+      for (const length of PASS_LENGTHS) {
+        checkBands((lengths as Record<string, unknown>)[length], `${cls} ${length} pass`);
+      }
+    }
+  }
+  const children = pack.childrenFree;
+  if (children !== undefined) {
+    if (typeof children !== 'object' || children === null) throw new Error('fare pack: children');
+    const rule = children as Record<string, unknown>;
+    checkAmount(rule.underYears ?? 0, 'children age');
+    checkAmount(rule.underCm ?? 0, 'children height');
   }
 
   return raw as FarePack;

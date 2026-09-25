@@ -1,16 +1,36 @@
 {
-  "fareVersion": 2,
+  "fareVersion": 3,
   "effectiveFrom": "2026-09-22",
-  "publishedAt": "2026-09-22T13:30:00Z",
+  "publishedAt": "2026-09-25T17:30:00Z",
   "currency": "AED",
-  "source": "Nol fares transcribed from rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares on 22 September 2026, page last modified the same day. Dubai is divided into seven zones and a journey is charged on the total number of zones it PASSES THROUGH, never on its length: RTA's wording is 'you will be charged according to the total number of zones you have passed'. A metro trip and a bus trip are one journey when the second is boarded within 30 minutes of leaving the first, and are charged on the zones of both combined. We quote the Silver Card fare, which is what a traveller pays once they hold a card; the other tariffs are carried so a screen can show them without a data change. The taxi figures are the RTA street-hail tariff and are not from this page: flag fall AED 5 between 06:00 and 22:00, AED 5.50 after, a minimum of AED 12, and a per-km rate revised monthly with fuel. Salik is not modelled, so a journey over a toll gate is quoted AED 4-6 light per gate.",
+  "source": "Nol fares transcribed from rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares on 22 September 2026, page last modified the same day. Dubai is divided into seven zones and a journey is charged on the total number of zones it PASSES THROUGH, never on its length: RTA's wording is 'you will be charged according to the total number of zones you have passed'. A metro trip and a bus trip are one journey when the second is boarded within 30 minutes of leaving the first, and are charged on the zones of both combined. We quote the Silver Card fare, which is what a traveller pays once they hold a card; the other tariffs are carried so a screen can show them without a data change. The taxi figures are the RTA street-hail tariff and are not from this page: flag fall AED 5 between 06:00 and 22:00, AED 5.50 after, a minimum of AED 12, and a per-km rate revised monthly with fuel. Salik is not modelled, so a journey over a toll gate is quoted AED 4-6 light per gate. Confirmed on 25 September 2026 against the RTA's own board at BurJuman station, photographed by the owner: every trip fare above matches it. The same board is the source of the red ticket's issue charge, the day ticket, the period passes, the children's rule and the minimum balance below.",
   "quote": "silver",
   "nol": {
-    "silver": { "oneZone": 3, "twoZones": 5, "moreZones": 7.5 },
-    "personal": { "oneZone": 3, "twoZones": 5, "moreZones": 7.5 },
-    "gold": { "oneZone": 6, "twoZones": 10, "moreZones": 15 },
-    "redTicket": { "oneZone": 4, "twoZones": 6, "moreZones": 8.5 },
-    "redTicketGold": { "oneZone": 8, "twoZones": 12, "moreZones": 17 }
+    "silver": {
+      "oneZone": 3,
+      "twoZones": 5,
+      "moreZones": 7.5
+    },
+    "personal": {
+      "oneZone": 3,
+      "twoZones": 5,
+      "moreZones": 7.5
+    },
+    "gold": {
+      "oneZone": 6,
+      "twoZones": 10,
+      "moreZones": 15
+    },
+    "redTicket": {
+      "oneZone": 4,
+      "twoZones": 6,
+      "moreZones": 8.5
+    },
+    "redTicketGold": {
+      "oneZone": 8,
+      "twoZones": 12,
+      "moreZones": 17
+    }
   },
   "journeyRules": {
     "maxTransfers": 3,
@@ -22,5 +42,62 @@
     "perKmAed": 2.2,
     "minimumAed": 12,
     "spreadPercent": 15
-  }
+  },
+  "redTicketIssueAed": 2,
+  "dayTicket": {
+    "regular": 20,
+    "gold": 40
+  },
+  "passes": {
+    "regular": {
+      "days7": {
+        "oneZone": 50,
+        "twoZones": 80,
+        "moreZones": 110
+      },
+      "days30": {
+        "oneZone": 140,
+        "twoZones": 230,
+        "moreZones": 350
+      },
+      "days90": {
+        "oneZone": 330,
+        "twoZones": 550,
+        "moreZones": 830
+      },
+      "days365": {
+        "oneZone": 1060,
+        "twoZones": 1770,
+        "moreZones": 2670
+      }
+    },
+    "gold": {
+      "days7": {
+        "oneZone": 100,
+        "twoZones": 160,
+        "moreZones": 220
+      },
+      "days30": {
+        "oneZone": 280,
+        "twoZones": 460,
+        "moreZones": 700
+      },
+      "days90": {
+        "oneZone": 660,
+        "twoZones": 1100,
+        "moreZones": 1660
+      },
+      "days365": {
+        "oneZone": 2120,
+        "twoZones": 3540,
+        "moreZones": 5340
+      }
+    }
+  },
+  "childrenFree": {
+    "underYears": 5,
+    "underCm": 90
+  },
+  "minimumBalanceAed": 7.5,
+  "oneZoneWithinKm": 3
 }

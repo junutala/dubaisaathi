@@ -337,7 +337,26 @@ export interface FarePack {
   readonly nol: Readonly<Record<NolClass, ZoneFare>>;
   readonly journeyRules: JourneyRules;
   readonly taxi: TaxiFare;
+  /**
+   * What 3.4 · Nol कार्ड explains, from the RTA's own board at BurJuman (25 September). Optional,
+   * so a pack published before them still parses; the screen leaves out what a pack lacks.
+   */
+  /** Charged once for a paper red ticket, before its first fare. */
+  readonly redTicketIssueAed?: number;
+  /** A paper ticket for unlimited travel in every zone for one day. */
+  readonly dayTicket?: { readonly regular: number; readonly gold: number };
+  /** Period passes on a personal card, by length, priced on the zones they cover. */
+  readonly passes?: Readonly<Record<'regular' | 'gold', Readonly<Record<PassLength, ZoneFare>>>>;
+  /** Children this young, or this short, ride the metro and tram free. */
+  readonly childrenFree?: { readonly underYears: number; readonly underCm: number };
+  /** The least a card must hold to pass the gate. */
+  readonly minimumBalanceAed?: number;
+  /** A trip across two zones shorter than this is charged as one zone. */
+  readonly oneZoneWithinKm?: number;
 }
+
+export const PASS_LENGTHS = ['days7', 'days30', 'days90', 'days365'] as const;
+export type PassLength = (typeof PASS_LENGTHS)[number];
 
 /**
  * The transport network as it ships: `data/transport/network.v1.json`, written by

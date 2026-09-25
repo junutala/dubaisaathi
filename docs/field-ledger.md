@@ -251,6 +251,7 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 
 | Field                                              | Why it is there                                         |
 | -------------------------------------------------- | ------------------------------------------------------- |
+| जगहें · सफ़र (the tabs)                            | जानना is knowing, not only places (decision 037)        |
 | The box · सब · लैंडमार्क · मॉल · सूक · बीच · पार्क | Find a place, or browse a kind                          |
 | Each card: name, kind, hours, ticket               | Enough to decide whether to open it                     |
 | कोई जगह छूट गई? · भेजें                            | A place we missed goes into the queue for the next pack |
@@ -266,6 +267,26 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 | आप दुबई से बाहर हैं · बुरजुमान/होटल से | A phone in India still sees Dubai; the row says whose distance it is |
 | बुरजुमान से · आप दुबई से बाहर हैं      | The journey is real; the start is a stand-in, said plainly           |
 | वेबसाइट (the attraction's own)         | Where the pictures and the booking are; no photograph in the pack    |
+
+## 3.3 · जानना › सफ़र — a tab of topics (decision 037)
+
+| Field                             | Why it is there                               |
+| --------------------------------- | --------------------------------------------- |
+| The tabs, सफ़र lit                | Where they are, and the way back to जगहें     |
+| Each topic: glyph, name, one line | Enough to know what opening it will tell them |
+
+## 3.4 · जानना › सफ़र › Nol कार्ड
+
+| Field                                        | Why it is there                                                                    |
+| -------------------------------------------- | ---------------------------------------------------------------------------------- |
+| The lead: fares go by zones, not by distance | The one idea that makes every figure below make sense                              |
+| कौन-सा लें · सिल्वर · गोल्ड · लाल टिकट       | The choice at the machine, with the red ticket's AED 2 issue charge said first     |
+| एक सफ़र · the table by 1, 2, 3+ zones        | What one ride costs on each, as the RTA's board prints it                          |
+| The short-hop line (under 3 km is one zone)  | Why a trip across a zone line can cost the one-zone fare                           |
+| एक दिन का टिकट                               | The cheapest way to spend a day riding everything                                  |
+| पास · 7, 30, 90, 365 days, Silver and Gold   | For a traveller riding every day; says so                                          |
+| काम की बात · children · minimum · the rules  | Children ride free; AED 7.5 opens the gate; changing inside 30 minutes is one fare |
+| The source line                              | The RTA board at BurJuman, and the date it was checked                             |
 
 ## Addenda
 
