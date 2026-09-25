@@ -590,6 +590,8 @@ export interface VoiceEvent {
   /** Short clip kept only for failures, only with consent, deleted after sync. */
   readonly audioClipId?: string;
   readonly synced: boolean;
+  /** Whether the phone had a signal when this was recorded; the offline share of use. */
+  readonly online?: boolean;
 }
 
 /**

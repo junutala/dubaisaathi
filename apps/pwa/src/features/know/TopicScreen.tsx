@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { useSettings } from '../../app/settings.js';
 import { navigate } from '../../app/routes.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
+import { recordUsage } from '../ask/index.js';
 import { NolScreen } from './NolScreen.js';
 import { textTopic } from './tips.js';
 
@@ -10,6 +12,10 @@ import { textTopic } from './tips.js';
  */
 export function TopicScreen({ tipId }: { readonly tipId: string }) {
   const { t, locale } = useSettings();
+  // For the owner's count of what travellers read; nothing is shown (the owner, 25 September).
+  useEffect(() => {
+    recordUsage('topic', tipId);
+  }, [tipId]);
   if (tipId === 'nol') return <NolScreen />;
   const topic = textTopic(tipId);
   const back = () => {

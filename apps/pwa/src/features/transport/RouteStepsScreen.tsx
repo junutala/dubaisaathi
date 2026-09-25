@@ -10,6 +10,7 @@ import { useOrigin } from './origin.js';
 import { currentFares } from './fares.js';
 import { planRoutes, type RouteOptionId } from './routePlanner.js';
 import { useTransportNetwork } from './useNetwork.js';
+import { recordUsage } from '../ask/index.js';
 import { fareText, legStep, minutes, modeLabel, type Words } from './describeLeg.js';
 
 /**
@@ -31,6 +32,10 @@ export function RouteStepsScreen({
   readonly hotel: SavedHotel | undefined;
 }) {
   const { t, locale } = useSettings();
+  // For the owner's count of what travellers open; nothing is shown (the owner, 25 September).
+  useEffect(() => {
+    recordUsage('steps', `${placeId}/${optionId}`);
+  }, [placeId, optionId]);
   const network = useTransportNetwork();
   const origin = useOrigin(hotel);
   const destination = placeById(placeId);

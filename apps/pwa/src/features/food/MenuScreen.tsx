@@ -12,6 +12,7 @@ import { VIRTUAL_HERE_NAME } from '../../lib/dubai.js';
 import { useHere } from '../../lib/here.js';
 import { areaName, hoursLine } from './FoodListScreen.js';
 import { openState } from './openNow.js';
+import { recordUsage } from '../ask/index.js';
 import { outletById } from './outlets.js';
 
 /**
@@ -62,6 +63,10 @@ export function MenuScreen({
   readonly hotel: SavedHotel | undefined;
 }) {
   const { t, locale } = useSettings();
+  // For the owner's count of what travellers open; nothing is shown (the owner, 25 September).
+  useEffect(() => {
+    recordUsage('menu', outletId);
+  }, [outletId]);
   const outlet = outletById(outletId);
   const here = useHere(hotel);
 

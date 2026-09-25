@@ -61,8 +61,8 @@
     if (share) {
       const line =
         lang === 'hi'
-          ? 'दुबई जा रहे हैं? यह ऐप रख लीजिए — बिना इंटरनेट के भी चलता है। https://dubai.saafarsaathi.in'
-          : 'Going to Dubai? Keep this one — it works with no internet. https://dubai.saafarsaathi.in';
+          ? 'दुबई जा रहे हैं? यह ऐप रख लीजिए — बिना इंटरनेट के भी चलता है। https://dubai.saafarsaathi.in/?via=wa'
+          : 'Going to Dubai? Keep this one — it works with no internet. https://dubai.saafarsaathi.in/?via=wa';
       share.setAttribute('href', 'https://wa.me/?text=' + encodeURIComponent(line));
     }
   }

@@ -7,7 +7,7 @@ import { parseTransportPack } from './features/transport/index.js';
 import { requestPersistentStorage } from './db/schema.js';
 import { applyPendingUpdate, startUpdateChecks } from './app/updates.js';
 import { loadPacks, packBody, startPackSync } from './features/content/index.js';
-import { startVoiceEventSync } from './features/ask/index.js';
+import { startUsageRecording, startVoiceEventSync } from './features/ask/index.js';
 import bundledTransport from '../../../data/transport/network.v1.json';
 import './fonts.css';
 import './styles.css';
@@ -47,6 +47,7 @@ startPackSync();
 // The question log leaves the phone here, and only here. Nothing waits on it: it tries once on
 // boot and again when the phone says it is back online, and a failure leaves the queue intact.
 startVoiceEventSync();
+startUsageRecording();
 
 createRoot(root).render(
   <StrictMode>

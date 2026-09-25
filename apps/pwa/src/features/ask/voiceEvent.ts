@@ -61,6 +61,9 @@ export async function recordVoiceEvent(input: VoiceEventInput): Promise<VoiceEve
     // all interactions, so version 2 is decided by what travellers actually asked for.
     ...(input.resultCount === undefined ? {} : { resultCount: input.resultCount }),
     ...(input.resolvedPlaceId === undefined ? {} : { resolvedPlaceId: input.resolvedPlaceId }),
+    // Whether there was a signal at that moment: the offline share of use is the proof of the
+    // product's one promise (migration 0015).
+    ...(typeof navigator === 'undefined' ? {} : { online: navigator.onLine }),
     synced: false,
   };
   await db.voiceEvents.add(event);
