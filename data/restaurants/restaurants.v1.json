@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-25T09:09:48.051Z",
+  "publishedAt": "2026-09-25T12:40:22.076Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -20015,6 +20015,1948 @@
           "tags": [],
           "priceAed": 12,
           "section": "Special Juices & Milkshakes"
+        }
+      ]
+    },
+    {
+      "id": "63ff0357-8dd9-4326-a217-e3d251b343f1",
+      "name": {
+        "en": "Tea Spot",
+        "hi": "Tea Spot",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2581358,
+        "lng": 55.297589
+      },
+      "areaId": "bur-dubai",
+      "kitchen": "mixed",
+      "tags": [],
+      "phone": "04 236 3144",
+      "confirmedDishes": [
+        {
+          "name": {
+            "en": "Banana Juice",
+            "hi": "Banana Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Lemon Juice",
+            "hi": "Lemon Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Kallatha Juice",
+            "hi": "Kallatha Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Cocktail Juice",
+            "hi": "Cocktail Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Lemon Mint Juice",
+            "hi": "Lemon Mint Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Watermelon Juice",
+            "hi": "Watermelon Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Orange Juice",
+            "hi": "Orange Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Papaya Juice",
+            "hi": "Papaya Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Carrot Juice",
+            "hi": "Carrot Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Sweetmelon Juice",
+            "hi": "Sweetmelon Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Pineapple Juice",
+            "hi": "Pineapple Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Mango Juice",
+            "hi": "Mango Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Chickoo Juice",
+            "hi": "Chickoo Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Strawberry Juice",
+            "hi": "Strawberry Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Apple Juice",
+            "hi": "Apple Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Pomegranate Juice",
+            "hi": "Pomegranate Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Avocado Juice",
+            "hi": "Avocado Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Nutella Milkshake",
+            "hi": "Nutella Milkshake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Lotus Milkshake",
+            "hi": "Lotus Milkshake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Kinder Milkshake",
+            "hi": "Kinder Milkshake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Galaxy Milkshake",
+            "hi": "Galaxy Milkshake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Oreo Milkshake",
+            "hi": "Oreo Milkshake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Ferrero Rocher Milkshake",
+            "hi": "Ferrero Rocher Milkshake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Snickers Milkshake",
+            "hi": "Snickers Milkshake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Saffron Milkshake",
+            "hi": "Saffron Milkshake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Pistachio",
+            "hi": "Pistachio",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Smiley Sp. Juice",
+            "hi": "Smiley Sp. Juice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Honey Pistachio",
+            "hi": "Honey Pistachio",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "2020",
+            "hi": "2020",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Galaxy",
+            "hi": "Galaxy",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Thabakath",
+            "hi": "Thabakath",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Burj Al Arab",
+            "hi": "Burj Al Arab",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "F3 Special",
+            "hi": "F3 Special",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Pineapple Bricks",
+            "hi": "Pineapple Bricks",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Mango Bricks",
+            "hi": "Mango Bricks",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Pomegranate Seeds",
+            "hi": "Pomegranate Seeds",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Watermelon Bricks",
+            "hi": "Watermelon Bricks",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Thabakath Mix",
+            "hi": "Thabakath Mix",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Glory",
+            "hi": "Glory",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Tea Spot Avocado",
+            "hi": "Tea Spot Avocado",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Fruit Salad with Ice Cream",
+            "hi": "Fruit Salad with Ice Cream",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Mixed Ice Cream",
+            "hi": "Mixed Ice Cream",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Burj Khalifa",
+            "hi": "Burj Khalifa",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Avil Milk",
+            "hi": "Avil Milk",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 6,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Abood",
+            "hi": "Abood",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Awar Al Khalb",
+            "hi": "Awar Al Khalb",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Tiktok Special",
+            "hi": "Tiktok Special",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Cocktail Emarati",
+            "hi": "Cocktail Emarati",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Mango Banana Shikuf",
+            "hi": "Mango Banana Shikuf",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Fruit Bricks"
+        },
+        {
+          "name": {
+            "en": "Pista Milkshake",
+            "hi": "Pista Milkshake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Milk Shake"
+        },
+        {
+          "name": {
+            "en": "Chocolate Milkshake",
+            "hi": "Chocolate Milkshake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Milk Shake"
+        },
+        {
+          "name": {
+            "en": "Strawberry Milkshake",
+            "hi": "Strawberry Milkshake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Milk Shake"
+        },
+        {
+          "name": {
+            "en": "Vanilla Milkshake",
+            "hi": "Vanilla Milkshake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Milk Shake"
+        },
+        {
+          "name": {
+            "en": "Badam Milkshake",
+            "hi": "Badam Milkshake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Milk Shake"
+        },
+        {
+          "name": {
+            "en": "Mango Lassi",
+            "hi": "Mango Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Lassi Corner"
+        },
+        {
+          "name": {
+            "en": "Strawberry Lassi",
+            "hi": "Strawberry Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Lassi Corner"
+        },
+        {
+          "name": {
+            "en": "Mint Lassi",
+            "hi": "Mint Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Lassi Corner"
+        },
+        {
+          "name": {
+            "en": "Lassi (Sweet/Salt)",
+            "hi": "Lassi (Sweet/Salt)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Lassi Corner"
+        },
+        {
+          "name": {
+            "en": "Strawberry Mojito",
+            "hi": "Strawberry Mojito",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Mojito"
+        },
+        {
+          "name": {
+            "en": "Blueberry Mojito",
+            "hi": "Blueberry Mojito",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Mojito"
+        },
+        {
+          "name": {
+            "en": "Orange Mojito",
+            "hi": "Orange Mojito",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Mojito"
+        },
+        {
+          "name": {
+            "en": "Lemon Mojito",
+            "hi": "Lemon Mojito",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Mojito"
+        },
+        {
+          "name": {
+            "en": "Pineapple Mojito",
+            "hi": "Pineapple Mojito",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Mojito"
+        },
+        {
+          "name": {
+            "en": "Passion Fruit Mojito",
+            "hi": "Passion Fruit Mojito",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Mojito"
+        },
+        {
+          "name": {
+            "en": "Tender Coconut Shake",
+            "hi": "Tender Coconut Shake",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Fruit Plate"
+        },
+        {
+          "name": {
+            "en": "Soda Sarbath",
+            "hi": "Soda Sarbath",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 5,
+          "section": "Fruit Plate"
+        },
+        {
+          "name": {
+            "en": "Tea Spot Special",
+            "hi": "Tea Spot Special",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Fruit Plate"
+        },
+        {
+          "name": {
+            "en": "Cold Coffee",
+            "hi": "Cold Coffee",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 5,
+          "section": "Fruit Plate"
+        },
+        {
+          "name": {
+            "en": "Falooda Sp.",
+            "hi": "Falooda Sp.",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Fruit Plate"
+        },
+        {
+          "name": {
+            "en": "Fruit Plate",
+            "hi": "Fruit Plate",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Fruit Plate"
+        },
+        {
+          "name": {
+            "en": "Grilled Chicken Burger",
+            "hi": "Grilled Chicken Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Burger"
+        },
+        {
+          "name": {
+            "en": "Tikka Italy",
+            "hi": "Tikka Italy",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Burger"
+        },
+        {
+          "name": {
+            "en": "Mega Zinker",
+            "hi": "Mega Zinker",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Burger"
+        },
+        {
+          "name": {
+            "en": "Chicken Burger",
+            "hi": "Chicken Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 5,
+          "section": "Burger"
+        },
+        {
+          "name": {
+            "en": "Veg. Burger",
+            "hi": "Veg. Burger",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Burger"
+        },
+        {
+          "name": {
+            "en": "Zinker Burger",
+            "hi": "Zinker Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 11,
+          "section": "Burger"
+        },
+        {
+          "name": {
+            "en": "Mathafi Burger",
+            "hi": "Mathafi Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Burger"
+        },
+        {
+          "name": {
+            "en": "Cajun Burger",
+            "hi": "Cajun Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Burger"
+        },
+        {
+          "name": {
+            "en": "Khaleej Burger",
+            "hi": "Khaleej Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Burger"
+        },
+        {
+          "name": {
+            "en": "Jumbo Prawns Burger",
+            "hi": "Jumbo Prawns Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Burger"
+        },
+        {
+          "name": {
+            "en": "Nuggets Burger",
+            "hi": "Nuggets Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Burger"
+        },
+        {
+          "name": {
+            "en": "Double Burger (Chicken / Beef)",
+            "hi": "Double Burger (Chicken / Beef)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Burger"
+        },
+        {
+          "name": {
+            "en": "Fillet Burger",
+            "hi": "Fillet Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Burger"
+        },
+        {
+          "name": {
+            "en": "Tikka Burger",
+            "hi": "Tikka Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Burger"
+        },
+        {
+          "name": {
+            "en": "Fish Fillet Burger",
+            "hi": "Fish Fillet Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Burger"
+        },
+        {
+          "name": {
+            "en": "Fish Fillet Combo",
+            "hi": "Fish Fillet Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 11,
+          "section": "Combo"
+        },
+        {
+          "name": {
+            "en": "Jumbo Prawns Combo",
+            "hi": "Jumbo Prawns Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Combo"
+        },
+        {
+          "name": {
+            "en": "Tikka Combo",
+            "hi": "Tikka Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 11,
+          "section": "Combo"
+        },
+        {
+          "name": {
+            "en": "Chicken Fillet Combo",
+            "hi": "Chicken Fillet Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 11,
+          "section": "Combo"
+        },
+        {
+          "name": {
+            "en": "Chicken Nuggets Combo",
+            "hi": "Chicken Nuggets Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 11,
+          "section": "Combo"
+        },
+        {
+          "name": {
+            "en": "Chicken Lemon Combo",
+            "hi": "Chicken Lemon Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Combo"
+        },
+        {
+          "name": {
+            "en": "Hotdog Combo",
+            "hi": "Hotdog Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Combo"
+        },
+        {
+          "name": {
+            "en": "Vegetable Combo",
+            "hi": "Vegetable Combo",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Combo"
+        },
+        {
+          "name": {
+            "en": "Egg Combo",
+            "hi": "Egg Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Combo"
+        },
+        {
+          "name": {
+            "en": "Cajun Combo",
+            "hi": "Cajun Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Combo"
+        },
+        {
+          "name": {
+            "en": "Kabab Jumbo Combo",
+            "hi": "Kabab Jumbo Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 11,
+          "section": "Combo"
+        },
+        {
+          "name": {
+            "en": "Butterfly Prawns Combo",
+            "hi": "Butterfly Prawns Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Combo"
+        },
+        {
+          "name": {
+            "en": "Zinker Combo",
+            "hi": "Zinker Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Combo"
+        },
+        {
+          "name": {
+            "en": "Tea Spot Special Club",
+            "hi": "Tea Spot Special Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 36,
+          "section": "Club Sandwich"
+        },
+        {
+          "name": {
+            "en": "Zinker Club",
+            "hi": "Zinker Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14.5,
+          "section": "Club Sandwich"
+        },
+        {
+          "name": {
+            "en": "Chicken Club",
+            "hi": "Chicken Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12.5,
+          "section": "Club Sandwich"
+        },
+        {
+          "name": {
+            "en": "Tikka Club",
+            "hi": "Tikka Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13.5,
+          "section": "Club Sandwich"
+        },
+        {
+          "name": {
+            "en": "Vegetable Club",
+            "hi": "Vegetable Club",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10.5,
+          "section": "Club Sandwich"
+        },
+        {
+          "name": {
+            "en": "Egg Club",
+            "hi": "Egg Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10.5,
+          "section": "Club Sandwich"
+        },
+        {
+          "name": {
+            "en": "Fish Fillet Club",
+            "hi": "Fish Fillet Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13.5,
+          "section": "Club Sandwich"
+        },
+        {
+          "name": {
+            "en": "Hotdog Club",
+            "hi": "Hotdog Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12.5,
+          "section": "Club Sandwich"
+        },
+        {
+          "name": {
+            "en": "Lulu Club",
+            "hi": "Lulu Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13.5,
+          "section": "Club Sandwich"
+        },
+        {
+          "name": {
+            "en": "Mega Club",
+            "hi": "Mega Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Club Sandwich"
+        },
+        {
+          "name": {
+            "en": "Emerathi Club",
+            "hi": "Emerathi Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13.5,
+          "section": "Club Sandwich"
+        },
+        {
+          "name": {
+            "en": "Prawns Club",
+            "hi": "Prawns Club",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Club Sandwich"
+        },
+        {
+          "name": {
+            "en": "Zinker Poratta",
+            "hi": "Zinker Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Omelette Poratta",
+            "hi": "Omelette Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 3,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Egg Poratta",
+            "hi": "Egg Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 3,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Vegetable Poratta",
+            "hi": "Vegetable Poratta",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Oman Chips Porotta",
+            "hi": "Oman Chips Porotta",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Nutella Poratta",
+            "hi": "Nutella Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 3,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Falafel Poratta",
+            "hi": "Falafel Poratta",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Hotdog Porotta",
+            "hi": "Hotdog Porotta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 4,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Fried Chilli Poratta",
+            "hi": "Fried Chilli Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 4.5,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Sheesh Tawook Poratta",
+            "hi": "Sheesh Tawook Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 5,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Tikka Poratta",
+            "hi": "Tikka Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 5,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Kabab Poratta",
+            "hi": "Kabab Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 5,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Chilli Fransis Poratta",
+            "hi": "Chilli Fransis Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 5,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Prawns Poratta",
+            "hi": "Prawns Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 5,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Chilli Poratta",
+            "hi": "Chilli Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 4,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Egg Burji Poratta",
+            "hi": "Egg Burji Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 4,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Cheesy Poratta",
+            "hi": "Cheesy Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 2.5,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Cheese & Fries Poratta",
+            "hi": "Cheese & Fries Poratta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 3,
+          "section": "Poratta"
+        },
+        {
+          "name": {
+            "en": "Chicken Lemon Wrap",
+            "hi": "Chicken Lemon Wrap",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10.5,
+          "section": "Wrap Sandwich"
+        },
+        {
+          "name": {
+            "en": "Zinker Wrap",
+            "hi": "Zinker Wrap",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12.5,
+          "section": "Wrap Sandwich"
+        },
+        {
+          "name": {
+            "en": "Vegetable Wrap",
+            "hi": "Vegetable Wrap",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Wrap Sandwich"
+        },
+        {
+          "name": {
+            "en": "Tikka Wrap",
+            "hi": "Tikka Wrap",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 11,
+          "section": "Wrap Sandwich"
+        },
+        {
+          "name": {
+            "en": "Chilly Wrap",
+            "hi": "Chilly Wrap",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 9,
+          "section": "Wrap Sandwich"
+        },
+        {
+          "name": {
+            "en": "Mathafi Wrap",
+            "hi": "Mathafi Wrap",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Wrap Sandwich"
+        },
+        {
+          "name": {
+            "en": "Nuggets Wrap",
+            "hi": "Nuggets Wrap",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 11,
+          "section": "Wrap Sandwich"
+        },
+        {
+          "name": {
+            "en": "Prawns Wrap",
+            "hi": "Prawns Wrap",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Wrap Sandwich"
+        },
+        {
+          "name": {
+            "en": "Omelette Wrap",
+            "hi": "Omelette Wrap",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Wrap Sandwich"
+        },
+        {
+          "name": {
+            "en": "Hotdog Wrap",
+            "hi": "Hotdog Wrap",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Wrap Sandwich"
+        },
+        {
+          "name": {
+            "en": "Arabic Shawarma",
+            "hi": "Arabic Shawarma",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12.5,
+          "section": "Shawarma Corner"
+        },
+        {
+          "name": {
+            "en": "Shawarma Plate",
+            "hi": "Shawarma Plate",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Shawarma Corner"
+        },
+        {
+          "name": {
+            "en": "Hassan Mathar",
+            "hi": "Hassan Mathar",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 7,
+          "section": "Shawarma Corner"
+        },
+        {
+          "name": {
+            "en": "Shawarma Roll",
+            "hi": "Shawarma Roll",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 5,
+          "section": "Shawarma Corner"
+        },
+        {
+          "name": {
+            "en": "Shawarma Jumbo",
+            "hi": "Shawarma Jumbo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Shawarma Corner"
+        },
+        {
+          "name": {
+            "en": "Oman Chips Shawarma",
+            "hi": "Oman Chips Shawarma",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 7,
+          "section": "Shawarma Corner"
+        },
+        {
+          "name": {
+            "en": "Chicken Mayonnaise Special",
+            "hi": "Chicken Mayonnaise Special",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 4,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Egg Burji Sandwich",
+            "hi": "Egg Burji Sandwich",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 5,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Boiled Egg Slice",
+            "hi": "Boiled Egg Slice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 4,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Egg Half Fry",
+            "hi": "Egg Half Fry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 4,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Nutella Bite",
+            "hi": "Nutella Bite",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 3.5,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Potato Plates",
+            "hi": "Potato Plates",
+            "aliases": []
+          },
+          "tags": ["vegetarian"]
+        },
+        {
+          "name": {
+            "en": "Potato Wedges",
+            "hi": "Potato Wedges",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8
+        },
+        {
+          "name": {
+            "en": "Chicken Fillet",
+            "hi": "Chicken Fillet",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Potato with Cheese",
+            "hi": "Potato with Cheese",
+            "aliases": []
+          },
+          "tags": []
+        },
+        {
+          "name": {
+            "en": "Chicken Nuggets",
+            "hi": "Chicken Nuggets",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20
+        },
+        {
+          "name": {
+            "en": "Jumbo Prawns",
+            "hi": "Jumbo Prawns",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18
+        },
+        {
+          "name": {
+            "en": "Onion Rings",
+            "hi": "Onion Rings",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10.5
+        },
+        {
+          "name": {
+            "en": "Chicken Popcorn",
+            "hi": "Chicken Popcorn",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8
+        },
+        {
+          "name": {
+            "en": "Snack Meal (2 pcs chicken, fries, bun)",
+            "hi": "Snack Meal (2 pcs chicken, fries, bun)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Broasted Chicken"
+        },
+        {
+          "name": {
+            "en": "Dinner Meal (3 pcs chicken, fries, bun)",
+            "hi": "Dinner Meal (3 pcs chicken, fries, bun)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Broasted Chicken"
+        },
+        {
+          "name": {
+            "en": "Jumbo Meal (6 pcs chicken, medium fries, 4 buns, 1 Pepsi)",
+            "hi": "Jumbo Meal (6 pcs chicken, medium fries, 4 buns, 1 Pepsi)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 30,
+          "section": "Broasted Chicken"
+        },
+        {
+          "name": {
+            "en": "Karak Tea",
+            "hi": "Karak Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Karak Zafran",
+            "hi": "Karak Zafran",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2.5,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Fresh Milk Zafran",
+            "hi": "Fresh Milk Zafran",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 3,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Nescafe",
+            "hi": "Nescafe",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Cappuccino",
+            "hi": "Cappuccino",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Horlicks",
+            "hi": "Horlicks",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 3,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Boost",
+            "hi": "Boost",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 3,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Kashmiri Tea",
+            "hi": "Kashmiri Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Oats with Milk",
+            "hi": "Oats with Milk",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 3,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Sahlab",
+            "hi": "Sahlab",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Hot Pistachio",
+            "hi": "Hot Pistachio",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 4,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Cornflakes Chocolate",
+            "hi": "Cornflakes Chocolate",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 4,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Corn Flakes",
+            "hi": "Corn Flakes",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 3,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Habbath Al Hamra",
+            "hi": "Habbath Al Hamra",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 3,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Green Tea",
+            "hi": "Green Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Cinnamon Tea",
+            "hi": "Cinnamon Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Rajeem Tea",
+            "hi": "Rajeem Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Arabic Coffee",
+            "hi": "Arabic Coffee",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Hot Chocolate",
+            "hi": "Hot Chocolate",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 3,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Samovar Tea",
+            "hi": "Samovar Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Mini Samosa with Tea (20 pcs)",
+            "hi": "Mini Samosa with Tea (20 pcs)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10.5,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Elanchi",
+            "hi": "Elanchi",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Pazhampori",
+            "hi": "Pazhampori",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Erachi Pathiri",
+            "hi": "Erachi Pathiri",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Chicken Roll",
+            "hi": "Chicken Roll",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Masala Bonda",
+            "hi": "Masala Bonda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Mutta Porichathu",
+            "hi": "Mutta Porichathu",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Pazham Nirachathu",
+            "hi": "Pazham Nirachathu",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Erachi Pola",
+            "hi": "Erachi Pola",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Chicken Cutlet",
+            "hi": "Chicken Cutlet",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Punjabi",
+            "hi": "Punjabi",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Samosa",
+            "hi": "Samosa",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Chicken Pocket",
+            "hi": "Chicken Pocket",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Egg Puffs",
+            "hi": "Egg Puffs",
+            "aliases": []
+          },
+          "tags": [],
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Parippuvada",
+            "hi": "Parippuvada",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Snacks"
         }
       ]
     }
