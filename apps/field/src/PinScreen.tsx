@@ -36,6 +36,9 @@ import { startSync, syncReports, type SyncOutcome } from './sync.js';
  * pavement or at a desk that night.
  */
 
+/** Pages of one menu on one pin: a long board photographed in sections (the owner asked for 12–15). */
+const MENU_PAGES = 15;
+
 interface Fix {
   readonly lat: number;
   readonly lng: number;
@@ -79,7 +82,12 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
   const [saved, setSaved] = useState<{ serial: string; id: string } | null>(null);
   const [saving, setSaving] = useState(false);
   /** The menu's first page, shrunk as it was picked. Optional: many counters do not hand one over. */
-  const [firstPage, setFirstPage] = useState<Blob | null>(null);
+  /**
+   * The menu, page by page, as it was photographed at the counter: few counters hand over a
+   * takeaway card, so the pages are photographed where they hang (the owner, Karama, 25 September).
+   * Every shot adds a page — a second shot used to replace the first — up to MENU_PAGES.
+   */
+  const [menuPages, setMenuPages] = useState<readonly Blob[]>([]);
   /**
    * A close picture of the WhatsApp number alone (the owner, Karama, 25 September): on a poor card
    * the number is unreadable in a picture of the whole page, and "WhatsApp us for the menu" is
@@ -122,10 +130,9 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
     setSaving(true);
     const at = fix;
     const id = crypto.randomUUID();
-    const pageId = `${id}-menu-0`;
     const whatsappId = `${id}-menu-whatsapp`;
     const pages = [
-      ...(firstPage === null ? [] : [{ id: pageId, bytes: firstPage }]),
+      ...menuPages.map((bytes, i) => ({ id: `${id}-menu-${String(i)}`, bytes })),
       ...(whatsapp === null ? [] : [{ id: whatsappId, bytes: whatsapp }]),
     ];
     // For review, not for the rider: where the menu is when it is not attached to this pin.
@@ -162,7 +169,7 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
       }
     });
 
-    setFirstPage(null);
+    setMenuPages([]);
     setWhatsapp(null);
     setPhotographed(false);
     setFromQr(false);
@@ -281,11 +288,19 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
         <output className="pin-number">{serial}</output>
       </div>
 
-      {/* How the menu came back, in glyphs: a camera for its first page, two ticks for a menu that
+      {/* How the menu came back, in glyphs: a camera for its pages, two ticks for a menu that
           is elsewhere, and a camera held close to the WhatsApp number. All optional — the tick
           below never waits on them. */}
       <div className="pin-menu">
-        <label className={firstPage === null ? 'pin-menu-opt' : 'pin-menu-opt pin-menu-on'}>
+        <label
+          className={
+            menuPages.length === 0
+              ? 'pin-menu-opt'
+              : menuPages.length >= MENU_PAGES
+                ? 'pin-menu-opt pin-menu-on pin-menu-full'
+                : 'pin-menu-opt pin-menu-on'
+          }
+        >
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -298,15 +313,24 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
             <path d="M4 8h3l1.5-2h7L17 8h3v11H4z" />
             <circle cx="12" cy="13" r="3.4" />
           </svg>
-          <span>{t('pinFirstPage')}</span>
+          <span>
+            {menuPages.length === 0
+              ? t('pinMenuPages')
+              : t('pinMenuCount', { n: menuPages.length, max: MENU_PAGES })}
+          </span>
           <input
             type="file"
             accept="image/*"
             capture="environment"
+            disabled={menuPages.length >= MENU_PAGES}
             onChange={(e) => {
               const file = e.target.files?.[0];
+              // Cleared so the same camera can be opened again at once for the next page.
+              e.target.value = '';
               if (file === undefined) return;
-              void shrink(file, MENU).then(setFirstPage);
+              void shrink(file, MENU).then((page) => {
+                setMenuPages((pages) => (pages.length >= MENU_PAGES ? pages : [...pages, page]));
+              });
             }}
           />
         </label>
@@ -383,6 +407,18 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
           />
         </label>
       </div>
+      {/* A blurred or wrong page is taken back one at a time, the last first. */}
+      {menuPages.length > 0 && (
+        <button
+          type="button"
+          className="pin-menu-undo"
+          onClick={() => {
+            setMenuPages((pages) => pages.slice(0, -1));
+          }}
+        >
+          {t('pinMenuUndo')}
+        </button>
+      )}
       {/* Optional, and the one place he types: what the counter said about the menu — "send a
           WhatsApp to 050… and we will send it". It reaches review with the pin. */}
       <textarea

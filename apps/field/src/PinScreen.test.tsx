@@ -3,6 +3,12 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import { db } from './db.js';
 import { PinScreen } from './PinScreen.js';
 
+/** jsdom draws no canvas: a page is kept as it was picked. */
+vi.mock('./shrink.js', () => ({
+  MENU: { edge: 2000, quality: 0.82 },
+  shrink: (file: File) => Promise.resolve(file),
+}));
+
 /**
  * The rider's screen (decision 029), tested as the conditions it is used in: a footpath, one
  * hand, no signal, and a man who reads neither Hindi nor English. What is checked is that the
@@ -160,6 +166,38 @@ describe('the rider’s pin', () => {
     await waitFor(() => {
       expect(document.querySelectorAll('.pin-menu-on')).toHaveLength(0);
     });
+  });
+
+  it('keeps every page of the menu photographed, in order, and takes back the last', async () => {
+    const { container } = render(<PinScreen />);
+    watcher?.(position);
+    await waitFor(() => {
+      expect(container.querySelector('.pin-done-btn')?.hasAttribute('disabled')).toBe(false);
+    });
+    const camera = container.querySelectorAll<HTMLInputElement>('input[type=file]')[0]!;
+    const shoot = async (name: string, count: number) => {
+      fireEvent.change(camera, { target: { files: [new File([name], `${name}.jpg`)] } });
+      await waitFor(() => {
+        expect(container.querySelector('.pin-menu-opt')?.textContent).toContain(
+          `${String(count)}/15`,
+        );
+      });
+    };
+    await shoot('one', 1);
+    await shoot('two', 2);
+    await shoot('blurred', 3);
+    fireEvent.click(container.querySelector('.pin-menu-undo')!);
+    await shoot('three', 3);
+    fireEvent.click(container.querySelector<HTMLButtonElement>('.pin-done-btn')!);
+
+    await waitFor(async () => {
+      expect(await db.reports.count()).toBe(1);
+    });
+    const [report] = await db.reports.toArray();
+    expect(report?.menuPhotoIds).toEqual([0, 1, 2].map((i) => `${report!.id}-menu-${String(i)}`));
+    // Three pages stored, one per id — the blurred shot was taken back, not kept as a fourth.
+    expect(await db.photos.count()).toBe(3);
+    for (const id of report!.menuPhotoIds) expect(await db.photos.get(id)).toBeTruthy();
   });
 
   it('shows the number back, then moves on to the next one', async () => {
