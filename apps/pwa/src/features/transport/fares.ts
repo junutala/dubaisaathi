@@ -124,6 +124,7 @@ export function parseFarePack(raw: unknown): FarePack {
   checkAmount(pack.redTicketIssueAed, 'red ticket issue charge');
   checkAmount(pack.minimumBalanceAed, 'minimum balance');
   checkAmount(pack.oneZoneWithinKm, 'one-zone distance');
+  checkAmount(pack.inrPerAed, 'rupee rate');
   const day = pack.dayTicket;
   if (day !== undefined) {
     if (typeof day !== 'object' || day === null) throw new Error('fare pack: day ticket');
@@ -168,6 +169,18 @@ export function nolFareAed(fares: FarePack, zones: number): number | undefined {
   if (zones === 1) return tariff.oneZone;
   if (zones === 2) return tariff.twoZones;
   return tariff.moreZones;
+}
+
+/**
+ * What `aed` is in rupees, to the nearest ten (the owner, 25 September: "no need to be
+ * mathematically correct"), grouped the Indian way ("1,250"). A price that is not free never
+ * reads ≈ ₹0. Undefined when the pack carries no rate, and the screen then shows dirhams alone.
+ */
+export function rupees(aed: number, fares: FarePack = currentFares()): string | undefined {
+  const rate = fares.inrPerAed;
+  if (rate === undefined || !Number.isFinite(aed) || aed < 0) return undefined;
+  const tens = Math.round((aed * rate) / 10) * 10;
+  return (aed > 0 ? Math.max(10, tens) : 0).toLocaleString('en-IN');
 }
 
 /** The copy compiled into this build: the floor a first launch falls back to. */

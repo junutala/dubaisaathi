@@ -247,6 +247,13 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 | The download line, only while the streets are not kept     | Says why the streets are missing and when they will arrive           |
 | क़दम दर क़दम                                               | The same journey as instructions (2.3), or the taxi hand-off (2.4)   |
 
+## Addendum, 25 September · rupees beside dirhams (decision 038)
+
+| Field                                       | Why it is there                                                      |
+| ------------------------------------------- | -------------------------------------------------------------------- |
+| ≈ ₹ beside every AED in जाना and खाना       | The traveller counts in rupees; the saving has to strike at a glance |
+| 1.2 · the searched dish's price per kitchen | Where "the same samosa, AED 1.5 here and AED 6 there" is seen        |
+
 ## 3.1 · जानना › जगहें
 
 | Field                                              | Why it is there                                         |

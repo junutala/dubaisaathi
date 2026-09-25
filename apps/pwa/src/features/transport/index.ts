@@ -11,6 +11,7 @@ export { parseTransportPack, type TransportNetwork } from './network.js';
 export {
   currentFares,
   parseFarePack,
+  rupees,
   FARES_PACK_ID,
   PASS_LENGTHS,
   type FarePack,

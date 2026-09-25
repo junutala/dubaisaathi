@@ -377,6 +377,8 @@ export const hi = {
   'unit.minutes': '{count} मिनट',
   'unit.fare': 'AED {amount}',
   'unit.fareRange': 'AED {min} – {max}',
+  'unit.inr': '≈ ₹{inr}',
+  'unit.inrRange': '≈ ₹{min} – {max}',
   'unit.noFare': 'मुफ़्त',
   'unit.stations': '{count} स्टेशन',
   'unit.stops': '{count} स्टॉप',
