@@ -426,6 +426,7 @@ export const hi = {
   'know.tab.places': 'जगहें',
   'know.tab.travel': 'सफ़र',
   'know.tab.shopping': 'ख़रीदारी',
+  'tips.gone': 'यह जानकारी अब सूची में नहीं है।',
   'tips.nol.title': 'Nol कार्ड',
   'tips.nol.sub': 'सिल्वर, गोल्ड, लाल टिकट और पास — कौन-सा लें, कितने का',
   'tips.nol.aed': 'AED {aed}',

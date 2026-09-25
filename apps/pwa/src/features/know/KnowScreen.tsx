@@ -7,7 +7,7 @@ import type { StringKey } from '../../i18n/index.js';
 import { AskBar, recordVoiceEvent } from '../ask/index.js';
 import { localName, placeById } from '../transport/index.js';
 import { CATEGORIES, searchAttractions, type Attraction, type Category } from './attractions.js';
-import { liveTabs, TIPS, type KnowTab } from './tips.js';
+import { liveTabs, TIPS, type KnowTab, type TopicTab } from './tips.js';
 
 /**
  * जानना, on tabs (decision 037): 3.1 जगहें, below, and 3.3 सफ़र — the topics a traveller should
@@ -47,8 +47,8 @@ export function KnowScreen({ tab = 'places' }: { readonly tab?: KnowTab }) {
 }
 
 /** 3.3 — a tab of topics: one card each, opening its own page. */
-function TopicsTab({ tab }: { readonly tab: Exclude<KnowTab, 'places'> }) {
-  const { t } = useSettings();
+function TopicsTab({ tab }: { readonly tab: TopicTab }) {
+  const { t, locale } = useSettings();
   return (
     <div className="rows">
       {TIPS.filter((tip) => tip.tab === tab).map((tip) => (
@@ -64,8 +64,12 @@ function TopicsTab({ tab }: { readonly tab: Exclude<KnowTab, 'places'> }) {
             <Icon name={tip.icon} size={26} strokeWidth={1.7} color="var(--knowText)" />
           </span>
           <span className="row-card-text">
-            <span className="row-card-title">{t(tip.title)}</span>
-            <span className="row-card-sub">{t(tip.sub)}</span>
+            <span className="row-card-title">
+              {'titleKey' in tip ? t(tip.titleKey) : tip.title[locale]}
+            </span>
+            <span className="row-card-sub">
+              {'subKey' in tip ? t(tip.subKey) : tip.sub[locale]}
+            </span>
           </span>
           <Icon name="right" size={18} strokeWidth={2} color="var(--chev)" />
         </button>

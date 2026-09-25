@@ -36,3 +36,19 @@ The new fields are optional, so an older pack still parses; the page leaves out 
 
 जाना still quotes every two-zone trip at the two-zone fare. A short hop across a zone line is
 quoted AED 2 high until the planner measures the trip against `oneZoneWithinKm`.
+
+## Addendum, the same evening: written topics
+
+Topics that are words rather than figures are **data**, in `data/know/tips.v1.json`. Each has a
+title, a line, and numbered items; every item carries a name, how serious it is and what to do,
+in both languages, with the day it was checked and whose rule it is. A topic missing a language
+or an item is left out rather than shown half-written. The first two, both under सफ़र:
+
+- **बैग पैक करते समय ये 4 चीज़ें भूलकर भी न रखें**: poppy seeds (khus khus), paan, gutka and
+  supari, controlled medicines without a prescription, and unlabelled spices. These are the
+  owner's words, tightened. They were checked against Dubai Customs' prohibited-goods list, which
+  names paan and betel leaves.
+- **मेट्रो और बस में — जो भारत में चलता है, यहाँ नहीं**: phones played aloud (the owner: "bring
+  earpods"), eating or drinking even water (AED 100, the one figure confirmed against the 2026
+  schedule), and Gold Class and the women's section. The other fines say "a fine" until the
+  owner's photograph of the RTA's fines board replaces them with figures.

@@ -1,0 +1,145 @@
+{
+  "contentVersion": 1,
+  "publishedAt": "2026-09-25T19:00:00Z",
+  "source": "Topics for जानना that are not places (decision 037). Each carries the day its facts were checked. The packing list follows Dubai Customs' prohibited and restricted goods (dubaicustoms.gov.ae), which lists paan and betel leaves, and the widely reported UAE rules on poppy seeds, gutka, naswar and supari and on controlled medicines; checked 25 September 2026. Rules change: every item says to leave it out when in doubt. The metro manners follow the RTA's public transport rules under Executive Council Resolution 3 of 2026: only the AED 100 fine for eating or drinking is printed as a figure, because it is the one confirmed against the 2026 schedule; the others say a fine without an amount.",
+  "topics": [
+    {
+      "id": "packing",
+      "tab": "travel",
+      "icon": "info",
+      "title": {
+        "hi": "बैग पैक करते समय ये 4 चीज़ें भूलकर भी न रखें",
+        "en": "Four things never to pack for Dubai"
+      },
+      "sub": {
+        "hi": "खसखस, पान-सुपारी, कुछ दवाइयाँ, खुला मसाला — दुबई कस्टम्स के नियम",
+        "en": "Poppy seeds, paan and supari, some medicines, loose spices — Dubai customs rules"
+      },
+      "checkedAt": "2026-09-25",
+      "items": [
+        {
+          "title": {
+            "hi": "खसखस",
+            "en": "Poppy seeds (khus khus, posto)"
+          },
+          "level": {
+            "hi": "पूरी तरह पाबंदी",
+            "en": "Banned outright"
+          },
+          "body": {
+            "hi": "भारत में आम मसाला है, पर UAE में यह नशीले पदार्थ (अफ़ीम) की श्रेणी में आता है। सब्ज़ी, मिठाई, अचार या कच्चे मसाले — किसी भी रूप में न लाएँ। पकड़े जाने पर जेल और डिपोर्टेशन तक हो सकता है।",
+            "en": "An everyday spice in India, but in the UAE it is treated as a narcotic (opium). Do not bring it in any form — in a sabzi, a sweet, a pickle or as the spice itself. Being caught with it can mean jail and deportation."
+          }
+        },
+        {
+          "title": {
+            "hi": "पान, गुटखा और सुपारी",
+            "en": "Paan, gutka and supari"
+          },
+          "level": {
+            "hi": "ज़ब्ती और जुर्माना",
+            "en": "Seized, and a fine"
+          },
+          "body": {
+            "hi": "पान के पत्ते, गुटखा, नसवार और सुपारी UAE में प्रतिबंधित हैं — थोड़ी-सी मात्रा भी नहीं चलती। बैग में मिले तो सामान ज़ब्त होगा और भारी जुर्माना लग सकता है।",
+            "en": "Betel leaves, gutka, naswar and supari are banned in the UAE — not even a little for yourself. If they are found in your bag they are seized, and the fine can be heavy."
+          }
+        },
+        {
+          "title": {
+            "hi": "कुछ आम दवाइयाँ",
+            "en": "Some everyday medicines"
+          },
+          "level": {
+            "hi": "बिना पर्चे के ग़ैरक़ानूनी",
+            "en": "Illegal without a prescription"
+          },
+          "body": {
+            "hi": "Tramadol, कोडीन वाले कफ़ सिरप, नींद या डिप्रेशन की गोलियाँ भारत में आसानी से मिल जाती हैं, पर UAE में बिना डॉक्टर के पर्चे के इन्हें लाना ग़ैरक़ानूनी है। कोई भी दवा लाएँ तो डॉक्टर का ताज़ा पर्चा (अंग्रेज़ी में) और दवा का असली डिब्बा साथ रखें।",
+            "en": "Tramadol, cough syrups with codeine, and sleeping or antidepressant tablets are easy to buy in India, but bringing them into the UAE without a doctor's prescription is illegal. Whatever medicine you carry, keep a recent prescription in English and the original box with it."
+          }
+        },
+        {
+          "title": {
+            "hi": "बिना लेबल का मसाला और खुला खाना",
+            "en": "Unlabelled spices and loose food"
+          },
+          "level": {
+            "hi": "चेकिंग में देर",
+            "en": "Delays at the check"
+          },
+          "body": {
+            "hi": "प्लास्टिक की थैली में बंधे बिना लेबल के मसाले और घर का बना अचार स्कैनर पर शक पैदा करते हैं। जो भी लाएँ, सीलबंद कंपनी की पैकिंग में लाएँ।",
+            "en": "Spices tied up in plain plastic bags and home-made pickle look suspicious on the scanner. Whatever you bring, bring it sealed, in the maker's own packing."
+          }
+        }
+      ],
+      "footer": {
+        "hi": "दुबई कस्टम्स की प्रतिबंधित सामान सूची से, 25 सितंबर 2026 को मिलाया गया। नियम बदलते रहते हैं — शक हो तो न लाएँ।",
+        "en": "From Dubai Customs' list of prohibited goods, checked 25 September 2026. Rules change — if in doubt, leave it out."
+      }
+    },
+    {
+      "id": "metro-manners",
+      "tab": "travel",
+      "icon": "metro",
+      "title": {
+        "hi": "मेट्रो और बस में — जो भारत में चलता है, यहाँ नहीं",
+        "en": "On the metro and bus — what passes in India, and does not here"
+      },
+      "sub": {
+        "hi": "तेज़ आवाज़ में गाना, कुछ भी खाना-पीना, ग़लत डिब्बा",
+        "en": "Loud phones, eating or drinking, the wrong carriage"
+      },
+      "checkedAt": "2026-09-25",
+      "items": [
+        {
+          "title": {
+            "hi": "बिना ईयरफ़ोन के गाना, वीडियो, रील",
+            "en": "Music, videos or reels without earphones"
+          },
+          "level": {
+            "hi": "मना है",
+            "en": "Not allowed"
+          },
+          "body": {
+            "hi": "फ़ोन पर तेज़ आवाज़ में गाना या वीडियो चलाना यहाँ दूसरों को परेशान करना माना जाता है, और इस पर जुर्माना हो सकता है। ईयरफ़ोन साथ रखें, और फ़ोन पर बात भी धीमी आवाज़ में करें।",
+            "en": "Playing music or video aloud on a phone counts as disturbing others here, and can be fined. Carry earphones, and keep phone calls quiet too."
+          }
+        },
+        {
+          "title": {
+            "hi": "कुछ भी खाना-पीना — पानी भी",
+            "en": "Eating or drinking anything — even water"
+          },
+          "level": {
+            "hi": "AED 100 जुर्माना",
+            "en": "AED 100 fine"
+          },
+          "body": {
+            "hi": "मेट्रो के गेट के अंदर, प्लेटफ़ॉर्म पर और ट्रेन में खाना, पीना और च्यूइंग गम — सब मना है, पानी का घूँट भी। जुर्माना AED 100 (≈ ₹2,600)।",
+            "en": "Past the metro gates, on the platform and on the train, eating, drinking and chewing gum are all forbidden — even a sip of water. The fine is AED 100 (≈ ₹2,600)."
+          }
+        },
+        {
+          "title": {
+            "hi": "गोल्ड क्लास और महिलाओं का डिब्बा",
+            "en": "Gold Class and the women's carriage"
+          },
+          "level": {
+            "hi": "जुर्माना",
+            "en": "A fine"
+          },
+          "body": {
+            "hi": "मेट्रो का सबसे आगे वाला डिब्बा गोल्ड क्लास है — सिल्वर कार्ड या लाल टिकट से उसमें न बैठें। गुलाबी निशान वाला हिस्सा सिर्फ़ महिलाओं और बच्चों के लिए है; पुरुष उसमें न जाएँ।",
+            "en": "The front carriage of the metro is Gold Class — do not sit in it on a Silver card or a red ticket. The section marked in pink is for women and children only; men must not enter it."
+          }
+        }
+      ],
+      "footer": {
+        "hi": "RTA के सार्वजनिक परिवहन नियमों से (दुबई कार्यकारी परिषद प्रस्ताव 3/2026), 25 सितंबर 2026 को मिलाया गया।",
+        "en": "From the RTA's public transport rules (Dubai Executive Council Resolution 3 of 2026), checked 25 September 2026."
+      }
+    }
+  ]
+}

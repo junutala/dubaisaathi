@@ -7,6 +7,8 @@ import shipped from '../../../../../data/transport/fares.v1.json';
 import { parseFarePack } from '../transport/index.js';
 import { KnowScreen } from './KnowScreen.js';
 import { NolScreen } from './NolScreen.js';
+import { TopicScreen } from './TopicScreen.js';
+import { parseTopics } from './tips.js';
 
 /**
  * जानना on tabs, and 3.4 · Nol कार्ड (decision 037), tested with the radio off — every figure
@@ -62,7 +64,63 @@ describe('जानना · the tabs', () => {
       tab: 'travel',
     });
     expect(parseRoute('#/tip/nol')).toEqual({ screen: 'tip', tipId: 'nol' });
-    expect(parseRoute('#/tip/nothing')).toEqual({ screen: 'know', tab: 'travel' });
+    expect(parseRoute('#/tip/packing')).toEqual({ screen: 'tip', tipId: 'packing' });
+    expect(parseRoute('#/tip/<script>')).toEqual({ screen: 'know', tab: 'travel' });
+  });
+});
+
+describe('3.4 · a written topic', () => {
+  it('lists the packing warnings first under Local travel', () => {
+    render(
+      <SettingsProvider>
+        <KnowScreen tab="travel" />
+      </SettingsProvider>,
+    );
+    const titles = [...document.querySelectorAll('.tip-card .row-card-title')].map(
+      (el) => el.textContent,
+    );
+    expect(titles[0]).toBe('Four things never to pack for Dubai');
+    expect(titles).toContain('Nol card');
+  });
+
+  it('shows all four packing items in Hindi, with how serious each is', () => {
+    localStorage.setItem('saathi.locale', 'hi');
+    render(
+      <SettingsProvider>
+        <TopicScreen tipId="packing" />
+      </SettingsProvider>,
+    );
+    expect(document.querySelectorAll('.tip-item')).toHaveLength(4);
+    const page = document.body.textContent;
+    expect(page).toContain('खसखस');
+    expect(page).toContain('पूरी तरह पाबंदी');
+    expect(page).toContain('सुपारी');
+  });
+
+  it('says so plainly when a topic is no longer in the list', () => {
+    render(
+      <SettingsProvider>
+        <TopicScreen tipId="gone-away" />
+      </SettingsProvider>,
+    );
+    expect(document.body.textContent).toContain('no longer in the list');
+  });
+
+  it('leaves out a topic that is half written, and keeps the rest', () => {
+    const whole = {
+      id: 'ok',
+      tab: 'travel',
+      icon: 'info',
+      title: { hi: 'क', en: 'A' },
+      sub: { hi: 'ख', en: 'B' },
+      footer: { hi: 'ग', en: 'C' },
+      checkedAt: '2026-09-25',
+      items: [
+        { title: { hi: 'क', en: 'A' }, level: { hi: 'ख', en: 'B' }, body: { hi: 'ग', en: 'C' } },
+      ],
+    };
+    const noHindi = { ...whole, id: 'half', title: { en: 'Only English' } };
+    expect(parseTopics({ topics: [whole, noHindi] }).map((t) => t.id)).toEqual(['ok']);
   });
 });
 

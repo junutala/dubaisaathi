@@ -139,8 +139,9 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
 - **जानना is knowing, on tabs** (decision 037, 25 September). **जगहें**: attractions with hours,
   ticket, how long, whom to ring, a Hindi blurb and a जाना button; no hotels or homestays; a line
   at the bottom lets the traveller name a place we missed, into the question log. **सफ़र** (3.3):
-  topics for getting around, first **Nol कार्ड** (3.4), whose every figure comes from the fares
-  pack. **ख़रीदारी** (dates, oud) comes when its first topic is written — a tab with nothing in it
+  topics for getting around: what never to pack (khus khus, paan, some medicines), metro manners,
+  and **Nol कार्ड** (3.4), whose every figure comes from the fares pack. Written topics are data in
+  `data/know/tips.v1.json`, each with the day it was checked. **ख़रीदारी** (dates, oud) comes when its first topic is written — a tab with nothing in it
   is never shown.
 - **No login, no account, no gate.** Entitlement is keyed to the device. A pass is a signed
   token verified offline (decision 005). Location is asked at first need with the reason on the
