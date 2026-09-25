@@ -1990,6 +1990,52 @@ button:not(:disabled) {
   font-size: 14.5px;
   line-height: 1.45;
 }
+.tip-title {
+  margin: 0;
+  font-size: 21px;
+  line-height: 1.3;
+}
+.tip-items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: tip;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.tip-item {
+  counter-increment: tip;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  background: var(--tile);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+.tip-item-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.tip-item-head strong::before {
+  content: counter(tip) '. ';
+}
+/* How serious it is: marigold, never red — a warning, not an alarm (the pass dot's rule). */
+.tip-level {
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--marigoldSoft);
+  color: var(--marigoldText);
+  white-space: nowrap;
+}
 .zone-table {
   width: 100%;
   border-collapse: collapse;

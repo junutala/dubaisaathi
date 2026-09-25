@@ -1,5 +1,5 @@
 import type { RouteOptionId } from '../features/transport/index.js';
-import type { KnowTab, TipId } from '../features/know/index.js';
+import type { KnowTab } from '../features/know/index.js';
 
 /**
  * The screens, by the numbers in `docs/field-ledger.md`: घर and its children, then one pillar
@@ -37,11 +37,10 @@ export type Route =
   // 3.1 · जानना › जगहें, 3.3 · a tab of topics (decision 037), 3.2 · one place, 3.4 · one topic
   | { readonly screen: 'know'; readonly tab?: KnowTab }
   | { readonly screen: 'place'; readonly placeId: string }
-  | { readonly screen: 'tip'; readonly tipId: TipId };
+  | { readonly screen: 'tip'; readonly tipId: string };
 
 /** Kept here rather than imported, so the router does not load a feature to read an address. */
 const KNOW_TAB_NAMES: readonly string[] = ['places', 'travel', 'shopping'] satisfies KnowTab[];
-const TIP_NAMES: readonly string[] = ['nol'] satisfies TipId[];
 
 function isOptionId(value: string | undefined): value is RouteOptionId {
   return (
@@ -92,8 +91,9 @@ export function parseRoute(hash: string): Route {
         ? { screen: 'know', tab: arg as KnowTab }
         : { screen: 'know' };
     case 'tip':
-      return arg !== undefined && TIP_NAMES.includes(arg)
-        ? { screen: 'tip', tipId: arg as TipId }
+      // Any topic id reads here; the screen says so plainly when a pack no longer has it.
+      return arg !== undefined && /^[a-z-]+$/.test(arg)
+        ? { screen: 'tip', tipId: arg }
         : { screen: 'know', tab: 'travel' };
     case 'place':
       return arg ? { screen: 'place', placeId: arg } : { screen: 'know' };

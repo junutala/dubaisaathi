@@ -295,6 +295,14 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 | काम की बात · children · minimum · the rules  | Children ride free; AED 7.5 opens the gate; changing inside 30 minutes is one fare |
 | The source line                              | The RTA board at BurJuman, and the date it was checked                             |
 
+## 3.5 · जानना › a written topic (data/know/tips.v1.json)
+
+| Field                                    | Why it is there                                                              |
+| ---------------------------------------- | ---------------------------------------------------------------------------- |
+| The title, as the traveller would say it | "बैग पैक करते समय ये 4 चीज़ें भूलकर भी न रखें" — the warning is the headline |
+| Each item: name, how serious, what to do | Numbered; the level in marigold, never red — a warning, not an alarm         |
+| The footer: whose rule, and when checked | Rules change; the traveller sees how fresh this is                           |
+
 ## Addenda
 
 - **The lockup replaces दुबई साथी on the strip and on L (decision 021).** One word, one capital,

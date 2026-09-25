@@ -407,6 +407,7 @@ export const en: Record<StringKey, string> = {
   'know.tab.places': 'Attractions',
   'know.tab.travel': 'Local travel',
   'know.tab.shopping': 'Shopping',
+  'tips.gone': 'This topic is no longer in the list.',
   'tips.nol.title': 'Nol card',
   'tips.nol.sub': 'Silver, Gold, the red ticket and passes — which one, and what it costs',
   'tips.nol.aed': 'AED {aed}',

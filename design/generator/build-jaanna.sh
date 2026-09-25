@@ -81,6 +81,22 @@ cat <<H
   <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 6px 16px 12px 16px;">
     $(tabs travel)
     <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: $card; border-radius: 16px; border: 1px solid $line;">
+      <span style="width: 48px; height: 48px; border-radius: 12px; background: $sand; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">$(info 26 "$n_text" 1.7)</span>
+      <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0;">
+        <span class="disp" style="font-size: 17px; font-weight: 600; color: $ink; line-height: 1.25;">बैग पैक करते समय ये 4 चीज़ें भूलकर भी न रखें</span>
+        <span style="font-size: 12.5px; color: $muted; line-height: 1.35;">खसखस, पान-सुपारी, कुछ दवाइयाँ, खुला मसाला — दुबई कस्टम्स के नियम</span>
+      </span>
+      $(chev 18 "$muted" 2)
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: $card; border-radius: 16px; border: 1px solid $line;">
+      <span style="width: 48px; height: 48px; border-radius: 12px; background: $sand; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">$(metro 26 "$n_text" 1.7)</span>
+      <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0;">
+        <span class="disp" style="font-size: 17px; font-weight: 600; color: $ink; line-height: 1.25;">मेट्रो और बस में — जो भारत में चलता है, यहाँ नहीं</span>
+        <span style="font-size: 12.5px; color: $muted; line-height: 1.35;">तेज़ आवाज़ में गाना, कुछ भी खाना-पीना, ग़लत डिब्बा</span>
+      </span>
+      $(chev 18 "$muted" 2)
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: $card; border-radius: 16px; border: 1px solid $line;">
       <span style="width: 48px; height: 48px; border-radius: 12px; background: $sand; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">$(metro 26 "$n_text" 1.7)</span>
       <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0;">
         <span class="disp" style="font-size: 19px; font-weight: 600; color: $ink;">Nol कार्ड</span>
@@ -121,3 +137,23 @@ H
 bar jaanna
 close_screen
 } > "$OUT/N4.dc.html"
+
+# ---- 3.5 · जानना › सफ़र › a written topic: the packing list
+item() { echo "<div style=\"display: flex; flex-direction: column; gap: 5px; padding: 11px 13px; background: $card; border-radius: 14px; border: 1px solid $line;\"><span style=\"display: flex; justify-content: space-between; gap: 8px; align-items: baseline;\"><b style=\"font-size: 14.5px; color: $ink;\">$1</b><span style=\"padding: 2px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 700; background: #FDF0DC; color: #9A5B10; white-space: nowrap;\">$2</span></span><span style=\"font-size: 13px; line-height: 1.45; color: $ink;\">$3</span></div>"; }
+{
+open_screen
+strip running set
+header lantern "$n_text" 'जानना' 'बैग पैक करते समय…'
+cat <<H
+  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 9px; padding: 6px 16px 12px 16px;">
+    <span class="disp" style="font-size: 20px; font-weight: 700; color: $ink; line-height: 1.25;">बैग पैक करते समय ये 4 चीज़ें भूलकर भी न रखें</span>
+    $(item '1. खसखस' 'पूरी तरह पाबंदी' 'भारत में आम मसाला है, पर UAE में यह नशीले पदार्थ (अफ़ीम) की श्रेणी में आता है। किसी भी रूप में न लाएँ।')
+    $(item '2. पान, गुटखा और सुपारी' 'ज़ब्ती और जुर्माना' 'UAE में प्रतिबंधित — थोड़ी-सी मात्रा भी नहीं चलती।')
+    $(item '3. कुछ आम दवाइयाँ' 'बिना पर्चे के ग़ैरक़ानूनी' 'Tramadol, कोडीन वाले कफ़ सिरप — डॉक्टर का ताज़ा पर्चा और असली डिब्बा साथ रखें।')
+    $(item '4. बिना लेबल का मसाला' 'चेकिंग में देर' 'जो भी लाएँ, सीलबंद कंपनी की पैकिंग में लाएँ।')
+    <span style="font-size: 11.5px; color: $muted;">दुबई कस्टम्स की सूची से, 25 सितंबर 2026 को मिलाया गया। शक हो तो न लाएँ।</span>
+  </div>
+H
+bar jaanna
+close_screen
+} > "$OUT/N5.dc.html"
