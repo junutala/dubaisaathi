@@ -8,6 +8,7 @@ import { distanceKm } from '../../lib/distance.js';
 import { useHere } from '../../lib/here.js';
 import { localName, placeById } from './destinations.js';
 import { currentFares } from './fares.js';
+import { fareRangeText } from './describeLeg.js';
 import { taxiFareBand } from './taxiFare.js';
 
 /**
@@ -92,9 +93,7 @@ export function TaxiScreen({
         {fare !== null && (
           <div className="taxi-fare">
             <span>{t('taxi.fare')}</span>
-            <span className="taxi-fare-value">
-              {t('unit.fareRange', { min: fare.min, max: fare.max })}
-            </span>
+            <span className="taxi-fare-value">{fareRangeText(t, fare.min, fare.max)}</span>
           </div>
         )}
 

@@ -13,6 +13,7 @@ import { useHere, type HereFrom } from '../../lib/here.js';
 import { popularDishes } from './dishes.js';
 import { openState } from './openNow.js';
 import { outletsAreFixture } from './outlets.js';
+import { rupees } from '../transport/index.js';
 import { searchOutlets, type Constraint, type OutletHit } from './search.js';
 
 /**
@@ -227,8 +228,16 @@ function OutletRow({ hit, from }: { readonly hit: OutletHit; readonly from: Here
           <span className={`pill food-kitchen-${outlet.kitchen}`}>
             {t(`food.kitchen.${outlet.kitchen}` as StringKey)}
           </span>
-          {dishes.length > 0 && (
-            <span style={{ color: 'var(--foodText)', fontWeight: 600 }}>{dishes.join(', ')}</span>
+          {hit.dishPriceAed !== undefined ? (
+            <span className="food-dish-price">
+              {t('unit.fare', { amount: hit.dishPriceAed })}
+              {rupees(hit.dishPriceAed) !== undefined &&
+                ` · ${t('unit.inr', { inr: rupees(hit.dishPriceAed) ?? '' })}`}
+            </span>
+          ) : (
+            dishes.length > 0 && (
+              <span style={{ color: 'var(--foodText)', fontWeight: 600 }}>{dishes.join(', ')}</span>
+            )
           )}
         </span>
       </span>

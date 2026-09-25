@@ -2,6 +2,7 @@ import type { DubaiPlace } from '@saathi/shared';
 import type { IconName } from '../../app/shell/icons.js';
 import type { Locale, StringKey } from '../../i18n/index.js';
 import { localName } from './destinations.js';
+import { rupees } from './fares.js';
 import type { TransportNetwork } from './network.js';
 import {
   DESTINATION_NODE_ID,
@@ -57,12 +58,28 @@ export function minutes(words: Words, seconds: number): string {
   return words.t('unit.minutes', { count: Math.max(1, Math.round(seconds / 60)) });
 }
 
+/**
+ * The fare in dirhams and, beside it, in rupees (the owner, 25 September): the traveller this is
+ * for counts in rupees, and metro ≈ ₹130 next to taxi ≈ ₹1,000 is the saving said without a word.
+ */
 export function fareText(words: Words, option: RouteOption): string {
   if (option.fareAedMax === 0) return words.t('unit.noFare');
   if (option.fareAedMin === option.fareAedMax) {
-    return words.t('unit.fare', { amount: option.fareAedMin });
+    const inr = rupees(option.fareAedMin);
+    const aed = words.t('unit.fare', { amount: option.fareAedMin });
+    return inr === undefined ? aed : `${aed} · ${words.t('unit.inr', { inr })}`;
   }
-  return words.t('unit.fareRange', { min: option.fareAedMin, max: option.fareAedMax });
+  return fareRangeText(words.t, option.fareAedMin, option.fareAedMax);
+}
+
+/** A range in dirhams, then the same range in rupees when the pack carries a rate. */
+export function fareRangeText(t: Translate, min: number, max: number): string {
+  const aed = t('unit.fareRange', { min, max });
+  const low = rupees(min);
+  const high = rupees(max);
+  return low === undefined || high === undefined
+    ? aed
+    : `${aed} · ${t('unit.inrRange', { min: low, max: high })}`;
 }
 
 /** Where a leg starts or ends: the traveller, the place they named, or a station in between. */

@@ -353,6 +353,15 @@ export interface FarePack {
   readonly minimumBalanceAed?: number;
   /** A trip across two zones shorter than this is charged as one zone. */
   readonly oneZoneWithinKm?: number;
+  /**
+   * Rupees to the dirham, so every price in जाना and खाना can say what it is at home (the owner,
+   * 25 September: the budget traveller is the market, and the saving has to strike at a glance).
+   * Shown as "≈ ₹", never charged. A fixed rate, not a daily one (the owner): it moves only when
+   * we republish the pack. Optional: a pack without it shows dirhams alone.
+   */
+  readonly inrPerAed?: number;
+  /** The day the fixed rate was set. */
+  readonly inrRateOn?: string;
 }
 
 export const PASS_LENGTHS = ['days7', 'days30', 'days90', 'days365'] as const;

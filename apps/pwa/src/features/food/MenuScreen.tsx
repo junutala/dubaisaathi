@@ -6,7 +6,7 @@ import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { Icon } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
 import type { SavedHotel } from '../info/index.js';
-import { outletPlaceId } from '../transport/index.js';
+import { outletPlaceId, rupees } from '../transport/index.js';
 import { distanceKm, distanceLabel } from '../../lib/distance.js';
 import { VIRTUAL_HERE_NAME } from '../../lib/dubai.js';
 import { useHere } from '../../lib/here.js';
@@ -106,7 +106,7 @@ export function MenuScreen({
               t(`food.kitchen.${outlet.kitchen}` as StringKey),
               outlet.approxCostAed === undefined
                 ? undefined
-                : t('food.price', { aed: outlet.approxCostAed }),
+                : priceWithRupees(t, outlet.approxCostAed),
             ]
               .filter((part): part is string => part !== undefined)
               .map((part) => (
@@ -186,7 +186,14 @@ export function MenuScreen({
                         {locale === 'hi' ? item.name.hi : item.name.en}
                       </span>
                       {item.priceAed !== undefined && (
-                        <span className="menu-item-price">AED {item.priceAed}</span>
+                        <span className="menu-item-price">
+                          {t('unit.fare', { amount: item.priceAed })}
+                          {rupees(item.priceAed) !== undefined && (
+                            <span className="menu-item-inr">
+                              {t('unit.inr', { inr: rupees(item.priceAed) ?? '' })}
+                            </span>
+                          )}
+                        </span>
                       )}
                       {item.tags.length > 0 && (
                         <span className="menu-item-tags">
@@ -204,4 +211,14 @@ export function MenuScreen({
       </div>
     </>
   );
+}
+
+/** "One person ≈ AED 25 · ≈ ₹650" — the rupees only when the pack carries a rate. */
+function priceWithRupees(
+  t: (key: StringKey, vars?: Record<string, string | number>) => string,
+  aed: number,
+): string {
+  const inr = rupees(aed);
+  const line = t('food.price', { aed });
+  return inr === undefined ? line : `${line} · ${t('unit.inr', { inr })}`;
 }

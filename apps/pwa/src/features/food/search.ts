@@ -23,6 +23,12 @@ export interface OutletHit {
   readonly km?: number;
   /** A collector confirmed the searched dish here, as opposed to the kitchen being its kind. */
   readonly confirmed: boolean;
+  /**
+   * What the searched dish costs here, off this kitchen's own menu — so a row can say "samosa
+   * AED 1.5" beside the next kitchen's AED 6, which is the saving a family feels (the owner,
+   * 25 September). Absent when no dish was searched or this menu carries no price for it.
+   */
+  readonly dishPriceAed?: number;
 }
 
 export interface OutletSearch {
@@ -124,11 +130,20 @@ export function searchOutlets(
 
   const hits = matched
     .filter((row) => constraints.every((constraint) => meets(row.outlet, constraint, now)))
-    .map((row) => ({
-      outlet: row.outlet,
-      confirmed: row.confirmed,
-      ...(here === undefined ? {} : { km: distanceKm(here, row.outlet.location) }),
-    }))
+    .map((row) => {
+      const price =
+        dish === undefined
+          ? undefined
+          : (row.outlet.confirmedDishes ?? []).find(
+              (made) => made.priceAed !== undefined && isSameDish(dish, made.name),
+            )?.priceAed;
+      return {
+        outlet: row.outlet,
+        confirmed: row.confirmed,
+        ...(here === undefined ? {} : { km: distanceKm(here, row.outlet.location) }),
+        ...(price === undefined ? {} : { dishPriceAed: price }),
+      };
+    })
     .sort((a, b) => {
       if (a.confirmed !== b.confirmed) return a.confirmed ? -1 : 1;
       // Nearest first; with no location at all, by name — never the order they were uploaded in.

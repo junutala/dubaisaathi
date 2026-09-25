@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { BUNDLED_FARES, nolFareAed, parseFarePack } from './fares.js';
+import { BUNDLED_FARES, nolFareAed, parseFarePack, rupees } from './fares.js';
 import shipped from '../../../../../data/transport/fares.v1.json';
 import network from '../../../../../data/transport/network.v1.json';
 
@@ -75,5 +75,27 @@ describe('the fare pack', () => {
       parseFarePack({ ...shipped, taxi: { ...shipped.taxi, flagFallAed: 12, minimumAed: 12 } }),
     ).toThrow(/not above the flag fall/);
     expect(() => parseFarePack(shipped)).not.toThrow();
+  });
+});
+
+describe('rupees beside dirhams (the owner, 25 September)', () => {
+  const at = (rate: number) => ({ ...BUNDLED_FARES, inrPerAed: rate });
+
+  it('rounds the way a person says it, grouped the Indian way', () => {
+    expect(rupees(5, at(26))).toBe('130');
+    expect(rupees(38, at(26))).toBe('990');
+    expect(rupees(50, at(26))).toBe('1,300');
+    expect(rupees(1.5, at(26))).toBe('39');
+  });
+
+  it('shows nothing rather than a guess when the pack has no rate', () => {
+    const { inrPerAed, ...noRate } = BUNDLED_FARES;
+    expect(inrPerAed).toBeDefined();
+    expect(rupees(5, noRate)).toBeUndefined();
+  });
+
+  it('ships the fixed rate, with the day it was fixed', () => {
+    expect(BUNDLED_FARES.inrPerAed).toBe(26);
+    expect(BUNDLED_FARES.inrRateOn).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 });

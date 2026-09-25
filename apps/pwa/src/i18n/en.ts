@@ -360,6 +360,8 @@ export const en: Record<StringKey, string> = {
   'unit.minutes': '{count} min',
   'unit.fare': 'AED {amount}',
   'unit.fareRange': 'AED {min} – {max}',
+  'unit.inr': '≈ ₹{inr}',
+  'unit.inrRange': '≈ ₹{min} – {max}',
   'unit.noFare': 'Free',
   'unit.stations': '{count} stations',
   'unit.stops': '{count} stops',

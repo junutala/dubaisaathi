@@ -61,9 +61,9 @@ cat <<H
       <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 8px; height: 8px; border-radius: 999px; background: $teal;"></span><span class="disp" style="font-size: 18px; font-weight: 600; color: $ink;">बुर्ज ख़लीफ़ा</span><span style="font-size: 12.5px; color: $muted;">· 9 किमी</span></div>
     </div>
     $(label 'कैसे जाएँ')
-$(opt metro 'मेट्रो' 'लाल लाइन · 1 बार बदलें · 800 मी पैदल' '38 मिनट' 'AED 6' yes)
-$(opt bus 'बस' 'C7 फिर 27 · 300 मी पैदल' '55 मिनट' 'AED 5' no)
-$(opt taxi 'टैक्सी' 'Careem या सड़क से' '20 मिनट' '≈ AED 35' no)
+$(opt metro 'मेट्रो' 'लाल लाइन · 1 बार बदलें · 800 मी पैदल' '38 मिनट' 'AED 6 · ≈ ₹155' yes)
+$(opt bus 'बस' 'C7 फिर 27 · 300 मी पैदल' '55 मिनट' 'AED 5 · ≈ ₹130' no)
+$(opt taxi 'टैक्सी' 'Careem या सड़क से' '20 मिनट' '≈ AED 35 · ≈ ₹910' no)
 $(opt walk 'पैदल' 'गर्मी में नहीं' '1 घं 50 मि' 'मुफ़्त' no)
     <span style="font-size: 12.5px; color: $muted; text-align: center; line-height: 1.45; padding-top: 4px;">समय और किराया अंदाज़न। टैक्सी का दाम मीटर तय करता है।</span>
   </div>
@@ -87,7 +87,7 @@ strip running set
 header metro "$teal" 'जाना' 'बुर्ज ख़लीफ़ा › मेट्रो'
 cat <<H
   <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 6px; padding: 6px 16px 12px 16px;">
-    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: 14px; background: $tealSoft;"><span style="font-size: 14px; font-weight: 700; color: $tealText;">38 मिनट · AED 6 · Nol कार्ड चाहिए</span>$(clock 18 "$tealText" 2)</div>
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: 14px; background: $tealSoft;"><span style="font-size: 14px; font-weight: 700; color: $tealText;">38 मिनट · AED 6 · ≈ ₹155 · Nol कार्ड</span>$(clock 18 "$tealText" 2)</div>
     <div style="display: flex; flex-direction: column; padding-top: 8px;">
 $(step walk 'पैदल 500 मी — BurJuman स्टेशन तक' 'होटल से बाएँ, Khalid Bin Al Waleed रोड पर। 7 मिनट।')
 $(step metro 'BurJuman से लाल लाइन, Expo की ओर' 'पहली ट्रेन 5:00 · आख़िरी 12:00 · हर 4 मिनट में')
@@ -120,7 +120,7 @@ cat <<H
       <span style="font-size: 13px; color: $muted;">1 Sheikh Mohammed bin Rashid Blvd, Downtown Dubai</span>
       <div style="display: flex; align-items: center; gap: 8px; color: $tealText; font-size: 13.5px; font-weight: 700; padding-top: 4px;">$(copy 18 "$tealText" 2)पता कॉपी करें</div>
     </div>
-    <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-radius: 14px; background: $sand;"><span style="font-size: 14px; color: $ink;">अंदाज़न किराया</span><span class="disp" style="font-size: 18px; font-weight: 700; color: $ink;">AED 30 – 40</span></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-radius: 14px; background: $sand;"><span style="font-size: 14px; color: $ink;">अंदाज़न किराया</span><span class="disp" style="font-size: 18px; font-weight: 700; color: $ink;">AED 30 – 40 · ≈ ₹780 – 1,040</span></div>
     $(btn "$(external 20 "$onMarigold" 2)&nbsp; Careem में खोलें" "$marigold" "$onMarigold")
     <span style="font-size: 12.5px; color: $muted; text-align: center; line-height: 1.45;">Careem नहीं है? <span style="color: $marigoldText; font-weight: 700;">Play Store से लें</span> — होटल के वाई-फ़ाई पर एक बार।</span>
     <div style="margin-top: auto; display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border-radius: 14px; border: 1px dashed $line;">
@@ -171,7 +171,7 @@ header thali "$k_text" 'खाना' 'Woodlands Restaurant › नक्शा'
 cat <<H
   <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 10px; padding: 6px 16px 12px 16px;">
     <div style="display: flex; gap: 8px;">$(mchip metro 'मेट्रो' on)$(mchip bus 'बस' off)$(mchip taxi 'टैक्सी' off)</div>
-    <div style="display: flex; gap: 14px; font-size: 16px; color: $ink;"><b>4.1 किमी</b><span>21 मिनट</span><span>AED 5</span></div>
+    <div style="display: flex; gap: 14px; font-size: 16px; color: $ink;"><b>4.1 किमी</b><span>21 मिनट</span><span>AED 5 · ≈ ₹130</span></div>
     <div style="display: flex; align-items: center; gap: 6px; font-size: 14px; color: $muted;"><span style="width: 12px; height: 12px; border-radius: 50%; background: #1A2456;"></span>मेरा होटल<span style="width: 12px; height: 12px; border-radius: 50%; background: #B4610F; margin-left: 8px;"></span>Woodlands Restaurant</div>
     <div style="flex: 1; margin: 0 -16px; position: relative; background: #EFEAE0; overflow: hidden;">
       <svg viewBox="0 0 390 360" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" style="display: block;">
