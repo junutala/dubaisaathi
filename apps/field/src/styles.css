@@ -416,6 +416,40 @@ input.short {
   letter-spacing: 0.16em;
   color: var(--marigoldText);
 }
+/* How the menu came back: three thumb-sized glyphs with a word under each, lit teal when on. */
+.pin-menu {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.pin-menu-opt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 84px;
+  border-radius: 16px;
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.pin-menu-opt svg {
+  width: 30px;
+  height: 30px;
+}
+.pin-menu-opt input {
+  display: none;
+}
+.pin-menu-on {
+  border-color: var(--teal);
+  background: var(--tealSoft);
+  color: var(--tealText);
+}
 .pin-done-btn {
   height: 96px;
   border-radius: 18px;

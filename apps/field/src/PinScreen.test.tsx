@@ -53,9 +53,11 @@ describe('the rider’s pin', () => {
   it('shows the number to write, and nothing to type', () => {
     const { container } = render(<PinScreen />);
     expect(container.querySelector('.pin-number')?.textContent).toBe('0001');
-    // Nothing to type and no camera: he holds a helmet, and a photograph of a shop is not a thing
-    // to be seen taking on a Dubai pavement (the owner, 23 September).
-    expect(container.querySelectorAll('input')).toHaveLength(0);
+    // Nothing to type: he holds a helmet. The one input is the menu's first page (the owner,
+    // 25 September) — a camera for the menu handed over, never for the shop.
+    const inputs = [...container.querySelectorAll('input')];
+    expect(inputs.map((input) => input.type)).toEqual(['file']);
+    expect(inputs[0]?.accept).toBe('image/*');
   });
 
   it('waits for a fix, which is the one thing it cannot do without', async () => {
@@ -125,6 +127,31 @@ describe('the rider’s pin', () => {
     });
     const [report] = await db.reports.toArray();
     expect(report?.location).toEqual({ lat: 25.2607, lng: 55.2953 });
+  });
+
+  it('says where the menu is when it did not come with the pin', async () => {
+    const { container } = render(<PinScreen />);
+    watcher?.(position);
+    await waitFor(() => {
+      expect(container.querySelector('.pin-done-btn')?.hasAttribute('disabled')).toBe(false);
+    });
+    const [, photographed, fromQr] = [...container.querySelectorAll<HTMLElement>('.pin-menu-opt')];
+    fireEvent.click(photographed!);
+    fireEvent.click(fromQr!);
+    fireEvent.click(container.querySelector<HTMLButtonElement>('.pin-done-btn')!);
+
+    await waitFor(async () => {
+      expect(await db.reports.count()).toBe(1);
+    });
+    const [report] = await db.reports.toArray();
+    expect(report?.notes).toBe(
+      'menu photographed on the collector’s phone; menu downloaded from the counter’s QR',
+    );
+    expect(report?.menuPhotoIds).toEqual([]);
+    // …and the next form starts with both off.
+    await waitFor(() => {
+      expect(document.querySelectorAll('.pin-menu-on')).toHaveLength(0);
+    });
   });
 
   it('shows the number back, then moves on to the next one', async () => {
