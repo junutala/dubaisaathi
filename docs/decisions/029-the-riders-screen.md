@@ -148,3 +148,19 @@ you are sure that the server captured the document, do not enable the CTA."_
 - A form keyed again replaces its pages on the laptop, and only the pages a form lists are sent.
 - On the server, 0002's 24 pages (1375 × 2000) were moved back from 0004, whose own eight
   (943 × 2001) became pages 0–7 again.
+
+## Addendum, 25 September: the menu's first page on the pin
+
+Three days in Bur Dubai settled two things (the owner). A shopfront photograph will not work on
+these pavements, and it stays off the screen. Counters also meet "will you make it Jain on
+request?" with silence or reluctance. So the rider's screen now takes, besides the number and
+the tick:
+
+- **Menu page 1**: one optional camera picture of the menu's first page, when the counter
+  hands one over. It is sent as the pin's first menu page.
+- **Photographed** and **From QR**: two optional ticks for a menu that did not come with the
+  pin. Either it is on the phone's own camera roll, or it was downloaded from the counter's QR.
+  They go to review as the report's notes, so the desk knows where to look.
+
+None of the three is required, and the tick never waits on them. The fresh GPS reading at the
+tick (25 September, after 0022 and 0023 shared a pin) is unchanged.

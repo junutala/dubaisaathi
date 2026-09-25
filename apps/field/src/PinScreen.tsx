@@ -3,6 +3,7 @@ import type { FieldReport } from '@saathi/shared';
 import { collectorName } from './collector.js';
 import { db } from './db.js';
 import { advanceSerial, currentSerial } from './serial.js';
+import { MENU, shrink } from './shrink.js';
 import { useStrings } from './strings.js';
 import { startSync, syncReports, type SyncOutcome } from './sync.js';
 
@@ -18,14 +19,15 @@ import { startSync, syncReports, type SyncOutcome } from './sync.js';
  * asked for either — the phone is watched from the moment the screen opens, and what is saved is
  * where he is standing when he presses the tick.
  *
- * **No photograph, ever** (the owner, 23 September): photographing shops in Dubai draws the kind
- * of attention nobody collecting menus should have to explain, and there are plainclothesmen on
- * those pavements. The camera that was here as "optional" was still a camera on the screen, and
- * the server marked every pin without a picture as if something were missing. Both are gone. The
- * menu on the paper says what the shop is; the pin says where.
+ * **No photograph of the shop, ever** (the owner, 23 September): photographing shops in Dubai
+ * draws the kind of attention nobody collecting menus should have to explain. **The menu's first
+ * page is another matter** (the owner, 25 September, from three days of walking): when the
+ * counter hands a menu over, one picture of its first page is taken here and travels with the
+ * pin. When it is not — the menu was photographed on the phone's own camera, or downloaded from
+ * the counter's QR — two ticks say which, so the desk knows where to look for it. None of the
+ * three is required; the pin is.
  *
- * The paper carries the five answers and a stapled takeaway menu. This carries the pin. The
- * number marries them at the desk.
+ * The number marries the pin to whatever else came back.
  *
  * **Every capture starts here**, including the owner's own (18 September): he carries blank forms
  * and fills one the moment he sees an Indian kitchen, and he is standing at the door when he does
@@ -76,6 +78,10 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
   const [queue, setQueue] = useState<SyncOutcome>({ pending: 0, sent: 0 });
   const [saved, setSaved] = useState<{ serial: string; id: string } | null>(null);
   const [taking, setTaking] = useState(false);
+  /** The menu's first page, shrunk as it was picked. Optional: many counters do not hand one over. */
+  const [firstPage, setFirstPage] = useState<Blob | null>(null);
+  const [photographed, setPhotographed] = useState(false);
+  const [fromQr, setFromQr] = useState(false);
 
   useEffect(() => startSync(setQueue), []);
 
@@ -111,6 +117,12 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
     const at = fresh ?? fix;
     if (fresh !== null) setFix(fresh);
     const id = crypto.randomUUID();
+    const pageId = `${id}-menu-0`;
+    // For review, not for the rider: where the menu is when it is not attached to this pin.
+    const menuAt = [
+      ...(photographed ? ['menu photographed on the collector’s phone'] : []),
+      ...(fromQr ? ['menu downloaded from the counter’s QR'] : []),
+    ].join('; ');
 
     /**
      * A thin report: a serial and a pin. No name, because the rider types nothing but digits —
@@ -126,11 +138,21 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
       name: '',
       formSerial: serial,
       frontPhotoIds: [],
-      menuPhotoIds: [],
+      menuPhotoIds: firstPage === null ? [] : [pageId],
+      ...(menuAt === '' ? {} : { notes: menuAt }),
       status: 'queued',
     };
 
-    await db.reports.add({ ...report, uploaded: false });
+    await db.transaction('rw', db.reports, db.photos, async () => {
+      await db.reports.add({ ...report, uploaded: false });
+      if (firstPage !== null) {
+        await db.photos.add({ id: pageId, reportId: id, kind: 'menu', bytes: firstPage });
+      }
+    });
+
+    setFirstPage(null);
+    setPhotographed(false);
+    setFromQr(false);
 
     setSaved({ serial, id });
     setSerial(advanceSerial());
@@ -226,6 +248,83 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
       <div className="pin-serial">
         <span className="pin-label">फ़ॉर्म नं. · FORM NO.</span>
         <output className="pin-number">{serial}</output>
+      </div>
+
+      {/* How the menu came back, in glyphs: a camera that takes its first page now, or two ticks
+          for a menu that is elsewhere. All three optional — the tick below never waits on them. */}
+      <div className="pin-menu">
+        <label className={firstPage === null ? 'pin-menu-opt' : 'pin-menu-opt pin-menu-on'}>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.9"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 8h3l1.5-2h7L17 8h3v11H4z" />
+            <circle cx="12" cy="13" r="3.4" />
+          </svg>
+          <span>{t('pinFirstPage')}</span>
+          <input
+            type="file"
+            accept="image/*"
+            capture="environment"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file === undefined) return;
+              void shrink(file, MENU).then(setFirstPage);
+            }}
+          />
+        </label>
+        <button
+          type="button"
+          aria-pressed={photographed}
+          className={photographed ? 'pin-menu-opt pin-menu-on' : 'pin-menu-opt'}
+          onClick={() => {
+            setPhotographed(!photographed);
+          }}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.9"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <rect x="4" y="4" width="16" height="16" rx="2.5" />
+            <path d="M4 16l4.5-4.5 3.5 3.5 2.5-2.5L20 18" />
+            <circle cx="15.5" cy="8.5" r="1.5" />
+          </svg>
+          <span>{t('pinPhotographed')}</span>
+        </button>
+        <button
+          type="button"
+          aria-pressed={fromQr}
+          className={fromQr ? 'pin-menu-opt pin-menu-on' : 'pin-menu-opt'}
+          onClick={() => {
+            setFromQr(!fromQr);
+          }}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.9"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <rect x="4" y="4" width="6" height="6" rx="1" />
+            <rect x="14" y="4" width="6" height="6" rx="1" />
+            <rect x="4" y="14" width="6" height="6" rx="1" />
+            <path d="M14 14h2v2h-2zM18 14h2M14 18v2h2M18 18h2v2" />
+          </svg>
+          <span>{t('pinFromQr')}</span>
+        </button>
       </div>
 
       <button
