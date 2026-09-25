@@ -592,6 +592,10 @@ export interface VoiceEvent {
   readonly synced: boolean;
   /** Whether the phone had a signal when this was recorded; the offline share of use. */
   readonly online?: boolean;
+  /** On a day's first open: the country only, never a position (migration 0017). */
+  readonly region?: 'dubai' | 'india' | 'elsewhere' | 'unknown';
+  /** On a day's first open: opened as the installed app rather than in a browser tab. */
+  readonly installed?: boolean;
 }
 
 /**

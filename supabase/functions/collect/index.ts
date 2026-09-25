@@ -52,7 +52,12 @@ interface IncomingEvent {
   resolvedPlaceId?: string;
   /** Whether the phone had a signal when this was recorded (migration 0015). */
   online?: boolean;
+  /** On a day's first open: the country only, and whether it was the installed app (0017). */
+  region?: string;
+  installed?: boolean;
 }
+
+const REGIONS = ['dubai', 'india', 'elsewhere', 'unknown'];
 
 function json(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
@@ -126,6 +131,8 @@ Deno.serve(async (request: Request): Promise<Response> => {
       result_count: event.resultCount ?? null,
       resolved_place_id: event.resolvedPlaceId ?? null,
       online: typeof event.online === 'boolean' ? event.online : null,
+      region: REGIONS.includes(event.region ?? '') ? event.region : null,
+      installed: typeof event.installed === 'boolean' ? event.installed : null,
     }));
 
   // Ignore duplicates rather than erroring: a phone that synced and lost the response will send

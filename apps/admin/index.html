@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Saathi · Admin</title>
+    <link rel="stylesheet" href="/admin.css" />
+  </head>
+  <body>
+    <!--
+      admin.saafarsaathi.in — the owner's view of how Saathi is doing (decision 040). Totals only,
+      read through the `admin` edge function after the passphrase; this page never holds a
+      database key. Nothing here is linked from the traveller's app or the website.
+    -->
+    <header class="top">
+      <strong>Saathi · Admin</strong>
+      <span class="grow"></span>
+      <span id="stamp" class="muted"></span>
+      <button type="button" id="refresh" class="ghost" hidden>Refresh</button>
+      <button type="button" id="lock" class="ghost" hidden>Lock</button>
+    </header>
+
+    <main>
+      <form id="gate" class="card gate">
+        <label for="pass"><strong>Passphrase</strong></label>
+        <input
+          id="pass"
+          type="password"
+          autocomplete="current-password"
+          autocapitalize="off"
+          spellcheck="false"
+        />
+        <label class="check"
+          ><input id="remember" type="checkbox" checked /> Remember on this device</label
+        >
+        <button type="submit">Open</button>
+        <p id="gate-error" class="error" hidden></p>
+      </form>
+
+      <div id="board" hidden>
+        <section class="card pitch">
+          <h2>The line to share</h2>
+          <p id="pitch"></p>
+          <button type="button" id="copy" class="ghost">Copy</button>
+        </section>
+
+        <section>
+          <h2>Reach</h2>
+          <div class="tiles" id="tiles-reach"></div>
+        </section>
+
+        <section>
+          <h2>Use</h2>
+          <div class="tiles" id="tiles-use"></div>
+        </section>
+
+        <section class="card">
+          <h2>Phones each day <span class="muted">(Dubai days, last 14)</span></h2>
+          <div id="days" class="bars"></div>
+        </section>
+
+        <section class="card">
+          <h2>How phones came to us</h2>
+          <table id="via"></table>
+        </section>
+
+        <section class="card">
+          <h2>Asked for, and we did not have <span class="muted">(last 30 days)</span></h2>
+          <table id="asks"></table>
+        </section>
+
+        <section class="card">
+          <h2>Collection</h2>
+          <div class="tiles" id="tiles-collection"></div>
+          <table id="forms"></table>
+        </section>
+
+        <section class="card">
+          <h2>Money</h2>
+          <div class="tiles" id="tiles-money"></div>
+        </section>
+
+        <section class="card">
+          <h2>Website messages</h2>
+          <div id="messages"></div>
+        </section>
+      </div>
+    </main>
+    <script src="/admin.js"></script>
+  </body>
+</html>

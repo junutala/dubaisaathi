@@ -2,6 +2,9 @@ import type { VoiceEvent, VoiceFailure } from '@saathi/shared';
 import { db } from '../../db/schema.js';
 import { deviceId } from '../../lib/device.js';
 
+/** The country a usage row was recorded from, and nothing finer (migration 0017). */
+export type Region = NonNullable<VoiceEvent['region']>;
+
 /**
  * The learning loop, from day one (CLAUDE.md, "Learning loop"). Every voice interaction is
  * recorded on the device; the failures are what retrain the aliases and intents. Nothing is
@@ -24,6 +27,9 @@ export interface VoiceEventInput {
   readonly resultCount?: number;
   /** The place the parser resolved, so demand for it can be counted across spellings. */
   readonly resolvedPlaceId?: string;
+  /** On a day's first open only: the country, and whether it was the installed app. */
+  readonly region?: Region;
+  readonly installed?: boolean;
 }
 
 /** Devanagari, Roman, or the mix a real traveller actually speaks. */
@@ -64,6 +70,8 @@ export async function recordVoiceEvent(input: VoiceEventInput): Promise<VoiceEve
     // Whether there was a signal at that moment: the offline share of use is the proof of the
     // product's one promise (migration 0015).
     ...(typeof navigator === 'undefined' ? {} : { online: navigator.onLine }),
+    ...(input.region === undefined ? {} : { region: input.region }),
+    ...(input.installed === undefined ? {} : { installed: input.installed }),
     synced: false,
   };
   await db.voiceEvents.add(event);

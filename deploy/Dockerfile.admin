@@ -1,0 +1,10 @@
+# admin.saafarsaathi.in — the owner's view of how Saathi is doing (decision 040).
+#
+# Static files and nginx, like the website: nothing to build. Its own service and origin, apart
+# from the traveller's app and the collectors', so nothing of it can ever reach a traveller.
+FROM nginx:1.27-alpine
+ENV NGINX_ENVSUBST_FILTER=PORT
+ENV PORT=8080
+COPY deploy/nginx.admin.conf /etc/nginx/templates/default.conf.template
+COPY apps/admin/ /usr/share/nginx/html/
+EXPOSE 8080
