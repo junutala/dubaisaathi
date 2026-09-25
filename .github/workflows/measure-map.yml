@@ -1,0 +1,15 @@
+name: Measure the map
+on:
+  push:
+    branches: [claude/gallant-lovelace-92jkrq]
+    paths: [deploy/build-map.sh, .github/workflows/measure-map.yml]
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        zoom: [13, 14]
+    steps:
+      - uses: actions/checkout@v4
+      - run: sh deploy/build-map.sh "$RUNNER_TEMP/map" ${{ matrix.zoom }}
+      - run: cat "$RUNNER_TEMP/map/files.json" | head -c 400; du -sh "$RUNNER_TEMP/map"/*
