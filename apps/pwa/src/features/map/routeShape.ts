@@ -27,6 +27,7 @@ const MODE_COLOUR: Readonly<Record<TransportMode, string>> = {
   bus: '#2563EB',
   walk: '#5B6474',
   taxi: '#B7791F',
+  abra: '#0E7490',
 };
 
 export interface LegFeature {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { transportNetwork } from '../../db/content.js';
-import { parseTransportPack, type TransportNetwork } from './network.js';
+import { parseTransportPack, withAbras, type TransportNetwork } from './network.js';
 import shipped from '../../../../../data/transport/network.v1.json';
 
 /**
@@ -16,9 +16,10 @@ import shipped from '../../../../../data/transport/network.v1.json';
 let pending: Promise<TransportNetwork> | null = null;
 
 export function loadNetwork(): Promise<TransportNetwork> {
+  // The abras join whichever pack answers (decision 036).
   pending ??= transportNetwork()
-    .then((stored) => stored ?? parseTransportPack(shipped))
-    .catch(() => parseTransportPack(shipped));
+    .then((stored) => withAbras(stored ?? parseTransportPack(shipped)))
+    .catch(() => withAbras(parseTransportPack(shipped)));
   return pending;
 }
 

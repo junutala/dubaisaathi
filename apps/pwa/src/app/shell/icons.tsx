@@ -25,6 +25,7 @@ export type IconName =
   | 'tram'
   | 'taxi'
   | 'walk'
+  | 'boat'
   | 'copy'
   | 'external'
   // खाना and जानना
@@ -183,6 +184,15 @@ const SHAPES: Record<IconName, ReactNode> = {
       <path d="M10 21l2.2-6.2 2.8 2.7V21" />
       <path d="M8 13.5l2.5-4.5 3 1 2.5 3.5 2.5 1" />
       <path d="M10.5 9l-3 4L5 12" />
+    </>
+  ),
+  // The abra: a low wooden boat with its canopy, on the water (decision 036).
+  boat: (
+    <>
+      <path d="M3 14h18l-2.5 4h-13z" />
+      <path d="M6 14V9h12v5" />
+      <path d="M5 9h14" />
+      <path d="M3 21c1.5-1 3-1 4.5 0s3 1 4.5 0 3-1 4.5 0 3 1 4.5 0" />
     </>
   ),
   copy: (

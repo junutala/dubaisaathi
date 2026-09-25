@@ -57,5 +57,5 @@ it works offline like every other core journey (rule 1).
 
 The planner's walks are straight lines. Drawn on streets, the bus option to Woodlands from Al
 Rigga ended in a kilometre's "walk" across the Creek. That is a planner defect the map made
-visible, not one the map introduced. It is recorded to be fixed in the planner: a walk must not
-cross the Creek except at a bridge or an abra.
+visible, not one the map introduced. Fixed the same day by decision 036: a walk never crosses the
+water, and the abra is a way across.

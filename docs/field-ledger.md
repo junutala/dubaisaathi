@@ -203,6 +203,7 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 | Each option: mode, badge, legs, time, fare       | The decision is time against cost against walking                 |
 | "समय और किराया अंदाज़न"                          | An offline pack cannot promise a timetable                        |
 | Taxi, always                                     | Needs no location; the reason this screen is never empty in Dubai |
+| Abra, when the Creek is in the way (036)         | Walk, across for a dirham, walk: how Deira reaches Bur Dubai      |
 
 ## 2.3 · जाना › क़दम दर क़दम
 

@@ -134,7 +134,8 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   the taxi screen carries the Arabic name, the fare estimate, a Careem link and the store for a
   phone without it. The steps carry the RTA's own network: every bus route, both metro lines,
   the tram, the direction the vehicle is headed, and the first and last departure from the stop
-  the traveller boards at (decision 017).
+  the traveller boards at (decision 017). **A walk never crosses the Creek; the abra does**, for a
+  dirham in cash (decision 036).
 - **जानना is attractions only.** Hours, ticket, how long, whom to ring, a Hindi blurb, and a
   जाना button. No hotels or homestays. A line at the bottom lets the traveller name a place we
   missed; it goes into the question log for the next pack. **3.3 · काम की बातें is parked for
