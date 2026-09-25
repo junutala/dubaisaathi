@@ -9,7 +9,15 @@ export { RouteStepsScreen } from './RouteStepsScreen.js';
 export { TaxiScreen } from './TaxiScreen.js';
 export { parseTransportPack, type TransportNetwork } from './network.js';
 export { currentFares, parseFarePack, FARES_PACK_ID, type FarePack } from './fares.js';
-export { planRoutes, type RouteOption, type RouteOptionId } from './routePlanner.js';
+export {
+  planRoutes,
+  ORIGIN_NODE_ID,
+  DESTINATION_NODE_ID,
+  type RouteOption,
+  type RouteOptionId,
+} from './routePlanner.js';
+export { fareText, minutes, modeIcon, modeLabel, type Words } from './describeLeg.js';
+export { useOrigin } from './origin.js';
 export { placeById, localName, outletPlaceId } from './destinations.js';
 export { nearestStops, type NearStops } from './nearestStops.js';
 export { useTransportNetwork } from './useNetwork.js';

@@ -13,7 +13,9 @@ pipeline's proof rather than the product's answer. Dubai Pulse answers only from
 this container cannot reach it and neither can a GitHub runner, so refreshing the feed is a person
 with a Dubai connection and nothing else will do. See "What four years changed" below.
 
-The map question below is still open and still the owner's.
+The map question below was answered on 25 September by the owner — our own map, offline — and is
+built as decision 035: option (c), zoom 14, 16 MB, downloaded on the first launch with a signal and
+kept.
 
 ## Where we are today
 

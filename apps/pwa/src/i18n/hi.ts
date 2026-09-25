@@ -343,6 +343,16 @@ export const hi = {
   'steps.serviceNote': 'समय RTA की समय-सारणी से, आम दिनों के। वीकेंड पर अलग हो सकते हैं।',
   'steps.source': '{attribution}',
 
+  'map.title': 'नक्शा',
+  'map.ways': 'जाने के तरीके',
+  'map.steps': 'क़दम दर क़दम',
+  'map.downloading':
+    'दुबई का सड़कों वाला नक्शा उतर रहा है · {done} / {total} MB। फ़ोन पर आने के बाद बिना इंटरनेट चलेगा।',
+  'map.notYet':
+    'सड़कों वाला नक्शा अभी इस फ़ोन पर नहीं है — अगली बार इंटरनेट मिलते ही अपने आप उतरेगा। रास्ता और दूरी ऊपर बने हैं।',
+  'map.failed': 'सड़कों वाला नक्शा नहीं उतरा ({why})।',
+  'map.retry': 'फिर कोशिश करें',
+
   // 2.4 · टैक्सी — the hand-off to Careem, and the address for a street taxi
   'taxi.trail': 'टैक्सी',
   'taxi.going': 'यहाँ जाना है',

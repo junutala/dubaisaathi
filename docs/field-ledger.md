@@ -174,15 +174,15 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 
 ## 1.3 · खाना › मेनू — the kitchen is its menu (decision 034)
 
-| Field                                                                         | Why it is there                                                                 |
-| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| Name; area, distance, hours, kind, price for one                              | Which kitchen, how far, whether it is open — enough to decide                   |
-| नक्शा · जाना · फ़ोन, held at the top while the menu scrolls                   | See it on the map, every way there with the fare, ring it — never scrolled away |
-| जैन · व्रत · बिना प्याज़-लहसुन · अंडा-रहित · सात्विक, each हाँ / पूछकर / नहीं | What a person was told, standing there                                          |
-| "… से पूछा गया · date"                                                        | Who answered and when, so a claim is checkable                                  |
-| The menu, grouped under the card's own headings, in the card's order          | Breakfast is not served at four in the afternoon; the card already says so      |
-| Each dish: name, price, tags                                                  | What review read off the card (decision 033)                                    |
-| "दाम बदल सकते हैं"                                                            | Honest about a number that was true on one day                                  |
+| Field                                                                         | Why it is there                                                             |
+| ----------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Name; area, distance, hours, kind, price for one                              | Which kitchen, how far, whether it is open — enough to decide               |
+| नक्शा · जाना · फ़ोन, held at the top while the menu scrolls                   | Our map (2.6), every way there with the fare, ring it — never scrolled away |
+| जैन · व्रत · बिना प्याज़-लहसुन · अंडा-रहित · सात्विक, each हाँ / पूछकर / नहीं | What a person was told, standing there                                      |
+| "… से पूछा गया · date"                                                        | Who answered and when, so a claim is checkable                              |
+| The menu, grouped under the card's own headings, in the card's order          | Breakfast is not served at four in the afternoon; the card already says so  |
+| Each dish: name, price, tags                                                  | What review read off the card (decision 033)                                |
+| "दाम बदल सकते हैं"                                                            | Honest about a number that was true on one day                              |
 
 ## 2.1 · जाना › कहाँ
 
@@ -233,6 +233,18 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 | What will not work, what still will | A refused permission is not a broken app                    |
 | फ़ोन की सेटिंग खोलें                | Asks again; says where the switch is only after a second no |
 | होटल से रास्ता देखें (with a pin)   | The hotel is a "from" when the phone will not be            |
+
+## 2.6 · जाना › नक्शा — our own map, offline (decision 035)
+
+| Field                                                      | Why it is there                                                      |
+| ---------------------------------------------------------- | -------------------------------------------------------------------- |
+| मेट्रो · बस · पैदल · टैक्सी chips                          | Every way 2.2 offers, drawn one at a time; the lit one is on the map |
+| Distance · time · fare                                     | "Map shows the route and distance" (owner, 24 September)             |
+| The two dots, named: where from, where to                  | Which end is which without a legend to decode                        |
+| The map: streets, the ride through its stops, walks dashed | The way itself, with the network off                                 |
+| "RTA \| © OpenStreetMap"                                   | Both licences require it                                             |
+| The download line, only while the streets are not kept     | Says why the streets are missing and when they will arrive           |
+| क़दम दर क़दम                                               | The same journey as instructions (2.3), or the taxi hand-off (2.4)   |
 
 ## 3.1 · जानना › जगहें
 

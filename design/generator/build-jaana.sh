@@ -154,3 +154,46 @@ H
 bar jaana
 close_screen
 } > "$OUT/J5.dc.html"
+
+# ---- 2.6 · नक्शा — the way to a place on our own map, offline (decision 035). Reached from a
+# kitchen's नक्शा button, so it is drawn inside खाना; the same screen serves any place जाना knows.
+mchip() { # iconfn label on|off
+  if [ "$3" = on ]; then
+    echo "<span style=\"display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 999px; background: $tealSoft; border: 1.5px solid $teal; color: $tealText; font-weight: 600; font-size: 15px;\">$($1 18 "$tealText" 1.9)$2</span>"
+  else
+    echo "<span style=\"display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid $line; color: $ink; font-weight: 600; font-size: 15px;\">$($1 18 "$ink" 1.9)$2</span>"
+  fi
+}
+{
+open_screen
+strip running set
+header thali "$k_text" 'खाना' 'Woodlands Restaurant › नक्शा'
+cat <<H
+  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 10px; padding: 6px 16px 12px 16px;">
+    <div style="display: flex; gap: 8px;">$(mchip metro 'मेट्रो' on)$(mchip bus 'बस' off)$(mchip taxi 'टैक्सी' off)</div>
+    <div style="display: flex; gap: 14px; font-size: 16px; color: $ink;"><b>4.1 किमी</b><span>21 मिनट</span><span>AED 5</span></div>
+    <div style="display: flex; align-items: center; gap: 6px; font-size: 14px; color: $muted;"><span style="width: 12px; height: 12px; border-radius: 50%; background: #1A2456;"></span>मेरा होटल<span style="width: 12px; height: 12px; border-radius: 50%; background: #B4610F; margin-left: 8px;"></span>Woodlands Restaurant</div>
+    <div style="flex: 1; margin: 0 -16px; position: relative; background: #EFEAE0; overflow: hidden;">
+      <svg viewBox="0 0 390 360" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" style="display: block;">
+        <path d="M-10 250 C 80 200, 140 190, 200 230 S 330 330, 400 300 L 400 380 L -10 380 Z" fill="#9FDCEB"/>
+        <g stroke="#FFFFFF" stroke-width="7" fill="none"><path d="M0 120 H390"/><path d="M0 60 L390 140"/><path d="M120 0 V360"/><path d="M260 0 L220 360"/><path d="M40 0 L90 360"/><path d="M330 0 V360"/></g>
+        <path d="M300 118 L205 112 L110 220" stroke="#FFFFFF" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M300 118 L205 112 L140 188" stroke="#D7263D" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M140 188 L110 220" stroke="#1E9E5A" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M335 128 L300 118 M110 220 L70 250" stroke="#5B6474" stroke-width="4" stroke-dasharray="4 6" fill="none" stroke-linecap="round"/>
+        <circle cx="335" cy="128" r="9" fill="#1A2456" stroke="#FFFFFF" stroke-width="3"/>
+        <circle cx="70" cy="250" r="9" fill="#B4610F" stroke="#FFFFFF" stroke-width="3"/>
+        <circle cx="300" cy="118" r="5" fill="#FFFFFF" stroke="#1A2456" stroke-width="3"/>
+        <circle cx="140" cy="188" r="5" fill="#FFFFFF" stroke="#1A2456" stroke-width="3"/>
+        <circle cx="110" cy="220" r="5" fill="#FFFFFF" stroke="#1A2456" stroke-width="3"/>
+        <text x="150" y="98" font-size="12" fill="#6B7280" font-family="sans-serif">AL RIGGA</text>
+        <text x="30" y="300" font-size="12" fill="#6B7280" font-family="sans-serif">AL HAMRIYA</text>
+      </svg>
+      <span style="position: absolute; right: 8px; bottom: 8px; font-size: 11px; background: rgba(255,255,255,0.85); padding: 2px 8px; border-radius: 8px; color: $ink;">RTA | © OpenStreetMap</span>
+    </div>
+    $(btn "$(signpost 20 "$j_fg" 1.9)&nbsp; क़दम दर क़दम" "$j_bg" "$j_fg")
+  </div>
+H
+bar khaana
+close_screen
+} > "$OUT/J6.dc.html"

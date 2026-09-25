@@ -11,9 +11,12 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@protomaps/basemaps": "^5.7.2",
     "@saathi/shared": "*",
     "dexie": "^4.2.0",
     "jsqr": "^1.4.0",
+    "maplibre-gl": "^6.11.2",
+    "pmtiles": "^4.5.0",
     "qr": "^0.7.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

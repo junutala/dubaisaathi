@@ -42,6 +42,7 @@ import {
   TaxiScreen,
 } from '../features/transport/index.js';
 import { KnowScreen, PlaceScreen } from '../features/know/index.js';
+import { MapScreen, startMapKeeping } from '../features/map/index.js';
 import { ArabicScreen, BolnaScreen } from '../features/speak/index.js';
 import { navigate } from './routes.js';
 
@@ -118,7 +119,9 @@ export function App() {
    * the payment is asked about again (decision 019), so the pass arrives even though nobody
    * was watching the screen when the money did; and a message written in फ़ीडबैक with no signal
    * goes when there is some (decision 028); and a hotel card that could not be read is read when
-   * it can be (decision 032). All five on boot and on `online`, none of them ever in the way.
+   * it can be (decision 032); and नक्शा's street map comes down once and is kept, so it is there
+   * at a kerb with no data plan (decision 035). All six on boot and on `online`, none of them
+   * ever in the way.
    */
   useEffect(() => {
     const stopCoupon = startCouponRetry();
@@ -126,7 +129,9 @@ export function App() {
     const stopReconcile = startPassReconcile();
     const stopOutbox = startOutboxSync();
     const stopCard = startCardRetry();
+    const stopMap = startMapKeeping();
     return () => {
+      stopMap();
       stopCoupon();
       stopOrder();
       stopReconcile();
@@ -254,6 +259,7 @@ export function App() {
         )}
         {route.screen === 'taxi' && <TaxiScreen placeId={route.placeId} hotel={hotel} />}
         {route.screen === 'nolocation' && <LocationDeniedScreen hotel={hotel} />}
+        {route.screen === 'map' && <MapScreen placeId={route.placeId} hotel={hotel} />}
         {route.screen === 'know' && <KnowScreen />}
         {route.screen === 'place' && <PlaceScreen placeId={route.placeId} hotel={hotel} />}
       </main>
