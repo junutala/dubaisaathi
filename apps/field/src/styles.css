@@ -450,6 +450,22 @@ input.short {
   background: var(--tealSoft);
   color: var(--tealText);
 }
+.pin-menu-full {
+  border-color: var(--marigoldLine);
+  background: var(--marigoldSoft);
+  color: var(--marigoldText);
+}
+.pin-menu-undo {
+  align-self: flex-start;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+}
 .pin-note {
   min-height: 56px;
   font-size: 16px;

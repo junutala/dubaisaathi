@@ -170,5 +170,11 @@ the tick:
   card the number cannot be read in a picture of the whole page. It is sent as the pin's last
   menu page, and the notes say so.
 
+- **Menu pages** (the same evening, in Karama): few counters hand over a takeaway card, so the
+  menu is photographed where it hangs. Drive balks at the big PDFs this makes. The menu camera now
+  adds a page with each shot, up to fifteen, and shows the count on the button ("Menu 3/15").
+  "Remove last page" takes back a bad shot. A second shot used to replace the first, which lost
+  pages twice that evening.
+
 None of these is required, and the tick never waits on them. The fresh GPS reading at the
 tick (25 September, after 0022 and 0023 shared a pin) is unchanged.

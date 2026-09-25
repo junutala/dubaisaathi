@@ -155,7 +155,7 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   (the owner, 23 September: photographing shops in Dubai is a risk he will not take, and there is no
   camera on that screen for the shop) —
   the GPS is watched from the moment his screen opens, so there is no button for it. **The menu's
-  first page is another matter** (the owner, 25 September): one optional picture of it on the pin,
+  pages are another matter** (the owner, 25 September): up to fifteen optional pictures of them on the pin,
   or two ticks — photographed on the phone, downloaded from the QR — saying where it is instead,
   a camera held close to the counter's WhatsApp number, and one optional note for what the counter
   said ("WhatsApp 050… and we will send it"). Later, at a
