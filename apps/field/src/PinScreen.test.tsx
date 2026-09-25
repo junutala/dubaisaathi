@@ -53,8 +53,9 @@ describe('the rider’s pin', () => {
   it('shows the number to write, and nothing to type', () => {
     const { container } = render(<PinScreen />);
     expect(container.querySelector('.pin-number')?.textContent).toBe('0001');
-    // Nothing to type: he holds a helmet. The one input is the menu's first page (the owner,
-    // 25 September) — a camera for the menu handed over, never for the shop.
+    // The menu's first page (the owner, 25 September) — a camera for the menu handed over, never
+    // for the shop — and one optional note. Nothing else to type: he holds a helmet.
+    expect(container.querySelectorAll('textarea')).toHaveLength(1);
     const inputs = [...container.querySelectorAll('input')];
     expect(inputs.map((input) => input.type)).toEqual(['file']);
     expect(inputs[0]?.accept).toBe('image/*');
@@ -138,6 +139,9 @@ describe('the rider’s pin', () => {
     const [, photographed, fromQr] = [...container.querySelectorAll<HTMLElement>('.pin-menu-opt')];
     fireEvent.click(photographed!);
     fireEvent.click(fromQr!);
+    fireEvent.change(container.querySelector('textarea')!, {
+      target: { value: ' WhatsApp 050 123 4567 for the menu ' },
+    });
     fireEvent.click(container.querySelector<HTMLButtonElement>('.pin-done-btn')!);
 
     await waitFor(async () => {
@@ -145,7 +149,7 @@ describe('the rider’s pin', () => {
     });
     const [report] = await db.reports.toArray();
     expect(report?.notes).toBe(
-      'menu photographed on the collector’s phone; menu downloaded from the counter’s QR',
+      'menu photographed on the collector’s phone; menu downloaded from the counter’s QR; WhatsApp 050 123 4567 for the menu',
     );
     expect(report?.menuPhotoIds).toEqual([]);
     // …and the next form starts with both off.
