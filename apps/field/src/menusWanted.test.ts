@@ -1,0 +1,97 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { cloneKeepingBlobs } from './blobHarness.js';
+import { db } from './db.js';
+import { metresBetween, nearestFirst, sendPages, type WantedForm } from './menusWanted.js';
+
+/**
+ * Menus wanted (27 September). The two things that must hold: the list starts with the form he is
+ * standing nearest, and a page he photographed stays on the phone until the server says the form
+ * holds it — a shop in Karama with no signal must not cost him the page.
+ */
+
+function form(formSerial: string, lat: number, lng: number): WantedForm {
+  return {
+    formSerial,
+    lat,
+    lng,
+    capturedAt: '2026-09-25T15:00:00.000Z',
+    notes: null,
+    wanted: null,
+    before: null,
+    after: null,
+  };
+}
+
+describe('the list', () => {
+  it('puts the nearest form first when the phone knows where it is', () => {
+    const forms = [form('0027', 25.2541, 55.3047), form('0064', 25.2515, 55.3026)];
+    const here = { lat: 25.2516, lng: 55.3025 };
+    expect(nearestFirst(forms, here).map((f) => f.formSerial)).toEqual(['0064', '0027']);
+  });
+
+  it('keeps the pinned order when it does not', () => {
+    const forms = [form('0027', 25.2541, 55.3047), form('0064', 25.2515, 55.3026)];
+    expect(nearestFirst(forms, null).map((f) => f.formSerial)).toEqual(['0027', '0064']);
+  });
+
+  it('measures a Karama street in metres', () => {
+    // 0028 and 0029 were pinned about 55 m apart on 25 September.
+    const d = metresBetween({ lat: 25.25342, lng: 55.30513 }, { lat: 25.25315, lng: 55.30558 });
+    expect(d).toBeGreaterThan(45);
+    expect(d).toBeLessThan(60);
+  });
+});
+
+describe('pages for a form', () => {
+  beforeEach(async () => {
+    vi.stubGlobal('structuredClone', cloneKeepingBlobs);
+    await db.wantedPages.clear();
+    await db.wantedPages.bulkAdd([
+      {
+        id: '11111111-2222-4333-8444-000000000001',
+        formSerial: '0027',
+        bytes: new Blob(['page one'], { type: 'image/jpeg' }),
+        takenAt: '2026-09-27T10:00:00.000Z',
+      },
+      {
+        id: '11111111-2222-4333-8444-000000000002',
+        formSerial: '0027',
+        bytes: new Blob(['page two'], { type: 'image/jpeg' }),
+        takenAt: '2026-09-27T10:00:01.000Z',
+      },
+    ]);
+  });
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('sends each page to its form and lets it go only when the server holds it', async () => {
+    const sent: string[] = [];
+    let held = 0;
+    vi.stubGlobal('fetch', (url: string, init: RequestInit) => {
+      sent.push(url);
+      const body = JSON.parse(init.body as string) as { photos: { id: string }[] };
+      expect(body.photos).toHaveLength(1);
+      held += 1;
+      return Promise.resolve(new Response(JSON.stringify({ form: '0027', pages: held })));
+    });
+    const outcome = await sendPages('0027');
+    expect(outcome).toEqual({ ok: true, pages: 2 });
+    expect(sent.every((url) => url.endsWith('?pages=0027'))).toBe(true);
+    expect(await db.wantedPages.count()).toBe(0);
+  });
+
+  it('keeps every page when there is no signal', async () => {
+    vi.stubGlobal('fetch', () => Promise.reject(new TypeError('offline')));
+    const outcome = await sendPages('0027');
+    expect(outcome).toEqual({ ok: false, why: 'no connection' });
+    expect(await db.wantedPages.count()).toBe(2);
+  });
+
+  it('keeps the pages the server refused', async () => {
+    vi.stubGlobal('fetch', () => Promise.resolve(new Response('{}', { status: 502 })));
+    const outcome = await sendPages('0027');
+    expect(outcome.ok).toBe(false);
+    expect(await db.wantedPages.count()).toBe(2);
+  });
+});

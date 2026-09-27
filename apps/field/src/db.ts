@@ -18,12 +18,24 @@ export interface Photo {
   readonly bytes: Blob;
 }
 
+/**
+ * A page taken from the menus-wanted list for a form that is already on the server (0018). It
+ * waits here until the server says the form holds it, then goes.
+ */
+export interface WantedPage {
+  readonly id: string;
+  readonly formSerial: string;
+  readonly bytes: Blob;
+  readonly takenAt: string;
+}
+
 /** The report as it sits locally: the shared entity plus what the phone needs to track it. */
 export type QueuedReport = FieldReport & { readonly uploaded: boolean };
 
 export class FieldDb extends Dexie {
   reports!: EntityTable<QueuedReport, 'id'>;
   photos!: EntityTable<Photo, 'id'>;
+  wantedPages!: EntityTable<WantedPage, 'id'>;
 
   constructor(name = 'saathi-field') {
     super(name);
@@ -32,6 +44,8 @@ export class FieldDb extends Dexie {
       reports: 'id, capturedAt, uploaded',
       photos: 'id, reportId',
     });
+    // Pages for forms already on the server, from the menus-wanted list (27 September).
+    this.version(2).stores({ wantedPages: 'id, formSerial, takenAt' });
   }
 }
 
