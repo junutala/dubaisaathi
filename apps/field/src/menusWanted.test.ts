@@ -77,6 +77,23 @@ describe('pages for a form', () => {
     expect(await db.wantedPages.count()).toBe(2);
   });
 
+  it('gives up on a page that hangs, keeps it, and does not hold back the next send', async () => {
+    // 27 September: an upload hung on a dropped signal and 0049's pages never left the phone.
+    vi.stubGlobal('fetch', () => new Promise<Response>(() => undefined));
+    const outcome = await sendPages('0027', 20);
+    expect(outcome).toEqual({ ok: false, why: 'no connection' });
+    expect(await db.wantedPages.count()).toBe(2);
+
+    // The signal is back: the next send is not stuck behind the one that hung.
+    let held = 0;
+    vi.stubGlobal('fetch', () => {
+      held += 1;
+      return Promise.resolve(new Response(JSON.stringify({ form: '0027', pages: held })));
+    });
+    expect(await sendPages('0027', 20)).toEqual({ ok: true, pages: 2 });
+    expect(await db.wantedPages.count()).toBe(0);
+  });
+
   it('keeps the pages the server refused', async () => {
     vi.stubGlobal('fetch', () => Promise.resolve(new Response('{}', { status: 502 })));
     const outcome = await sendPages('0027');
