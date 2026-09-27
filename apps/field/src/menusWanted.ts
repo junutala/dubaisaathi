@@ -97,10 +97,35 @@ export type SendPages =
  * Sends one form's waiting pages, one request per page, and removes each only once the server has
  * answered for it. The answer is how many pages the form now holds on the server.
  */
-export function sendPages(formSerial: string): Promise<SendPages> {
+/**
+ * How long one page may take before it is given up for now (the owner, 27 September: 0049 sat on
+ * "sending" while nothing reached the server). Pages go one at a time, so an upload that hangs on
+ * a dropped signal held back every page after it, on every form, for as long as the phone kept the
+ * request open. Given up, the page stays on the phone and goes again with the next send.
+ */
+export const PAGE_TIMEOUT_MS = 45_000;
+
+/** A request that answers within `ms`, or is abandoned and counts as no connection. */
+async function withinTime(url: string, init: RequestInit, ms: number): Promise<Response> {
+  const abort = new AbortController();
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const late = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => {
+      abort.abort();
+      reject(new Error('timed out'));
+    }, ms);
+  });
+  try {
+    return await Promise.race([fetch(url, { ...init, signal: abort.signal }), late]);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+export function sendPages(formSerial: string, timeoutMs = PAGE_TIMEOUT_MS): Promise<SendPages> {
   // One send at a time: pages taken in quick succession each start a send, and two sends walking
   // one queue together would race each other for the same page.
-  const next = inTurn.then(() => sendQueued(formSerial));
+  const next = inTurn.then(() => sendQueued(formSerial, timeoutMs));
   inTurn = next.then(
     () => undefined,
     () => undefined,
@@ -110,16 +135,20 @@ export function sendPages(formSerial: string): Promise<SendPages> {
 
 let inTurn: Promise<void> = Promise.resolve();
 
-async function sendQueued(formSerial: string): Promise<SendPages> {
+async function sendQueued(formSerial: string, timeoutMs: number): Promise<SendPages> {
   const waiting = await db.wantedPages.where('formSerial').equals(formSerial).sortBy('takenAt');
   let pages = 0;
   try {
     for (const page of waiting) {
-      const answer = await fetch(`${ENDPOINT}?pages=${formSerial}`, {
-        method: 'POST',
-        headers: outletHeaders(),
-        body: JSON.stringify({ photos: [{ id: page.id, dataUrl: await asDataUrl(page.bytes) }] }),
-      });
+      const answer = await withinTime(
+        `${ENDPOINT}?pages=${formSerial}`,
+        {
+          method: 'POST',
+          headers: outletHeaders(),
+          body: JSON.stringify({ photos: [{ id: page.id, dataUrl: await asDataUrl(page.bytes) }] }),
+        },
+        timeoutMs,
+      );
       if (!answer.ok) return { ok: false, why: `server said ${String(answer.status)}` };
       pages = ((await answer.json()) as { pages: number }).pages;
       await db.wantedPages.delete(page.id);
