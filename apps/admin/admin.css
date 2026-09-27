@@ -205,3 +205,49 @@ tr.waiting td {
   color: var(--muted);
   margin: 0;
 }
+h3 {
+  margin: 16px 0 8px;
+  font-size: 14px;
+}
+.window {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.window button.on {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+.verdicts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.verdict {
+  border: 1px solid var(--line);
+  border-left-width: 6px;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+.verdict b {
+  display: block;
+  font-size: 18px;
+}
+.verdict p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.verdict.green,
+.verdict.valuable {
+  border-left-color: #2f9e57;
+}
+.verdict.amber,
+.verdict.used_not_important {
+  border-left-color: #d9982b;
+}
+.verdict.red,
+.verdict.negligible {
+  border-left-color: #c8483b;
+}

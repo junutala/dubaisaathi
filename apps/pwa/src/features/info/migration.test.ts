@@ -80,7 +80,7 @@ describe('upgrading a phone that already has the app', () => {
     const upgraded = new SaathiDb(NAME);
     await upgraded.open();
 
-    expect(upgraded.verno).toBe(10);
+    expect(upgraded.verno).toBe(11);
     expect((await upgraded.phrases.get('taxi-hotel'))?.ar).toBe(PHRASE.ar);
     expect((await upgraded.contentVersions.get('phrases'))?.version).toBe(1);
     // The queue is what the learning loop is: losing it loses labelled recogniser errors that
@@ -174,7 +174,7 @@ describe('upgrading a phone that already has the app', () => {
 
     const upgraded = new SaathiDb(NAME);
     await upgraded.open();
-    expect(upgraded.verno).toBe(10);
+    expect(upgraded.verno).toBe(11);
     const hotel = await upgraded.hotels.get('hotel');
     expect(hotel?.room).toBe('203');
     expect(await hotel?.cardPhoto?.text()).toBe('card');
@@ -218,7 +218,7 @@ describe('upgrading a phone that already has the app', () => {
 
     const upgraded = new SaathiDb(NAME);
     await upgraded.open();
-    expect(upgraded.verno).toBe(10);
+    expect(upgraded.verno).toBe(11);
     const hotel = await upgraded.hotels.get('hotel');
     expect(hotel?.name).toBe('Rigga Palm Inn');
     expect(hotel?.pin).toEqual({ lat: 25.2637, lng: 55.3197 });

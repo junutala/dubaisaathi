@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { parseRoute, pillarOf, type Route } from './routes.js';
+import { parseRoute, pillarOf, screenSeen, type Route } from './routes.js';
 import { useSettings } from './settings.js';
 import { applyUpdateIfIdle, watchForUpdate } from './updates.js';
 import { TopStrip } from './shell/TopStrip.js';
@@ -45,6 +45,7 @@ import { KnowScreen, PlaceScreen, TopicScreen } from '../features/know/index.js'
 import { MapScreen, startMapKeeping } from '../features/map/index.js';
 import { ArabicScreen, BolnaScreen } from '../features/speak/index.js';
 import { navigate } from './routes.js';
+import { noteScreen } from '../features/ask/index.js';
 
 /**
  * The landing page is shown once, on the first open, and never again. Recorded in localStorage
@@ -192,6 +193,12 @@ export function App() {
     const here = currentLocation();
     noteLocationReading(here.kind === 'here' ? here.at : undefined);
   }, [clock]);
+
+  // Each screen shown, for the product-intelligence log's task rules (decision 043). Never read
+  // back by the app, and never on a traveller's path.
+  useEffect(() => {
+    noteScreen(screenSeen(route));
+  }, [route]);
 
   /**
    * The gate, checked only when a traveller enters a pillar — never on the tick, so a screen is

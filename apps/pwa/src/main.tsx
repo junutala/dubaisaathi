@@ -7,7 +7,14 @@ import { parseTransportPack } from './features/transport/index.js';
 import { requestPersistentStorage } from './db/schema.js';
 import { applyPendingUpdate, startUpdateChecks } from './app/updates.js';
 import { loadPacks, packBody, startPackSync } from './features/content/index.js';
-import { startUsageRecording, startVoiceEventSync } from './features/ask/index.js';
+import {
+  arrivalSource,
+  openedInstalled,
+  regionNow,
+  startProductIntelligence,
+  startUsageRecording,
+  startVoiceEventSync,
+} from './features/ask/index.js';
 import bundledTransport from '../../../data/transport/network.v1.json';
 import './fonts.css';
 import './styles.css';
@@ -44,10 +51,16 @@ void loadTransportPack(parseTransportPack(packBody('transport') ?? bundledTransp
 // stored and taken up at the next launch — never mid-journey, the same rule a build follows.
 startPackSync();
 
-// The question log leaves the phone here, and only here. Nothing waits on it: it tries once on
-// boot and again when the phone says it is back online, and a failure leaves the queue intact.
-startVoiceEventSync();
+// Recording first, then sending: the day's first open is written before the first send, not after
+// it. The question log and the product-intelligence log leave the phone together, soon after
+// anything is recorded; nothing waits on them and a failure leaves the queue intact.
 startUsageRecording();
+startProductIntelligence({
+  region: regionNow(),
+  installed: openedInstalled(),
+  via: arrivalSource(new URL(window.location.href)),
+});
+startVoiceEventSync();
 
 createRoot(root).render(
   <StrictMode>

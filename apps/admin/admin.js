@@ -72,7 +72,165 @@
     }
   }
 
+  const KIND_NAMES = {
+    food_discovery: 'Finding food',
+    food_dietary_search: 'Food with a constraint',
+    restaurant_menu: 'Reading a menu',
+    transport_route: 'Getting somewhere',
+    attraction_information: 'An attraction',
+    travel_topic: 'A travel topic',
+    language_assistance: 'बोलना',
+    document_access: 'A document',
+    hotel_reference: 'The hotel',
+    pass_purchase: 'Buying a pass',
+  };
+  const PILLAR_NAMES = {
+    food: 'खाना',
+    go: 'जाना',
+    know: 'जानना',
+    bolna: 'बोलना',
+    docs: 'ज़रूरी जानकारी',
+    home: 'घर',
+  };
+  const VERDICT_NAMES = {
+    green: 'Green',
+    amber: 'Amber',
+    red: 'Red',
+    insufficient: 'Not enough data yet',
+    valuable: 'Offline is valuable',
+    used_not_important: 'Used offline, not yet useful there',
+    negligible: 'Offline barely used',
+  };
+  let insights = null;
+  let windowName = 'week';
+
+  const minutes = (seconds) => number(Math.round(Number(seconds || 0) / 60)) + ' min';
+
+  function rate(r) {
+    if (!r || !r.n) return ['—', '0 / 0', '—'];
+    return [
+      percent(r.rate),
+      number(r.k) + ' / ' + number(r.n),
+      percent(r.low) + ' – ' + percent(r.high),
+    ];
+  }
+
+  function verdict(id, title, v) {
+    const box = $(id);
+    const name = (v && v.verdict) || 'insufficient';
+    box.className = 'verdict ' + name;
+    box.replaceChildren(
+      el('span', title, 'muted'),
+      el('b', VERDICT_NAMES[name] || name),
+      el('p', (v && v.reason) || ''),
+    );
+  }
+
+  function drawInsights() {
+    const error = $('pi-error');
+    error.hidden = true;
+    for (const button of document.querySelectorAll('[data-window]')) {
+      button.classList.toggle('on', button.dataset.window === windowName);
+    }
+    if (!insights || insights.error) {
+      error.textContent =
+        'Product intelligence did not load: ' + ((insights && insights.error) || 'no data');
+      error.hidden = false;
+      return;
+    }
+    const p = insights[windowName] || {};
+    const active = p.activeSeconds || {};
+    const tasks = p.tasks || {};
+    const moves = p.transitions || {};
+
+    verdict('signal', 'Product signal', p.productSignal);
+    verdict('offline-value', 'Offline value', p.offlineValue);
+
+    tiles('tiles-pi', [
+      [number(p.sessions), 'sessions'],
+      [number(p.devices), 'phones'],
+      [number(p.meaningfulSessions), 'sessions that tried something'],
+      [number(p.usefulSessions), 'sessions that got an answer'],
+      [number(p.offlineUsefulSessions), '…of them with no signal'],
+      [number(p.repeatDevices), 'phones back on another day'],
+      [number(tasks.total), 'tasks'],
+      [minutes(active.online), 'active with a signal'],
+      [minutes(active.offline), 'active with no signal'],
+      [minutes(active.unknown), 'active, signal not known'],
+      [number(moves.onlineToOffline), 'times the signal went'],
+      [number(moves.offlineToOnline), 'times it came back'],
+    ]);
+
+    table(
+      'rates',
+      [
+        ['Measure', false],
+        ['Rate', true],
+        ['Out of', true],
+        ['Range', true],
+      ],
+      [
+        ['Saathi answer rate (all tasks)', ...rate(p.answerRate)],
+        ['…with no signal', ...rate(p.answerRateOffline)],
+        ['…with a signal', ...rate(p.answerRateOnline)],
+        ['Sessions that tried something offline', ...rate(p.offlinePrevalence)],
+        ['Phones that came back', ...rate(p.repeatShare)],
+        ['Asks we did not have', ...rate(p.unmetRate)],
+      ],
+    );
+
+    table(
+      'kinds',
+      [
+        ['Task', false],
+        ['All', true],
+        ['Answered', true],
+        ['Failed', true],
+        ['Left', true],
+        ['No signal', true],
+      ],
+      Object.entries(p.tasksByKind || {})
+        .sort((a, b) => b[1].total - a[1].total)
+        .map(([kind, k]) => [
+          KIND_NAMES[kind] || kind,
+          k.total,
+          k.satisfied,
+          k.failed,
+          k.abandoned,
+          k.offline,
+        ]),
+    );
+
+    table(
+      'pillars',
+      [
+        ['Pillar', false],
+        ['Active', true],
+        ['Tasks', true],
+      ],
+      Object.entries(p.activeSecondsByPillar || {})
+        .sort((a, b) => b[1] - a[1])
+        .map(([pillar, seconds]) => [
+          PILLAR_NAMES[pillar] || pillar,
+          minutes(seconds),
+          number((p.tasksByPillar || {})[pillar]),
+        ]),
+    );
+
+    table(
+      'offline-answers',
+      [
+        ['Answer', false],
+        ['Times', true],
+      ],
+      Object.entries(p.offlineAnswers || {}).sort((a, b) => b[1] - a[1]),
+    );
+  }
+
   function draw(m) {
+    insights = m.insights || null;
+    drawInsights();
+
     const s = m.success || {};
     const regions = s.last7DaysByRegion || {};
     const opened = s.opened || {};
@@ -254,6 +412,12 @@
     store('');
     window.location.reload();
   });
+  for (const button of document.querySelectorAll('[data-window]')) {
+    button.addEventListener('click', () => {
+      windowName = button.dataset.window;
+      drawInsights();
+    });
+  }
   $('copy').addEventListener('click', () => {
     void navigator.clipboard.writeText($('pitch').textContent || '');
   });

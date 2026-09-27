@@ -10,4 +10,12 @@ export { fold } from './normalise.js';
 export { GLUE, ROMAN_GLUE } from './glue.js';
 export { recordVoiceEvent } from './voiceEvent.js';
 export { startVoiceEventSync } from './sync.js';
-export { recordUsage, startUsageRecording, type UsageEvent } from './usage.js';
+export {
+  arrivalSource,
+  openedInstalled,
+  recordUsage,
+  regionNow,
+  startUsageRecording,
+  type UsageEvent,
+} from './usage.js';
+export { noteScreen, startProductIntelligence } from './intelligence.js';

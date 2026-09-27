@@ -1,5 +1,6 @@
 import Dexie, { type EntityTable } from 'dexie';
 import type {
+  AppEvent,
   ContactMessage,
   ContentVersion,
   Phrase,
@@ -31,6 +32,7 @@ export class SaathiDb extends Dexie {
   savedPhrases!: EntityTable<SavedPhrase, 'id'>;
   messages!: EntityTable<ContactMessage, 'id'>;
   packs!: EntityTable<StoredPack, 'id'>;
+  appEvents!: EntityTable<AppEvent, 'id'>;
 
   constructor(name = 'saathi') {
     super(name);
@@ -224,6 +226,25 @@ export class SaathiDb extends Dexie {
       savedPhrases: 'id, savedAt',
       messages: 'id, at, synced',
       packs: 'id, version',
+    });
+    /**
+     * v11: the product-intelligence log (decision 043) — sessions, active time, network changes
+     * and tasks, queued here and synced with the question log. A new table only; every table
+     * above is re-declared unchanged, so no row of the traveller's moves.
+     */
+    this.version(11).stores({
+      phrases: 'id, situation',
+      contentVersions: 'id, version',
+      voiceEvents: 'id, at, synced',
+      hotels: 'id',
+      documents: 'id, addedAt',
+      transportNodes: 'id',
+      transportEdges: 'id, fromNodeId, toNodeId',
+      transportMeta: 'id',
+      savedPhrases: 'id, savedAt',
+      messages: 'id, at, synced',
+      packs: 'id, version',
+      appEvents: 'id, at, synced',
     });
   }
 }

@@ -45,6 +45,33 @@
           <button type="button" id="copy" class="ghost">Copy</button>
         </section>
 
+        <section class="card">
+          <h2>
+            Product intelligence
+            <span class="muted">(decision 043 · outcomes are inferred, never asked)</span>
+          </h2>
+          <div class="window" role="group" aria-label="Window">
+            <button type="button" class="ghost on" data-window="week">Last 7 days</button>
+            <button type="button" class="ghost" data-window="month">Last 28 days</button>
+          </div>
+          <p id="pi-error" class="error" hidden></p>
+          <div class="verdicts">
+            <div class="verdict" id="signal"></div>
+            <div class="verdict" id="offline-value"></div>
+          </div>
+          <div class="tiles" id="tiles-pi"></div>
+          <h3>
+            Rates <span class="muted">(95% Wilson range; thin data shows as a wide range)</span>
+          </h3>
+          <table id="rates"></table>
+          <h3>Tasks by kind</h3>
+          <table id="kinds"></table>
+          <h3>Active time by pillar</h3>
+          <table id="pillars"></table>
+          <h3>Why no signal <span class="muted">(the one-tap question)</span></h3>
+          <table id="offline-answers"></table>
+        </section>
+
         <section>
           <h2>Reach</h2>
           <div class="tiles" id="tiles-reach"></div>

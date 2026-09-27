@@ -263,6 +263,15 @@ one-time consent line, deleted from the device after sync. The STT engine and mo
 travel with every event so a regression is visible. Reviewed in `packages/content-tools`;
 the output is new aliases, new phrases and new intents in `data/`, versioned like any content.
 
+**Product intelligence** (decision 043) sits beside it: `AppEvent` rows (`app_events`) record
+sessions, active time, a _confirmed_ online/offline state (never `navigator.onLine` alone) and
+tasks whose outcome is inferred by fixed rules in `features/ask/tasks.ts`, never by a model.
+`insight_metrics()` turns them into the answer rate (with a Wilson range), the Offline Value
+verdict and the Product Signal on /admin. The Anthropic agents read those figures and never make
+one. No IP, no coordinates, kept 180 days. The sync runs on launch, on regaining signal, on
+becoming visible, shortly after anything is recorded and every two minutes while open — it once
+ran only at launch, and a week of the owner's own use never arrived.
+
 ## Field collection
 
 `apps/field` is a second, separate PWA for our own collectors — not tourists. It is the one
