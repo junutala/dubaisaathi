@@ -654,7 +654,14 @@ input.short {
 .wanted-row-text {
   flex: 1;
   min-width: 0;
-  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 16px;
+  color: var(--ink);
+}
+.wanted-row-text small {
+  font-size: 13px;
   color: var(--muted);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -682,30 +689,30 @@ input.short {
   line-height: 1.45;
   color: var(--ink);
 }
-.wanted-shops {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-.wanted-shop {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.wanted-shop img,
-.wanted-shop-blank {
-  width: 100%;
-  aspect-ratio: 3 / 4;
+.wanted-thumb {
+  width: 48px;
+  height: 64px;
+  flex: none;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 8px;
   border: 1px solid var(--line);
   background: var(--sand);
 }
-.wanted-shop figcaption {
-  font-size: 12.5px;
-  font-weight: 700;
-  color: var(--muted);
+.wanted-blank {
+  display: block;
+}
+.wanted-name {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+}
+.wanted-cover {
+  width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--sand);
 }
 .wanted-maps {
   align-self: flex-start;
