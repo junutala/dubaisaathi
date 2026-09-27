@@ -162,10 +162,11 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   or two ticks — photographed on the phone, downloaded from the QR — saying where it is instead,
   a camera held close to the counter's WhatsApp number, and one optional note for what the counter
   said ("WhatsApp 050… and we will send it"). Later, at a
-  desk, the filled paper and the menu (photos or a PDF) are keyed against that pin in the owner's
-  sequence (23 September): pick the form number, the paper's questions, the menu, Submit. Nothing
-  else is required — the name, the kind of kitchen, the dishes and prices are read off the menu at
-  review. The coordinates always come from the pin, never from the desk's own phone.
+  desk, the menu (photos or a PDF) is added to that pin from the collectors' app's Menus list
+  (decision 041). **There is no paper form** (decision 042): the name, the kind of kitchen, Jain
+  and the dishes and prices are read off the menu card at review, and nothing is asked of a
+  kitchen. A restaurant's own online menu is read the same way. The coordinates always come from
+  the pin (or the restaurant's own page), never from the desk's own phone.
 
 ## Non-negotiable rules
 
