@@ -1,0 +1,82 @@
+name: Pull a QR menu for review
+
+# A counter's QR often opens a menu on the web rather than a card (0030 Tea Tower, 0042, 0063 —
+# 27 September). The development container cannot reach those sites; a GitHub runner can. Run by
+# hand with the form number and the link: a real browser opens the page, and its text and
+# full-page pictures are committed to the `menu-pages` branch under the form — never to main, so
+# no menu travels with the app's code. Review reads them as it reads photographed pages
+# (decision 033). Delete the branch once they are read.
+
+on:
+  workflow_dispatch:
+    inputs:
+      form:
+        description: Form number (e.g. 0030)
+        required: true
+      url:
+        description: The menu's link, as the QR opens it
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    env:
+      FORM: ${{ github.event.inputs.form }}
+      MENU_URL: ${{ github.event.inputs.url }}
+    steps:
+      - name: Open the menu in a browser and keep its text and pictures
+        run: |
+          case "$FORM" in *[!0-9]*|'') echo "form must be digits"; exit 1;; esac
+          mkdir -p "out/$FORM/qr" && cd out
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1 >/dev/null
+          npx playwright install --with-deps chromium >/dev/null
+          cat > take.mjs <<'JS'
+          import { chromium } from 'playwright';
+          const form = process.env.FORM;
+          const browser = await chromium.launch();
+          const page = await browser.newPage({ viewport: { width: 430, height: 932 }, deviceScaleFactor: 2 });
+          await page.goto(process.env.MENU_URL, { waitUntil: 'networkidle', timeout: 90_000 });
+          // Scroll to the end so a menu that loads as it is scrolled has loaded all of itself.
+          for (let i = 0; i < 60; i += 1) {
+            const before = await page.evaluate(() => document.body.scrollHeight);
+            await page.mouse.wheel(0, 2000);
+            await page.waitForTimeout(600);
+            const after = await page.evaluate(() => document.body.scrollHeight);
+            if (after === before && i > 3) break;
+          }
+          await page.evaluate(() => window.scrollTo(0, 0));
+          const fs = await import('node:fs');
+          fs.writeFileSync(`${form}/qr/text.txt`, await page.evaluate(() => document.body.innerText));
+          fs.writeFileSync(`${form}/qr/page.html`, await page.content());
+          fs.writeFileSync(`${form}/qr/url.txt`, process.env.MENU_URL + '\n');
+          // Full-page pictures in screen-sized slices, so no single image is too tall to read.
+          const height = await page.evaluate(() => document.body.scrollHeight);
+          const slice = 1800;
+          for (let y = 0, n = 0; y < height; y += slice, n += 1) {
+            await page.screenshot({
+              path: `${form}/qr/${String(n).padStart(2, '0')}.jpg`,
+              type: 'jpeg',
+              quality: 80,
+              fullPage: true,
+              clip: { x: 0, y, width: 430, height: Math.min(slice, height - y) },
+            });
+          }
+          await browser.close();
+          JS
+          node take.mjs
+          ls -la "$FORM/qr"
+
+      - name: Commit to the menu-pages branch
+        run: |
+          cd out
+          rm -rf node_modules package*.json take.mjs
+          git init -q -b menu-pages
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A
+          git commit -q -m "QR menu: $FORM"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" menu-pages
