@@ -56,6 +56,20 @@ describe('pages for a form', () => {
     expect(await db.wantedPages.count()).toBe(0);
   });
 
+  it('sends each page once when two sends start together', async () => {
+    const ids: string[] = [];
+    vi.stubGlobal('fetch', (_url: string, init: RequestInit) => {
+      const body = JSON.parse(init.body as string) as { photos: { id: string }[] };
+      ids.push(body.photos[0]?.id ?? '');
+      return Promise.resolve(new Response(JSON.stringify({ form: '0027', pages: ids.length })));
+    });
+    // Two photographs taken in quick succession each start a send.
+    await Promise.all([sendPages('0027'), sendPages('0027')]);
+    expect(ids).toHaveLength(2);
+    expect(new Set(ids).size).toBe(2);
+    expect(await db.wantedPages.count()).toBe(0);
+  });
+
   it('keeps every page when there is no signal', async () => {
     vi.stubGlobal('fetch', () => Promise.reject(new TypeError('offline')));
     const outcome = await sendPages('0027');

@@ -184,6 +184,14 @@ function WantedFormScreen({
     };
   }, [form.formSerial]);
 
+  const send = async () => {
+    setSending(true);
+    const outcome = await sendPages(form.formSerial);
+    setSending(false);
+    setSaid(outcome.ok ? null : t('wantedNotSent', { why: outcome.why }));
+    await recount();
+  };
+
   const keep = async (pages: readonly Blob[]) => {
     const base = Date.now();
     await db.wantedPages.bulkAdd(
@@ -196,24 +204,8 @@ function WantedFormScreen({
     );
     setSaid(null);
     await count();
-  };
-
-  const removeLast = async () => {
-    const pages = await db.wantedPages
-      .where('formSerial')
-      .equals(form.formSerial)
-      .sortBy('takenAt');
-    const last = pages.at(-1);
-    if (last !== undefined) await db.wantedPages.delete(last.id);
-    await count();
-  };
-
-  const send = async () => {
-    setSending(true);
-    const outcome = await sendPages(form.formSerial);
-    setSending(false);
-    setSaid(outcome.ok ? null : t('wantedNotSent', { why: outcome.why }));
-    await recount();
+    // Straight to the server (the owner, 27 September): no Send step between one page and the next.
+    await send();
   };
 
   return (
@@ -226,30 +218,7 @@ function WantedFormScreen({
         <output className="pin-number">{form.formSerial}</output>
       </div>
       {form.name !== null && <h2 className="wanted-name">{form.name}</h2>}
-      {form.picture && <Cover serial={form.formSerial} className="wanted-cover" />}
-      <p className="wanted-facts">
-        {t('wantedPinned', { when: WHEN.format(new Date(form.capturedAt)) })}
-        {here !== null && ` · ${String(metresBetween(here, form))} m`}
-        {form.notes !== null && form.notes.trim() !== '' && (
-          <span className="wanted-note">“{form.notes}”</span>
-        )}
-        {form.wanted !== null && (
-          <>
-            <br />
-            {t('wantedStill', { what: form.wanted })}
-          </>
-        )}
-      </p>
-      <a
-        className="wanted-maps"
-        href={`https://www.google.com/maps/search/?api=1&query=${String(form.lat)},${String(form.lng)}`}
-        target="_blank"
-        rel="noreferrer"
-      >
-        {t('wantedMaps')}
-      </a>
-
-      <div className="pin-menu">
+      <div className="wanted-add">
         <label className={ready > 0 ? 'pin-menu-opt pin-menu-on' : 'pin-menu-opt'}>
           <svg
             viewBox="0 0 24 24"
@@ -308,22 +277,6 @@ function WantedFormScreen({
         </label>
       </div>
 
-      {ready > 0 && (
-        <>
-          <p className="wanted-facts">{t('wantedReady', { n: ready })}</p>
-          <button type="button" className="pin-menu-undo" onClick={() => void removeLast()}>
-            {t('pinMenuUndo')}
-          </button>
-          <button
-            type="button"
-            className="wanted-send"
-            disabled={sending}
-            onClick={() => void send()}
-          >
-            {t('wantedSend')}
-          </button>
-        </>
-      )}
       {said !== null && <p className="wanted-stale">{said}</p>}
       <p className="wanted-said">
         {onServer === undefined
@@ -332,6 +285,38 @@ function WantedFormScreen({
             ? t('wantedNoCount')
             : t('wantedOnServer', { serial: form.formSerial, n: onServer })}
       </p>
+      {sending && <p className="wanted-facts">{t('wantedSending')}</p>}
+      {ready > 0 && !sending && (
+        <>
+          <p className="wanted-facts">{t('wantedReady', { n: ready })}</p>
+          <button type="button" className="wanted-send" onClick={() => void send()}>
+            {t('wantedSend')}
+          </button>
+        </>
+      )}
+
+      {form.picture && <Cover serial={form.formSerial} className="wanted-cover" />}
+      <p className="wanted-facts">
+        {t('wantedPinned', { when: WHEN.format(new Date(form.capturedAt)) })}
+        {here !== null && ` · ${String(metresBetween(here, form))} m`}
+        {form.notes !== null && form.notes.trim() !== '' && (
+          <span className="wanted-note">“{form.notes}”</span>
+        )}
+        {form.wanted !== null && (
+          <>
+            <br />
+            {t('wantedStill', { what: form.wanted })}
+          </>
+        )}
+      </p>
+      <a
+        className="wanted-maps"
+        href={`https://www.google.com/maps/search/?api=1&query=${String(form.lat)},${String(form.lng)}`}
+        target="_blank"
+        rel="noreferrer"
+      >
+        {t('wantedMaps')}
+      </a>
     </div>
   );
 }
