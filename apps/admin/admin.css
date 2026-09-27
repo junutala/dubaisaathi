@@ -251,3 +251,52 @@ h3 {
 .verdict.negligible {
   border-left-color: #c8483b;
 }
+.agent {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  margin-top: 10px;
+}
+.agent summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+.agent-head {
+  margin: 6px 0;
+  font-weight: 700;
+}
+.agent-items {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.agent-items li {
+  font-size: 14px;
+}
+.kind {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.kind.inference,
+.kind.hypothesis {
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+.unchecked {
+  opacity: 0.6;
+}
+.cites {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
