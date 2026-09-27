@@ -73,6 +73,23 @@ export async function firstPage(formSerial: string): Promise<string | null> {
   }
 }
 
+/** The event a page leaving the queue raises, so any screen showing counts can recount. */
+export const PAGE_SENT = 'saathi:page-sent';
+
+/**
+ * How many menu pages the server holds for a form, asked of the server itself: the one number the
+ * screen may call "on the server". Null when it cannot be asked (no signal).
+ */
+export async function serverPages(formSerial: string): Promise<number | null> {
+  try {
+    const answer = await fetch(`${ENDPOINT}?menu=${formSerial}`, { headers: outletHeaders() });
+    if (!answer.ok) return null;
+    return ((await answer.json()) as { pages: number[] }).pages.length;
+  } catch {
+    return null;
+  }
+}
+
 export type SendPages =
   { readonly ok: true; readonly pages: number } | { readonly ok: false; readonly why: string };
 
@@ -93,6 +110,7 @@ export async function sendPages(formSerial: string): Promise<SendPages> {
       if (!answer.ok) return { ok: false, why: `server said ${String(answer.status)}` };
       pages = ((await answer.json()) as { pages: number }).pages;
       await db.wantedPages.delete(page.id);
+      window.dispatchEvent(new CustomEvent(PAGE_SENT, { detail: formSerial }));
     }
   } catch {
     return { ok: false, why: 'no connection' };
