@@ -5,7 +5,9 @@ import {
   firstPage,
   keptList,
   metresBetween,
+  PAGE_SENT,
   sendPages,
+  serverPages,
   type WantedForm,
 } from './menusWanted.js';
 import { isPdf, pdfPages } from './pdfPages.js';
@@ -107,10 +109,10 @@ export function MenusWanted() {
               {form.picture && <Cover serial={form.formSerial} className="wanted-thumb" />}
               <span className="wanted-row-text">
                 <b>{form.name ?? '—'}</b>
-                <small>
-                  {form.notes ??
-                    t('wantedPinned', { when: WHEN.format(new Date(form.capturedAt)) })}
-                </small>
+                {form.notes !== null && form.notes.trim() !== '' && (
+                  <span className="wanted-note">“{form.notes}”</span>
+                )}
+                <small>{t('wantedPinned', { when: WHEN.format(new Date(form.capturedAt)) })}</small>
               </span>
               {here !== null && <span className="wanted-away">{metresBetween(here, form)} m</span>}
             </button>
@@ -152,15 +154,35 @@ function WantedFormScreen({
 }) {
   const { t } = useStrings();
   const [ready, setReady] = useState(0);
+  /** What the server itself says it holds for this form: the only number called "on the server". */
+  const [onServer, setOnServer] = useState<number | null | undefined>(undefined);
   const [sending, setSending] = useState(false);
   const [said, setSaid] = useState<string | null>(null);
 
   const count = async () => {
     setReady(await db.wantedPages.where('formSerial').equals(form.formSerial).count());
   };
+  const recount = async () => {
+    await count();
+    setOnServer(await serverPages(form.formSerial));
+  };
   useEffect(() => {
-    void count();
-  });
+    void recount();
+    // A page sent from anywhere — this button, or the queue going out when the signal returns —
+    // changes both numbers, so both are asked again.
+    const sent = (event: Event) => {
+      if ((event as CustomEvent<string>).detail === form.formSerial) void recount();
+    };
+    const back = () => {
+      void recount();
+    };
+    window.addEventListener(PAGE_SENT, sent);
+    window.addEventListener('online', back);
+    return () => {
+      window.removeEventListener(PAGE_SENT, sent);
+      window.removeEventListener('online', back);
+    };
+  }, [form.formSerial]);
 
   const keep = async (pages: readonly Blob[]) => {
     const base = Date.now();
@@ -190,12 +212,8 @@ function WantedFormScreen({
     setSending(true);
     const outcome = await sendPages(form.formSerial);
     setSending(false);
-    setSaid(
-      outcome.ok
-        ? t('wantedSent', { serial: form.formSerial, n: outcome.pages })
-        : t('wantedNotSent', { why: outcome.why }),
-    );
-    await count();
+    setSaid(outcome.ok ? null : t('wantedNotSent', { why: outcome.why }));
+    await recount();
   };
 
   return (
@@ -212,10 +230,8 @@ function WantedFormScreen({
       <p className="wanted-facts">
         {t('wantedPinned', { when: WHEN.format(new Date(form.capturedAt)) })}
         {here !== null && ` · ${String(metresBetween(here, form))} m`}
-        {form.notes !== null && form.notes !== '' && (
-          <>
-            <br />“{form.notes}”
-          </>
+        {form.notes !== null && form.notes.trim() !== '' && (
+          <span className="wanted-note">“{form.notes}”</span>
         )}
         {form.wanted !== null && (
           <>
@@ -308,7 +324,14 @@ function WantedFormScreen({
           </button>
         </>
       )}
-      {said !== null && <p className="wanted-said">{said}</p>}
+      {said !== null && <p className="wanted-stale">{said}</p>}
+      <p className="wanted-said">
+        {onServer === undefined
+          ? t('wantedAsking')
+          : onServer === null
+            ? t('wantedNoCount')
+            : t('wantedOnServer', { serial: form.formSerial, n: onServer })}
+      </p>
     </div>
   );
 }

@@ -663,9 +663,17 @@ input.short {
 .wanted-row-text small {
   font-size: 13px;
   color: var(--muted);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+}
+/* The collector's own note from the counter, in full: it is how he finds the place again. */
+.wanted-note {
+  display: block;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--marigoldSoft);
+  color: var(--marigoldText);
+  font-size: 14.5px;
+  font-weight: 700;
+  white-space: normal;
 }
 .wanted-away {
   font-size: 15px;
