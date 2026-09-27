@@ -1,6 +1,7 @@
 import type { EventPillar, NetworkState } from '@saathi/shared';
 import { createActiveClock } from './activeTime.js';
 import { recordAppEvent, touchSession } from './appEvents.js';
+import { noteOfflineSession } from './offlineAsk.js';
 import { currentNetwork, onNetworkChange, recheckNetwork } from './network.js';
 import { createTaskEngine, type QuestionSeen, type ScreenSeen, type TaskEngine } from './tasks.js';
 
@@ -96,8 +97,11 @@ export function startProductIntelligence(where: {
     window.addEventListener(kind, interact, { passive: true, capture: true });
 
   let previous: NetworkState = currentNetwork();
+  // A confirmed stretch with no signal is what makes घर's one question due (offlineAsk.ts).
+  if (previous === 'offline') noteOfflineSession(touchSession().id);
   const unwatch = onNetworkChange((state) => {
     void recordAppEvent({ name: 'net_change', net: state, meta: { from: previous, to: state } });
+    if (state === 'offline') noteOfflineSession(touchSession().id);
     previous = state;
   });
 

@@ -4,6 +4,7 @@ import { Icon, type IconName } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
 import { BUILD } from '../../app/version.js';
 import { useFreshness } from '../../app/useFreshness.js';
+import { answerOfflineAsk, useOfflineAsk } from '../ask/index.js';
 import { HOME_TILES, HomeTile, type HomeTileState } from './HomeTile.js';
 
 interface PillarDef {
@@ -83,6 +84,7 @@ export function HomeScreen({ tile }: { readonly tile: HomeTileState }) {
   // here, the phone also asks the server whether it is current at all (see `useFreshness`).
   const fresh = useFreshness(true);
   const blocks = PILLARS.filter((pillar) => pillar.needsSignal !== true || tile.online);
+  const ask = useOfflineAsk();
   return (
     <div className="home">
       <div className="pillars">
@@ -108,6 +110,39 @@ export function HomeScreen({ tile }: { readonly tile: HomeTileState }) {
           </button>
         ))}
       </div>
+      {/* The one question (decision 043): after a stretch with no signal, why there was none.
+          Here and nowhere else, because घर has no task to interrupt; once a Dubai day. */}
+      {ask && (
+        <div className="offline-ask" role="group" aria-label={t('home.offlineAsk.q')}>
+          <span className="offline-ask-q">{t('home.offlineAsk.q')}</span>
+          <span className="offline-ask-row">
+            <button
+              type="button"
+              className="offline-ask-choice"
+              data-tap
+              onClick={() => void answerOfflineAsk('no_signal')}
+            >
+              {t('home.offlineAsk.noSignal')}
+            </button>
+            <button
+              type="button"
+              className="offline-ask-choice"
+              data-tap
+              onClick={() => void answerOfflineAsk('data_off')}
+            >
+              {t('home.offlineAsk.dataOff')}
+            </button>
+            <button
+              type="button"
+              className="offline-ask-skip"
+              data-tap
+              onClick={() => void answerOfflineAsk('skipped')}
+            >
+              {t('home.offlineAsk.skip')}
+            </button>
+          </span>
+        </div>
+      )}
       {HOME_TILES.filter((def) => def.visible(tile)).map((def) => (
         <HomeTile key={def.id} tile={def} state={tile} />
       ))}

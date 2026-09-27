@@ -101,6 +101,11 @@
     used_not_important: 'Used offline, not yet useful there',
     negligible: 'Offline barely used',
   };
+  const ANSWER_NAMES = {
+    no_signal: 'No signal',
+    data_off: 'Kept data off',
+    skipped: 'Skipped the question',
+  };
   let insights = null;
   let windowName = 'week';
 
@@ -223,7 +228,9 @@
         ['Answer', false],
         ['Times', true],
       ],
-      Object.entries(p.offlineAnswers || {}).sort((a, b) => b[1] - a[1]),
+      Object.entries(p.offlineAnswers || {})
+        .sort((a, b) => b[1] - a[1])
+        .map(([answer, n]) => [ANSWER_NAMES[answer] || answer, n]),
     );
   }
 

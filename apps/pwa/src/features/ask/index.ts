@@ -19,3 +19,4 @@ export {
   type UsageEvent,
 } from './usage.js';
 export { noteScreen, startProductIntelligence } from './intelligence.js';
+export { answerOfflineAsk, useOfflineAsk, type OfflineAnswer } from './offlineAsk.js';
