@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       form:
-        description: Form number (e.g. 0030)
+        description: Form number (e.g. 0030), or a short name for a place never visited (e.g. creek-city)
         required: true
       url:
         description: The menu's link, as the QR opens it
@@ -29,7 +29,7 @@ jobs:
     steps:
       - name: Open the menu in a browser and keep its text and pictures
         run: |
-          case "$FORM" in *[!0-9]*|'') echo "form must be digits"; exit 1;; esac
+          case "$FORM" in *[!a-z0-9-]*|'') echo "form must be digits, or lower-case letters and dashes"; exit 1;; esac
           mkdir -p "out/$FORM/qr" && cd out
           npm init -y >/dev/null
           npm install --no-audit --no-fund playwright@1 >/dev/null
@@ -49,6 +49,33 @@ jobs:
             if (after === before && i > 3) break;
           }
           await page.evaluate(() => window.scrollTo(0, 0));
+          // A menu shown as a gallery of photographs (qaayima and its like): keep each picture
+          // itself, largest version first, in the order the page shows them.
+          const shown = await page.evaluate(() =>
+            [...document.querySelectorAll('img, a')]
+              .map((el) => el.getAttribute('src') ?? el.getAttribute('href') ?? '')
+              .filter((src) => /\/uploads\/menuimages\//.test(src))
+              .map((src) => new URL(src, location.href).href),
+          );
+          const pictures = [...new Set(shown)];
+          const fsp = await import('node:fs');
+          let saved = 0;
+          for (const src of pictures) {
+            const tries = [src.replace('_thumbnail', '_large'), src.replace('_thumbnail', ''), src];
+            for (const url of tries) {
+              const answer = await fetch(url);
+              const type = answer.headers.get('content-type') ?? '';
+              if (!answer.ok || !type.startsWith('image/')) continue;
+              fsp.writeFileSync(
+                `${form}/qr/menu-${String(saved).padStart(2, '0')}.jpg`,
+                Buffer.from(await answer.arrayBuffer()),
+              );
+              fsp.appendFileSync(`${form}/qr/pictures.txt`, url + '\n');
+              saved += 1;
+              break;
+            }
+          }
+          console.log(`${saved} of ${pictures.length} menu pictures kept`);
           const fs = await import('node:fs');
           fs.writeFileSync(`${form}/qr/text.txt`, await page.evaluate(() => document.body.innerText));
           fs.writeFileSync(`${form}/qr/page.html`, await page.content());
