@@ -3,6 +3,7 @@ import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { SettingsProvider, useSettings } from '../../app/settings.js';
 import { HomeScreen } from './HomeScreen.js';
 import type { HomeTileState } from './HomeTile.js';
+import { db } from '../../db/schema.js';
 
 /**
  * घर is four deep blocks with the pass tile under them (decisions 018 and 020, and the owner's
@@ -183,5 +184,27 @@ describe('घर', () => {
     expect(screen.getByText('18 घंटे बाक़ी · पास लें').closest('button')?.className).toBe(
       'home-tile',
     );
+  });
+
+  it('asks once, after a stretch with no signal, why there was none (decision 043)', async () => {
+    localStorage.setItem('saathi.session.id', 'session-1');
+    localStorage.removeItem('saathi.offlineAsk.day');
+    localStorage.removeItem('saathi.offlineAsk.session');
+    show();
+    expect(screen.queryByText('अभी कुछ देर इंटरनेट नहीं था — क्यों?')).toBeNull();
+    cleanup();
+
+    localStorage.setItem('saathi.offlineAsk.session', 'session-1');
+    show();
+    expect(screen.getByText('अभी कुछ देर इंटरनेट नहीं था — क्यों?')).toBeTruthy();
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'डेटा बंद रखा था' }));
+      await Promise.resolve();
+    });
+    expect(screen.queryByText('अभी कुछ देर इंटरनेट नहीं था — क्यों?')).toBeNull();
+    const events = await db.appEvents.toArray();
+    expect(events.find((event) => event.name === 'offline_answer')?.meta).toEqual({
+      answer: 'data_off',
+    });
   });
 });

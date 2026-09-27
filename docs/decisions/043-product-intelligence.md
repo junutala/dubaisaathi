@@ -1,7 +1,7 @@
 # 043 — Product intelligence: what the app records, and how it is judged
 
-**Date:** 27 September 2026 · **Status:** Stage A built (the log, the roll-ups, /admin).
-Stage B (the one-tap offline question) and Stage C (the three agents) follow.
+**Date:** 27 September 2026 · **Status:** Stage A (the log, the roll-ups, /admin) and Stage B
+(the one question on घर, design rule 31) built. Stage C (the three agents) follows.
 
 ## The question
 
@@ -44,8 +44,10 @@ used, whether it had a signal, or whether a search ended with an answer.
    ≥ 0.2), asks we did not have (≤ 0.15, ≤ 0.3). Red if any is red, green if all are green.
 10. **The agents use the Anthropic API**, and the model is an environment variable, not code
     (the owner, 27 September: "a moving target … keep it dynamic").
-11. **The traveller may be asked one thing**: in a session with no signal, a single tap — no
-    signal, or data kept off on purpose (the owner: "a fair ask"). Once, never a wall.
+11. **The traveller may be asked one thing** (the owner: "a fair ask"): on घर, after a stretch
+    the phone confirmed had no signal, "अभी कुछ देर इंटरनेट नहीं था — क्यों?" — सिग्नल नहीं था,
+    डेटा बंद रखा था, or छोड़ें. On घर because there is no task there to interrupt; once a Dubai
+    day, answered or skipped; recorded as `offline_answer` with the answer and nothing else.
 
 ## Privacy and cost
 

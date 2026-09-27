@@ -268,7 +268,8 @@ sessions, active time, a _confirmed_ online/offline state (never `navigator.onLi
 tasks whose outcome is inferred by fixed rules in `features/ask/tasks.ts`, never by a model.
 `insight_metrics()` turns them into the answer rate (with a Wilson range), the Offline Value
 verdict and the Product Signal on /admin. The Anthropic agents read those figures and never make
-one. No IP, no coordinates, kept 180 days. The sync runs on launch, on regaining signal, on
+one. The one question a traveller is ever asked lives on घर (design rule 31): after a stretch
+with no signal, why there was none, once a Dubai day. No IP, no coordinates, kept 180 days. The sync runs on launch, on regaining signal, on
 becoming visible, shortly after anything is recorded and every two minutes while open — it once
 ran only at launch, and a week of the owner's own use never arrived.
 

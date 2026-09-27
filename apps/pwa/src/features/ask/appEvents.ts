@@ -63,6 +63,11 @@ export function touchSession(now: number = Date.now()): { id: string; started: b
   return { id: sessionId, started: fresh };
 }
 
+/** The session in progress, without touching it; null before the first `touchSession`. */
+export function currentSessionId(): string | null {
+  return sessionId ?? read(SESSION);
+}
+
 export interface AppEventInput {
   readonly name: AppEventName;
   readonly pillar?: EventPillar;

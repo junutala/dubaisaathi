@@ -27,7 +27,21 @@ cat <<T
   </div>
 T
 }
-# ---- घर: $1 out, $2 pass state, $3 hotel, $4 tile trial|warm|paid, $5 signal on|off
+# घर's one question after a stretch with no signal (decision 043, rule 31): one row, once a Dubai
+# day, between the blocks and the pass tile. Only ever on a board whose strip says ऑफ़लाइन.
+offlineask() {
+cat <<A
+  <div style="margin: 0 16px 10px 16px; display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; border-radius: 14px; background: $sand; color: $ink;">
+    <span style="font-size: 14px; font-weight: 700; line-height: 1.3;">अभी कुछ देर इंटरनेट नहीं था — क्यों?</span>
+    <span style="display: flex; gap: 8px; align-items: center;">
+      <span style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 40px; border-radius: 10px; border: 1.5px solid $line; background: $card; font-size: 14px; font-weight: 700;">सिग्नल नहीं था</span>
+      <span style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 40px; border-radius: 10px; border: 1.5px solid $line; background: $card; font-size: 14px; font-weight: 700;">डेटा बंद रखा था</span>
+      <span style="padding: 0 8px; font-size: 13px; font-weight: 600; color: $muted;">छोड़ें</span>
+    </span>
+  </div>
+A
+}
+# ---- घर: $1 out, $2 pass state, $3 hotel, $4 tile trial|warm|paid, $5 signal on|off, $6 ask|''
 # बोलना is the fourth block from 17 September, at the owner's instruction: the same shape and the
 # same type as the three, in its own plum. It is on घर only where the strip says ऑनलाइन, because
 # the recogniser and the Arabic behind it are both online (decision 020) — so a board that says
@@ -46,6 +60,7 @@ $(tile 'जानना' 'Jaanna' 'दुबई की जगहें — स�
 $bolna
   </div>
 H
+[ "${6:-}" = ask ] && offlineask
 case "$4" in
   trial) passtile '18 घंटे बाक़ी · पास लें' '14 दिन का पास — एक बार, कोई सब्सक्रिप्शन नहीं' no ;;
   warm)  passtile '4 घंटे बाक़ी · पास लें' '14 दिन का पास — एक बार, कोई सब्सक्रिप्शन नहीं' yes ;;
@@ -56,7 +71,7 @@ close_screen
 } > "$OUT/$1"
 }
 home Home.dc.html running set trial on
-home HomeTrial.dc.html ending none warm off
+home HomeTrial.dc.html ending none warm off ask
 home HomePaid.dc.html running set paid on
 THEME=dark; source "$(dirname "$0")/_chrome.sh"; home HomeDark.dc.html running set trial on; THEME=light; source "$(dirname "$0")/_chrome.sh"
 

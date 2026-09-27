@@ -125,6 +125,14 @@ def main() -> int:
                     fail(name, 'बोलना comes before जानना — it is the fourth block, not the first')
             elif speak >= 0:
                 fail(name, 'बोलना on an offline घर — it cannot work without a signal')
+            # Rule 31: the one question is asked only after a stretch with no signal, so it is
+            # never on a board whose strip says ऑनलाइन, and it sits after the last block.
+            ask = text.find('इंटरनेट नहीं था')
+            if ask >= 0:
+                if 'ऑनलाइन' in text:
+                    fail(name, 'the offline question on an online घर')
+                elif ask < max(order):
+                    fail(name, 'the offline question comes before the blocks')
             # Rule 13: the pass tile sits at the foot of घर — after the last block, before
             # the bar — and is never red (rule 2 covers the colour).
             tile = text.find(TICKET_ICON)
