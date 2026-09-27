@@ -182,3 +182,36 @@ export function pillarOf(route: Route): Pillar {
       return 'home';
   }
 }
+
+/**
+ * The screen as the product-intelligence log names it (decision 043): which screen, what it
+ * shows, and where it belongs. बोलना is its own pillar there, although the bar files it under घर.
+ */
+export function screenSeen(route: Route): {
+  screen: string;
+  id?: string;
+  pillar: 'food' | 'go' | 'know' | 'bolna' | 'docs' | 'home';
+} {
+  const pillar =
+    route.screen === 'bolna' || route.screen === 'bolnaArabic' ? 'bolna' : pillarOf(route);
+  switch (route.screen) {
+    case 'menu':
+      return { screen: route.screen, id: route.outletId, pillar };
+    case 'options':
+    case 'steps':
+    case 'taxi':
+    case 'map':
+    case 'place':
+      return { screen: route.screen, id: route.placeId, pillar };
+    case 'go':
+      return route.placeId === undefined
+        ? { screen: route.screen, pillar }
+        : { screen: route.screen, id: route.placeId, pillar };
+    case 'docView':
+      return { screen: route.screen, id: route.docId, pillar };
+    case 'tip':
+      return { screen: route.screen, id: route.tipId, pillar };
+    default:
+      return { screen: route.screen, pillar };
+  }
+}

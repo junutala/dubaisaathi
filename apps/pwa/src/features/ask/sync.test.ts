@@ -2,6 +2,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { db } from '../../db/schema.js';
 import { recordVoiceEvent, pendingVoiceEvents } from './voiceEvent.js';
 import { syncVoiceEvents } from './sync.js';
+import { pendingAppEvents, recordAppEvent } from './appEvents.js';
+import { currentNetwork, resetNetworkForTests } from './network.js';
 
 /**
  * The queue leaving the phone, tested as the things that would actually go wrong.
@@ -115,5 +117,38 @@ describe('sending the queue', () => {
     expect(body.deviceId).toBe('11111111-2222-4333-8444-555555555555');
     expect(body.events[0]).not.toHaveProperty('deviceId');
     expect(body.events[0]).not.toHaveProperty('synced');
+  });
+});
+
+describe('the product-intelligence log goes with the question log (decision 043)', () => {
+  it('sends queued app events and marks only the ones the server accepted', async () => {
+    await recordAppEvent({ name: 'session_start', net: 'unknown' }, 1_000);
+    await recordAppEvent({ name: 'active', net: 'offline', pillar: 'food', seconds: 42 }, 2_000);
+    const [first] = await pendingAppEvents();
+    let body: { appEvents?: { id: string; name: string; synced?: boolean }[] } = {};
+    vi.stubGlobal('fetch', (_url: string, init: RequestInit) => {
+      body = JSON.parse(init.body as string) as typeof body;
+      return Promise.resolve(
+        new Response(JSON.stringify({ accepted: [], acceptedApp: [first?.id] }), { status: 200 }),
+      );
+    });
+
+    const outcome = await syncVoiceEvents();
+
+    expect(body.appEvents?.map((event) => event.name)).toEqual(['session_start', 'active']);
+    expect(body.appEvents?.every((event) => event.synced === undefined)).toBe(true);
+    expect(outcome).toEqual({ sent: 2, accepted: 1 });
+    expect(await pendingAppEvents()).toHaveLength(1);
+  });
+
+  it('counts an answer from our server as online, and no answer as offline', async () => {
+    resetNetworkForTests();
+    vi.stubGlobal('fetch', () => Promise.resolve(new Response('{}', { status: 200 })));
+    await syncVoiceEvents();
+    expect(currentNetwork()).toBe('online');
+
+    vi.stubGlobal('fetch', () => Promise.reject(new Error('network')));
+    await syncVoiceEvents();
+    expect(currentNetwork()).toBe('offline');
   });
 });

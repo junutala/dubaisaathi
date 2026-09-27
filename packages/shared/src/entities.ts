@@ -722,3 +722,68 @@ export interface ContactMessage {
   /** The phone's own bookkeeping. The server never sees it. */
   readonly synced: boolean;
 }
+
+/**
+ * Product intelligence (decision 043): what a traveller did, recorded deterministically on the
+ * phone and synced beside the question log. The AI reads only aggregates of these; it never
+ * measures anything itself.
+ *
+ * Keyed to the device and a session only. No text a traveller typed (that stays in the question
+ * log, where the learning loop already reads it), no position, no document, nothing personal.
+ */
+export const NETWORK_STATES = ['online', 'offline', 'unknown'] as const;
+/** Online means our server answered recently; offline means it could not be reached. */
+export type NetworkState = (typeof NETWORK_STATES)[number];
+
+export const APP_EVENT_NAMES = [
+  'session_start',
+  'active',
+  'net_change',
+  'task_start',
+  'task_end',
+  'offline_answer',
+] as const;
+export type AppEventName = (typeof APP_EVENT_NAMES)[number];
+
+/** What the traveller was trying to do (decision 043's taxonomy; it grows with evidence). */
+export const TASK_KINDS = [
+  'food_discovery',
+  'food_dietary_search',
+  'restaurant_menu',
+  'transport_route',
+  'attraction_information',
+  'travel_topic',
+  'language_assistance',
+  'document_access',
+  'hotel_reference',
+  'pass_purchase',
+] as const;
+export type TaskKind = (typeof TASK_KINDS)[number];
+
+/** How a task ended, by the published rules — an inference, never a claim about the traveller. */
+export const TASK_OUTCOMES = ['satisfied', 'failed', 'abandoned'] as const;
+export type TaskOutcome = (typeof TASK_OUTCOMES)[number];
+
+/** Where it happened: the three pillars, बोलना, the traveller's own things, and घर. */
+export type EventPillar = 'food' | 'go' | 'know' | 'bolna' | 'docs' | 'home';
+
+export interface AppEvent {
+  readonly id: string;
+  readonly sessionId: string;
+  readonly at: Timestamp;
+  readonly name: AppEventName;
+  readonly pillar?: EventPillar;
+  /** The network state when this happened (for `task_end`, the state the task started in). */
+  readonly net: NetworkState;
+  readonly taskId?: string;
+  readonly taskKind?: TaskKind;
+  readonly outcome?: TaskOutcome;
+  /** What was opened: an outlet, a place, a topic. Never a person. */
+  readonly contentId?: string;
+  /** Seconds, for `active` and for how long a task took. */
+  readonly seconds?: number;
+  /** Small, event-specific facts: `{ from, to }` on a network change, the answer to a question. */
+  readonly meta?: Readonly<Record<string, string | number | boolean>>;
+  readonly appVersion?: string;
+  readonly synced: boolean;
+}

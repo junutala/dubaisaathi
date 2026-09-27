@@ -3,8 +3,9 @@
  *
  * It answers one question, "how is Saathi doing?", with one document of totals: how it is used,
  * what travellers asked for and did not get, how collection stands, the money and the website's
- * messages. It is the only caller of `admin_metrics()` (migration 0016), which no browser key can
- * run: the page never holds a database key, only the owner's passphrase.
+ * messages. It is the only caller of `admin_metrics()` (migration 0016) and `insight_metrics()`
+ * (0020, decision 043), which no browser key can run: the page never holds a database key, only
+ * the owner's passphrase.
  *
  * Rules it keeps:
  * - **The passphrase is never stored**, only its SHA-256 below. Twenty random characters from a
@@ -68,7 +69,16 @@ Deno.serve(async (request: Request): Promise<Response> => {
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
     { auth: { persistSession: false } },
   );
-  const { data, error } = await db.rpc('admin_metrics');
-  if (error) return json({ error: error.message }, 500);
-  return json(data);
+  const [base, week, month] = await Promise.all([
+    db.rpc('admin_metrics'),
+    db.rpc('insight_metrics', { p_days: 7 }),
+    db.rpc('insight_metrics', { p_days: 28 }),
+  ]);
+  if (base.error) return json({ error: base.error.message }, 500);
+  // Product intelligence (decision 043) rides beside the totals; if it fails the rest still shows.
+  const insights =
+    week.error || month.error
+      ? { error: (week.error ?? month.error)?.message ?? 'unknown' }
+      : { week: week.data, month: month.data };
+  return json({ ...base.data, insights });
 });

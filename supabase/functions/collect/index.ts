@@ -59,6 +59,67 @@ interface IncomingEvent {
 
 const REGIONS = ['dubai', 'india', 'elsewhere', 'unknown'];
 
+/** The product-intelligence log (decision 043), checked here as the table checks it. */
+const MAX_APP_EVENTS = 1000;
+const APP_EVENT_NAMES = [
+  'session_start',
+  'active',
+  'net_change',
+  'task_start',
+  'task_end',
+  'offline_answer',
+];
+const PILLARS = ['food', 'go', 'know', 'bolna', 'docs', 'home'];
+const NETS = ['online', 'offline', 'unknown'];
+const OUTCOMES = ['satisfied', 'failed', 'abandoned'];
+
+interface IncomingAppEvent {
+  id?: string;
+  sessionId?: string;
+  at?: string;
+  name?: string;
+  pillar?: string;
+  net?: string;
+  taskId?: string;
+  taskKind?: string;
+  outcome?: string;
+  contentId?: string;
+  seconds?: number;
+  meta?: Record<string, unknown>;
+  appVersion?: string;
+}
+
+/** A row the table will take, or null: one bad row must not cost the phone the rest. */
+function appEventRow(event: IncomingAppEvent, deviceId: string): Record<string, unknown> | null {
+  if (!UUID.test(event.id ?? '') || !UUID.test(event.sessionId ?? '')) return null;
+  if (!APP_EVENT_NAMES.includes(event.name ?? '') || !NETS.includes(event.net ?? '')) return null;
+  if (typeof event.at !== 'string' || Number.isNaN(Date.parse(event.at))) return null;
+  const meta: Record<string, string | number | boolean> = {};
+  for (const [key, value] of Object.entries(event.meta ?? {}).slice(0, 12)) {
+    if (typeof value === 'string') meta[key] = value.slice(0, 80);
+    else if (typeof value === 'number' || typeof value === 'boolean') meta[key] = value;
+  }
+  return {
+    id: event.id,
+    device_id: deviceId,
+    session_id: event.sessionId,
+    at: event.at,
+    name: event.name,
+    pillar: PILLARS.includes(event.pillar ?? '') ? event.pillar : null,
+    net: event.net,
+    task_id: UUID.test(event.taskId ?? '') ? event.taskId : null,
+    task_kind: typeof event.taskKind === 'string' ? event.taskKind.slice(0, 40) : null,
+    outcome: OUTCOMES.includes(event.outcome ?? '') ? event.outcome : null,
+    content_id: typeof event.contentId === 'string' ? event.contentId.slice(0, 120) : null,
+    seconds:
+      typeof event.seconds === 'number' && event.seconds >= 0
+        ? Math.min(Math.round(event.seconds), 86_400)
+        : null,
+    meta,
+    app_version: typeof event.appVersion === 'string' ? event.appVersion.slice(0, 20) : null,
+  };
+}
+
 function json(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
     status,
@@ -70,7 +131,13 @@ Deno.serve(async (request: Request): Promise<Response> => {
   if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
   if (request.method !== 'POST') return json({ error: 'POST only' }, 405);
 
-  let payload: { deviceId?: string; platform?: string; appVersion?: string; events?: unknown };
+  let payload: {
+    deviceId?: string;
+    platform?: string;
+    appVersion?: string;
+    events?: unknown;
+    appEvents?: unknown;
+  };
   try {
     payload = await request.json();
   } catch {
@@ -82,6 +149,10 @@ Deno.serve(async (request: Request): Promise<Response> => {
 
   const events = Array.isArray(payload.events) ? (payload.events as IncomingEvent[]) : [];
   if (events.length > MAX_EVENTS) return json({ error: 'too many events' }, 413);
+  const appEvents = Array.isArray(payload.appEvents)
+    ? (payload.appEvents as IncomingAppEvent[])
+    : [];
+  if (appEvents.length > MAX_APP_EVENTS) return json({ error: 'too many app events' }, 413);
 
   // The service role, because there is no login: RLS is on with no policies by design, and this
   // function is the thing that checks the device id itself.
@@ -108,7 +179,22 @@ Deno.serve(async (request: Request): Promise<Response> => {
   );
   if (device.error) return json({ error: device.error.message }, 500);
 
-  if (events.length === 0) return json({ accepted: [] });
+  // The product-intelligence rows, beside the question log; ids made on the phone make a retry
+  // harmless. Their ids come back separately so the phone marks each log for itself.
+  const appRows = appEvents
+    .map((event) => appEventRow(event, deviceId))
+    .filter((row): row is Record<string, unknown> => row !== null);
+  if (appRows.length > 0) {
+    const stored = await db
+      .from('app_events')
+      .upsert(appRows, { onConflict: 'id', ignoreDuplicates: true });
+    if (stored.error) return json({ error: stored.error.message }, 500);
+  }
+  // Every row the phone sent is answered for — stored, or dropped as malformed — so a bad row is
+  // never sent again for ever.
+  const acceptedApp = appEvents.map((event) => event.id).filter((id) => UUID.test(id ?? ''));
+
+  if (events.length === 0) return json({ accepted: [], acceptedApp });
 
   const rows = events
     .filter((event) => UUID.test(event.id ?? '') && typeof event.transcript === 'string')
@@ -144,5 +230,5 @@ Deno.serve(async (request: Request): Promise<Response> => {
 
   // The ids the phone may now mark synced. It marks nothing on its own: anything not named here
   // stays queued and comes back next time.
-  return json({ accepted: rows.map((row) => row.id) });
+  return json({ accepted: rows.map((row) => row.id), acceptedApp });
 });

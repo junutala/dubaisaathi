@@ -1,6 +1,7 @@
 import type { VoiceEvent, VoiceFailure } from '@saathi/shared';
 import { db } from '../../db/schema.js';
 import { deviceId } from '../../lib/device.js';
+import { noteQuestion } from './intelligence.js';
 
 /** The country a usage row was recorded from, and nothing finer (migration 0017). */
 export type Region = NonNullable<VoiceEvent['region']>;
@@ -30,6 +31,21 @@ export interface VoiceEventInput {
   /** On a day's first open only: the country, and whether it was the installed app. */
   readonly region?: Region;
   readonly installed?: boolean;
+  /**
+   * Whether a dietary constraint was on for a food search. Not stored in the question log; it
+   * tells the task rules a food search was a dietary one (decision 043).
+   */
+  readonly dietary?: boolean;
+}
+
+const recordedListeners = new Set<() => void>();
+
+/** Told after a row is stored, so the sync can send it soon rather than at the next launch. */
+export function onVoiceEventRecorded(listener: () => void): () => void {
+  recordedListeners.add(listener);
+  return () => {
+    recordedListeners.delete(listener);
+  };
 }
 
 /** Devanagari, Roman, or the mix a real traveller actually speaks. */
@@ -75,6 +91,13 @@ export async function recordVoiceEvent(input: VoiceEventInput): Promise<VoiceEve
     synced: false,
   };
   await db.voiceEvents.add(event);
+  noteQuestion({
+    intent: input.intent,
+    failure: event.failure,
+    ...(input.resultCount === undefined ? {} : { resultCount: input.resultCount }),
+    ...(input.dietary === undefined ? {} : { dietary: input.dietary }),
+  });
+  for (const listener of recordedListeners) listener();
   return event;
 }
 

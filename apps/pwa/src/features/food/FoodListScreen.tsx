@@ -74,6 +74,7 @@ export function FoodListScreen({
       failure: found.hits.length === 0 ? 'nothing-in-pack' : null,
       resultCount: found.hits.length,
       sttEngine: 'typed',
+      dietary: constraints.length > 0,
     });
   };
 

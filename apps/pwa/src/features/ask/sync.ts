@@ -1,6 +1,8 @@
-import type { VoiceEvent } from '@saathi/shared';
+import type { AppEvent, VoiceEvent } from '@saathi/shared';
 import { db } from '../../db/schema.js';
-import { pendingVoiceEvents } from './voiceEvent.js';
+import { onVoiceEventRecorded, pendingVoiceEvents } from './voiceEvent.js';
+import { onAppEventRecorded, pendingAppEvents } from './appEvents.js';
+import { reportReach } from './network.js';
 import { PROJECT_URL, supabaseHeaders } from '../../lib/supabase.js';
 import { platform } from '../../lib/device.js';
 
@@ -18,11 +20,16 @@ import { platform } from '../../lib/device.js';
 
 const COLLECT = `${PROJECT_URL}/functions/v1/collect`;
 
+/** The most rows of each log one send carries; the rest go with the next. */
+const BATCH = 400;
+/** How long one send may take before it counts as no answer. */
+const SEND_TIMEOUT_MS = 20_000;
+
 /**
  * What goes on the wire. The device id travels once on the envelope rather than on every row,
  * and `synced` is the phone's own bookkeeping — the server has no use for either.
  */
-function wireEvent(event: VoiceEvent): Record<string, unknown> {
+function wireEvent(event: VoiceEvent | AppEvent): Record<string, unknown> {
   const row: Record<string, unknown> = { ...event };
   delete row.deviceId;
   delete row.synced;
@@ -41,49 +48,99 @@ export async function syncVoiceEvents(): Promise<SyncOutcome> {
     return { sent: 0, accepted: 0, skipped: 'offline' };
   }
 
-  const pending = await pendingVoiceEvents();
+  const pending = (await pendingVoiceEvents()).slice(0, BATCH);
+  const pendingApp = (await pendingAppEvents()).slice(0, BATCH);
   const deviceId = pending[0]?.deviceId ?? localStorage.getItem('saathi.deviceId');
   if (deviceId === null) return { sent: 0, accepted: 0, skipped: 'nothing-queued' };
+  const sent = pending.length + pendingApp.length;
 
+  // A send with nothing queued still goes: it is how the phone learns our server can be reached,
+  // which is what "online" means in the product-intelligence log (decision 043).
+  const abort = new AbortController();
+  const timer = setTimeout(() => {
+    abort.abort();
+  }, SEND_TIMEOUT_MS);
   try {
     const response = await fetch(COLLECT, {
       method: 'POST',
       headers: supabaseHeaders(),
+      keepalive: true,
+      signal: abort.signal,
       body: JSON.stringify({
         deviceId,
         platform: platform(),
         events: pending.map(wireEvent),
+        appEvents: pendingApp.map(wireEvent),
       }),
     });
-    if (!response.ok) return { sent: pending.length, accepted: 0, skipped: 'failed' };
+    // Any answer at all, even an error, is our server reached.
+    reportReach(true);
+    if (!response.ok) return { sent, accepted: 0, skipped: 'failed' };
 
-    const body = (await response.json()) as { accepted?: unknown };
-    const accepted = Array.isArray(body.accepted)
-      ? body.accepted.filter((id): id is string => typeof id === 'string')
-      : [];
+    const body = (await response.json()) as { accepted?: unknown; acceptedApp?: unknown };
+    const ids = (value: unknown): string[] =>
+      Array.isArray(value) ? value.filter((id): id is string => typeof id === 'string') : [];
+    const accepted = ids(body.accepted);
+    const acceptedApp = ids(body.acceptedApp);
 
-    // Only what the server said it holds. Anything else stays queued and goes again next time.
-    await db.transaction('rw', db.voiceEvents, async () => {
+    await db.transaction('rw', db.voiceEvents, db.appEvents, async () => {
       for (const id of accepted) await db.voiceEvents.update(id, { synced: true });
+      for (const id of acceptedApp) await db.appEvents.update(id, { synced: true });
     });
-    return { sent: pending.length, accepted: accepted.length };
+    return { sent, accepted: accepted.length + acceptedApp.length };
   } catch {
-    // A dead radio mid-flight, a blocked host, a proxy. None of it is the traveller's problem.
-    return { sent: pending.length, accepted: 0, skipped: 'failed' };
+    reportReach(false);
+    return { sent, accepted: 0, skipped: 'failed' };
+  } finally {
+    clearTimeout(timer);
   }
 }
 
+/** Soon after something is recorded, rather than at the next launch. */
+const SOON_MS = 10_000;
+/** While the app is open, so events reach the server and "online" stays evidenced. */
+const EVERY_MS = 2 * 60_000;
+
 /**
- * Try once on boot, and again whenever the phone says it is back online. No timer and no
- * retry loop: a traveller opens this app several times a day, and each open is an attempt.
+ * When the queue is sent (the owner's own opens were waiting days for a cold start, 27 September:
+ * an installed app stays alive in the background, and "on boot" came rarely). Now: on boot, when
+ * the phone comes back online, a few seconds after anything is recorded, when the app goes out of
+ * view, and every two minutes while it is in view. Never more than one send at a time.
  */
 export function startVoiceEventSync(): () => void {
+  let running = false;
+  let soon: ReturnType<typeof setTimeout> | null = null;
   const attempt = () => {
-    void syncVoiceEvents();
+    if (running) return;
+    running = true;
+    void syncVoiceEvents().finally(() => {
+      running = false;
+    });
+  };
+  const later = () => {
+    if (soon !== null) return;
+    soon = setTimeout(() => {
+      soon = null;
+      attempt();
+    }, SOON_MS);
+  };
+  const onVisibility = () => {
+    attempt();
   };
   attempt();
   window.addEventListener('online', attempt);
+  document.addEventListener('visibilitychange', onVisibility);
+  const unrecorded = onAppEventRecorded(later);
+  const unvoiced = onVoiceEventRecorded(later);
+  const every = setInterval(() => {
+    if (document.visibilityState !== 'hidden') attempt();
+  }, EVERY_MS);
   return () => {
     window.removeEventListener('online', attempt);
+    document.removeEventListener('visibilitychange', onVisibility);
+    unrecorded();
+    unvoiced();
+    clearInterval(every);
+    if (soon !== null) clearTimeout(soon);
   };
 }
