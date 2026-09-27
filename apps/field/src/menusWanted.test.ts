@@ -1,39 +1,14 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cloneKeepingBlobs } from './blobHarness.js';
 import { db } from './db.js';
-import { metresBetween, nearestFirst, sendPages, type WantedForm } from './menusWanted.js';
+import { metresBetween, sendPages } from './menusWanted.js';
 
 /**
- * Menus wanted (27 September). The two things that must hold: the list starts with the form he is
- * standing nearest, and a page he photographed stays on the phone until the server says the form
- * holds it — a shop in Karama with no signal must not cost him the page.
+ * Menus wanted (27 September). What must hold: a page he photographed stays on the phone until the
+ * server says the form holds it — a shop in Karama with no signal must not cost him the page.
  */
 
-function form(formSerial: string, lat: number, lng: number): WantedForm {
-  return {
-    formSerial,
-    lat,
-    lng,
-    capturedAt: '2026-09-25T15:00:00.000Z',
-    notes: null,
-    wanted: null,
-    before: null,
-    after: null,
-  };
-}
-
 describe('the list', () => {
-  it('puts the nearest form first when the phone knows where it is', () => {
-    const forms = [form('0027', 25.2541, 55.3047), form('0064', 25.2515, 55.3026)];
-    const here = { lat: 25.2516, lng: 55.3025 };
-    expect(nearestFirst(forms, here).map((f) => f.formSerial)).toEqual(['0064', '0027']);
-  });
-
-  it('keeps the pinned order when it does not', () => {
-    const forms = [form('0027', 25.2541, 55.3047), form('0064', 25.2515, 55.3026)];
-    expect(nearestFirst(forms, null).map((f) => f.formSerial)).toEqual(['0027', '0064']);
-  });
-
   it('measures a Karama street in metres', () => {
     // 0028 and 0029 were pinned about 55 m apart on 25 September.
     const d = metresBetween({ lat: 25.25342, lng: 55.30513 }, { lat: 25.25315, lng: 55.30558 });

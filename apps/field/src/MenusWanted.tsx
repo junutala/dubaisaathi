@@ -5,7 +5,6 @@ import {
   firstPage,
   keptList,
   metresBetween,
-  nearestFirst,
   sendPages,
   type WantedForm,
 } from './menusWanted.js';
@@ -15,12 +14,12 @@ import { useStrings } from './strings.js';
 
 /**
  * Menus wanted (the owner, 27 September): "I only need those outlets that have NO MENU in our
- * app". Every pinned form without one, nearest first; tap one, photograph its pages or add the PDF
- * the counter's QR gave, and they land on that form. Nothing to name, no second pin.
+ * app". Every pinned form without one, in number order; tap one, photograph its pages or add the
+ * PDF the counter's QR gave, and they land on that form. Nothing to name, no second pin.
  *
- * Most of these forms have no picture of their own — that is why they are here — so a form is told
- * apart by its number, the note he wrote, when it was pinned, the shops pinned just before and
- * after it that do have a first page, and the pin itself in a map.
+ * The list is for matching a paper menu in the hand to its form — "which shop is 30 and not 29 or
+ * 31" — so each form carries its own name and its own first picture, the cover he took at the
+ * counter. A form with neither has its note, when it was pinned and the pin in a map.
  */
 
 interface Here {
@@ -95,7 +94,7 @@ export function MenusWanted() {
       {stale && <p className="wanted-stale">{t('wantedStale')}</p>}
       {forms.length === 0 && !stale && <p className="wanted-stale">{t('wantedNone')}</p>}
       <ul className="wanted-list">
-        {nearestFirst(forms, here).map((form) => (
+        {forms.map((form) => (
           <li key={form.formSerial}>
             <button
               type="button"
@@ -105,10 +104,13 @@ export function MenusWanted() {
               }}
             >
               <b className="wanted-serial">{form.formSerial}</b>
+              {form.picture && <Cover serial={form.formSerial} className="wanted-thumb" />}
               <span className="wanted-row-text">
-                {form.wanted ??
-                  form.notes ??
-                  t('wantedPinned', { when: WHEN.format(new Date(form.capturedAt)) })}
+                <b>{form.name ?? '—'}</b>
+                <small>
+                  {form.notes ??
+                    t('wantedPinned', { when: WHEN.format(new Date(form.capturedAt)) })}
+                </small>
               </span>
               {here !== null && <span className="wanted-away">{metresBetween(here, form)} m</span>}
             </button>
@@ -119,7 +121,8 @@ export function MenusWanted() {
   );
 }
 
-function Neighbour({ serial, label }: { readonly serial: string; readonly label: string }) {
+/** The form's own first picture: the cover taken at the counter. */
+function Cover({ serial, className }: { readonly serial: string; readonly className: string }) {
   const [src, setSrc] = useState<string | null>(null);
   useEffect(() => {
     let url: string | null = null;
@@ -131,11 +134,10 @@ function Neighbour({ serial, label }: { readonly serial: string; readonly label:
       if (url !== null) URL.revokeObjectURL(url);
     };
   }, [serial]);
-  return (
-    <figure className="wanted-shop">
-      {src === null ? <div className="wanted-shop-blank" /> : <img src={src} alt={label} />}
-      <figcaption>{label}</figcaption>
-    </figure>
+  return src === null ? (
+    <span className={`${className} wanted-blank`} />
+  ) : (
+    <img className={className} src={src} alt="" />
   );
 }
 
@@ -205,6 +207,8 @@ function WantedFormScreen({
         <span className="pin-label">फ़ॉर्म नं. · FORM NO.</span>
         <output className="pin-number">{form.formSerial}</output>
       </div>
+      {form.name !== null && <h2 className="wanted-name">{form.name}</h2>}
+      {form.picture && <Cover serial={form.formSerial} className="wanted-cover" />}
       <p className="wanted-facts">
         {t('wantedPinned', { when: WHEN.format(new Date(form.capturedAt)) })}
         {here !== null && ` · ${String(metresBetween(here, form))} m`}
@@ -220,16 +224,6 @@ function WantedFormScreen({
           </>
         )}
       </p>
-      {(form.before !== null || form.after !== null) && (
-        <div className="wanted-shops">
-          {form.before !== null && (
-            <Neighbour serial={form.before} label={t('wantedBefore', { serial: form.before })} />
-          )}
-          {form.after !== null && (
-            <Neighbour serial={form.after} label={t('wantedAfter', { serial: form.after })} />
-          )}
-        </div>
-      )}
       <a
         className="wanted-maps"
         href={`https://www.google.com/maps/search/?api=1&query=${String(form.lat)},${String(form.lng)}`}

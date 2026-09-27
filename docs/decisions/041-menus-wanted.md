@@ -9,14 +9,18 @@ be read through Drive's text recognition, and one file had been named `007` for 
 ## What it is
 
 - **A third button in the collectors' app, मेन्यू · Menus**, beside फ़ॉर्म and पिन. It lists every
-  pinned form with no menu in the app, nearest first, and keeps the last list on the phone for a
+  pinned form with no menu in the app, and keeps the last list on the phone for a
   shop with no signal.
 - **"No menu" is decided by the server** (`outlet?open`, migration 0018): a form with no menu page
   uploaded on it and no `menu_in_app_at`, or one review has put back with `menu_wanted`. A form
   leaves the list by itself the moment a page arrives on it.
-- **A form is told apart without a picture of its own** — that is why it is on the list: its
-  number, his note, when it was pinned, the first pages of the shops pinned just before and after
-  it, and the pin in a map.
+- **In number order, each with its own name and its own cover** (the owner, same morning: _"I
+  want to match the shop with the physical menu that I have … which shop is 30 and not 29 or
+  31"_). The first version showed the shops pinned before and after; that answered the wrong
+  question and went. Names are read off the covers at review into `field_reports.name`.
+- **A cover is not a menu.** Fifteen Karama forms held only the cover photographed to recognise
+  the shop, and four held one page of several; review puts each back on the list with
+  `menu_wanted` saying what is missing.
 - **Pages land on the form** (`outlet?pages=`): photographed, or a PDF from the counter's QR drawn
   into pages on the phone, shrunk as every menu page is. Each waits on the phone until the server
   answers for it, and the screen says how many pages the form then holds.

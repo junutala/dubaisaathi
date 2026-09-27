@@ -105,11 +105,11 @@ Deno.serve(async (request: Request): Promise<Response> => {
   /**
    * Menus wanted (the owner, 27 September, migration 0018): every pinned form that has no menu in
    * the app — no page uploaded on it, and none published from anywhere else — plus any form review
-   * has put back with what is still missing. Nearest-first is the phone's job: it knows where it is.
+   * has put back with what is still missing.
    *
-   * A form with no picture of its own is hard to tell from its neighbours on a street of kitchens,
-   * so each carries the nearest pinned forms before and after it that do have a first page: "you
-   * pinned it just after this one".
+   * Each comes with its own name and whether it has a picture of its own (the cover taken at the
+   * counter), because the list is used to match a paper menu in the hand to its form: which one is
+   * 0030, not 0029 or 0031.
    */
   if (request.method === 'GET' && url.searchParams.has('open')) {
     const db = createClient(
@@ -119,7 +119,7 @@ Deno.serve(async (request: Request): Promise<Response> => {
     );
     const forms = await db
       .from('field_reports')
-      .select('id, form_serial, lat, lng, captured_at, notes, menu_in_app_at, menu_wanted')
+      .select('id, form_serial, name, lat, lng, captured_at, notes, menu_in_app_at, menu_wanted')
       .not('form_serial', 'is', null)
       .order('form_serial', { ascending: true })
       .limit(2000);
@@ -140,6 +140,7 @@ Deno.serve(async (request: Request): Promise<Response> => {
     type Form = {
       id: string;
       form_serial: string;
+      name: string | null;
       lat: number;
       lng: number;
       captured_at: string;
@@ -148,26 +149,20 @@ Deno.serve(async (request: Request): Promise<Response> => {
       menu_wanted: string | null;
     };
     const all = (forms.data ?? []) as Form[];
-    const pictured = (from: number, step: number): string | null => {
-      for (let i = from + step; i >= 0 && i < all.length; i += step) {
-        if (withPages.has(all[i].id)) return all[i].form_serial;
-      }
-      return null;
-    };
-    const open = all.flatMap((form, i) => {
+    const open = all.flatMap((form) => {
       const wanted = form.menu_wanted !== null && form.menu_wanted.trim() !== '';
       const noMenu = !withPages.has(form.id) && form.menu_in_app_at === null;
       if (!wanted && !noMenu) return [];
       return [
         {
           formSerial: form.form_serial,
+          name: form.name !== null && form.name.trim() !== '' ? form.name : null,
           lat: form.lat,
           lng: form.lng,
           capturedAt: form.captured_at,
           notes: form.notes,
           wanted: wanted ? form.menu_wanted : null,
-          before: pictured(i, -1),
-          after: pictured(i, 1),
+          picture: withPages.has(form.id),
         },
       ];
     });

@@ -3,8 +3,9 @@ import { db } from './db.js';
 import { ENDPOINT, outletHeaders } from './sync.js';
 
 /**
- * Menus wanted (the owner, 27 September): the pinned forms that have no menu in the app, and a way
- * to add pages to one of them without naming a file or re-pinning it.
+ * Menus wanted (the owner, 27 September): the pinned forms that have no menu in the app, in number
+ * order, each with its own name and cover, so a paper menu in the hand can be matched to its form;
+ * and a way to add pages to that form without naming a file or re-pinning it.
  *
  * The list comes from the server (migration 0018) and is kept on the phone, so it can still be read
  * in a shop with no signal. Pages taken for a form wait in `wantedPages` until the server says the
@@ -13,15 +14,16 @@ import { ENDPOINT, outletHeaders } from './sync.js';
 
 export interface WantedForm {
   readonly formSerial: string;
+  /** The name read off the cover at review, when there is one. */
+  readonly name: string | null;
   readonly lat: number;
   readonly lng: number;
   readonly capturedAt: string;
   readonly notes: string | null;
   /** What review still needs, when the form has a menu that turned out incomplete. */
   readonly wanted: string | null;
-  /** The nearest forms pinned before and after it that have a picture to recognise it by. */
-  readonly before: string | null;
-  readonly after: string | null;
+  /** Whether the form has a picture of its own: the cover or page taken at the counter. */
+  readonly picture: boolean;
 }
 
 const KEPT = 'saathi.menusWanted';
@@ -58,16 +60,7 @@ export function metresBetween(
   return Math.round(Math.sqrt(x * x + y * y) * 6_371_000);
 }
 
-/** Nearest first when the phone knows where it is; in pinned order when it does not. */
-export function nearestFirst(
-  forms: readonly WantedForm[],
-  here: { readonly lat: number; readonly lng: number } | null,
-): readonly WantedForm[] {
-  if (here === null) return forms;
-  return [...forms].sort((a, b) => metresBetween(here, a) - metresBetween(here, b));
-}
-
-/** The first page of a form, for recognising the shop: an object URL, or null if it has none. */
+/** A form's own first picture, for telling it from its neighbours: an object URL, or null. */
 export async function firstPage(formSerial: string): Promise<string | null> {
   try {
     const answer = await fetch(`${ENDPOINT}?menu=${formSerial}&page=0`, {
