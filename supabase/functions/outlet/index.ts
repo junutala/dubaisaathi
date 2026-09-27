@@ -119,7 +119,9 @@ Deno.serve(async (request: Request): Promise<Response> => {
     );
     const forms = await db
       .from('field_reports')
-      .select('id, form_serial, name, lat, lng, captured_at, notes, menu_in_app_at, menu_wanted')
+      .select(
+        'id, form_serial, name, lat, lng, captured_at, notes, menu_in_app_at, menu_wanted, menu_wanted_pages',
+      )
       .not('form_serial', 'is', null)
       .order('form_serial', { ascending: true })
       .limit(2000);
@@ -147,10 +149,34 @@ Deno.serve(async (request: Request): Promise<Response> => {
       notes: string | null;
       menu_in_app_at: string | null;
       menu_wanted: string | null;
+      menu_wanted_pages: number | null;
     };
     const all = (forms.data ?? []) as Form[];
+
+    // A form review asked more of leaves the list once it holds more pages than it did then
+    // (migration 0019), so pages photographed from the list take it off without review's help.
+    const asked = all.filter((form) => form.menu_wanted !== null && form.menu_wanted.trim() !== '');
+    const held = new Map<string, number>();
+    if (asked.length > 0) {
+      const counted = await db
+        .from('field_photos')
+        .select('report_id')
+        .eq('kind', 'menu')
+        .in(
+          'report_id',
+          asked.map((form) => form.id),
+        )
+        .limit(5000);
+      if (counted.error) return json({ error: counted.error.message }, 500);
+      for (const row of (counted.data ?? []) as { report_id: string }[]) {
+        held.set(row.report_id, (held.get(row.report_id) ?? 0) + 1);
+      }
+    }
     const open = all.flatMap((form) => {
-      const wanted = form.menu_wanted !== null && form.menu_wanted.trim() !== '';
+      const wanted =
+        form.menu_wanted !== null &&
+        form.menu_wanted.trim() !== '' &&
+        (held.get(form.id) ?? 0) <= (form.menu_wanted_pages ?? 0);
       const noMenu = !withPages.has(form.id) && form.menu_in_app_at === null;
       if (!wanted && !noMenu) return [];
       return [

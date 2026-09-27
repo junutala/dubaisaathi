@@ -97,7 +97,20 @@ export type SendPages =
  * Sends one form's waiting pages, one request per page, and removes each only once the server has
  * answered for it. The answer is how many pages the form now holds on the server.
  */
-export async function sendPages(formSerial: string): Promise<SendPages> {
+export function sendPages(formSerial: string): Promise<SendPages> {
+  // One send at a time: pages taken in quick succession each start a send, and two sends walking
+  // one queue together would race each other for the same page.
+  const next = inTurn.then(() => sendQueued(formSerial));
+  inTurn = next.then(
+    () => undefined,
+    () => undefined,
+  );
+  return next;
+}
+
+let inTurn: Promise<void> = Promise.resolve();
+
+async function sendQueued(formSerial: string): Promise<SendPages> {
   const waiting = await db.wantedPages.where('formSerial').equals(formSerial).sortBy('takenAt');
   let pages = 0;
   try {

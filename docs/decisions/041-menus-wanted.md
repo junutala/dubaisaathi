@@ -21,6 +21,11 @@ be read through Drive's text recognition, and one file had been named `007` for 
 - **A cover is not a menu.** Fifteen Karama forms held only the cover photographed to recognise
   the shop, and four held one page of several; review puts each back on the list with
   `menu_wanted` saying what is missing.
+- **Camera and Upload, and nothing between one page and the next** (the owner, same morning:
+  "the first CTA is sitting idle … make camera and Upload and then go straight from there"). Both
+  sit at the top of a form; each page goes to the server as it is taken, one send at a time, and
+  the line under them is the server's own count. A form put back with `menu_wanted` leaves the
+  list by itself once it holds more pages than it did then (`menu_wanted_pages`, migration 0019).
 - **Pages land on the form** (`outlet?pages=`): photographed, or a PDF from the counter's QR drawn
   into pages on the phone, shrunk as every menu page is. Each waits on the phone until the server
   answers for it, and the screen says how many pages the form then holds.

@@ -602,6 +602,13 @@ input.short {
   font-weight: 600;
 }
 
+/* Camera and Upload, side by side at the top of a form: each page goes to the server as taken. */
+.wanted-add {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
 /* Menus wanted (27 September): the forms with no menu, nearest first, and one form's pages. */
 .wanted {
   display: flex;
