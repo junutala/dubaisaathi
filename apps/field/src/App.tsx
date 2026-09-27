@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { CaptureScreen, WhoAreYou } from './CaptureScreen.js';
+import { MenusWanted } from './MenusWanted.js';
 import { PinScreen } from './PinScreen.js';
 import { collectorName } from './collector.js';
 import { useStrings } from './strings.js';
@@ -20,11 +21,12 @@ import { useStrings } from './strings.js';
  */
 
 const MODE_KEY = 'saathi.fieldMode';
-type Mode = 'full' | 'pin';
+type Mode = 'full' | 'pin' | 'menus';
 
 function storedMode(): Mode {
   try {
-    return localStorage.getItem(MODE_KEY) === 'pin' ? 'pin' : 'full';
+    const kept = localStorage.getItem(MODE_KEY);
+    return kept === 'pin' || kept === 'menus' ? kept : 'full';
   } catch {
     return 'full';
   }
@@ -95,8 +97,33 @@ export function App() {
           </svg>
           <span>{t('modePin')}</span>
         </button>
+        <button
+          type="button"
+          className={mode === 'menus' ? 'mode-btn mode-btn-on' : 'mode-btn'}
+          onClick={() => {
+            choose('menus');
+          }}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 4.5h11a2 2 0 0 1 2 2v13H7a2 2 0 0 1-2-2z" />
+            <path d="M8.5 9h6" />
+            <path d="M8.5 12.5h6" />
+            <path d="M8.5 16h3.5" />
+          </svg>
+          <span>{t('modeMenus')}</span>
+        </button>
       </div>
-      {mode === 'pin' ? (
+      {mode === 'menus' ? (
+        <MenusWanted />
+      ) : mode === 'pin' ? (
         <PinScreen
           onFillIn={(pinId) => {
             setHandoff(pinId);

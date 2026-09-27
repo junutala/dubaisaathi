@@ -25,6 +25,7 @@ const DUBAI = { lat: 25.2, lng: 55.27 };
 const DUBAI_RADIUS_KM = 90;
 /** Two collectors working one street is the normal duplicate, not a rare one. */
 const DUPLICATE_METRES = 40;
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 function json(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
@@ -102,6 +103,78 @@ Deno.serve(async (request: Request): Promise<Response> => {
   }
 
   /**
+   * Menus wanted (the owner, 27 September, migration 0018): every pinned form that has no menu in
+   * the app — no page uploaded on it, and none published from anywhere else — plus any form review
+   * has put back with what is still missing. Nearest-first is the phone's job: it knows where it is.
+   *
+   * A form with no picture of its own is hard to tell from its neighbours on a street of kitchens,
+   * so each carries the nearest pinned forms before and after it that do have a first page: "you
+   * pinned it just after this one".
+   */
+  if (request.method === 'GET' && url.searchParams.has('open')) {
+    const db = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+      { auth: { persistSession: false } },
+    );
+    const forms = await db
+      .from('field_reports')
+      .select('id, form_serial, lat, lng, captured_at, notes, menu_in_app_at, menu_wanted')
+      .not('form_serial', 'is', null)
+      .order('form_serial', { ascending: true })
+      .limit(2000);
+    if (forms.error) return json({ error: forms.error.message }, 500);
+    // First pages only: one row per form that has any, which stays far under the server's
+    // 1,000-row answer however many pages the forms hold between them.
+    const pages = await db
+      .from('field_photos')
+      .select('report_id')
+      .eq('kind', 'menu')
+      .eq('ord', 0)
+      .limit(5000);
+    if (pages.error) return json({ error: pages.error.message }, 500);
+    const withPages = new Set(
+      (pages.data ?? []).map((row: { report_id: string }) => row.report_id),
+    );
+
+    type Form = {
+      id: string;
+      form_serial: string;
+      lat: number;
+      lng: number;
+      captured_at: string;
+      notes: string | null;
+      menu_in_app_at: string | null;
+      menu_wanted: string | null;
+    };
+    const all = (forms.data ?? []) as Form[];
+    const pictured = (from: number, step: number): string | null => {
+      for (let i = from + step; i >= 0 && i < all.length; i += step) {
+        if (withPages.has(all[i].id)) return all[i].form_serial;
+      }
+      return null;
+    };
+    const open = all.flatMap((form, i) => {
+      const wanted = form.menu_wanted !== null && form.menu_wanted.trim() !== '';
+      const noMenu = !withPages.has(form.id) && form.menu_in_app_at === null;
+      if (!wanted && !noMenu) return [];
+      return [
+        {
+          formSerial: form.form_serial,
+          lat: form.lat,
+          lng: form.lng,
+          capturedAt: form.captured_at,
+          notes: form.notes,
+          wanted: wanted ? form.menu_wanted : null,
+          before: pictured(i, -1),
+          after: pictured(i, 1),
+        },
+      ];
+    });
+    return json({ forms: open });
+  }
+
+  /**
    * The pins a rider has dropped and nobody has keyed the paper for yet (decision 029).
    *
    * Narrow on purpose: the id, the number written on the form, where it was taken and by whom —
@@ -162,6 +235,65 @@ Deno.serve(async (request: Request): Promise<Response> => {
   }
 
   if (request.method !== 'POST') return json({ error: 'GET or POST' }, 405);
+
+  /**
+   * Pages added to a form that is already on the server, from the menus-wanted list: `?pages=0027`
+   * with `{ photos: [{ id, dataUrl }] }`. Each page is appended after the form's last one. The
+   * phone's id for the page is kept as the row's id, so a retry after a lost answer is the same
+   * row again rather than a second copy. The answer is how many pages the form now holds, which is
+   * what the phone shows before it lets the collector move on.
+   */
+  const addTo = url.searchParams.get('pages');
+  if (addTo !== null) {
+    let body: { photos?: { id?: string; dataUrl?: string }[] };
+    try {
+      body = await request.json();
+    } catch {
+      return json({ error: 'not JSON' }, 400);
+    }
+    const db = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+      { auth: { persistSession: false } },
+    );
+    const found = await db.from('field_reports').select('id').eq('form_serial', addTo).limit(1);
+    const reportId = (found.data?.[0] as { id?: string } | undefined)?.id;
+    if (reportId === undefined) return json({ error: 'no such form' }, 404);
+
+    const count = async (): Promise<number> => {
+      const held = await db
+        .from('field_photos')
+        .select('id', { count: 'exact', head: true })
+        .eq('report_id', reportId)
+        .eq('kind', 'menu');
+      return held.count ?? 0;
+    };
+    for (const photo of Array.isArray(body.photos) ? body.photos : []) {
+      const bytes = typeof photo.dataUrl === 'string' ? bytesFromDataUrl(photo.dataUrl) : null;
+      const id = typeof photo.id === 'string' && UUID.test(photo.id) ? photo.id : null;
+      if (bytes === null || id === null)
+        return json({ error: 'a page needs an id and a picture' }, 400);
+      const already = await db.from('field_photos').select('id').eq('id', id).limit(1);
+      if ((already.data ?? []).length > 0) continue;
+      const last = await db
+        .from('field_photos')
+        .select('ord')
+        .eq('report_id', reportId)
+        .eq('kind', 'menu')
+        .order('ord', { ascending: false })
+        .limit(1);
+      const ord = ((last.data?.[0] as { ord?: number } | undefined)?.ord ?? -1) + 1;
+      const written = await db.from('field_photos').insert({
+        id,
+        report_id: reportId,
+        kind: 'menu',
+        ord,
+        image: `\\x${[...bytes].map((b) => b.toString(16).padStart(2, '0')).join('')}`,
+      });
+      if (written.error) return json({ error: written.error.message }, 502);
+    }
+    return json({ form: addTo, pages: await count() });
+  }
 
   let payload: {
     report?: Record<string, unknown>;
