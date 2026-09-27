@@ -3,10 +3,17 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import { db } from './db.js';
 import { PinScreen } from './PinScreen.js';
 
-/** jsdom draws no canvas: a page is kept as it was picked. */
+/**
+ * jsdom draws no canvas: a page is kept as it was picked. A test can hold the shrinking back, as a
+ * phone does for a second or two, to press the tick inside that moment.
+ */
+const slow = vi.hoisted(() => ({ hold: null as Promise<void> | null }));
 vi.mock('./shrink.js', () => ({
   MENU: { edge: 2000, quality: 0.82 },
-  shrink: (file: File) => Promise.resolve(file),
+  shrink: async (file: File) => {
+    if (slow.hold !== null) await slow.hold;
+    return file;
+  },
 }));
 
 /**
@@ -198,6 +205,34 @@ describe('the rider’s pin', () => {
     // Three pages stored, one per id — the blurred shot was taken back, not kept as a fourth.
     expect(await db.photos.count()).toBe(3);
     for (const id of report!.menuPhotoIds) expect(await db.photos.get(id)).toBeTruthy();
+  });
+
+  it('keeps a page on its own pin when the tick is pressed while it is still shrinking', async () => {
+    // 27 September: 0048's menu arrived on 0049. The page was still shrinking when the tick was
+    // pressed, so the pin saved without it and the page landed on the next form.
+    const { container } = render(<PinScreen />);
+    watcher?.(position);
+    await waitFor(() => {
+      expect(container.querySelector('.pin-done-btn')?.hasAttribute('disabled')).toBe(false);
+    });
+    let release: () => void = () => undefined;
+    slow.hold = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    const camera = container.querySelectorAll<HTMLInputElement>('input[type=file]')[0]!;
+    fireEvent.change(camera, { target: { files: [new File(['al musalla'], 'page.jpg')] } });
+    // The tick, at once — before the page is ready.
+    fireEvent.click(container.querySelector<HTMLButtonElement>('.pin-done-btn')!);
+    slow.hold = null;
+    release();
+
+    await waitFor(async () => {
+      expect(await db.reports.count()).toBe(1);
+    });
+    const [report] = await db.reports.toArray();
+    expect(report?.formSerial).toBe('0001');
+    expect(report?.menuPhotoIds).toEqual([`${report!.id}-menu-0`]);
+    expect(await db.photos.count()).toBe(1);
   });
 
   it('shows the number back, then moves on to the next one', async () => {

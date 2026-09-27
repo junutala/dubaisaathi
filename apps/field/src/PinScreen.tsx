@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { FieldReport } from '@saathi/shared';
 import { collectorName } from './collector.js';
 import { db } from './db.js';
@@ -98,6 +98,21 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
   const [fromQr, setFromQr] = useState(false);
   /** Anything else the desk should know: "WhatsApp 050… for the menu" (the owner, 25 September). */
   const [note, setNote] = useState('');
+  /**
+   * The pages as they are right now, and the pictures still being shrunk. A photograph takes a
+   * moment to shrink, and the tick saves at once: a tick pressed inside that moment saved the pin
+   * without its page, and the page arrived a second later on the next form (0048's menu landed on
+   * 0049, 27 September). The tick now waits for every picture already taken, and reads the pages
+   * from here rather than from a render that may be one picture behind.
+   */
+  const pagesNow = useRef<readonly Blob[]>([]);
+  const whatsappNow = useRef<Blob | null>(null);
+  const shrinking = useRef(new Set<Promise<unknown>>());
+
+  function whileShrinking(job: Promise<unknown>) {
+    shrinking.current.add(job);
+    void job.finally(() => shrinking.current.delete(job));
+  }
 
   useEffect(() => startSync(setQueue), []);
 
@@ -129,6 +144,10 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
     if (!ready || who === null || saving) return;
     setSaving(true);
     const at = fix;
+    // Every picture already taken belongs to this pin: wait for the last one to be ready.
+    await Promise.allSettled([...shrinking.current]);
+    const menuPages = pagesNow.current;
+    const whatsapp = whatsappNow.current;
     const id = crypto.randomUUID();
     const whatsappId = `${id}-menu-whatsapp`;
     const pages = [
@@ -169,6 +188,8 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
       }
     });
 
+    pagesNow.current = [];
+    whatsappNow.current = null;
     setMenuPages([]);
     setWhatsapp(null);
     setPhotographed(false);
@@ -328,9 +349,13 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
               // Cleared so the same camera can be opened again at once for the next page.
               e.target.value = '';
               if (file === undefined) return;
-              void shrink(file, MENU).then((page) => {
-                setMenuPages((pages) => (pages.length >= MENU_PAGES ? pages : [...pages, page]));
-              });
+              whileShrinking(
+                shrink(file, MENU).then((page) => {
+                  if (pagesNow.current.length >= MENU_PAGES) return;
+                  pagesNow.current = [...pagesNow.current, page];
+                  setMenuPages(pagesNow.current);
+                }),
+              );
             }}
           />
         </label>
@@ -402,7 +427,12 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
             onChange={(e) => {
               const file = e.target.files?.[0];
               if (file === undefined) return;
-              void shrink(file, MENU).then(setWhatsapp);
+              whileShrinking(
+                shrink(file, MENU).then((picture) => {
+                  whatsappNow.current = picture;
+                  setWhatsapp(picture);
+                }),
+              );
             }}
           />
         </label>
@@ -413,7 +443,8 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
           type="button"
           className="pin-menu-undo"
           onClick={() => {
-            setMenuPages((pages) => pages.slice(0, -1));
+            pagesNow.current = pagesNow.current.slice(0, -1);
+            setMenuPages(pagesNow.current);
           }}
         >
           {t('pinMenuUndo')}
