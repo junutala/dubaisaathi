@@ -6,6 +6,7 @@
  */
 (function () {
   const ENDPOINT = 'https://pixlnjmpksmfqheotinp.supabase.co/functions/v1/admin';
+  const AGENTS = 'https://pixlnjmpksmfqheotinp.supabase.co/functions/v1/insights';
   const KEY = 'sb_publishable_kPj5Kv8cbgwrkyp9tRfLRg_Wy4olS5H';
   const REMEMBER = 'saathi.admin.pass';
 
@@ -234,9 +235,128 @@
     );
   }
 
+  function agentItems(items) {
+    const list = el('ul', undefined, 'agent-items');
+    for (const item of items || []) {
+      const li = el('li', undefined, item.checked ? '' : 'unchecked');
+      li.append(el('span', item.kind, 'kind ' + item.kind), document.createTextNode(item.text));
+      const cites = (item.cites || []).join(', ');
+      li.append(
+        el('span', item.checked ? cites : 'unchecked · ' + (cites || 'no figures cited'), 'cites'),
+      );
+      list.append(li);
+    }
+    return list;
+  }
+
+  function agentBlock(title, report, open) {
+    const block = el('details', undefined, 'agent');
+    block.open = open;
+    block.append(el('summary', title));
+    if (!report) return block;
+    block.append(el('p', report.headline, 'agent-head'));
+    if (report.signal) block.append(el('p', report.signal));
+    if (report.recommendations && report.recommendations.length > 0) {
+      block.append(el('h3', 'What to do this week'));
+      const list = el('ol', undefined, 'agent-items');
+      for (const r of report.recommendations) {
+        const li = el('li', undefined, r.checked ? '' : 'unchecked');
+        li.append(
+          el('b', r.action),
+          el('span', r.why, 'cites'),
+          el('span', 'How we will know: ' + r.measure, 'cites'),
+        );
+        list.append(li);
+      }
+      block.append(list);
+    }
+    block.append(agentItems(report.items));
+    if (report.dataGaps && report.dataGaps.length > 0) {
+      block.append(el('h3', 'What the figures cannot tell us yet'));
+      const gaps = el('ul', undefined, 'agent-items');
+      for (const gap of report.dataGaps) gaps.append(el('li', gap));
+      block.append(gaps);
+    }
+    return block;
+  }
+
+  let polling = null;
+
+  function drawAgents(reports) {
+    const box = $('agents');
+    const status = $('agents-status');
+    box.replaceChildren();
+    const latest = reports[0];
+    const done = reports.find((r) => r.status === 'done');
+    if (!latest) {
+      status.textContent = 'No run yet.';
+    } else if (latest.status === 'running') {
+      status.textContent =
+        'Running since ' +
+        new Date(latest.created_at).toLocaleString('en-IN') +
+        ' — this takes a minute or two.';
+    } else if (latest.status === 'failed') {
+      status.textContent = 'The last run failed: ' + (latest.error || 'no reason given');
+    } else {
+      status.textContent =
+        'Last run ' +
+        new Date(latest.finished_at || latest.created_at).toLocaleString('en-IN') +
+        ' (' +
+        latest.trigger +
+        ', ' +
+        (latest.model || 'model unknown') +
+        ').';
+    }
+    if (done) {
+      box.append(
+        agentBlock('Product Strategist', done.strategy, true),
+        agentBlock('Needs agent', done.needs, false),
+        agentBlock('Usage agent', done.usage, false),
+      );
+    }
+    const running = latest && latest.status === 'running';
+    $('run-agents').disabled = running;
+    if (running && polling === null) {
+      polling = window.setTimeout(() => {
+        polling = null;
+        void open(stored() || $('pass').value.trim().toLowerCase(), false);
+      }, 15000);
+    }
+  }
+
+  async function runAgents() {
+    const status = $('agents-status');
+    $('run-agents').disabled = true;
+    status.textContent = 'Starting…';
+    try {
+      const response = await fetch(AGENTS, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          authorization: 'Bearer ' + KEY,
+          apikey: KEY,
+        },
+        body: JSON.stringify({ pass: stored() || $('pass').value.trim().toLowerCase() }),
+      });
+      const answer = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        status.textContent =
+          'Not started: ' + (answer.error || 'the server said ' + response.status);
+        $('run-agents').disabled = false;
+        return;
+      }
+    } catch {
+      status.textContent = 'No connection — try again when there is a signal.';
+      $('run-agents').disabled = false;
+      return;
+    }
+    void open(stored() || $('pass').value.trim().toLowerCase(), false);
+  }
+
   function draw(m) {
     insights = m.insights || null;
     drawInsights();
+    drawAgents(m.reports || []);
 
     const s = m.success || {};
     const regions = s.last7DaysByRegion || {};
@@ -425,6 +545,9 @@
       drawInsights();
     });
   }
+  $('run-agents').addEventListener('click', () => {
+    void runAgents();
+  });
   $('copy').addEventListener('click', () => {
     void navigator.clipboard.writeText($('pitch').textContent || '');
   });

@@ -1,7 +1,7 @@
 # 043 — Product intelligence: what the app records, and how it is judged
 
-**Date:** 27 September 2026 · **Status:** Stage A (the log, the roll-ups, /admin) and Stage B
-(the one question on घर, design rule 31) built. Stage C (the three agents) follows.
+**Date:** 27 September 2026 · **Status:** all three stages built — A (the log, the roll-ups, /admin),
+B (the one question on घर, design rule 31) and C (the three agents, `insights`).
 
 ## The question
 
@@ -42,8 +42,15 @@ used, whether it had a signal, or whether a search ended with an answer.
 9. **The Product Signal** needs 20 phones and 30 sessions, then bands three measures —
    answer rate's lower bound (green ≥ 0.6, amber ≥ 0.4), phones back on another day (≥ 0.4,
    ≥ 0.2), asks we did not have (≤ 0.15, ≤ 0.3). Red if any is red, green if all are green.
-10. **The agents use the Anthropic API**, and the model is an environment variable, not code
-    (the owner, 27 September: "a moving target … keep it dynamic").
+10. **The agents use the Anthropic API**, and the model is not in the code (the owner,
+    27 September: "a moving target … keep it dynamic"): `INSIGHTS_MODEL` names one, and without
+    it the `insights` function takes the newest Opus the Models API lists. Three requests a run
+    — the Needs and Usage agents side by side, then the Product Strategist reading both — each
+    constrained to a JSON schema. Every line carries its kind and the dot paths of the figures it
+    cites; the function marks a line **unchecked** when a cite does not resolve, and /admin shows
+    it greyed. A declined request is re-run on Anthropic's recommended fallback. Reports are
+    kept in `insight_reports` (migration 0021). The run is weekly (pg_cron, Monday 03:07 UTC,
+    authenticated by a key held in the vault) and on demand from /admin with the passphrase.
 11. **The traveller may be asked one thing** (the owner: "a fair ask"): on घर, after a stretch
     the phone confirmed had no signal, "अभी कुछ देर इंटरनेट नहीं था — क्यों?" — सिग्नल नहीं था,
     डेटा बंद रखा था, or छोड़ें. On घर because there is no task there to interrupt; once a Dubai
@@ -57,6 +64,8 @@ used, whether it had a signal, or whether a search ended with an answer.
 - A snapshot of the 7- and 28-day figures is written nightly (`metric_snapshots`), so trends
   survive the retention window.
 - The agents run weekly and on demand from /admin only; nothing a traveller does calls a model.
+  One run at a time, at most six a day. What they are sent is the figures: totals, rates and the
+  words travellers typed that we could not answer, with no device id.
 
 ## What it replaces
 

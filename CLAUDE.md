@@ -267,8 +267,11 @@ the output is new aliases, new phrases and new intents in `data/`, versioned lik
 sessions, active time, a _confirmed_ online/offline state (never `navigator.onLine` alone) and
 tasks whose outcome is inferred by fixed rules in `features/ask/tasks.ts`, never by a model.
 `insight_metrics()` turns them into the answer rate (with a Wilson range), the Offline Value
-verdict and the Product Signal on /admin. The Anthropic agents read those figures and never make
-one. The one question a traveller is ever asked lives on घर (design rule 31): after a stretch
+verdict and the Product Signal on /admin. The three agents — Needs, Usage and the Product Strategist, in
+the `insights` function — read those figures and never make one: every line is tagged fact,
+inference or hypothesis and cites the figures it rests on, checked before it is shown. They run
+every Monday at 03:07 UTC and from /admin's "Run now"; the model is whatever `INSIGHTS_MODEL`
+names, else the newest Opus the Models API lists, and they need the `ANTHROPIC_API_KEY` secret. The one question a traveller is ever asked lives on घर (design rule 31): after a stretch
 with no signal, why there was none, once a Dubai day. No IP, no coordinates, kept 180 days. The sync runs on launch, on regaining signal, on
 becoming visible, shortly after anything is recorded and every two minutes while open — it once
 ran only at launch, and a week of the owner's own use never arrived.
@@ -461,11 +464,12 @@ dubaisaathi/
 │   ├── site/              # the one-page website at saafarsaathi.in — static, Hindi and English
 │   └── admin/             # the owner's page at admin.saafarsaathi.in — static, one call (040)
 ├── supabase/              # the backend (decision 011) — replaces apps/api
-│   ├── migrations/        # eleven tables: devices, families, passes, orders, coupons,
+│   ├── migrations/        # fourteen tables: devices, families, passes, orders, coupons,
 │   │                      #   coupon_redemptions, voice_events, field_reports, field_photos,
-│   │                      #   contact_messages, content_packs
-│   ├── functions/         # twelve: collect, contact, listen, translate, outlet, redeem, bind,
-│   │                      #   order, webhook, packs, maplink, admin
+│   │                      #   contact_messages, content_packs, app_events, metric_snapshots,
+│   │                      #   insight_reports
+│   ├── functions/         # thirteen: collect, contact, listen, translate, outlet, redeem, bind,
+│   │                      #   order, webhook, packs, maplink, admin, insights
 │   └── tests/             # SQL that checks what the schema must refuse
 └── packages/
     ├── shared/            # entity types shared by pwa and api — one definition, imported twice

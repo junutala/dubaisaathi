@@ -69,10 +69,15 @@ Deno.serve(async (request: Request): Promise<Response> => {
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
     { auth: { persistSession: false } },
   );
-  const [base, week, month] = await Promise.all([
+  const [base, week, month, reports] = await Promise.all([
     db.rpc('admin_metrics'),
     db.rpc('insight_metrics', { p_days: 7 }),
     db.rpc('insight_metrics', { p_days: 28 }),
+    db
+      .from('insight_reports')
+      .select('id, created_at, finished_at, trigger, status, model, needs, usage, strategy, error')
+      .order('created_at', { ascending: false })
+      .limit(5),
   ]);
   if (base.error) return json({ error: base.error.message }, 500);
   // Product intelligence (decision 043) rides beside the totals; if it fails the rest still shows.
@@ -80,5 +85,6 @@ Deno.serve(async (request: Request): Promise<Response> => {
     week.error || month.error
       ? { error: (week.error ?? month.error)?.message ?? 'unknown' }
       : { week: week.data, month: month.data };
-  return json({ ...base.data, insights });
+  // The three agents' last reports (stage C); written by `insights`, read here.
+  return json({ ...base.data, insights, reports: reports.data ?? [] });
 });
