@@ -1,3 +1,4 @@
+import { deviceId } from '../../lib/device.js';
 import { PROJECT_URL, supabaseHeaders } from '../../lib/supabase.js';
 
 /**
@@ -26,7 +27,7 @@ export async function toArabic(text: string): Promise<Translated> {
     response = await fetch(TRANSLATE, {
       method: 'POST',
       headers: supabaseHeaders(),
-      body: JSON.stringify({ text }),
+      body: JSON.stringify({ text, deviceId: deviceId() }),
     });
   } catch {
     return { kind: 'failed' };

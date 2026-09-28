@@ -151,4 +151,16 @@ describe('the product-intelligence log goes with the question log (decision 043)
     await syncVoiceEvents();
     expect(currentNetwork()).toBe('offline');
   });
+
+  it('sends the usage of a phone that never typed a search (decision 045)', async () => {
+    localStorage.removeItem('saathi.deviceId');
+    await recordAppEvent({ name: 'session_start', net: 'unknown' }, 1_000);
+    let body: { deviceId?: string } = {};
+    vi.stubGlobal('fetch', (_url: string, init: RequestInit) => {
+      body = JSON.parse(init.body as string) as typeof body;
+      return Promise.resolve(new Response(JSON.stringify({ accepted: [] }), { status: 200 }));
+    });
+    await syncVoiceEvents();
+    expect(body.deviceId).toMatch(/^[0-9a-f-]{36}$/);
+  });
 });

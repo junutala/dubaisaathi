@@ -145,7 +145,10 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   and **Nol कार्ड** (3.4), whose every figure comes from the fares pack. Written topics are data in
   `data/know/tips.v1.json`, each with the day it was checked. **ख़रीदारी** (dates, oud) comes when its first topic is written — a tab with nothing in it
   is never shown.
-- **No login, no account, no gate.** Entitlement is keyed to the device. A pass is a signed
+- **No login, no account, no gate — but one line, accepted once** (decision 045): what is typed,
+  said or read in खाना, जाना, जानना and बोलना is kept as text, tied to the phone's random id and
+  never to a name or a number; the landing page's "मंज़ूर है, शुरू करें" accepts it.
+  Entitlement is keyed to the device. A pass is a signed
   token verified offline (decision 005). Location is asked at first need with the reason on the
   screen; a refusal gets one screen saying what will not work and what still does.
 - **A traveller in India sees Dubai.** A phone fix outside Dubai is not "no route": the three
@@ -467,10 +470,10 @@ dubaisaathi/
 │   ├── site/              # the one-page website at saafarsaathi.in — static, Hindi and English
 │   └── admin/             # the owner's page at admin.saafarsaathi.in — static, one call (040)
 ├── supabase/              # the backend (decision 011) — replaces apps/api
-│   ├── migrations/        # fifteen tables: devices, families, passes, orders, coupons,
+│   ├── migrations/        # sixteen tables: devices, families, passes, orders, coupons,
 │   │                      #   coupon_redemptions, voice_events, field_reports, field_photos,
 │   │                      #   contact_messages, content_packs, app_events, metric_snapshots,
-│   │                      #   insight_reports, board_readings
+│   │                      #   insight_reports, board_readings, bolna_sentences
 │   ├── functions/         # fourteen: collect, contact, listen, translate, outlet, redeem, bind,
 │   │                      #   order, webhook, packs, maplink, admin, insights, readboard
 │   └── tests/             # SQL that checks what the schema must refuse

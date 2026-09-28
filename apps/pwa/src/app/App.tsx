@@ -21,6 +21,7 @@ import {
   validity,
   watchEntitlement,
 } from '../features/pass/index.js';
+import { ConsentScreen } from '../features/landing/ConsentScreen.js';
 import { LandingScreen } from '../features/landing/LandingScreen.js';
 import { currentLocation } from '../lib/location.js';
 import {
@@ -53,20 +54,37 @@ import { noteScreen } from '../features/ask/index.js';
  */
 const STARTED_KEY = 'saathi.started';
 
+/**
+ * The traveller accepted how their words are used (decision 045): on the landing page for a new
+ * phone, on a one-time screen for a phone that started before the notice existed.
+ */
+const CONSENT_KEY = 'saathi.dataConsent';
+
+function remembered(key: string): boolean {
+  try {
+    return localStorage.getItem(key) !== null;
+  } catch {
+    // Private mode: better to show the app than to trap someone on a notice for ever.
+    return true;
+  }
+}
+
+function remember(key: string): void {
+  try {
+    localStorage.setItem(key, new Date().toISOString());
+  } catch {
+    /* it will simply be shown once more */
+  }
+}
+
 export function App() {
   // Whether the phone has a connection, from the provider that already listens for `online` and
   // `offline`. घर's बोलना tile is not shown without one (decision 020), and it has to appear and
   // disappear as the signal does — a tile that lies about being available is the defect that
   // design exists to avoid.
   const { online } = useSettings();
-  const [started, setStarted] = useState(() => {
-    try {
-      return localStorage.getItem(STARTED_KEY) !== null;
-    } catch {
-      // Private mode: better to show the app than to trap someone on a landing page for ever.
-      return true;
-    }
-  });
+  const [started, setStarted] = useState(() => remembered(STARTED_KEY));
+  const [consented, setConsented] = useState(() => remembered(CONSENT_KEY));
   const [route, setRoute] = useState<Route>(() => {
     // `?code=…` from an advertisement is read once and taken off the URL before the route is,
     // so it reaches घर.4's field rather than the router (decision 018).
@@ -216,12 +234,24 @@ export function App() {
       <div className="screen">
         <LandingScreen
           onReady={() => {
-            try {
-              localStorage.setItem(STARTED_KEY, new Date().toISOString());
-            } catch {
-              /* it will simply be shown once more */
-            }
+            // शुरू करें is also the acceptance of the line above it (decision 045).
+            remember(CONSENT_KEY);
+            remember(STARTED_KEY);
+            setConsented(true);
             setStarted(true);
+          }}
+        />
+      </div>
+    );
+  }
+
+  if (!consented) {
+    return (
+      <div className="screen">
+        <ConsentScreen
+          onAccept={() => {
+            remember(CONSENT_KEY);
+            setConsented(true);
           }}
         />
       </div>

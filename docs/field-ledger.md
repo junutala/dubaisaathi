@@ -31,13 +31,22 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 
 ## L · लैंडिंग
 
-| Field                             | Why it is there                                                              |
-| --------------------------------- | ---------------------------------------------------------------------------- |
-| The lockup, and the tagline       | Which app, and what it does: खाना · जाना · जानना, with you, without internet |
-| हिंदी / English                   | The interface language, chosen before anything else                          |
-| "ऑफ़लाइन पैक आ रहा है" + progress | The app installing itself for the radio-off days                             |
-| शुरू करें (live once installed)   | The only action; live only when the app can keep its promise                 |
-| कोई लॉगिन नहीं. कोई अकाउंट नहीं.  | Removes the fear of a signup wall                                            |
+| Field                                      | Why it is there                                                                                       |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| The lockup, and the tagline                | Which app, and what it does: खाना · जाना · जानना, with you, without internet                          |
+| हिंदी / English                            | The interface language, chosen before anything else                                                   |
+| "ऑफ़लाइन पैक आ रहा है" + progress          | The app installing itself for the radio-off days                                                      |
+| The data-use line                          | What we keep — text, never voice or photos, not tied to a name (045)                                  |
+| मंज़ूर है, शुरू करें (live once installed) | The only action, and the acceptance of the line above it; live only when the app can keep its promise |
+| कोई लॉगिन नहीं. कोई अकाउंट नहीं.           | Removes the fear of a signup wall                                                                     |
+
+## The data-use notice, once (decision 045)
+
+| Field                | Why it is there                                                                            |
+| -------------------- | ------------------------------------------------------------------------------------------ |
+| एक बात, एक बार       | Says this is asked once, for a phone that started before the landing page carried the line |
+| The data-use line    | The same line the landing page carries, word for word                                      |
+| मंज़ूर है, आगे बढ़ें | The one action; it never comes back                                                        |
 
 ## घर
 

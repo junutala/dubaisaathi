@@ -21,6 +21,12 @@ NO_CHROME = {'Landing', 'Names'}
 NO_HOTEL_ROW = {'HomeDocs', 'HomeDocView'}
 # घर.n screens and the pillars' children; everything else is home or a state of it.
 HOME = {'Home', 'HomeDark', 'HomeTrial', 'HomePaid'}
+# The data-use line on the landing page (decision 045), word for word as the app carries it.
+CONSENT_LINE = (
+    'खाना, जाना, जानना और बोलना में आप जो लिखते, बोलते या पढ़वाते हैं, उसे हम Saathi को बेहतर '
+    'बनाने के लिए रख सकते हैं — सिर्फ़ लिखा हुआ, आपकी आवाज़ या फ़ोटो नहीं. यह आपके नाम या नंबर '
+    'से नहीं जुड़ता.'
+)
 # The lockup's word, the same in both interface languages (decision 021).
 NAME_MARK = 'Dubaisaathi'
 BACK_ICON = 'M15 5l-7 7 7 7'
@@ -59,7 +65,10 @@ def main() -> int:
         # block itself is checked under rule 6.
         if re.search(r'\bmic\b|माइक|बोलिए|बोलकर', text):
             fail(name, 'a microphone, or an invitation to speak — voice is out (decision 016)')
-        if SPEAK in text and name not in HOME:
+        # The landing page's data-use line names बोलना in a sentence (decision 045); that is the
+        # word, not the block, so the line itself is taken out before looking.
+        named = text.replace(CONSENT_LINE, '')
+        if SPEAK in named and name not in HOME:
             fail(name, 'बोलना outside घर — its block is on घर and its screens have no board')
 
         # Rule 2: red is reserved and appears on no screen.

@@ -91,7 +91,11 @@ describe('asking translate for the Arabic', () => {
       ar: 'أحتاج غرفة بها ماء ساخن',
     });
     expect(calls[0]?.url).toContain('/functions/v1/translate');
-    expect(JSON.parse(String(calls[0]?.body))).toEqual({ text: 'I need a room with hot water' });
+    // The sentence goes with the phone's random id and nothing else (decision 045).
+    const sent = JSON.parse(String(calls[0]?.body)) as { text?: string; deviceId?: string };
+    expect(Object.keys(sent).sort()).toEqual(['deviceId', 'text']);
+    expect(sent.text).toBe('I need a room with hot water');
+    expect(sent.deviceId).toMatch(/^[0-9a-f-]{36}$/);
   });
 
   it('says so with the radio off, without asking', async () => {

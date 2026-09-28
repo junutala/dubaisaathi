@@ -16,6 +16,7 @@ import {
   startVoiceEventSync,
 } from './features/ask/index.js';
 import bundledTransport from '../../../data/transport/network.v1.json';
+import { deviceId } from './lib/device.js';
 import './fonts.css';
 import './styles.css';
 
@@ -54,6 +55,8 @@ startPackSync();
 // Recording first, then sending: the day's first open is written before the first send, not after
 // it. The question log and the product-intelligence log leave the phone together, soon after
 // anything is recorded; nothing waits on them and a failure leaves the queue intact.
+// The phone's random id exists from the first open, not from the first search (decision 045).
+deviceId();
 startUsageRecording();
 startProductIntelligence({
   region: regionNow(),

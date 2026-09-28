@@ -58,6 +58,10 @@ export const en: Record<StringKey, string> = {
   'home.latest': 'latest',
   'home.catchingUp': 'updating…',
 
+  'consent.title': 'One thing, once',
+  'consent.line':
+    'What you type, say or have read in खाना, जाना, जानना and बोलना may be kept to make Saathi better — as text only, never your voice or photos. It is not linked to your name or number.',
+  'consent.accept': 'I accept — carry on',
   'landing.offline': 'खाना · जाना · जानना — with you, without internet',
   'landing.job1': 'Places to eat, with no network',
   'landing.job2': 'Metro, bus and taxi routes, with no network',
@@ -68,7 +72,7 @@ export const en: Record<StringKey, string> = {
   'landing.tryIt': 'Turn off the internet and try it — everything works.',
   'landing.packWhat':
     'Places to eat, the metro and bus map, the places of Dubai — all on your phone.',
-  'landing.start': 'Start',
+  'landing.start': 'I accept — start',
   'landing.noLogin': 'No login. No account.',
 
   'hotel.title': 'My hotel',
