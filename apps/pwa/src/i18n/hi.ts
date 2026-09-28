@@ -476,7 +476,9 @@ export const hi = {
   // ---- घर.5 · बोलना · घर.6 · अरबी में (decision 020) -------------------------------------
   // The one place in the product with a microphone, and the only screens that need a signal.
   // Its block on घर is named by the `pillar.speak` keys above, with the other three.
-  'bolna.board': 'अरबी बोर्ड की फ़ोटो से हिंदी में पढ़ें',
+  'bolna.board': 'अरबी → हिंदी',
+  'bolna.boardFrom': 'अरबी',
+  'bolna.boardTo': 'हिंदी',
   'board.title': 'बोर्ड पढ़ें',
   'board.why':
     'अरबी में लिखे बोर्ड, नोटिस या लेबल की फ़ोटो लीजिए — हम हिंदी में बताएँगे कि उस पर क्या लिखा है, और सुना भी देंगे.',

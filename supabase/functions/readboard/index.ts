@@ -2,8 +2,15 @@
  * `readboard` — बोलना's board reader: a photograph of an Arabic board in, its meaning in Hindi out.
  *
  * The owner, 28 September: Dubai's boards are in Arabic and English, never Hindi. The traveller
- * photographs one; Claude reads the Arabic and says what it means, in plain Hindi, the way a
- * friend who reads Arabic would — meaning, not word for word. The phone reads the Hindi aloud.
+ * photographs one; the Arabic on it is read and turned into Hindi, and the phone reads the Hindi
+ * aloud.
+ *
+ * **Google first, on the key बोलना already uses** (the owner, 28 September: "we already have
+ * Hindi to Arabic … why can't we use the same tools?"). Cloud Vision reads the Arabic, and the
+ * same Cloud Translation that turns बोलना's sentences into Arabic turns it into Hindi — one key,
+ * `GOOGLE_TRANSLATE_API_KEY`, with the Cloud Vision API enabled on its Google project. When Google
+ * refuses (Vision not enabled on that project, or the key restricted from it) or fails, the board
+ * goes to Claude if `ANTHROPIC_API_KEY` is set — a fallback that is reached, not written.
  *
  * Rules it keeps:
  * - **The photograph is never kept** — not in storage, not in a log. It is read and dropped. The
@@ -11,8 +18,6 @@
  * - **The text is kept** (the owner: "the text tells us a lot"): the Arabic read and the Hindi
  *   given, in `board_readings` (migration 0022), with the phone's random id and nothing that
  *   names a person (decision 045).
- * - **The model is not in the code** (decision 043's rule): `READBOARD_MODEL` names one; without
- *   it, the newest Opus the Models API lists.
  * - **Online only, like the rest of बोलना** (decision 020). One origin (decision 012): only the
  *   traveller's app may spend our reading.
  * - **Bounded**: a photograph of at most MAX_BYTES, and at most DAILY_CAP readings a day in all.
@@ -36,6 +41,68 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const FALLBACK_MODEL = 'claude-opus-5';
 const MEDIA = ['image/jpeg', 'image/png', 'image/webp'] as const;
 type Media = (typeof MEDIA)[number];
+
+/** Arabic letters, including the presentation forms signs are often set in. */
+const ARABIC = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/;
+
+type Reading =
+  | { readonly kind: 'read'; readonly arabic: string; readonly hindi: string; readonly by: string }
+  | { readonly kind: 'none' }
+  /** Google would not do it at all — the next reader should be tried. */
+  | { readonly kind: 'refused'; readonly why: string }
+  | { readonly kind: 'failed' };
+
+/** Cloud Vision reads the board, and Cloud Translation turns its Arabic lines into Hindi. */
+async function readWithGoogle(key: string, image: string): Promise<Reading> {
+  const seen = await fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key}`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      requests: [
+        {
+          image: { content: image },
+          features: [{ type: 'TEXT_DETECTION' }],
+          imageContext: { languageHints: ['ar'] },
+        },
+      ],
+    }),
+  });
+  // Never pass Google's body back: it can carry the key in an error echo.
+  if (seen.status === 403 || seen.status === 400)
+    return { kind: 'refused', why: `vision ${String(seen.status)}` };
+  if (!seen.ok) return { kind: 'failed' };
+  const vision = (await seen.json()) as {
+    responses?: { fullTextAnnotation?: { text?: string }; error?: { code?: number } }[];
+  };
+  const first = vision.responses?.[0];
+  if (first?.error !== undefined)
+    return { kind: 'refused', why: `vision error ${String(first.error.code)}` };
+  // Only the Arabic lines: a board's English half is already readable, and translating it too
+  // would put two versions of one sign in front of the traveller.
+  const arabic = (first?.fullTextAnnotation?.text ?? '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => ARABIC.test(line))
+    .join('\n');
+  if (arabic === '') return { kind: 'none' };
+
+  const turned = await fetch(
+    `https://translation.googleapis.com/language/translate/v2?key=${key}`,
+    {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ q: arabic, source: 'ar', target: 'hi', format: 'text' }),
+    },
+  );
+  if (turned.status === 403 || turned.status === 400)
+    return { kind: 'refused', why: `translate ${String(turned.status)}` };
+  if (!turned.ok) return { kind: 'failed' };
+  const body = (await turned.json()) as { data?: { translations?: { translatedText?: string }[] } };
+  const hindi = body.data?.translations?.[0]?.translatedText?.trim() ?? '';
+  return hindi === ''
+    ? { kind: 'failed' }
+    : { kind: 'read', arabic, hindi, by: 'google-vision+translate' };
+}
 
 const SCHEMA = {
   type: 'object',
@@ -84,35 +151,8 @@ function json(body: unknown, status = 200): Response {
   });
 }
 
-Deno.serve(async (request: Request): Promise<Response> => {
-  if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
-  if (request.method !== 'POST') return json({ error: 'POST only' }, 405);
-
-  const key = Deno.env.get('ANTHROPIC_API_KEY');
-  if (!key) return json({ error: 'reading is not configured' }, 503);
-
-  let body: { image?: unknown; type?: unknown; deviceId?: unknown };
-  try {
-    body = (await request.json()) as typeof body;
-  } catch {
-    return json({ error: 'not JSON' }, 400);
-  }
-  const image = typeof body.image === 'string' ? body.image : '';
-  const media = MEDIA.find((type) => type === body.type) as Media | undefined;
-  if (image === '' || media === undefined) return json({ error: 'no photograph' }, 400);
-  if ((image.length * 3) / 4 > MAX_BYTES) return json({ error: 'photograph too large' }, 413);
-
-  const db = createClient(
-    Deno.env.get('SUPABASE_URL') ?? '',
-    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
-    { auth: { persistSession: false } },
-  );
-  const today = await db
-    .from('board_readings')
-    .select('id', { count: 'exact', head: true })
-    .gte('at', new Date(Date.now() - 86_400_000).toISOString());
-  if ((today.count ?? 0) >= DAILY_CAP) return json({ error: 'busy' }, 429);
-
+/** Claude reads the board and gives its meaning: the fallback when Google refuses. */
+async function readWithClaude(key: string, image: string, media: Media): Promise<Reading> {
   const client = new Anthropic({ apiKey: key });
   const model = await pickModel(client);
   const params = {
@@ -152,28 +192,89 @@ Deno.serve(async (request: Request): Promise<Response> => {
       message = await client.beta.messages.create(params);
     }
   } catch {
-    return json({ error: 'reading failed' }, 502);
+    return { kind: 'failed' };
   }
-  if (message.stop_reason === 'refusal') return json({ arabic: '', hindi: '' });
+  if (message.stop_reason === 'refusal') return { kind: 'none' };
   const text = message.content.find((block) => block.type === 'text');
-  if (text === undefined || text.type !== 'text') return json({ error: 'reading failed' }, 502);
+  if (text === undefined || text.type !== 'text') return { kind: 'failed' };
 
   let read: { arabic?: unknown; hindi?: unknown };
   try {
     read = JSON.parse(text.text) as typeof read;
   } catch {
-    return json({ error: 'reading failed' }, 502);
+    return { kind: 'failed' };
   }
   const arabic = typeof read.arabic === 'string' ? read.arabic.trim() : '';
   const hindi = typeof read.hindi === 'string' ? read.hindi.trim() : '';
+  return arabic === '' || hindi === ''
+    ? { kind: 'none' }
+    : { kind: 'read', arabic, hindi, by: message.model };
+}
 
-  // The text is kept, the photograph is not. A failed insert costs a statistic, never the answer.
-  if (arabic !== '' && hindi !== '') {
-    const deviceId =
-      typeof body.deviceId === 'string' && UUID.test(body.deviceId) ? body.deviceId : null;
-    await db
-      .from('board_readings')
-      .insert({ arabic, hindi, model: message.model, device_id: deviceId });
+Deno.serve(async (request: Request): Promise<Response> => {
+  if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
+  if (request.method !== 'POST') return json({ error: 'POST only' }, 405);
+
+  const googleKey = Deno.env.get('GOOGLE_TRANSLATE_API_KEY');
+  const claudeKey = Deno.env.get('ANTHROPIC_API_KEY');
+  if (!googleKey && !claudeKey) return json({ error: 'reading is not configured' }, 503);
+
+  let body: { image?: unknown; type?: unknown; deviceId?: unknown };
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return json({ error: 'not JSON' }, 400);
   }
-  return json({ arabic, hindi });
+  const image = typeof body.image === 'string' ? body.image : '';
+  const media = MEDIA.find((type) => type === body.type) as Media | undefined;
+  if (image === '' || media === undefined) return json({ error: 'no photograph' }, 400);
+  if ((image.length * 3) / 4 > MAX_BYTES) return json({ error: 'photograph too large' }, 413);
+
+  const db = createClient(
+    Deno.env.get('SUPABASE_URL') ?? '',
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+    { auth: { persistSession: false } },
+  );
+  const today = await db
+    .from('board_readings')
+    .select('id', { count: 'exact', head: true })
+    .gte('at', new Date(Date.now() - 86_400_000).toISOString());
+  if ((today.count ?? 0) >= DAILY_CAP) return json({ error: 'busy' }, 429);
+
+  let reading: Reading = { kind: 'refused', why: 'no google key' };
+  if (googleKey) {
+    try {
+      reading = await readWithGoogle(googleKey, image);
+    } catch {
+      reading = { kind: 'failed' };
+    }
+  }
+  if (reading.kind === 'refused' || reading.kind === 'failed') {
+    // Google would not, or could not, read it; the reason goes to the function log, never to the
+    // phone, and the board goes to Claude when there is a key for it.
+    console.warn(`readboard: google ${reading.kind === 'refused' ? reading.why : 'failed'}`);
+    if (claudeKey) reading = await readWithClaude(claudeKey, image, media);
+  }
+
+  switch (reading.kind) {
+    case 'read': {
+      // The text is kept, the photograph is not. A failed insert costs a statistic, never the
+      // answer.
+      const deviceId =
+        typeof body.deviceId === 'string' && UUID.test(body.deviceId) ? body.deviceId : null;
+      await db.from('board_readings').insert({
+        arabic: reading.arabic,
+        hindi: reading.hindi,
+        model: reading.by,
+        device_id: deviceId,
+      });
+      return json({ arabic: reading.arabic, hindi: reading.hindi });
+    }
+    case 'none':
+      return json({ arabic: '', hindi: '' });
+    case 'refused':
+      return json({ error: 'reading is not configured' }, 503);
+    case 'failed':
+      return json({ error: 'reading failed' }, 502);
+  }
 });

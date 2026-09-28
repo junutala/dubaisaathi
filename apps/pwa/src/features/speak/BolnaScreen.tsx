@@ -5,6 +5,7 @@ import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { Icon } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
 import { recordVoiceEvent } from '../ask/index.js';
+import { holdBoardPhoto } from './board.js';
 import { listen } from './listen.js';
 import { MicError, startRecording, type Recorder } from './recordAudio.js';
 
@@ -58,6 +59,7 @@ export function BolnaScreen() {
   const [trouble, setTrouble] = useState<StringKey | null>(null);
   const [text, setText] = useState('');
   const recorder = useRef<Recorder | null>(null);
+  const camera = useRef<HTMLInputElement | null>(null);
   const ticker = useRef<ReturnType<typeof setInterval> | null>(null);
   /** The last transcript and when it arrived, so an immediate retry can be recorded as one. */
   const lastHeard = useRef<{ text: string; at: number } | null>(null);
@@ -200,16 +202,35 @@ export function BolnaScreen() {
 
         {trouble !== null && <p className="trouble">{t(trouble)}</p>}
 
-        {/* The other half of बोलना (घर.7): a board in Arabic, photographed, told in Hindi. */}
-        <button
-          type="button"
-          className="btn btn-ghost"
-          onClick={() => {
+        {/* The other half of बोलना (घर.7): one tap opens the camera, like the microphone; the
+            photo goes to घर.7, which reads it into Hindi. */}
+        <input
+          ref={camera}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          hidden
+          onChange={(event) => {
+            const photo = event.target.files?.[0];
+            event.target.value = '';
+            if (photo === undefined) return;
+            holdBoardPhoto(photo);
             navigate({ screen: 'bolnaBoard' });
           }}
+        />
+        <button
+          type="button"
+          className="bolna-mic"
+          disabled={state !== 'idle'}
+          onClick={() => camera.current?.click()}
+          aria-label={t('bolna.board')}
         >
-          <Icon name="camera" size={20} strokeWidth={2} />
-          {t('bolna.board')}
+          {/* अरबी 📷 हिंदी 🔊 (the owner, 28 September): photograph the Arabic, hear the Hindi —
+              the button says what it does in its own picture. */}
+          <span className="bolna-mic-label">{t('bolna.boardFrom')}</span>
+          <Icon name="camera" size={30} strokeWidth={1.9} />
+          <span className="bolna-mic-label">{t('bolna.boardTo')}</span>
+          <Icon name="sound" size={30} strokeWidth={1.9} />
         </button>
 
         <span className="lbl">{t('bolna.label')}</span>

@@ -1,17 +1,17 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSettings } from '../../app/settings.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { Icon } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
 import { recordVoiceEvent } from '../ask/index.js';
-import { readBoard, shrinkPhoto, type BoardRead } from './board.js';
+import { readBoard, shrinkPhoto, takeBoardPhoto, type BoardRead } from './board.js';
 import { speakHindi } from './speak.js';
 
 /**
  * घर.7 · बोलना › बोर्ड — a photograph of an Arabic board, and what it means in Hindi.
  *
  * The owner, 28 September: Dubai's boards are in Arabic and English and never in Hindi. The
- * traveller photographs the board; the screen shows the Hindi large, the Arabic that was read
+ * traveller taps अरबी → हिंदी on बोलना, the camera opens, and the photo lands here; the screen shows the Hindi large, the Arabic that was read
  * under it — so they can see what we read — and reads the Hindi aloud with the phone's own voice.
  *
  * Online only, like the rest of बोलना (decision 020): reading a board needs the server. The
@@ -55,7 +55,7 @@ export function BoardScreen() {
   const [reading, setReading] = useState(false);
   const [voiceTrouble, setVoiceTrouble] = useState<StringKey | null>(null);
 
-  const chosen = async (file: File | undefined) => {
+  const chosen = async (file: Blob | undefined) => {
     if (file === undefined) return;
     setTrouble(null);
     setVoiceTrouble(null);
@@ -87,6 +87,13 @@ export function BoardScreen() {
     }
   };
 
+  // The photo taken from बोलना's camera button is read the moment this screen opens.
+  useEffect(() => {
+    const photo = takeBoardPhoto();
+    if (photo !== null) void chosen(photo);
+    // Once, on arrival: the photo is handed over once and taken, so a second run finds nothing.
+  }, []);
+
   const aloud = () => {
     if (read === null) return;
     setVoiceTrouble(null);
@@ -113,6 +120,7 @@ export function BoardScreen() {
           ref={picker}
           type="file"
           accept="image/*"
+          capture="environment"
           hidden
           onChange={(event) => {
             const file = event.target.files?.[0];
