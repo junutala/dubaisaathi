@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-28T14:12:38.318Z",
+  "publishedAt": "2026-09-28T14:34:21.528Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -87238,6 +87238,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 10,
           "section": "Breakfast (Till 11:45 only)"
         },
         {
@@ -87247,6 +87248,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 10,
           "section": "Breakfast (Till 11:45 only)"
         },
         {
@@ -87256,6 +87258,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 10,
           "section": "Breakfast (Till 11:45 only)"
         },
         {
@@ -87265,6 +87268,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 10,
           "section": "Breakfast (Till 11:45 only)"
         },
         {
@@ -87274,6 +87278,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 10,
           "section": "Breakfast (Till 11:45 only)"
         },
         {
@@ -87283,6 +87288,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 10,
           "section": "Breakfast (Till 11:45 only)"
         },
         {
