@@ -5,12 +5,13 @@
  * photographs one; the Arabic on it is read and turned into Hindi, and the phone reads the Hindi
  * aloud.
  *
- * **Google first, on the key बोलना already uses** (the owner, 28 September: "we already have
- * Hindi to Arabic … why can't we use the same tools?"). Cloud Vision reads the Arabic, and the
- * same Cloud Translation that turns बोलना's sentences into Arabic turns it into Hindi — one key,
- * `GOOGLE_TRANSLATE_API_KEY`, with the Cloud Vision API enabled on its Google project. When Google
- * refuses (Vision not enabled on that project, or the key restricted from it) or fails, the board
- * goes to Claude if `ANTHROPIC_API_KEY` is set — a fallback that is reached, not written.
+ * **Claude first, Google next** (the owner, 28 September: "let's promote Claude as the first
+ * translator and then Google next. We will see how it goes"). Claude reads the board and gives its
+ * meaning in one call; when it cannot be reached or fails, Cloud Vision reads the Arabic and Cloud
+ * Translation turns it into Hindi on `GOOGLE_TRANSLATE_API_KEY` — the key बोलना already uses,
+ * with the Cloud Vision API enabled on its Google project. Google's reading is trusted only when
+ * it holds enough Arabic and comes back in Hindi letters. Both are always tried in turn: a
+ * fallback that is reached, not written.
  *
  * Rules it keeps:
  * - **The photograph is never kept** — not in storage, not in a log. It is read and dropped. The
@@ -57,7 +58,7 @@ const MIN_ARABIC_LETTERS = 4;
 type Reading =
   | { readonly kind: 'read'; readonly arabic: string; readonly hindi: string; readonly by: string }
   | { readonly kind: 'none' }
-  /** Google would not read it, or its reading cannot be trusted — the next reader should try. */
+  /** Google would not read it, or its reading cannot be trusted. */
   | { readonly kind: 'refused'; readonly why: string }
   | { readonly kind: 'failed' };
 
@@ -94,7 +95,7 @@ async function readWithGoogle(key: string, image: string): Promise<Reading> {
     .filter((line) => ARABIC.test(line))
     .join('\n');
   if (arabic === '') return { kind: 'none' };
-  // Too little to be a board: let the next reader look before the traveller is told to go closer.
+  // Too little to be a board: never shown; the traveller is asked for a closer photo instead.
   if ((arabic.match(ARABIC_ALL) ?? []).length < MIN_ARABIC_LETTERS)
     return { kind: 'refused', why: 'too little arabic' };
 
@@ -165,7 +166,7 @@ function json(body: unknown, status = 200): Response {
   });
 }
 
-/** Claude reads the board and gives its meaning: the fallback when Google refuses. */
+/** Claude reads the board and gives its meaning in one call: the first reader. */
 async function readWithClaude(key: string, image: string, media: Media): Promise<Reading> {
   const client = new Anthropic({ apiKey: key });
   const model = await pickModel(client);
@@ -255,19 +256,25 @@ Deno.serve(async (request: Request): Promise<Response> => {
     .gte('at', new Date(Date.now() - 86_400_000).toISOString());
   if ((today.count ?? 0) >= DAILY_CAP) return json({ error: 'busy' }, 429);
 
-  let reading: Reading = { kind: 'refused', why: 'no google key' };
-  if (googleKey) {
+  // Claude first (the owner, 28 September: "let's promote Claude as the first translator and
+  // then Google next — we will see how it goes"); Google when Claude cannot be reached or fails.
+  let reading: Reading = { kind: 'failed' };
+  if (claudeKey) reading = await readWithClaude(claudeKey, image, media);
+  if (reading.kind === 'failed' && googleKey) {
+    console.warn('readboard: claude failed, trying google');
     try {
       reading = await readWithGoogle(googleKey, image);
     } catch {
       reading = { kind: 'failed' };
     }
-  }
-  if (reading.kind === 'refused' || reading.kind === 'failed') {
-    // Google would not, or could not, read it; the reason goes to the function log, never to the
-    // phone, and the board goes to Claude when there is a key for it.
-    console.warn(`readboard: google ${reading.kind === 'refused' ? reading.why : 'failed'}`);
-    if (claudeKey) reading = await readWithClaude(claudeKey, image, media);
+    if (reading.kind === 'refused') {
+      console.warn(`readboard: google refused (${reading.why})`);
+      // A scrap or a non-Hindi answer is a photo to take again, closer; a refusal of the key is
+      // "not switched on" only when Claude was never there to try.
+      if (reading.why === 'too little arabic' || reading.why === 'no hindi')
+        reading = { kind: 'none' };
+      else if (claudeKey) reading = { kind: 'failed' };
+    }
   }
 
   switch (reading.kind) {
