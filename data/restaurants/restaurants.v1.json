@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-28T13:44:03.994Z",
+  "publishedAt": "2026-09-28T14:12:38.318Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -86363,6 +86363,1547 @@
           "tags": [],
           "priceAed": 29,
           "section": "Chicken SP"
+        }
+      ]
+    },
+    {
+      "id": "8de5ab42-21b9-41f3-ab73-ec18122497b7",
+      "name": {
+        "en": "Chaat Bazaar",
+        "hi": "चाट बाज़ार",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2481884,
+        "lng": 55.3029475
+      },
+      "areaId": "karama",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian"],
+      "phone": "04 396 8810",
+      "confirmedDishes": [
+        {
+          "name": {
+            "en": "Sev Batata Puri",
+            "hi": "Sev Batata Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Gol Puri Sev Puri",
+            "hi": "Gol Puri Sev Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Dahi Sev Puri",
+            "hi": "Dahi Sev Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Ragada Or Schezwan Sev Puri",
+            "hi": "Ragada Or Schezwan Sev Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Amul Cheese Sev Puri",
+            "hi": "Amul Cheese Sev Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Mexican Salsa Sev Puri",
+            "hi": "Mexican Salsa Sev Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Dahi Batata Puri",
+            "hi": "Dahi Batata Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Ragda Dahi Puri",
+            "hi": "Ragda Dahi Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Hirvi Techa Dahi Batata Puri (Spicy)",
+            "hi": "Hirvi Techa Dahi Batata Puri (Spicy)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Pune Spdp",
+            "hi": "Pune Spdp",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Sprouts Or Corn Dahi",
+            "hi": "Sprouts Or Corn Dahi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Anaar Dahi Puri",
+            "hi": "Anaar Dahi Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Mexican Salsa Dahi Puri",
+            "hi": "Mexican Salsa Dahi Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Dahi Bhalla Chaat",
+            "hi": "Dahi Bhalla Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Punjabi Papdi Chaat",
+            "hi": "Punjabi Papdi Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Bhalla Papdi Chaat",
+            "hi": "Bhalla Papdi Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Bambaiya Ragada Pattice",
+            "hi": "Bambaiya Ragada Pattice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Samosa Ragada Chaat",
+            "hi": "Samosa Ragada Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Ragada Gol Puri",
+            "hi": "Ragada Gol Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Kolkatta Ghugni Chaat",
+            "hi": "Kolkatta Ghugni Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Bengaluru Masala Puri",
+            "hi": "Bengaluru Masala Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Samosa Chana Chole Chaat",
+            "hi": "Samosa Chana Chole Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Samosa Chana Chole Dahi Mein",
+            "hi": "Samosa Chana Chole Dahi Mein",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Dilli Ki Aloo Tikki Chana Chole Chaat",
+            "hi": "Dilli Ki Aloo Tikki Chana Chole Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Dilli Ki Aloo Tikki Chana Chole Dahi Mein",
+            "hi": "Dilli Ki Aloo Tikki Chana Chole Dahi Mein",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Basket Sprout Dahi Chaat",
+            "hi": "Basket Sprout Dahi Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Basket Corn Dahi Chaat",
+            "hi": "Basket Corn Dahi Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Purani Dilli Ki Aloo Chaat",
+            "hi": "Purani Dilli Ki Aloo Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Healthy Sprouts Chaat",
+            "hi": "Healthy Sprouts Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Mirchi Pakora Dahi Chaat",
+            "hi": "Mirchi Pakora Dahi Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Palak Pakora Dahi Chaat",
+            "hi": "Palak Pakora Dahi Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Guru Bhel",
+            "hi": "Guru Bhel",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Chatkara Daal Pakwan Chaat",
+            "hi": "Chatkara Daal Pakwan Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Chaat (heading not in photo)"
+        },
+        {
+          "name": {
+            "en": "Pista Kulfi",
+            "hi": "Pista Kulfi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Dessert & Kulfi Bazaar"
+        },
+        {
+          "name": {
+            "en": "Kesar Badam pista Mix",
+            "hi": "Kesar Badam pista Mix",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Dessert & Kulfi Bazaar"
+        },
+        {
+          "name": {
+            "en": "Mango Kulfi",
+            "hi": "Mango Kulfi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Dessert & Kulfi Bazaar"
+        },
+        {
+          "name": {
+            "en": "Malai Kulfi",
+            "hi": "Malai Kulfi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Dessert & Kulfi Bazaar"
+        },
+        {
+          "name": {
+            "en": "Badam Kulfi",
+            "hi": "Badam Kulfi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Dessert & Kulfi Bazaar"
+        },
+        {
+          "name": {
+            "en": "Paan Gulkand",
+            "hi": "Paan Gulkand",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Dessert & Kulfi Bazaar"
+        },
+        {
+          "name": {
+            "en": "Chickoo Kulfi",
+            "hi": "Chickoo Kulfi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Dessert & Kulfi Bazaar"
+        },
+        {
+          "name": {
+            "en": "Fresh Matka Rabri",
+            "hi": "Fresh Matka Rabri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Dessert & Kulfi Bazaar"
+        },
+        {
+          "name": {
+            "en": "Gol Slice Kulfi",
+            "hi": "Gol Slice Kulfi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Dessert & Kulfi Bazaar"
+        },
+        {
+          "name": {
+            "en": "Gulab Jamun 1 pc",
+            "hi": "Gulab Jamun 1 pc",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2.1,
+          "section": "Dessert & Kulfi Bazaar"
+        },
+        {
+          "name": {
+            "en": "Sitafal Kulfi",
+            "hi": "Sitafal Kulfi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Dessert & Kulfi Bazaar"
+        },
+        {
+          "name": {
+            "en": "Rose Kulfi",
+            "hi": "Rose Kulfi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Dessert & Kulfi Bazaar"
+        },
+        {
+          "name": {
+            "en": "Kunafa",
+            "hi": "Kunafa",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Dessert & Kulfi Bazaar"
+        },
+        {
+          "name": {
+            "en": "Bombay street veg tawa pulav with raita",
+            "hi": "Bombay street veg tawa pulav with raita",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Tawa Pulav Bazaar"
+        },
+        {
+          "name": {
+            "en": "Amul cheese veg tawa pulav with raita",
+            "hi": "Amul cheese veg tawa pulav with raita",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 29,
+          "section": "Tawa Pulav Bazaar"
+        },
+        {
+          "name": {
+            "en": "Schezwan veg tawa pulav",
+            "hi": "Schezwan veg tawa pulav",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 29,
+          "section": "Tawa Pulav Bazaar"
+        },
+        {
+          "name": {
+            "en": "Ghost chilli veg tawa pulav (super spicy)",
+            "hi": "Ghost chilli veg tawa pulav (super spicy)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 29,
+          "section": "Tawa Pulav Bazaar"
+        },
+        {
+          "name": {
+            "en": "Paneer veg tawa pulav",
+            "hi": "Paneer veg tawa pulav",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 31,
+          "section": "Tawa Pulav Bazaar"
+        },
+        {
+          "name": {
+            "en": "Water 500ml",
+            "hi": "Water 500ml",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Masala chai",
+            "hi": "Masala chai",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Kashmiri Kawa Chai",
+            "hi": "Kashmiri Kawa Chai",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Aerated drink",
+            "hi": "Aerated drink",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4.2,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Fresh lemon juice",
+            "hi": "Fresh lemon juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Fresh lemon soda",
+            "hi": "Fresh lemon soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Fresh lemon mint",
+            "hi": "Fresh lemon mint",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Fresh lemon mint soda",
+            "hi": "Fresh lemon mint soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Masala chaas",
+            "hi": "Masala chaas",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Masala Soda",
+            "hi": "Masala Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Sweet or salted lassi",
+            "hi": "Sweet or salted lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Mango lassi",
+            "hi": "Mango lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Mango Milkshake",
+            "hi": "Mango Milkshake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Chocolate Milkshake",
+            "hi": "Chocolate Milkshake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Cold Coffee",
+            "hi": "Cold Coffee",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Masala coke",
+            "hi": "Masala coke",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Lemon Mint Mojito",
+            "hi": "Lemon Mint Mojito",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Kaala Khatta Mojito",
+            "hi": "Kaala Khatta Mojito",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Blue Lagoon",
+            "hi": "Blue Lagoon",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Peach Ice Tea",
+            "hi": "Peach Ice Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Raspberry Ice Tea",
+            "hi": "Raspberry Ice Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Summer Breeze Passion Fruit",
+            "hi": "Summer Breeze Passion Fruit",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Pista Frappe",
+            "hi": "Pista Frappe",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Green Tea",
+            "hi": "Green Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Biryani Chai",
+            "hi": "Biryani Chai",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Black Coffee",
+            "hi": "Black Coffee",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Orange Juice",
+            "hi": "Orange Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Watermelon Juice",
+            "hi": "Watermelon Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Mango Blossom",
+            "hi": "Mango Blossom",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Rose lassi Twist",
+            "hi": "Rose lassi Twist",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Andaaz E Anaar",
+            "hi": "Andaaz E Anaar",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Cooler no 1",
+            "hi": "Cooler no 1",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Suraj Hua Maddham",
+            "hi": "Suraj Hua Maddham",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Drink Bazaar"
+        },
+        {
+          "name": {
+            "en": "Amchi Mumbai Nashta",
+            "hi": "Amchi Mumbai Nashta",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Breakfast (Till 11:45 only)"
+        },
+        {
+          "name": {
+            "en": "Chai Parathe ki Dastan",
+            "hi": "Chai Parathe ki Dastan",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Breakfast (Till 11:45 only)"
+        },
+        {
+          "name": {
+            "en": "Bread pakode pe charcha",
+            "hi": "Bread pakode pe charcha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Breakfast (Till 11:45 only)"
+        },
+        {
+          "name": {
+            "en": "Chai Ka dost toast",
+            "hi": "Chai Ka dost toast",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Breakfast (Till 11:45 only)"
+        },
+        {
+          "name": {
+            "en": "Khichdi Aur Chuski",
+            "hi": "Khichdi Aur Chuski",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Breakfast (Till 11:45 only)"
+        },
+        {
+          "name": {
+            "en": "Puri Bhaji Ki Choti kahani",
+            "hi": "Puri Bhaji Ki Choti kahani",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Breakfast (Till 11:45 only)"
+        },
+        {
+          "name": {
+            "en": "South ka superhit combo",
+            "hi": "South ka superhit combo",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "section": "Breakfast (Till 11:45 only)"
+        },
+        {
+          "name": {
+            "en": "Pav Plain 1pc",
+            "hi": "Pav Plain 1pc",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Lemon 100cc",
+            "hi": "Lemon 100cc",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Small Sweet, Spicy & Dry Chutney",
+            "hi": "Small Sweet, Spicy & Dry Chutney",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Sweet Imli Chutney 75cc",
+            "hi": "Sweet Imli Chutney 75cc",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Spicy Green Chutney 75cc",
+            "hi": "Spicy Green Chutney 75cc",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Dry Red Chutney 75cc",
+            "hi": "Dry Red Chutney 75cc",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Fried Green Chillies 100cc",
+            "hi": "Fried Green Chillies 100cc",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Yoghurt 200cc",
+            "hi": "Yoghurt 200cc",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Farsan 200cc",
+            "hi": "Farsan 200cc",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Butter 75cc",
+            "hi": "Butter 75cc",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Schezwan Sauce 75cc",
+            "hi": "Schezwan Sauce 75cc",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Usal Gravy 200cc",
+            "hi": "Usal Gravy 200cc",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Chana 200cc",
+            "hi": "Chana 200cc",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Amul Cheese 200cc",
+            "hi": "Amul Cheese 200cc",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "French Fries Small",
+            "hi": "French Fries Small",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Masala French Fries Small",
+            "hi": "Masala French Fries Small",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Combo: French Fries & Aerated Drink",
+            "hi": "Combo: French Fries & Aerated Drink",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Khari",
+            "hi": "Khari",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Rusk - Toast",
+            "hi": "Rusk - Toast",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Butter Biscuit",
+            "hi": "Butter Biscuit",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Nan Katai",
+            "hi": "Nan Katai",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Extra Add On"
+        },
+        {
+          "name": {
+            "en": "Jai Maharashtra Box (Asli Vada Pav, 2 types Bhajias, Drink)",
+            "hi": "Jai Maharashtra Box (Asli Vada Pav, 2 types Bhajias, Drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Box Of Heaven, Made In Dubai (Amul Cheese Vada Pav, Mini Veg S/w Grill, Jamun, Drink)",
+            "hi": "Box Of Heaven, Made In Dubai (Amul Cheese Vada Pav, Mini Veg S/w Grill, Jamun, Drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 27,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Pet Pooja Box (Kandha Pohe Or Sabudana Kichadi, Batata Vada, Drink)",
+            "hi": "Pet Pooja Box (Kandha Pohe Or Sabudana Kichadi, Batata Vada, Drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Box Of Addiction (Amul Cheese Vada Pav, Amul Cheese Bhajia Pav, Jamun, Drink)",
+            "hi": "Box Of Addiction (Amul Cheese Vada Pav, Amul Cheese Bhajia Pav, Jamun, Drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 32,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Hirvi Techa Chaska Box (Hirvi Techa Vada Pav, Small Techa French Fries, Jamun, Drink)",
+            "hi": "Hirvi Techa Chaska Box (Hirvi Techa Vada Pav, Small Techa French Fries, Jamun, Drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 28,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Bombay In A Box (Vada Pav, Bhajia, Kanda Pohe 200cc, Drink)",
+            "hi": "Bombay In A Box (Vada Pav, Bhajia, Kanda Pohe 200cc, Drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Delhi In A Box (Bread Pakora, Mini Aloo Paratha, Drink)",
+            "hi": "Delhi In A Box (Bread Pakora, Mini Aloo Paratha, Drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Pune In A Box (Kandha Pohe, Usal, Batata Vada, Drink)",
+            "hi": "Pune In A Box (Kandha Pohe, Usal, Batata Vada, Drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Fasting Box (Sabudana Kichadi, Sabudana Vada 1pc, Drink)",
+            "hi": "Fasting Box (Sabudana Kichadi, Sabudana Vada 1pc, Drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Mee Mumbaikar (Vada Pav, Veg Cheese S/w Grill & Drink)",
+            "hi": "Mee Mumbaikar (Vada Pav, Veg Cheese S/w Grill & Drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 28,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Amhi Punekar (Sabudana Kichadi, Small Portion Misal 1 Pav, Batata Vada & Drink)",
+            "hi": "Amhi Punekar (Sabudana Kichadi, Small Portion Misal 1 Pav, Batata Vada & Drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 29,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Life At Chandni Chowk (Bread Pakora, Tikki Chole Chaat, Jamun, Drink)",
+            "hi": "Life At Chandni Chowk (Bread Pakora, Tikki Chole Chaat, Jamun, Drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Ghatkopar Khaugalli (Kutchi Dabeli, Bambaiya Ragada Pattice, Jamun, Drink)",
+            "hi": "Ghatkopar Khaugalli (Kutchi Dabeli, Bambaiya Ragada Pattice, Jamun, Drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Juhu Chowpatty in Dubai (Small Portions Of Pav Bhaji, Bhel Puri, Ragada Chaat, Sweet, Kaala Khatta Mojito)",
+            "hi": "Juhu Chowpatty in Dubai (Small Portions Of Pav Bhaji, Bhel Puri, Ragada Chaat, Sweet, Kaala Khatta Mojito)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 40,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Please Your Boss (Asli Vada Pav, Bhajia Pav, Samosa Pav, Drink)",
+            "hi": "Please Your Boss (Asli Vada Pav, Bhajia Pav, Samosa Pav, Drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 27,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Mogambo Kush Hua (Amul Cheese Vada Pav, Small Cheesy French Fries, Jamun, Drink)",
+            "hi": "Mogambo Kush Hua (Amul Cheese Vada Pav, Small Cheesy French Fries, Jamun, Drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 29,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Bachelor of Vada Pavs (Asli Vada Pav, Amul Cheese Vada Pav, Nutella Vada Pav, Jamun, Drink)",
+            "hi": "Bachelor of Vada Pavs (Asli Vada Pav, Amul Cheese Vada Pav, Nutella Vada Pav, Jamun, Drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 38,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Ph.d. in Amul Cheese (Amul cheese vada pav, pav bhaji bruschetta, jamun, drink)",
+            "hi": "Ph.d. in Amul Cheese (Amul cheese vada pav, pav bhaji bruschetta, jamun, drink)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 39,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Master of Chocolatology (Nutella vada pav, Min Nutella sandwich, cold coffee)",
+            "hi": "Master of Chocolatology (Nutella vada pav, Min Nutella sandwich, cold coffee)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 39,
+          "section": "Combos (heading cut off; tagline 'Akele Khush Rehna mushkil hai - Try our combos')"
+        },
+        {
+          "name": {
+            "en": "Kirti College Vada Pav",
+            "hi": "Kirti College Vada Pav",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Fusion Snack Bazaar – Dadar-Dubai Joint Venture"
+        },
+        {
+          "name": {
+            "en": "Mogambo's Masala Fries",
+            "hi": "Mogambo's Masala Fries",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Fusion Snack Bazaar – Dadar-Dubai Joint Venture"
+        },
+        {
+          "name": {
+            "en": "Hirvi Techa Spicy Fries",
+            "hi": "Hirvi Techa Spicy Fries",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Fusion Snack Bazaar – Dadar-Dubai Joint Venture"
+        },
+        {
+          "name": {
+            "en": "Cheesy Masala Fries",
+            "hi": "Cheesy Masala Fries",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Fusion Snack Bazaar – Dadar-Dubai Joint Venture"
+        },
+        {
+          "name": {
+            "en": "Kashmiri Pakora Rolls (6pcs)",
+            "hi": "Kashmiri Pakora Rolls (6pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Fusion Snack Bazaar – Dadar-Dubai Joint Venture"
+        },
+        {
+          "name": {
+            "en": "Nutella Pakora Rolls (6 pcs)",
+            "hi": "Nutella Pakora Rolls (6 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Fusion Snack Bazaar – Dadar-Dubai Joint Venture"
+        },
+        {
+          "name": {
+            "en": "Zaatar vada pav",
+            "hi": "Zaatar vada pav",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Fusion Snack Bazaar – Dadar-Dubai Joint Venture"
+        },
+        {
+          "name": {
+            "en": "Zaatar cheese vada pav",
+            "hi": "Zaatar cheese vada pav",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Fusion Snack Bazaar – Dadar-Dubai Joint Venture"
+        },
+        {
+          "name": {
+            "en": "peri peri fries",
+            "hi": "peri peri fries",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Fusion Snack Bazaar – Dadar-Dubai Joint Venture"
+        },
+        {
+          "name": {
+            "en": "Mashup pakora",
+            "hi": "Mashup pakora",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Fusion Snack Bazaar – Dadar-Dubai Joint Venture"
+        },
+        {
+          "name": {
+            "en": "Batata Vada Pizza Napolitano",
+            "hi": "Batata Vada Pizza Napolitano",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Fusion Snack Bazaar – Indian-Italian Joint Ventures"
+        },
+        {
+          "name": {
+            "en": "Sabudana Cheese Croquettes (3pcs)",
+            "hi": "Sabudana Cheese Croquettes (3pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Fusion Snack Bazaar – Indian-Italian Joint Ventures"
+        },
+        {
+          "name": {
+            "en": "Pav Bhaji Bruschetta (4pcs)",
+            "hi": "Pav Bhaji Bruschetta (4pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Fusion Snack Bazaar – Indian-Italian Joint Ventures"
+        },
+        {
+          "name": {
+            "en": "Nutella Bruschetta (4pcs)",
+            "hi": "Nutella Bruschetta (4pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Fusion Snack Bazaar – Indian-Italian Joint Ventures"
+        },
+        {
+          "name": {
+            "en": "Pav Bhaji Naacho Naacho",
+            "hi": "Pav Bhaji Naacho Naacho",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Fusion Snack Bazaar – Indian-Italian Joint Ventures"
+        },
+        {
+          "name": {
+            "en": "Sabudana Nutella Cheese Croquettes (3 Pcs)",
+            "hi": "Sabudana Nutella Cheese Croquettes (3 Pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Fusion Snack Bazaar – Indian-Italian Joint Ventures"
+        },
+        {
+          "name": {
+            "en": "Hirvi Techa Masala bruschetta (4pcs)",
+            "hi": "Hirvi Techa Masala bruschetta (4pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Fusion Snack Bazaar – Indian-Italian Joint Ventures"
+        },
+        {
+          "name": {
+            "en": "Sev Puri Tacos (3 Pcs)",
+            "hi": "Sev Puri Tacos (3 Pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Fusion Snack Bazaar – Indian-Mexican Joint Ventures"
+        },
+        {
+          "name": {
+            "en": "Dabeli Tacos (3 Pcs)",
+            "hi": "Dabeli Tacos (3 Pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Fusion Snack Bazaar – Indian-Mexican Joint Ventures"
+        },
+        {
+          "name": {
+            "en": "Gulab Jamun Nachos Bhel",
+            "hi": "Gulab Jamun Nachos Bhel",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Fusion Snack Bazaar – Indian-Mexican Joint Ventures"
+        },
+        {
+          "name": {
+            "en": "Mexican Nachos Bhel",
+            "hi": "Mexican Nachos Bhel",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Fusion Snack Bazaar – Indian-Mexican Joint Ventures"
+        },
+        {
+          "name": {
+            "en": "Hirvi Techa Masala bruschetta (3pcs)",
+            "hi": "Hirvi Techa Masala bruschetta (3pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Fusion Snack Bazaar – Indian-Mexican Joint Ventures"
         }
       ]
     }
