@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-28T12:59:21.263Z",
+  "publishedAt": "2026-09-28T13:09:32.348Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -79556,6 +79556,1931 @@
           "section": "Fresh Fruit Juices"
         }
       ]
+    },
+    {
+      "id": "2eca1411-d098-4d03-b790-f80a5e2c143d",
+      "name": {
+        "en": "Cheezy Bites",
+        "hi": "Cheezy Bites",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2531469,
+        "lng": 55.3055838
+      },
+      "areaId": "karama",
+      "kitchen": "mixed",
+      "tags": [],
+      "phone": "056 422 9610",
+      "delivers": "yes",
+      "confirmedDishes": [
+        {
+          "name": {
+            "en": "Paya (Mutton)",
+            "hi": "Paya (Mutton)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Breakfast (all day)"
+        },
+        {
+          "name": {
+            "en": "Nihari (Beef)",
+            "hi": "Nihari (Beef)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Breakfast (all day)"
+        },
+        {
+          "name": {
+            "en": "Haleem (Chicken)",
+            "hi": "Haleem (Chicken)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Breakfast (all day)"
+        },
+        {
+          "name": {
+            "en": "Lahori Chana",
+            "hi": "Lahori Chana",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Breakfast (all day)"
+        },
+        {
+          "name": {
+            "en": "Aloo Qeema",
+            "hi": "Aloo Qeema",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Breakfast (all day)"
+        },
+        {
+          "name": {
+            "en": "Brain Masala",
+            "hi": "Brain Masala",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Breakfast (all day)"
+        },
+        {
+          "name": {
+            "en": "Halwa Puri",
+            "hi": "Halwa Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Breakfast (all day)"
+        },
+        {
+          "name": {
+            "en": "Cheezy Sticks",
+            "hi": "Cheezy Sticks",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "BBQ Wings",
+            "hi": "BBQ Wings",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 21,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Flaming Wings",
+            "hi": "Flaming Wings",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Garlic Bread Supreme",
+            "hi": "Garlic Bread Supreme",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Chicken Corn Soup",
+            "hi": "Chicken Corn Soup",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Hot & Sour Soup",
+            "hi": "Hot & Sour Soup",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Garlic Cheese Naan",
+            "hi": "Garlic Cheese Naan",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Tandoor (all day)"
+        },
+        {
+          "name": {
+            "en": "Garlic Naan",
+            "hi": "Garlic Naan",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Tandoor (all day)"
+        },
+        {
+          "name": {
+            "en": "Tandoori Roti",
+            "hi": "Tandoori Roti",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Tandoor (all day)"
+        },
+        {
+          "name": {
+            "en": "Roghni Naan",
+            "hi": "Roghni Naan",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Tandoor (all day)"
+        },
+        {
+          "name": {
+            "en": "Kalwanji Naan",
+            "hi": "Kalwanji Naan",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Tandoor (all day)"
+        },
+        {
+          "name": {
+            "en": "Cheese Naan",
+            "hi": "Cheese Naan",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Tandoor (all day)"
+        },
+        {
+          "name": {
+            "en": "Aloo Naan",
+            "hi": "Aloo Naan",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Tandoor (all day)"
+        },
+        {
+          "name": {
+            "en": "Chicken Cheese Naan",
+            "hi": "Chicken Cheese Naan",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 9,
+          "section": "Tandoor (all day)"
+        },
+        {
+          "name": {
+            "en": "Qeema Naan",
+            "hi": "Qeema Naan",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Tandoor (all day)"
+        },
+        {
+          "name": {
+            "en": "Chicken Shawarma",
+            "hi": "Chicken Shawarma",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 10,
+          "section": "Pakistani Style Shawarma (with fries)"
+        },
+        {
+          "name": {
+            "en": "Chicken Shawarma Platter",
+            "hi": "Chicken Shawarma Platter",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Pakistani Style Shawarma (with fries)"
+        },
+        {
+          "name": {
+            "en": "Cheese Shawarma",
+            "hi": "Cheese Shawarma",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Pakistani Style Shawarma (with fries)"
+        },
+        {
+          "name": {
+            "en": "Shawarma Chicken Paratha",
+            "hi": "Shawarma Chicken Paratha",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Paratha Flatbread & Wraps (with fries and soft drink)"
+        },
+        {
+          "name": {
+            "en": "Chilli Chicken Paratha",
+            "hi": "Chilli Chicken Paratha",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Paratha Flatbread & Wraps (with fries and soft drink)"
+        },
+        {
+          "name": {
+            "en": "Paneer Wrap",
+            "hi": "Paneer Wrap",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Paratha Flatbread & Wraps (with fries and soft drink)"
+        },
+        {
+          "name": {
+            "en": "Fajita Wrap",
+            "hi": "Fajita Wrap",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Paratha Flatbread & Wraps (with fries and soft drink)"
+        },
+        {
+          "name": {
+            "en": "Dumpukht (Full Goat)",
+            "hi": "Dumpukht (Full Goat)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 519,
+          "section": "Cheezy Bites Signatures"
+        },
+        {
+          "name": {
+            "en": "CB Special Shawarma Platter",
+            "hi": "CB Special Shawarma Platter",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 27,
+          "section": "Cheezy Bites Signatures"
+        },
+        {
+          "name": {
+            "en": "Lahori Chargha (half)",
+            "hi": "Lahori Chargha (half)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Cheezy Bites Signatures"
+        },
+        {
+          "name": {
+            "en": "Lahori Chargha (full)",
+            "hi": "Lahori Chargha (full)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 45,
+          "section": "Cheezy Bites Signatures"
+        },
+        {
+          "name": {
+            "en": "Mota Chawal (half)",
+            "hi": "Mota Chawal (half)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 17,
+          "section": "Cheezy Bites Signatures"
+        },
+        {
+          "name": {
+            "en": "Mota Chawal (full)",
+            "hi": "Mota Chawal (full)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Cheezy Bites Signatures"
+        },
+        {
+          "name": {
+            "en": "Chapi Kebab with Nali (half)",
+            "hi": "Chapi Kebab with Nali (half)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 17,
+          "section": "Cheezy Bites Signatures"
+        },
+        {
+          "name": {
+            "en": "Chapi Kebab with Nali (full)",
+            "hi": "Chapi Kebab with Nali (full)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Cheezy Bites Signatures"
+        },
+        {
+          "name": {
+            "en": "Kachumar Salad",
+            "hi": "Kachumar Salad",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Salads"
+        },
+        {
+          "name": {
+            "en": "Green Salad",
+            "hi": "Green Salad",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Salads"
+        },
+        {
+          "name": {
+            "en": "Chicken Biryani",
+            "hi": "Chicken Biryani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Rices"
+        },
+        {
+          "name": {
+            "en": "Mutton Biryani",
+            "hi": "Mutton Biryani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Rices"
+        },
+        {
+          "name": {
+            "en": "Vegetable Biryani",
+            "hi": "Vegetable Biryani",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Rices"
+        },
+        {
+          "name": {
+            "en": "Chicken Sichuan Fried Rice",
+            "hi": "Chicken Sichuan Fried Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Rices"
+        },
+        {
+          "name": {
+            "en": "Vegetables Fried Rice",
+            "hi": "Vegetables Fried Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Rices"
+        },
+        {
+          "name": {
+            "en": "Chicken Fried Rice",
+            "hi": "Chicken Fried Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 17,
+          "section": "Rices"
+        },
+        {
+          "name": {
+            "en": "Pepperoni Lover (small)",
+            "hi": "Pepperoni Lover (small)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 21,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Pepperoni Lover (medium)",
+            "hi": "Pepperoni Lover (medium)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 35,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Pepperoni Lover (large)",
+            "hi": "Pepperoni Lover (large)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 49,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Cheezy Bites Special Pizza (small)",
+            "hi": "Cheezy Bites Special Pizza (small)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Cheezy Bites Special Pizza (medium)",
+            "hi": "Cheezy Bites Special Pizza (medium)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 36,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Cheezy Bites Special Pizza (large)",
+            "hi": "Cheezy Bites Special Pizza (large)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 52,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Nacho Crunch (small)",
+            "hi": "Chicken Nacho Crunch (small)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Nacho Crunch (medium)",
+            "hi": "Chicken Nacho Crunch (medium)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 37,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Nacho Crunch (large)",
+            "hi": "Chicken Nacho Crunch (large)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 52,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Margherita (small)",
+            "hi": "Margherita (small)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Margherita (medium)",
+            "hi": "Margherita (medium)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 33,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Margherita (large)",
+            "hi": "Margherita (large)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 49,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Tandoori Chicken Hot (small)",
+            "hi": "Tandoori Chicken Hot (small)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 22,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Tandoori Chicken Hot (medium)",
+            "hi": "Tandoori Chicken Hot (medium)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 33,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Tandoori Chicken Hot (large)",
+            "hi": "Tandoori Chicken Hot (large)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 49,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Extreme (small)",
+            "hi": "Chicken Extreme (small)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 22,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Extreme (medium)",
+            "hi": "Chicken Extreme (medium)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 37,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Extreme (large)",
+            "hi": "Chicken Extreme (large)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 49,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Veg Delight (small)",
+            "hi": "Veg Delight (small)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Veg Delight (medium)",
+            "hi": "Veg Delight (medium)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 33,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Veg Delight (large)",
+            "hi": "Veg Delight (large)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 47,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Cheese Lover (small)",
+            "hi": "Cheese Lover (small)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Cheese Lover (medium)",
+            "hi": "Cheese Lover (medium)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 33,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Cheese Lover (large)",
+            "hi": "Cheese Lover (large)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 47,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Supreme (small)",
+            "hi": "Chicken Supreme (small)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Supreme (medium)",
+            "hi": "Chicken Supreme (medium)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 36,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Supreme (large)",
+            "hi": "Chicken Supreme (large)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 52,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Fajita Pizza (small)",
+            "hi": "Chicken Fajita Pizza (small)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 22,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Fajita Pizza (medium)",
+            "hi": "Chicken Fajita Pizza (medium)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 36,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Fajita Pizza (large)",
+            "hi": "Chicken Fajita Pizza (large)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 49,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Tikka Pizza (small)",
+            "hi": "Chicken Tikka Pizza (small)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 22,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Tikka Pizza (medium)",
+            "hi": "Chicken Tikka Pizza (medium)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 36,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Tikka Pizza (large)",
+            "hi": "Chicken Tikka Pizza (large)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 49,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Dynamite (small)",
+            "hi": "Chicken Dynamite (small)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Dynamite (medium)",
+            "hi": "Chicken Dynamite (medium)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 36,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Chicken Dynamite (large)",
+            "hi": "Chicken Dynamite (large)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 52,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Ranch Chicken (small)",
+            "hi": "Ranch Chicken (small)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Ranch Chicken (medium)",
+            "hi": "Ranch Chicken (medium)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 36,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Ranch Chicken (large)",
+            "hi": "Ranch Chicken (large)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 52,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Hot & Spicy Pizza (small)",
+            "hi": "Hot & Spicy Pizza (small)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Hot & Spicy Pizza (medium)",
+            "hi": "Hot & Spicy Pizza (medium)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 36,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Hot & Spicy Pizza (large)",
+            "hi": "Hot & Spicy Pizza (large)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 52,
+          "section": "Pizzas"
+        },
+        {
+          "name": {
+            "en": "Loaded Cheezy Fries",
+            "hi": "Loaded Cheezy Fries",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Loaded Fries"
+        },
+        {
+          "name": {
+            "en": "Peri Peri Chicken Loaded Fries",
+            "hi": "Peri Peri Chicken Loaded Fries",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Loaded Fries"
+        },
+        {
+          "name": {
+            "en": "Shawarma Chicken Loaded Fries",
+            "hi": "Shawarma Chicken Loaded Fries",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Loaded Fries"
+        },
+        {
+          "name": {
+            "en": "Smoky BBQ Burger",
+            "hi": "Smoky BBQ Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Burgers (with small fries and soft drink)"
+        },
+        {
+          "name": {
+            "en": "Zinger Burger",
+            "hi": "Zinger Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Burgers (with small fries and soft drink)"
+        },
+        {
+          "name": {
+            "en": "Pakistani Shami Burger",
+            "hi": "Pakistani Shami Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 11,
+          "section": "Burgers (with small fries and soft drink)"
+        },
+        {
+          "name": {
+            "en": "Cheese Shawarma Burger",
+            "hi": "Cheese Shawarma Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 19,
+          "section": "Burgers (with small fries and soft drink)"
+        },
+        {
+          "name": {
+            "en": "Cheezy Bites Special Burger",
+            "hi": "Cheezy Bites Special Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 33,
+          "section": "Burgers (with small fries and soft drink)"
+        },
+        {
+          "name": {
+            "en": "Mushroom Chicken Burger",
+            "hi": "Mushroom Chicken Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 33,
+          "section": "Burgers (with small fries and soft drink)"
+        },
+        {
+          "name": {
+            "en": "Mexican Burger",
+            "hi": "Mexican Burger",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 19,
+          "section": "Burgers (with small fries and soft drink)"
+        },
+        {
+          "name": {
+            "en": "Fettuccine Chicken Alfredo",
+            "hi": "Fettuccine Chicken Alfredo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 19,
+          "section": "Pastas"
+        },
+        {
+          "name": {
+            "en": "Beef Lasagne",
+            "hi": "Beef Lasagne",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 22,
+          "section": "Pastas"
+        },
+        {
+          "name": {
+            "en": "Chicken Pasta",
+            "hi": "Chicken Pasta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 19,
+          "section": "Pastas"
+        },
+        {
+          "name": {
+            "en": "Sharing is Caring (10 pcs, large fries, 1.5 L drink)",
+            "hi": "Sharing is Caring (10 pcs, large fries, 1.5 L drink)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 65,
+          "section": "Fried Chicken"
+        },
+        {
+          "name": {
+            "en": "Super 20 (10 pcs, 10 strips, large fries, 1.5 L drink)",
+            "hi": "Super 20 (10 pcs, 10 strips, large fries, 1.5 L drink)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 75,
+          "section": "Fried Chicken"
+        },
+        {
+          "name": {
+            "en": "Classic (2 pcs, small fries, can)",
+            "hi": "Classic (2 pcs, small fries, can)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 19,
+          "section": "Fried Chicken"
+        },
+        {
+          "name": {
+            "en": "Classic 2 (4 pcs, large fries, 2 cans)",
+            "hi": "Classic 2 (4 pcs, large fries, 2 cans)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 34,
+          "section": "Fried Chicken"
+        },
+        {
+          "name": {
+            "en": "Small Fries",
+            "hi": "Small Fries",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Sides"
+        },
+        {
+          "name": {
+            "en": "Large Fries",
+            "hi": "Large Fries",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Sides"
+        },
+        {
+          "name": {
+            "en": "Masala Fries",
+            "hi": "Masala Fries",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Sides"
+        },
+        {
+          "name": {
+            "en": "Curly Fries",
+            "hi": "Curly Fries",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Sides"
+        },
+        {
+          "name": {
+            "en": "Curly Cheezy Fries",
+            "hi": "Curly Cheezy Fries",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Sides"
+        },
+        {
+          "name": {
+            "en": "Chicken Nuggets (10 pcs)",
+            "hi": "Chicken Nuggets (10 pcs)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 19,
+          "section": "Sides"
+        },
+        {
+          "name": {
+            "en": "Mutton Karahi (half)",
+            "hi": "Mutton Karahi (half)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 52,
+          "section": "Pakistani Curries"
+        },
+        {
+          "name": {
+            "en": "Mutton Karahi (full)",
+            "hi": "Mutton Karahi (full)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 99,
+          "section": "Pakistani Curries"
+        },
+        {
+          "name": {
+            "en": "Chicken Karahi (half)",
+            "hi": "Chicken Karahi (half)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 35,
+          "section": "Pakistani Curries"
+        },
+        {
+          "name": {
+            "en": "Chicken Karahi (full)",
+            "hi": "Chicken Karahi (full)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 65,
+          "section": "Pakistani Curries"
+        },
+        {
+          "name": {
+            "en": "Butter Chicken (half)",
+            "hi": "Butter Chicken (half)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 35,
+          "section": "Pakistani Curries"
+        },
+        {
+          "name": {
+            "en": "Butter Chicken (full)",
+            "hi": "Butter Chicken (full)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 65,
+          "section": "Pakistani Curries"
+        },
+        {
+          "name": {
+            "en": "Chicken White Karahi (half)",
+            "hi": "Chicken White Karahi (half)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 35,
+          "section": "Pakistani Curries"
+        },
+        {
+          "name": {
+            "en": "Chicken White Karahi (full)",
+            "hi": "Chicken White Karahi (full)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 65,
+          "section": "Pakistani Curries"
+        },
+        {
+          "name": {
+            "en": "Chicken Handi (half)",
+            "hi": "Chicken Handi (half)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Boneless Handi"
+        },
+        {
+          "name": {
+            "en": "Chicken Handi (full)",
+            "hi": "Chicken Handi (full)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 39,
+          "section": "Boneless Handi"
+        },
+        {
+          "name": {
+            "en": "Chicken Makhni Handi (half)",
+            "hi": "Chicken Makhni Handi (half)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Boneless Handi"
+        },
+        {
+          "name": {
+            "en": "Chicken Makhni Handi (full)",
+            "hi": "Chicken Makhni Handi (full)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 39,
+          "section": "Boneless Handi"
+        },
+        {
+          "name": {
+            "en": "Chicken White Handi (half)",
+            "hi": "Chicken White Handi (half)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Boneless Handi"
+        },
+        {
+          "name": {
+            "en": "Chicken White Handi (full)",
+            "hi": "Chicken White Handi (full)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 39,
+          "section": "Boneless Handi"
+        },
+        {
+          "name": {
+            "en": "Ginger Chicken (half)",
+            "hi": "Ginger Chicken (half)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Boneless Handi"
+        },
+        {
+          "name": {
+            "en": "Ginger Chicken (full)",
+            "hi": "Ginger Chicken (full)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 39,
+          "section": "Boneless Handi"
+        },
+        {
+          "name": {
+            "en": "Chicken Mandhi (half)",
+            "hi": "Chicken Mandhi (half)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Mandhi"
+        },
+        {
+          "name": {
+            "en": "Chicken Mandhi (full)",
+            "hi": "Chicken Mandhi (full)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 49,
+          "section": "Mandhi"
+        },
+        {
+          "name": {
+            "en": "Fish Mandhi (half)",
+            "hi": "Fish Mandhi (half)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 27,
+          "section": "Mandhi"
+        },
+        {
+          "name": {
+            "en": "Mixed Vegetable",
+            "hi": "Mixed Vegetable",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Veggie Curries"
+        },
+        {
+          "name": {
+            "en": "Daal Mash",
+            "hi": "Daal Mash",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Veggie Curries"
+        },
+        {
+          "name": {
+            "en": "Daal Chana",
+            "hi": "Daal Chana",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Veggie Curries"
+        },
+        {
+          "name": {
+            "en": "Aloo Palak",
+            "hi": "Aloo Palak",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Veggie Curries"
+        },
+        {
+          "name": {
+            "en": "Daal Makhni",
+            "hi": "Daal Makhni",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Veggie Curries"
+        },
+        {
+          "name": {
+            "en": "Bhindi Masala",
+            "hi": "Bhindi Masala",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Veggie Curries"
+        },
+        {
+          "name": {
+            "en": "Paneer Masala",
+            "hi": "Paneer Masala",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Veggie Curries"
+        },
+        {
+          "name": {
+            "en": "Palak Paneer",
+            "hi": "Palak Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Veggie Curries"
+        },
+        {
+          "name": {
+            "en": "Black Pepper Chicken",
+            "hi": "Black Pepper Chicken",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Beef Chilli Dry",
+            "hi": "Beef Chilli Dry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "CB Special Noodles",
+            "hi": "CB Special Noodles",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 26,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Chicken Chow Mein",
+            "hi": "Chicken Chow Mein",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 24,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Chicken Momos",
+            "hi": "Chicken Momos",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Vegetable Momos",
+            "hi": "Vegetable Momos",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Meal for 1 (fried chicken, fries, can)",
+            "hi": "Meal for 1 (fried chicken, fries, can)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 19,
+          "section": "Great Deals (daily from 12pm)"
+        },
+        {
+          "name": {
+            "en": "Meal for 2 (fried chicken, fries, 2 cans)",
+            "hi": "Meal for 2 (fried chicken, fries, 2 cans)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 33,
+          "section": "Great Deals (daily from 12pm)"
+        },
+        {
+          "name": {
+            "en": "Meal for 4 (2 medium pizzas, 1 side, 1.5 L drink)",
+            "hi": "Meal for 4 (2 medium pizzas, 1 side, 1.5 L drink)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 69,
+          "section": "Great Deals (daily from 12pm)"
+        },
+        {
+          "name": {
+            "en": "20 Pack (10 pcs chicken, 10 tenders, large fries, 1.5 L drink)",
+            "hi": "20 Pack (10 pcs chicken, 10 tenders, large fries, 1.5 L drink)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 75,
+          "section": "Great Deals (daily from 12pm)"
+        },
+        {
+          "name": {
+            "en": "Family Sharing (3 large pizzas, 2 sides, 1.5 L drink)",
+            "hi": "Family Sharing (3 large pizzas, 2 sides, 1.5 L drink)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 119,
+          "section": "Great Deals (daily from 12pm)"
+        },
+        {
+          "name": {
+            "en": "Sprite (small)",
+            "hi": "Sprite (small)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Sprite (large)",
+            "hi": "Sprite (large)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Coke (small)",
+            "hi": "Coke (small)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Coke (large)",
+            "hi": "Coke (large)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Fanta (small)",
+            "hi": "Fanta (small)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Fanta (large)",
+            "hi": "Fanta (large)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Water (small)",
+            "hi": "Water (small)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Water (large)",
+            "hi": "Water (large)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Al Ain Bottled Water",
+            "hi": "Al Ain Bottled Water",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Mango Shake",
+            "hi": "Mango Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Banana Shake",
+            "hi": "Banana Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Snickers Shake",
+            "hi": "Snickers Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Date Shake",
+            "hi": "Date Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Apple Shake",
+            "hi": "Apple Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Oreo Shake",
+            "hi": "Oreo Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Chocolate Shake",
+            "hi": "Chocolate Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Avocado Shake",
+            "hi": "Avocado Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Sweet Lassi",
+            "hi": "Sweet Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Salted Lassi",
+            "hi": "Salted Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Mango Lassi",
+            "hi": "Mango Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Lemonade",
+            "hi": "Lemonade",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Mint Lemonade",
+            "hi": "Mint Lemonade",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Peach & Raspberry Lemonade",
+            "hi": "Peach & Raspberry Lemonade",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Mango Passion Lemonade",
+            "hi": "Mango Passion Lemonade",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Mango Passion Mojito",
+            "hi": "Mango Passion Mojito",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Strawberry Mojito",
+            "hi": "Strawberry Mojito",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Peach Mojito",
+            "hi": "Peach Mojito",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Cold Beverages"
+        },
+        {
+          "name": {
+            "en": "Fresh Milk Karak Chai",
+            "hi": "Fresh Milk Karak Chai",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Green Tea",
+            "hi": "Green Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Sulmani",
+            "hi": "Sulmani",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Hot Beverages"
+        },
+        {
+          "name": {
+            "en": "Fresh Orange Juice",
+            "hi": "Fresh Orange Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Fresh Mango Juice",
+            "hi": "Fresh Mango Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Fresh Apple Juice",
+            "hi": "Fresh Apple Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Fresh Strawberry Juice",
+            "hi": "Fresh Strawberry Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Fresh Watermelon Juice",
+            "hi": "Fresh Watermelon Juice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Fresh Juice"
+        },
+        {
+          "name": {
+            "en": "Gajjar Halwa",
+            "hi": "Gajjar Halwa",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Desserts"
+        },
+        {
+          "name": {
+            "en": "Gulab Jamun (3 pcs)",
+            "hi": "Gulab Jamun (3 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Desserts"
+        },
+        {
+          "name": {
+            "en": "Special Kheer",
+            "hi": "Special Kheer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Desserts"
+        },
+        {
+          "name": {
+            "en": "Pista Kulfi",
+            "hi": "Pista Kulfi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Desserts"
+        },
+        {
+          "name": {
+            "en": "Gajjar Halwa with Ice Cream",
+            "hi": "Gajjar Halwa with Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Desserts"
+        },
+        {
+          "name": {
+            "en": "Ras Malai (3 pcs)",
+            "hi": "Ras Malai (3 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Desserts"
+        },
+        {
+          "name": {
+            "en": "Ice Cream (per scoop)",
+            "hi": "Ice Cream (per scoop)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Desserts"
+        }
+      ],
+      "hours": {
+        "everyDay": {
+          "opens": "06:00",
+          "closes": "03:00"
+        }
+      }
     }
   ]
 }
