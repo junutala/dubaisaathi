@@ -101,6 +101,21 @@ describe('the tags a traveller filters on', () => {
   it('a mixed kitchen is not vegetarian on its own', () => {
     expect(tagsFor({ ...karama, kitchen: 'mixed', dietary: null })).toEqual([]);
   });
+
+  it('a pure-veg kitchen with a vrat dish on its menu is a vrat kitchen', () => {
+    const menu = [{ name: { en: 'Sabudana Khichdi' }, tags: ['vegetarian', 'vrat'] }];
+    expect(tagsFor({ ...karama, dietary: null, confirmed_dishes: menu })).toEqual([
+      'vegetarian',
+      'vrat',
+    ]);
+  });
+
+  it('a kitchen that also serves meat is never offered for a fast', () => {
+    const menu = [{ name: { en: 'Dal Khichdi' }, tags: ['vegetarian', 'vrat'] }];
+    const mixed = { ...karama, kitchen: 'mixed', dietary: null, confirmed_dishes: menu };
+    expect(tagsFor(mixed)).toEqual([]);
+    expect(toRestaurant(mixed)?.confirmedDishes?.[0]?.tags).toEqual(['vegetarian']);
+  });
 });
 
 describe('what cannot honestly become a card', () => {

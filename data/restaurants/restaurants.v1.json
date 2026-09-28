@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-28T15:03:36.324Z",
+  "publishedAt": "2026-09-28T15:42:37.887Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -9289,7 +9289,7 @@
       },
       "areaId": "meena-bazaar",
       "kitchen": "pure-veg",
-      "tags": ["vegetarian"],
+      "tags": ["vegetarian", "vrat"],
       "phone": "04 355 2855",
       "confirmedDishes": [
         {
@@ -10846,7 +10846,7 @@
             "hi": "Semiya Kichadi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 10.5,
           "section": "Evening Special"
         },
@@ -10856,7 +10856,7 @@
             "hi": "Tomato Rava Kichadi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 10.5,
           "section": "Evening Special"
         },
@@ -15258,7 +15258,7 @@
       },
       "areaId": "bur-dubai",
       "kitchen": "pure-veg",
-      "tags": ["vegetarian"],
+      "tags": ["vegetarian", "vrat"],
       "phone": "04 359 9411",
       "confirmedDishes": [
         {
@@ -15567,7 +15567,7 @@
             "hi": "Sabudana Vada (2 pcs)",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 6.3,
           "section": "Pav Bhaji"
         },
@@ -26704,7 +26704,7 @@
       },
       "areaId": "meena-bazaar",
       "kitchen": "pure-veg",
-      "tags": ["vegetarian"],
+      "tags": ["vegetarian", "vrat"],
       "phone": "04 359 3818",
       "confirmedDishes": [
         {
@@ -27423,7 +27423,7 @@
             "hi": "Sabudana Vada (2pcs)",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 7,
           "section": "Mumbai Special"
         },
@@ -28413,7 +28413,7 @@
             "hi": "Dal Khichdi / Dal Khichdi Tadka / Palak Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 12,
           "section": "Rice | Pulav | Biriyani"
         },
@@ -29002,7 +29002,7 @@
       },
       "areaId": "meena-bazaar",
       "kitchen": "pure-veg",
-      "tags": ["vegetarian"],
+      "tags": ["vegetarian", "vrat"],
       "phone": "04 351 7070",
       "confirmedDishes": [
         {
@@ -29621,7 +29621,7 @@
             "hi": "Sabudana Vada (2 Pcs)",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 10,
           "section": "Chatpata Street Food"
         },
@@ -31543,7 +31543,7 @@
             "hi": "Dal Khichdi / Palak Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 24,
           "section": "Indian Rice"
         },
@@ -32701,7 +32701,7 @@
             "hi": "Farali Snacks Combo (Sabudana Vada, French Fries, Sweet Lassi)",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 16,
           "section": "Combos (from 9 am)"
         },
@@ -32831,7 +32831,7 @@
             "hi": "Khichdi Kadhi Combo",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 18,
           "section": "Combo Meals (from 12 noon)"
         },
@@ -36213,7 +36213,7 @@
       },
       "areaId": "bur-dubai",
       "kitchen": "pure-veg",
-      "tags": ["vegetarian"],
+      "tags": ["vegetarian", "vrat"],
       "confirmedDishes": [
         {
           "name": {
@@ -38051,7 +38051,7 @@
             "hi": "Dal Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 24,
           "section": "Pulao, Biriyani & Khichdi"
         },
@@ -38061,7 +38061,7 @@
             "hi": "Palak Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 24,
           "section": "Pulao, Biriyani & Khichdi"
         },
@@ -57918,7 +57918,7 @@
       },
       "areaId": "karama",
       "kitchen": "pure-veg",
-      "tags": ["vegetarian"],
+      "tags": ["vegetarian", "vrat"],
       "phone": "04 2208844",
       "confirmedDishes": [
         {
@@ -59347,7 +59347,7 @@
             "hi": "Dal Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 22,
           "section": "Rice"
         },
@@ -59547,7 +59547,7 @@
             "hi": "Kids Special Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 22,
           "section": "Kids Special Menu"
         }
@@ -74572,7 +74572,7 @@
       },
       "areaId": "karama",
       "kitchen": "pure-veg",
-      "tags": ["vegetarian"],
+      "tags": ["vegetarian", "vrat"],
       "phone": "04 396 1395",
       "delivers": "yes",
       "confirmedDishes": [
@@ -74872,7 +74872,7 @@
             "hi": "Sabudana Vada (1 pc)",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 5,
           "section": "Snacks"
         },
@@ -76622,7 +76622,7 @@
             "hi": "Dal Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 28,
           "section": "Pulao & Biryani"
         },
@@ -76642,7 +76642,7 @@
             "hi": "Sabudana Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 28,
           "section": "Pulao & Biryani"
         },
@@ -76652,7 +76652,7 @@
             "hi": "Kolhapuri Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 14,
           "section": "Pulao & Biryani"
         },
@@ -76662,7 +76662,7 @@
             "hi": "Palak Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 14,
           "section": "Pulao & Biryani"
         },
@@ -76672,7 +76672,7 @@
             "hi": "Subzi Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 14,
           "section": "Pulao & Biryani"
         },
@@ -76682,7 +76682,7 @@
             "hi": "Dahi Kadi Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 14,
           "section": "Pulao & Biryani"
         },
@@ -83773,7 +83773,7 @@
       },
       "areaId": "karama",
       "kitchen": "pure-veg",
-      "tags": ["vegetarian"],
+      "tags": ["vegetarian", "vrat"],
       "phone": "04 294 2072",
       "confirmedDishes": [
         {
@@ -84902,7 +84902,7 @@
             "hi": "Dal Khichdi with Curd",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 20,
           "section": "Gwalia Special Combo"
         },
@@ -84912,7 +84912,7 @@
             "hi": "Palak Khichdi with Curd",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 21,
           "section": "Gwalia Special Combo"
         },
@@ -84922,7 +84922,7 @@
             "hi": "Masala Khichdi with Curd",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 22,
           "section": "Gwalia Special Combo"
         },
@@ -86379,7 +86379,7 @@
       },
       "areaId": "karama",
       "kitchen": "pure-veg",
-      "tags": ["vegetarian"],
+      "tags": ["vegetarian", "vrat"],
       "phone": "04 396 8810",
       "confirmedDishes": [
         {
@@ -86408,7 +86408,7 @@
             "hi": "Pet Pooja Box (Kandha Pohe Or Sabudana Kichadi, Batata Vada, Drink)",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 21,
           "section": "Combo Bazaar"
         },
@@ -86468,7 +86468,7 @@
             "hi": "Fasting Box (Sabudana Kichadi, Sabudana Vada 1pc, Drink)",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 23,
           "section": "Combo Bazaar"
         },
@@ -86488,7 +86488,7 @@
             "hi": "Amhi Punekar (Sabudana Kichadi, Small Portion Misal 1 Pav, Batata Vada & Drink)",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 29,
           "section": "Combo Bazaar"
         },
@@ -86798,7 +86798,7 @@
             "hi": "Sabudana Cheese Croquettes (3pcs)",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 20,
           "section": "Fusion Snack Bazaar – Indian-Italian Joint Ventures"
         },
@@ -86838,7 +86838,7 @@
             "hi": "Sabudana Nutella Cheese Croquettes (3 Pcs)",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 20,
           "section": "Fusion Snack Bazaar – Indian-Italian Joint Ventures"
         },
@@ -86958,7 +86958,7 @@
             "hi": "Sabudana Kichadi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 12,
           "section": "Mumbai Bazaar"
         },
@@ -86968,7 +86968,7 @@
             "hi": "Dynamite Chilli Kichadi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 13,
           "section": "Mumbai Bazaar"
         },
@@ -86978,7 +86978,7 @@
             "hi": "Chilli Cheese Sabudana Kichadi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 18,
           "section": "Mumbai Bazaar"
         },
@@ -86988,7 +86988,7 @@
             "hi": "Sabudana Vada (2pcs)",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 12,
           "section": "Mumbai Bazaar"
         },
@@ -86998,7 +86998,7 @@
             "hi": "Chilli Cheese Sabudana Vada",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 16,
           "section": "Mumbai Bazaar"
         },
@@ -87008,7 +87008,7 @@
             "hi": "Dynamite Sabudana Vada",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 13,
           "section": "Mumbai Bazaar"
         },
@@ -87178,7 +87178,7 @@
             "hi": "Sabudana Thalipeeth (2Pcs mini)",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 12,
           "section": "Mumbai Bazaar"
         },
@@ -89128,7 +89128,7 @@
             "hi": "Khichdi Aur Chuski",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 10,
           "section": "Breakfast (Till 11:45 only)"
         },
@@ -94075,7 +94075,7 @@
             "hi": "Moong Dal Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 19,
           "section": "Upvas Specials — Soulful Khichdi"
         },
@@ -94085,7 +94085,7 @@
             "hi": "Vaghareli Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 19,
           "section": "Upvas Specials — Soulful Khichdi"
         },
@@ -94095,7 +94095,7 @@
             "hi": "Masala Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 19,
           "section": "Upvas Specials — Soulful Khichdi"
         },
@@ -94105,7 +94105,7 @@
             "hi": "Palak Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 19,
           "section": "Upvas Specials — Soulful Khichdi"
         },
@@ -94115,7 +94115,7 @@
             "hi": "Amritsari Dal Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 19,
           "section": "Upvas Specials — Soulful Khichdi"
         },
@@ -94125,7 +94125,7 @@
             "hi": "Mix Veg. Dal Khichdi",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 19,
           "section": "Upvas Specials — Soulful Khichdi"
         },
@@ -94395,7 +94395,7 @@
             "hi": "Gujrati Kadhi & Khichdi Combo (Gujrati Khichdi, Kadhi, Masala Chaas, Papad / Fryums & Salad)",
             "aliases": []
           },
-          "tags": ["vegetarian"],
+          "tags": ["vegetarian", "vrat"],
           "priceAed": 19,
           "section": "Gujrati Jalso"
         },

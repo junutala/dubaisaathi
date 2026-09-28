@@ -8,9 +8,23 @@
  * takes the dishes from the reading, for any form whose row carries none of its own.
  *
  * Nothing is invented on the way: a dish with no readable price has none, and only a dish the menu
- * plainly marks vegetarian is tagged so. The same holds for vrat: only a dish the card itself marks
- * as vrat, upvas or farali carries the tag, never one that merely looks fit for a fast.
+ * plainly marks vegetarian is tagged so.
+ *
+ * Vrat is the card's mark, or the dish itself: the owner, 28 September — any khichdi, and anything
+ * made of sabudana, is vrat food. Its name says which, in whatever spelling the card uses. Whether
+ * the kitchen may be offered for a fast at all is the kitchen's kind, decided in toRestaurant.
  */
+
+/** Khichdi and sabudana, as menus spell them: the owner's rule for vrat food (28 September). */
+const VRAT_FOOD = /(kh?ichd[iy]|kh?ichad[iy]|khichri|khichdee|sab[ou]+d[h]?ana|\bsago\b)/i;
+
+/** A dish fit for a fast: marked so on the card, or khichdi or sabudana by name. */
+export function isVratDish(dish: {
+  readonly name: string;
+  readonly vrat?: boolean | null | undefined;
+}): boolean {
+  return dish.vrat === true || VRAT_FOOD.test(dish.name);
+}
 
 /** One dish as `menu.json` holds it. Only the fields publishing uses are named. */
 export interface ReadDish {
@@ -52,7 +66,10 @@ export function dishesFromReading(reading: MenuReading): readonly ReportDish[] {
     const section = typeof dish.section === 'string' ? dish.section.trim() : '';
     out.push({
       name: { en: name },
-      tags: [...(dish.veg === true ? ['vegetarian'] : []), ...(dish.vrat === true ? ['vrat'] : [])],
+      tags: [
+        ...(dish.veg === true ? ['vegetarian'] : []),
+        ...(isVratDish({ name, vrat: dish.vrat }) ? ['vrat'] : []),
+      ],
       ...(price === null ? {} : { priceAed: price }),
       ...(section === '' ? {} : { section }),
     });

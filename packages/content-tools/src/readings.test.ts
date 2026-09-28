@@ -14,6 +14,8 @@ const reading = {
     { name: '', priceAed: 3, veg: true },
     { name: 'Sabudana Khichdi', priceAed: 12, veg: true, vrat: true },
     { name: 'Aloo Jeera', priceAed: 10, veg: true },
+    { name: 'Palak Kichadi', priceAed: 14, veg: true },
+    { name: 'Sabudhana Vada (2pcs)', priceAed: 12, veg: true },
   ],
 };
 
@@ -28,12 +30,16 @@ describe('a menu reading becomes the dishes a report carries', () => {
       'Chicken Samosa',
       'Sabudana Khichdi',
       'Aloo Jeera',
+      'Palak Kichadi',
+      'Sabudhana Vada (2pcs)',
     ]);
   });
 
-  it('tags vrat only where the card marks it, never by the look of a dish', () => {
+  it('tags vrat where the card marks it, and any khichdi or sabudana in any spelling', () => {
     expect(dishes[4]?.tags).toEqual(['vegetarian', 'vrat']);
     expect(dishes[5]?.tags).toEqual(['vegetarian']);
+    expect(dishes[6]?.tags).toEqual(['vegetarian', 'vrat']);
+    expect(dishes[7]?.tags).toEqual(['vegetarian', 'vrat']);
   });
 
   it('carries a price only where one was read, and a veg tag only where the menu marks it', () => {
@@ -55,6 +61,8 @@ describe('a menu reading becomes the dishes a report carries', () => {
       ['Chicken Samosa', 2],
       ['Sabudana Khichdi', 12],
       ['Aloo Jeera', 10],
+      ['Palak Kichadi', 14],
+      ['Sabudhana Vada (2pcs)', 12],
     ]);
   });
 });
