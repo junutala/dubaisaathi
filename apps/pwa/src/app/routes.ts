@@ -22,6 +22,10 @@ export type Route =
   | { readonly screen: 'bolna' }
   | { readonly screen: 'bolnaArabic'; readonly text: string }
   | { readonly screen: 'bolnaBoard' }
+  // घर.8 · ऐप शेयर, and घर.9 · सुझाव — the bar's two new places (decision 046). `about` is what the
+  // traveller typed where nothing was found, carried in so they never type it twice.
+  | { readonly screen: 'share' }
+  | { readonly screen: 'contribute'; readonly about?: string }
   // 1.1 / 1.2 · खाना — one screen; a dish in the box is what makes it 1.2
   | { readonly screen: 'food'; readonly dish?: string }
   // 1.3 · the kitchen, which is its menu (the separate outlet screen went on 24 September)
@@ -68,6 +72,12 @@ export function parseRoute(hash: string): Route {
       return arg ? { screen: 'bolnaArabic', text: decodeURIComponent(arg) } : { screen: 'bolna' };
     case 'bolna-board':
       return { screen: 'bolnaBoard' };
+    case 'share':
+      return { screen: 'share' };
+    case 'contribute':
+      return arg
+        ? { screen: 'contribute', about: decodeURIComponent(arg) }
+        : { screen: 'contribute' };
     case 'food':
       return arg ? { screen: 'food', dish: decodeURIComponent(arg) } : { screen: 'food' };
     case 'outlet':
@@ -125,6 +135,12 @@ export function href(route: Route): string {
       return `#/bolna-arabic/${encodeURIComponent(route.text)}`;
     case 'bolnaBoard':
       return '#/bolna-board';
+    case 'share':
+      return '#/share';
+    case 'contribute':
+      return route.about === undefined || route.about === ''
+        ? '#/contribute'
+        : `#/contribute/${encodeURIComponent(route.about)}`;
     case 'food':
       return route.dish === undefined ? '#/food' : `#/food/${encodeURIComponent(route.dish)}`;
     case 'menu':
@@ -185,7 +201,30 @@ export function pillarOf(route: Route): Pillar {
     case 'bolna':
     case 'bolnaArabic':
     case 'bolnaBoard':
+    case 'share':
+    case 'contribute':
       return 'home';
+  }
+}
+
+/** The bar's four places (decision 046): the way back, the traveller's papers, a word to us, the app passed on. */
+export type BarItem = 'home' | 'docs' | 'contribute' | 'share';
+
+/** Which of the four is lit. A pillar's own screens light none: their header carries the colour. */
+export function barOf(route: Route): BarItem | undefined {
+  switch (route.screen) {
+    case 'home':
+      return 'home';
+    case 'docs':
+    case 'docAdd':
+    case 'docView':
+      return 'docs';
+    case 'contribute':
+      return 'contribute';
+    case 'share':
+      return 'share';
+    default:
+      return undefined;
   }
 }
 

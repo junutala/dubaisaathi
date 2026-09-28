@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { parseRoute, pillarOf, screenSeen, type Route } from './routes.js';
+import { barOf, parseRoute, pillarOf, screenSeen, type Route } from './routes.js';
 import { useSettings } from './settings.js';
 import { applyUpdateIfIdle, watchForUpdate } from './updates.js';
 import { TopStrip } from './shell/TopStrip.js';
@@ -27,7 +27,9 @@ import { currentLocation } from '../lib/location.js';
 import {
   DocumentAddScreen,
   DocumentScreen,
-  InfoScreen,
+  DocumentsScreen,
+  ContributeScreen,
+  ShareScreen,
   HotelScreen,
   readHotel,
   startOutboxSync,
@@ -277,17 +279,19 @@ export function App() {
     <div className="screen">
       {/* ज़रूरी जानकारी and its two children carry no hotel row: the three capsules are what
           belongs at the top there (owner, 18 September; decision 028). */}
-      <TopStrip validity={state} hotel={hotel} showHotel={pillarOf(route) !== 'docs'} />
+      <TopStrip validity={state} hotel={hotel} />
       <main className="body">
         {route.screen === 'home' && <HomeScreen tile={tile} />}
         {route.screen === 'hotel' && <HotelScreen hotel={hotel} />}
-        {route.screen === 'docs' && <InfoScreen />}
+        {route.screen === 'docs' && <DocumentsScreen />}
         {route.screen === 'docAdd' && <DocumentAddScreen />}
         {route.screen === 'docView' && <DocumentScreen docId={route.docId} />}
         {route.screen === 'pass' && <PassScreen token={route.token} />}
         {route.screen === 'bolna' && <BolnaScreen />}
         {route.screen === 'bolnaArabic' && <ArabicScreen text={route.text} />}
         {route.screen === 'bolnaBoard' && <BoardScreen />}
+        {route.screen === 'share' && <ShareScreen />}
+        {route.screen === 'contribute' && <ContributeScreen about={route.about} />}
         {route.screen === 'food' && <FoodListScreen dish={route.dish} hotel={hotel} />}
         {route.screen === 'menu' && <MenuScreen outletId={route.outletId} hotel={hotel} />}
         {route.screen === 'go' && <GoScreen placeId={route.placeId} />}
@@ -302,7 +306,7 @@ export function App() {
         {route.screen === 'tip' && <TopicScreen tipId={route.tipId} />}
         {route.screen === 'place' && <PlaceScreen placeId={route.placeId} hotel={hotel} />}
       </main>
-      <TabBar current={pillarOf(route)} />
+      <TabBar current={barOf(route)} />
     </div>
   );
 }

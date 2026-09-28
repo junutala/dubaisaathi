@@ -15,8 +15,8 @@ export type ShareWay = 'whatsapp' | 'sheet' | 'copied' | 'refused';
 
 export function invite(locale: 'hi' | 'en'): string {
   return locale === 'hi'
-    ? `दुबई जा रहे हैं? यह ऐप रख लीजिए — बिना इंटरनेट के भी चलता है। ${APP_LINK}`
-    : `Going to Dubai? Keep this one — it works with no internet. ${APP_LINK}`;
+    ? `दुबई में आपका हिंदी साथी — खाना, रास्ता, बोर्ड पढ़ना। 24 घंटे मुफ़्त। ${APP_LINK}`
+    : `Your Hindi companion in Dubai — food, directions, reading boards. Free for 24 hours. ${APP_LINK}`;
 }
 
 export function whatsappLink(locale: 'hi' | 'en'): string {

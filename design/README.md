@@ -12,4 +12,5 @@ python3 design/check-screens.py
 ```
 
 The screens are reviewed on the canvas published from these files. Numbering follows
-`docs/field-ledger.md`: L and घर, घर.1–घर.4, then one digit per pillar.
+`docs/field-ledger.md`: L and घर, घर.1–घर.4, घर.8–घर.9 (the bar's ऐप शेयर and सुझाव), then one
+digit per pillar.

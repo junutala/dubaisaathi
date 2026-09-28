@@ -1,5 +1,8 @@
 # 016 — Sprint 1: three pillars, no voice, an offline information desk
 
+> **The bar amended by decision 046, 28 September:** घर · दस्तावेज़ · सुझाव · ऐप शेयर, each an
+> icon with its word; the pillars are reached from घर's blocks. The pass is still never in the bar.
+
 **Status:** accepted 16 September · **Supersedes** decisions 004, 010, 013 and 014 in emphasis
 and in mechanism; **keeps** 001, 002 (red), 003, 005, 006 (prices), 007, 011, 012, 015 (the
 hotel and the documents stay local)

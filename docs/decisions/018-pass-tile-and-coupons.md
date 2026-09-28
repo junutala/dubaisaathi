@@ -1,5 +1,8 @@
 # 018 — The pass tile at the foot of घर, and coupons on the one purchase flow
 
+> **The bar amended by decision 046, 28 September:** घर · दस्तावेज़ · सुझाव · ऐप शेयर, each an
+> icon with its word; the pillars are reached from घर's blocks. The pass is still never in the bar.
+
 **Status:** accepted 17 September · **Revises** 016 ("घर is the three pillars and nothing
 else") · **Keeps** 002 (never red), 005 (a pass is a signed token; the family QR carries it),
 006 (prices and the 14-day clock), 011 (no IP, no account)

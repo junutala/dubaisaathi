@@ -4,6 +4,7 @@ import { useSettings } from '../../app/settings.js';
 import { navigate } from '../../app/routes.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { Icon } from '../../app/shell/icons.js';
+import { TellUs } from '../../app/shell/TellUs.js';
 import type { StringKey } from '../../i18n/index.js';
 import { AskBar, recordVoiceEvent } from '../ask/index.js';
 import type { SavedHotel } from '../info/index.js';
@@ -149,12 +150,16 @@ export function FoodListScreen({
         )}
 
         {searched && result.unmatchedWords && (
-          <p className="trouble">{t('food.notFood', { text: query })}</p>
+          <div className="stack-sm">
+            <p className="trouble">{t('food.notFood', { text: query })}</p>
+            <TellUs about={query} />
+          </div>
         )}
         {searched && !result.unmatchedWords && result.hits.length === 0 && (
           <div className="stack-sm">
             <p className="trouble">{t('food.none')}</p>
             <p className="muted small">{t('food.noneWhy')}</p>
+            <TellUs about={query} />
           </div>
         )}
 

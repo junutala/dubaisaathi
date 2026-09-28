@@ -4,7 +4,9 @@
 #
 #   bash design/generate-screens.sh
 #
-# Numbering follows docs/field-ledger.md: L and घर, घर.1–घर.4, then 1 खाना, 2 जाना, 3 जानना.
+# Numbering follows docs/field-ledger.md: L and घर, घर.1–घर.4, घर.8 · ऐप शेयर and घर.9 · सुझाव (the
+# bar's two new places, decision 046; घर.5–घर.7 are बोलना's, which have no board), then 1 खाना,
+# 2 जाना, 3 जानना.
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 export OUT="$HERE/screens"
@@ -21,7 +23,7 @@ out = sys.argv[1]
 P, R = 470, 1000
 rows = [
   [('Landing', 'L · लैंडिंग'), ('Home', 'घर'), ('HomeTrial', 'घर · मुफ़्त दिन ख़त्म हो रहा, होटल नहीं, सिग्नल नहीं — एक सवाल'), ('HomePaid', 'घर · पास ख़रीदा')],
-  [('HomeHotel', 'घर.1 · मेरा होटल › कार्ड'), ('HomeHotelRead', 'घर.1 · मेरा होटल › कार्ड से पढ़ा'), ('HomeHotelChoice', 'घर.1 · मेरा होटल › दो जगहें'), ('HomeDocs', 'घर.2 · दस्तावेज़'), ('HomeDocView', 'घर.3 · दस्तावेज़ › देखें'), ('HomePass', 'घर.4 · पास'), ('HomePassWelcome', 'घर.4 · पास आ गया')],
+  [('HomeHotel', 'घर.1 · मेरा होटल › कार्ड'), ('HomeHotelRead', 'घर.1 · मेरा होटल › कार्ड से पढ़ा'), ('HomeHotelChoice', 'घर.1 · मेरा होटल › दो जगहें'), ('HomeDocs', 'घर.2 · दस्तावेज़'), ('HomeDocView', 'घर.3 · दस्तावेज़ › देखें'), ('HomePass', 'घर.4 · पास'), ('HomePassWelcome', 'घर.4 · पास आ गया'), ('HomeShare', 'घर.8 · ऐप शेयर'), ('HomeContribute', 'घर.9 · सुझाव')],
   [('K1', '1.1 · खाना › क्या खाएँ'), ('K2', '1.2 · खाना › नतीजे'), ('K3', '1.3 · खाना › मेनू')],
   [('J1', '2.1 · जाना › कहाँ'), ('J2', '2.2 · जाना › विकल्प'), ('J3', '2.3 · जाना › क़दम दर क़दम'), ('J4', '2.4 · जाना › टैक्सी')],
   [('J5', '2.5 · जाना › जगह की इजाज़त नहीं'), ('J6', '2.6 · जाना › नक्शा'), ('N1', '3.1 · जानना › जगहें'), ('N2', '3.2 · जानना › जगह'), ('N3', '3.3 · जानना › सफ़र'), ('N4', '3.4 · जानना › Nol कार्ड'), ('N5', '3.5 · जानना › बैग पैक करते समय')],
@@ -39,7 +41,7 @@ canvas = {
   'pages': [{'id': 'all', 'name': 'Sprint 1 · all screens'}, {'id': 'dark', 'name': 'Dark'}],
   'artboards': boards,
   'annotations': [
-    {'id': 'brief', 'x': 0, 'y': -190, 'w': 560, 'page': 'all', 'text': 'Sprint 1, frozen 16 September. Numbered by pillar: 1 = खाना, 2 = जाना, 3 = जानना; घर.n are the strip and bar children. Every name, number, price and time is sample text.'},
+    {'id': 'brief', 'x': 0, 'y': -190, 'w': 560, 'page': 'all', 'text': 'Sprint 1, frozen 16 September. Numbered by pillar: 1 = खाना, 2 = जाना, 3 = जानना; घर.n are the strip and bar children; the bar is घर · दस्तावेज़ · सुझाव · ऐप शेयर, with words (decision 046). Every name, number, price and time is sample text.'},
   ],
   'launch': {'view': 'canvas', 'page': 'all'},
 }

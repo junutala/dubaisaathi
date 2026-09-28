@@ -91,20 +91,30 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   after them** (17 September, the owner's instruction: the same treatment as the three, in its own
   plum, never below them as a tile). Screens are numbered by pillar: 1.x खाना, 2.x जाना,
   3.x जानना; घर.1–घर.4 are the strip's and the bar's children (hotel, documents, a document,
-  the pass).
+  the pass), and घर.8 · ऐप शेयर and घर.9 · सुझाव are the bar's two newest (decision 046).
 - **The top strip is on every screen.** The mark and the name (tap → home), online/offline, the
-  pass dot, language, theme, and under them **the traveller's hotel** — on the phone only.
+  pass dot, language, theme, and under them **the traveller's hotel** — on the phone only, and
+  **on every screen, with no exception** (decision 046; the one screen that hid it is retired).
   **घर.1 is the hotel's card** (decision 032): both sides and a pin on one screen, then Submit
   reads the card on the phone and fills the name, the desk's landline and the address for the
   traveller to correct; the room is typed, because no card carries it.
-- **The bar is on every screen: four icons, no words** (decision 027). खाना, जाना, जानना and
-  ज़रूरी जानकारी — a thali, a signpost, a lantern and a circled _i_ — each carrying its name as an
-  accessible label, the current one lit in its own colour on a sand pill. The words went because
-  the pillar names never translate and दस्तावेज़ did, so the English catalogue showed three Hindi
-  words and one English one. बोलना is not in the bar: it is a block on घर. The pass lives on the
-  strip's dot and on घर's tile (decision 018); there is no पास लें button in the bar. **A fifth
-  item was added and taken out on 18 September** (decision 026, reversed): the bar is four, and
-  बात is a dead name from the abandoned offline-chat work that must not come back.
+- **The bar is on every screen: four places, each an icon with its word** (decision 046, 28
+  September, replacing 027). **घर** (a house, filled marigold), **दस्तावेज़** (the documents list,
+  घर.2, plain), **सुझाव** (a lightbulb, घर.9, plain) and **ऐप शेयर** (the QR, घर.8, filled teal) —
+  Home, Documents, Contribute and Share app in English. The lit one gets a sand pill if plain, an
+  ink ring if filled; a pillar's own screens light none. The words came back because none of the
+  four is a pillar name, and only home, print and search are read without a word. The pillars
+  are not in the bar: घर's blocks are the way into them. **ऐप शेयर is an action in the bar on
+  purpose** — the moment a stranger sees the board reader and asks "what is that?", the traveller
+  is one tap from a QR that scans, drawn on the phone and working offline; the share is our growth
+  channel. **सुझाव** is कोई जगह छूट गई? (into the question log, as typed) and then the feedback
+  form; every nothing-found state in the three pillars ends in "यह नहीं मिला? बताइए — हम
+  जोड़ेंगे", which opens it with the traveller's words already in. **ज़रूरी जानकारी is retired**
+  (028 superseded): its documents are दस्तावेज़, its form is सुझाव, its numbers are जानना's red
+  line. बोलना is not in the bar: it is a block on घर. The pass lives on the strip's dot and on
+  घर's tile (decision 018); there is no पास लें button in the bar. **A fifth item was added and
+  taken out on 18 September** (decision 026, reversed): the bar is four, and बात is a dead name
+  from the abandoned offline-chat work that must not come back.
 - **घर's one tile is the pass**, alone at the foot under the blocks and above the bar
   (decision 018). **बोलना is the fourth block, not a tile** (decision 020 and its addendum).
   बोलना (घर.5, and घर.6 for its Arabic) is the product's one microphone and its one online-only
@@ -117,7 +127,10 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
 - **The pass stays and is never a wall.** The dot is green while the counter runs and marigold
   when the Dubai day is ending; never red (decision 002). From the twentieth hour of the Dubai
   day every open of घर nudges toward a pass. **A traveller who has paid once is never gated
-  again**, however long ago the fourteen days ran out. Prices: ₹199 / ₹299 / ₹399 / ₹499 for
+  again**, however long ago the fourteen days ran out — and **never refused either**: renewing
+  is decided (046) and **not built** — a pass is landing plus fourteen days, so a second purchase
+  would extend nothing until the pass can be extended and the server issues the extension. It is
+  built when purchase goes live, not before. Never gated means never forced. Prices: ₹199 / ₹299 / ₹399 / ₹499 for
   1–4 phones, 14 days from landing (decision 006). Buying needs the order endpoint and the
   aggregator, which do not exist yet; until they do the buttons say so and nothing is gated.
 - **खाना is dish first.** The dish is the search, the place is the answer: kitchens where a
@@ -138,7 +151,9 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   the tram, the direction the vehicle is headed, and the first and last departure from the stop
   the traveller boards at (decision 017). **A walk never crosses the Creek; the abra does**, for a
   dirham in cash (decision 036).
-- **जानना is knowing, on tabs** (decision 037, 25 September). **जगहें**: attractions with hours,
+- **जानना is knowing, on tabs** (decision 037, 25 September), **under one slim red line**:
+  "आपातकाल: पुलिस 999 · एम्बुलेंस 998 · आग 997" and सब नंबर, above the tabs (decision 046) — the
+  only red in the product, spent where a traveller who is out already is. **जगहें**: attractions with hours,
   ticket, how long, whom to ring, a Hindi blurb and a जाना button; no hotels or homestays; a line
   at the bottom lets the traveller name a place we missed, into the question log. **सफ़र** (3.3):
   topics for getting around: what never to pack (khus khus, paan, some medicines), metro manners,
@@ -493,7 +508,7 @@ src/
 │   ├── transport/  # 2 · जाना
 │   ├── know/       # 3 · जानना
 │   ├── content/    # the packs: what this phone has downloaded, and what it asks for (030)
-│   ├── info/       # घर.1–घर.3 — the hotel, and ज़रूरी जानकारी's three capsules (028)
+│   ├── info/       # घर.1–घर.3 — the hotel, and the bar's दस्तावेज़ (046; the capsules are retired)
 │   ├── pass/       # घर.4 — trial, pass, entitlement
 │   ├── speak/      # घर.5–घर.6 — बोलना: the one microphone, online only (decision 020)
 │   ├── home/       # घर

@@ -52,3 +52,7 @@ qr()      { ic "$1" "$2" "$3"; echo '<rect x="4" y="4" width="6" height="6"></re
 check()   { ic "$1" "$2" "$3"; echo '<path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>'; }
 signpost(){ ic "$1" "$2" "$3"; echo '<path d="M12 21.2V4.6"></path><path d="M12 7.4h6.6l2 2.1-2 2.1H12"></path><path d="M12 14.2H5.4l-2 2.1 2 2.1H12"></path></svg>'; }
 info()    { ic "$1" "$2" "$3"; echo '<circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="7.7" r="1.05" fill="'"$2"'" stroke="none"></circle><path d="M12 11.1v5.4"></path></svg>'; }
+# The bar's four since 28 September (decision 046): घर, दस्तावेज़ (docs, above), सुझाव and ऐप शेयर
+# (qr, above). The same drawings as the app's `home` and `bulb`.
+home()    { ic "$1" "$2" "$3"; echo '<path d="M4 10.6 12 4.2l8 6.4"></path><path d="M6 9.5V20h12V9.5"></path></svg>'; }
+bulb()    { ic "$1" "$2" "$3"; echo '<path d="M9 17.5h6M10 21h4"></path><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.4 1.1 2.3v1.4h5v-1.4c0-.9.4-1.7 1.1-2.3A6 6 0 0 0 12 3z"></path></svg>'; }

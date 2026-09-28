@@ -1,78 +1,53 @@
 import { useSettings } from '../settings.js';
-import { navigate, type Pillar, type Route } from '../routes.js';
+import { navigate, type BarItem, type Route } from '../routes.js';
 import { Icon, type IconName } from './icons.js';
 import type { StringKey } from '../../i18n/index.js';
 
 interface Slot {
-  readonly pillar: Pillar;
+  readonly item: BarItem;
   readonly key: StringKey;
   readonly icon: IconName;
   readonly route: Route;
-  readonly lit: string;
 }
 
 const SLOTS: readonly Slot[] = [
-  {
-    pillar: 'food',
-    key: 'pillar.food',
-    icon: 'thali',
-    route: { screen: 'food' },
-    lit: 'var(--foodText)',
-  },
-  {
-    pillar: 'go',
-    key: 'pillar.go',
-    icon: 'signpost',
-    route: { screen: 'go' },
-    lit: 'var(--goText)',
-  },
-  {
-    pillar: 'know',
-    key: 'pillar.know',
-    icon: 'lantern',
-    route: { screen: 'know' },
-    lit: 'var(--knowText)',
-  },
-  {
-    pillar: 'docs',
-    key: 'nav.info',
-    icon: 'info',
-    route: { screen: 'docs' },
-    lit: 'var(--marigoldText)',
-  },
+  { item: 'home', key: 'bar.home', icon: 'home', route: { screen: 'home' } },
+  { item: 'docs', key: 'bar.docs', icon: 'docs', route: { screen: 'docs' } },
+  { item: 'contribute', key: 'bar.contribute', icon: 'bulb', route: { screen: 'contribute' } },
+  { item: 'share', key: 'bar.share', icon: 'qr', route: { screen: 'share' } },
 ];
 
 /**
- * The bar, on every screen: four icons and nothing else. The pass lives on the strip's dot and on
- * घर's tile; a पास लें button here duplicated both and read as one more tab (decision 018), and a
- * fifth item was tried and taken out on the 18th (decision 026, reversed).
+ * The bar, on every screen: four places, each an icon with its word under it (decision 046).
  *
- * **No words under the icons** (owner, 18 September). Two of the four labels were English in the
- * English catalogue and Devanagari in neither — the three pillar names never translate, so the
- * bar read as three Hindi words and one English one. Icons alone carry the same meaning in both
- * catalogues and buy back the height. Each one keeps its word as the accessible name, which is
- * what a screen reader announces and what `aria-label` is for; a glyph with no name is a button
- * nobody blind can use (decision 027).
+ * घर and ऐप शेयर are the bookends, each on its own colour: the way back is the traveller's, and
+ * the app passed on is ours — the moment a stranger sees the board reader and asks what it is,
+ * the QR is one tap away. दस्तावेज़ and सुझाव sit plain between them. The words came back because
+ * none of the four is a pillar name: every one translates, so the reason they went (decision 027)
+ * is gone, and an icon alone is understood by fewer people than a word is.
+ *
+ * The pillars are not here: घर's four blocks are the way into them.
  */
-export function TabBar({ current }: { readonly current: Pillar }) {
+export function TabBar({ current }: { readonly current: BarItem | undefined }) {
   const { t } = useSettings();
   return (
     <nav className="bar">
       {SLOTS.map((slot) => {
-        const on = slot.pillar === current;
+        const on = slot.item === current;
+        const classes = ['bar-tab', `bar-tab-${slot.item}`];
+        if (on) classes.push('bar-tab-on');
         return (
           <button
-            key={slot.pillar}
+            key={slot.item}
             type="button"
-            className={on ? 'bar-tab bar-tab-on' : 'bar-tab'}
-            style={on ? { color: slot.lit } : undefined}
-            aria-label={t(slot.key)}
+            className={classes.join(' ')}
             aria-current={on ? 'page' : undefined}
             onClick={() => {
               navigate(slot.route);
             }}
           >
-            <Icon name={slot.icon} size={27} strokeWidth={on ? 2 : 1.8} />
+            <Icon name={slot.icon} size={24} strokeWidth={on ? 2 : 1.8} />
+            <span className="bar-word">{t(slot.key)}</span>
           </button>
         );
       })}

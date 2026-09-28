@@ -1,5 +1,9 @@
 # 027 — The bar carries icons, and जाना stops being a metro train
 
+> **Superseded by decision 046, 28 September.** The bar is four places with words under them —
+> घर, दस्तावेज़, सुझाव, ऐप शेयर. The words went because pillar names never translate; none of the
+> four is a pillar name. The signpost stays as जाना's icon.
+
 **18 September 2026.** The owner, looking at the bar on his phone:
 
 > _"the last two icons, documents and say Hi are still in english only"_

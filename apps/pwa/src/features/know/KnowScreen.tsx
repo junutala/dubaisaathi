@@ -4,10 +4,12 @@ import { navigate } from '../../app/routes.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { Icon } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
-import { AskBar, recordVoiceEvent } from '../ask/index.js';
+import { TellUs } from '../../app/shell/TellUs.js';
+import { AskBar } from '../ask/index.js';
 import { localName, placeById } from '../transport/index.js';
 import { CATEGORIES, searchAttractions, type Attraction, type Category } from './attractions.js';
 import { liveTabs, TIPS, type KnowTab, type TopicTab } from './tips.js';
+import { EmergencyLine } from './EmergencyLine.js';
 
 /**
  * जानना, on tabs (decision 037): 3.1 जगहें, below, and 3.3 सफ़र — the topics a traveller should
@@ -22,6 +24,7 @@ export function KnowScreen({ tab = 'places' }: { readonly tab?: KnowTab }) {
     <>
       <ScreenHeader pillar="know" />
       <div className="flow">
+        <EmergencyLine />
         {tabs.length > 1 && (
           <div className="know-tabs" role="tablist">
             {tabs.map((one) => (
@@ -80,32 +83,14 @@ function TopicsTab({ tab }: { readonly tab: TopicTab }) {
 
 /**
  * 3.1 — जानना › जगहें. The places of Dubai with their hours and ticket on the card, a box to find one,
- * the kinds as chips, and at the bottom a line for a place we missed: the traveller writes its
- * name and it goes to the same queue the server already takes, so the next pack can carry it.
+ * the kinds as chips, and at the bottom the bold "यह नहीं मिला?" button (decision 046): it opens
+ * सुझाव with whatever is in the box, and that goes to the same queue the server already takes.
  */
 function PlacesTab() {
   const { t } = useSettings();
   const [typed, setTyped] = useState('');
   const [category, setCategory] = useState<Category | 'all'>('all');
-  const [suggested, setSuggested] = useState('');
-  const [thanked, setThanked] = useState(false);
-
   const rows = searchAttractions(typed, category);
-
-  const suggest = () => {
-    const words = suggested.trim();
-    if (words === '') return;
-    void recordVoiceEvent({
-      transcript: words,
-      intent: 'suggest-place',
-      confidence: 1,
-      landedOn: 'know',
-      failure: 'nothing-in-pack',
-      sttEngine: 'typed',
-    });
-    setSuggested('');
-    setThanked(true);
-  };
 
   return (
     <>
@@ -143,31 +128,9 @@ function PlacesTab() {
         ))}
       </div>
 
-      <div className="suggest-box">
-        <span style={{ fontSize: 14.5, fontWeight: 700 }}>{t('know.suggest')}</span>
-        <span className="muted small">
-          {thanked ? t('know.suggestThanks') : t('know.suggestWhy')}
-        </span>
-        <div className="suggest-box-row">
-          <input
-            className="typed"
-            type="text"
-            value={suggested}
-            placeholder={t('know.suggestPlaceholder')}
-            aria-label={t('know.suggest')}
-            onChange={(event) => {
-              setSuggested(event.target.value);
-              setThanked(false);
-            }}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') suggest();
-            }}
-          />
-          <button type="button" className="btn btn-ghost" onClick={suggest}>
-            {t('know.suggestSend')}
-          </button>
-        </div>
-      </div>
+      {/* Every search that finds nothing, and the foot of the list, offers the same way in: the
+          traveller's words carried to सुझाव (decision 046). */}
+      <TellUs about={typed} />
     </>
   );
 }

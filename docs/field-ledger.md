@@ -2,7 +2,8 @@
 
 Every field on every screen, and the one line that earns it its place — written from the seat
 of a tourist in a taxi, not from ours. A field with no line here does not exist on the screen.
-Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, then 1 खाना, 2 जाना, 3 जानना.
+Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, घर.5–घर.7 (बोलना), घर.8 · ऐप शेयर and
+घर.9 · सुझाव (the bar's, decision 046), then 1 खाना, 2 जाना, 3 जानना.
 
 ## On every screen after landing — the top strip
 
@@ -13,15 +14,21 @@ Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, the
 | The pass dot                  | Green while the counter runs, marigold when the Dubai day is ending; tap → घर.4   |
 | Language                      | Hindi or English, one tap                                                         |
 | Theme                         | One tap, never hunted for                                                         |
-| The hotel row                 | The first thing reached for on a bad evening, on every screen; tap → घर.1         |
+| The hotel row                 | The first thing reached for on a bad evening, on every screen, no exception (046) |
 | …or the BurJuman note         | In India there is no hotel to pin yet; the row says where the distances come from |
 
 ## On every screen after landing — the bar
 
-| Field                                 | Why it is there                                                                                |
-| ------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| Four icons: खाना, जाना, जानना, ज़रूरी | Switch task in one tap, from anywhere; the current one lit in its colour on a sand pill        |
-| No words under them (decision 027)    | Two of the four labels translated and two never do; the glyphs say the same in both catalogues |
+Since 28 September (decision 046): four places, each an icon with its word under it.
+
+| Field                                    | Why it is there                                                                                       |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| घर, filled marigold                      | The way back to the pillars from anywhere; the pillars are घर's blocks, not the bar's                 |
+| दस्तावेज़, plain                         | The traveller's papers, one tap from anywhere, with the radio off                                     |
+| सुझाव, plain                             | Something we missed, or a word to us — the pack grows from what travellers tell us                    |
+| ऐप शेयर, filled teal                     | A stranger asks "what is that?" — the QR is one tap away; our growth channel                          |
+| A word under every icon                  | Only home, print and search are read without one; none of the four is a pillar name, so all translate |
+| The lit place: sand pill, or an ink ring | Where you are — a ring on the two filled places, the pill on the two plain ones; none on a pillar     |
 
 ## On every screen that is not home — the header
 
@@ -93,48 +100,47 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 | होटल हटाएँ, the bin in the header                | Theirs to remove, and only theirs; in the header, where it costs the screen no row                                                                                                |
 | Nearest metro · nearest bus stop, with distances | Read off the RTA network from the pin, offline; what a traveller needs to get back, and nobody types                                                                              |
 
-## घर.2 · ज़रूरी जानकारी · घर.3 · देखें
+## घर.2 · दस्तावेज़ · घर.3 · देखें
 
-| Field                                        | Why it is there                                                                                  |
-| -------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| Three capsules: संपर्क · दस्तावेज़ · फ़ीडबैक | The screen is three errands; which one you are on is visible before anything scrolls             |
-| No hotel row on the strip here               | It is a fourth errand in the way of three, and the hotel is one tap away from every other screen |
-| भारतीय कॉन्सुलेट · +971 4 397 1222           | The number an Indian in trouble in Dubai reaches for, and the one no phone already holds         |
-| पुलिस 999 · एम्बुलेंस 998 · फ़ायर 997        | The three that matter, each one tap from dialling, read off the phone with no signal             |
-| "भारत का 100 यहाँ नहीं लगता"                 | The exact mistake decision 002 was written to prevent                                            |
-| The documents list, and जोड़ें               | घर.2 as it was: any document, as many as they like, on the phone only                            |
-| नाम · नंबर · आपकी बात · भेज दीजिए            | A word to us, written to the phone first so no signal can refuse it                              |
-| मिल गई, and which of the two happened        | Sent, or waiting for a signal — the difference is theirs to know                                 |
-| The invitation, in full                      | What will be sent in their name, before it is sent                                               |
-| व्हाट्सऐप पर भेजिए                           | Their own WhatsApp, their own contact picker, no number of ours in it                            |
+The bar's second place since 28 September (decision 046). ज़रूरी जानकारी and its three capsules
+are retired: its numbers are जानना's red line, its feedback form is part of सुझाव (घर.9).
+
+| Field                                     | Why it is there                                                          |
+| ----------------------------------------- | ------------------------------------------------------------------------ |
+| "सब इसी फ़ोन पर … बिना नेटवर्क खुलते हैं" | Why it is safe to keep a passport here, and that it opens with no signal |
+| Each document: name, kind, date added     | Which one to open, without opening them all                              |
+| दस्तावेज़ जोड़ें                          | Any document, as many as they like, on the phone only (decision 003)     |
+| The document, full size                   | What an official or a desk actually looks at                             |
+| साझा करें · हटाएँ                         | Send it to a desk that asks for it; theirs to remove, and only theirs    |
 
 ## घर.4 · पास
 
-| Field                                 | Why it is there                                                                         |
-| ------------------------------------- | --------------------------------------------------------------------------------------- |
-| अभी: the state, the line, the rule    | What the dot means, in words                                                            |
-| 1–4 फ़ोन · ₹199 / 299 / 399 / 499     | The phones, chosen first; above four, WhatsApp                                          |
-| "इस कोड पर एक ही फ़ोन चलता है"        | A single code locks the phones to one; said, not discovered                             |
-| कोड · लगाएँ                           | A code from an advertisement or an operator; pre-filled when the URL brought it         |
-| The code's line                       | Unknown, not yet, ended, used up, used here, needs a moment of network — one each       |
-| "आपकी दरख़्वास्त पहुँच गई"            | The moment a code goes out: the wait is visible, so nobody presses twice                |
-| कुल · the list price struck through   | What is owed after the code, from the one price rule                                    |
-| "SSW9VASX · 50% छूट"                  | What the code gave, so the total is not a mystery                                       |
-| पास लें — मुफ़्त                      | A ₹0 total: the pass, issued and installed on the spot                                  |
-| UPI से · QR — कोई और भरे              | Same phone, or someone in India pays, when the total is above ₹0                        |
-| "ख़रीदना अभी चालू नहीं है"            | Said plainly while buying is switched off                                               |
-| "बाक़ी ₹149 ख़रीद खुलने पर"           | Only while buying is off: a partial code's balance and the code wait for UPI            |
-| "भुगतान का पन्ना खुल रहा है"          | The moment a buy button goes out: the wait is visible, so nobody presses twice          |
-| "पास लग गया"                          | The webhook signed it and the phone verified it — the one line that ends the flow       |
-| "भुगतान पूरा नहीं हुआ"                | Checkout closed with nothing paid; not an error, and not a dead end                     |
-| "भुगतान का पन्ना नहीं खुल पाया"       | Razorpay's script would not load on this network; said, not blamed on the phone         |
-| "भुगतान की पुष्टि हो रही है"          | Paid and the webhook has not caught up; the order is kept and asked about again         |
-| "इस कोड पर पास मुफ़्त है"             | A ₹0 code cannot be an order; it points at the button that does issue it                |
-| परिवार · a QR per phone · भेजें       | Slots 2–4, each opened by the other phone's own camera; भेजें sends the QR as a picture |
-| What भेजें did, in one line           | The QR went as a picture, or the link did, or it is copied — a closed sheet, nothing    |
-| "पास इस फ़ोन पर लग गया" / did not     | What a scanned QR did, on the phone that scanned it                                     |
-| "यह पास किसी और फ़ोन पर पहले लग चुका" | Decision 005's reconciliation, said once, in one line                                   |
-| भारत में बैठकर आज़माइए                | The counter, testable from India                                                        |
+| Field                                 | Why it is there                                                                                   |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| अभी: the state, the line, the rule    | What the dot means, in words                                                                      |
+| 1–4 फ़ोन · ₹199 / 299 / 399 / 499     | The phones, chosen first; above four, WhatsApp                                                    |
+| "इस कोड पर एक ही फ़ोन चलता है"        | A single code locks the phones to one; said, not discovered                                       |
+| कोड · लगाएँ                           | A code from an advertisement or an operator; pre-filled when the URL brought it                   |
+| The code's line                       | Unknown, not yet, ended, used up, used here, needs a moment of network — one each                 |
+| "आपकी दरख़्वास्त पहुँच गई"            | The moment a code goes out: the wait is visible, so nobody presses twice                          |
+| कुल · the list price struck through   | What is owed after the code, from the one price rule                                              |
+| "SSW9VASX · 50% छूट"                  | What the code gave, so the total is not a mystery                                                 |
+| पास लें — मुफ़्त                      | A ₹0 total: the pass, issued and installed on the spot                                            |
+| UPI से · QR — कोई और भरे              | Same phone, or someone in India pays, when the total is above ₹0                                  |
+| "ख़रीदना अभी चालू नहीं है"            | Said plainly while buying is switched off                                                         |
+| Renew (not built yet)                 | Never gated is never forced, not never sold to — ships with purchase and an extendable pass (046) |
+| "बाक़ी ₹149 ख़रीद खुलने पर"           | Only while buying is off: a partial code's balance and the code wait for UPI                      |
+| "भुगतान का पन्ना खुल रहा है"          | The moment a buy button goes out: the wait is visible, so nobody presses twice                    |
+| "पास लग गया"                          | The webhook signed it and the phone verified it — the one line that ends the flow                 |
+| "भुगतान पूरा नहीं हुआ"                | Checkout closed with nothing paid; not an error, and not a dead end                               |
+| "भुगतान का पन्ना नहीं खुल पाया"       | Razorpay's script would not load on this network; said, not blamed on the phone                   |
+| "भुगतान की पुष्टि हो रही है"          | Paid and the webhook has not caught up; the order is kept and asked about again                   |
+| "इस कोड पर पास मुफ़्त है"             | A ₹0 code cannot be an order; it points at the button that does issue it                          |
+| परिवार · a QR per phone · भेजें       | Slots 2–4, each opened by the other phone's own camera; भेजें sends the QR as a picture           |
+| What भेजें did, in one line           | The QR went as a picture, or the link did, or it is copied — a closed sheet, nothing              |
+| "पास इस फ़ोन पर लग गया" / did not     | What a scanned QR did, on the phone that scanned it                                               |
+| "यह पास किसी और फ़ोन पर पहले लग चुका" | Decision 005's reconciliation, said once, in one line                                             |
+| भारत में बैठकर आज़माइए                | The counter, testable from India                                                                  |
 
 ## घर.4 · पास आ गया — the welcome, once per pass
 
@@ -183,16 +189,41 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 | बोर्ड पर अरबी में लिखा था              | What we read, so a wrong reading can be seen for what it is                             |
 | One line when it did not work          | Nothing readable, no signal, not switched on, no Hindi voice — each said, never a blank |
 
+## घर.8 · ऐप शेयर (decision 046)
+
+| Field                                                  | Why it is there                                                                   |
+| ------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| The QR, big, for https://dubai.saafarsaathi.in         | A stranger scans it from the traveller's hand; drawn on the phone, so offline too |
+| Dubai Saathi                                           | What the stranger is about to open                                                |
+| "दुबई में आपका हिंदी साथी — खाना, रास्ता, बोर्ड पढ़ना" | What it does, in one line, naming the board reader they just watched              |
+| 24 घंटे मुफ़्त                                         | The reason to scan now rather than later                                          |
+| dubai.saafarsaathi.in                                  | For a camera that will not scan, and for saying it aloud                          |
+| WhatsApp पर भेजें                                      | Their own WhatsApp, their own contact picker, no number of ours in it             |
+
+## घर.9 · सुझाव (decision 046)
+
+| Field                                             | Why it is there                                                                |
+| ------------------------------------------------- | ------------------------------------------------------------------------------ |
+| कोई जगह छूट गई?                                   | A kitchen, a place or anything we missed — the question log gets it as typed   |
+| "खाने की जगह, घूमने की जगह, कुछ भी"               | Says it is not only places, so nobody holds back a dish                        |
+| क्या नहीं मिला (the box)                          | Filled with their own words when a nothing-found button brought them; editable |
+| "खाना में आपने यही खोजा था"                       | A value they did not type here says where it came from (design rule 30)        |
+| भेजें                                             | Written to the phone first, sent with the question log when there is a signal  |
+| सुझाव या राय                                      | A word to us — the feedback form ज़रूरी जानकारी carried, moved here whole      |
+| नाम · नंबर · आपकी बात · भेज दीजिए                 | The reply comes by phone to the number given; written to the phone first       |
+| "बिना नेटवर्क भी — … सिग्नल आते ही पहुँच जाता है" | Sent, or waiting for a signal — the difference is theirs to know               |
+
 ## 1.1 · खाना › क्या खाएँ · 1.2 · नतीजे
 
-| Field                                                                 | Why it is there                                      |
-| --------------------------------------------------------------------- | ---------------------------------------------------- |
-| The box                                                               | The dish is the search                               |
-| शुद्ध शाकाहारी · जैन · बिना प्याज़-लहसुन · व्रत · खुला है             | Constraints a traveller states; never inferred       |
-| अभी लोग क्या खोज रहे हैं                                              | Six dishes to tap when they do not want to type      |
-| होटल के पास / आस-पास, nearest first                                   | Distance is a fact; taste is never predicted         |
-| Each row: name, area, distance, hours, kitchen kind, confirmed dishes | Enough to choose without opening it                  |
-| "हर जवाब किसी व्यक्ति से पूछा गया है"                                 | Why the answers can be trusted, and what पूछकर means |
+| Field                                                                 | Why it is there                                                 |
+| --------------------------------------------------------------------- | --------------------------------------------------------------- |
+| The box                                                               | The dish is the search                                          |
+| शुद्ध शाकाहारी · जैन · बिना प्याज़-लहसुन · व्रत · खुला है             | Constraints a traveller states; never inferred                  |
+| अभी लोग क्या खोज रहे हैं                                              | Six dishes to tap when they do not want to type                 |
+| होटल के पास / आस-पास, nearest first                                   | Distance is a fact; taste is never predicted                    |
+| Each row: name, area, distance, hours, kitchen kind, confirmed dishes | Enough to choose without opening it                             |
+| "हर जवाब किसी व्यक्ति से पूछा गया है"                                 | Why the answers can be trusted, and what पूछकर means            |
+| यह नहीं मिला? बताइए — हम जोड़ेंगे, when nothing is found              | Never a dead end: opens सुझाव with the dish already typed (046) |
 
 ## 1.3 · खाना › मेनू — the kitchen is its menu (decision 034)
 
@@ -214,6 +245,7 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 | The box                                           | A place or an address, in either script                             |
 | "क्या आपका मतलब बुरजुमान है?" · हाँ               | A near spelling is a question, with the place's own Devanagari name |
 | "यह जगह अभी साथी के पास नहीं है" · टैक्सी से जाएँ | Never a dead end: the words go to a driver as they are              |
+| यह नहीं मिला? बताइए — हम जोड़ेंगे                 | And to us: opens सुझाव with the place already typed (046)           |
 | हाल में                                           | A tourist's week is four places over and over                       |
 | दुबई की जगहें                                     | Somewhere to tap before typing anything                             |
 
@@ -278,12 +310,15 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 
 ## 3.1 · जानना › जगहें
 
-| Field                                              | Why it is there                                         |
-| -------------------------------------------------- | ------------------------------------------------------- |
-| जगहें · सफ़र (the tabs)                            | जानना is knowing, not only places (decision 037)        |
-| The box · सब · लैंडमार्क · मॉल · सूक · बीच · पार्क | Find a place, or browse a kind                          |
-| Each card: name, kind, hours, ticket               | Enough to decide whether to open it                     |
-| कोई जगह छूट गई? · भेजें                            | A place we missed goes into the queue for the next pack |
+| Field                                              | Why it is there                                              |
+| -------------------------------------------------- | ------------------------------------------------------------ |
+| आपातकाल: पुलिस 999 · एम्बुलेंस 998 · आग 997        | Where someone who is out already is; red, one tap each (046) |
+| सब नंबर                                            | The consulate, and why India's 100 does not work here        |
+| जगहें · सफ़र (the tabs)                            | जानना is knowing, not only places (decision 037)             |
+| The box · सब · लैंडमार्क · मॉल · सूक · बीच · पार्क | Find a place, or browse a kind                               |
+| Each card: name, kind, hours, ticket               | Enough to decide whether to open it                          |
+| कोई जगह छूट गई? · भेजें                            | A place we missed goes into the queue for the next pack      |
+| यह नहीं मिला? बताइए — हम जोड़ेंगे, when none match | Opens सुझाव with their words already typed (046)             |
 
 ## 3.2 · जानना › जगह
 
@@ -299,10 +334,11 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 
 ## 3.3 · जानना › सफ़र — a tab of topics (decision 037)
 
-| Field                             | Why it is there                               |
-| --------------------------------- | --------------------------------------------- |
-| The tabs, सफ़र lit                | Where they are, and the way back to जगहें     |
-| Each topic: glyph, name, one line | Enough to know what opening it will tell them |
+| Field                              | Why it is there                               |
+| ---------------------------------- | --------------------------------------------- |
+| The emergency line, above the tabs | The same three numbers on both tabs (046)     |
+| The tabs, सफ़र lit                 | Where they are, and the way back to जगहें     |
+| Each topic: glyph, name, one line  | Enough to know what opening it will tell them |
 
 ## 3.4 · जानना › सफ़र › Nol कार्ड
 

@@ -4,6 +4,7 @@ import { useSettings } from '../../app/settings.js';
 import { navigate } from '../../app/routes.js';
 import { ScreenHeader } from '../../app/shell/ScreenHeader.js';
 import { Icon } from '../../app/shell/icons.js';
+import { TellUs } from '../../app/shell/TellUs.js';
 import { AskBar, recordVoiceEvent } from '../ask/index.js';
 import { attractions } from '../know/index.js';
 import { hasBeenAsked } from '../../lib/location.js';
@@ -137,6 +138,7 @@ export function GoScreen({ placeId }: { readonly placeId?: string | undefined })
               <Icon name="taxi" size={20} strokeWidth={1.9} />
               {t('go.taxiAnyway')}
             </button>
+            <TellUs about={unknown} />
           </div>
         )}
 

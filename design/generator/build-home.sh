@@ -46,7 +46,7 @@ A
 # same type as the three, in its own plum. It is on घर only where the strip says ऑनलाइन, because
 # the recogniser and the Arabic behind it are both online (decision 020) — so a board that says
 # ऑफ़लाइन carries three blocks, and that difference is the rule, drawn.
-home() {
+homescreen() {
 local bolna=''
 [ "${5:-off}" = on ] && bolna=$(tile 'बोलना' 'Bolna' 'अपनी भाषा में कहिए — अंग्रेज़ी और अरबी में, नेटवर्क पर।' "$b_bg" "$b_fg" mic)
 {
@@ -66,14 +66,14 @@ case "$4" in
   warm)  passtile '4 घंटे बाक़ी · पास लें' '14 दिन का पास — एक बार, कोई सब्सक्रिप्शन नहीं' yes ;;
   paid)  passtile 'पास · 12 दिन बाक़ी · परिवार के लिए QR' 'इस सफ़र में कुछ बंद नहीं होगा' no ;;
 esac
-bar none
+bar home
 close_screen
 } > "$OUT/$1"
 }
-home Home.dc.html running set trial on
-home HomeTrial.dc.html ending none warm off ask
-home HomePaid.dc.html running set paid on
-THEME=dark; source "$(dirname "$0")/_chrome.sh"; home HomeDark.dc.html running set trial on; THEME=light; source "$(dirname "$0")/_chrome.sh"
+homescreen Home.dc.html running set trial on
+homescreen HomeTrial.dc.html ending none warm off ask
+homescreen HomePaid.dc.html running set paid on
+THEME=dark; source "$(dirname "$0")/_chrome.sh"; homescreen HomeDark.dc.html running set trial on; THEME=light; source "$(dirname "$0")/_chrome.sh"
 
 # ---- L · लैंडिंग (first open, the pack comes down)
 {
@@ -216,38 +216,32 @@ hotel_read near > "$OUT/HomeHotelRead.dc.html"
 # pick — in the nearby row's place, so step two stays one screen.
 hotel_read choice > "$OUT/HomeHotelChoice.dc.html"
 
-# ---- घर.2 · ज़रूरी जानकारी — three capsules, and no hotel row (decision 028)
-cap() { # label on
-  local col=$muted bg=$card border=$line
-  [ "$2" = on ] && col=$marigoldText && bg=$marigoldSoft && border=$marigoldLine
-  echo "<span style=\"display: flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 10px; border-radius: 999px; border: 1.5px solid $border; background: $bg; color: $col; font-size: 14.5px; font-weight: 700;\">$1</span>"
-}
-crow() { # name where number
+# ---- घर.2 · दस्तावेज़ — the bar's second place (decision 046): the documents list and जोड़ें, as
+# घर.2 was before the capsules (decision 003). ज़रूरी जानकारी is retired: its numbers are जानना's
+# emergency line, its feedback form is part of सुझाव (घर.9).
+drow() { # name when
 cat <<T
-    <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: $card; border-radius: 16px; border: 1px solid $line;">
-      <span style="width: 44px; height: 44px; border-radius: 12px; background: $marigoldSoft; display: flex; align-items: center; justify-content: center;">$4</span>
-      <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0;"><span class="disp" style="font-size: 18px; font-weight: 600; color: $ink;">$1</span><span style="font-size: 12.5px; color: $muted;">$2</span></span>
-      <span style="font-size: 15px; font-weight: 800; color: $marigoldText; white-space: nowrap;">$3</span>
+    <div style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: $card; border-radius: 16px; border: 1px solid $line; min-height: 64px; box-sizing: border-box;">
+      <span style="width: 44px; height: 44px; border-radius: 12px; background: $marigoldSoft; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">$(docs 22 "$marigoldText" 1.8)</span>
+      <span style="display: flex; flex-direction: column; gap: 1px; flex: 1; min-width: 0;"><span class="disp" style="font-size: 18px; font-weight: 600; color: $ink; line-height: 1.35;">$1</span><span style="font-size: 12.5px; color: $muted;">$2</span></span>
+      $(chev 18 "$chev" 2)
     </div>
 T
 }
 {
 open_screen
-strip running hidden
-header info "$marigoldText" 'ज़रूरी जानकारी'
+strip running set
+header docs "$marigoldText" 'दस्तावेज़'
 cat <<H
   <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 10px; padding: 6px 16px 12px 16px;">
-    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">
-      $(cap 'संपर्क' on)
-      $(cap 'दस्तावेज़')
-      $(cap 'फ़ीडबैक')
-    </div>
-    <span style="font-size: 13px; color: $muted; line-height: 1.45;">मुश्किल में यही चार नंबर काम आते हैं। दबाइए, फ़ोन लग जाएगा।</span>
-$(crow 'भारतीय कॉन्सुलेट' 'बर दुबई · सोम–शुक्र 9–5' '+971 4 397 1222' "$(pin 20 "$marigoldText" 1.8)")
-$(crow 'पुलिस' 'पूरे यूएई में · 24 घंटे' '999' "$(phone 20 "$marigoldText" 1.8)")
-$(crow 'एम्बुलेंस' 'पूरे यूएई में · 24 घंटे' '998' "$(phone 20 "$marigoldText" 1.8)")
-$(crow 'फ़ायर ब्रिगेड' 'सिविल डिफ़ेंस · 24 घंटे' '997' "$(phone 20 "$marigoldText" 1.8)")
-    <span style="font-size: 12.5px; color: $muted; text-align: center; padding-top: 6px; line-height: 1.45;">भारत का 100 यहाँ नहीं लगता — दुबई में पुलिस 999 है।</span>
+    <span style="font-size: 13px; color: $muted; line-height: 1.45;">सब इसी फ़ोन पर रहते हैं और बिना नेटवर्क खुलते हैं। जितने चाहें, रखें।</span>
+$(drow 'पासपोर्ट' 'फ़ोटो · 12 सितंबर')
+$(drow 'वीज़ा' 'PDF · 12 सितंबर')
+$(drow 'वापसी का टिकट' 'PDF · 14 सितंबर')
+$(drow 'होटल बुकिंग' 'फ़ोटो · 14 सितंबर')
+$(drow 'ट्रैवल इंश्योरेंस' 'PDF · 15 सितंबर')
+    <div style="flex: 1;"></div>
+    $(btn "$(plus 20 "$onMarigold" 2.2)&nbsp; दस्तावेज़ जोड़ें" "$marigold" "$onMarigold")
   </div>
 H
 bar docs
@@ -257,11 +251,11 @@ close_screen
 # ---- घर.3 · दस्तावेज़ › देखें
 {
 open_screen
-strip running hidden
-header info "$marigoldText" 'ज़रूरी जानकारी' 'पासपोर्ट'
+strip running set
+header docs "$marigoldText" 'दस्तावेज़' 'पासपोर्ट'
 cat <<H
   <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 6px 16px 12px 16px;">
-    $(photo 520 'पासपोर्ट · 12 सितंबर')
+    $(photo 468 'पासपोर्ट · 12 सितंबर')
     <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
       $(obtn "$(share 20 "$ink" 1.9)साझा करें")
       $(obtn "$(trash 20 "$ink" 1.9)हटाएँ")
@@ -339,3 +333,71 @@ H
 bar none
 close_screen
 } > "$OUT/HomePassWelcome.dc.html"
+
+# ---- घर.8 · ऐप शेयर — the bar's fourth place (decision 046). A big QR for the app's address, drawn
+# on the phone so it works with the radio off; under it who we are, what it does, the free day,
+# the address in letters, and WhatsApp. The owner's reason: the moment a stranger sees the board
+# reader and asks "what is that?", the traveller is one tap from a code that scans.
+# The QR here is a real one, drawn from the same address by the `qr` package the app uses, so the
+# board itself scans.
+qrsvg() { # size url
+  node --input-type=module -e "
+import encodeQR from 'qr';
+const m = encodeQR(process.argv[1], 'raw', { ecc: 'medium', border: 2 });
+const n = m.length; let d = '';
+m.forEach((row, y) => row.forEach((on, x) => { if (on) d += 'M' + x + ' ' + y + 'h1v1h-1z'; }));
+process.stdout.write('<svg width=\"' + process.argv[2] + '\" height=\"' + process.argv[2] + '\" viewBox=\"0 0 ' + n + ' ' + n + '\" shape-rendering=\"crispEdges\"><rect width=\"' + n + '\" height=\"' + n + '\" fill=\"#FFFFFF\"></rect><path d=\"' + d + '\" fill=\"#141826\"></path></svg>');
+" "$2" "$1"
+}
+{
+open_screen
+strip running set
+header qr "$teal" 'ऐप शेयर'
+cat <<H
+  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 4px 16px 12px 16px; text-align: center;">
+    <div style="padding: 10px; border-radius: 20px; background: #FFFFFF; border: 1px solid $line;">$(qrsvg 236 'https://dubai.saafarsaathi.in')</div>
+    <span class="disp" style="font-size: 24px; font-weight: 700; color: $ink; margin-top: 6px; line-height: 1.35;">Dubai Saathi</span>
+    <span style="font-size: 15px; line-height: 1.4; color: $ink; text-wrap: balance;">दुबई में आपका हिंदी साथी — खाना, रास्ता, बोर्ड पढ़ना</span>
+    <span style="padding: 4px 12px; border-radius: 999px; background: $marigoldSoft; color: $marigoldText; font-size: 14px; font-weight: 700;">24 घंटे मुफ़्त</span>
+    <span style="font-size: 16px; font-weight: 700; letter-spacing: 0.02em; color: $tealText;">dubai.saafarsaathi.in</span>
+    <div style="flex: 1;"></div>
+    <div style="align-self: stretch;">$(btn "$(share 20 "$onShare" 2)&nbsp; WhatsApp पर भेजें" "$teal" "$onShare")</div>
+  </div>
+H
+bar share
+close_screen
+} > "$OUT/HomeShare.dc.html"
+
+# ---- घर.9 · सुझाव — the bar's third place (decision 046). Two things, one under the other: a place,
+# a kitchen or anything we missed, which goes to the question log with the words as typed; and a
+# word to us — ज़रूरी जानकारी's feedback form, moved here whole. Drawn as a nothing-found button
+# opens it: the traveller's own words already in the first box, saying where they came from.
+tbox() { # label value muted? height
+  local col=$ink; [ "${3:-}" = muted ] && col=$muted
+  echo "<div style=\"display: flex; flex-direction: column; justify-content: center; gap: 1px; padding: 4px 12px; min-height: ${4:-48}px; border-radius: 12px; background: $card; border: 1px solid $line; box-sizing: border-box;\"><span style=\"font-size: 11.5px; font-weight: 700; color: $muted; line-height: 1.35;\">$1</span><span style=\"font-size: 15px; color: $col; line-height: 1.35;\">$2</span></div>"
+}
+{
+open_screen
+strip running set
+header bulb "$marigoldText" 'सुझाव'
+cat <<H
+  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 8px; padding: 4px 16px 12px 16px;">
+    <span class="disp" style="font-size: 19px; font-weight: 700; color: $ink; line-height: 1.35;">कोई जगह छूट गई?</span>
+    <span style="font-size: 12.5px; color: $muted; line-height: 1.35;">खाने की जगह, घूमने की जगह, कुछ भी — लिख दीजिए, हम जोड़ेंगे।</span>
+    $(tbox 'क्या नहीं मिला' 'kulfi falooda Karama')
+    <span style="font-size: 12px; font-weight: 600; color: $tealText; line-height: 1.35;">खाना में आपने यही खोजा था — बदलना हो तो बदल दें।</span>
+    $(btn 'भेजें' "$marigold" "$onMarigold")
+    <div style="height: 1px; background: $line; margin: 4px 0;"></div>
+    <span class="disp" style="font-size: 19px; font-weight: 700; color: $ink; line-height: 1.35;">सुझाव या राय</span>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;">
+      $(tbox 'नाम' 'लिखें' muted)
+      $(tbox 'नंबर' '+91 …' muted)
+    </div>
+    $(tbox 'आपकी बात' 'जो कहना हो…' muted 76)
+    $(obtn 'भेज दीजिए')
+    <span style="font-size: 12px; color: $muted; text-align: center; line-height: 1.35;">बिना नेटवर्क भी — फ़ोन पर रखा जाता है और सिग्नल आते ही पहुँच जाता है।</span>
+  </div>
+H
+bar contribute
+close_screen
+} > "$OUT/HomeContribute.dc.html"
