@@ -50,13 +50,18 @@ jobs:
           }
           await page.evaluate(() => window.scrollTo(0, 0));
           // A menu shown as a gallery of photographs (qaayima and its like): keep each picture
-          // itself, largest version first, in the order the page shows them.
-          const shown = await page.evaluate(() =>
-            [...document.querySelectorAll('img, a')]
+          // itself, largest version first, in the order the page shows them. A kitchen's own
+          // site shows its menu as ordinary large images, so any picture at least 800 pixels
+          // wide is kept too — logos and icons are smaller than that.
+          const shown = await page.evaluate(() => [
+            ...[...document.querySelectorAll('img, a')]
               .map((el) => el.getAttribute('src') ?? el.getAttribute('href') ?? '')
               .filter((src) => /\/uploads\/menuimages\//.test(src))
               .map((src) => new URL(src, location.href).href),
-          );
+            ...[...document.querySelectorAll('img')]
+              .filter((img) => img.naturalWidth >= 800)
+              .map((img) => img.currentSrc || img.src),
+          ]);
           const pictures = [...new Set(shown)];
           const fsp = await import('node:fs');
           let saved = 0;
