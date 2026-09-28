@@ -44,3 +44,12 @@ A general camera translator already turns Arabic signs into Hindi, free. What th
 inside the app the traveller already has open, meaning rather than words, the Hindi read aloud,
 and the text of what travellers photograph — which shows which signs confuse Indians in Dubai,
 and could become an offline sign list later.
+
+## Addendum, 28 September, midday — Claude first
+
+The owner: "let's promote Claude as the first translator and then Google next. We will see how it
+goes." `readboard` now asks Claude first and Google only when Claude fails. Google's reading is
+shown only when it holds at least four Arabic letters and comes back in Hindi letters: a sign
+photographed half out of frame had read as two letters and come back as "mlے". Anything below
+that bar asks the traveller for a closer photo instead. `board_readings.model` records which
+reader answered, so the two can be compared on real boards.
