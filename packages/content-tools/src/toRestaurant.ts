@@ -89,11 +89,19 @@ export function readDietary(
  * not something to filter a list by: a traveller who asked for जैन and was handed a kitchen that
  * *might* do it on a good day has been misled by us, not by the kitchen.
  *
- * `pure-veg` earns `vegetarian` on its own — that is what the kitchen kind means.
+ * `pure-veg` earns `vegetarian` on its own — that is what the kitchen kind means. A pure-veg kitchen
+ * with a vrat dish on its menu is a place to eat on a fast, so it earns `vrat` the same way. A
+ * kitchen that also serves meat never does (the owner, 28 September), whatever its menu holds.
  */
 export function tagsFor(row: ReportRow): readonly FoodTag[] {
   const tags = new Set<FoodTag>();
   if (row.kitchen === 'pure-veg') tags.add('vegetarian');
+  if (
+    row.kitchen === 'pure-veg' &&
+    (readDishes(row.confirmed_dishes) ?? []).some((dish) => dish.tags.includes('vrat'))
+  ) {
+    tags.add('vrat');
+  }
   const dietary = readDietary(row.dietary);
   if (dietary) {
     for (const [question, answer] of Object.entries(dietary)) {
@@ -182,7 +190,13 @@ export function toRestaurant(row: ReportRow): Restaurant | null {
   if (row.name.trim() === '') return null;
 
   const dietary = readDietary(row.dietary);
-  const dishes = readDishes(row.confirmed_dishes);
+  // Vrat food comes only from a vegetarian kitchen (the owner, 28 September): a khichdi on a menu
+  // beside mutton is not offered to someone fasting.
+  const read = readDishes(row.confirmed_dishes);
+  const dishes =
+    row.kitchen === 'pure-veg' || read === undefined
+      ? read
+      : read.map((dish) => ({ ...dish, tags: dish.tags.filter((tag) => tag !== 'vrat') }));
   const hours = readHours(row.hours);
   const delivers = row.delivers === 'yes' || row.delivers === 'no' ? row.delivers : undefined;
   const areaId = readArea(row.area);
