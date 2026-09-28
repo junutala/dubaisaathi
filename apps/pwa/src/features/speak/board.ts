@@ -60,6 +60,23 @@ export async function shrinkPhoto(file: Blob): Promise<Photo> {
   return { data: btoa(binary), type: 'image/jpeg' };
 }
 
+/**
+ * A photograph taken from घर.5's camera button, waiting for घर.7 to read it. The camera opens
+ * straight from बोलना (the owner: one tap, like the microphone), so the photo is taken before the
+ * screen that reads it exists; it is handed over here, once, and never kept.
+ */
+let waiting: Blob | null = null;
+
+export function holdBoardPhoto(photo: Blob): void {
+  waiting = photo;
+}
+
+export function takeBoardPhoto(): Blob | null {
+  const photo = waiting;
+  waiting = null;
+  return photo;
+}
+
 export type BoardRead =
   | { readonly kind: 'read'; readonly arabic: string; readonly hindi: string }
   /** The photograph had no Arabic that could be read. */

@@ -175,7 +175,7 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 
 | Field                                  | Why it is there                                                                         |
 | -------------------------------------- | --------------------------------------------------------------------------------------- |
-| The button on घर.5                     | The way in: बोलना's second half, a board instead of a sentence                          |
+| अरबी 📷 हिंदी 🔊 on घर.5               | One tap opens the camera, like the microphone; the photo lands here already being read  |
 | बोर्ड की फ़ोटो लें                     | One tap to the camera or the gallery; the phone answers which                           |
 | "सिर्फ़ बोर्ड की फ़ोटो… रखी नहीं जाती" | Frame the board, not people; and what we keep, said before the photo is taken           |
 | हिंदी में, large                       | The answer — what the board means, not a word-for-word string                           |

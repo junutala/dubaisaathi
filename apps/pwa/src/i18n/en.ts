@@ -459,7 +459,9 @@ export const en: Record<StringKey, string> = {
 
   // घर.5 · बोलना and घर.6 · its Arabic (decision 020) — online only, and the screens say so.
   // Its block on घर is named by the `pillar.speak` keys above, with the other three.
-  'bolna.board': 'Read an Arabic board in Hindi, from a photo',
+  'bolna.board': 'Arabic → Hindi',
+  'bolna.boardFrom': 'Arabic',
+  'bolna.boardTo': 'Hindi',
   'board.title': 'Read a board',
   'board.why':
     'Photograph a board, notice or label written in Arabic — we tell you in Hindi what it says, and read it aloud.',
