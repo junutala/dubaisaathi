@@ -113,7 +113,7 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   language, read it back in English in a box that can be corrected, then the same sentence in
   Arabic with a read-aloud button. No audio is stored anywhere. **घर.7 reads boards** (decision
   044): a photo of an Arabic board, its meaning in Hindi, read aloud; the photo is never kept,
-  the Arabic and the Hindi are, tied to no one.
+  the Arabic and the Hindi are, with the phone's random id (045).
 - **The pass stays and is never a wall.** The dot is green while the counter runs and marigold
   when the Dubai day is ending; never red (decision 002). From the twentieth hour of the Dubai
   day every open of घर nudges toward a pass. **A traveller who has paid once is never gated

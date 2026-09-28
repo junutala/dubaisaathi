@@ -23,8 +23,8 @@ Arabic and English; a traveller who reads only Hindi gets nothing from either.
   it. The screen says, before the photo is taken: only the board, not people; the photo is not
   kept.
 - **The text is kept** (the owner, 28 September: "the text tells us a lot"): the Arabic read and
-  the Hindi given, in `board_readings` (migration 0022), with **no device id** — a board is
-  public, and the row is tied to no one. A photograph with nothing readable goes into the
+  the Hindi given, in `board_readings` (migration 0022). Written first with no device id; since
+  decision 045 (the same day) the row carries the phone's random id, like everything else. A photograph with nothing readable goes into the
   question log as `nothing-read`.
 - **The Hindi is read aloud** by the phone's own voice (`hi-IN`), attempted every time; "this
   phone has no Hindi voice" is said only after the phone has refused.
