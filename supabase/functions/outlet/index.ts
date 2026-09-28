@@ -120,7 +120,7 @@ Deno.serve(async (request: Request): Promise<Response> => {
     const forms = await db
       .from('field_reports')
       .select(
-        'id, form_serial, name, lat, lng, captured_at, notes, menu_in_app_at, menu_wanted, menu_wanted_pages',
+        'id, form_serial, name, lat, lng, captured_at, notes, menu_in_app_at, menu_wanted, menu_wanted_pages, flags',
       )
       .not('form_serial', 'is', null)
       .order('form_serial', { ascending: true })
@@ -150,8 +150,13 @@ Deno.serve(async (request: Request): Promise<Response> => {
       menu_in_app_at: string | null;
       menu_wanted: string | null;
       menu_wanted_pages: number | null;
+      flags: string[] | null;
     };
-    const all = (forms.data ?? []) as Form[];
+    // A retired form is one the owner has stopped collecting (28 September): its pin and data
+    // stay, it just no longer asks for a menu. Taking the flag off brings it back.
+    const all = ((forms.data ?? []) as Form[]).filter(
+      (form) => !(form.flags ?? []).includes('retired'),
+    );
 
     // A form review asked more of leaves the list once it holds more pages than it did then
     // (migration 0019), so pages photographed from the list take it off without review's help.
