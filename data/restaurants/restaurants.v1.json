@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-28T13:34:07.687Z",
+  "publishedAt": "2026-09-28T13:44:03.994Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -85705,6 +85705,664 @@
           "tags": ["vegetarian"],
           "priceAed": 18,
           "section": "Fresh Fruits"
+        }
+      ]
+    },
+    {
+      "id": "3a4cca4c-6f20-481b-8873-8e17d9850b93",
+      "name": {
+        "en": "Kozhikode Restaurant",
+        "hi": "Kozhikode Restaurant",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2462086,
+        "lng": 55.3047234
+      },
+      "areaId": "karama",
+      "kitchen": "mixed",
+      "tags": [],
+      "phone": "04 328 3113",
+      "confirmedDishes": [
+        {
+          "name": {
+            "en": "Hot & Sour Chicken Soup",
+            "hi": "Hot & Sour Chicken Soup",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Soup & Salad"
+        },
+        {
+          "name": {
+            "en": "Chicken Manchow Soup",
+            "hi": "Chicken Manchow Soup",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Soup & Salad"
+        },
+        {
+          "name": {
+            "en": "Hot & Sour Veg",
+            "hi": "Hot & Sour Veg",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Soup & Salad"
+        },
+        {
+          "name": {
+            "en": "Sweet Corn Chicken Soup",
+            "hi": "Sweet Corn Chicken Soup",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Soup & Salad"
+        },
+        {
+          "name": {
+            "en": "Sweet Corn Veg Soup",
+            "hi": "Sweet Corn Veg Soup",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Soup & Salad"
+        },
+        {
+          "name": {
+            "en": "Green Mango Salad",
+            "hi": "Green Mango Salad",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Soup & Salad"
+        },
+        {
+          "name": {
+            "en": "Day Special Salad",
+            "hi": "Day Special Salad",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Soup & Salad"
+        },
+        {
+          "name": {
+            "en": "Black Rock Steak",
+            "hi": "Black Rock Steak",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 60,
+          "section": "Black Rock Steak"
+        },
+        {
+          "name": {
+            "en": "Prawns Thai Grill",
+            "hi": "Prawns Thai Grill",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 38,
+          "section": "Prawns Thai Grill"
+        },
+        {
+          "name": {
+            "en": "Chicken Tattukada",
+            "hi": "Chicken Tattukada",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Chicken Lolli Pop",
+            "hi": "Chicken Lolli Pop",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 22,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Chicken Wings",
+            "hi": "Chicken Wings",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Leghorn Chicken Biriyani",
+            "hi": "Leghorn Chicken Biriyani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Biriyani"
+        },
+        {
+          "name": {
+            "en": "Broiler Chicken Biriyani",
+            "hi": "Broiler Chicken Biriyani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 17,
+          "section": "Biriyani"
+        },
+        {
+          "name": {
+            "en": "Beef Biriyani",
+            "hi": "Beef Biriyani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 22,
+          "section": "Biriyani"
+        },
+        {
+          "name": {
+            "en": "Fish Biriyani",
+            "hi": "Fish Biriyani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 22,
+          "section": "Biriyani"
+        },
+        {
+          "name": {
+            "en": "Prawns Biriyani",
+            "hi": "Prawns Biriyani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Biriyani"
+        },
+        {
+          "name": {
+            "en": "Veg Biriyani",
+            "hi": "Veg Biriyani",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Biriyani"
+        },
+        {
+          "name": {
+            "en": "Egg Biriyani",
+            "hi": "Egg Biriyani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Biriyani"
+        },
+        {
+          "name": {
+            "en": "Mutton Biriyani (Friday Sp.)",
+            "hi": "Mutton Biriyani (Friday Sp.)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Biriyani"
+        },
+        {
+          "name": {
+            "en": "Bucket Broiler Biriyani (solo)",
+            "hi": "Bucket Broiler Biriyani (solo)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 21,
+          "section": "Bucket Biriyani"
+        },
+        {
+          "name": {
+            "en": "Bucket Broiler Biriyani (couple)",
+            "hi": "Bucket Broiler Biriyani (couple)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 36,
+          "section": "Bucket Biriyani"
+        },
+        {
+          "name": {
+            "en": "Bucket Broiler Biriyani (family)",
+            "hi": "Bucket Broiler Biriyani (family)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 70,
+          "section": "Bucket Biriyani"
+        },
+        {
+          "name": {
+            "en": "Bucket Leghorn Biriyani (solo)",
+            "hi": "Bucket Leghorn Biriyani (solo)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Bucket Biriyani"
+        },
+        {
+          "name": {
+            "en": "Bucket Leghorn Biriyani (couple)",
+            "hi": "Bucket Leghorn Biriyani (couple)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 41,
+          "section": "Bucket Biriyani"
+        },
+        {
+          "name": {
+            "en": "Bucket Leghorn Biriyani (family)",
+            "hi": "Bucket Leghorn Biriyani (family)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 78,
+          "section": "Bucket Biriyani"
+        },
+        {
+          "name": {
+            "en": "Bucket Beef Biriyani (solo)",
+            "hi": "Bucket Beef Biriyani (solo)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Bucket Biriyani"
+        },
+        {
+          "name": {
+            "en": "Bucket Beef Biriyani (couple)",
+            "hi": "Bucket Beef Biriyani (couple)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 44,
+          "section": "Bucket Biriyani"
+        },
+        {
+          "name": {
+            "en": "Bucket Beef Biriyani (family)",
+            "hi": "Bucket Beef Biriyani (family)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 85,
+          "section": "Bucket Biriyani"
+        },
+        {
+          "name": {
+            "en": "Fish Curry Meals",
+            "hi": "Fish Curry Meals",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Fish Curry Meals"
+        },
+        {
+          "name": {
+            "en": "Veg Meals",
+            "hi": "Veg Meals",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Fish Curry Meals"
+        },
+        {
+          "name": {
+            "en": "Ghee Rice",
+            "hi": "Ghee Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Fish Curry Meals"
+        },
+        {
+          "name": {
+            "en": "Steamed Rice",
+            "hi": "Steamed Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Fish Curry Meals"
+        },
+        {
+          "name": {
+            "en": "Ney Pathiri",
+            "hi": "Ney Pathiri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2.1,
+          "section": "Bread"
+        },
+        {
+          "name": {
+            "en": "Madakku Chapathi",
+            "hi": "Madakku Chapathi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2.1,
+          "section": "Bread"
+        },
+        {
+          "name": {
+            "en": "Nice Pathiri",
+            "hi": "Nice Pathiri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Bread"
+        },
+        {
+          "name": {
+            "en": "Ummachi Pathiri",
+            "hi": "Ummachi Pathiri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2.1,
+          "section": "Bread"
+        },
+        {
+          "name": {
+            "en": "Puttu",
+            "hi": "Puttu",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Bread"
+        },
+        {
+          "name": {
+            "en": "Nool Puttu",
+            "hi": "Nool Puttu",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Bread"
+        },
+        {
+          "name": {
+            "en": "Porata",
+            "hi": "Porata",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Bread"
+        },
+        {
+          "name": {
+            "en": "Mixed Seafood",
+            "hi": "Mixed Seafood",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 95,
+          "section": "Mixed Seafood"
+        },
+        {
+          "name": {
+            "en": "Crab Varathu Vattichath",
+            "hi": "Crab Varathu Vattichath",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 38,
+          "section": "Crab Varathu Vattichath"
+        },
+        {
+          "name": {
+            "en": "Chicken Nadan Curry (smaller)",
+            "hi": "Chicken Nadan Curry (smaller)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Chicken Nadan Curry (larger)",
+            "hi": "Chicken Nadan Curry (larger)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 29,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Chicken Nadan Fry (smaller)",
+            "hi": "Chicken Nadan Fry (smaller)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Chicken Nadan Fry (larger)",
+            "hi": "Chicken Nadan Fry (larger)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 29,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Chicken Kanthari Roast (smaller)",
+            "hi": "Chicken Kanthari Roast (smaller)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Chicken Kanthari Roast (larger)",
+            "hi": "Chicken Kanthari Roast (larger)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 29,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Chicken Mulakittath (smaller)",
+            "hi": "Chicken Mulakittath (smaller)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Chicken Mulakittath (larger)",
+            "hi": "Chicken Mulakittath (larger)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 29,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Butter Chicken Masala (smaller)",
+            "hi": "Butter Chicken Masala (smaller)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Butter Chicken Masala (larger)",
+            "hi": "Butter Chicken Masala (larger)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 29,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Chicken Tikka Masala (smaller)",
+            "hi": "Chicken Tikka Masala (smaller)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Chicken Tikka Masala (larger)",
+            "hi": "Chicken Tikka Masala (larger)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 29,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Kadai Chicken (smaller)",
+            "hi": "Kadai Chicken (smaller)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Kadai Chicken (larger)",
+            "hi": "Kadai Chicken (larger)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 29,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Chilli Chicken (smaller)",
+            "hi": "Chilli Chicken (smaller)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Chilli Chicken (larger)",
+            "hi": "Chilli Chicken (larger)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 29,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Chicken Munnar (smaller)",
+            "hi": "Chicken Munnar (smaller)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Chicken Munnar (larger)",
+            "hi": "Chicken Munnar (larger)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 29,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Chicken Manchurian (smaller)",
+            "hi": "Chicken Manchurian (smaller)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Chicken Manchurian (larger)",
+            "hi": "Chicken Manchurian (larger)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 29,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Calicut Chicken Curry (smaller)",
+            "hi": "Calicut Chicken Curry (smaller)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken SP"
+        },
+        {
+          "name": {
+            "en": "Calicut Chicken Curry (larger)",
+            "hi": "Calicut Chicken Curry (larger)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 29,
+          "section": "Chicken SP"
         }
       ]
     }
