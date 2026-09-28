@@ -905,6 +905,13 @@ button:not(:disabled) {
   flex-direction: column;
   padding: 0 24px 32px;
 }
+/* What we keep, in one quiet line above the button that accepts it (decision 045). */
+.consent-line {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+  text-align: center;
+}
 .landing-brand {
   flex: 1;
   display: flex;

@@ -4,7 +4,7 @@ import { onVoiceEventRecorded, pendingVoiceEvents } from './voiceEvent.js';
 import { onAppEventRecorded, pendingAppEvents } from './appEvents.js';
 import { reportReach } from './network.js';
 import { PROJECT_URL, supabaseHeaders } from '../../lib/supabase.js';
-import { platform } from '../../lib/device.js';
+import { deviceId as thisDevice, platform } from '../../lib/device.js';
 
 /**
  * Sending the queue to the server, when the phone happens to have a connection.
@@ -40,7 +40,7 @@ export interface SyncOutcome {
   readonly sent: number;
   readonly accepted: number;
   /** Why nothing went, when nothing went. Kept so a silent failure is at least a reported one. */
-  readonly skipped?: 'offline' | 'nothing-queued' | 'failed';
+  readonly skipped?: 'offline' | 'failed';
 }
 
 export async function syncVoiceEvents(): Promise<SyncOutcome> {
@@ -50,8 +50,9 @@ export async function syncVoiceEvents(): Promise<SyncOutcome> {
 
   const pending = (await pendingVoiceEvents()).slice(0, BATCH);
   const pendingApp = (await pendingAppEvents()).slice(0, BATCH);
-  const deviceId = pending[0]?.deviceId ?? localStorage.getItem('saathi.deviceId');
-  if (deviceId === null) return { sent: 0, accepted: 0, skipped: 'nothing-queued' };
+  // Every phone has its random id from the first open (decision 045), so a phone that only reads
+  // menus and never types a search still sends its usage; it once never did.
+  const deviceId = pending[0]?.deviceId ?? thisDevice();
   const sent = pending.length + pendingApp.length;
 
   // A send with nothing queued still goes: it is how the phone learns our server can be reached,

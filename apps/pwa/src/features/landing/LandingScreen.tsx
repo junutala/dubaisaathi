@@ -104,6 +104,9 @@ export function LandingScreen({ onReady }: { readonly onReady: () => void }) {
         </span>
       </div>
 
+      {/* What we keep, said once, above the one button that starts the app — which is also the
+          traveller accepting it (decision 045). No second screen, no decline, never again. */}
+      <p className="small consent-line">{t('consent.line')}</p>
       <button
         type="button"
         className="btn btn-primary"

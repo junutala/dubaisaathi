@@ -101,7 +101,8 @@ cat <<H
       <div style="height: 6px; border-radius: 3px; background: $line;"><div style="width: 62%; height: 6px; border-radius: 3px; background: $teal;"></div></div>
       <span style="font-size: 12.5px; color: $muted;">खाने की जगहें, मेट्रो-बस का नक़्शा, दुबई की जगहें — सब फ़ोन पर रहेगा।</span>
     </div>
-    <span style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 14px; background: $line; color: $muted; font-size: 16px; font-weight: 700;">शुरू करें</span>
+    <span style="font-size: 12.5px; line-height: 1.5; color: $muted; text-align: center;">खाना, जाना, जानना और बोलना में आप जो लिखते, बोलते या पढ़वाते हैं, उसे हम Saathi को बेहतर बनाने के लिए रख सकते हैं — सिर्फ़ लिखा हुआ, आपकी आवाज़ या फ़ोटो नहीं. यह आपके नाम या नंबर से नहीं जुड़ता.</span>
+    <span style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 14px; background: $line; color: $muted; font-size: 16px; font-weight: 700;">मंज़ूर है, शुरू करें</span>
   </div>
 </div>
 </x-dc>

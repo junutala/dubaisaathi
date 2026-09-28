@@ -9,8 +9,8 @@
  * - **The photograph is never kept** — not in storage, not in a log. It is read and dropped. The
  *   phone has already shrunk it, which strips where and when it was taken.
  * - **The text is kept** (the owner: "the text tells us a lot"): the Arabic read and the Hindi
- *   given, in `board_readings` (migration 0022), with no device id — a board is public, and the
- *   row is tied to no one.
+ *   given, in `board_readings` (migration 0022), with the phone's random id and nothing that
+ *   names a person (decision 045).
  * - **The model is not in the code** (decision 043's rule): `READBOARD_MODEL` names one; without
  *   it, the newest Opus the Models API lists.
  * - **Online only, like the rest of बोलना** (decision 020). One origin (decision 012): only the
@@ -32,6 +32,7 @@ const CORS = {
 /** The phone sends a shrunk JPEG of a few hundred kB; anything this large is not one. */
 const MAX_BYTES = 4 * 1024 * 1024;
 const DAILY_CAP = 3000;
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const FALLBACK_MODEL = 'claude-opus-5';
 const MEDIA = ['image/jpeg', 'image/png', 'image/webp'] as const;
 type Media = (typeof MEDIA)[number];
@@ -90,7 +91,7 @@ Deno.serve(async (request: Request): Promise<Response> => {
   const key = Deno.env.get('ANTHROPIC_API_KEY');
   if (!key) return json({ error: 'reading is not configured' }, 503);
 
-  let body: { image?: unknown; type?: unknown };
+  let body: { image?: unknown; type?: unknown; deviceId?: unknown };
   try {
     body = (await request.json()) as typeof body;
   } catch {
@@ -168,7 +169,11 @@ Deno.serve(async (request: Request): Promise<Response> => {
 
   // The text is kept, the photograph is not. A failed insert costs a statistic, never the answer.
   if (arabic !== '' && hindi !== '') {
-    await db.from('board_readings').insert({ arabic, hindi, model: message.model });
+    const deviceId =
+      typeof body.deviceId === 'string' && UUID.test(body.deviceId) ? body.deviceId : null;
+    await db
+      .from('board_readings')
+      .insert({ arabic, hindi, model: message.model, device_id: deviceId });
   }
   return json({ arabic, hindi });
 });

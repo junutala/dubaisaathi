@@ -13,6 +13,10 @@
  * ("better than sign language in the middle of the road at 50C"). Output goes out as it comes.
  */
 
+import { createClient } from 'jsr:@supabase/supabase-js@2';
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'content-type, authorization, apikey',
@@ -37,8 +41,9 @@ Deno.serve(async (request: Request): Promise<Response> => {
   if (!key) return json({ error: 'translation is not configured' }, 503);
 
   let text: unknown;
+  let deviceId: unknown;
   try {
-    text = ((await request.json()) as { text?: unknown }).text;
+    ({ text, deviceId } = (await request.json()) as { text?: unknown; deviceId?: unknown });
   } catch {
     return json({ error: 'not JSON' }, 400);
   }
@@ -70,6 +75,20 @@ Deno.serve(async (request: Request): Promise<Response> => {
   const first = body.data?.translations?.[0];
   const ar = first?.translatedText;
   if (typeof ar !== 'string' || ar.trim() === '') return json({ error: 'empty translation' }, 502);
+
+  // The sentence and its Arabic are kept for training, tied to the phone's random id and to no
+  // name or number (decision 045). A failed insert costs a statistic, never the answer.
+  const db = createClient(
+    Deno.env.get('SUPABASE_URL') ?? '',
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+    { auth: { persistSession: false } },
+  );
+  await db.from('bolna_sentences').insert({
+    device_id: typeof deviceId === 'string' && UUID.test(deviceId) ? deviceId : null,
+    text: text.trim(),
+    arabic: ar.trim(),
+    source_lang: first?.detectedSourceLanguage ?? null,
+  });
 
   return json({ ar, from: first?.detectedSourceLanguage ?? null });
 });

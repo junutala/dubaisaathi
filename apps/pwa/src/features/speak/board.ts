@@ -1,3 +1,4 @@
+import { deviceId } from '../../lib/device.js';
 import { PROJECT_URL, supabaseHeaders } from '../../lib/supabase.js';
 
 /**
@@ -76,7 +77,7 @@ export async function readBoard(photo: Photo): Promise<BoardRead> {
     response = await fetch(READ_BOARD, {
       method: 'POST',
       headers: supabaseHeaders(),
-      body: JSON.stringify({ image: photo.data, type: photo.type }),
+      body: JSON.stringify({ image: photo.data, type: photo.type, deviceId: deviceId() }),
     });
   } catch {
     return { kind: 'failed' };
