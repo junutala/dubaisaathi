@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { networkState, ONLINE_FOR_MS } from './network.js';
+import {
+  currentNetwork,
+  networkState,
+  ONLINE_FOR_MS,
+  reportReach,
+  resetNetworkForTests,
+} from './network.js';
 
 describe('the network state is evidence, not the browser’s guess', () => {
   const now = 1_000_000_000;
@@ -25,5 +31,17 @@ describe('the network state is evidence, not the browser’s guess', () => {
 
   it('comes back online as soon as our server answers again', () => {
     expect(networkState({ okAt: now - 100, failedAt: now - 1000 }, true, now)).toBe('online');
+  });
+});
+
+describe('two reports in the same millisecond', () => {
+  it('lets the newer one decide, whichever it is', () => {
+    const now = 1_000_000;
+    resetNetworkForTests();
+    reportReach(true, now);
+    reportReach(false, now);
+    expect(currentNetwork(now + 1)).toBe('offline');
+    reportReach(true, now);
+    expect(currentNetwork(now + 2)).toBe('online');
   });
 });
