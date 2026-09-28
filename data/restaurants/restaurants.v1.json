@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-28T13:09:32.348Z",
+  "publishedAt": "2026-09-28T13:25:22.846Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -81481,6 +81481,2284 @@
           "closes": "03:00"
         }
       }
+    },
+    {
+      "id": "641104e0-9b48-42cd-a1c2-ed45018d03a2",
+      "name": {
+        "en": "Koora Veedu",
+        "hi": "Koora Veedu",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2468161,
+        "lng": 55.3046525
+      },
+      "areaId": "karama",
+      "kitchen": "mixed",
+      "tags": [],
+      "phone": "054 731 4212",
+      "confirmedDishes": [
+        {
+          "name": {
+            "en": "Kanchipuram Idly (3pcs)",
+            "hi": "Kanchipuram Idly (3pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Vizhupuram Idiyappam (3pcs)",
+            "hi": "Vizhupuram Idiyappam (3pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Dindukal Plain Dosa",
+            "hi": "Dindukal Plain Dosa",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Mayavaram Masala Dosa",
+            "hi": "Mayavaram Masala Dosa",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Mannarkudi Mutta Dosa",
+            "hi": "Mannarkudi Mutta Dosa",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Coimbatore Kari Dosa",
+            "hi": "Coimbatore Kari Dosa",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Thirunelveli Set Dosa",
+            "hi": "Thirunelveli Set Dosa",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Podi Dosa",
+            "hi": "Podi Dosa",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Podi Masala Dosa",
+            "hi": "Podi Masala Dosa",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Ghee Dosa (Roast)",
+            "hi": "Ghee Dosa (Roast)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Onion Dosa",
+            "hi": "Onion Dosa",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Poori Bhaji (3pcs)",
+            "hi": "Poori Bhaji (3pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Medhu Vada",
+            "hi": "Medhu Vada",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Sambar Vada",
+            "hi": "Sambar Vada",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Pongal",
+            "hi": "Pongal",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Poori - Single",
+            "hi": "Poori - Single",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Idly - Single",
+            "hi": "Idly - Single",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Idiyappam - Single",
+            "hi": "Idiyappam - Single",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Vazhai Ilai Sapadu - Saivam",
+            "hi": "Vazhai Ilai Sapadu - Saivam",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Lunch Meals"
+        },
+        {
+          "name": {
+            "en": "Vazhai Ilai Sapadu - Asaivam",
+            "hi": "Vazhai Ilai Sapadu - Asaivam",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Lunch Meals"
+        },
+        {
+          "name": {
+            "en": "Naatukozhi Sapadu",
+            "hi": "Naatukozhi Sapadu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Lunch Meals"
+        },
+        {
+          "name": {
+            "en": "Aatukari Soru",
+            "hi": "Aatukari Soru",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Lunch Meals"
+        },
+        {
+          "name": {
+            "en": "Meen Kozhambu Soru",
+            "hi": "Meen Kozhambu Soru",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Lunch Meals"
+        },
+        {
+          "name": {
+            "en": "Soru - Plain",
+            "hi": "Soru - Plain",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Lunch Meals"
+        },
+        {
+          "name": {
+            "en": "Thakkali Soru",
+            "hi": "Thakkali Soru",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Lunch Meals"
+        },
+        {
+          "name": {
+            "en": "Elumichai Soru",
+            "hi": "Elumichai Soru",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Lunch Meals"
+        },
+        {
+          "name": {
+            "en": "Thayir Soru",
+            "hi": "Thayir Soru",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Lunch Meals"
+        },
+        {
+          "name": {
+            "en": "Karuvattu Kuzhambu Soru",
+            "hi": "Karuvattu Kuzhambu Soru",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Lunch Meals"
+        },
+        {
+          "name": {
+            "en": "Thayir - Small",
+            "hi": "Thayir - Small",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Lunch Meals"
+        },
+        {
+          "name": {
+            "en": "Mutta Biriyani",
+            "hi": "Mutta Biriyani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Biryanis"
+        },
+        {
+          "name": {
+            "en": "Kozhi Biriyani",
+            "hi": "Kozhi Biriyani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Biryanis"
+        },
+        {
+          "name": {
+            "en": "Naattu Kozhi Biriyani",
+            "hi": "Naattu Kozhi Biriyani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Biryanis"
+        },
+        {
+          "name": {
+            "en": "Hydrabadi Biriyani (Basmati)",
+            "hi": "Hydrabadi Biriyani (Basmati)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Biryanis"
+        },
+        {
+          "name": {
+            "en": "Madras Kozhi Biriyani (Basmati)",
+            "hi": "Madras Kozhi Biriyani (Basmati)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Biryanis"
+        },
+        {
+          "name": {
+            "en": "Mutton Briyani",
+            "hi": "Mutton Briyani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Biryanis"
+        },
+        {
+          "name": {
+            "en": "Mutton Chukka Briyani",
+            "hi": "Mutton Chukka Briyani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Biryanis"
+        },
+        {
+          "name": {
+            "en": "Veg Briyani",
+            "hi": "Veg Briyani",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Biryanis"
+        },
+        {
+          "name": {
+            "en": "65 Briyani",
+            "hi": "65 Briyani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Biryanis"
+        },
+        {
+          "name": {
+            "en": "Aatukaal Soup",
+            "hi": "Aatukaal Soup",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Soup"
+        },
+        {
+          "name": {
+            "en": "Naatukozhi Soup",
+            "hi": "Naatukozhi Soup",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Soup"
+        },
+        {
+          "name": {
+            "en": "Chicken Soup",
+            "hi": "Chicken Soup",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Soup"
+        },
+        {
+          "name": {
+            "en": "Karuveppilai Soup",
+            "hi": "Karuveppilai Soup",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Soup"
+        },
+        {
+          "name": {
+            "en": "Nandu Soup",
+            "hi": "Nandu Soup",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Soup"
+        },
+        {
+          "name": {
+            "en": "Sweet Corn Veg Soup",
+            "hi": "Sweet Corn Veg Soup",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Soup"
+        },
+        {
+          "name": {
+            "en": "Sweet Corn Chicken Soup",
+            "hi": "Sweet Corn Chicken Soup",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 8,
+          "section": "Soup"
+        },
+        {
+          "name": {
+            "en": "Madras Chicken Fried Rice",
+            "hi": "Madras Chicken Fried Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Madras Veg Fried Rice",
+            "hi": "Madras Veg Fried Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Chicken Noodles",
+            "hi": "Chicken Noodles",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg Noodles",
+            "hi": "Veg Noodles",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Chinese Veg Combo (Fried Rice + Gobi Manjurian Dry + Gravy)",
+            "hi": "Chinese Veg Combo (Fried Rice + Gobi Manjurian Dry + Gravy)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Chinese Chicken Combo (Fried Rice + Chicken Manjurian + Gravy)",
+            "hi": "Chinese Chicken Combo (Fried Rice + Chicken Manjurian + Gravy)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Chinese Chicken Noodles Combo (Noodles + Chicken Manjurian Dry + Gravy)",
+            "hi": "Chinese Chicken Noodles Combo (Noodles + Chicken Manjurian Dry + Gravy)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Nethili Varuval",
+            "hi": "Nethili Varuval",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Sea Food Starters"
+        },
+        {
+          "name": {
+            "en": "Vaaval (Pomfret) Varuval (ASP)",
+            "hi": "Vaaval (Pomfret) Varuval (ASP)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Sea Food Starters"
+        },
+        {
+          "name": {
+            "en": "Karu Vaaval Varuval (ASP)",
+            "hi": "Karu Vaaval Varuval (ASP)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Sea Food Starters"
+        },
+        {
+          "name": {
+            "en": "Vanjiram Varuval",
+            "hi": "Vanjiram Varuval",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Sea Food Starters"
+        },
+        {
+          "name": {
+            "en": "Sankara Meen Varuval",
+            "hi": "Sankara Meen Varuval",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Sea Food Starters"
+        },
+        {
+          "name": {
+            "en": "Prawn Pirattal",
+            "hi": "Prawn Pirattal",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Sea Food Starters"
+        },
+        {
+          "name": {
+            "en": "Prawn 65",
+            "hi": "Prawn 65",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Sea Food Starters"
+        },
+        {
+          "name": {
+            "en": "Vanjiram Polichathu",
+            "hi": "Vanjiram Polichathu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Sea Food Starters"
+        },
+        {
+          "name": {
+            "en": "Vaaval (Pomfret) Polichadhu",
+            "hi": "Vaaval (Pomfret) Polichadhu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Sea Food Starters"
+        },
+        {
+          "name": {
+            "en": "Vaaval (Pomfret) Masala",
+            "hi": "Vaaval (Pomfret) Masala",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Sea Food Starters"
+        },
+        {
+          "name": {
+            "en": "Vanjiram Masala",
+            "hi": "Vanjiram Masala",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Sea Food Starters"
+        },
+        {
+          "name": {
+            "en": "Nethili Meen Kuzhambu",
+            "hi": "Nethili Meen Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Sea Food Gravy"
+        },
+        {
+          "name": {
+            "en": "Vaaval (Pomfret) Meen Kuzhambu",
+            "hi": "Vaaval (Pomfret) Meen Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Sea Food Gravy"
+        },
+        {
+          "name": {
+            "en": "Sankara Meen Kuzhambu",
+            "hi": "Sankara Meen Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Sea Food Gravy"
+        },
+        {
+          "name": {
+            "en": "Vanjira Meen Kuzhambu",
+            "hi": "Vanjira Meen Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Sea Food Gravy"
+        },
+        {
+          "name": {
+            "en": "Mango Meen Kuzhambu",
+            "hi": "Mango Meen Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Sea Food Gravy"
+        },
+        {
+          "name": {
+            "en": "Mango Prawn Kuzhambu",
+            "hi": "Mango Prawn Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Sea Food Gravy"
+        },
+        {
+          "name": {
+            "en": "Garlic Prawn Kuzhambu",
+            "hi": "Garlic Prawn Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Sea Food Gravy"
+        },
+        {
+          "name": {
+            "en": "Chikkunu Chicken Fry (Pepper)",
+            "hi": "Chikkunu Chicken Fry (Pepper)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken Starters"
+        },
+        {
+          "name": {
+            "en": "Kozhi 65",
+            "hi": "Kozhi 65",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken Starters"
+        },
+        {
+          "name": {
+            "en": "Kozhi Lollypop",
+            "hi": "Kozhi Lollypop",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken Starters"
+        },
+        {
+          "name": {
+            "en": "Milaga Chicken Fry (Chilly)",
+            "hi": "Milaga Chicken Fry (Chilly)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken Starters"
+        },
+        {
+          "name": {
+            "en": "Pichi Pota Kozhi",
+            "hi": "Pichi Pota Kozhi",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken Starters"
+        },
+        {
+          "name": {
+            "en": "Kozhi Chukka",
+            "hi": "Kozhi Chukka",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken Starters"
+        },
+        {
+          "name": {
+            "en": "Kozhi Roast",
+            "hi": "Kozhi Roast",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken Starters"
+        },
+        {
+          "name": {
+            "en": "Kozhi Tawa Varuval",
+            "hi": "Kozhi Tawa Varuval",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Chicken Starters"
+        },
+        {
+          "name": {
+            "en": "Kozhi Porichadhu",
+            "hi": "Kozhi Porichadhu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 22,
+          "section": "Chicken Starters"
+        },
+        {
+          "name": {
+            "en": "Naatu Kozhi Varuval",
+            "hi": "Naatu Kozhi Varuval",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 22,
+          "section": "Chicken Starters"
+        },
+        {
+          "name": {
+            "en": "Namma Ooru Kozhi Kuzhambu",
+            "hi": "Namma Ooru Kozhi Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Chicken Curry"
+        },
+        {
+          "name": {
+            "en": "Varutharaicha Kozhi Kuzhambu",
+            "hi": "Varutharaicha Kozhi Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Chicken Curry"
+        },
+        {
+          "name": {
+            "en": "Karaikudi Kozhi Kuzhambu",
+            "hi": "Karaikudi Kozhi Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Chicken Curry"
+        },
+        {
+          "name": {
+            "en": "Butter Chicken Kuzhambu",
+            "hi": "Butter Chicken Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Chicken Curry"
+        },
+        {
+          "name": {
+            "en": "Naatu Kozhi Kuzhambu",
+            "hi": "Naatu Kozhi Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 21,
+          "section": "Chicken Curry"
+        },
+        {
+          "name": {
+            "en": "Chettinad Kozhi Kuzhambu",
+            "hi": "Chettinad Kozhi Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Chicken Curry"
+        },
+        {
+          "name": {
+            "en": "Kozhi Milagu Kuzhambu",
+            "hi": "Kozhi Milagu Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 21,
+          "section": "Chicken Curry"
+        },
+        {
+          "name": {
+            "en": "Kadai Chicken",
+            "hi": "Kadai Chicken",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 21,
+          "section": "Chicken Curry"
+        },
+        {
+          "name": {
+            "en": "Aattu Chukka",
+            "hi": "Aattu Chukka",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Mutton Starters"
+        },
+        {
+          "name": {
+            "en": "Aattu Liver Fry",
+            "hi": "Aattu Liver Fry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Mutton Starters"
+        },
+        {
+          "name": {
+            "en": "Aattu Kudal Masala",
+            "hi": "Aattu Kudal Masala",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Mutton Starters"
+        },
+        {
+          "name": {
+            "en": "Sevorotti Varuval",
+            "hi": "Sevorotti Varuval",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Mutton Starters"
+        },
+        {
+          "name": {
+            "en": "Aattukari Roast",
+            "hi": "Aattukari Roast",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Mutton Starters"
+        },
+        {
+          "name": {
+            "en": "Aattukari Pepper Varuval",
+            "hi": "Aattukari Pepper Varuval",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Mutton Starters"
+        },
+        {
+          "name": {
+            "en": "Aatukari Kuzhambu",
+            "hi": "Aatukari Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Mutton Curry"
+        },
+        {
+          "name": {
+            "en": "Aatukari Chettinadu Kuzhambu",
+            "hi": "Aatukari Chettinadu Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Mutton Curry"
+        },
+        {
+          "name": {
+            "en": "Aatukari Milagu Kuzhambu",
+            "hi": "Aatukari Milagu Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Mutton Curry"
+        },
+        {
+          "name": {
+            "en": "Aatu Nalli Kuzhambu",
+            "hi": "Aatu Nalli Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Mutton Curry"
+        },
+        {
+          "name": {
+            "en": "Aatu Kudal Kari Kuzhambu",
+            "hi": "Aatu Kudal Kari Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 21,
+          "section": "Mutton Curry"
+        },
+        {
+          "name": {
+            "en": "Aatu Elumbu Kuzhambu",
+            "hi": "Aatu Elumbu Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Mutton Curry"
+        },
+        {
+          "name": {
+            "en": "Kadai Mutton",
+            "hi": "Kadai Mutton",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Mutton Curry"
+        },
+        {
+          "name": {
+            "en": "Saiva Kuruma",
+            "hi": "Saiva Kuruma",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Veg Curries"
+        },
+        {
+          "name": {
+            "en": "Pacha Pattaani Kuruma",
+            "hi": "Pacha Pattaani Kuruma",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Veg Curries"
+        },
+        {
+          "name": {
+            "en": "Chettinadu Saiva Kuruma",
+            "hi": "Chettinadu Saiva Kuruma",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Veg Curries"
+        },
+        {
+          "name": {
+            "en": "Konda Kadalai Kuruma",
+            "hi": "Konda Kadalai Kuruma",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Veg Curries"
+        },
+        {
+          "name": {
+            "en": "Panneer Butter Masala",
+            "hi": "Panneer Butter Masala",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Veg Curries"
+        },
+        {
+          "name": {
+            "en": "Gobi Manchurian Gravy",
+            "hi": "Gobi Manchurian Gravy",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Veg Curries"
+        },
+        {
+          "name": {
+            "en": "Kadai Veg",
+            "hi": "Kadai Veg",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Veg Curries"
+        },
+        {
+          "name": {
+            "en": "Gobi 65",
+            "hi": "Gobi 65",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Veg Starters"
+        },
+        {
+          "name": {
+            "en": "Gobi Manchurian Dry",
+            "hi": "Gobi Manchurian Dry",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Veg Starters"
+        },
+        {
+          "name": {
+            "en": "Mushroom 65",
+            "hi": "Mushroom 65",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Veg Starters"
+        },
+        {
+          "name": {
+            "en": "Mushroom Salt & Pepper",
+            "hi": "Mushroom Salt & Pepper",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Veg Starters"
+        },
+        {
+          "name": {
+            "en": "Paneer Bhurji",
+            "hi": "Paneer Bhurji",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Veg Starters"
+        },
+        {
+          "name": {
+            "en": "Paneer 65",
+            "hi": "Paneer 65",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Veg Starters"
+        },
+        {
+          "name": {
+            "en": "Kaalaan",
+            "hi": "Kaalaan",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Evening Special Snacks"
+        },
+        {
+          "name": {
+            "en": "Chicken Pakoda",
+            "hi": "Chicken Pakoda",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Evening Special Snacks"
+        },
+        {
+          "name": {
+            "en": "Chilly Parotta",
+            "hi": "Chilly Parotta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Evening Special Snacks"
+        },
+        {
+          "name": {
+            "en": "Avicha Muttai",
+            "hi": "Avicha Muttai",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 1.5,
+          "section": "Egg Varieties"
+        },
+        {
+          "name": {
+            "en": "Half Boiled",
+            "hi": "Half Boiled",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 2,
+          "section": "Egg Varieties"
+        },
+        {
+          "name": {
+            "en": "Full Boiled",
+            "hi": "Full Boiled",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 2,
+          "section": "Egg Varieties"
+        },
+        {
+          "name": {
+            "en": "Omelet (Single)",
+            "hi": "Omelet (Single)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 3,
+          "section": "Egg Varieties"
+        },
+        {
+          "name": {
+            "en": "Omelet (Double)",
+            "hi": "Omelet (Double)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 5,
+          "section": "Egg Varieties"
+        },
+        {
+          "name": {
+            "en": "Masala Kalakki",
+            "hi": "Masala Kalakki",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 4,
+          "section": "Egg Varieties"
+        },
+        {
+          "name": {
+            "en": "Plain Kalakki",
+            "hi": "Plain Kalakki",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 3,
+          "section": "Egg Varieties"
+        },
+        {
+          "name": {
+            "en": "Mutta Podimaas",
+            "hi": "Mutta Podimaas",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 7,
+          "section": "Egg Varieties"
+        },
+        {
+          "name": {
+            "en": "Mutta Roast",
+            "hi": "Mutta Roast",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Egg Varieties"
+        },
+        {
+          "name": {
+            "en": "Mutta Kuzhambu",
+            "hi": "Mutta Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Egg Varieties"
+        },
+        {
+          "name": {
+            "en": "Idly (3pcs) + Kozhi Kuzhambu",
+            "hi": "Idly (3pcs) + Kozhi Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Idly (3pcs) + Aattukari Kuzhambu",
+            "hi": "Idly (3pcs) + Aattukari Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Idly (3pcs) + Meen Kuzhambu",
+            "hi": "Idly (3pcs) + Meen Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Idly (3pcs) + Saiva Kuruma",
+            "hi": "Idly (3pcs) + Saiva Kuruma",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Dosa (2pcs) + Kozhi Kuzhambu",
+            "hi": "Dosa (2pcs) + Kozhi Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Dosa (2pcs) + Aattukari Kuzhambu",
+            "hi": "Dosa (2pcs) + Aattukari Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Dosa (2pcs) + Meen Kuzhambu",
+            "hi": "Dosa (2pcs) + Meen Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Dosa (2pcs) + Saiva Kuruma",
+            "hi": "Dosa (2pcs) + Saiva Kuruma",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Parotta (2pcs) + Kozhi Kuzhambu",
+            "hi": "Parotta (2pcs) + Kozhi Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Parotta (2pcs) + Aattukari Kuzhambu",
+            "hi": "Parotta (2pcs) + Aattukari Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Parotta (2pcs) + Saiva Kuruma",
+            "hi": "Parotta (2pcs) + Saiva Kuruma",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Chappathi (2pcs) + Kozhi Kuzhambu",
+            "hi": "Chappathi (2pcs) + Kozhi Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Chappathi (2pcs) + Aattukari Kuzhambu",
+            "hi": "Chappathi (2pcs) + Aattukari Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Chappathi (2pcs) + Saiva Kuruma",
+            "hi": "Chappathi (2pcs) + Saiva Kuruma",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Idiyappam (2pcs) + Kozhi Kuzhambu",
+            "hi": "Idiyappam (2pcs) + Kozhi Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Idiyappam (2pcs) + Aattukari Kuzhambu",
+            "hi": "Idiyappam (2pcs) + Aattukari Kuzhambu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Idiyappam (2pcs) + Saiva Kuruma",
+            "hi": "Idiyappam (2pcs) + Saiva Kuruma",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Idiyappam (2pcs) + Aattu Kal Paya",
+            "hi": "Idiyappam (2pcs) + Aattu Kal Paya",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Combo (Breakfast & Dinner)"
+        },
+        {
+          "name": {
+            "en": "Chappathi",
+            "hi": "Chappathi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Bread Varieties"
+        },
+        {
+          "name": {
+            "en": "Parotta",
+            "hi": "Parotta",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Bread Varieties"
+        },
+        {
+          "name": {
+            "en": "Wheat Parotta",
+            "hi": "Wheat Parotta",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2.5,
+          "section": "Bread Varieties"
+        },
+        {
+          "name": {
+            "en": "Egg Veechu Parotta",
+            "hi": "Egg Veechu Parotta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 4,
+          "section": "Bread Varieties"
+        },
+        {
+          "name": {
+            "en": "Kuthu Chicken Parotta",
+            "hi": "Kuthu Chicken Parotta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 16,
+          "section": "Bread Varieties"
+        },
+        {
+          "name": {
+            "en": "Kuthu Mutton Parotta",
+            "hi": "Kuthu Mutton Parotta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Bread Varieties"
+        },
+        {
+          "name": {
+            "en": "Kuthu Egg Parotta",
+            "hi": "Kuthu Egg Parotta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Bread Varieties"
+        },
+        {
+          "name": {
+            "en": "Kuthu Veg Parotta",
+            "hi": "Kuthu Veg Parotta",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Bread Varieties"
+        },
+        {
+          "name": {
+            "en": "Mutta Lappai",
+            "hi": "Mutta Lappai",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Bread Varieties"
+        },
+        {
+          "name": {
+            "en": "Chicken Lappai",
+            "hi": "Chicken Lappai",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 6,
+          "section": "Bread Varieties"
+        },
+        {
+          "name": {
+            "en": "Mutton Lappai",
+            "hi": "Mutton Lappai",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Bread Varieties"
+        },
+        {
+          "name": {
+            "en": "Bun Parotta",
+            "hi": "Bun Parotta",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2.5,
+          "section": "Bread Varieties"
+        },
+        {
+          "name": {
+            "en": "Koora Veedu Chicken Parotta",
+            "hi": "Koora Veedu Chicken Parotta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Bread Varieties"
+        },
+        {
+          "name": {
+            "en": "Koora Veedu Mutton Parotta",
+            "hi": "Koora Veedu Mutton Parotta",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 22,
+          "section": "Bread Varieties"
+        },
+        {
+          "name": {
+            "en": "Maan Kuzhambu (ASP)",
+            "hi": "Maan Kuzhambu (ASP)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 40,
+          "section": "KVR Weekdays Special"
+        },
+        {
+          "name": {
+            "en": "Maan Varuval (ASP)",
+            "hi": "Maan Varuval (ASP)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 40,
+          "section": "KVR Weekdays Special"
+        },
+        {
+          "name": {
+            "en": "Maan Masala (ASP)",
+            "hi": "Maan Masala (ASP)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 40,
+          "section": "KVR Weekdays Special"
+        },
+        {
+          "name": {
+            "en": "Muyal Kuzhambu (ASP)",
+            "hi": "Muyal Kuzhambu (ASP)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 40,
+          "section": "KVR Weekdays Special"
+        },
+        {
+          "name": {
+            "en": "Muyal Varuval (ASP)",
+            "hi": "Muyal Varuval (ASP)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 40,
+          "section": "KVR Weekdays Special"
+        },
+        {
+          "name": {
+            "en": "Muyal Masala (ASP)",
+            "hi": "Muyal Masala (ASP)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 40,
+          "section": "KVR Weekdays Special"
+        },
+        {
+          "name": {
+            "en": "Ottaga Kuzhambu (ASP)",
+            "hi": "Ottaga Kuzhambu (ASP)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 35,
+          "section": "KVR Weekdays Special"
+        },
+        {
+          "name": {
+            "en": "Ottaga Varuval (ASP)",
+            "hi": "Ottaga Varuval (ASP)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 35,
+          "section": "KVR Weekdays Special"
+        },
+        {
+          "name": {
+            "en": "Ottaga Masala (ASP)",
+            "hi": "Ottaga Masala (ASP)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 35,
+          "section": "KVR Weekdays Special"
+        },
+        {
+          "name": {
+            "en": "Kaadai Varuval (ASP)",
+            "hi": "Kaadai Varuval (ASP)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "KVR Weekdays Special"
+        },
+        {
+          "name": {
+            "en": "Kaadai Masala (ASP)",
+            "hi": "Kaadai Masala (ASP)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "KVR Weekdays Special"
+        },
+        {
+          "name": {
+            "en": "Kaadai Porichadhu (ASP)",
+            "hi": "Kaadai Porichadhu (ASP)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "KVR Weekdays Special"
+        },
+        {
+          "name": {
+            "en": "Maamiyar Veetu Virundhu (Non Veg)",
+            "hi": "Maamiyar Veetu Virundhu (Non Veg)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 30,
+          "section": "KVR Weekend Special"
+        },
+        {
+          "name": {
+            "en": "Maami Virundhu (Veg)",
+            "hi": "Maami Virundhu (Veg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "KVR Weekend Special"
+        },
+        {
+          "name": {
+            "en": "Aatukari Virundhu",
+            "hi": "Aatukari Virundhu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 35,
+          "section": "KVR Weekend Special"
+        },
+        {
+          "name": {
+            "en": "Watermelon",
+            "hi": "Watermelon",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Juices"
+        },
+        {
+          "name": {
+            "en": "Pineapple",
+            "hi": "Pineapple",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Juices"
+        },
+        {
+          "name": {
+            "en": "Pomogranate",
+            "hi": "Pomogranate",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Juices"
+        },
+        {
+          "name": {
+            "en": "Sweet Melon",
+            "hi": "Sweet Melon",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Juices"
+        },
+        {
+          "name": {
+            "en": "Lemon Sweet & Salt",
+            "hi": "Lemon Sweet & Salt",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8.5,
+          "section": "Juices"
+        },
+        {
+          "name": {
+            "en": "Lemon Mint",
+            "hi": "Lemon Mint",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8.5,
+          "section": "Juices"
+        },
+        {
+          "name": {
+            "en": "Lemon Salt",
+            "hi": "Lemon Salt",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Juices"
+        },
+        {
+          "name": {
+            "en": "Lemon Sweet",
+            "hi": "Lemon Sweet",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Juices"
+        },
+        {
+          "name": {
+            "en": "Saathukudi Pepper",
+            "hi": "Saathukudi Pepper",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Juices"
+        },
+        {
+          "name": {
+            "en": "Orange",
+            "hi": "Orange",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Juices"
+        },
+        {
+          "name": {
+            "en": "Nannari Sarbath",
+            "hi": "Nannari Sarbath",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Juices"
+        },
+        {
+          "name": {
+            "en": "Nannari Soda Sarbath",
+            "hi": "Nannari Soda Sarbath",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Juices"
+        },
+        {
+          "name": {
+            "en": "Oreo Shake",
+            "hi": "Oreo Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Sharjah Shake",
+            "hi": "Sharjah Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Snickers Shake",
+            "hi": "Snickers Shake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Kitkat Milkshake",
+            "hi": "Kitkat Milkshake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Vanilla Milkshake",
+            "hi": "Vanilla Milkshake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "Strawberry Milkshake",
+            "hi": "Strawberry Milkshake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Milk Shakes"
+        },
+        {
+          "name": {
+            "en": "7Up",
+            "hi": "7Up",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Soft Drinks"
+        },
+        {
+          "name": {
+            "en": "Dew",
+            "hi": "Dew",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Soft Drinks"
+        },
+        {
+          "name": {
+            "en": "Pepsi",
+            "hi": "Pepsi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Soft Drinks"
+        },
+        {
+          "name": {
+            "en": "Coca Cola",
+            "hi": "Coca Cola",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Soft Drinks"
+        },
+        {
+          "name": {
+            "en": "Soda",
+            "hi": "Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Soft Drinks"
+        },
+        {
+          "name": {
+            "en": "Water Big",
+            "hi": "Water Big",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Soft Drinks"
+        },
+        {
+          "name": {
+            "en": "Water Small",
+            "hi": "Water Small",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Soft Drinks"
+        },
+        {
+          "name": {
+            "en": "Goli Soda",
+            "hi": "Goli Soda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Soft Drinks"
+        },
+        {
+          "name": {
+            "en": "Rava Kesari",
+            "hi": "Rava Kesari",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Desserts"
+        },
+        {
+          "name": {
+            "en": "Carrot Halwa",
+            "hi": "Carrot Halwa",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Desserts"
+        },
+        {
+          "name": {
+            "en": "Gulab Jamun",
+            "hi": "Gulab Jamun",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Desserts"
+        },
+        {
+          "name": {
+            "en": "Gulab Jamun with Ice Cream",
+            "hi": "Gulab Jamun with Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Desserts"
+        },
+        {
+          "name": {
+            "en": "Jigirthanda",
+            "hi": "Jigirthanda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Desserts"
+        },
+        {
+          "name": {
+            "en": "Fruit Salad",
+            "hi": "Fruit Salad",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Desserts"
+        },
+        {
+          "name": {
+            "en": "Fruit Salad with Ice Cream",
+            "hi": "Fruit Salad with Ice Cream",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Desserts"
+        },
+        {
+          "name": {
+            "en": "Nilgiris Tea",
+            "hi": "Nilgiris Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Coffee and Tea"
+        },
+        {
+          "name": {
+            "en": "Valpaarai Inji Tea",
+            "hi": "Valpaarai Inji Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Coffee and Tea"
+        },
+        {
+          "name": {
+            "en": "Dubai Sulaimani",
+            "hi": "Dubai Sulaimani",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Coffee and Tea"
+        },
+        {
+          "name": {
+            "en": "Bombay Boost",
+            "hi": "Bombay Boost",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Coffee and Tea"
+        },
+        {
+          "name": {
+            "en": "Horlicks",
+            "hi": "Horlicks",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Coffee and Tea"
+        },
+        {
+          "name": {
+            "en": "Milo",
+            "hi": "Milo",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Coffee and Tea"
+        },
+        {
+          "name": {
+            "en": "Kumbakonam Filter Coffee",
+            "hi": "Kumbakonam Filter Coffee",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4.5,
+          "section": "Coffee and Tea"
+        },
+        {
+          "name": {
+            "en": "Coffee",
+            "hi": "Coffee",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Coffee and Tea"
+        },
+        {
+          "name": {
+            "en": "Black Coffee",
+            "hi": "Black Coffee",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Coffee and Tea"
+        },
+        {
+          "name": {
+            "en": "Ragi Koozhu",
+            "hi": "Ragi Koozhu",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Coffee and Tea"
+        },
+        {
+          "name": {
+            "en": "Ulundhankanji",
+            "hi": "Ulundhankanji",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Coffee and Tea"
+        },
+        {
+          "name": {
+            "en": "Vengaya Bonda",
+            "hi": "Vengaya Bonda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Vengaya Bajji",
+            "hi": "Vengaya Bajji",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Valakka Bajji",
+            "hi": "Valakka Bajji",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Potato Bajji",
+            "hi": "Potato Bajji",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Onion Pakoda",
+            "hi": "Onion Pakoda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Milagai Bajji",
+            "hi": "Milagai Bajji",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Parupu Vadai",
+            "hi": "Parupu Vadai",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Snacks"
+        },
+        {
+          "name": {
+            "en": "Medhu Vadai",
+            "hi": "Medhu Vadai",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Snacks"
+        }
+      ]
     }
   ]
 }
