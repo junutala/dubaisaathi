@@ -7,12 +7,19 @@ if [ "${THEME:-light}" = light ]; then
   k_soft='#FDF0DC'; j_soft='#E1F2EF'; n_soft='#E8EAF6'; k_text='#9A5B10'; j_text='#0A5F54'; n_text='#1A2456'
   # बोलना, घर's fourth block from 17 September: deep plum, none of the three at a glance.
   b_bg='#6B2A54'; b_fg='#FDECF5'
+  # ऐप शेयर's word and glyph on its teal (decision 046), the app's `card`.
+  onShare='#FFFDF9'
+  # The one red in the product: जानना's emergency line and nothing else (decision 046, which spends
+  # what decision 002 reserved). The app's `alarm` and `alarmSoft`.
+  alarm='#B3261E'; alarmSoft='#FCE8E6'
 else
   ground='#14161F'; card='#1D202C'; sand='#1D202C'; ink='#F1EDE6'; muted='#9AA1B3'; chev='#7B8397'; line='#2D3242'
   tealText='#8FE0CF'; teal='#3FC0A9'; tealSoft='#0E2A27'; marigold='#F0913A'; marigoldText='#F2AC5C'; marigoldSoft='#3A2A14'; onMarigold='#1C1206'
   k_bg='#9A5310'; j_bg='#0E6E61'; n_bg='#242F6E'; k_fg='#FFF3E0'; j_fg='#E6FAF5'; n_fg='#EDEFFF'; green='#3FC27A'; onTeal='#0B1F1B'
   k_soft='#3A2A14'; j_soft='#0E2A27'; n_soft='#1C2140'; k_text='#F2AC5C'; j_text='#8FE0CF'; n_text='#B4BEEE'
   b_bg='#5F2649'; b_fg='#FCEDF5'
+  onShare='#0B1F1B'
+  alarm='#F2B8B5'; alarmSoft='#3A1614'
 fi
 # strip: $1 = pass state running|ending, $2 = hotel set|none, $3 = signal on|off (off by default)
 strip() {
@@ -30,12 +37,10 @@ cat <<S
     <span style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 999px; border: 1px solid $line;">$themeIcon</span>
   </div>
 S
-# `hidden` draws no hotel row at all — ज़रूरी जानकारी's own three capsules are what belongs at the
-# top of that screen, and the hotel is one tap away from every other one (decision 028). It is not
-# `none`, which has always meant "no hotel saved yet" and draws the dashed invitation.
-if [ "$2" = hidden ]; then
-  :
-elif [ "$2" = set ]; then
+# The hotel row is on every screen, with no exception (decision 046). ज़रूरी जानकारी hid it for its
+# three capsules (decision 028); that screen is retired, and a row that is sometimes there is a
+# row nobody learns to reach for. `none` means "no hotel saved yet" and draws the invitation.
+if [ "$2" = set ]; then
 cat <<S
   <div style="margin: 0 16px; display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; border: 1.5px solid $line; min-height: 48px; box-sizing: border-box;">
     $(pin 20 "$marigold" 1.9)
@@ -65,22 +70,37 @@ cat <<S
   </div>
 S
 }
-# bar: $1 = active (khaana|jaana|jaanna|docs|none). Four icons, evenly spaced, and nothing else:
-# the pass lives on the strip's dot and on घर's tile (decision 018, 17 September), and the words
-# under the icons went on 18 September (decision 027) — two of the four were English in the
-# English catalogue while the pillar names never translate, so the bar read as three Hindi words
-# and one English one. The glyph says it in both.
+# bar: $1 = lit (home|docs|contribute|share|none). Four places, each an icon WITH its word under it
+# (decision 046, 28 September; it replaces 027's icons-alone). घर and ऐप शेयर are the bookends, each
+# filled in its own colour — marigold for the way back, teal for the app passed on — and दस्तावेज़
+# and सुझाव sit plain between them. The pillars are not here: घर's blocks are the way into them, and
+# a pillar's own screens light none of the four. The lit item gets the sand pill if it is plain, or
+# an inset ink ring if it is filled. The pass is still the strip's dot and घर's tile (decision 018).
 bar() {
   local a=$1
-  item() { local col=$muted bg=none; [ "$a" = "$1" ] && col=$2 && bg=$sand; echo "<div title=\"$4\" style=\"display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 14px; background: $bg;\">$($3 27 "$col" 1.8)</div>"; }
+  baritem() { # key iconfn word fill|plain bg fg
+    local bg=none fg=$muted ring='' weight=600
+    [ "$4" = fill ] && bg=$5 && fg=$6
+    if [ "$a" = "$1" ]; then
+      weight=800
+      if [ "$4" = fill ]; then ring="box-shadow: inset 0 0 0 2px $ink;"; else bg=$sand; fg=$ink; fi
+    fi
+    echo "<div data-bar-item=\"$1\" style=\"display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 52px; border-radius: 14px; background: $bg; $ring\">$($2 24 "$fg" 1.8)<span style=\"font-size: 12px; font-weight: $weight; line-height: 1.35; color: $fg; white-space: nowrap;\">$3</span></div>"
+  }
 cat <<S
-  <div style="border-top: 1px solid $line; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 5px 8px 14px 8px; background: $ground;">
-    $(item khaana "$k_text" thali खाना)
-    $(item jaana "$teal" signpost जाना)
-    $(item jaanna "$n_text" lantern जानना)
-    $(item docs "$marigoldText" info "ज़रूरी जानकारी")
+  <div data-bar style="border-top: 1px solid $line; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; padding: 6px 8px 14px 8px; background: $ground;">
+    $(baritem home home घर fill "$marigold" "$onMarigold")
+    $(baritem docs docs दस्तावेज़ plain)
+    $(baritem contribute bulb सुझाव plain)
+    $(baritem share qr 'ऐप शेयर' fill "$teal" "$onShare")
   </div>
 S
+}
+# जानना's emergency line (decision 046): one slim line above the tabs, the one red in the product.
+# The three numbers dial on a tap; सब नंबर opens the list with the consulate. `data-sos` is how the
+# checker finds it — rule 2 allows red inside it and nowhere else.
+sosline() {
+  echo "<div data-sos style=\"display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 12px; border-radius: 12px; background: $alarmSoft; color: $alarm; font-size: 13.5px; font-weight: 700; flex-shrink: 0; box-sizing: border-box;\"><span style=\"flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.35;\">आपातकाल: पुलिस 999 · एम्बुलेंस 998 · आग 997</span><span style=\"text-decoration: underline; white-space: nowrap;\">सब नंबर</span></div>"
 }
 open_screen() { cat "$(dirname "${BASH_SOURCE[0]}")/_head.txt"; echo "<div style=\"width: 390px; height: 844px; background: $ground; color: $ink; display: flex; flex-direction: column; overflow: hidden;\">"; }
 close_screen() { echo '</div>'; echo '</x-dc>'; echo '</body>'; echo '</html>'; }

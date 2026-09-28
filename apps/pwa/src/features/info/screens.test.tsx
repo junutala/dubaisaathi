@@ -4,7 +4,7 @@ import type { ReactElement } from 'react';
 import { SettingsProvider } from '../../app/settings.js';
 import { db } from '../../db/schema.js';
 import { cloneKeepingBlobs } from './blobHarness.js';
-import { InfoScreen } from './InfoScreen.js';
+import { DocumentsScreen } from './DocumentsScreen.js';
 import { DocumentAddScreen } from './DocumentAddScreen.js';
 import { DocumentScreen } from './DocumentScreen.js';
 import { HotelScreen } from './HotelScreen.js';
@@ -657,12 +657,10 @@ describe('घर.1 · the card’s QR code, with the radio off', () => {
   });
 });
 
-describe('घर.2 · ज़रूरी जानकारी — दस्तावेज़', () => {
-  /** The documents are the second capsule since 18 September (decision 028). */
+describe('घर.2 · दस्तावेज़', () => {
+  /** The bar's second place since 28 September (decision 046), and a screen of its own. */
   function openDocuments() {
-    const rendered = show(<InfoScreen />);
-    fireEvent.click(screen.getByRole('tab', { name: 'दस्तावेज़' }));
-    return rendered;
+    return show(<DocumentsScreen />);
   }
 
   it('lists what is kept and offers to add more, with the radio off', async () => {

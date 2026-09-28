@@ -343,33 +343,60 @@ button:not(:disabled) {
   text-overflow: ellipsis;
 }
 
-/* ---- the bar: the three pillars and the documents, evenly spaced ----------------------- */
+/* ---- the bar: घर · दस्तावेज़ · सुझाव · ऐप शेयर, each with its word (decision 046) ---------- */
 
 .bar {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
   border-top: 1px solid var(--line);
   background: var(--card);
-  /* The words went on 18 September; the height they took goes to the screen above, not to air. */
-  padding: 5px 8px 14px;
+  padding: 6px 8px 12px;
   position: sticky;
   bottom: 0;
 }
-/* Icons alone since 18 September — the word is the accessible name, not painted type. The
-   target is still 48px tall and now a little wider than the glyph, because a thumb aims at the
-   button and not at the drawing. */
+/* A 48px target with the icon over its word: a word is understood by more people than a glyph. */
 .bar-tab {
-  min-height: 48px;
+  min-height: 52px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 2px;
   color: var(--muted);
   border-radius: 14px;
 }
-/* The pillar the traveller is in, lit in its own colour so they know where they are. With no
-   label to thicken, the sand pill is what carries the difference at a glance. */
+.bar-word {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+/* The bookends: the way back on marigold, the app passed on on teal. The middle two stay plain. */
+.bar-tab-home {
+  background: var(--marigold);
+  color: var(--onMarigold);
+}
+.bar-tab-share {
+  background: var(--teal);
+  color: var(--card);
+}
+/* Where the traveller is: the sand pill on a plain item, a ring on a coloured one. */
 .bar-tab-on {
   background: var(--sand);
+  color: var(--ink);
+}
+.bar-tab-home.bar-tab-on,
+.bar-tab-share.bar-tab-on {
+  box-shadow: inset 0 0 0 2px var(--ink);
+}
+.bar-tab-home.bar-tab-on {
+  background: var(--marigold);
+  color: var(--onMarigold);
+}
+.bar-tab-share.bar-tab-on {
+  background: var(--teal);
+  color: var(--card);
 }
 
 /* ---- घर: the blocks, and the pass tile under them -------------------------------------- */
@@ -725,6 +752,8 @@ button:not(:disabled) {
   font-weight: 700;
   font-size: 15.5px;
   padding: 0 14px;
+  /* A link dressed as a button (WhatsApp) is a button, not underlined text. */
+  text-decoration: none;
 }
 .btn:disabled {
   opacity: 0.45;
@@ -2128,23 +2157,6 @@ button:not(:disabled) {
   line-height: 1.5;
   text-wrap: pretty;
 }
-.suggest-box {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  border: 1px dashed var(--line);
-  margin-top: auto;
-}
-.suggest-box-row {
-  display: flex;
-  gap: 8px;
-}
-.suggest-box-row .typed {
-  flex: 1;
-  min-width: 0;
-}
 /* ---- 1.3 · विकल्प ------------------------------------------------------------------------ */
 
 .opt {
@@ -2519,30 +2531,6 @@ button:not(:disabled) {
 
 /* ---- घर.2 · ज़रूरी जानकारी: three capsules, then the one that is open (decision 028) ---- */
 
-/* Prominent on purpose (owner, 18 September): the screen is three errands and which one the
-   traveller is on has to be visible before anything scrolls. Evenly thirded, so no capsule
-   reads as the important one. */
-.caps {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-}
-.cap {
-  min-height: 46px;
-  padding: 0 10px;
-  border-radius: 999px;
-  border: 1.5px solid var(--line);
-  background: var(--tile);
-  font-size: 14.5px;
-  font-weight: 700;
-  color: var(--muted);
-  text-align: center;
-}
-.cap-on {
-  background: var(--marigoldSoft);
-  border-color: var(--marigoldLine);
-  color: var(--marigoldText);
-}
 /* The dialling number, at the end of a contact row: it is the thing being pressed, so it is
    type and not a hint. */
 /* A contact row is an anchor, because tapping it dials. Without this it arrives underlined and
@@ -2634,17 +2622,6 @@ button:not(:disabled) {
   font-size: 17px;
   font-weight: 800;
 }
-/* What will be sent, in the traveller's own name, before they send it. */
-.invite {
-  margin: 0;
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: var(--tile);
-  border: 1px solid var(--line);
-  font-size: 14.5px;
-  line-height: 1.5;
-}
-
 /* ---- a tablet, or a laptop: last, so these rules win over the phone's ------------------ */
 
 /* A tablet, or a laptop. The screens are a phone's, and stay one column: on a wider display the
@@ -2756,4 +2733,88 @@ button:not(:disabled) {
   min-height: 40dvh;
   margin: 0 -16px;
   background: var(--sand);
+}
+
+/* ---- ऐप शेयर (decision 046): the QR fills the screen, the four lines under it sell -------- */
+
+.share {
+  align-items: center;
+  text-align: center;
+}
+/* White ground and a quiet zone on every side: a QR on a dark card does not scan, in either theme. */
+.share-qr {
+  background: #ffffff;
+  color: #141826;
+  border-radius: 18px;
+  padding: 14px;
+  width: min(100%, 320px);
+  border: 1px solid var(--line);
+}
+.share-qr-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.share-name {
+  margin: 4px 0 0;
+  font-size: 22px;
+  font-weight: 800;
+}
+.share-what {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+}
+.share-free {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--tealText);
+}
+.share-address {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* The button every search that found nothing carries: full width and loud (decision 046). */
+.tell-us {
+  width: 100%;
+}
+
+/* ---- जानना's emergency line, in the one red the palette keeps (decision 046) ------------- */
+
+.sos {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sos-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  padding: 7px 12px;
+  border-radius: 12px;
+  background: var(--alarmSoft);
+  color: var(--alarm);
+  font-size: 13.5px;
+  font-weight: 700;
+}
+.sos-head {
+  font-weight: 800;
+}
+.sos-number {
+  color: var(--alarm);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.sos-all {
+  margin-left: auto;
+  color: var(--alarm);
+  text-decoration: underline;
+  font-weight: 700;
+}
+.sos-list {
+  margin-bottom: 4px;
 }

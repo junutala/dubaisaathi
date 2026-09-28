@@ -8,7 +8,7 @@ const PILLAR_KEY: Record<Pillar, StringKey> = {
   food: 'pillar.food',
   go: 'pillar.go',
   know: 'pillar.know',
-  docs: 'nav.info',
+  docs: 'bar.docs',
   home: 'strip.home',
 };
 
@@ -16,7 +16,7 @@ const PILLAR_ICON: Record<Pillar, IconName> = {
   food: 'thali',
   go: 'signpost',
   know: 'lantern',
-  docs: 'info',
+  docs: 'docs',
   home: 'home',
 };
 

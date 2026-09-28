@@ -44,7 +44,9 @@ export type IconName =
   // The bar, since 18 September: जाना's signpost and ज़रूरी जानकारी's circled i. Both were
   // chosen for a bar that carries no words, so the glyph is the whole label.
   | 'signpost'
-  | 'info';
+  | 'info'
+  // The bar's सुझाव (decision 046): a lightbulb, for an idea handed to us.
+  | 'bulb';
 
 /**
  * The shapes themselves, not path strings, because some are drawn with rects and filled dots as
@@ -289,6 +291,12 @@ const SHAPES: Record<IconName, ReactNode> = {
       <circle cx="12" cy="12" r="9" />
       <circle cx="12" cy="7.7" r="1.05" fill="currentColor" stroke="none" />
       <path d="M12 11.1v5.4" />
+    </>
+  ),
+  bulb: (
+    <>
+      <path d="M9 17.5h6M10 21h4" />
+      <path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.4 1.1 2.3v1.4h5v-1.4c0-.9.4-1.7 1.1-2.3A6 6 0 0 0 12 3z" />
     </>
   ),
 };

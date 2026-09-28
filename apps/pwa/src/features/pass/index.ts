@@ -18,3 +18,4 @@ export {
 export { pendingCoupon, startCouponRetry, takeCodeFromUrl } from './coupon.js';
 export { startOrderResume } from './purchase.js';
 export { startPassReconcile } from './bind.js';
+export { qrPath } from './qr.js';

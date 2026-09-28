@@ -110,6 +110,24 @@
    "page": "all"
   },
   {
+   "file": "HomeShare.dc.html",
+   "x": 3290,
+   "y": 1000,
+   "w": 390,
+   "h": 844,
+   "title": "घर.8 · ऐप शेयर",
+   "page": "all"
+  },
+  {
+   "file": "HomeContribute.dc.html",
+   "x": 3760,
+   "y": 1000,
+   "w": 390,
+   "h": 844,
+   "title": "घर.9 · सुझाव",
+   "page": "all"
+  },
+  {
    "file": "K1.dc.html",
    "x": 0,
    "y": 2000,
@@ -270,7 +288,7 @@
    "y": -190,
    "w": 560,
    "page": "all",
-   "text": "Sprint 1, frozen 16 September. Numbered by pillar: 1 = खाना, 2 = जाना, 3 = जानना; घर.n are the strip and bar children. Every name, number, price and time is sample text."
+   "text": "Sprint 1, frozen 16 September. Numbered by pillar: 1 = खाना, 2 = जाना, 3 = जानना; घर.n are the strip and bar children; the bar is घर · दस्तावेज़ · सुझाव · ऐप शेयर, with words (decision 046). Every name, number, price and time is sample text."
   }
  ],
  "launch": {

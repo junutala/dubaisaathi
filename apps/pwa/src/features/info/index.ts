@@ -3,7 +3,10 @@
  * here, never from a file inside it.
  */
 export { HotelScreen } from './HotelScreen.js';
-export { InfoScreen } from './InfoScreen.js';
+export { DocumentsScreen } from './DocumentsScreen.js';
+export { ContributeScreen } from './ContributeScreen.js';
+export { ShareScreen } from './ShareScreen.js';
+export { CONTACTS } from './contacts.js';
 export { startOutboxSync } from './send.js';
 export { startCardRetry } from './cardReading.js';
 export { DocumentAddScreen } from './DocumentAddScreen.js';

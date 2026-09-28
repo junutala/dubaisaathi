@@ -1,5 +1,9 @@
 # 028 — ज़रूरी जानकारी is three capsules, and it carries no hotel row
 
+> **Superseded by decision 046, 28 September.** ज़रूरी जानकारी is retired: its documents are the
+> bar's दस्तावेज़ (घर.2), its feedback form is part of सुझाव (घर.9), and its numbers are one red
+> line above जानना's tabs. The hotel row is back on every screen.
+
 **18 September 2026.** The owner, on the screen the circled _i_ opens:
 
 > _"Here I want three Capsules prominently on the top. And we already have My hotel at the top.

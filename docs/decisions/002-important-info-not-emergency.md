@@ -1,5 +1,9 @@
 # 002 — ज़रूरी जानकारी, not an emergency layer
 
+> **Amended by decision 046, 28 September.** Red is spent on one line and nowhere else: the
+> emergency numbers above जानना's tabs. The screen called ज़रूरी जानकारी is retired; the hotel
+> and the documents stay on the phone, as this decision requires.
+
 **Decided:** design review, September 2026. Deviates from the concept doc's "Emergency —
 always available".
 

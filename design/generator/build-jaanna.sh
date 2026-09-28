@@ -18,13 +18,15 @@ tabs() { # which is on: places | travel
   if [ "$1" = places ]; then a="background: $n_text; color: $n_fg; font-weight: 700;"; b="color: $ink; font-weight: 600;"; else a="color: $ink; font-weight: 600;"; b="background: $n_text; color: $n_fg; font-weight: 700;"; fi
   echo "<div style=\"display: flex; gap: 4px; padding: 4px; border-radius: 14px; background: $sand; flex-shrink: 0;\"><span style=\"flex: 1; text-align: center; padding: 11px 0; border-radius: 10px; font-size: 14.5px; $a\">जगहें</span><span style=\"flex: 1; text-align: center; padding: 11px 0; border-radius: 10px; font-size: 14.5px; $b\">सफ़र</span></div>"
 }
-# ---- 3.1 · जानना › जगहें
+# ---- 3.1 · जानना › जगहें. The emergency line sits above the tabs on both of them (decision 046): the
+# numbers ज़रूरी जानकारी carried, where a traveller who is out and about already is.
 {
 open_screen
 strip running set
 header lantern "$n_text" 'जानना'
 cat <<H
   <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 6px 16px 12px 16px;">
+    $(sosline)
     $(tabs places)
     <div style="display: flex; align-items: center; gap: 10px; padding: 0 14px; min-height: 54px; border-radius: 16px; background: $card; border: 1.5px solid $line;">
       $(search 20 "$muted" 2)
@@ -37,7 +39,7 @@ $(card 'ग्लोबल विलेज' 'Global Village' 'अक्टूब
 $(card 'गोल्ड सूक' 'Gold Souk' 'देरा' '10:00 – 22:00' 'मुफ़्त')
   </div>
 H
-bar jaanna
+bar none
 close_screen
 } > "$OUT/N1.dc.html"
 
@@ -67,7 +69,7 @@ cat <<H
     </div>
   </div>
 H
-bar jaanna
+bar none
 close_screen
 } > "$OUT/N2.dc.html"
 
@@ -79,6 +81,7 @@ strip running set
 header lantern "$n_text" 'जानना'
 cat <<H
   <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 6px 16px 12px 16px;">
+    $(sosline)
     $(tabs travel)
     <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: $card; border-radius: 16px; border: 1px solid $line;">
       <span style="width: 48px; height: 48px; border-radius: 12px; background: $sand; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">$(info 26 "$n_text" 1.7)</span>
@@ -106,7 +109,7 @@ cat <<H
     </div>
   </div>
 H
-bar jaanna
+bar none
 close_screen
 } > "$OUT/N3.dc.html"
 
@@ -134,7 +137,7 @@ cat <<H
     <span style="font-size: 13.5px; color: $ink;">पूरे दिन हर ज़ोन में जितना चाहें: AED 20, गोल्ड क्लास में AED 40।</span>
   </div>
 H
-bar jaanna
+bar none
 close_screen
 } > "$OUT/N4.dc.html"
 
@@ -154,6 +157,6 @@ cat <<H
     <span style="font-size: 11.5px; color: $muted;">दुबई कस्टम्स की सूची से, 25 सितंबर 2026 को मिलाया गया। शक हो तो न लाएँ।</span>
   </div>
 H
-bar jaanna
+bar none
 close_screen
 } > "$OUT/N5.dc.html"

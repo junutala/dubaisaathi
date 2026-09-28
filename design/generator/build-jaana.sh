@@ -32,7 +32,7 @@ $(arow 'गोल्ड सूक' 'Gold Souk' 'देरा')
 $(arow 'दुबई मरीना' 'Dubai Marina' 'मरीना')
   </div>
 H
-bar jaana
+bar none
 close_screen
 } > "$OUT/$1"
 }
@@ -68,7 +68,7 @@ $(opt walk 'पैदल' 'गर्मी में नहीं' '1 घं 50 
     <span style="font-size: 12.5px; color: $muted; text-align: center; line-height: 1.45; padding-top: 4px;">समय और किराया अंदाज़न। टैक्सी का दाम मीटर तय करता है।</span>
   </div>
 H
-bar jaana
+bar none
 close_screen
 } > "$OUT/J2.dc.html"
 
@@ -102,7 +102,7 @@ $(step walk 'पैदल 800 मी — मॉल के अंदर से' '
     <span style="font-size: 11.5px; color: $muted; text-align: center; line-height: 1.4;">Transport data: Roads and Transport Authority (RTA), Dubai — open data.</span>
   </div>
 H
-bar jaana
+bar none
 close_screen
 } > "$OUT/J3.dc.html"
 
@@ -129,7 +129,7 @@ cat <<H
     </div>
   </div>
 H
-bar jaana
+bar none
 close_screen
 } > "$OUT/J4.dc.html"
 
@@ -151,7 +151,7 @@ cat <<H
     $(obtn 'होटल से रास्ता देखें')
   </div>
 H
-bar jaana
+bar none
 close_screen
 } > "$OUT/J5.dc.html"
 
@@ -194,6 +194,6 @@ cat <<H
     $(btn "$(signpost 20 "$j_fg" 1.9)&nbsp; क़दम दर क़दम" "$j_bg" "$j_fg")
   </div>
 H
-bar khaana
+bar none
 close_screen
 } > "$OUT/J6.dc.html"

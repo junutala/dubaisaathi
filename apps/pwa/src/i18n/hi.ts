@@ -27,11 +27,6 @@ export const hi = {
 
   // The bar
   'nav.back': 'वापस',
-  'nav.info': 'ज़रूरी जानकारी',
-
-  // The blocks on घर. The three pillars are the brand and stay in Devanagari in both
-  // catalogues; the Roman spelling is a caption, never a translation (16 September). बोलना is
-  // the fourth block from 17 September, in its own hue and only while the phone has a signal.
   'pillar.food': 'खाना',
   'pillar.food.roman': 'Khaana',
   'pillar.food.blurb': 'भारतीय खाना — छोटी दुकानें और कैफ़ेटेरिया जो आपको यूँ नहीं मिलतीं।',
@@ -414,11 +409,6 @@ export const hi = {
   'know.chip.beach': 'बीच',
   'know.chip.park': 'पार्क',
   'know.none': 'ऐसी कोई जगह नहीं मिली.',
-  'know.suggest': 'कोई जगह छूट गई?',
-  'know.suggestWhy': 'नाम लिख दीजिए — अगली बार साथी में होगी.',
-  'know.suggestPlaceholder': 'जगह का नाम',
-  'know.suggestSend': 'भेजें',
-  'know.suggestThanks': 'मिल गया — शुक्रिया। अगले पैक में देखेंगे।',
   'know.hours': 'समय',
   'know.ticket': 'टिकट',
   'know.free': 'मुफ़्त',
@@ -544,12 +534,7 @@ export const hi = {
   'arabic.nothing': 'पहले कुछ बोलिए या लिखिए.',
   'arabic.retry': 'फिर कोशिश करें',
   // ---- घर.2 · ज़रूरी जानकारी — three capsules: संपर्क, दस्तावेज़, फ़ीडबैक (decision 028) ----
-  'info.contacts': 'संपर्क',
-  'info.documents': 'दस्तावेज़',
-  'info.feedback': 'फ़ीडबैक',
-  'info.contactsWhy': 'मुश्किल में यही चार नंबर काम आते हैं. दबाइए, फ़ोन लग जाएगा.',
   'info.contactsNote': 'भारत का 100 यहाँ नहीं लगता — दुबई में पुलिस 999 है.',
-  'info.feedbackWhy': 'जो जगह या खाना यहाँ नहीं मिला, जो ठीक नहीं लगा — लिख दीजिए. हम पढ़ते हैं.',
   'info.name': 'नाम',
   'info.namePlaceholder': 'आपका नाम',
   'info.phone': 'नंबर',
@@ -568,13 +553,33 @@ export const hi = {
   'info.keptHead': 'मिल गई',
   'info.keptSent': 'हम तक पहुँच गई. जवाब उसी नंबर पर आएगा.',
   'info.keptWaiting': 'फ़ोन में रख ली है. सिग्नल आते ही हम तक पहुँच जाएगी.',
-  'info.shareHead': 'किसी और के काम आए',
-  'info.shareWhy':
-    'दुबई जा रहा कोई जानने वाला है? यह लिंक भेज दीजिए — उनके फ़ोन पर भी बिना इंटरनेट चलेगा.',
-  'info.viaWhatsapp': 'व्हाट्सऐप पर भेजिए',
-  'info.viaAnything': 'किसी और तरह से भेजिए',
   'info.copied': 'लिंक कॉपी हो गया — जहाँ भेजना है, वहाँ चिपका दीजिए.',
   'info.shareRefused': 'फ़ोन ने भेजने नहीं दिया — लिंक ऊपर लिखा है, हाथ से भेज दीजिए.',
+  'bar.home': 'घर',
+  'bar.docs': 'दस्तावेज़',
+  'bar.contribute': 'सुझाव',
+  'bar.share': 'ऐप शेयर',
+  'contribute.missingHead': 'कोई जगह छूट गई?',
+  'contribute.missingWhy':
+    'कोई ढाबा, दुकान, घूमने की जगह — जो साथी में नहीं मिली, उसका नाम लिख दीजिए. अगली बार होगी.',
+  'contribute.missingLabel': 'क्या नहीं मिला',
+  'contribute.missingPlaceholder': 'जैसे: करामा में मटन कीमा, या किसी जगह का नाम',
+  'contribute.missingSend': 'भेजें',
+  'contribute.missingThanks': 'मिल गया — शुक्रिया। अगले पैक में देखेंगे।',
+  'contribute.feedbackHead': 'सुझाव या राय',
+  'contribute.feedbackWhy':
+    'कुछ ठीक नहीं लगा, कुछ और चाहिए — लिख दीजिए. हम पढ़ते हैं, और जवाब आपके नंबर पर आता है.',
+  'contribute.notFound': 'यह नहीं मिला? बताइए — हम जोड़ेंगे',
+  'share.qrLabel': 'Dubai Saathi का QR — कैमरा इस पर रखिए',
+  'share.what': 'दुबई में आपका हिंदी साथी — खाना, रास्ता, बोर्ड पढ़ना',
+  'share.free': '24 घंटे मुफ़्त',
+  'share.whatsapp': 'WhatsApp पर भेजें',
+  'share.anything': 'किसी और तरह से भेजें',
+  'sos.head': 'आपातकाल:',
+  'sos.police': 'पुलिस',
+  'sos.ambulance': 'एम्बुलेंस',
+  'sos.fire': 'आग',
+  'sos.all': 'सब नंबर',
 } as const;
 
 export type StringKey = keyof typeof hi;

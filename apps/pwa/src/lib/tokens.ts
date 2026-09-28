@@ -1,7 +1,7 @@
 /**
  * The palette, lifted from `design/generate-screens.py` so the app and the screens cannot
  * drift. Two themes, same roles: marigold means "press here", teal means offline-and-ready,
- * red is reserved and used by nothing (decision 002).
+ * red is reserved (decision 002) and spent on one thing only: जानना's emergency line (046).
  *
  * These become CSS custom properties on :root, so a theme switch is one attribute flip
  * rather than a re-render.
@@ -70,6 +70,9 @@ export const LIGHT = {
   speakSoft: '#F9E8F1',
   /** The pass dot: green while the counter runs, marigold when it is about to stop. Never red. */
   running: '#2E9E5B',
+  /** The reserved red, on जानना's emergency line and nowhere else (decision 046). */
+  alarm: '#B3261E',
+  alarmSoft: '#FCE8E6',
 } as const;
 
 export const DARK: Record<keyof typeof LIGHT, string> = {
@@ -115,6 +118,8 @@ export const DARK: Record<keyof typeof LIGHT, string> = {
   speakText: '#E7A3C6',
   speakSoft: '#2E1727',
   running: '#3FC27A',
+  alarm: '#F2B8B5',
+  alarmSoft: '#3A1614',
 };
 
 export type ThemeName = 'light' | 'dark';

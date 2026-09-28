@@ -161,3 +161,47 @@ describe('the fares pack', () => {
     expect(() => parseFarePack(old)).not.toThrow();
   });
 });
+
+describe('जानना · the emergency line (decision 046)', () => {
+  it('puts police, ambulance and fire one tap from dialling, on every tab', () => {
+    for (const tab of ['places', 'travel'] as const) {
+      render(
+        <SettingsProvider>
+          <KnowScreen tab={tab} />
+        </SettingsProvider>,
+      );
+      const dials = screen
+        .getAllByRole('link')
+        .map((a) => a.getAttribute('href'))
+        .filter((link) => link?.startsWith('tel:'));
+      expect(dials).toEqual(['tel:999', 'tel:998', 'tel:997']);
+      cleanup();
+    }
+  });
+
+  it('opens all four numbers and the note about India’s 100, with no network', () => {
+    render(
+      <SettingsProvider>
+        <KnowScreen tab="places" />
+      </SettingsProvider>,
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'All numbers' }));
+    expect(
+      screen.getAllByRole('link').filter((a) => a.getAttribute('href') === 'tel:+97143971222'),
+    ).toHaveLength(1);
+    expect(screen.getByText(/India.s 100 does not work here/)).toBeTruthy();
+  });
+});
+
+describe('जानना · a place we do not have', () => {
+  it('carries what was typed to सुझाव', () => {
+    render(
+      <SettingsProvider>
+        <KnowScreen tab="places" />
+      </SettingsProvider>,
+    );
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Hatta Dam' } });
+    fireEvent.click(screen.getByRole('button', { name: /Tell us/ }));
+    expect(navigate).toHaveBeenCalledWith({ screen: 'contribute', about: 'Hatta Dam' });
+  });
+});

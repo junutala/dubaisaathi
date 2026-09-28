@@ -17,8 +17,6 @@ PILLARS = ['खाना', 'जाना', 'जानना']
 SPEAK = 'बोलना'
 # The landing page and the names sheet are not screens with chrome.
 NO_CHROME = {'Landing', 'Names'}
-# ज़रूरी जानकारी and the document it opens: the strip keeps its first row and drops the hotel.
-NO_HOTEL_ROW = {'HomeDocs', 'HomeDocView'}
 # घर.n screens and the pillars' children; everything else is home or a state of it.
 HOME = {'Home', 'HomeDark', 'HomeTrial', 'HomePaid'}
 # The data-use line on the landing page (decision 045), word for word as the app carries it.
@@ -31,15 +29,45 @@ CONSENT_LINE = (
 NAME_MARK = 'Dubaisaathi'
 BACK_ICON = 'M15 5l-7 7 7 7'
 TICKET_ICON = 'M4 8a2 2 0 0 1 2-2h12'
-BAR_TOP = 'border-top: 1px solid'
-# The bar carries no words since 18 September (decision 027), so it is checked by the four glyphs
-# themselves — one distinctive path from each. A missing icon is a missing tab.
-BAR_ICONS = {
+# The bar is found by its own marker, not by its border: other rows on a board have borders too.
+BAR_MARK = '<div data-bar style='
+# The bar since 28 September (decision 046): four places, in this order, each an icon WITH its word.
+# (key, word, one distinctive path from the glyph). A missing glyph or word is a missing place.
+BAR_ITEMS = [
+    ('home', 'घर', 'M4 10.6 12 4.2l8 6.4'),            # the roof
+    ('docs', 'दस्तावेज़', 'M13.5 3.5v5h5'),              # the folded corner
+    ('contribute', 'सुझाव', 'M9 17.5h6M10 21h4'),      # the bulb's base
+    ('share', 'ऐप शेयर', 'M14 14h2v2h-2z'),            # the QR's small module
+]
+# What left the bar on 28 September: the three pillars' glyphs and ज़रूरी जानकारी's circled i.
+# घर's blocks are the way into the pillars; the i's screen is retired (decision 046).
+BAR_GONE = {
     'खाना': 'M12 2.5v1.6',                 # the thali's steam
     'जाना': 'M12 7.4h6.6l2 2.1-2 2.1H12',  # the signpost's upper arm
     'जानना': 'M10.4 21.5h3.2',              # the lantern's foot
-    'ज़रूरी जानकारी': 'M12 11.1v5.4',        # the circled i's stem
+    'ⓘ': 'M12 11.1v5.4',                   # the circled i's stem
 }
+# Which of the four each board lights. घर and its states light घर; a pillar's own screens light
+# none — their header carries the colour. Every board not named here lights nothing.
+BAR_LIT = {
+    'Home': 'home', 'HomeDark': 'home', 'HomeTrial': 'home', 'HomePaid': 'home',
+    'HomeDocs': 'docs', 'HomeDocView': 'docs',
+    'HomeContribute': 'contribute',
+    'HomeShare': 'share',
+}
+# जानना's emergency line (decision 046): the boards that carry जानना's tabs carry it above them,
+# and no other board carries it. It is the one place red is spent (rule 2).
+SOS_MARK = '<div data-sos '
+SOS_LINE = 'आपातकाल: पुलिस 999 · एम्बुलेंस 998 · आग 997'
+KNOW_TABS = {'N1', 'N3'}
+# ऐप शेयर (घर.8): the QR, and the lines under it word for word as the owner gave them.
+SHARE_LINES = [
+    'Dubai Saathi',
+    'दुबई में आपका हिंदी साथी — खाना, रास्ता, बोर्ड पढ़ना',
+    '24 घंटे मुफ़्त',
+    'dubai.saafarsaathi.in',
+    'WhatsApp पर भेजें',
+]
 LIGHT_SURFACES = ['#FFFDF9', '#F7F3EC', '#E6DED2', '#141826']
 
 failures: list[str] = []
@@ -71,9 +99,11 @@ def main() -> int:
         if SPEAK in named and name not in HOME:
             fail(name, 'बोलना outside घर — its block is on घर and its screens have no board')
 
-        # Rule 2: red is reserved and appears on no screen.
-        if re.search(r'#C62B2B|#D32F2F|#E53935|\bred\b', text, re.IGNORECASE):
-            fail(name, 'red on a screen — red is reserved and belongs to no feature')
+        # Rule 2: red is reserved. Since 28 September it is spent on one thing — जानना's emergency
+        # line (decision 046) — so the line is taken out before looking, and red anywhere else fails.
+        outside = re.sub(r'<div data-sos .*?</div>', '', text, flags=re.S)
+        if re.search(r'#B3261E|#F2B8B5|#FCE8E6|#3A1614|#C62B2B|#D32F2F|#E53935|\bred\b', outside, re.IGNORECASE):
+            fail(name, 'red on a screen — red is spent on जानना\'s emergency line and nothing else')
 
         if name in NO_CHROME:
             continue
@@ -88,31 +118,66 @@ def main() -> int:
         if 'M20 14.5A8.5 8.5' not in text and 'M12 2.5v2.5' not in text:
             fail(name, 'no theme switch on the strip')
         # The hotel row reads "मेरा होटल जोड़ें" until there is one, then the hotel's own name
-        # with बदलें beside it — on every screen but ज़रूरी जानकारी and its children, where the
-        # three capsules are what belongs at the top and the row was in their way (decision 028).
-        if name in NO_HOTEL_ROW:
-            if 'मेरा होटल' in text or '>बदलें</span>' in text:
-                fail(name, 'ज़रूरी जानकारी carries a hotel row')
-        elif 'मेरा होटल' not in text and '>बदलें</span>' not in text:
+        # with बदलें beside it — on every screen, with no exception (decision 046; ज़रूरी
+        # जानकारी's exception went with that screen). It is looked for in the strip itself, between
+        # the pass dot and the first thing below it, so a hotel named in a screen's body cannot
+        # stand in for it.
+        top = text.find('>पास</span>')
+        strip = text[top : top + 2500] if top >= 0 else ''
+        if 'मेरा होटल जोड़ें' not in strip and '>बदलें</span>' not in strip:
             fail(name, 'the strip has no hotel row')
 
-        # Rule 4: the bar on every screen — the three pillars and ज़रूरी जानकारी, as four icons
-        # and nothing else. The pass is the strip's dot and घर's tile (decision 018, 17
-        # September); a पास लें button in the bar duplicated both, and a fifth item was added and
-        # taken out again on the 18th (decision 026, reversed). The words under the icons went
-        # the same day (decision 027), so the tabs are counted by their glyphs.
-        bar = text[text.rfind(BAR_TOP) :]
-        for label, path in BAR_ICONS.items():
-            if path not in bar:
-                fail(name, 'the bar has no %s icon' % label)
-        if re.search(r'<span[^>]*>[^<]', bar):
-            fail(name, 'the bar carries a word under an icon')
+        # Rule 4: the bar on every screen — four places, in this order, each an icon with its word
+        # under it: घर, दस्तावेज़, सुझाव, ऐप शेयर (decision 046, replacing 027's icons alone). The
+        # pillars' glyphs and the circled i have left it. The pass is the strip's dot and घर's tile
+        # (decision 018), never पास लें here; बात was added and taken out on 18 September (026).
+        at = text.rfind(BAR_MARK)
+        if at < 0:
+            fail(name, 'no bar')
+            bar = ''
+        else:
+            bar = text[at:]
+        items = re.findall(r'<div data-bar-item="([a-z]+)" style="([^"]*)">(.*?)</div>', bar, flags=re.S)
+        if len(items) != 4:
+            fail(name, 'the bar has %d places, not four' % len(items))
+        keys = [k for k, _, _ in items]
+        if keys != [k for k, _, _ in BAR_ITEMS] and len(items) == 4:
+            fail(name, 'the bar is out of order: घर, दस्तावेज़, सुझाव, ऐप शेयर')
+        found = {k: (style, body) for k, style, body in items}
+        for key, word, glyph in BAR_ITEMS:
+            if key not in found:
+                fail(name, 'the bar has no %s' % word)
+                continue
+            style, body = found[key]
+            if glyph not in body:
+                fail(name, 'the bar\'s %s has lost its glyph' % word)
+            if not re.search(r'<span[^>]*>%s</span>' % re.escape(word), body):
+                fail(name, 'the bar\'s %s has no word under its icon' % word)
+        for label, glyph in BAR_GONE.items():
+            if glyph in bar:
+                fail(name, 'the bar still carries the %s glyph' % label)
         if 'बात' in bar:
             fail(name, 'the bar carries बात')
         if 'पास लें' in bar:
             fail(name, 'the bar carries पास लें')
         if name == 'HomePaid' and 'पास लें' in text:
             fail(name, 'a paid traveller still sees पास लें')
+        # घर and ऐप शेयर are filled, each in its own colour; दस्तावेज़ and सुझाव are plain.
+        if len(found) == 4:
+            fill = {k: (re.search(r'background: ([^;]+);', st) or re.search('()', '')).group(1) for k, (st, _) in found.items()}
+            lit_key = BAR_LIT.get(name)
+            plain = {fill[k] for k in ('docs', 'contribute') if k != lit_key}
+            if fill['home'] in ('', 'none') or fill['share'] in ('', 'none'):
+                fail(name, 'घर and ऐप शेयर must each sit on its own colour')
+            elif fill['home'] == fill['share']:
+                fail(name, 'घर and ऐप शेयर are the same colour')
+            if plain != {'none'}:
+                fail(name, 'दस्तावेज़ and सुझाव must be plain, on the bar\'s own ground')
+            # Rule 5: exactly the right one is lit — or none, on a pillar's screens.
+            lit = [k for k, (st, body) in found.items() if 'font-weight: 800' in body]
+            want = [lit_key] if lit_key else []
+            if lit != want:
+                fail(name, 'the bar lights %s, not %s' % (lit or 'nothing', want or 'nothing'))
 
         # Rule 6: home is the three pillars, in order, then बोलना, and nothing else.
         if name in HOME:
@@ -145,21 +210,53 @@ def main() -> int:
             # Rule 13: the pass tile sits at the foot of घर — after the last block, before
             # the bar — and is never red (rule 2 covers the colour).
             tile = text.find(TICKET_ICON)
-            bar = text.find(BAR_TOP)
+            bar = text.rfind(BAR_MARK)
             last = max(order + [speak])
             if tile < 0:
                 fail(name, 'home has no pass tile')
             elif not (last < tile < bar):
                 fail(name, 'the pass tile is not between the blocks and the bar')
 
-        # Rule 19: ज़रूरी जानकारी is three capsules, in the owner's order, opening on संपर्क
-        # (decision 028). A board that draws the documents list alone is the screen this replaced.
+        # Rule 19: ज़रूरी जानकारी is retired (decision 046). Its name is on no board, its
+        # capsules are gone, and घर.2 is the bar's दस्तावेज़ — the documents list and जोड़ें.
+        if 'ज़रूरी जानकारी' in text:
+            fail(name, 'ज़रूरी जानकारी is retired — its screen and its name are gone')
         if name == 'HomeDocs':
-            caps = [text.find('>%s</span>' % c) for c in ('संपर्क', 'दस्तावेज़', 'फ़ीडबैक')]
-            if any(i < 0 for i in caps):
-                fail(name, 'ज़रूरी जानकारी is missing one of its three capsules')
-            elif caps != sorted(caps):
-                fail(name, 'the capsules are out of order: संपर्क, दस्तावेज़, फ़ीडबैक')
+            if 'दस्तावेज़ जोड़ें' not in text:
+                fail(name, 'दस्तावेज़ has no way to add one')
+            if '>संपर्क</span>' in text or '>फ़ीडबैक</span>' in text:
+                fail(name, 'दस्तावेज़ still carries ज़रूरी जानकारी\'s capsules')
+
+        # Rule 32: the emergency line on जानना, above the tabs, and nowhere else (decision 046).
+        sos = text.find(SOS_MARK)
+        if name in KNOW_TABS:
+            if sos < 0 or SOS_LINE not in text or 'सब नंबर' not in text:
+                fail(name, 'जानना has no emergency line — पुलिस 999 · एम्बुलेंस 998 · आग 997 · सब नंबर')
+            elif sos > text.find('>जगहें</span>'):
+                fail(name, 'the emergency line is below जानना\'s tabs, not above them')
+        elif sos >= 0 or SOS_LINE in text:
+            fail(name, 'the emergency line outside जानना\'s tabs')
+
+        # Rule 34: ऐप शेयर is a QR the phone draws and the owner's lines under it (decision 046).
+        if name == 'HomeShare':
+            if 'shape-rendering="crispEdges"' not in text:
+                fail(name, 'ऐप शेयर has no QR')
+            last = -1
+            for line in SHARE_LINES:
+                at = text.find(line)
+                if at < 0:
+                    fail(name, 'ऐप शेयर is missing "%s"' % line)
+                elif at < last:
+                    fail(name, 'ऐप शेयर\'s lines are out of order at "%s"' % line)
+                last = max(last, at)
+
+        # Rule 33: सुझाव is two things, the missing place first, then the word to us (decision 046).
+        if name == 'HomeContribute':
+            a, b = text.find('कोई जगह छूट गई?'), text.find('सुझाव या राय')
+            if a < 0 or b < 0:
+                fail(name, 'सुझाव needs both "कोई जगह छूट गई?" and "सुझाव या राय"')
+            elif b < a:
+                fail(name, 'सुझाव is out of order: the missing place first, then the word to us')
 
         # Rule 7: every screen that is not home has a way back.
         if name not in HOME and BACK_ICON not in text:
