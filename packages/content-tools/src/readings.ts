@@ -8,7 +8,8 @@
  * takes the dishes from the reading, for any form whose row carries none of its own.
  *
  * Nothing is invented on the way: a dish with no readable price has none, and only a dish the menu
- * plainly marks vegetarian is tagged so.
+ * plainly marks vegetarian is tagged so. The same holds for vrat: only a dish the card itself marks
+ * as vrat, upvas or farali carries the tag, never one that merely looks fit for a fast.
  */
 
 /** One dish as `menu.json` holds it. Only the fields publishing uses are named. */
@@ -16,6 +17,8 @@ export interface ReadDish {
   readonly name: string;
   readonly priceAed?: number | null;
   readonly veg?: boolean | null;
+  /** True only where the card marks the dish for a fast (vrat, upvas, farali). */
+  readonly vrat?: boolean | null;
   readonly section?: string | null;
 }
 
@@ -49,7 +52,7 @@ export function dishesFromReading(reading: MenuReading): readonly ReportDish[] {
     const section = typeof dish.section === 'string' ? dish.section.trim() : '';
     out.push({
       name: { en: name },
-      tags: dish.veg === true ? ['vegetarian'] : [],
+      tags: [...(dish.veg === true ? ['vegetarian'] : []), ...(dish.vrat === true ? ['vrat'] : [])],
       ...(price === null ? {} : { priceAed: price }),
       ...(section === '' ? {} : { section }),
     });
