@@ -55,7 +55,11 @@ function announce(): void {
 
 /** Called after every attempt to reach our server: `true` if it answered, `false` if not. */
 export function reportReach(ok: boolean, now: number = Date.now()): void {
-  reach = ok ? { ...reach, okAt: now } : { ...reach, failedAt: now };
+  // The newest report decides, so two reports in one millisecond must not tie: a failure right
+  // after a success in the same millisecond once read as online (CI caught it, 28 September).
+  const newest = Math.max(reach.okAt ?? -Infinity, reach.failedAt ?? -Infinity);
+  const at = Math.max(now, newest + 1);
+  reach = ok ? { ...reach, okAt: at } : { ...reach, failedAt: at };
   announce();
 }
 

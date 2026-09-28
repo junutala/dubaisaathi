@@ -200,6 +200,18 @@ export function BolnaScreen() {
 
         {trouble !== null && <p className="trouble">{t(trouble)}</p>}
 
+        {/* The other half of बोलना (घर.7): a board in Arabic, photographed, told in Hindi. */}
+        <button
+          type="button"
+          className="btn btn-ghost"
+          onClick={() => {
+            navigate({ screen: 'bolnaBoard' });
+          }}
+        >
+          <Icon name="camera" size={20} strokeWidth={2} />
+          {t('bolna.board')}
+        </button>
+
         <span className="lbl">{t('bolna.label')}</span>
         <textarea
           className="typed bolna-text"

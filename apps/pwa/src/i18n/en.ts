@@ -455,6 +455,29 @@ export const en: Record<StringKey, string> = {
 
   // घर.5 · बोलना and घर.6 · its Arabic (decision 020) — online only, and the screens say so.
   // Its block on घर is named by the `pillar.speak` keys above, with the other three.
+  'bolna.board': 'Read an Arabic board in Hindi, from a photo',
+  'board.title': 'Read a board',
+  'board.why':
+    'Photograph a board, notice or label written in Arabic — we tell you in Hindi what it says, and read it aloud.',
+  'board.take': 'Photograph the board',
+  'board.again': 'Photograph another board',
+  'board.working': 'Reading…',
+  'board.privacy':
+    'Photograph only the board, not people. The photo is not kept — only what the board says.',
+  'board.hindi': 'In Hindi',
+  'board.arabic': 'The board said, in Arabic',
+  'board.read': 'Hear it in Hindi',
+  'board.reading': 'Reading it aloud…',
+  'board.none':
+    'No Arabic could be read in this photo — go closer to the board and take it straight on.',
+  'board.offline': 'Reading a board needs a signal. Take the photo again once you have one.',
+  'board.notConfigured': 'Board reading is not switched on yet. Everything else still works.',
+  'board.tooLarge': 'This photo is too large — take one straight from the camera.',
+  'board.busy': 'A great many boards are being read today — try again in a little while.',
+  'board.failed': 'That did not work this time — take the photo again.',
+  'board.noVoice': 'This phone has no Hindi voice — read the Hindi above instead.',
+  'board.noEngine': 'This phone cannot read anything aloud — read the Hindi above instead.',
+  'board.readFailed': 'The phone gave no sound — read the Hindi above instead.',
   'bolna.title': 'बोलना',
   'bolna.why':
     'Speak in your own language — Hindi, Tamil, Telugu, whichever. The phone will ask for the microphone once; the recording goes only to be turned into English, and is kept nowhere.',

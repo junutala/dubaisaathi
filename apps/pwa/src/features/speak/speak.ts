@@ -1,5 +1,6 @@
 /**
- * Reading the Arabic out loud, so a shopkeeper who is not looking at the screen still hears it.
+ * Reading aloud with the phone's own voice: the Arabic, so a shopkeeper who is not looking at the
+ * screen still hears it, and the Hindi of a board the traveller photographed (घर.7).
  *
  * **Always attempt; never decide in advance.** CLAUDE.md's rule, and the five bugs of
  * 13 September, are exactly this: a browser reports partial voice lists, answers only after a
@@ -23,13 +24,25 @@ export type Spoken =
 /** Nothing came back at all. Long enough for a whole sentence; short enough not to hang a screen. */
 const GIVE_UP_MS = 20_000;
 
-function arabicVoice(synth: SpeechSynthesis): SpeechSynthesisVoice | undefined {
+/** The two languages the app ever reads aloud, and the tag handed to the phone for each. */
+const TAGS = { ar: 'ar-AE', hi: 'hi-IN' } as const;
+type Aloud = keyof typeof TAGS;
+
+function voiceFor(synth: SpeechSynthesis, lang: Aloud): SpeechSynthesisVoice | undefined {
   // A browser that lists nothing throws nothing here; it simply returns an empty list, which is
   // why an empty list is never treated as an answer.
-  return synth.getVoices().find((voice) => voice.lang.toLowerCase().startsWith('ar'));
+  return synth.getVoices().find((voice) => voice.lang.toLowerCase().startsWith(lang));
 }
 
-export async function speakArabic(text: string, onStart?: () => void): Promise<Spoken> {
+export function speakArabic(text: string, onStart?: () => void): Promise<Spoken> {
+  return speakAloud(text, 'ar', onStart);
+}
+
+export function speakHindi(text: string, onStart?: () => void): Promise<Spoken> {
+  return speakAloud(text, 'hi', onStart);
+}
+
+async function speakAloud(text: string, lang: Aloud, onStart?: () => void): Promise<Spoken> {
   const synth: SpeechSynthesis | undefined =
     typeof window === 'undefined' ? undefined : window.speechSynthesis;
   if (synth === undefined || typeof SpeechSynthesisUtterance === 'undefined') {
@@ -37,11 +50,11 @@ export async function speakArabic(text: string, onStart?: () => void): Promise<S
   }
 
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'ar-AE';
-  // Preferred, not required: when the browser has an Arabic voice ready, it is far better than
-  // whatever the default would make of Arabic letters. When it has none, `lang` alone is still
-  // handed over and the device is left to answer.
-  const preferred = arabicVoice(synth);
+  utterance.lang = TAGS[lang];
+  // Preferred, not required: when the browser has a voice for the language ready, it is far
+  // better than whatever the default would make of the letters. When it has none, `lang` alone
+  // is still handed over and the device is left to answer.
+  const preferred = voiceFor(synth, lang);
   if (preferred !== undefined) utterance.voice = preferred;
 
   return new Promise<Spoken>((resolve) => {
@@ -68,11 +81,11 @@ export async function speakArabic(text: string, onStart?: () => void): Promise<S
       finish({ kind: 'spoke' });
     };
     utterance.onerror = () => {
-      // Now — after an attempt — the list is worth reading: a phone that still lists no Arabic
-      // voice is a phone that cannot say this, and the screen has its own line for that.
+      // Now — after an attempt — the list is worth reading: a phone that still lists no voice for
+      // the language is a phone that cannot say this, and the screen has its own line for that.
       finish({
         kind: 'refused',
-        reason: arabicVoice(synth) === undefined ? 'no-voice' : 'error',
+        reason: voiceFor(synth, lang) === undefined ? 'no-voice' : 'error',
       });
     };
 

@@ -43,7 +43,7 @@ import {
 } from '../features/transport/index.js';
 import { KnowScreen, PlaceScreen, TopicScreen } from '../features/know/index.js';
 import { MapScreen, startMapKeeping } from '../features/map/index.js';
-import { ArabicScreen, BolnaScreen } from '../features/speak/index.js';
+import { ArabicScreen, BoardScreen, BolnaScreen } from '../features/speak/index.js';
 import { navigate } from './routes.js';
 import { noteScreen } from '../features/ask/index.js';
 
@@ -257,6 +257,7 @@ export function App() {
         {route.screen === 'pass' && <PassScreen token={route.token} />}
         {route.screen === 'bolna' && <BolnaScreen />}
         {route.screen === 'bolnaArabic' && <ArabicScreen text={route.text} />}
+        {route.screen === 'bolnaBoard' && <BoardScreen />}
         {route.screen === 'food' && <FoodListScreen dish={route.dish} hotel={hotel} />}
         {route.screen === 'menu' && <MenuScreen outletId={route.outletId} hotel={hotel} />}
         {route.screen === 'go' && <GoScreen placeId={route.placeId} />}
