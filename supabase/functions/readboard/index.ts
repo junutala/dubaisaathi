@@ -44,11 +44,20 @@ type Media = (typeof MEDIA)[number];
 
 /** Arabic letters, including the presentation forms signs are often set in. */
 const ARABIC = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/;
+const ARABIC_ALL = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/g;
+const DEVANAGARI = /[\u0900-\u097F]/;
+
+/**
+ * Fewer Arabic letters than this is a scrap from a cut-off edge, not a board: on 28 September a
+ * sign photographed with its Arabic column half out of frame read as "ملے" and came back as
+ * "mlے" — junk on the screen where "go closer" belonged.
+ */
+const MIN_ARABIC_LETTERS = 4;
 
 type Reading =
   | { readonly kind: 'read'; readonly arabic: string; readonly hindi: string; readonly by: string }
   | { readonly kind: 'none' }
-  /** Google would not do it at all — the next reader should be tried. */
+  /** Google would not read it, or its reading cannot be trusted — the next reader should try. */
   | { readonly kind: 'refused'; readonly why: string }
   | { readonly kind: 'failed' };
 
@@ -85,6 +94,9 @@ async function readWithGoogle(key: string, image: string): Promise<Reading> {
     .filter((line) => ARABIC.test(line))
     .join('\n');
   if (arabic === '') return { kind: 'none' };
+  // Too little to be a board: let the next reader look before the traveller is told to go closer.
+  if ((arabic.match(ARABIC_ALL) ?? []).length < MIN_ARABIC_LETTERS)
+    return { kind: 'refused', why: 'too little arabic' };
 
   const turned = await fetch(
     `https://translation.googleapis.com/language/translate/v2?key=${key}`,
@@ -99,9 +111,11 @@ async function readWithGoogle(key: string, image: string): Promise<Reading> {
   if (!turned.ok) return { kind: 'failed' };
   const body = (await turned.json()) as { data?: { translations?: { translatedText?: string }[] } };
   const hindi = body.data?.translations?.[0]?.translatedText?.trim() ?? '';
-  return hindi === ''
-    ? { kind: 'failed' }
-    : { kind: 'read', arabic, hindi, by: 'google-vision+translate' };
+  if (hindi === '') return { kind: 'failed' };
+  // A "translation" with no Hindi letters, or with Arabic still in it, is the translator giving
+  // up in public; it never reaches the screen.
+  if (!DEVANAGARI.test(hindi) || ARABIC.test(hindi)) return { kind: 'refused', why: 'no hindi' };
+  return { kind: 'read', arabic, hindi, by: 'google-vision+translate' };
 }
 
 const SCHEMA = {
