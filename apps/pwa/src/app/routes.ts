@@ -21,6 +21,7 @@ export type Route =
   // own address, exactly what it is showing.
   | { readonly screen: 'bolna' }
   | { readonly screen: 'bolnaArabic'; readonly text: string }
+  | { readonly screen: 'bolnaBoard' }
   // 1.1 / 1.2 · खाना — one screen; a dish in the box is what makes it 1.2
   | { readonly screen: 'food'; readonly dish?: string }
   // 1.3 · the kitchen, which is its menu (the separate outlet screen went on 24 September)
@@ -65,6 +66,8 @@ export function parseRoute(hash: string): Route {
       return { screen: 'bolna' };
     case 'bolna-arabic':
       return arg ? { screen: 'bolnaArabic', text: decodeURIComponent(arg) } : { screen: 'bolna' };
+    case 'bolna-board':
+      return { screen: 'bolnaBoard' };
     case 'food':
       return arg ? { screen: 'food', dish: decodeURIComponent(arg) } : { screen: 'food' };
     case 'outlet':
@@ -120,6 +123,8 @@ export function href(route: Route): string {
       return '#/bolna';
     case 'bolnaArabic':
       return `#/bolna-arabic/${encodeURIComponent(route.text)}`;
+    case 'bolnaBoard':
+      return '#/bolna-board';
     case 'food':
       return route.dish === undefined ? '#/food' : `#/food/${encodeURIComponent(route.dish)}`;
     case 'menu':
@@ -179,6 +184,7 @@ export function pillarOf(route: Route): Pillar {
     case 'pass':
     case 'bolna':
     case 'bolnaArabic':
+    case 'bolnaBoard':
       return 'home';
   }
 }
@@ -193,7 +199,9 @@ export function screenSeen(route: Route): {
   pillar: 'food' | 'go' | 'know' | 'bolna' | 'docs' | 'home';
 } {
   const pillar =
-    route.screen === 'bolna' || route.screen === 'bolnaArabic' ? 'bolna' : pillarOf(route);
+    route.screen === 'bolna' || route.screen === 'bolnaArabic' || route.screen === 'bolnaBoard'
+      ? 'bolna'
+      : pillarOf(route);
   switch (route.screen) {
     case 'menu':
       return { screen: route.screen, id: route.outletId, pillar };

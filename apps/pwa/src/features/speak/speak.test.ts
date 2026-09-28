@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { speakArabic } from './speak.js';
+import { speakArabic, speakHindi } from './speak.js';
 
 /**
  * Reading the Arabic aloud, and — the part that matters — reporting what the device said rather
@@ -87,5 +87,20 @@ describe('reading the Arabic aloud', () => {
 
   it('says there is no engine on a browser that cannot speak, without throwing', async () => {
     expect(await speakArabic('مرحبا')).toEqual({ kind: 'refused', reason: 'no-engine' });
+  });
+});
+
+describe('reading a board’s Hindi aloud (घर.7)', () => {
+  it('speaks in Hindi, on the phone’s Hindi voice when it has one', async () => {
+    const spoken = withSynth('end', ['ar-AE', 'hi-IN']);
+    expect(await speakHindi('यहाँ गाड़ी खड़ी करना मना है')).toEqual({ kind: 'spoke' });
+    expect(spoken[0]?.lang).toBe('hi-IN');
+    expect(spoken[0]?.voice?.lang).toBe('hi-IN');
+  });
+
+  it('says the phone has no Hindi voice only after it has refused', async () => {
+    const spoken = withSynth('error', ['ar-AE']);
+    expect(await speakHindi('नमस्ते')).toEqual({ kind: 'refused', reason: 'no-voice' });
+    expect(spoken).toHaveLength(1);
   });
 });

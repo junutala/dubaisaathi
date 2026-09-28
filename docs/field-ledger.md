@@ -162,6 +162,18 @@ Two steps since 23 September (decision 032), each one screen with nothing below 
 | One line when it did not work | No signal, no Arabic voice, the phone gave no sound — each said, never a blank      |
 | "यही स्क्रीन दिखा दीजिए"      | What still works when the voice does not                                            |
 
+## घर.7 · बोलना › बोर्ड पढ़ें (decision 044)
+
+| Field                                  | Why it is there                                                                         |
+| -------------------------------------- | --------------------------------------------------------------------------------------- |
+| The button on घर.5                     | The way in: बोलना's second half, a board instead of a sentence                          |
+| बोर्ड की फ़ोटो लें                     | One tap to the camera or the gallery; the phone answers which                           |
+| "सिर्फ़ बोर्ड की फ़ोटो… रखी नहीं जाती" | Frame the board, not people; and what we keep, said before the photo is taken           |
+| हिंदी में, large                       | The answer — what the board means, not a word-for-word string                           |
+| हिंदी में सुनें                        | For a traveller who reads slowly, or not at all                                         |
+| बोर्ड पर अरबी में लिखा था              | What we read, so a wrong reading can be seen for what it is                             |
+| One line when it did not work          | Nothing readable, no signal, not switched on, no Hindi voice — each said, never a blank |
+
 ## 1.1 · खाना › क्या खाएँ · 1.2 · नतीजे
 
 | Field                                                                 | Why it is there                                      |

@@ -535,7 +535,9 @@ export type VoiceFailure =
   | 'unresolved-dish'
   | 'unresolved-document'
   | 'backed-out'
-  | 'retried';
+  | 'retried'
+  // बोलना's board reader (घर.7) found no Arabic it could read in the photograph.
+  | 'nothing-read';
 
 /**
  * One voice interaction, recorded on the device and synced when online. Keyed to the device

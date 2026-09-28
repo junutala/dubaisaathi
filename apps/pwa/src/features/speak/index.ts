@@ -5,9 +5,10 @@
  */
 export { BolnaScreen } from './BolnaScreen.js';
 export { ArabicScreen } from './ArabicScreen.js';
+export { BoardScreen } from './BoardScreen.js';
 export { listen, type Heard } from './listen.js';
 export { toArabic, type Translated } from './arabic.js';
-export { speakArabic, type Spoken } from './speak.js';
+export { speakArabic, speakHindi, type Spoken } from './speak.js';
 export {
   audioFormData,
   extFor,

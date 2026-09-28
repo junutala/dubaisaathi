@@ -2463,6 +2463,22 @@ button:not(:disabled) {
   line-height: 1.35;
 }
 
+/* घर.7: what a board says, in Hindi, set large; the Arabic that was read under it, right to left. */
+.board-hi {
+  margin: 0;
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.45;
+  white-space: pre-line;
+}
+.board-ar {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
 /* The English, editable: the traveller fixes a misheard word before showing it to anyone. */
 .bolna-text {
   padding: 12px 14px;

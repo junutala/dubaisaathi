@@ -111,7 +111,9 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   screen, so the block is on घर only while the phone is online and goes when the signal does — a
   block that is there when it cannot work is a promise broken on the tap. Speak in any Indian
   language, read it back in English in a box that can be corrected, then the same sentence in
-  Arabic with a read-aloud button. No audio is stored anywhere.
+  Arabic with a read-aloud button. No audio is stored anywhere. **घर.7 reads boards** (decision
+  044): a photo of an Arabic board, its meaning in Hindi, read aloud; the photo is never kept,
+  the Arabic and the Hindi are, tied to no one.
 - **The pass stays and is never a wall.** The dot is green while the counter runs and marigold
   when the Dubai day is ending; never red (decision 002). From the twentieth hour of the Dubai
   day every open of घर nudges toward a pass. **A traveller who has paid once is never gated
@@ -211,21 +213,22 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
 
 ## Stack
 
-| Layer        | Choice                                                                                                                                                                                                                                                                            |
-| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Frontend     | React + TypeScript, Vite                                                                                                                                                                                                                                                          |
-| PWA          | Service Worker + Workbox                                                                                                                                                                                                                                                          |
-| Local DB     | IndexedDB via Dexie.js                                                                                                                                                                                                                                                            |
-| Local search | Hand-written, in `features/ask` and `features/food/search.ts` — no library. The pack is small enough that an index would be weight without a win; revisit if a pillar's corpus outgrows it                                                                                        |
-| Maps         | **Our own, offline** (decision 035): MapLibre drawing an OpenStreetMap PMTiles extract of Dubai (z14, 16 MB with glyphs) built at deploy by `deploy/build-map.sh`, served under `/map/v1/`, downloaded once and kept in `saathi-map`; 2.6 · नक्शा draws the planner's route on it |
-| Routing      | Local precomputed routing graph (no routing API at runtime)                                                                                                                                                                                                                       |
-| Backend      | Supabase edge functions (Deno) — decision 011, replaces a Node service                                                                                                                                                                                                            |
-| Database     | Supabase Postgres. PostGIS not enabled: place data ships in the pack and is queried on the device                                                                                                                                                                                 |
-| Auth         | None. Entitlement keyed to the device; family devices join by short-lived QR token                                                                                                                                                                                                |
-| Payments     | UPI-first INR aggregator (Razorpay / Cashfree / PhonePe PG): order → intent or QR → webhook                                                                                                                                                                                       |
-| Speech       | Online only, in बोलना: Sarvam `saaras:v3` behind the `listen` function; no mic elsewhere (020)                                                                                                                                                                                    |
-| Card reading | QR first (BarcodeDetector, else jsQR), then tesseract.js in a worker on the phone, घर.1 only; fetched on first use, kept in its own cache (032)                                                                                                                                   |
-| Menu reading | Claude, reading the page images at review (033): pulled by the `Pull menu pages for review` workflow onto `menu-pages`, never tesseract                                                                                                                                           |
+| Layer         | Choice                                                                                                                                                                                                                                                                            |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Frontend      | React + TypeScript, Vite                                                                                                                                                                                                                                                          |
+| PWA           | Service Worker + Workbox                                                                                                                                                                                                                                                          |
+| Local DB      | IndexedDB via Dexie.js                                                                                                                                                                                                                                                            |
+| Local search  | Hand-written, in `features/ask` and `features/food/search.ts` — no library. The pack is small enough that an index would be weight without a win; revisit if a pillar's corpus outgrows it                                                                                        |
+| Maps          | **Our own, offline** (decision 035): MapLibre drawing an OpenStreetMap PMTiles extract of Dubai (z14, 16 MB with glyphs) built at deploy by `deploy/build-map.sh`, served under `/map/v1/`, downloaded once and kept in `saathi-map`; 2.6 · नक्शा draws the planner's route on it |
+| Routing       | Local precomputed routing graph (no routing API at runtime)                                                                                                                                                                                                                       |
+| Backend       | Supabase edge functions (Deno) — decision 011, replaces a Node service                                                                                                                                                                                                            |
+| Database      | Supabase Postgres. PostGIS not enabled: place data ships in the pack and is queried on the device                                                                                                                                                                                 |
+| Auth          | None. Entitlement keyed to the device; family devices join by short-lived QR token                                                                                                                                                                                                |
+| Payments      | UPI-first INR aggregator (Razorpay / Cashfree / PhonePe PG): order → intent or QR → webhook                                                                                                                                                                                       |
+| Speech        | Online only, in बोलना: Sarvam `saaras:v3` behind the `listen` function; no mic elsewhere (020)                                                                                                                                                                                    |
+| Board reading | Online only, in बोलना (घर.7): Claude reads an Arabic board's photo into Hindi behind `readboard`; the photo is never kept, the text is (044)                                                                                                                                      |
+| Card reading  | QR first (BarcodeDetector, else jsQR), then tesseract.js in a worker on the phone, घर.1 only; fetched on first use, kept in its own cache (032)                                                                                                                                   |
+| Menu reading  | Claude, reading the page images at review (033): pulled by the `Pull menu pages for review` workflow onto `menu-pages`, never tesseract                                                                                                                                           |
 
 Deviating from this table needs a reason recorded in `docs/decisions/`.
 
@@ -464,12 +467,12 @@ dubaisaathi/
 │   ├── site/              # the one-page website at saafarsaathi.in — static, Hindi and English
 │   └── admin/             # the owner's page at admin.saafarsaathi.in — static, one call (040)
 ├── supabase/              # the backend (decision 011) — replaces apps/api
-│   ├── migrations/        # fourteen tables: devices, families, passes, orders, coupons,
+│   ├── migrations/        # fifteen tables: devices, families, passes, orders, coupons,
 │   │                      #   coupon_redemptions, voice_events, field_reports, field_photos,
 │   │                      #   contact_messages, content_packs, app_events, metric_snapshots,
-│   │                      #   insight_reports
-│   ├── functions/         # thirteen: collect, contact, listen, translate, outlet, redeem, bind,
-│   │                      #   order, webhook, packs, maplink, admin, insights
+│   │                      #   insight_reports, board_readings
+│   ├── functions/         # fourteen: collect, contact, listen, translate, outlet, redeem, bind,
+│   │                      #   order, webhook, packs, maplink, admin, insights, readboard
 │   └── tests/             # SQL that checks what the schema must refuse
 └── packages/
     ├── shared/            # entity types shared by pwa and api — one definition, imported twice
