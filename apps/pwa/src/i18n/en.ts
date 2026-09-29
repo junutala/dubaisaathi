@@ -250,6 +250,7 @@ export const en: Record<StringKey, string> = {
   'food.nearVirtual': 'You are outside Dubai · showing around {place}',
   'food.fromVirtual': '{distance} from {place} · you are outside Dubai',
   'food.call': 'Call',
+  'food.delivery': 'Home delivery',
   'food.map': 'Map',
   'food.go': 'जाना',
   'food.diet.jain': 'Jain',

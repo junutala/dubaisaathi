@@ -59,7 +59,7 @@ const COLUMNS = [
 /**
  * The dishes review read off a form's menu (decision 033), for every row that carries none of its
  * own. A row that already has dishes — keyed at the desk — keeps them: the person at the counter
- * outranks the reading.
+ * outranks the reading. The card's delivery number is taken the same way, for a row with none.
  */
 async function withReadings(rows: readonly ReportRow[]): Promise<readonly ReportRow[]> {
   const flag = process.argv.indexOf('--readings');
@@ -69,13 +69,18 @@ async function withReadings(rows: readonly ReportRow[]): Promise<readonly Report
   const out: ReportRow[] = [];
   for (const row of rows) {
     const file = resolve(process.cwd(), dir, row.form_serial ?? '', 'menu.json');
-    const has = (row.confirmed_dishes ?? []).length > 0;
-    if (has || row.form_serial === null || row.form_serial === undefined || !existsSync(file)) {
+    if (row.form_serial === null || row.form_serial === undefined || !existsSync(file)) {
       out.push(row);
       continue;
     }
     const reading = JSON.parse(await readFile(file, 'utf8')) as MenuReading;
-    out.push({ ...row, confirmed_dishes: dishesFromReading(reading) });
+    const has = (row.confirmed_dishes ?? []).length > 0;
+    const delivery = reading.deliveryPhone?.trim() ?? '';
+    out.push({
+      ...row,
+      ...(has ? {} : { confirmed_dishes: dishesFromReading(reading) }),
+      ...(row.delivery_phone !== null || delivery === '' ? {} : { delivery_phone: delivery }),
+    });
   }
   return out;
 }

@@ -35,8 +35,9 @@ tool/OCR that you used and we will scan the 25 tomorrow."_
 - **The flow:** the desk keys a form in four steps (decision 029's addendum) and Save waits for the
   server to hold every page. Review pulls the pages with the `Pull menu pages for review` workflow
   (the development container cannot reach Supabase; a runner can) onto the `menu-pages` branch,
-  reads each form into `menu.json` — name, kitchen, cuisines, address, phones, hours, every dish
-  with its price, section, veg mark and page — and writes the name, the kitchen and the desk's
+  reads each form into `menu.json` — name, kitchen, cuisines, address, phones, the delivery
+  number the card prints (decision 047), hours, every dish with its price, section, veg mark and
+  page — and writes the name, the kitchen and the desk's
   number back to the form's row. The readings are kept beside the pages on that branch, never on
   `main`.
 - **What the reader must not do:** invent a dish or a price it cannot see; count a repeated page

@@ -45,6 +45,20 @@ describe('a real capture survives the trip to a card', () => {
     expect(out?.confirmedDishes?.[0]?.name.en).toBe('Sabudana khichadi');
   });
 
+  it("carries the card's delivery number apart from the board's", () => {
+    const out = toRestaurant({ ...karama, phone: '04 355 2855', delivers: null });
+    expect(out?.phone).toBe('04 355 2855');
+    expect(out?.deliveryPhone).toBe('6304363258');
+    // A card that prints a delivery number says the kitchen delivers.
+    expect(out?.delivers).toBe('yes');
+  });
+
+  it('has no delivery number when the card prints none', () => {
+    const out = toRestaurant({ ...karama, delivers: null, delivery_phone: null });
+    expect(out?.deliveryPhone).toBeUndefined();
+    expect(out?.delivers).toBeUndefined();
+  });
+
   it('leaves a skipped field absent rather than inventing one', () => {
     const out = toRestaurant(karama);
     // The collector skipped both. Absent is the honest answer; 0 AED is not.

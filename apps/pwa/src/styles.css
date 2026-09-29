@@ -1795,6 +1795,29 @@ button:not(:disabled) {
 .btn-off {
   opacity: 0.45;
 }
+/* The card's delivery number, read and rung from the hotel's landline (29 September): large and
+   plain, the one number on the screen a traveller copies by eye. */
+.kitchen-delivery {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+}
+.kitchen-delivery-label {
+  color: var(--muted);
+  font-weight: 600;
+}
+.kitchen-delivery-number {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  user-select: all;
+}
 .answers-row {
   display: flex;
   flex-wrap: wrap;

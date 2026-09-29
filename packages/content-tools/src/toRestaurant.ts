@@ -201,6 +201,7 @@ export function toRestaurant(row: ReportRow): Restaurant | null {
   const delivers = row.delivers === 'yes' || row.delivers === 'no' ? row.delivers : undefined;
   const areaId = readArea(row.area);
   const phone = row.phone ?? row.delivery_phone;
+  const deliveryPhone = row.delivery_phone?.trim() ?? '';
 
   return {
     id: row.id,
@@ -215,7 +216,14 @@ export function toRestaurant(row: ReportRow): Restaurant | null {
     ...(row.price_for_one_aed === null ? {} : { approxCostAed: row.price_for_one_aed }),
     // The board's own number first; the delivery number is the same phone at most kitchens.
     ...(phone === null ? {} : { phone }),
-    ...(delivers === undefined ? {} : { delivers }),
+    // The card's delivery number, apart from the board's (the owner, 29 September). A card that
+    // prints one says the kitchen delivers, whatever nobody asked.
+    ...(deliveryPhone === '' ? {} : { deliveryPhone }),
+    ...(deliveryPhone !== ''
+      ? { delivers: 'yes' as const }
+      : delivers === undefined
+        ? {}
+        : { delivers }),
     ...(dietary === undefined ? {} : { dietary }),
     ...(dishes === undefined ? {} : { confirmedDishes: dishes }),
     ...(hours === undefined ? {} : { hours }),
