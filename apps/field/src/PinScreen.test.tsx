@@ -186,7 +186,7 @@ describe('the rider’s pin', () => {
       fireEvent.change(camera, { target: { files: [new File([name], `${name}.jpg`)] } });
       await waitFor(() => {
         expect(container.querySelector('.pin-menu-opt')?.textContent).toContain(
-          `${String(count)}/15`,
+          `${String(count)}/40`,
         );
       });
     };

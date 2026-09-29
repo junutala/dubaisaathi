@@ -36,8 +36,12 @@ import { startSync, syncReports, type SyncOutcome } from './sync.js';
  * pavement or at a desk that night.
  */
 
-/** Pages of one menu on one pin: a long board photographed in sections (the owner asked for 12–15). */
-const MENU_PAGES = 15;
+/**
+ * Pages of one menu on one pin: a long board photographed in sections. Fifteen at first (the owner
+ * asked for 12–15); forty since 29 September, when cards with more than fifteen pages turned up. It
+ * stays a ceiling so a camera left firing cannot fill the phone's queue.
+ */
+const MENU_PAGES = 40;
 
 interface Fix {
   readonly lat: number;

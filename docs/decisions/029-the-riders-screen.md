@@ -176,5 +176,10 @@ the tick:
   "Remove last page" takes back a bad shot. A second shot used to replace the first, which lost
   pages twice that evening.
 
+- **Forty pages, not fifteen** (the owner, 29 September): some menu cards run past fifteen pages,
+  and the pin stopped taking them. Nothing behind the pin needed the limit — the upload goes in
+  batches and the `outlet` function appends pages without a ceiling — so the camera now takes up
+  to forty ("Menu 3/40"). A ceiling stays, so a camera left firing cannot fill the phone's queue.
+
 None of these is required, and the tick never waits on them. The fresh GPS reading at the
 tick (25 September, after 0022 and 0023 shared a pin) is unchanged.
