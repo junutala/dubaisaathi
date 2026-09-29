@@ -260,6 +260,7 @@ export const hi = {
   'food.nearVirtual': 'आप दुबई से बाहर हैं · {place} के आसपास दिखा रहा हूँ',
   'food.fromVirtual': '{place} से {distance} · आप दुबई से बाहर हैं',
   'food.call': 'फ़ोन',
+  'food.delivery': 'होम डिलीवरी',
   'food.map': 'नक्शा',
   'food.go': 'जाना',
   'food.diet.jain': 'जैन',

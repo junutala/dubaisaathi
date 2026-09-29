@@ -24,6 +24,7 @@ export type IconName =
   | 'bus'
   | 'tram'
   | 'taxi'
+  | 'scooter'
   | 'walk'
   | 'boat'
   | 'copy'
@@ -171,6 +172,15 @@ const SHAPES: Record<IconName, ReactNode> = {
       <path d="M5 12h14" />
       <path d="M9 3l3 3 3-3" />
       <path d="M8 18l-1.5 3M16 18l1.5 3" />
+    </>
+  ),
+  scooter: (
+    <>
+      <circle cx="6" cy="17" r="2.5" />
+      <circle cx="18" cy="17" r="2.5" />
+      <path d="M8.5 17h7l1.5-6h-3.5" />
+      <path d="M17 11l-1-4h2.5" />
+      <path d="M3.5 13.5h6V9h-6z" />
     </>
   ),
   taxi: (

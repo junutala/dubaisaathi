@@ -5052,6 +5052,8 @@
       "kitchen": "mixed",
       "tags": [],
       "phone": "04 546 8181",
+      "delivers": "yes",
+      "deliveryPhone": "04 546 8181 · 050 379 7949",
       "dietary": {
         "jain": "no",
         "vrat": "no",
@@ -9291,6 +9293,8 @@
       "kitchen": "pure-veg",
       "tags": ["vegetarian", "vrat"],
       "phone": "04 355 2855",
+      "delivers": "yes",
+      "deliveryPhone": "04 355 2855 · 056 9480 187",
       "confirmedDishes": [
         {
           "name": {
@@ -34577,6 +34581,8 @@
       "kitchen": "pure-veg",
       "tags": ["vegetarian"],
       "phone": "04 341 0884",
+      "delivers": "yes",
+      "deliveryPhone": "04 341 0884 · 052 908 1789",
       "confirmedDishes": [
         {
           "name": {
@@ -45831,6 +45837,8 @@
       "kitchen": "mixed",
       "tags": [],
       "phone": "+971554484739",
+      "delivers": "yes",
+      "deliveryPhone": "04 88 108 38 · 055 448 4739",
       "confirmedDishes": [
         {
           "name": {
@@ -79573,6 +79581,7 @@
       "tags": [],
       "phone": "056 422 9610",
       "delivers": "yes",
+      "deliveryPhone": "056 422 9610",
       "confirmedDishes": [
         {
           "name": {

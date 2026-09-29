@@ -137,6 +137,12 @@ export interface Restaurant {
    * most offline thing the app can offer a traveller who does not want to walk.
    */
   readonly delivers?: 'yes' | 'no';
+  /**
+   * The number the menu card prints for delivery, when it prints one apart from the board's
+   * (the owner, 29 September): a traveller orders straight from the kitchen, at the card's own
+   * prices. Shown as a number to read, never a button — rung from the hotel's landline.
+   */
+  readonly deliveryPhone?: string;
   readonly notes?: LocalisedText;
   /**
    * What was asked in person, per `FieldReport.dietary`. Absent means nobody has asked yet —

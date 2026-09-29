@@ -39,6 +39,12 @@ export interface ReadDish {
 export interface MenuReading {
   readonly form: string;
   readonly dishes: readonly ReadDish[];
+  /**
+   * The number the card prints for delivery — "Home delivery", "Free delivery", "Order on
+   * WhatsApp" — as printed (the owner, 29 September). Absent when the card prints none; the
+   * board's own number is not a delivery number unless the card says so.
+   */
+  readonly deliveryPhone?: string | null;
 }
 
 /** The shape `readDishes` in toRestaurant.ts accepts, as a report row would carry it. */

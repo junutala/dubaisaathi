@@ -119,6 +119,16 @@ export function MenuScreen({
               ))}
           </p>
         </div>
+        {/* The card's delivery number, to read and ring from the hotel's landline — a number, not
+            a button (the owner, 29 September): ordered straight from the kitchen, at its own
+            prices. Only when the card prints one. */}
+        {outlet.deliveryPhone !== undefined && (
+          <p className="kitchen-delivery">
+            <Icon name="scooter" size={20} strokeWidth={1.9} />
+            <span className="kitchen-delivery-label">{t('food.delivery')}</span>
+            <span className="kitchen-delivery-number">{outlet.deliveryPhone}</span>
+          </p>
+        )}
         {/* Stays at the top while the menu scrolls: the traveller's actions never scroll away. */}
         <div className="kitchen-actions">
           {/* Our own map, with the route and the distance to the collector's pin — offline, which

@@ -32,6 +32,7 @@ interface RawOutlet {
   readonly approxCostAed?: number;
   readonly phone?: string;
   readonly delivers?: string;
+  readonly deliveryPhone?: string;
   /** What a person answered, per question. A missing key means nobody asked — never a no. */
   readonly dietary?: Readonly<Record<string, string>>;
   readonly confirmedDishes?: readonly {
@@ -87,6 +88,7 @@ export function parseOutletPack(raw: unknown): readonly Restaurant[] {
       ...(row.approxCostAed === undefined ? {} : { approxCostAed: row.approxCostAed }),
       ...(row.phone === undefined ? {} : { phone: row.phone }),
       ...(row.delivers === undefined ? {} : { delivers: row.delivers }),
+      ...(row.deliveryPhone === undefined ? {} : { deliveryPhone: row.deliveryPhone }),
       ...(row.dietary === undefined
         ? {}
         : {
