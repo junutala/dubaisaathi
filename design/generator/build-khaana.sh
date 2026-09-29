@@ -85,7 +85,7 @@ cat <<H
     <div style="display: flex; flex-direction: column; gap: 6px; padding-bottom: 10px; border-bottom: 1px solid $line;">
       <span class="disp" style="font-size: 24px; font-weight: 700; color: $ink;">Woodlands Restaurant</span>
       <span style="font-size: 13px; color: $muted;">मीना बाज़ार · होटल से 2.5 किमी · शुद्ध शाकाहारी</span>
-      <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 10px 12px; border-radius: 12px; background: $card; border: 1px solid $line;">$(phone 18 "$ink" 1.9)<span style="font-size: 13px; font-weight: 600; color: $muted;">होम डिलीवरी</span><span style="font-size: 20px; font-weight: 700; color: $ink; letter-spacing: 0.02em;">055 123 4567</span></div>
+      <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 10px 12px; border-radius: 12px; background: $card; border: 1px solid $line;">$(scooter 20 "$ink" 1.9)<span style="font-size: 13px; font-weight: 600; color: $muted;">होम डिलीवरी</span><span style="font-size: 20px; font-weight: 700; color: $ink; letter-spacing: 0.02em;">055 123 4567</span></div>
       <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">
         $(obtn "$(pin 20 "$ink" 1.9)नक्शा")
         $(btn "$(metro 20 "$j_fg" 1.9) जाना" "$j_bg" "$j_fg")

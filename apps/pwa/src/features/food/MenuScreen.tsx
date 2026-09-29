@@ -124,7 +124,7 @@ export function MenuScreen({
             prices. Only when the card prints one. */}
         {outlet.deliveryPhone !== undefined && (
           <p className="kitchen-delivery">
-            <Icon name="phone" size={18} strokeWidth={1.9} />
+            <Icon name="scooter" size={20} strokeWidth={1.9} />
             <span className="kitchen-delivery-label">{t('food.delivery')}</span>
             <span className="kitchen-delivery-number">{outlet.deliveryPhone}</span>
           </p>
