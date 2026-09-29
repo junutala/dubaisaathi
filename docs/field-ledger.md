@@ -227,16 +227,16 @@ are retired: its numbers are जानना's red line, its feedback form is pa
 
 ## 1.3 · खाना › मेनू — the kitchen is its menu (decision 034)
 
-| Field                                                                            | Why it is there                                                                      |
-| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| Name; area, distance, hours, kind, price for one                                 | Which kitchen, how far, whether it is open — enough to decide                        |
-| होम डिलीवरी · the card's delivery number, as text, only when the card prints one | Order straight from the kitchen at the card's prices, rung from the hotel's landline |
-| नक्शा · जाना · फ़ोन, held at the top while the menu scrolls                      | Our map (2.6), every way there with the fare, ring it — never scrolled away          |
-| जैन · व्रत · बिना प्याज़-लहसुन · अंडा-रहित · सात्विक, each हाँ / पूछकर / नहीं    | What a person was told, standing there                                               |
-| "… से पूछा गया · date"                                                           | Who answered and when, so a claim is checkable                                       |
-| The menu, grouped under the card's own headings, in the card's order             | Breakfast is not served at four in the afternoon; the card already says so           |
-| Each dish: name, price, tags                                                     | What review read off the card (decision 033)                                         |
-| "दाम बदल सकते हैं"                                                               | Honest about a number that was true on one day                                       |
+| Field                                                                                                   | Why it is there                                                                           |
+| ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Name; area, distance, hours, kind, price for one                                                        | Which kitchen, how far, whether it is open — enough to decide                             |
+| होम डिलीवरी · the card's delivery number, large, a tap opens the dialler; only when the card prints one | Order straight from the kitchen at the card's prices, or read out to the hotel's landline |
+| नक्शा · जाना · फ़ोन, held at the top while the menu scrolls                                             | Our map (2.6), every way there with the fare, ring it — never scrolled away               |
+| जैन · व्रत · बिना प्याज़-लहसुन · अंडा-रहित · सात्विक, each हाँ / पूछकर / नहीं                           | What a person was told, standing there                                                    |
+| "… से पूछा गया · date"                                                                                  | Who answered and when, so a claim is checkable                                            |
+| The menu, grouped under the card's own headings, in the card's order                                    | Breakfast is not served at four in the afternoon; the card already says so                |
+| Each dish: name, price, tags                                                                            | What review read off the card (decision 033)                                              |
+| "दाम बदल सकते हैं"                                                                                      | Honest about a number that was true on one day                                            |
 
 ## 2.1 · जाना › कहाँ
 

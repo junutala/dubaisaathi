@@ -139,8 +139,9 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   never predicted. An answer nobody asked shows as पूछकर, never as a no. **Tapping a kitchen opens
   its menu** (decision 034): नक्शा, जाना and फ़ोन held at the top, then the menu as a **grid** of
   dishes and prices read off the card at review (033), grouped under the card's own headings.
-  When the card prints a delivery number it is shown above them as a number to read, never a
-  button — rung from the hotel's landline, at the kitchen's own prices (decision 047).
+  When the card prints a delivery number it is shown above them, large, each number a tap that
+  opens the dialler with it filled in (never a call, never a button) — or read out to the hotel's
+  landline, at the kitchen's own prices (decision 047).
   **नक्शा is our own map, offline** (decision 035) — never a hand-off to another map app.
 - **Hours are Dubai's.** Open or closed is computed in Asia/Dubai, never on the phone's clock,
   and the row shows the closing time while open and the opening time while closed.
