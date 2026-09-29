@@ -1816,7 +1816,10 @@ button:not(:disabled) {
   font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  user-select: all;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
 }
 .answers-row {
   display: flex;

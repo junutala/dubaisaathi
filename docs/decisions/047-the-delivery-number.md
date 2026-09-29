@@ -23,3 +23,13 @@ Let them call from hotel landline."_
 
 This is not food delivery (CLAUDE.md, scope guard): the app takes no order and passes none on. It
 shows a number the kitchen printed, as it shows the one on its board.
+
+## Addendum — the number is tappable (29 September, evening)
+
+The owner asked whether the app could tell that the phone can call, and link the number only then.
+It cannot: a browser sees internet, not the SIM, roaming or a voice signal, and the two disagree
+both ways (data off with calling on is the common case for an Indian SIM in Dubai; hotel Wi-Fi
+with no calling is the other). So nothing is guessed. Each number stays on the screen as large
+text and is itself a `tel:` link: a tap opens the dialler with the number filled in and never
+calls. A phone that can call presses the green button; one that cannot has the number in front of
+it to read to the landline. The owner: _"make it tappable and deploy"_.

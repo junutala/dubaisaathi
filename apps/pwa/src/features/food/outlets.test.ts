@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { parseOutletPack } from './outlets.js';
+import { dialable } from './MenuScreen.js';
 
 const row = {
   id: 'r1',
@@ -22,5 +23,13 @@ describe('parseOutletPack', () => {
   it('has no delivery number when the card printed none', () => {
     const [outlet] = parseOutletPack({ restaurants: [row] });
     expect(outlet?.deliveryPhone).toBeUndefined();
+  });
+});
+
+describe('dialable', () => {
+  it('keeps only what a dialler takes from a number as printed', () => {
+    expect(dialable('04 - 355 2855')).toBe('043552855');
+    expect(dialable('+971 52 908 1789')).toBe('+971529081789');
+    expect(dialable('04 88 108 38')).toBe('048810838');
   });
 });

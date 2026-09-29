@@ -55,6 +55,19 @@ export function menuSections(
   return order.map((section) => ({ section, dishes: bySection.get(section) ?? [] }));
 }
 
+/** A card may print several delivery numbers, published as "04 546 8181 · 050 379 7949". */
+function deliveryNumbers(printed: string): readonly string[] {
+  return printed
+    .split('·')
+    .map((part) => part.trim())
+    .filter((part) => part !== '');
+}
+
+/** The digits a dialler takes, from a number as the card printed it: "04 - 355 2855" → "043552855". */
+export function dialable(printed: string): string {
+  return printed.replace(/[^\d+]/g, '');
+}
+
 export function MenuScreen({
   outletId,
   hotel,
@@ -119,14 +132,19 @@ export function MenuScreen({
               ))}
           </p>
         </div>
-        {/* The card's delivery number, to read and ring from the hotel's landline — a number, not
-            a button (the owner, 29 September): ordered straight from the kitchen, at its own
-            prices. Only when the card prints one. */}
+        {/* The card's delivery number (decision 047): ordered straight from the kitchen, at its own
+            prices. Each number is its own tel: link — a tap only opens the dialler with it filled in,
+            never calls — and stays large enough to read out to the hotel's landline. Whether the
+            phone can call is not something a browser can see, so it is never guessed at. */}
         {outlet.deliveryPhone !== undefined && (
           <p className="kitchen-delivery">
             <Icon name="scooter" size={20} strokeWidth={1.9} />
             <span className="kitchen-delivery-label">{t('food.delivery')}</span>
-            <span className="kitchen-delivery-number">{outlet.deliveryPhone}</span>
+            {deliveryNumbers(outlet.deliveryPhone).map((number) => (
+              <a key={number} className="kitchen-delivery-number" href={`tel:${dialable(number)}`}>
+                {number}
+              </a>
+            ))}
           </p>
         )}
         {/* Stays at the top while the menu scrolls: the traveller's actions never scroll away. */}
