@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-30T10:33:15.844Z",
+  "publishedAt": "2026-09-30T12:33:49.687Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -160887,6 +160887,607 @@
           "tags": ["vegetarian"],
           "priceAed": 12,
           "section": "Snacks & Beverages"
+        }
+      ]
+    },
+    {
+      "id": "9811eb35-bc3c-4780-b273-8dc397b56b4f",
+      "name": {
+        "en": "Maharaja Lounge Grand Restaurant",
+        "hi": "Maharaja Lounge Grand Restaurant",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2413957,
+        "lng": 55.3039579
+      },
+      "areaId": "karama",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian", "jain"],
+      "dietary": {
+        "jain": "yes",
+        "noOnionGarlic": "on-request"
+      },
+      "confirmedDishes": [
+        {
+          "name": {
+            "en": "Aloo Tikki (1 pc)",
+            "hi": "Aloo Tikki (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Aloo Tikki (2 pcs)",
+            "hi": "Aloo Tikki (2 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Ragda Tikki (1 pc)",
+            "hi": "Ragda Tikki (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Ragda Tikki (2 pcs)",
+            "hi": "Ragda Tikki (2 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Samosa (1 pc)",
+            "hi": "Samosa (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Samosa (2 pcs)",
+            "hi": "Samosa (2 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Matar Samosa (1 pc)",
+            "hi": "Matar Samosa (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 4,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Matar Samosa (2 pcs)",
+            "hi": "Matar Samosa (2 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 7,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Soyabean Samosa (1 pc)",
+            "hi": "Soyabean Samosa (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 4,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Soyabean Samosa (2 pcs)",
+            "hi": "Soyabean Samosa (2 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 7,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Samosa Chaat (1 pc)",
+            "hi": "Samosa Chaat (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Samosa Chaat (2 pcs)",
+            "hi": "Samosa Chaat (2 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Ragda Samosa (1 pc)",
+            "hi": "Ragda Samosa (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Ragda Samosa (2 pcs)",
+            "hi": "Ragda Samosa (2 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Aloo Chaat (half plate)",
+            "hi": "Aloo Chaat (half plate)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Aloo Chaat (full plate)",
+            "hi": "Aloo Chaat (full plate)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Raj Kachori",
+            "hi": "Raj Kachori",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Papdi Chaat",
+            "hi": "Papdi Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Papdi Chaat with Bhalla (half plate)",
+            "hi": "Papdi Chaat with Bhalla (half plate)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Papdi Chaat with Bhalla (full plate)",
+            "hi": "Papdi Chaat with Bhalla (full plate)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Sev Puri (6 pcs)",
+            "hi": "Sev Puri (6 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Dahi Puri (6 pcs)",
+            "hi": "Dahi Puri (6 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Dahi Bhalla (1 pc)",
+            "hi": "Dahi Bhalla (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 8,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Dahi Bhalla (2 pcs)",
+            "hi": "Dahi Bhalla (2 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 14,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Gol Gappa / Panipuri (6 pcs)",
+            "hi": "Gol Gappa / Panipuri (6 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 6,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Chole Kachori (1 pc)",
+            "hi": "Chole Kachori (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 7,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Chole Kachori (2 pcs)",
+            "hi": "Chole Kachori (2 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Aloo Kachori (1 pc)",
+            "hi": "Aloo Kachori (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Aloo Kachori (2 pcs)",
+            "hi": "Aloo Kachori (2 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Kachori Chaat (1 pc)",
+            "hi": "Kachori Chaat (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 7,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Kachori Chaat (2 pcs)",
+            "hi": "Kachori Chaat (2 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Moth Kachori (1 pc)",
+            "hi": "Moth Kachori (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 8,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Moth Kachori (2 pcs)",
+            "hi": "Moth Kachori (2 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 14,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Kachori (1 pc)",
+            "hi": "Kachori (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 3,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Kachori (2 pcs)",
+            "hi": "Kachori (2 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 5,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Onion Kachori (1 pc)",
+            "hi": "Onion Kachori (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Onion Kachori (2 pcs)",
+            "hi": "Onion Kachori (2 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Bhel Puri",
+            "hi": "Bhel Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Poha (medium size)",
+            "hi": "Poha (medium size)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Chole Bhature (2 bhature)",
+            "hi": "Chole Bhature (2 bhature)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 14,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Vegetable Vermicelli (medium size)",
+            "hi": "Vegetable Vermicelli (medium size)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Bedmi Aloo Poori (3 pooris)",
+            "hi": "Bedmi Aloo Poori (3 pooris)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Chole/Aloo Poori (3 tri colour pooris)",
+            "hi": "Chole/Aloo Poori (3 tri colour pooris)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Pav Bhaji (2 pcs)",
+            "hi": "Pav Bhaji (2 pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Cheese Pav Bhaji",
+            "hi": "Cheese Pav Bhaji",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Chaat Thali (small)",
+            "hi": "Chaat Thali (small)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Chaat Thali (big)",
+            "hi": "Chaat Thali (big)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Mixed Veg Pakoda (half plate)",
+            "hi": "Mixed Veg Pakoda (half plate)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Mixed Veg Pakoda (full plate)",
+            "hi": "Mixed Veg Pakoda (full plate)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Onion Pakoda (half plate)",
+            "hi": "Onion Pakoda (half plate)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Onion Pakoda (full plate)",
+            "hi": "Onion Pakoda (full plate)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Paneer Bread Pakoda (1 pc)",
+            "hi": "Paneer Bread Pakoda (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Hara Bhara Kabab (half plate)",
+            "hi": "Hara Bhara Kabab (half plate)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Hara Bhara Kabab (full plate)",
+            "hi": "Hara Bhara Kabab (full plate)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Veg Paneer Cheese Kabab (half plate)",
+            "hi": "Veg Paneer Cheese Kabab (half plate)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Veg Paneer Cheese Kabab (full plate)",
+            "hi": "Veg Paneer Cheese Kabab (full plate)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Extra Pav with Butter (1 pc)",
+            "hi": "Extra Pav with Butter (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 4,
+          "section": "Vegetarian Appetizers"
+        },
+        {
+          "name": {
+            "en": "Extra Cheese Pav (1 pc)",
+            "hi": "Extra Cheese Pav (1 pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 6,
+          "section": "Vegetarian Appetizers"
         }
       ]
     }
