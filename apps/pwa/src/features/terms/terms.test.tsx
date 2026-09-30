@@ -36,7 +36,7 @@ describe('the terms screen', () => {
     expect(screen.getByText(/1 फ़ोन ₹199, 2 फ़ोन ₹299, 3 फ़ोन ₹399, 4 फ़ोन ₹499/)).toBeTruthy();
     expect(screen.getByText('निजता')).toBeTruthy();
     expect(screen.getByText('पैसे वापसी और रद्द करना')).toBeTruthy();
-    expect(screen.getByText(/Sixera Software Solutions ·/)).toBeTruthy();
+    expect(screen.getByText(/Coupontouch Loyalty Solutions ·/)).toBeTruthy();
     expect(document.body.textContent).not.toMatch(/\{\w+\}/);
   });
 

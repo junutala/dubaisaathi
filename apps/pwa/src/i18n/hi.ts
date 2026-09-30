@@ -590,7 +590,7 @@ export const hi = {
   'terms.updated': 'आख़िरी बदलाव: 30 सितंबर 2026',
   'terms.about.head': 'Dubaisaathi क्या है',
   'terms.about.p1':
-    'Dubaisaathi दुबई में भारतीय यात्रियों के लिए एक जानकारी-डेस्क है: खाना, जाना, जानना और बोलना। इसे Sixera Software Solutions चलाती है।',
+    'Dubaisaathi दुबई में भारतीय यात्रियों के लिए एक जानकारी-डेस्क है: खाना, जाना, जानना और बोलना। इसे Coupontouch Loyalty Solutions चलाती है।',
   'terms.about.p2':
     'यह होटल या फ़्लाइट बुक नहीं करता, खाना नहीं पहुँचाता, रेस्टोरेंट का बाज़ार नहीं है, और हर बात का जवाब देने वाला चैटबॉट नहीं है।',
   'terms.about.p3':
@@ -677,7 +677,7 @@ export const hi = {
     'ऐसा हो तो hello@saafarsaathi.in या WhatsApp +91 78421 78350 पर लिखिए, और भुगतान की तारीख़ और UPI या Razorpay का रेफ़रेंस नंबर साथ भेजिए।',
   'contact.head': 'संपर्क',
   'contact.p1':
-    'Sixera Software Solutions · ईमेल hello@saafarsaathi.in · WhatsApp +91 78421 78350 · वेबसाइट saafarsaathi.in',
+    'Coupontouch Loyalty Solutions · ईमेल hello@saafarsaathi.in · WhatsApp +91 78421 78350 · वेबसाइट saafarsaathi.in',
 } as const;
 
 export type StringKey = keyof typeof hi;

@@ -235,7 +235,7 @@ are retired: its numbers are जानना's red line, its feedback form is pa
 | बदलाव · क़ानून और अदालत                  | How the terms change, and that India's law and Chennai's courts govern them                           |
 | निजता                                    | What reaches us and what never leaves the phone, section by section, as the code does it              |
 | पैसे वापसी और रद्द करना                  | No refunds, and the one exception with its seven days                                                 |
-| संपर्क                                   | Sixera Software Solutions, the mail, the WhatsApp number, the website                                 |
+| संपर्क                                   | Coupontouch Loyalty Solutions, the mail, the WhatsApp number, the website                             |
 
 ## 1.1 · खाना › क्या खाएँ · 1.2 · नतीजे
 
@@ -463,7 +463,7 @@ open the thing at all. The same rule applies — a field with no line here does 
 
 | Field                                        | Why it is there                                                                         |
 | -------------------------------------------- | --------------------------------------------------------------------------------------- |
-| चलाती है: Sixera Software Solutions          | Who sells the pass — a payment page names the seller                                    |
+| चलाती है: Coupontouch Loyalty Solutions      | Who sells the pass — a payment page names the seller                                    |
 | नियम और शर्तें · निजता · पैसे वापसी · संपर्क | The four pages a payment needs, from every page's foot                                  |
 | The three pages, word for word the app's     | One set of terms: a test fails when the website and the app's catalogues say two things |
 | The three chips at the top of each page      | Which of the three this is, and the other two one tap away                              |

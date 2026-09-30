@@ -576,7 +576,7 @@ export const en: Record<StringKey, string> = {
   'terms.updated': 'Last updated: 30 September 2026',
   'terms.about.head': 'What Dubaisaathi is',
   'terms.about.p1':
-    'Dubaisaathi is an information desk for Indian travellers in Dubai: खाना, जाना, जानना and बोलना. It is run by Sixera Software Solutions.',
+    'Dubaisaathi is an information desk for Indian travellers in Dubai: खाना, जाना, जानना and बोलना. It is run by Coupontouch Loyalty Solutions.',
   'terms.about.p2':
     'It does not book hotels or flights, does not deliver food, is not a restaurant marketplace, and is not a chatbot that answers anything you ask.',
   'terms.about.p3':
@@ -663,5 +663,5 @@ export const en: Record<StringKey, string> = {
     'If that happens, write to hello@saafarsaathi.in or on WhatsApp to +91 78421 78350, with the date of the payment and its UPI or Razorpay reference number.',
   'contact.head': 'Contact',
   'contact.p1':
-    'Sixera Software Solutions · Email hello@saafarsaathi.in · WhatsApp +91 78421 78350 · Website saafarsaathi.in',
+    'Coupontouch Loyalty Solutions · Email hello@saafarsaathi.in · WhatsApp +91 78421 78350 · Website saafarsaathi.in',
 };

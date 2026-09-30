@@ -7,7 +7,8 @@
 Terms and conditions a traveller accepts on first open, and on the website what a live payment
 account asks for: terms, privacy, refunds and cancellation, contact. His decisions:
 
-- **The seller is Sixera Software Solutions**, a registered company. Contact:
+- **The seller is Coupontouch Loyalty Solutions**, a registered company, the name on the Razorpay
+  account (first written as Sixera Software Solutions; the owner corrected it on 30 September). Contact:
   hello@saafarsaathi.in, WhatsApp +91 78421 78350, saafarsaathi.in.
 - **No refunds.** One exception, stated: money taken and no pass arrived, or the same payment taken
   twice — that amount is refunded within 7 days, through Razorpay, to the method paid with.

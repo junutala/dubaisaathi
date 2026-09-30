@@ -455,7 +455,7 @@ cat <<H
     <span style="font-size: 13px; color: $muted;">आख़िरी बदलाव: 30 सितंबर 2026</span>
     <div style="display: flex; flex-direction: column; gap: 6px;">
       $(thead 'Dubaisaathi क्या है')
-      $(tpara 'Dubaisaathi दुबई में भारतीय यात्रियों के लिए एक जानकारी-डेस्क है: खाना, जाना, जानना और बोलना। इसे Sixera Software Solutions चलाती है।')
+      $(tpara 'Dubaisaathi दुबई में भारतीय यात्रियों के लिए एक जानकारी-डेस्क है: खाना, जाना, जानना और बोलना। इसे Coupontouch Loyalty Solutions चलाती है।')
       $(tpara 'यह होटल या फ़्लाइट बुक नहीं करता, खाना नहीं पहुँचाता, रेस्टोरेंट का बाज़ार नहीं है, और हर बात का जवाब देने वाला चैटबॉट नहीं है।')
     </div>
     <div data-terms-go style="display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border-radius: 14px; background: $j_soft;">
