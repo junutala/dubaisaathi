@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { db } from './db.js';
+import { MenuCamera } from './MenuCamera.js';
 import {
   fetchList,
+  findForm,
   firstPage,
   keptList,
   metresBetween,
@@ -29,6 +31,9 @@ interface Here {
   readonly lng: number;
 }
 
+/** The same ceiling as a pin's own pages: a camera left firing cannot fill the phone's queue. */
+const MENU_PAGES = 40;
+
 const WHEN = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'Asia/Dubai',
   day: 'numeric',
@@ -43,6 +48,25 @@ export function MenusWanted() {
   const [stale, setStale] = useState(false);
   const [here, setHere] = useState<Here | null>(null);
   const [open, setOpen] = useState<string | null>(null);
+  /** A form opened by its number rather than from the list (the owner, 30 September). */
+  const [byNumber, setByNumber] = useState<WantedForm | null>(null);
+  const [typed, setTyped] = useState('');
+  const [looking, setLooking] = useState(false);
+  const [notFound, setNotFound] = useState<string | null>(null);
+
+  const openByNumber = async () => {
+    if (typed.trim() === '' || looking) return;
+    setLooking(true);
+    setNotFound(null);
+    try {
+      const form = await findForm(typed);
+      if (form === null) setNotFound(t('wantedNoSuch', { serial: typed.trim() }));
+      else setByNumber(form);
+    } catch {
+      setNotFound(t('wantedStale'));
+    }
+    setLooking(false);
+  };
 
   const refresh = () => {
     fetchList().then(
@@ -74,7 +98,7 @@ export function MenusWanted() {
     };
   }, []);
 
-  const chosen = forms.find((form) => form.formSerial === open);
+  const chosen = byNumber ?? forms.find((form) => form.formSerial === open);
   if (chosen !== undefined) {
     return (
       <WantedFormScreen
@@ -82,6 +106,8 @@ export function MenusWanted() {
         here={here}
         onBack={() => {
           setOpen(null);
+          setByNumber(null);
+          setTyped('');
           refresh();
         }}
       />
@@ -93,6 +119,30 @@ export function MenusWanted() {
       <h1 className="wanted-title">
         {t('wantedTitle')} · {forms.length}
       </h1>
+      {/* Any form by the number on its paper, whether the list carries it or not: a form whose
+          only picture was its cover had dropped off the list with no way back to it. */}
+      <form
+        className="wanted-find"
+        onSubmit={(e) => {
+          e.preventDefault();
+          void openByNumber();
+        }}
+      >
+        <input
+          inputMode="numeric"
+          value={typed}
+          placeholder={t('wantedFindHint')}
+          aria-label={t('wantedFindHint')}
+          onChange={(e) => {
+            setTyped(e.target.value);
+            setNotFound(null);
+          }}
+        />
+        <button type="submit" disabled={typed.trim() === '' || looking}>
+          {t('wantedFind')}
+        </button>
+      </form>
+      {notFound !== null && <p className="wanted-stale">{notFound}</p>}
       {stale && <p className="wanted-stale">{t('wantedStale')}</p>}
       {forms.length === 0 && !stale && <p className="wanted-stale">{t('wantedNone')}</p>}
       <ul className="wanted-list">
@@ -106,7 +156,9 @@ export function MenusWanted() {
               }}
             >
               <b className="wanted-serial">{form.formSerial}</b>
-              {form.picture && <Cover serial={form.formSerial} className="wanted-thumb" />}
+              {(form.picture || (form.cover ?? null) !== null) && (
+                <Cover serial={form.formSerial} src={form.cover} className="wanted-thumb" />
+              )}
               <span className="wanted-row-text">
                 <b>{form.name ?? '—'}</b>
                 {form.notes !== null && form.notes.trim() !== '' && (
@@ -123,10 +175,22 @@ export function MenusWanted() {
   );
 }
 
-/** The form's own first picture: the cover taken at the counter. */
-function Cover({ serial, className }: { readonly serial: string; readonly className: string }) {
-  const [src, setSrc] = useState<string | null>(null);
+/**
+ * The form's own first picture: the cover taken at the counter — in its own slot since 30
+ * September, and the menu's first page before that.
+ */
+function Cover({
+  serial,
+  src: given,
+  className,
+}: {
+  readonly serial: string;
+  readonly src?: string | null | undefined;
+  readonly className: string;
+}) {
+  const [src, setSrc] = useState<string | null>(given ?? null);
   useEffect(() => {
+    if ((given ?? null) !== null) return;
     let url: string | null = null;
     void firstPage(serial).then((got) => {
       url = got;
@@ -135,7 +199,7 @@ function Cover({ serial, className }: { readonly serial: string; readonly classN
     return () => {
       if (url !== null) URL.revokeObjectURL(url);
     };
-  }, [serial]);
+  }, [serial, given]);
   return src === null ? (
     <span className={`${className} wanted-blank`} />
   ) : (
@@ -158,6 +222,7 @@ function WantedFormScreen({
   const [onServer, setOnServer] = useState<number | null | undefined>(undefined);
   const [sending, setSending] = useState(false);
   const [said, setSaid] = useState<string | null>(null);
+  const [camera, setCamera] = useState(false);
 
   const count = async () => {
     setReady(await db.wantedPages.where('formSerial').equals(form.formSerial).count());
@@ -208,6 +273,22 @@ function WantedFormScreen({
     await send();
   };
 
+  if (camera) {
+    return (
+      <MenuCamera
+        taken={(onServer ?? 0) + ready}
+        max={MENU_PAGES}
+        onShot={(page) => {
+          // Each page goes to the server as it is taken, as the Camera button's always did.
+          void Promise.resolve(page).then((ready) => keep([ready]));
+        }}
+        onClose={() => {
+          setCamera(false);
+        }}
+      />
+    );
+  }
+
   return (
     <div className="wanted">
       <button type="button" className="wanted-back" onClick={onBack}>
@@ -219,7 +300,13 @@ function WantedFormScreen({
       </div>
       {form.name !== null && <h2 className="wanted-name">{form.name}</h2>}
       <div className="wanted-add">
-        <label className={ready > 0 ? 'pin-menu-opt pin-menu-on' : 'pin-menu-opt'}>
+        <button
+          type="button"
+          className={ready > 0 ? 'pin-menu-opt pin-menu-on' : 'pin-menu-opt'}
+          onClick={() => {
+            setCamera(true);
+          }}
+        >
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -233,19 +320,7 @@ function WantedFormScreen({
             <circle cx="12" cy="13" r="3.4" />
           </svg>
           <span>{t('wantedTake')}</span>
-          <input
-            type="file"
-            accept="image/*"
-            capture="environment"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              // Cleared so the camera opens again at once for the next page.
-              e.target.value = '';
-              if (file === undefined) return;
-              void shrink(file, MENU).then((page) => keep([page]));
-            }}
-          />
-        </label>
+        </button>
         <label className="pin-menu-opt">
           <svg
             viewBox="0 0 24 24"
@@ -295,7 +370,9 @@ function WantedFormScreen({
         </>
       )}
 
-      {form.picture && <Cover serial={form.formSerial} className="wanted-cover" />}
+      {(form.picture || (form.cover ?? null) !== null) && (
+        <Cover serial={form.formSerial} src={form.cover} className="wanted-cover" />
+      )}
       <p className="wanted-facts">
         {t('wantedPinned', { when: WHEN.format(new Date(form.capturedAt)) })}
         {here !== null && ` · ${String(metresBetween(here, form))} m`}

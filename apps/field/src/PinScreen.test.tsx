@@ -66,13 +66,13 @@ describe('the rider’s pin', () => {
   it('shows the number to write, and nothing to type', () => {
     const { container } = render(<PinScreen />);
     expect(container.querySelector('.pin-number')?.textContent).toBe('0001');
-    // The menu's first page (the owner, 25 September) — a camera for the menu handed over, never
-    // for the shop — and one optional note. Nothing else to type: he holds a helmet.
+    // The menu's cover (the owner, 30 September) — never the shop — and one optional note. The
+    // full menu is a button into the camera. No QR, no WhatsApp: they went the same morning.
     expect(container.querySelectorAll('textarea')).toHaveLength(1);
     const inputs = [...container.querySelectorAll('input')];
-    // Two cameras: the menu's first page, and the WhatsApp number held close.
-    expect(inputs.map((input) => input.type)).toEqual(['file', 'file']);
-    expect(inputs.every((input) => input.accept === 'image/*')).toBe(true);
+    expect(inputs.map((input) => input.type)).toEqual(['file']);
+    expect(inputs[0]?.accept).toBe('image/*');
+    expect(container.querySelectorAll('.pin-menu-opt')).toHaveLength(2);
   });
 
   it('waits for a fix, which is the one thing it cannot do without', async () => {
@@ -147,15 +147,12 @@ describe('the rider’s pin', () => {
     });
   });
 
-  it('says where the menu is when it did not come with the pin', async () => {
+  it('keeps the note as typed, and says nothing it was not told', async () => {
     const { container } = render(<PinScreen />);
     watcher?.(position);
     await waitFor(() => {
       expect(container.querySelector('.pin-done-btn')?.hasAttribute('disabled')).toBe(false);
     });
-    const [, photographed, fromQr] = [...container.querySelectorAll<HTMLElement>('.pin-menu-opt')];
-    fireEvent.click(photographed!);
-    fireEvent.click(fromQr!);
     fireEvent.change(container.querySelector('textarea')!, {
       target: { value: ' WhatsApp 050 123 4567 for the menu ' },
     });
@@ -165,36 +162,72 @@ describe('the rider’s pin', () => {
       expect(await db.reports.count()).toBe(1);
     });
     const [report] = await db.reports.toArray();
-    expect(report?.notes).toBe(
-      'menu photographed on the collector’s phone; menu downloaded from the counter’s QR; WhatsApp 050 123 4567 for the menu',
-    );
+    expect(report?.notes).toBe('WhatsApp 050 123 4567 for the menu');
     expect(report?.menuPhotoIds).toEqual([]);
-    // …and the next form starts with both off.
-    await waitFor(() => {
-      expect(document.querySelectorAll('.pin-menu-on')).toHaveLength(0);
-    });
   });
 
-  it('keeps every page of the menu photographed, in order, and takes back the last', async () => {
+  it('keeps one cover apart from the pages: a second picture replaces the first', async () => {
     const { container } = render(<PinScreen />);
     watcher?.(position);
     await waitFor(() => {
       expect(container.querySelector('.pin-done-btn')?.hasAttribute('disabled')).toBe(false);
     });
-    const camera = container.querySelectorAll<HTMLInputElement>('input[type=file]')[0]!;
+    const cover = container.querySelector<HTMLInputElement>('input[type=file]')!;
+    fireEvent.change(cover, { target: { files: [new File(['blurred'], 'a.jpg')] } });
+    fireEvent.change(cover, { target: { files: [new File(['sharp'], 'b.jpg')] } });
+    await waitFor(() => {
+      expect(container.querySelector('.pin-menu-on')).toBeTruthy();
+    });
+    fireEvent.click(container.querySelector<HTMLButtonElement>('.pin-done-btn')!);
+
+    await waitFor(async () => {
+      expect(await db.reports.count()).toBe(1);
+    });
+    const [report] = await db.reports.toArray();
+    expect(report?.frontPhotoIds).toEqual([`${report!.id}-cover`]);
+    expect(report?.menuPhotoIds).toEqual([]);
+    // A cover is not a menu: it goes in its own slot, so the form stays on the Menus list.
+    const photos = await db.photos.toArray();
+    expect(photos.map((photo) => photo.kind)).toEqual(['front']);
+  });
+
+  it('takes the menu in the camera without leaving it, in order, and takes back the last', async () => {
+    const { container } = render(<PinScreen />);
+    watcher?.(position);
+    await waitFor(() => {
+      expect(container.querySelector('.pin-done-btn')?.hasAttribute('disabled')).toBe(false);
+    });
+    const openCamera = () => {
+      fireEvent.click(container.querySelectorAll<HTMLElement>('.pin-menu-opt')[1]!);
+    };
+    // jsdom has no camera to give, so the screen says so and offers the phone's own camera —
+    // the path a phone that refuses takes. Several pages in a row, without leaving the screen.
+    openCamera();
     const shoot = async (name: string, count: number) => {
-      fireEvent.change(camera, { target: { files: [new File([name], `${name}.jpg`)] } });
+      const phone = await waitFor(() => {
+        const input = container.querySelector<HTMLInputElement>('.cam-fallback input');
+        expect(input).toBeTruthy();
+        return input!;
+      });
+      fireEvent.change(phone, { target: { files: [new File([name], `${name}.jpg`)] } });
       await waitFor(() => {
-        expect(container.querySelector('.pin-menu-opt')?.textContent).toContain(
-          `${String(count)}/40`,
-        );
+        expect(container.querySelector('.cam-count')?.textContent).toContain(String(count));
       });
     };
     await shoot('one', 1);
     await shoot('two', 2);
     await shoot('blurred', 3);
+    fireEvent.click(container.querySelector('.cam-done')!);
+    await waitFor(() => {
+      expect(container.querySelectorAll('.pin-menu-opt')[1]?.textContent).toContain('3/40');
+    });
     fireEvent.click(container.querySelector('.pin-menu-undo')!);
+    openCamera();
     await shoot('three', 3);
+    fireEvent.click(container.querySelector('.cam-done')!);
+    await waitFor(() => {
+      expect(container.querySelector('.pin-done-btn')).toBeTruthy();
+    });
     fireEvent.click(container.querySelector<HTMLButtonElement>('.pin-done-btn')!);
 
     await waitFor(async () => {
@@ -219,9 +252,15 @@ describe('the rider’s pin', () => {
     slow.hold = new Promise<void>((resolve) => {
       release = resolve;
     });
-    const camera = container.querySelectorAll<HTMLInputElement>('input[type=file]')[0]!;
-    fireEvent.change(camera, { target: { files: [new File(['al musalla'], 'page.jpg')] } });
-    // The tick, at once — before the page is ready.
+    fireEvent.click(container.querySelectorAll<HTMLElement>('.pin-menu-opt')[1]!);
+    const phone = await waitFor(() => {
+      const input = container.querySelector<HTMLInputElement>('.cam-fallback input');
+      expect(input).toBeTruthy();
+      return input!;
+    });
+    fireEvent.change(phone, { target: { files: [new File(['al musalla'], 'page.jpg')] } });
+    // Out of the camera and the tick, at once — before the page is ready.
+    fireEvent.click(container.querySelector('.cam-done')!);
     fireEvent.click(container.querySelector<HTMLButtonElement>('.pin-done-btn')!);
     slow.hold = null;
     release();

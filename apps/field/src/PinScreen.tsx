@@ -3,6 +3,7 @@ import type { FieldReport } from '@saathi/shared';
 import { collectorName } from './collector.js';
 import { db } from './db.js';
 import { advanceSerial, currentSerial } from './serial.js';
+import { MenuCamera } from './MenuCamera.js';
 import { MENU, shrink } from './shrink.js';
 import { useStrings } from './strings.js';
 import { startSync, syncReports, type SyncOutcome } from './sync.js';
@@ -20,12 +21,13 @@ import { startSync, syncReports, type SyncOutcome } from './sync.js';
  * where he is standing when he presses the tick.
  *
  * **No photograph of the shop, ever** (the owner, 23 September): photographing shops in Dubai
- * draws the kind of attention nobody collecting menus should have to explain. **The menu's first
- * page is another matter** (the owner, 25 September, from three days of walking): when the
- * counter hands a menu over, one picture of its first page is taken here and travels with the
- * pin. When it is not — the menu was photographed on the phone's own camera, or downloaded from
- * the counter's QR — two ticks say which, so the desk knows where to look for it. None of the
- * three is required; the pin is.
+ * draws the kind of attention nobody collecting menus should have to explain. **The menu is
+ * another matter**, and since 30 September it is two things (the owner): the **cover**, one
+ * picture to know the outlet by later, and the **full menu**, up to forty pages taken in the
+ * in-app camera without leaving it. A cover is not a menu, so it is stored apart from the pages
+ * (the `front` slot, which no shop photograph has used since 23 September) and a form with only a
+ * cover stays on the Menus list until its pages arrive. The QR and WhatsApp options went the same
+ * morning; the note stays. Neither picture is required; the pin is.
  *
  * The number marries the pin to whatever else came back.
  *
@@ -85,21 +87,15 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
   const [queue, setQueue] = useState<SyncOutcome>({ pending: 0, sent: 0 });
   const [saved, setSaved] = useState<{ serial: string; id: string } | null>(null);
   const [saving, setSaving] = useState(false);
-  /** The menu's first page, shrunk as it was picked. Optional: many counters do not hand one over. */
+  /** The menu's cover, one picture to know the outlet by (the owner, 30 September). */
+  const [cover, setCover] = useState<Blob | null>(null);
+  const [camera, setCamera] = useState(false);
   /**
    * The menu, page by page, as it was photographed at the counter: few counters hand over a
    * takeaway card, so the pages are photographed where they hang (the owner, Karama, 25 September).
    * Every shot adds a page — a second shot used to replace the first — up to MENU_PAGES.
    */
   const [menuPages, setMenuPages] = useState<readonly Blob[]>([]);
-  /**
-   * A close picture of the WhatsApp number alone (the owner, Karama, 25 September): on a poor card
-   * the number is unreadable in a picture of the whole page, and "WhatsApp us for the menu" is
-   * what many counters say.
-   */
-  const [whatsapp, setWhatsapp] = useState<Blob | null>(null);
-  const [photographed, setPhotographed] = useState(false);
-  const [fromQr, setFromQr] = useState(false);
   /** Anything else the desk should know: "WhatsApp 050… for the menu" (the owner, 25 September). */
   const [note, setNote] = useState('');
   /**
@@ -110,7 +106,7 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
    * from here rather than from a render that may be one picture behind.
    */
   const pagesNow = useRef<readonly Blob[]>([]);
-  const whatsappNow = useRef<Blob | null>(null);
+  const coverNow = useRef<Blob | null>(null);
   const shrinking = useRef(new Set<Promise<unknown>>());
 
   function whileShrinking(job: Promise<unknown>) {
@@ -151,20 +147,10 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
     // Every picture already taken belongs to this pin: wait for the last one to be ready.
     await Promise.allSettled([...shrinking.current]);
     const menuPages = pagesNow.current;
-    const whatsapp = whatsappNow.current;
+    const coverPicture = coverNow.current;
     const id = crypto.randomUUID();
-    const whatsappId = `${id}-menu-whatsapp`;
-    const pages = [
-      ...menuPages.map((bytes, i) => ({ id: `${id}-menu-${String(i)}`, bytes })),
-      ...(whatsapp === null ? [] : [{ id: whatsappId, bytes: whatsapp }]),
-    ];
-    // For review, not for the rider: where the menu is when it is not attached to this pin.
-    const menuAt = [
-      ...(photographed ? ['menu photographed on the collector’s phone'] : []),
-      ...(fromQr ? ['menu downloaded from the counter’s QR'] : []),
-      ...(whatsapp === null ? [] : ['WhatsApp number photographed (the last page on this pin)']),
-      ...(note.trim() === '' ? [] : [note.trim()]),
-    ].join('; ');
+    const pages = menuPages.map((bytes, i) => ({ id: `${id}-menu-${String(i)}`, bytes }));
+    const coverId = `${id}-cover`;
 
     /**
      * A thin report: a serial and a pin. No name, because the rider types nothing but digits —
@@ -179,9 +165,9 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
       location: { lat: at.lat, lng: at.lng },
       name: '',
       formSerial: serial,
-      frontPhotoIds: [],
+      frontPhotoIds: coverPicture === null ? [] : [coverId],
       menuPhotoIds: pages.map((page) => page.id),
-      ...(menuAt === '' ? {} : { notes: menuAt }),
+      ...(note.trim() === '' ? {} : { notes: note.trim() }),
       status: 'queued',
     };
 
@@ -190,14 +176,15 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
       for (const page of pages) {
         await db.photos.add({ id: page.id, reportId: id, kind: 'menu', bytes: page.bytes });
       }
+      if (coverPicture !== null) {
+        await db.photos.add({ id: coverId, reportId: id, kind: 'front', bytes: coverPicture });
+      }
     });
 
     pagesNow.current = [];
-    whatsappNow.current = null;
+    coverNow.current = null;
     setMenuPages([]);
-    setWhatsapp(null);
-    setPhotographed(false);
-    setFromQr(false);
+    setCover(null);
     setNote('');
 
     setSaved({ serial, id });
@@ -271,6 +258,29 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
     );
   }
 
+  if (camera) {
+    return (
+      <MenuCamera
+        taken={menuPages.length}
+        max={MENU_PAGES}
+        onShot={(page) => {
+          // Tracked like every other picture, so a tick pressed while a page is still being shrunk
+          // waits for it rather than leaving it to land on the next form.
+          whileShrinking(
+            Promise.resolve(page).then((ready) => {
+              if (pagesNow.current.length >= MENU_PAGES) return;
+              pagesNow.current = [...pagesNow.current, ready];
+              setMenuPages(pagesNow.current);
+            }),
+          );
+        }}
+        onClose={() => {
+          setCamera(false);
+        }}
+      />
+    );
+  }
+
   return (
     <div className="pin">
       <div className="pin-head">
@@ -313,11 +323,44 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
         <output className="pin-number">{serial}</output>
       </div>
 
-      {/* How the menu came back, in glyphs: a camera for its pages, two ticks for a menu that
-          is elsewhere, and a camera held close to the WhatsApp number. All optional — the tick
-          below never waits on them. */}
+      {/* The menu, in two parts (the owner, 30 September): its cover, one picture to know the
+          outlet by later, and its pages, up to forty in the camera that stays open. Both optional
+          — the tick below never waits on them. */}
       <div className="pin-menu">
-        <label
+        <label className={cover === null ? 'pin-menu-opt' : 'pin-menu-opt pin-menu-on'}>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.9"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <rect x="5" y="3.5" width="14" height="17" rx="2" />
+            <path d="M8.5 8h7M8.5 11.5h7M8.5 15h4" />
+          </svg>
+          <span>{cover === null ? t('pinCover') : t('pinCoverDone')}</span>
+          <input
+            type="file"
+            accept="image/*"
+            capture="environment"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              e.target.value = '';
+              if (file === undefined) return;
+              // One cover: a second picture replaces the first.
+              whileShrinking(
+                shrink(file, MENU).then((picture) => {
+                  coverNow.current = picture;
+                  setCover(picture);
+                }),
+              );
+            }}
+          />
+        </label>
+        <button
+          type="button"
           className={
             menuPages.length === 0
               ? 'pin-menu-opt'
@@ -325,6 +368,9 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
                 ? 'pin-menu-opt pin-menu-on pin-menu-full'
                 : 'pin-menu-opt pin-menu-on'
           }
+          onClick={() => {
+            setCamera(true);
+          }}
         >
           <svg
             viewBox="0 0 24 24"
@@ -340,106 +386,10 @@ export function PinScreen({ onFillIn }: { readonly onFillIn?: (pinId: string) =>
           </svg>
           <span>
             {menuPages.length === 0
-              ? t('pinMenuPages')
+              ? t('pinFullMenu')
               : t('pinMenuCount', { n: menuPages.length, max: MENU_PAGES })}
           </span>
-          <input
-            type="file"
-            accept="image/*"
-            capture="environment"
-            disabled={menuPages.length >= MENU_PAGES}
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              // Cleared so the same camera can be opened again at once for the next page.
-              e.target.value = '';
-              if (file === undefined) return;
-              whileShrinking(
-                shrink(file, MENU).then((page) => {
-                  if (pagesNow.current.length >= MENU_PAGES) return;
-                  pagesNow.current = [...pagesNow.current, page];
-                  setMenuPages(pagesNow.current);
-                }),
-              );
-            }}
-          />
-        </label>
-        <button
-          type="button"
-          aria-pressed={photographed}
-          className={photographed ? 'pin-menu-opt pin-menu-on' : 'pin-menu-opt'}
-          onClick={() => {
-            setPhotographed(!photographed);
-          }}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.9"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <rect x="4" y="4" width="16" height="16" rx="2.5" />
-            <path d="M4 16l4.5-4.5 3.5 3.5 2.5-2.5L20 18" />
-            <circle cx="15.5" cy="8.5" r="1.5" />
-          </svg>
-          <span>{t('pinPhotographed')}</span>
         </button>
-        <button
-          type="button"
-          aria-pressed={fromQr}
-          className={fromQr ? 'pin-menu-opt pin-menu-on' : 'pin-menu-opt'}
-          onClick={() => {
-            setFromQr(!fromQr);
-          }}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.9"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <rect x="4" y="4" width="6" height="6" rx="1" />
-            <rect x="14" y="4" width="6" height="6" rx="1" />
-            <rect x="4" y="14" width="6" height="6" rx="1" />
-            <path d="M14 14h2v2h-2zM18 14h2M14 18v2h2M18 18h2v2" />
-          </svg>
-          <span>{t('pinFromQr')}</span>
-        </button>
-        <label className={whatsapp === null ? 'pin-menu-opt' : 'pin-menu-opt pin-menu-on'}>
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.9"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M5 19l1.2-3.6A7.5 7.5 0 1 1 9 18.3z" />
-            <path d="M9.3 9.2c0 2.9 2.6 5.5 5.5 5.5l.9-1.4-1.8-.9-.8.8a4 4 0 0 1-2.3-2.3l.8-.8-.9-1.8z" />
-          </svg>
-          <span>{t('pinWhatsapp')}</span>
-          <input
-            type="file"
-            accept="image/*"
-            capture="environment"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file === undefined) return;
-              whileShrinking(
-                shrink(file, MENU).then((picture) => {
-                  whatsappNow.current = picture;
-                  setWhatsapp(picture);
-                }),
-              );
-            }}
-          />
-        </label>
       </div>
       {/* A blurred or wrong page is taken back one at a time, the last first. */}
       {menuPages.length > 0 && (
