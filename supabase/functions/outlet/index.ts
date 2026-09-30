@@ -103,9 +103,9 @@ Deno.serve(async (request: Request): Promise<Response> => {
   }
 
   /**
-   * Menus wanted (the owner, 27 September, migration 0018): every pinned form that has no menu in
-   * the app — no page uploaded on it, and none published from anywhere else — plus any form review
-   * has put back with what is still missing.
+   * Menus wanted (the owner, 27 September, migration 0018): every pinned form whose menu is not in
+   * the app yet, however many pages it already holds, plus any published form review has put back
+   * with what is still missing.
    *
    * Each comes with its own name and whether it has a picture of its own (the cover taken at the
    * counter), because the list is used to match a paper menu in the hand to its form: which one is
@@ -182,8 +182,11 @@ Deno.serve(async (request: Request): Promise<Response> => {
         form.menu_wanted !== null &&
         form.menu_wanted.trim() !== '' &&
         (held.get(form.id) ?? 0) <= (form.menu_wanted_pages ?? 0);
-      const noMenu = !withPages.has(form.id) && form.menu_in_app_at === null;
-      if (!wanted && !noMenu) return [];
+      // Until its menu is in the app, a form stays on the list however many pages it holds (the
+      // owner, 30 September): on a weak signal an upload arrives in parts, and a form that left
+      // at its first page was taken away from him half sent. Review publishing it is the exit.
+      const unpublished = form.menu_in_app_at === null;
+      if (!wanted && !unpublished) return [];
       return [
         {
           formSerial: form.form_serial,
