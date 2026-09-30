@@ -344,7 +344,7 @@ h1 .three {
   border-radius: 30px;
 }
 
-/* The tour, in a phone, tapped to play — never on its own, a traveller's data is theirs. */
+/* The film, tapped to play — never on its own, a traveller's data is theirs. */
 .watch {
   background: var(--card);
   border-top: 1px solid var(--line);
@@ -355,71 +355,6 @@ h1 .three {
   margin-left: auto;
   margin-right: auto;
 }
-.phone-video {
-  width: 320px;
-  position: relative;
-}
-.phone-video video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: var(--ink);
-}
-/* The whole poster is the target, not a 40px control in a corner. */
-.play {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  border: 0;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  color: #fff;
-  /* Dimmed, so the poster reads as a film waiting rather than as another screenshot. */
-  background: rgb(10 12 20 / 0.52);
-}
-.play-ring {
-  display: grid;
-  place-items: center;
-  width: 76px;
-  height: 76px;
-  border-radius: 999px;
-  background: var(--marigold);
-  color: var(--onMarigold);
-  /* The triangle's own weight sits left of the circle's centre; nudge it back. */
-  padding-inline-start: 4px;
-  box-shadow: 0 10px 26px rgb(0 0 0 / 0.35);
-}
-.play-label {
-  font-weight: 700;
-  font-size: 15px;
-  letter-spacing: 0.01em;
-  text-shadow: 0 1px 6px rgb(0 0 0 / 0.5);
-}
-.play:hover .play-ring {
-  transform: scale(1.05);
-}
-.play-ring {
-  transition: transform 120ms ease;
-}
-@media (prefers-reduced-motion: reduce) {
-  .play-ring {
-    transition: none;
-  }
-}
-.play:focus-visible {
-  outline: 3px solid var(--marigold);
-  outline-offset: -3px;
-}
-.play-gone {
-  display: none;
-}
-
 /* ---- the hero's four statements ---------------------------------------------------------- */
 /* All four, at once, under the four tiles and in the same order. Each leads in its own pillar's
    colour so the line and the tile above it are visibly the same thing. */
@@ -713,6 +648,23 @@ h2 {
 .try .cta {
   justify-content: center;
   margin-top: 28px;
+}
+.film-frame {
+  position: relative;
+  max-width: 880px;
+  margin: 28px auto 0;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 18px 40px rgb(20 24 38 / 0.18);
+}
+.film-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 /* Two light bands in a row now that this one leads: one seam between them, not two. */
 .try + .watch {

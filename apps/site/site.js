@@ -145,15 +145,6 @@
   }
 
   /*
-   * The tour film. The native controls are off in the markup so the poster reads as a film
-   * rather than as one more screenshot of the app; this hands them over the moment the reader
-   * asks for it.
-   *
-   * The controls go on BEFORE play is attempted, never after it succeeds: if the browser refuses
-   * — a data saver, a policy, a codec — the reader is left holding a real control bar they can
-   * press themselves, rather than a dimmed poster that did nothing when they tapped it.
-   */
-  /*
    * बोलना arrives rather than being there. The heading two sections up says there are four and
    * shows three, so the fourth should land when the reader reaches it — the owner's word for it
    * was "like a movie".
@@ -183,22 +174,6 @@
       { threshold: 0.2 },
     );
     watcher.observe(curtain);
-  }
-
-  const play = document.getElementById('tour-play');
-  const film = play?.previousElementSibling;
-  if (play && film) {
-    play.addEventListener('click', () => {
-      film.controls = true;
-      play.classList.add('play-gone');
-      const started = film.play();
-      if (started) {
-        started.catch(() => {
-          // The browser refused. The control bar is already on, so the reader presses it and
-          // the phone answers for itself — which is the only way to know (CLAUDE.md).
-        });
-      }
-    });
   }
 
   const form = document.getElementById('contact-form');
