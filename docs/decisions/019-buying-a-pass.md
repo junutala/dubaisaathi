@@ -141,3 +141,6 @@ whatever switch it hides behind.
 **Correction, 30 September (the owner):** wallets are not enabled on the Razorpay account — Paytm
 and the other wallets are not accepted. The methods are UPI, cards and netbanking; `pass.payMethods`,
 the terms (decision 048) and the घर.4 board say exactly that and nothing more.
+
+**Superseded in part, 30 September (decision 049):** a second control is back under the pay
+button — "QR कोड", a Razorpay Payment Link for someone elsewhere to pay — behind its own switch.

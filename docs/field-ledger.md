@@ -133,6 +133,7 @@ are retired: its numbers are जानना's red line, its feedback form is pa
 | कुल · the total, large                  | What is owed after the code, from the one price rule — the same figure the button charges          |
 | पास लें — मुफ़्त                        | A ₹0 total: the pass, issued and installed on the spot                                             |
 | ₹149 भुगतान करें (a lock)               | One button above ₹0: Checkout with every method the account takes; says it is opening from the tap |
+| QR कोड (a QR glyph), under the button   | Someone elsewhere pays — only while `VITE_QR_PAY_LIVE` and buying are both on (049)                |
 | UPI · कार्ड · नेट बैंकिंग               | Which ways to pay work, before the tap — a card holder does not assume UPI only                    |
 | "Razorpay से सुरक्षित भुगतान"           | Who takes the money, and that card details never reach us — asked before anyone pays               |
 | "भुगतान होते ही पास इसी फ़ोन पर"        | What happens after paying, so nobody waits for an email or a code that is not coming               |
@@ -150,6 +151,21 @@ are retired: its numbers are जानना's red line, its feedback form is pa
 | "पास इस फ़ोन पर लग गया" / did not       | What a scanned QR did, on the phone that scanned it                                                |
 | "यह पास किसी और फ़ोन पर पहले लग चुका"   | Decision 005's reconciliation, said once, in one line                                              |
 | भारत में बैठकर आज़माइए                  | The counter, testable from India                                                                   |
+
+## घर.4 · पास › QR कोड — someone else pays (decision 049)
+
+| Field                                  | Why it is there                                                                       |
+| -------------------------------------- | ------------------------------------------------------------------------------------- |
+| QR कोड · कोई और भुगतान करे             | Where they are and what this is, before the QR — the screen explains itself           |
+| ₹299, large                            | What the other person will be asked to pay, so nobody is surprised on Razorpay's page |
+| पास · 14 दिन · N फ़ोन                  | What the money buys, in the bill's own words                                          |
+| The QR, drawn on the phone             | The order's Payment Link, scanned by any phone camera; drawn again offline if made    |
+| "कोई और … स्कैन करके भुगतान करें"      | Who scans, and that the pass lands on this phone, not theirs                          |
+| WhatsApp पर भेजें (small, no number)   | For family who are not standing here: the line and the link, to a contact they pick   |
+| UPI · कार्ड · नेट बैंकिंग              | The ways the other person can pay; no wallets, the account does not take them         |
+| "भुगतान का इंतज़ार है"                 | The screen is asking after the order; the pass installs here by itself                |
+| वापस — ख़ुद भुगतान करें                | The way back to the pay button, the order kept for either to settle                   |
+| "आपकी दरख़्वास्त पहुँच गई — QR बन रहा" | The moment QR कोड goes out: the wait is visible, so nobody presses twice              |
 
 ## घर.4 · पास आ गया — the welcome, once per pass
 

@@ -198,6 +198,18 @@ export const en: Record<StringKey, string> = {
   'pass.buyFailed': 'That did not go through — try again in a little while',
   'pass.buyOffline': 'Buying needs a moment of network — the rest of Saathi works offline',
   'pass.buyFree': 'This code makes the pass free — press “Get pass — free” below',
+  // घर.4 · QR code — someone else pays (decision 049)
+  'pass.qr': 'QR code',
+  'pass.qrWorking': 'Making the QR…',
+  'pass.qrMaking': 'We have your request — the QR is being made, one moment',
+  'pass.qrTitle': 'QR code · someone else pays',
+  'pass.qrLabel': 'Payment QR code',
+  'pass.qrWhat':
+    'Someone else — family back in India too — scans this and pays; the pass arrives on this phone',
+  'pass.qrWhatsApp': 'Send on WhatsApp',
+  'pass.qrShareText': 'My Dubai Saathi pass, ₹{amount} — please pay with this link:',
+  'pass.qrWaiting': 'Waiting for the payment — the pass installs here by itself',
+  'pass.qrBack': 'Back — pay myself',
   'pass.family': 'Family',
   'pass.familyWhy': 'One QR per phone — open it with their camera, or send it on WhatsApp',
   'pass.familySlot': 'Phone {slot}',

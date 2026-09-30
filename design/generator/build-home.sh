@@ -277,10 +277,11 @@ close_screen
 } > "$OUT/HomeDocView.dc.html"
 
 # ---- घर.4 · पास — one flow: the counter, the phones, the code, the bill, the one pay button
-# (30 September: one Razorpay Checkout with every method the account takes; the QR button went)
+# (30 September: one Razorpay Checkout with every method the account takes; the QR button went,
+# and came back the same day as "QR कोड" — someone else pays, secondary under the pay button, 049)
 tier() { # devices price border bg
 cat <<T
-      <div style="display: flex; align-items: center; justify-content: space-between; padding: 5px 14px; border-radius: 14px; border: 1.5px solid $3; background: $4;"><span style="font-size: 15px; font-weight: 600; color: $ink;">$1</span><span class="disp" style="font-size: 20px; font-weight: 700; color: $ink;">$2</span></div>
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 2px 14px; border-radius: 14px; border: 1.5px solid $3; background: $4;"><span style="font-size: 15px; font-weight: 600; color: $ink;">$1</span><span class="disp" style="font-size: 20px; font-weight: 700; color: $ink;">$2</span></div>
 T
 }
 {
@@ -288,7 +289,7 @@ open_screen
 strip ending set
 header ticket "$marigold" 'पास'
 cat <<H
-  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 6px; padding: 0 16px 4px 16px;">
+  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 4px; padding: 0 16px 4px 16px;">
     <div style="display: flex; flex-direction: column; gap: 4px; padding: 10px 16px; border-radius: 16px; background: $marigoldSoft;">
       <span style="font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: $marigoldText;">अभी</span>
       <span class="disp" style="font-size: 22px; font-weight: 700; color: $ink;">दुबई का मुफ़्त दिन — 4 घंटे बाक़ी</span>
@@ -296,7 +297,7 @@ cat <<H
       <span style="font-size: 13px; color: $ink; line-height: 1.4;">पास 14 दिन चलता है, दुबई पहुँचने से गिनकर। एक बार का दाम, कोई सब्सक्रिप्शन नहीं।</span>
     </div>
     $(label '14 दिन · कितने फ़ोन?')
-    <div style="display: flex; flex-direction: column; gap: 5px;">
+    <div style="display: flex; flex-direction: column; gap: 4px;">
 $(tier '1 फ़ोन' '₹199' "$line" "$card")
 $(tier '2 फ़ोन' '₹299' "$marigold" "$ground")
 $(tier '3 फ़ोन' '₹399' "$line" "$card")
@@ -310,6 +311,7 @@ $(tier '4 फ़ोन' '₹499' "$line" "$card")
       <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px;"><span style="font-size: 16px; font-weight: 700; color: $ink;">कुल</span><span class="disp" style="font-size: 26px; font-weight: 700; color: $ink; line-height: 1.1;">₹149</span></div>
     </div>
     <span style="display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; border-radius: 14px; background: $marigold; color: $onMarigold; font-size: 17px; font-weight: 700;">$(lock 20 "$onMarigold" 1.9)₹149 भुगतान करें</span>
+    <span style="display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; border-radius: 14px; border: 1.5px solid $line; color: $ink; font-size: 15px; font-weight: 600;">$(qr 20 "$ink" 1.9)QR कोड</span>
     <span style="font-size: 13px; font-weight: 600; color: $ink; text-align: center;">UPI · कार्ड · नेट बैंकिंग</span>
     <span style="font-size: 12px; color: $muted; text-align: center; line-height: 1.4;">Razorpay से सुरक्षित भुगतान — कार्ड की जानकारी हम तक नहीं आती</span>
     <span style="font-size: 12px; color: $muted; text-align: center; line-height: 1.4;">भुगतान होते ही पास इसी फ़ोन पर लग जाता है</span>
@@ -381,6 +383,32 @@ H
 bar share
 close_screen
 } > "$OUT/HomeShare.dc.html"
+
+# ---- घर.4 · पास › QR कोड — someone else pays (decision 049). The order's Razorpay Payment Link,
+# drawn large on the phone for a son in Pune to scan with any UPI or camera app; the amount and
+# what it buys above it, what it is for under it, a small WhatsApp link with no number in it, and
+# the line that says the pass arrives here by itself. The QR is a real one for a sample link.
+{
+open_screen
+strip running set
+header ticket "$marigold" 'पास'
+cat <<H
+  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 0 16px 12px 16px; text-align: center;">
+    <span style="align-self: stretch; text-align: left; font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: $muted; padding: 6px 2px 0 2px;">QR कोड · कोई और भुगतान करे</span>
+    <span class="disp" style="font-size: 34px; font-weight: 700; color: $ink; line-height: 1.1;">₹299</span>
+    <span style="font-size: 14px; color: $muted;">दुबई साथी पास · 14 दिन · 2 फ़ोन</span>
+    <div style="padding: 10px; border-radius: 18px; background: #FFFFFF; border: 1px solid $line;">$(qrsvg 214 'https://rzp.io/rzp/SaathiQR')</div>
+    <span style="font-size: 15px; line-height: 1.45; color: $ink; text-wrap: balance;">कोई और — भारत में घरवाले भी — इसे स्कैन करके भुगतान करें, पास इसी फ़ोन पर आ जाएगा</span>
+    <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 700; color: $tealText; text-decoration: underline; text-underline-offset: 3px;">$(share 18 "$tealText" 1.9)WhatsApp पर भेजें</span>
+    <span style="font-size: 13px; font-weight: 600; color: $ink;">UPI · कार्ड · नेट बैंकिंग</span>
+    <span style="font-size: 13px; line-height: 1.45; color: $marigoldText;">भुगतान का इंतज़ार है — होते ही पास यहीं अपने आप लग जाएगा</span>
+    <div style="flex: 1;"></div>
+    <div style="align-self: stretch;">$(obtn 'वापस — ख़ुद भुगतान करें')</div>
+  </div>
+H
+bar none
+close_screen
+} > "$OUT/HomePassQr.dc.html"
 
 # ---- घर.9 · सुझाव — the bar's third place (decision 046). Two things, one under the other: a place,
 # a kitchen or anything we missed, which goes to the question log with the words as typed; and a

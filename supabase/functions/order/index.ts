@@ -1,7 +1,7 @@
 /**
  * `order` — the money half of the pass (decision 019).
  *
- * Two actions on one function, because they are one conversation:
+ * Three actions on one function, because they are one conversation:
  *
  * - `create` prices the pass (the code, if there is one, through the same rule the app and
  *   `redeem` use), asks Razorpay for an order, writes our own `orders` row and hands the phone
@@ -10,6 +10,13 @@
  * - `status` is what the phone polls after Checkout closes. `paid` re-signs the family's passes
  *   from the `passes` rows and hands them back, exactly as `redeem`'s reissue does — the phone
  *   verifies every one of them offline before installing it (decision 005).
+ *
+ * - `link` makes a Razorpay Payment Link for one of this phone's own open orders, for "QR कोड" on
+ *   घर.4: someone else — a son in Pune — scans it with any UPI or camera app and pays, and the
+ *   pass lands on this phone through the same webhook and the same `status` (decision 049). The
+ *   amount is the order's own, priced here when the order was made, never anything the phone
+ *   sends. Asked twice, it answers with the same link; a link past its `expire_by` is refused
+ *   with `link-expired`, and the phone makes a new order.
  *
  * A code that brings the price to ₹0 is refused with `free`: a free pass is issued by `redeem`
  * on the spot, and `orders.amount_inr` may not be zero. One way in per price, never two.
@@ -35,6 +42,7 @@ import {
   passPriceInr,
   type CouponKind,
 } from '../_shared/passPrice.ts';
+import { linkRequest } from '../_shared/paymentLink.ts';
 
 const ALLOWED_ORIGIN = 'https://dubai.saafarsaathi.in';
 const CORS = {
@@ -49,6 +57,15 @@ const PAID_HOURS = 336;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 const RAZORPAY_ORDERS = 'https://api.razorpay.com/v1/orders';
+const RAZORPAY_LINKS = 'https://api.razorpay.com/v1/payment_links';
+
+/**
+ * How long a Payment Link takes money: a day, long enough for a family in India to wake up and
+ * scan it, short enough that a QR forgotten in a chat does not take money for a trip long over.
+ */
+const LINK_HOURS = 24;
+/** A link this close to its end is not handed out again: nobody should scan a QR that dies. */
+const LINK_MARGIN_MS = 15 * 60_000;
 
 /** The one-word refusals the app has a line for. */
 type Reason =
@@ -62,7 +79,10 @@ type Reason =
   | 'free'
   | 'unsigned'
   | 'unconfigured'
-  | 'aggregator';
+  | 'aggregator'
+  | 'no-order'
+  | 'not-open'
+  | 'link-expired';
 
 const STATUS: Record<Reason, number> = {
   unknown: 404,
@@ -76,6 +96,9 @@ const STATUS: Record<Reason, number> = {
   unsigned: 503,
   unconfigured: 503,
   aggregator: 502,
+  'no-order': 404,
+  'not-open': 409,
+  'link-expired': 410,
 };
 
 interface CouponRow {
@@ -233,6 +256,63 @@ async function razorpayOrder(
   }
 }
 
+/** Razorpay's Payment Link for one of our orders: its id and the short URL the phone draws. */
+async function razorpayLink(
+  keyId: string,
+  keySecret: string,
+  link: { orderId: string; amountInr: number; slots: number; expireBy: number },
+): Promise<{ id: string; shortUrl: string } | null> {
+  try {
+    const response = await fetch(RAZORPAY_LINKS, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Basic ${btoa(`${keyId}:${keySecret}`)}`,
+      },
+      body: JSON.stringify(linkRequest(link)),
+    });
+    if (!response.ok) return null;
+    const body = (await response.json()) as { id?: unknown; short_url?: unknown };
+    return typeof body.id === 'string' &&
+      body.id !== '' &&
+      typeof body.short_url === 'string' &&
+      body.short_url.startsWith('https://')
+      ? { id: body.id, shortUrl: body.short_url }
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+/** What `link` answers, for a fresh link and a stored one alike. */
+interface LinkRow {
+  id: string;
+  status: string;
+  amount_inr: number;
+  slots: number;
+  payment_link_id: string | null;
+  payment_link_url: string | null;
+  payment_link_expires_at: string | null;
+}
+
+const LINK_COLUMNS =
+  'id, status, amount_inr, slots, payment_link_id, payment_link_url, payment_link_expires_at';
+
+/** The stored link, if the row has one still worth scanning; `expired` if it has run out. */
+function storedLink(row: LinkRow): Response | 'none' | 'expired' {
+  if (row.payment_link_id === null || row.payment_link_url === null) return 'none';
+  const ends = row.payment_link_expires_at === null ? NaN : Date.parse(row.payment_link_expires_at);
+  if (Number.isNaN(ends) || ends - LINK_MARGIN_MS <= Date.now()) return 'expired';
+  return json({
+    orderId: row.id,
+    paymentLinkId: row.payment_link_id,
+    shortUrl: row.payment_link_url,
+    expiresAt: new Date(ends).toISOString(),
+    amountInr: row.amount_inr,
+    slots: row.slots,
+  });
+}
+
 Deno.serve(async (request: Request): Promise<Response> => {
   if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
   if (request.method !== 'POST') return json({ error: 'POST only' }, 405);
@@ -284,7 +364,69 @@ Deno.serve(async (request: Request): Promise<Response> => {
     return json({ status: 'paid', passes });
   }
 
-  if (payload.action !== 'create') return json({ error: 'action must be create or status' }, 400);
+  if (payload.action === 'link') {
+    const orderId = typeof payload.orderId === 'string' ? payload.orderId : '';
+    if (!UUID.test(orderId)) return refuse('no-order');
+    // By id AND device, as `status` asks: a phone may make a link for its own order only.
+    const found = await db
+      .from('orders')
+      .select(LINK_COLUMNS)
+      .eq('id', orderId)
+      .eq('device_id', deviceId)
+      .maybeSingle();
+    if (found.error) return json({ error: found.error.message }, 500);
+    const order = found.data as LinkRow | null;
+    if (order === null) return refuse('no-order');
+    // Paid, failed or expired: nothing more to collect on it. `status` tells the phone which.
+    if (order.status !== 'created') return refuse('not-open');
+
+    const stored = storedLink(order);
+    if (stored instanceof Response) return stored;
+    // Razorpay will not make a second link with the same reference, so an expired one ends the
+    // order's life as a QR: the phone makes a new order and asks again.
+    if (stored === 'expired') return refuse('link-expired');
+
+    const keyId = Deno.env.get('RAZORPAY_KEY_ID');
+    const keySecret = Deno.env.get('RAZORPAY_KEY_SECRET');
+    if (keyId === undefined || keyId === '' || keySecret === undefined || keySecret === '') {
+      return refuse('unconfigured');
+    }
+
+    // The amount is the order's, priced by `create` from the one rule; the phone sends none.
+    const expireBy = Math.floor(Date.now() / 1000) + LINK_HOURS * 3600;
+    const made = await razorpayLink(keyId, keySecret, {
+      orderId: order.id,
+      amountInr: order.amount_inr,
+      slots: order.slots,
+      expireBy,
+    });
+
+    if (made !== null) {
+      // Written only onto a row with no link yet, so two taps crossing keep the first link.
+      const saved = await db
+        .from('orders')
+        .update({
+          payment_link_id: made.id,
+          payment_link_url: made.shortUrl,
+          payment_link_expires_at: new Date(expireBy * 1000).toISOString(),
+        })
+        .eq('id', order.id)
+        .is('payment_link_id', null);
+      if (saved.error) return json({ error: saved.error.message }, 500);
+    }
+
+    // Read back rather than trusted: whichever link the row holds now is the one that answers,
+    // including the other tap's when Razorpay refused this one's duplicate reference.
+    const again = await db.from('orders').select(LINK_COLUMNS).eq('id', order.id).maybeSingle();
+    if (again.error) return json({ error: again.error.message }, 500);
+    const row = again.data as LinkRow | null;
+    const answer = row === null ? 'none' : storedLink(row);
+    return answer instanceof Response ? answer : refuse('aggregator');
+  }
+
+  if (payload.action !== 'create') {
+    return json({ error: 'action must be create, status or link' }, 400);
+  }
 
   const slots = Number(payload.slots);
   if (!Number.isInteger(slots) || slots < 1 || slots > 4) return refuse('slots');

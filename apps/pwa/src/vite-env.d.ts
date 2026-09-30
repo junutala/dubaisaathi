@@ -17,6 +17,11 @@ interface ImportMetaEnv {
   /** "true" once paying is live; until then घर.4's pay button says so and does nothing. */
   readonly VITE_PURCHASE_LIVE?: string;
   /**
+   * "true" once the server side of "QR कोड" is deployed (decision 049): the `order` `link` action,
+   * `payment_link.paid` in `webhook`, and migration 0024. Read only alongside the one above.
+   */
+  readonly VITE_QR_PAY_LIVE?: string;
+  /**
    * "true" once the gate may close on a trial that has run out. Separate from the one above on
    * purpose (decision 019): the owner buys a real pass on a live build long before any
    * traveller is turned away. Default off, and the only thing `isGated` reads.

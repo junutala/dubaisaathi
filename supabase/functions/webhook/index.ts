@@ -23,18 +23,31 @@
  * - **A 500 is a request to try again.** Anything we could not finish gets one, so a payment is
  *   never lost to a moment's trouble; anything not ours gets a 200 so the retries stop.
  *
+ * Someone else pays (decision 049): a Payment Link made by `order` `link` is its own Razorpay
+ * object with its own internal order, so `payment_link.paid` names ours by the link's
+ * `reference_id` (our order id), its `notes.orderId`, or the link id stored on the row — and then
+ * settles through exactly the same `settle_order`. Whichever of Checkout and the link is paid
+ * first settles the order; the second finds it paid. Once an order is settled any other way, its
+ * open link is cancelled, so a QR still sitting in a family chat cannot take the money twice.
+ *
  * Verified with: `openssl dgst -sha256 -hmac "$SECRET" <body>` — the same hex this compares.
  */
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 import { importPrivateKey, signPass, type SignedPass } from '../_shared/sign.ts';
+import { paidLinkOf } from '../_shared/paymentLink.ts';
 
 /** Hours a paid pass is worth from landing — `PAID_HOURS` in the app (decision 006). */
 const PAID_HOURS = 336;
 const HOUR = 3600_000;
 
-/** The two Razorpay sends when a UPI collection succeeds. Everything else is not ours. */
-const SETTLES = ['payment.captured', 'order.paid'];
+/**
+ * What Razorpay sends when money arrives: the two for Checkout's order, and the one for a Payment
+ * Link (decision 049). Everything else is not ours.
+ */
+const SETTLES = ['payment.captured', 'order.paid', 'payment_link.paid'];
+const LINK_PAID = 'payment_link.paid';
+const RAZORPAY_LINKS = 'https://api.razorpay.com/v1/payment_links';
 
 function json(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
@@ -95,6 +108,25 @@ function aggregatorOrderIdOf(body: unknown): string | null {
   return typeof fromOrder === 'string' && fromOrder !== '' ? fromOrder : null;
 }
 
+/**
+ * The QR's link, closed once its order is paid some other way, so nobody can pay it a second
+ * time. Best effort: a link that will not cancel still expires within a day, and a failure here
+ * must never turn a settled payment into a retry.
+ */
+async function cancelLink(linkId: string): Promise<void> {
+  const keyId = Deno.env.get('RAZORPAY_KEY_ID');
+  const keySecret = Deno.env.get('RAZORPAY_KEY_SECRET');
+  if (keyId === undefined || keyId === '' || keySecret === undefined || keySecret === '') return;
+  try {
+    await fetch(`${RAZORPAY_LINKS}/${encodeURIComponent(linkId)}/cancel`, {
+      method: 'POST',
+      headers: { authorization: `Basic ${btoa(`${keyId}:${keySecret}`)}` },
+    });
+  } catch {
+    /* it expires on its own */
+  }
+}
+
 Deno.serve(async (request: Request): Promise<Response> => {
   if (request.method !== 'POST') return json({ error: 'POST only' }, 405);
 
@@ -120,27 +152,52 @@ Deno.serve(async (request: Request): Promise<Response> => {
   if (typeof body.event !== 'string' || !SETTLES.includes(body.event)) {
     return json({ ignored: true });
   }
-  const aggregatorOrderId = aggregatorOrderIdOf(body);
-  if (aggregatorOrderId === null) return json({ ignored: true });
-
   const db = createClient(
     Deno.env.get('SUPABASE_URL') ?? '',
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
     { auth: { persistSession: false } },
   );
 
-  const found = await db
-    .from('orders')
-    .select('id, device_id, slots, status')
-    .eq('aggregator', 'razorpay')
-    .eq('aggregator_order_id', aggregatorOrderId)
-    .maybeSingle();
+  // A Payment Link's delivery names our order by its reference; its payment's `order_id` is the
+  // link's own internal order, which is not ours, so it is never looked up by that.
+  const columns = 'id, device_id, slots, status, payment_link_id';
+  let found;
+  if (body.event === LINK_PAID) {
+    const link = paidLinkOf(body);
+    if (link.orderId !== null) {
+      found = await db
+        .from('orders')
+        .select(columns)
+        .eq('aggregator', 'razorpay')
+        .eq('id', link.orderId)
+        .maybeSingle();
+    } else if (link.linkId !== null) {
+      found = await db
+        .from('orders')
+        .select(columns)
+        .eq('aggregator', 'razorpay')
+        .eq('payment_link_id', link.linkId)
+        .maybeSingle();
+    } else {
+      return json({ ignored: true });
+    }
+  } else {
+    const aggregatorOrderId = aggregatorOrderIdOf(body);
+    if (aggregatorOrderId === null) return json({ ignored: true });
+    found = await db
+      .from('orders')
+      .select(columns)
+      .eq('aggregator', 'razorpay')
+      .eq('aggregator_order_id', aggregatorOrderId)
+      .maybeSingle();
+  }
   if (found.error) return json({ error: found.error.message }, 500);
   const order = found.data as {
     id: string;
     device_id: string;
     slots: number;
     status: string;
+    payment_link_id: string | null;
   } | null;
   // An order we never made: another integration on the same account, or a test delivery.
   if (order === null) return json({ ignored: true });
@@ -197,6 +254,11 @@ Deno.serve(async (request: Request): Promise<Response> => {
     if (settled.error.message.trim() === 'already-settled')
       return json({ ok: true, already: true });
     return json({ error: settled.error.message }, 500);
+  }
+
+  // Paid in Checkout while a QR was out: the QR stops taking money (decision 049).
+  if (order.payment_link_id !== null && body.event !== LINK_PAID) {
+    await cancelLink(order.payment_link_id);
   }
 
   return json({ ok: true });

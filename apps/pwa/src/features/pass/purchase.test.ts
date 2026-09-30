@@ -354,6 +354,154 @@ describe('an order left open', () => {
   });
 });
 
+/**
+ * "QR कोड" — someone else pays (decision 049). The order is the same one the pay button uses,
+ * the link is `order` `link`'s, and the pass comes the way every pass comes: the webhook signs
+ * it, `status` hands it over, and it is verified here before it is installed.
+ */
+describe('QR कोड', () => {
+  const LINK = { url: 'https://rzp.io/rzp/TESTQR01', expiresAt: '2099-01-01T00:00:00.000Z' };
+
+  it('makes the order, asks for its link, and remembers both', async () => {
+    const { paymentLink, openOrder, forgetOrder } = await load();
+    const calls = answer((_path, body) =>
+      body.action === 'create'
+        ? { json: { ...ORDER, amountInr: 299, slots: 2 } }
+        : {
+            json: {
+              orderId: ORDER.orderId,
+              paymentLinkId: 'plink_TEST',
+              shortUrl: LINK.url,
+              expiresAt: LINK.expiresAt,
+              amountInr: 299,
+              slots: 2,
+            },
+          },
+    );
+
+    const made = await paymentLink(2);
+    expect(made).toEqual({
+      kind: 'link',
+      order: { ...ORDER, amountInr: 299, slots: 2, link: LINK },
+      link: LINK,
+    });
+    expect(calls.map((call) => call.body.action)).toEqual(['create', 'link']);
+    // The phone sends which order, never an amount: the price is the server's.
+    expect(calls[1]!.body).toEqual({
+      action: 'link',
+      deviceId: '11111111-2222-4333-8444-555555555555',
+      orderId: ORDER.orderId,
+    });
+    expect(openOrder()?.link).toEqual(LINK);
+    forgetOrder();
+  });
+
+  it('reuses the remembered order for the same purchase, and draws its QR with the radio off', async () => {
+    const { paymentLink, forgetOrder } = await load();
+    localStorage.setItem(
+      'saathi.order',
+      JSON.stringify({ ...ORDER, amountInr: 199, slots: 1, link: LINK }),
+    );
+    const calls = answer(() => ({
+      json: { orderId: ORDER.orderId, shortUrl: LINK.url, expiresAt: LINK.expiresAt },
+    }));
+    expect(await paymentLink(1)).toMatchObject({ kind: 'link', link: LINK });
+    expect(calls.map((call) => call.body.action)).toEqual(['link']);
+
+    online(false);
+    expect(await paymentLink(1)).toMatchObject({ kind: 'link', link: LINK });
+    expect(calls).toHaveLength(1);
+    // A different purchase has no QR yet, and nothing is asked for offline.
+    expect(await paymentLink(2)).toEqual({ kind: 'offline' });
+    forgetOrder();
+  });
+
+  it('replaces an order whose link has run out with a new one', async () => {
+    const { paymentLink, openOrder, forgetOrder } = await load();
+    localStorage.setItem('saathi.order', JSON.stringify({ ...ORDER, amountInr: 199, slots: 1 }));
+    const fresh = '88888888-8888-4888-8888-888888888888';
+    const calls = answer((_path, body) => {
+      if (body.action === 'create') {
+        return { json: { ...ORDER, orderId: fresh, amountInr: 199, slots: 1 } };
+      }
+      if (body.action === 'status') return { json: { status: 'created' } };
+      return body.orderId === fresh
+        ? { json: { orderId: fresh, shortUrl: LINK.url, expiresAt: LINK.expiresAt } }
+        : { status: 410, json: { reason: 'link-expired' } };
+    });
+    expect(await paymentLink(1)).toMatchObject({ kind: 'link', order: { orderId: fresh } });
+    expect(calls.map((call) => call.body.action)).toEqual(['link', 'status', 'create', 'link']);
+    expect(openOrder()?.orderId).toBe(fresh);
+    forgetOrder();
+  });
+
+  it('carries a code’s refusal back as the same line the pay button gets', async () => {
+    const { paymentLink } = await load();
+    answer(() => ({ status: 410, json: { reason: 'ended' } }));
+    expect(await paymentLink(1, 'SS7K3M2X')).toEqual({ kind: 'refused', reason: 'ended' });
+  });
+
+  it('is polled while it is on screen, and installs the pass the webhook signed', async () => {
+    const { watchOrder, entitlement, family, openOrder } = await load();
+    const passes = await family(2, '2026-10-01T06:00:00.000Z');
+    const order = { ...ORDER, amountInr: 299, slots: 2, link: LINK };
+    localStorage.setItem('saathi.order', JSON.stringify(order));
+    let asked = 0;
+    const calls = answer(() => {
+      asked += 1;
+      // Ten minutes for the son in Pune to find his phone: still `created` for a long while.
+      return asked < 60 ? { json: { status: 'created' } } : { json: { status: 'paid', passes } };
+    });
+    vi.useFakeTimers();
+
+    const stop = new AbortController();
+    const watching = watchOrder(order, stop.signal);
+    await vi.advanceTimersByTimeAsync(11 * 60_000);
+    expect(await watching).toEqual({ kind: 'paid', slots: 2 });
+    expect(calls.every((call) => call.body.action === 'status')).toBe(true);
+    expect(entitlement().paid).toBe(true);
+    expect(entitlement().familyPasses?.map((pass) => pass.claims.slot)).toEqual([2]);
+    expect(openOrder()).toBeNull();
+  });
+
+  it('stops asking when the QR is closed, and keeps the order for the next open', async () => {
+    const { watchOrder, openOrder, forgetOrder } = await load();
+    const order = { ...ORDER, amountInr: 199, slots: 1 };
+    localStorage.setItem('saathi.order', JSON.stringify(order));
+    const calls = answer(() => ({ json: { status: 'created' } }));
+    vi.useFakeTimers();
+
+    const stop = new AbortController();
+    const watching = watchOrder(order, stop.signal);
+    await vi.advanceTimersByTimeAsync(9000);
+    stop.abort();
+    expect(await watching).toBeNull();
+    const seen = calls.length;
+    await vi.advanceTimersByTimeAsync(60_000);
+    expect(calls).toHaveLength(seen);
+    expect(openOrder()?.orderId).toBe(ORDER.orderId);
+    forgetOrder();
+  });
+
+  it('lets the pay button collect on the same order the QR is out for', async () => {
+    const { buyPass, forgetOrder } = await load();
+    localStorage.setItem(
+      'saathi.order',
+      JSON.stringify({ ...ORDER, amountInr: 199, slots: 1, link: LINK }),
+    );
+    const calls = answer(() => ({ json: { status: 'created' } }));
+    const opened = checkout('closes');
+    vi.useFakeTimers();
+
+    const buying = buyPass({ slots: 1, name: 'दुबई साथी', description: 'पास' });
+    await vi.advanceTimersByTimeAsync(10_000);
+    expect(await buying).toEqual({ kind: 'closed' });
+    expect(calls.some((call) => call.body.action === 'create')).toBe(false);
+    expect(opened[0]!.order_id).toBe(ORDER.aggregatorOrderId);
+    forgetOrder();
+  });
+});
+
 describe('the gate', () => {
   it('stays open while VITE_GATE_LIVE is unset, even with buying live', async () => {
     vi.stubEnv('VITE_PURCHASE_LIVE', 'true');

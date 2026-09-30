@@ -208,6 +208,18 @@ export const hi = {
   'pass.buyFailed': 'अभी नहीं हो पाया — थोड़ी देर में फिर कोशिश कीजिए',
   'pass.buyOffline': 'ख़रीदने के लिए एक पल का नेटवर्क चाहिए — बाक़ी साथी ऑफ़लाइन ही चलता है',
   'pass.buyFree': 'इस कोड पर पास मुफ़्त है — नीचे "पास लें — मुफ़्त" दबाइए',
+  // घर.4 · QR कोड — someone else pays (decision 049)
+  'pass.qr': 'QR कोड',
+  'pass.qrWorking': 'QR बन रहा है…',
+  'pass.qrMaking': 'आपकी दरख़्वास्त पहुँच गई — QR बन रहा है, एक पल',
+  'pass.qrTitle': 'QR कोड · कोई और भुगतान करे',
+  'pass.qrLabel': 'भुगतान का QR कोड',
+  'pass.qrWhat':
+    'कोई और — भारत में घरवाले भी — इसे स्कैन करके भुगतान करें, पास इसी फ़ोन पर आ जाएगा',
+  'pass.qrWhatsApp': 'WhatsApp पर भेजें',
+  'pass.qrShareText': 'मेरा दुबई साथी पास, ₹{amount} — इस लिंक से भुगतान कर दीजिए:',
+  'pass.qrWaiting': 'भुगतान का इंतज़ार है — होते ही पास यहीं अपने आप लग जाएगा',
+  'pass.qrBack': 'वापस — ख़ुद भुगतान करें',
   'pass.family': 'परिवार',
   'pass.familyWhy': 'हर QR एक फ़ोन के लिए — उनके कैमरे से खोलिए, या WhatsApp पर भेजिए',
   'pass.familySlot': 'फ़ोन {slot}',

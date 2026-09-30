@@ -8,6 +8,7 @@ import type { StringKey } from '../../i18n/index.js';
 import { applyCoupon, pendingCoupon, type CouponOutcome, type PendingCoupon } from './coupon.js';
 import {
   PURCHASE_IS_LIVE,
+  QR_PAY_IS_LIVE,
   entitlement,
   markWelcomed,
   unwelcomedPass,
@@ -18,7 +19,16 @@ import {
 import { PassWelcome } from './PassWelcome.js';
 import { passLink, qrPath } from './qr.js';
 import { shareFamilyQr, type ShareOutcome } from './shareQr.js';
-import { buyPass, preloadCheckout, warmOrder, type PurchaseOutcome } from './purchase.js';
+import {
+  buyPass,
+  paymentLink,
+  preloadCheckout,
+  warmOrder,
+  watchOrder,
+  type OpenOrder,
+  type PayLink,
+  type PurchaseOutcome,
+} from './purchase.js';
 import { installFromToken } from './scan.js';
 import type { SignedPass } from './signedPass.js';
 
@@ -118,6 +128,11 @@ function shareLineFor(outcome: ShareOutcome): StringKey | null {
  * the pass arrives when the phone asks for the order's status. Until `VITE_PURCHASE_LIVE` is on
  * the button says so plainly. A code that makes the pass free needs
  * none of it: it is issued on the spot. The gate is a separate switch and stays shut.
+ *
+ * Under the pay button, "QR कोड" (decision 049, behind `VITE_QR_PAY_LIVE` as well): the same
+ * order as a Razorpay Payment Link, drawn large on this phone for someone else to scan and pay —
+ * a son in Pune, from any UPI or camera app — or sent to them on WhatsApp. The screen asks after
+ * the order while the QR is up, and the pass lands here the moment the webhook has signed it.
  */
 export function PassScreen({ token }: { readonly token?: string | undefined }) {
   const { t } = useSettings();
@@ -131,7 +146,9 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
    * which is not their mistake, it is a screen that said nothing. So every request holds the
    * phone selector and the buttons and says on the screen that it has gone out.
    */
-  const [working, setWorking] = useState<'coupon' | 'buy' | null>(null);
+  const [working, setWorking] = useState<'coupon' | 'buy' | 'qr' | null>(null);
+  /** The QR on screen, if one is: the order it collects on and the link it draws. */
+  const [qr, setQr] = useState<{ readonly order: OpenOrder; readonly link: PayLink } | null>(null);
   const busy = working !== null;
   const [scan, setScan] = useState<'installed' | 'invalid' | null>(null);
   const [shareLine, setShareLine] = useState<StringKey | null>(null);
@@ -262,6 +279,42 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
     });
   };
 
+  /** "QR कोड": the link for this purchase, drawn for someone else to pay (decision 049). */
+  const payByQr = () => {
+    setWorking('qr');
+    setLine(null);
+    void paymentLink(chosen, pending?.code).then((outcome) => {
+      setWorking(null);
+      if (outcome.kind === 'link') {
+        setQr({ order: outcome.order, link: outcome.link });
+        return;
+      }
+      setState(entitlement());
+      setPending(pendingCoupon());
+      setLine(buyLineFor(outcome));
+    });
+  };
+
+  // While the QR is up, the order is asked after until it is paid; the pass then lands here and
+  // the welcome takes the screen. Closing the QR stops asking — the order stays remembered, and
+  // the next open of the app asks again.
+  useEffect(() => {
+    if (qr === null) return;
+    const stop = new AbortController();
+    void watchOrder(qr.order, stop.signal).then((outcome) => {
+      if (outcome === null) return;
+      setState(entitlement());
+      setPending(pendingCoupon());
+      if (outcome.kind !== 'paid') {
+        setQr(null);
+        setLine(buyLineFor(outcome));
+      }
+    });
+    return () => {
+      stop.abort();
+    };
+  }, [qr]);
+
   const family = state.familyPasses ?? [];
 
   /**
@@ -304,6 +357,55 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
             navigate({ screen: 'home' });
           }}
         />
+      </>
+    );
+  }
+
+  if (qr !== null && !paid) {
+    const { size, d } = qrPath(qr.link.url);
+    const message = `${t('pass.qrShareText', { amount: qr.order.amountInr })} ${qr.link.url}`;
+    return (
+      <>
+        <ScreenHeader pillar="home" icon="ticket" title={t('pass.title')} />
+        <div className="flow pay-qr">
+          <p className="lbl">{t('pass.qrTitle')}</p>
+          <p className="pay-qr-amount">₹{qr.order.amountInr}</p>
+          <p className="pay-qr-what">{t('pass.buyWhat', { count: qr.order.slots })}</p>
+          <div className="pay-qr-code">
+            <svg
+              className="pay-qr-svg"
+              viewBox={`0 0 ${String(size)} ${String(size)}`}
+              shapeRendering="crispEdges"
+              role="img"
+              aria-label={t('pass.qrLabel')}
+            >
+              <path d={d} fill="currentColor" />
+            </svg>
+          </div>
+          <p className="pay-qr-line">{t('pass.qrWhat')}</p>
+          {/* No number in it: the traveller's own WhatsApp opens on their own contacts. */}
+          <a
+            className="pay-qr-send"
+            href={`https://wa.me/?text=${encodeURIComponent(message)}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Icon name="share" size={18} strokeWidth={1.9} />
+            {t('pass.qrWhatsApp')}
+          </a>
+          <p className="pay-methods">{t('pass.payMethods')}</p>
+          <p className="pass-line">{t('pass.qrWaiting')}</p>
+          <div className="grow" />
+          <button
+            type="button"
+            className="btn btn-ghost"
+            onClick={() => {
+              setQr(null);
+            }}
+          >
+            {t('pass.qrBack')}
+          </button>
+        </div>
       </>
     );
   }
@@ -388,7 +490,13 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
             </div>
             {busy && (
               <p className="pass-line">
-                {t(working === 'buy' ? 'pass.buyWorking' : 'pass.couponWorking')}
+                {t(
+                  working === 'buy'
+                    ? 'pass.buyWorking'
+                    : working === 'qr'
+                      ? 'pass.qrMaking'
+                      : 'pass.couponWorking',
+                )}
               </p>
             )}
             {!busy && line !== null && <p className="pass-line">{t(line)}</p>}
@@ -438,6 +546,18 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
                   <Icon name="lock" size={20} strokeWidth={1.9} />
                   {working === 'buy' ? t('pass.payWorking') : t('pass.pay', { amount: total })}
                 </button>
+                {/* Someone else pays (decision 049): secondary, under the one pay button. */}
+                {QR_PAY_IS_LIVE && (
+                  <button
+                    type="button"
+                    className="btn btn-ghost pay-qr-btn"
+                    disabled={busy}
+                    onClick={payByQr}
+                  >
+                    <Icon name="qr" size={20} strokeWidth={1.9} />
+                    {working === 'qr' ? t('pass.qrWorking') : t('pass.qr')}
+                  </button>
+                )}
                 {!PURCHASE_IS_LIVE && <p className="muted small center">{t('pass.notLive')}</p>}
                 {/* A balance waits only while buying is not open; once it is, the button above
                     takes it and saying otherwise would be a lie on the screen. */}
