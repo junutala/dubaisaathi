@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, render } from '@testing-library/react';
+import { act, cleanup, render } from '@testing-library/react';
 import { App } from './App.js';
 import { BUILD } from './version.js';
 
@@ -27,7 +27,13 @@ beforeEach(() => {
   });
 });
 
-afterEach(() => {
+afterEach(async () => {
+  // Each screen starts its own fetches and IndexedDB reads on mount. Let them land while the page
+  // still exists: one that resolves after the file's environment is torn down calls setState on
+  // a window that is gone, and vitest reports it as an unhandled error against the whole run.
+  await act(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  });
   cleanup();
   vi.unstubAllGlobals();
 });
