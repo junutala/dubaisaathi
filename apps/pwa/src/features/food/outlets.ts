@@ -6,7 +6,7 @@ import {
   type Restaurant,
 } from '@saathi/shared';
 import fixture from '../../../../../data/restaurants/restaurants.dev.json';
-import collected from '../../../../../data/restaurants/restaurants.v1.json';
+import collectedFile from '../../../../../data/restaurants/restaurants.v1.json';
 import { packBody } from '../content/index.js';
 
 /**
@@ -21,6 +21,17 @@ import { packBody } from '../content/index.js';
  * The switch is on content rather than on a build flag on purpose: publishing a real outlet is
  * what promotes the app off fixture data, with nothing to remember to turn on.
  */
+
+/**
+ * The collected pack's shape, said here rather than inferred. Past about 4 MB TypeScript stops
+ * typing an imported JSON file (30 September, at 90 kitchens), and every read of it became an
+ * unresolved type; the rows are checked one by one below either way.
+ */
+interface CollectedPack {
+  readonly restaurants: readonly unknown[];
+  readonly status?: string;
+}
+const collected = collectedFile as CollectedPack;
 
 interface RawOutlet {
   readonly id: string;
