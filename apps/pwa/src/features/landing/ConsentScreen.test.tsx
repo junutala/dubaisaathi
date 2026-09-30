@@ -21,6 +21,11 @@ describe('the one-time data-use notice', () => {
     );
     expect(screen.getByText(/आपकी आवाज़ या फ़ोटो नहीं/)).toBeTruthy();
     expect(screen.getByText(/नाम या नंबर से नहीं जुड़ता/)).toBeTruthy();
+    // The terms go with it (decision 048), with the way to read them before accepting.
+    expect(screen.getByText('जारी रखकर आप नियम और शर्तें मानते हैं।')).toBeTruthy();
+    expect(screen.getByRole('link', { name: 'नियम और शर्तें पढ़ें' }).getAttribute('href')).toBe(
+      '#/terms',
+    );
     fireEvent.click(screen.getByRole('button', { name: 'मंज़ूर है, आगे बढ़ें' }));
     expect(accept).toHaveBeenCalledOnce();
   });

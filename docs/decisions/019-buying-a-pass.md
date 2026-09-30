@@ -114,7 +114,7 @@ The owner's instruction. घर.4's two buttons (`UPI से — इसी फ�
 replaced by **one**: `₹{amount} भुगतान करें`, under a bill that names what is bought at its list
 price, a code's discount as its own line, and the total. It opens Checkout with **no method
 restriction**, so every method the Razorpay account accepts is offered — UPI apps, a UPI ID,
-cards, netbanking and wallets — and the screen says so under the button, with who takes the
+cards and netbanking — and the screen says so under the button, with who takes the
 money and what happens once it is paid. `buyPass` and `openCheckout` no longer take a method.
 
 The QR button went because it did not earn a second button. On the traveller's own phone
@@ -137,3 +137,7 @@ The testing control — "इस फ़ोन पर फिर से शुर�
 removed from the product, with its switch, its strings and `forgetEntitlement`. The owner saw it
 on production; a control that takes a pass off a phone has no place on a traveller's screen,
 whatever switch it hides behind.
+
+**Correction, 30 September (the owner):** wallets are not enabled on the Razorpay account — Paytm
+and the other wallets are not accepted. The methods are UPI, cards and netbanking; `pass.payMethods`,
+the terms (decision 048) and the घर.4 board say exactly that and nothing more.

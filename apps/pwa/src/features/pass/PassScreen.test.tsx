@@ -340,7 +340,7 @@ describe('paying', () => {
     const pay = screen.getByRole('button', { name: '₹299 भुगतान करें' });
     expect(pay.hasAttribute('disabled')).toBe(false);
     expect(screen.queryByText(/ख़रीदना अभी चालू नहीं/)).toBeNull();
-    expect(screen.getByText('UPI · कार्ड · नेट बैंकिंग · वॉलेट')).toBeTruthy();
+    expect(screen.getByText('UPI · कार्ड · नेट बैंकिंग')).toBeTruthy();
     // Only one way to pay: the QR button for someone else is gone, Checkout offers that itself.
     expect(screen.queryByRole('button', { name: /QR/ })).toBeNull();
 

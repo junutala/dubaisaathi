@@ -3,7 +3,8 @@
 Every field on every screen, and the one line that earns it its place — written from the seat
 of a tourist in a taxi, not from ours. A field with no line here does not exist on the screen.
 Sprint 1, frozen 16 September. Numbering: L and घर, घर.1–घर.4, घर.5–घर.7 (बोलना), घर.8 · ऐप शेयर and
-घर.9 · सुझाव (the bar's, decision 046), then 1 खाना, 2 जाना, 3 जानना.
+घर.9 · सुझाव (the bar's, decision 046), घर.10 · नियम और शर्तें (decision 048), then 1 खाना, 2 जाना,
+3 जानना.
 
 ## On every screen after landing — the top strip
 
@@ -44,27 +45,31 @@ Since 28 September (decision 046): four places, each an icon with its word under
 | हिंदी / English                            | The interface language, chosen before anything else                                                   |
 | "ऑफ़लाइन पैक आ रहा है" + progress          | The app installing itself for the radio-off days                                                      |
 | The data-use line                          | What we keep — text, never voice or photos, not tied to a name (045)                                  |
+| "जारी रखकर आप नियम और शर्तें मानते हैं।"   | The one button accepts the terms too; said before it is pressed, not after (048)                      |
+| नियम और शर्तें पढ़ें                       | The terms before accepting them, bundled, offline; back returns here (048)                            |
 | मंज़ूर है, शुरू करें (live once installed) | The only action, and the acceptance of the line above it; live only when the app can keep its promise |
 | कोई लॉगिन नहीं. कोई अकाउंट नहीं.           | Removes the fear of a signup wall                                                                     |
 
-## The data-use notice, once (decision 045)
+## The data-use notice, once (decisions 045 and 048)
 
-| Field                | Why it is there                                                                            |
-| -------------------- | ------------------------------------------------------------------------------------------ |
-| एक बात, एक बार       | Says this is asked once, for a phone that started before the landing page carried the line |
-| The data-use line    | The same line the landing page carries, word for word                                      |
-| मंज़ूर है, आगे बढ़ें | The one action; it never comes back                                                        |
+| Field                                    | Why it is there                                                                                |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| एक बात, एक बार                           | Says this is asked once, for a phone that started before the landing page carried the line     |
+| The data-use line                        | The same line the landing page carries, word for word                                          |
+| The terms line, and नियम और शर्तें पढ़ें | The same as the landing page's; the reason a phone that accepted 045 sees this once more (048) |
+| मंज़ूर है, आगे बढ़ें                     | The one action; it never comes back                                                            |
 
 ## घर
 
-| Field                                     | Why it is there                                                                                |
-| ----------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| खाना · जाना · जानना                       | The three things the app does; everything else is a child of one                               |
-| बोलना, the fourth block, online           | The same weight as the three, in its own plum; on घर only when it can work, tap → घर.5         |
-| Roman caption and one-line blurb          | जाना and जानना are one letter apart; the caption and the line keep them apart                  |
-| The blurb goes below a 720px phone        | Four blocks leave a quarter of the screen each — the name, or a clipped sentence, not both     |
-| The pass tile, at the foot                | The money, visible while it matters, gone once paid; one line per state, tap → घर.4            |
-| इंटरनेट नहीं था — क्यों?, after no signal | The log sees no signal but not why: a tunnel and data kept off are two needs (043); once a day |
+| Field                                                        | Why it is there                                                                                 |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| खाना · जाना · जानना                                          | The three things the app does; everything else is a child of one                                |
+| बोलना, the fourth block, online                              | The same weight as the three, in its own plum; on घर only when it can work, tap → घर.5          |
+| Roman caption and one-line blurb                             | जाना and जानना are one letter apart; the caption and the line keep them apart                   |
+| Caption, name, blurb: one stack; blurb goes on a short block | They can never meet; a block too short for both keeps the name, not a clipped sentence          |
+| The pass tile, at the foot                                   | The money, visible while it matters, gone once paid; one line per state, tap → घर.4             |
+| इंटरनेट नहीं था — क्यों?, after no signal                    | The log sees no signal but not why: a tunnel and data kept off are two needs (043); once a day  |
+| नियम, निजता और रिफ़ंड — saafarsaathi.in/terms                | The small print (048): where the terms are, for the traveller who wants them later; tap → घर.10 |
 
 ## घर.1 · मेरा होटल
 
@@ -128,7 +133,7 @@ are retired: its numbers are जानना's red line, its feedback form is pa
 | कुल · the total, large                  | What is owed after the code, from the one price rule — the same figure the button charges          |
 | पास लें — मुफ़्त                        | A ₹0 total: the pass, issued and installed on the spot                                             |
 | ₹149 भुगतान करें (a lock)               | One button above ₹0: Checkout with every method the account takes; says it is opening from the tap |
-| UPI · कार्ड · नेट बैंकिंग · वॉलेट       | Which ways to pay work, before the tap — a card holder does not assume UPI only                    |
+| UPI · कार्ड · नेट बैंकिंग               | Which ways to pay work, before the tap — a card holder does not assume UPI only                    |
 | "Razorpay से सुरक्षित भुगतान"           | Who takes the money, and that card details never reach us — asked before anyone pays               |
 | "भुगतान होते ही पास इसी फ़ोन पर"        | What happens after paying, so nobody waits for an email or a code that is not coming               |
 | "ख़रीदना अभी चालू नहीं है"              | Said plainly while buying is switched off                                                          |
@@ -216,6 +221,21 @@ are retired: its numbers are जानना's red line, its feedback form is pa
 | सुझाव या राय                                      | A word to us — the feedback form ज़रूरी जानकारी carried, moved here whole      |
 | नाम · नंबर · आपकी बात · भेज दीजिए                 | The reply comes by phone to the number given; written to the phone first       |
 | "बिना नेटवर्क भी — … सिग्नल आते ही पहुँच जाता है" | Sent, or waiting for a signal — the difference is theirs to know               |
+
+## घर.10 · नियम और शर्तें (decision 048)
+
+| Field                                    | Why it is there                                                                                       |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| आख़िरी बदलाव: 30 सितंबर 2026             | Which terms these are; the version a phone accepted is this date                                      |
+| Dubaisaathi क्या है                      | Who runs it and what it is not — no booking, no delivery, no government link; RTA as the data source  |
+| जाना — सिर्फ़ हमारी सूची की जगहें, apart | The owner's line: not a map of every address, and exactly what happens to a place not on the list     |
+| खाना · जानना · बोलना और बोर्ड पढ़ना      | What each can promise: read off a card, checked on a day, translated by a machine                     |
+| आपातकाल                                  | The app is not an emergency service; the three numbers जानना's red line carries                       |
+| पास                                      | Free in India, 24 hours on landing, 14 days from landing, the four prices, never locked out once paid |
+| बदलाव · क़ानून और अदालत                  | How the terms change, and that India's law and Chennai's courts govern them                           |
+| निजता                                    | What reaches us and what never leaves the phone, section by section, as the code does it              |
+| पैसे वापसी और रद्द करना                  | No refunds, and the one exception with its seven days                                                 |
+| संपर्क                                   | Coupontouch Loyalty Solutions, the mail, the WhatsApp number, the website                             |
 
 ## 1.1 · खाना › क्या खाएँ · 1.2 · नतीजे
 
@@ -438,6 +458,15 @@ open the thing at all. The same rule applies — a field with no line here does 
 | टूर ऑपरेटर — one code, many phones | The `OP` prefix exists for them; they are the cheapest route to many phones |
 | कैफ़ेटेरिया — your kitchen in खाना | An owner can load their own outlet for less than a collector's visit costs  |
 | The two buttons                    | They pick who is writing and land on the form, so nobody hunts for a radio  |
+
+### The footer, and /terms · /privacy · /refund (decision 048)
+
+| Field                                        | Why it is there                                                                         |
+| -------------------------------------------- | --------------------------------------------------------------------------------------- |
+| चलाती है: Coupontouch Loyalty Solutions      | Who sells the pass — a payment page names the seller                                    |
+| नियम और शर्तें · निजता · पैसे वापसी · संपर्क | The four pages a payment needs, from every page's foot                                  |
+| The three pages, word for word the app's     | One set of terms: a test fails when the website and the app's catalogues say two things |
+| The three chips at the top of each page      | Which of the three this is, and the other two one tap away                              |
 
 ### The contact form (decision 023)
 

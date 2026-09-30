@@ -160,7 +160,7 @@ export const en: Record<StringKey, string> = {
   'pass.more': 'More than four? Talk to us on WhatsApp ›',
   'pass.pay': 'Pay ₹{amount}',
   'pass.payWorking': 'Opening the payment page…',
-  'pass.payMethods': 'UPI · Cards · Netbanking · Wallets',
+  'pass.payMethods': 'UPI · Cards · Netbanking',
   'pass.paySecure': 'Paid securely through Razorpay — your card details never reach us',
   'pass.payNext': 'The pass installs on this phone as soon as you pay',
   'pass.notLive': 'Buying is not open yet — Saathi stays free until it is.',
@@ -568,4 +568,100 @@ export const en: Record<StringKey, string> = {
   'sos.ambulance': 'Ambulance',
   'sos.fire': 'Fire',
   'sos.all': 'All numbers',
+
+  'terms.acceptLine': 'By continuing you accept the terms and conditions.',
+  'terms.read': 'Read the terms and conditions',
+  'terms.smallPrint': 'Terms, privacy and refunds — saafarsaathi.in/terms',
+  'terms.title': 'Terms and conditions',
+  'terms.updated': 'Last updated: 30 September 2026',
+  'terms.about.head': 'What Dubaisaathi is',
+  'terms.about.p1':
+    'Dubaisaathi is an information desk for Indian travellers in Dubai: खाना, जाना, जानना and बोलना. It is run by Coupontouch Loyalty Solutions.',
+  'terms.about.p2':
+    'It does not book hotels or flights, does not deliver food, is not a restaurant marketplace, and is not a chatbot that answers anything you ask.',
+  'terms.about.p3':
+    'It is not an app of the Government of Dubai or of any transport authority, and is not affiliated with them. The metro, bus and tram timetable is taken from the open data of the RTA (Roads and Transport Authority, Dubai).',
+  'terms.go.head': 'जाना — only the places on our list',
+  'terms.go.p1':
+    'जाना is not an offline map of every address. It gives a route only to the places on our list.',
+  'terms.go.p2':
+    'Type a place that is not on the list and you get no route. The app says it does not know the place yet, and “Go by taxi” shows the words you typed in large letters, to show a taxi driver — without an Arabic address and without a fare estimate.',
+  'terms.go.p3':
+    'Times and fares are estimates, from the RTA’s published timetable and fare table, and can differ on the day. A taxi fare is an estimate too — the meter decides.',
+  'terms.food.head': 'खाना',
+  'terms.food.p1':
+    'खाना lists only kitchens whose menu our own people have read — at the counter, or from the kitchen’s own online menu.',
+  'terms.food.p2':
+    'Menus, prices, and things like pure veg or Jain are as the menu card printed them on the day it was read. They may have changed since.',
+  'terms.food.p3':
+    'Where it says “Ask”, we do not have the answer — ask at the counter. A delivery number is the one printed on the card.',
+  'terms.know.head': 'जानना',
+  'terms.know.p1':
+    'Opening hours and ticket prices are as we last checked them. They can change — confirm before you go.',
+  'terms.speak.head': 'बोलना and reading boards',
+  'terms.speak.p1':
+    'Both work only with internet. The translation is done by a machine and can be wrong. Do not rely on it for medical, legal or safety matters.',
+  'terms.sos.head': 'Emergencies',
+  'terms.sos.p1':
+    'Dubaisaathi is not an emergency service. In an emergency, call directly: police 999, ambulance 998, fire 997.',
+  'terms.pass.head': 'The pass',
+  'terms.pass.p1':
+    'In India the app is free: nothing is counted until the phone reaches Dubai. On landing in Dubai the first 24 hours are free. Landing is decided from the phone’s location, read several times.',
+  'terms.pass.p2':
+    'A pass lasts 14 days, counted from landing in Dubai — not from the day it is bought. Price: 1 phone ₹{p1}, 2 phones ₹{p2}, 3 phones ₹{p3}, 4 phones ₹{p4}.',
+  'terms.pass.p3':
+    'It is a one-time payment. No subscription; nothing is charged again by itself. Payment is through Razorpay — UPI, card or netbanking.',
+  'terms.pass.p4':
+    'On a pass for 2 to 4 phones, the other phones join by scanning a QR, and all of them end together.',
+  'terms.pass.p5':
+    'Anyone who has paid once is never locked out of the app. Your hotel and your documents are never behind a pass — they always open on your phone.',
+  'terms.change.head': 'Changes to these terms',
+  'terms.change.p1':
+    'These terms may change. When they do, the date above changes, and for a significant change the app asks you to accept once more.',
+  'terms.law.head': 'Law and courts',
+  'terms.law.p1':
+    'These terms are governed by the laws of India. Any dispute will be heard by the courts of Chennai.',
+  'privacy.head': 'Privacy',
+  'privacy.id.head': 'No login',
+  'privacy.id.p1':
+    'Dubaisaathi has no login and no account. On first open the phone makes a random id for itself. What reaches us from the app comes with that id — not with your name or number. A name or number reaches us in two places only, a payment and a message you send; both are below.',
+  'privacy.text.head': 'What you type, say or have read',
+  'privacy.text.p1':
+    'What you type, say or have read in खाना, जाना, जानना and बोलना is kept as text, to make Saathi better.',
+  'privacy.text.p2':
+    'Your voice is not kept. It goes over the internet to a speech-recognition service and comes back as written words.',
+  'privacy.text.p3':
+    'A board’s photo is not kept. It goes to a machine translation service to be read; we keep only the Arabic read from it and its Hindi meaning.',
+  'privacy.phone.head': 'Only on your phone',
+  'privacy.phone.p1':
+    'Your hotel’s card, room number and pin, your documents and their photos stay on your phone only; they do not reach us. The card is read on the phone itself.',
+  'privacy.phone.p2':
+    'One exception: if the QR on the card holds a short map link, that link is sent to our server to be opened. The server does not keep it.',
+  'privacy.phone.p3':
+    'Clearing the app’s or the browser’s data deletes everything kept on the phone — the hotel and the documents too — and the phone makes a new id.',
+  'privacy.place.head': 'Location',
+  'privacy.place.p1':
+    'Your location is used on the phone itself: the nearest stop, distances, and whether you have reached Dubai. No coordinates reach us — only whether the phone is in Dubai, in India or elsewhere.',
+  'privacy.usage.head': 'How the app is used',
+  'privacy.usage.p1':
+    'Which screens opened, how long the app was used, whether there was internet, and whether the phone is Android or iPhone also come with the same id. No IP address and no location is kept with them. They are deleted after 180 days.',
+  'privacy.pay.head': 'Payment',
+  'privacy.pay.p1':
+    'Payment is taken by Razorpay; your full card or bank details never reach us. Razorpay tells us who paid — a UPI id or a few digits of a card, for example. That is deleted after 30 days.',
+  'privacy.msg.head': 'When you write to us',
+  'privacy.msg.p1':
+    'The “A suggestion or a comment” form in the app’s Contribute, and the website’s contact form, ask for your name, number and message, so that we can reply. They are kept as you wrote them.',
+  'privacy.delete.head': 'Deletion and questions',
+  'privacy.delete.p1':
+    'To have your information deleted, or to ask anything, write to hello@saafarsaathi.in.',
+  'refund.head': 'Refunds and cancellation',
+  'refund.p1':
+    'A pass is a one-time digital pass. It arrives on the phone that paid; nothing is shipped. Once bought, a pass cannot be cancelled and is not refunded.',
+  'refund.p2':
+    'One exception: if money was taken but no pass arrived, or the same payment was taken twice, that amount is refunded within 7 days — through Razorpay, to the method you paid with.',
+  'refund.p3':
+    'If that happens, write to hello@saafarsaathi.in or on WhatsApp to +91 78421 78350, with the date of the payment and its UPI or Razorpay reference number.',
+  'contact.head': 'Contact',
+  'contact.p1':
+    'Coupontouch Loyalty Solutions · Email hello@saafarsaathi.in · WhatsApp +91 78421 78350 · Website saafarsaathi.in',
 };

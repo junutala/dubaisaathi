@@ -1296,3 +1296,80 @@ footer .wrap {
     bottom: 14px;
   }
 }
+
+/* ---- the terms, privacy and refund pages (decision 048) --------------------------------- */
+.legal .wrap {
+  max-width: 760px;
+  padding-top: 28px;
+  padding-bottom: 56px;
+}
+.legal h1 {
+  margin: 20px 0 4px;
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: clamp(28px, 4vw, 38px);
+  line-height: 1.2;
+}
+.legal h2 {
+  margin: 0 0 6px;
+  font-size: 19px;
+  line-height: 1.35;
+}
+.legal-updated {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.legal-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.legal-nav a,
+.legal-nav-on {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.legal-nav-on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--sand);
+}
+.legal .terms-section {
+  margin: 0 0 22px;
+  padding: 0;
+}
+.terms-p {
+  margin: 0 0 8px;
+  font-size: 17px;
+  line-height: 1.6;
+}
+/* जाना's line, set apart (the owner, 30 September): it is not a map of every address. */
+.legal .terms-callout {
+  padding: 16px 18px 10px;
+  border-radius: 16px;
+  background: var(--goSoft);
+  color: var(--tealText);
+}
+.legal .terms-contact {
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.foot-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+}
+.foot-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  text-decoration: underline;
+}

@@ -619,8 +619,8 @@ delivery app".
 2. **Buying a pass.** Built (decision 019): `order` creates the Razorpay order and answers the
    phone's polling for its status; `webhook` verifies Razorpay's signature, signs one pass per
    slot and settles the order through `settle_order` in migration 0008; घर.4's one pay button
-   (a bill, then Checkout with every method the account accepts — UPI, cards, netbanking,
-   wallets) runs the whole flow, and an order left open is polled again on the next open.
+   (a bill, then Checkout with every method the account accepts — UPI, cards and netbanking;
+   wallets are not enabled on the account) runs the whole flow, and an order left open is polled again on the next open.
    **Live since 30 September**, on `rzp_live` keys: the owner paid by UPI and by card from a
    second phone. The two switches are separate: `VITE_PURCHASE_LIVE` only enables the button,
    and `VITE_GATE_LIVE` (default false) is the only thing `isGated` reads, so buying is open

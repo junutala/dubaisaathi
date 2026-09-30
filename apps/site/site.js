@@ -30,10 +30,11 @@
     // The name is one word and the same in both catalogues (decision 021). The tab used to
     // translate it — दुबई साथी in Hindi, Dubai Saathi in English — so a bookmark and a search
     // result carried a name the brand rule says does not exist. Only the line after it changes.
+    // The terms, privacy and refund pages carry their own title in both languages (decision 048).
     document.title =
       lang === 'hi'
-        ? 'Dubaisaathi — बिना इंटरनेट के दुबई'
-        : 'Dubaisaathi — Dubai, with no internet';
+        ? root.dataset.titleHi || 'Dubaisaathi — बिना इंटरनेट के दुबई'
+        : root.dataset.titleEn || 'Dubaisaathi — Dubai, with no internet';
     // The form's placeholders and labels are attributes, not text, so the two-span trick the
     // rest of the page uses cannot reach them. They carry both languages and get swapped here.
     for (const field of document.querySelectorAll('[data-hi-ph]')) {

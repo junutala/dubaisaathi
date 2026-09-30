@@ -313,7 +313,8 @@ export function warmOrder(): void {
 /**
  * Checkout, opened on the order with no method restriction, so every method the account
  * accepts is offered: the UPI apps on this phone, a UPI ID or Checkout's own QR for somebody
- * else to pay from theirs, cards, netbanking and wallets (decision 019, 30 September addendum).
+ * else to pay from theirs, cards and netbanking (decision 019, 30 September addendum). Wallets
+ * are not enabled on the account, so nothing on a screen offers them.
  *
  * The name and the line under it come from the caller, because they are on a screen a traveller
  * reads and every string in this app comes out of the catalogue.
