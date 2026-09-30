@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-30T10:27:54.666Z",
+  "publishedAt": "2026-09-30T10:33:15.844Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -103358,138 +103358,181 @@
         "lng": 55.3012762
       },
       "areaId": "karama",
-      "kitchen": "non-veg",
+      "kitchen": "mixed",
       "tags": [],
+      "phone": "04 557 3529",
+      "deliveryPhone": "04 557 3529 · 056 664 5757",
+      "delivers": "yes",
       "confirmedDishes": [
         {
           "name": {
-            "en": "Sea Bream (per 500 g)",
-            "hi": "Sea Bream (per 500 g)",
+            "en": "Sea Bream BBQ Combo",
+            "hi": "Sea Bream BBQ Combo",
             "aliases": []
           },
           "tags": [],
           "priceAed": 50,
-          "section": "Fisheatarium Special BBQ Combo"
+          "section": "BBQ Combo (price for 500 g)"
         },
         {
           "name": {
-            "en": "Sea Bass (per 500 g)",
-            "hi": "Sea Bass (per 500 g)",
+            "en": "Sea Bass BBQ Combo",
+            "hi": "Sea Bass BBQ Combo",
             "aliases": []
           },
           "tags": [],
           "priceAed": 55,
-          "section": "Fisheatarium Special BBQ Combo"
+          "section": "BBQ Combo (price for 500 g)"
         },
         {
           "name": {
-            "en": "King Fish (per 500 g)",
-            "hi": "King Fish (per 500 g)",
+            "en": "King Fish BBQ Combo",
+            "hi": "King Fish BBQ Combo",
             "aliases": []
           },
           "tags": [],
           "priceAed": 60,
-          "section": "Fisheatarium Special BBQ Combo"
+          "section": "BBQ Combo (price for 500 g)"
         },
         {
           "name": {
-            "en": "Salmon (per 500 g)",
-            "hi": "Salmon (per 500 g)",
+            "en": "Salmon BBQ Combo",
+            "hi": "Salmon BBQ Combo",
             "aliases": []
           },
           "tags": [],
           "priceAed": 60,
-          "section": "Fisheatarium Special BBQ Combo"
+          "section": "BBQ Combo (price for 500 g)"
         },
         {
           "name": {
-            "en": "Hamour (per 500 g)",
-            "hi": "Hamour (per 500 g)",
+            "en": "Hamour BBQ Combo",
+            "hi": "Hamour BBQ Combo",
             "aliases": []
           },
           "tags": [],
           "priceAed": 60,
-          "section": "Fisheatarium Special BBQ Combo"
+          "section": "BBQ Combo (price for 500 g)"
         },
         {
           "name": {
-            "en": "Prawns (per 500 g)",
-            "hi": "Prawns (per 500 g)",
+            "en": "Prawns BBQ Combo",
+            "hi": "Prawns BBQ Combo",
             "aliases": []
           },
           "tags": [],
           "priceAed": 55,
-          "section": "Fisheatarium Special BBQ Combo"
+          "section": "BBQ Combo (price for 500 g)"
         },
         {
           "name": {
-            "en": "Farsh (per 500 g)",
-            "hi": "Farsh (per 500 g)",
+            "en": "Farsh BBQ Combo",
+            "hi": "Farsh BBQ Combo",
             "aliases": []
           },
           "tags": [],
           "priceAed": 35,
-          "section": "Fisheatarium Special BBQ Combo"
+          "section": "BBQ Combo (price for 500 g)"
         },
         {
           "name": {
-            "en": "Crab (per 500 g)",
-            "hi": "Crab (per 500 g)",
+            "en": "Crab BBQ Combo",
+            "hi": "Crab BBQ Combo",
             "aliases": []
           },
           "tags": [],
           "priceAed": 45,
-          "section": "Fisheatarium Special BBQ Combo"
+          "section": "BBQ Combo (price for 500 g)"
         },
         {
           "name": {
-            "en": "Squid (per 500 g)",
-            "hi": "Squid (per 500 g)",
-            "aliases": []
-          },
-          "tags": [],
-          "priceAed": 45,
-          "section": "Fisheatarium Special Tawa Combo"
-        },
-        {
-          "name": {
-            "en": "Squid Kanthari (per 500 g)",
-            "hi": "Squid Kanthari (per 500 g)",
+            "en": "Sea Bream Tawa Combo",
+            "hi": "Sea Bream Tawa Combo",
             "aliases": []
           },
           "tags": [],
           "priceAed": 55,
-          "section": "Fisheatarium Special Tawa Combo"
+          "section": "Tawa Combo (price for 500 g)"
         },
         {
           "name": {
-            "en": "Prawns Kanthari (per 500 g)",
-            "hi": "Prawns Kanthari (per 500 g)",
+            "en": "Sea Bass Tawa Combo",
+            "hi": "Sea Bass Tawa Combo",
             "aliases": []
           },
           "tags": [],
           "priceAed": 60,
-          "section": "Fisheatarium Special Tawa Combo"
+          "section": "Tawa Combo (price for 500 g)"
         },
         {
           "name": {
-            "en": "Avoli (per 500 g)",
-            "hi": "Avoli (per 500 g)",
+            "en": "Squid Tawa Combo",
+            "hi": "Squid Tawa Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 45,
+          "section": "Tawa Combo (price for 500 g)"
+        },
+        {
+          "name": {
+            "en": "Squid Kanthari Tawa Combo",
+            "hi": "Squid Kanthari Tawa Combo",
             "aliases": []
           },
           "tags": [],
           "priceAed": 55,
-          "section": "Fisheatarium Special Tawa Combo"
+          "section": "Tawa Combo (price for 500 g)"
         },
         {
           "name": {
-            "en": "Kalanchi (per 500 g)",
-            "hi": "Kalanchi (per 500 g)",
+            "en": "Prawns Tawa Combo",
+            "hi": "Prawns Tawa Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 50,
+          "section": "Tawa Combo (price for 500 g)"
+        },
+        {
+          "name": {
+            "en": "Prawns Kanthari Tawa Combo",
+            "hi": "Prawns Kanthari Tawa Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 60,
+          "section": "Tawa Combo (price for 500 g)"
+        },
+        {
+          "name": {
+            "en": "Avoli Tawa Combo",
+            "hi": "Avoli Tawa Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 55,
+          "section": "Tawa Combo (price for 500 g)"
+        },
+        {
+          "name": {
+            "en": "Crab Tawa Combo",
+            "hi": "Crab Tawa Combo",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 50,
+          "section": "Tawa Combo (price for 500 g)"
+        },
+        {
+          "name": {
+            "en": "Kalanchi Tawa Combo",
+            "hi": "Kalanchi Tawa Combo",
             "aliases": []
           },
           "tags": [],
           "priceAed": 40,
-          "section": "Fisheatarium Special Tawa Combo"
+          "section": "Tawa Combo (price for 500 g)"
         },
         {
           "name": {
@@ -103535,6 +103578,616 @@
           },
           "tags": [],
           "section": "Fisheatarium Special"
+        },
+        {
+          "name": {
+            "en": "Shrimps (smaller)",
+            "hi": "Shrimps (smaller)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 22,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Shrimps (larger)",
+            "hi": "Shrimps (larger)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 33,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Rings (smaller)",
+            "hi": "Rings (smaller)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 19,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Rings (larger)",
+            "hi": "Rings (larger)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 29,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Prawns Dynamite (smaller)",
+            "hi": "Prawns Dynamite (smaller)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 24,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Prawns Dynamite (larger)",
+            "hi": "Prawns Dynamite (larger)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 35,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Dynamite Stick",
+            "hi": "Dynamite Stick",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Paal Konju",
+            "hi": "Paal Konju",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Pulgama Stick",
+            "hi": "Pulgama Stick",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Fish Fillet",
+            "hi": "Fish Fillet",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Fillet Candy",
+            "hi": "Fillet Candy",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Loaded Fries",
+            "hi": "Loaded Fries",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Fillet Cubes",
+            "hi": "Fillet Cubes",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 15,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "French Fries",
+            "hi": "French Fries",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Cut Fruits Mix",
+            "hi": "Cut Fruits Mix",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Green Salad",
+            "hi": "Green Salad",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Thai Cucumber Salad",
+            "hi": "Thai Cucumber Salad",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Honey Mustered Salad",
+            "hi": "Honey Mustered Salad",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Grill Mandi (1 pax)",
+            "hi": "Grill Mandi (1 pax)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 22,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Kithab Mandi (1 pax)",
+            "hi": "Kithab Mandi (1 pax)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Tawa Mandi (1 pax)",
+            "hi": "Tawa Mandi (1 pax)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 24,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Rubian Mandi (1 pax)",
+            "hi": "Rubian Mandi (1 pax)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Seabream Combo (2 pax)",
+            "hi": "Seabream Combo (2 pax)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 53,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Seabream Premium Deluxe (2 pax)",
+            "hi": "Seabream Premium Deluxe (2 pax)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 74,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Seabream Premium (2 pax)",
+            "hi": "Seabream Premium (2 pax)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 63,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Seabream Deluxe (4 pax)",
+            "hi": "Seabream Deluxe (4 pax)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 104,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Black Pepper Mandi (smallest)",
+            "hi": "Black Pepper Mandi (smallest)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 17,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Black Pepper Mandi (medium)",
+            "hi": "Black Pepper Mandi (medium)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 32,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Black Pepper Mandi (largest)",
+            "hi": "Black Pepper Mandi (largest)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 59,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Filfil Mandi (smallest)",
+            "hi": "Filfil Mandi (smallest)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 17,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Filfil Mandi (medium)",
+            "hi": "Filfil Mandi (medium)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 32,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Filfil Mandi (largest)",
+            "hi": "Filfil Mandi (largest)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 59,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Royal Mix Mandi (smaller)",
+            "hi": "Royal Mix Mandi (smaller)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 32,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Royal Mix Mandi (larger)",
+            "hi": "Royal Mix Mandi (larger)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 59,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Faham Mandi (smallest)",
+            "hi": "Faham Mandi (smallest)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 14,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Faham Mandi (medium)",
+            "hi": "Faham Mandi (medium)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Faham Mandi (largest)",
+            "hi": "Faham Mandi (largest)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 55,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Honey Chilli Mandi (smallest)",
+            "hi": "Honey Chilli Mandi (smallest)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 17,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Honey Chilli Mandi (medium)",
+            "hi": "Honey Chilli Mandi (medium)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 32,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Honey Chilli Mandi (largest)",
+            "hi": "Honey Chilli Mandi (largest)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 59,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Seabream & Chicken BBQ",
+            "hi": "Seabream & Chicken BBQ",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 89,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Beef Mandi (1 pax)",
+            "hi": "Beef Mandi (1 pax)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Beef Mandi (2 pax)",
+            "hi": "Beef Mandi (2 pax)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 49,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Dynamite Mandi (smallest)",
+            "hi": "Dynamite Mandi (smallest)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 17,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Dynamite Mandi (medium)",
+            "hi": "Dynamite Mandi (medium)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 32,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Dynamite Mandi (largest)",
+            "hi": "Dynamite Mandi (largest)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 59,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Special Combo (2 pax)",
+            "hi": "Special Combo (2 pax)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 89,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Special Combo (3 pax)",
+            "hi": "Special Combo (3 pax)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 109,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Special Combo (4 pax)",
+            "hi": "Special Combo (4 pax)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 139,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Fisheatarium Sp. Plater (6 pax)",
+            "hi": "Fisheatarium Sp. Plater (6 pax)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 199,
+          "section": "Mandi"
+        },
+        {
+          "name": {
+            "en": "Porotta",
+            "hi": "Porotta",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Bread Items"
+        },
+        {
+          "name": {
+            "en": "Chappathi",
+            "hi": "Chappathi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Bread Items"
+        },
+        {
+          "name": {
+            "en": "Dosa",
+            "hi": "Dosa",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Bread Items"
+        },
+        {
+          "name": {
+            "en": "Pathiri",
+            "hi": "Pathiri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Bread Items"
+        },
+        {
+          "name": {
+            "en": "Idiyappam",
+            "hi": "Idiyappam",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Bread Items"
+        },
+        {
+          "name": {
+            "en": "Neypathal",
+            "hi": "Neypathal",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Bread Items"
+        },
+        {
+          "name": {
+            "en": "Beef Varatt",
+            "hi": "Beef Varatt",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Beef Special"
+        },
+        {
+          "name": {
+            "en": "Beef Curry",
+            "hi": "Beef Curry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 12,
+          "section": "Beef Special"
+        },
+        {
+          "name": {
+            "en": "Beef Roast",
+            "hi": "Beef Roast",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Beef Special"
+        },
+        {
+          "name": {
+            "en": "Beef Pepper",
+            "hi": "Beef Pepper",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Beef Special"
+        },
+        {
+          "name": {
+            "en": "Beef Fry",
+            "hi": "Beef Fry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Beef Special"
         }
       ]
     },
