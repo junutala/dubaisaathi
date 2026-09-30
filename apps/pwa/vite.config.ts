@@ -139,6 +139,15 @@ export default defineConfig({
     // (`font-src 'self'`, deploy/nginx.conf) refuses, so the lockup would quietly fall back to
     // Mukta in production and nowhere else. Fonts are never inlined.
     assetsInlineLimit: (file) => (file.endsWith('.woff2') ? false : undefined),
+    rollupOptions: {
+      output: {
+        // The kitchens are their own file (30 September): bundled into the app they had grown it
+        // past the worker's 4 MiB precache ceiling at 78 outlets, and an app file the worker will
+        // not keep is an app that does not open with the radio off. Apart, each stays under it.
+        manualChunks: (id) =>
+          id.includes('/data/restaurants/restaurants.v1.json') ? 'restaurants' : undefined,
+      },
+    },
   },
   resolve: {
     alias: {

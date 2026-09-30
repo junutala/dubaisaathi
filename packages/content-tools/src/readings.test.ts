@@ -42,6 +42,19 @@ describe('a menu reading becomes the dishes a report carries', () => {
     expect(dishes[7]?.tags).toEqual(['vegetarian', 'vrat']);
   });
 
+  it('tags a dish Jain only where the card marks it (0092, 30 September)', () => {
+    const [jain, plain] = dishesFromReading({
+      form: '0092',
+      dishes: [
+        { name: 'Paneer Paratha', priceAed: 19, veg: true, jain: true },
+        { name: 'Mix Paratha', priceAed: 19, veg: true },
+      ],
+    });
+    expect(jain?.tags).toEqual(['vegetarian', 'jain']);
+    expect(plain?.tags).toEqual(['vegetarian']);
+    expect(readDishes([jain])?.[0]?.tags).toContain('jain');
+  });
+
   it('carries a price only where one was read, and a veg tag only where the menu marks it', () => {
     expect(dishes[0]).toEqual({
       name: { en: 'Chole Bhature' },
