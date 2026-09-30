@@ -39,6 +39,7 @@ export type IconName =
   | 'trash'
   | 'share'
   | 'qr'
+  | 'lock'
   // घर.5 · बोलना: the one microphone in the product, and the button that reads Arabic aloud
   | 'mic'
   | 'sound'
@@ -267,6 +268,13 @@ const SHAPES: Record<IconName, ReactNode> = {
       <rect x="14" y="4" width="6" height="6" />
       <rect x="4" y="14" width="6" height="6" />
       <path d="M14 14h2v2h-2zM18 14h2M14 18h2M18 18h2v2" />
+    </>
+  ),
+  lock: (
+    <>
+      <rect x="5" y="10.5" width="14" height="10" rx="2" />
+      <path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3" />
+      <path d="M12 14.5v2.5" />
     </>
   ),
   mic: (

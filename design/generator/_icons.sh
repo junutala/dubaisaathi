@@ -50,6 +50,7 @@ ticket()  { ic "$1" "$2" "$3"; echo '<path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 
 trash()   { ic "$1" "$2" "$3"; echo '<path d="M4.5 7h15"></path><path d="M9 7V4.5h6V7"></path><path d="M6.5 7l1 13h9l1-13"></path></svg>'; }
 share()   { ic "$1" "$2" "$3"; echo '<path d="M12 3v12"></path><path d="M8 7l4-4 4 4"></path><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"></path></svg>'; }
 qr()      { ic "$1" "$2" "$3"; echo '<rect x="4" y="4" width="6" height="6"></rect><rect x="14" y="4" width="6" height="6"></rect><rect x="4" y="14" width="6" height="6"></rect><path d="M14 14h2v2h-2zM18 14h2M14 18h2M18 18h2v2"></path></svg>'; }
+lock()    { ic "$1" "$2" "$3"; echo '<rect x="5" y="10.5" width="14" height="10" rx="2"></rect><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"></path><path d="M12 14.5v2.5"></path></svg>'; }
 check()   { ic "$1" "$2" "$3"; echo '<path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>'; }
 signpost(){ ic "$1" "$2" "$3"; echo '<path d="M12 21.2V4.6"></path><path d="M12 7.4h6.6l2 2.1-2 2.1H12"></path><path d="M12 14.2H5.4l-2 2.1 2 2.1H12"></path></svg>'; }
 info()    { ic "$1" "$2" "$3"; echo '<circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="7.7" r="1.05" fill="'"$2"'" stroke="none"></circle><path d="M12 11.1v5.4"></path></svg>'; }

@@ -14,7 +14,7 @@ interface ImportMetaEnv {
   readonly VITE_SUPABASE_URL?: string;
   /** Base64 SPKI of the pass-signing public key, set as a Railway variable. */
   readonly VITE_PASS_PUBLIC_KEY?: string;
-  /** "true" once paying is live; until then घर.4's buy buttons say so and do nothing. */
+  /** "true" once paying is live; until then घर.4's pay button says so and does nothing. */
   readonly VITE_PURCHASE_LIVE?: string;
   /**
    * "true" once the gate may close on a trial that has run out. Separate from the one above on
@@ -22,14 +22,6 @@ interface ImportMetaEnv {
    * traveller is turned away. Default off, and the only thing `isGated` reads.
    */
   readonly VITE_GATE_LIVE?: string;
-  /**
-   * "true" to show घर.4's "start again" — the one control that takes a pass off this phone.
-   * It exists so the owner can buy the same pass a second time while the payment plumbing is
-   * being proved, and it is its own switch rather than an inference from the two above, because
-   * a release must never take something from a traveller's phone by accident (CLAUDE.md). Off
-   * unless somebody deliberately sets it, and it never touches the hotel or the documents.
-   */
-  readonly VITE_TESTING_TOOLS?: string;
 }
 
 interface ImportMeta {

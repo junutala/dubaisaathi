@@ -16,9 +16,10 @@ import { readPass, type SignedPass } from './signedPass.js';
  * verified offline here like every other (decision 005).
  *
  * Checkout itself is a script on Razorpay's origin, and this app must install and run with the
- * network off — so it is never a build dependency and never loaded at boot. It is fetched the
- * moment a traveller taps a buy button, and a phone that cannot fetch it gets one honest line
- * rather than a thrown error.
+ * network off — so it is never a build dependency and never loaded at boot. It is fetched when
+ * घर.4 opens with buying possible (unpaid, buying live, a signal), so it is already in the page
+ * when the traveller taps, and a phone that cannot fetch it gets one honest line rather than a
+ * thrown error.
  */
 
 const ORDER = `${PROJECT_URL}/functions/v1/order`;
@@ -94,7 +95,6 @@ interface CheckoutOptions {
   readonly currency: string;
   readonly name: string;
   readonly description: string;
-  readonly method?: { readonly upi: boolean };
   readonly prefill: Record<string, string>;
   readonly theme: { readonly color: string };
   readonly handler: () => void;
@@ -184,8 +184,11 @@ function landing(): { landedAt?: string } {
     : {};
 }
 
+/** No signal, by the phone's own word: nothing here goes out, and each caller says so. */
+const offline = () => typeof navigator !== 'undefined' && !navigator.onLine;
+
 export async function createOrder(slots: number, code?: string): Promise<OrderCreated> {
-  if (typeof navigator !== 'undefined' && !navigator.onLine) return { kind: 'offline' };
+  if (offline()) return { kind: 'offline' };
 
   let body: Record<string, unknown>;
   let status: number;
@@ -245,9 +248,11 @@ export async function orderStatus(orderId: string): Promise<OrderState> {
 }
 
 /**
- * The script, fetched when a traveller asks to pay and never before. A failure resolves to
- * nothing rather than throwing: the screen owes them a line, not a stack trace. A failed load
- * is forgotten so a phone that regains signal may try again.
+ * The script, fetched when घर.4 opens with buying possible (`preloadCheckout`), because the wait
+ * at the tap was the owner's complaint (30 September); a tap that finds it not yet there starts
+ * it alongside the order. A failure resolves to nothing rather than throwing: the screen owes
+ * them a line, not a stack trace. A failed load is forgotten so a phone that regains signal may
+ * try again. Never at boot: only a screen that is about to take money asks for it.
  */
 let loading: Promise<Checkout | null> | null = null;
 
@@ -282,20 +287,44 @@ function loadCheckout(): Promise<Checkout | null> {
 }
 
 /**
- * Checkout, opened on the order. `upi` preselects UPI for the traveller paying on this phone;
- * `any` leaves the method alone, which is what shows a QR on a desktop and the app list on a
- * phone — the "someone else pays" button.
+ * Checkout's script, fetched ahead of the tap while घर.4 is open and buying is possible. Safe to
+ * call as often as the screen likes — one load is ever in flight, a loaded script is kept — and
+ * nothing at all with the radio off.
+ */
+export function preloadCheckout(): void {
+  if (offline()) return;
+  void loadCheckout();
+}
+
+/**
+ * Wakes the `order` function while the traveller is still choosing, so the tap does not also pay
+ * for a cold start and a fresh connection. A CORS preflight-style OPTIONS, which the function
+ * answers with its headers and nothing else: it cannot create, price or read an order.
+ */
+export function warmOrder(): void {
+  if (offline()) return;
+  try {
+    void fetch(ORDER, { method: 'OPTIONS' }).catch(() => undefined);
+  } catch {
+    /* a warm-up that cannot go is no loss */
+  }
+}
+
+/**
+ * Checkout, opened on the order with no method restriction, so every method the account
+ * accepts is offered: the UPI apps on this phone, a UPI ID or Checkout's own QR for somebody
+ * else to pay from theirs, cards, netbanking and wallets (decision 019, 30 September addendum).
  *
  * The name and the line under it come from the caller, because they are on a screen a traveller
  * reads and every string in this app comes out of the catalogue.
  */
 export async function openCheckout(
   order: OpenOrder,
-  method: 'upi' | 'any',
   name: string,
   description: string,
+  script: Promise<Checkout | null> = loadCheckout(),
 ): Promise<'submitted' | 'closed' | 'unavailable'> {
-  const Razorpay = await loadCheckout();
+  const Razorpay = await script;
   if (Razorpay === null) return 'unavailable';
   return new Promise<'submitted' | 'closed' | 'unavailable'>((resolve) => {
     let answered = false;
@@ -312,7 +341,6 @@ export async function openCheckout(
         currency: 'INR',
         name,
         description,
-        ...(method === 'upi' ? { method: { upi: true } } : {}),
         prefill: {},
         theme: { color: THEME },
         handler: () => {
@@ -376,17 +404,25 @@ async function poll(order: OpenOrder, delays: readonly number[]): Promise<Purcha
 export async function buyPass(options: {
   readonly slots: number;
   readonly code?: string | undefined;
-  readonly method: 'upi' | 'any';
   readonly name: string;
   readonly description: string;
 }): Promise<PurchaseOutcome> {
+  // The script and the order are started together, so a cold tap waits for the slower of the
+  // two rather than for both in a row. Nothing is skipped: the order is still made on the
+  // server, and the pass still comes only from the webhook.
+  const script = offline() ? null : loadCheckout();
   const created = await createOrder(options.slots, options.code);
   if (created.kind !== 'order') return created;
   const order = created.order;
   // Remembered before Checkout opens: a traveller who pays and then loses the tab has paid.
   rememberOrder(order);
 
-  const opened = await openCheckout(order, options.method, options.name, options.description);
+  const opened = await openCheckout(
+    order,
+    options.name,
+    options.description,
+    script ?? loadCheckout(),
+  );
   if (opened === 'unavailable') return { kind: 'unreachable' };
 
   // Closed without paying is the common case, and it does not deserve a minute of spinner —

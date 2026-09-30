@@ -8,9 +8,7 @@ import type { StringKey } from '../../i18n/index.js';
 import { applyCoupon, pendingCoupon, type CouponOutcome, type PendingCoupon } from './coupon.js';
 import {
   PURCHASE_IS_LIVE,
-  TESTING_TOOLS,
   entitlement,
-  forgetEntitlement,
   markWelcomed,
   unwelcomedPass,
   validity,
@@ -20,7 +18,7 @@ import {
 import { PassWelcome } from './PassWelcome.js';
 import { passLink, qrPath } from './qr.js';
 import { shareFamilyQr, type ShareOutcome } from './shareQr.js';
-import { buyPass, forgetOrder, type PurchaseOutcome } from './purchase.js';
+import { buyPass, preloadCheckout, warmOrder, type PurchaseOutcome } from './purchase.js';
 import { installFromToken } from './scan.js';
 import type { SignedPass } from './signedPass.js';
 
@@ -112,13 +110,13 @@ function shareLineFor(outcome: ShareOutcome): StringKey | null {
 
 /**
  * घर.4 — पास, as one flow from the top: the counter, how many phones, a code if there is one,
- * the total, and the one button that fits the total. Once paid with more than one phone, the
+ * the bill, and the one button that fits the total. Once paid with more than one phone, the
  * family's QR codes follow (decision 018).
  *
- * Buying is an order, Razorpay's Checkout and a webhook that signs the pass (decision 019): both
- * buttons create the order, UPI opens Checkout with UPI preselected and QR opens it with the
- * method left alone, and the pass arrives when the phone asks for the order's status. Until
- * `VITE_PURCHASE_LIVE` is on the buttons say so plainly. A code that makes the pass free needs
+ * Buying is an order, Razorpay's Checkout and a webhook that signs the pass (decision 019): the
+ * one pay button creates the order, opens Checkout with every method the account accepts, and
+ * the pass arrives when the phone asks for the order's status. Until `VITE_PURCHASE_LIVE` is on
+ * the button says so plainly. A code that makes the pass free needs
  * none of it: it is issued on the spot. The gate is a separate switch and stays shut.
  */
 export function PassScreen({ token }: { readonly token?: string | undefined }) {
@@ -131,14 +129,12 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
   /**
    * What is in flight, if anything. A traveller whose tap is taking a moment presses it again —
    * which is not their mistake, it is a screen that said nothing. So every request holds the
-   * phone selector and both buttons and says on the screen that it has gone out.
+   * phone selector and the buttons and says on the screen that it has gone out.
    */
   const [working, setWorking] = useState<'coupon' | 'buy' | null>(null);
   const busy = working !== null;
   const [scan, setScan] = useState<'installed' | 'invalid' | null>(null);
   const [shareLine, setShareLine] = useState<StringKey | null>(null);
-  /** The testing control's second tap: nothing is removed on the first one. */
-  const [asking, setAsking] = useState(false);
 
   const now = validity(new Date(), state);
   const paid = state.paid === true;
@@ -185,6 +181,23 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
     void applyCoupon(typed, slots, mode).then(settle);
   };
 
+  // The handover to Razorpay is made smooth before the tap (30 September): while this phone can
+  // buy, Checkout's script is fetched and the `order` function woken as soon as घर.4 opens, and
+  // again when the signal returns, so the tap waits only for the order itself.
+  const canBuy = !paid && PURCHASE_IS_LIVE;
+  useEffect(() => {
+    if (!canBuy) return;
+    const warm = () => {
+      preloadCheckout();
+      warmOrder();
+    };
+    warm();
+    window.addEventListener('online', warm);
+    return () => {
+      window.removeEventListener('online', warm);
+    };
+  }, [canBuy]);
+
   // A code applied with no signal is applied when there is some, here as well as on boot, so
   // the traveller looking at this screen when the network returns sees the answer arrive.
   useEffect(() => {
@@ -226,19 +239,19 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
       : typeof quote.discount.priceOverrideInr === 'number'
         ? t('pass.couponFlat', { code: pending.code, price: quote.discount.priceOverrideInr })
         : t('pass.couponPercent', { code: pending.code, percent: quote.discount.discountPercent });
+  /** What the code took off the list price, shown as its own line on the bill. */
+  const discount = listPriceInr(chosen) - total;
 
   /**
-   * The order, Checkout, and the pass the webhook signed. `upi` preselects UPI on this phone;
-   * `any` leaves the method open, which is what puts a QR in front of whoever is paying from
-   * India. Both create the order first, because an order is what makes a payment ours at all.
+   * The order, Checkout, and the pass the webhook signed. The order comes first, because an order
+   * is what makes a payment ours at all; Checkout then offers every method the account takes.
    */
-  const buy = (method: 'upi' | 'any') => {
+  const buy = () => {
     setWorking('buy');
     setLine(null);
     void buyPass({
       slots: chosen,
       code: pending?.code,
-      method,
       name: t('app.name'),
       description: t('pass.buyWhat', { count: chosen }),
     }).then((outcome) => {
@@ -380,16 +393,27 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
             )}
             {!busy && line !== null && <p className="pass-line">{t(line)}</p>}
 
-            <div className="total">
-              <span className="total-label">{t('pass.total')}</span>
-              <span className="total-amount">
-                {total === 0 ? t('pass.totalFree') : `₹${String(total)}`}
-              </span>
-              {quote !== undefined && total !== listPriceInr(chosen) && (
-                <span className="total-list">₹{listPriceInr(chosen)}</span>
+            {/* The bill: what is bought at its list price, a code's discount under it, and the
+                total the button below charges — the same figure, so nothing is a surprise. */}
+            <div className="bill">
+              <div className="bill-row">
+                <span className="bill-what">{t('pass.buyWhat', { count: chosen })}</span>
+                <span className="bill-amount">₹{listPriceInr(chosen)}</span>
+              </div>
+              {gave !== null && (
+                <div className="bill-row bill-off">
+                  <span className="bill-what">{gave}</span>
+                  {discount > 0 && <span className="bill-amount">−₹{discount}</span>}
+                </div>
               )}
+              <hr className="bill-rule" />
+              <div className="bill-total">
+                <span className="bill-total-label">{t('pass.total')}</span>
+                <span className="bill-total-amount">
+                  {total === 0 ? t('pass.totalFree') : `₹${String(total)}`}
+                </span>
+              </div>
             </div>
-            {gave !== null && <p className="muted small">{gave}</p>}
 
             {total === 0 ? (
               <button
@@ -404,37 +428,26 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
                 {t(busy ? 'pass.freeWorking' : 'pass.free')}
               </button>
             ) : (
-              <>
-                <div className="grid2">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    disabled={!PURCHASE_IS_LIVE || busy}
-                    onClick={() => {
-                      buy('upi');
-                    }}
-                  >
-                    {t('pass.upi')}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-ghost"
-                    disabled={!PURCHASE_IS_LIVE || busy}
-                    onClick={() => {
-                      buy('any');
-                    }}
-                  >
-                    <Icon name="qr" size={20} strokeWidth={1.9} />
-                    {t('pass.qr')}
-                  </button>
-                </div>
+              <div className="pay">
+                <button
+                  type="button"
+                  className="btn btn-primary pay-btn"
+                  disabled={!PURCHASE_IS_LIVE || busy}
+                  onClick={buy}
+                >
+                  <Icon name="lock" size={20} strokeWidth={1.9} />
+                  {working === 'buy' ? t('pass.payWorking') : t('pass.pay', { amount: total })}
+                </button>
                 {!PURCHASE_IS_LIVE && <p className="muted small center">{t('pass.notLive')}</p>}
-                {/* A balance waits for UPI only while UPI is not open; once it is, the two
-                    buttons above take it and saying otherwise would be a lie on the screen. */}
+                {/* A balance waits only while buying is not open; once it is, the button above
+                    takes it and saying otherwise would be a lie on the screen. */}
                 {!PURCHASE_IS_LIVE && quote !== undefined && (
                   <p className="muted small center">{t('pass.balanceLater', { payable: total })}</p>
                 )}
-              </>
+                <p className="pay-methods">{t('pass.payMethods')}</p>
+                <p className="muted small center">{t('pass.paySecure')}</p>
+                <p className="muted small center">{t('pass.payNext')}</p>
+              </div>
             )}
           </>
         )}
@@ -478,53 +491,6 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
             </div>
             {shareLine !== null && <p className="muted small center">{t(shareLine)}</p>}
           </>
-        )}
-
-        {/* The one control that takes something off a phone, behind its own switch
-            (`VITE_TESTING_TOOLS`) so no traveller is ever a tap from it. It exists to buy the
-            same pass twice while the money flow is being proved. Two taps, and it says in the
-            second what it will not touch: the hotel and the documents are not its business. */}
-        {TESTING_TOOLS && paid && (
-          <div className="rows">
-            {asking ? (
-              <>
-                <p className="muted small center">{t('pass.startAgainSure')}</p>
-                <div className="grid2">
-                  <button
-                    type="button"
-                    className="btn btn-ghost"
-                    onClick={() => {
-                      forgetOrder();
-                      forgetEntitlement();
-                      setAsking(false);
-                      setState(entitlement());
-                    }}
-                  >
-                    {t('pass.startAgainYes')}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-ghost"
-                    onClick={() => {
-                      setAsking(false);
-                    }}
-                  >
-                    {t('pass.startAgainNo')}
-                  </button>
-                </div>
-              </>
-            ) : (
-              <button
-                type="button"
-                className="btn btn-ghost"
-                onClick={() => {
-                  setAsking(true);
-                }}
-              >
-                {t('pass.startAgain')}
-              </button>
-            )}
-          </div>
         )}
 
         {/* Once paid the tiers go, and what is left has to be what the money bought rather than

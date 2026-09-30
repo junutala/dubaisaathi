@@ -115,32 +115,36 @@ are retired: its numbers are जानना's red line, its feedback form is pa
 
 ## घर.4 · पास
 
-| Field                                 | Why it is there                                                                                   |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| अभी: the state, the line, the rule    | What the dot means, in words                                                                      |
-| 1–4 फ़ोन · ₹199 / 299 / 399 / 499     | The phones, chosen first; above four, WhatsApp                                                    |
-| "इस कोड पर एक ही फ़ोन चलता है"        | A single code locks the phones to one; said, not discovered                                       |
-| कोड · लगाएँ                           | A code from an advertisement or an operator; pre-filled when the URL brought it                   |
-| The code's line                       | Unknown, not yet, ended, used up, used here, needs a moment of network — one each                 |
-| "आपकी दरख़्वास्त पहुँच गई"            | The moment a code goes out: the wait is visible, so nobody presses twice                          |
-| कुल · the list price struck through   | What is owed after the code, from the one price rule                                              |
-| "SSW9VASX · 50% छूट"                  | What the code gave, so the total is not a mystery                                                 |
-| पास लें — मुफ़्त                      | A ₹0 total: the pass, issued and installed on the spot                                            |
-| UPI से · QR — कोई और भरे              | Same phone, or someone in India pays, when the total is above ₹0                                  |
-| "ख़रीदना अभी चालू नहीं है"            | Said plainly while buying is switched off                                                         |
-| Renew (not built yet)                 | Never gated is never forced, not never sold to — ships with purchase and an extendable pass (046) |
-| "बाक़ी ₹149 ख़रीद खुलने पर"           | Only while buying is off: a partial code's balance and the code wait for UPI                      |
-| "भुगतान का पन्ना खुल रहा है"          | The moment a buy button goes out: the wait is visible, so nobody presses twice                    |
-| "पास लग गया"                          | The webhook signed it and the phone verified it — the one line that ends the flow                 |
-| "भुगतान पूरा नहीं हुआ"                | Checkout closed with nothing paid; not an error, and not a dead end                               |
-| "भुगतान का पन्ना नहीं खुल पाया"       | Razorpay's script would not load on this network; said, not blamed on the phone                   |
-| "भुगतान की पुष्टि हो रही है"          | Paid and the webhook has not caught up; the order is kept and asked about again                   |
-| "इस कोड पर पास मुफ़्त है"             | A ₹0 code cannot be an order; it points at the button that does issue it                          |
-| परिवार · a QR per phone · भेजें       | Slots 2–4, each opened by the other phone's own camera; भेजें sends the QR as a picture           |
-| What भेजें did, in one line           | The QR went as a picture, or the link did, or it is copied — a closed sheet, nothing              |
-| "पास इस फ़ोन पर लग गया" / did not     | What a scanned QR did, on the phone that scanned it                                               |
-| "यह पास किसी और फ़ोन पर पहले लग चुका" | Decision 005's reconciliation, said once, in one line                                             |
-| भारत में बैठकर आज़माइए                | The counter, testable from India                                                                  |
+| Field                                   | Why it is there                                                                                    |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| अभी: the state, the line, the rule      | What the dot means, in words                                                                       |
+| 1–4 फ़ोन · ₹199 / 299 / 399 / 499       | The phones, chosen first; above four, WhatsApp                                                     |
+| "इस कोड पर एक ही फ़ोन चलता है"          | A single code locks the phones to one; said, not discovered                                        |
+| कोड · लगाएँ                             | A code from an advertisement or an operator; pre-filled when the URL brought it                    |
+| The code's line                         | Unknown, not yet, ended, used up, used here, needs a moment of network — one each                  |
+| "आपकी दरख़्वास्त पहुँच गई"              | The moment a code goes out: the wait is visible, so nobody presses twice                           |
+| The bill: पास · 14 दिन · N फ़ोन · ₹list | What is being bought, named, at its list price — the first line of any honest bill                 |
+| "SSW9VASX · 50% छूट −₹150"              | What the code gave, as the rupees it took off, so the total is not a mystery                       |
+| कुल · the total, large                  | What is owed after the code, from the one price rule — the same figure the button charges          |
+| पास लें — मुफ़्त                        | A ₹0 total: the pass, issued and installed on the spot                                             |
+| ₹149 भुगतान करें (a lock)               | One button above ₹0: Checkout with every method the account takes; says it is opening from the tap |
+| UPI · कार्ड · नेट बैंकिंग · वॉलेट       | Which ways to pay work, before the tap — a card holder does not assume UPI only                    |
+| "Razorpay से सुरक्षित भुगतान"           | Who takes the money, and that card details never reach us — asked before anyone pays               |
+| "भुगतान होते ही पास इसी फ़ोन पर"        | What happens after paying, so nobody waits for an email or a code that is not coming               |
+| "ख़रीदना अभी चालू नहीं है"              | Said plainly while buying is switched off                                                          |
+| Renew (not built yet)                   | Never gated is never forced, not never sold to — ships with purchase and an extendable pass (046)  |
+| "बाक़ी ₹149 ख़रीद खुलने पर"             | Only while buying is off: a partial code's balance and the code wait for buying to open            |
+| "भुगतान का पन्ना खुल रहा है"            | The moment the pay button goes out: the wait is visible, so nobody presses twice                   |
+| "पास लग गया"                            | The webhook signed it and the phone verified it — the one line that ends the flow                  |
+| "भुगतान पूरा नहीं हुआ"                  | Checkout closed with nothing paid; not an error, and not a dead end                                |
+| "भुगतान का पन्ना नहीं खुल पाया"         | Razorpay's script would not load on this network; said, not blamed on the phone                    |
+| "भुगतान की पुष्टि हो रही है"            | Paid and the webhook has not caught up; the order is kept and asked about again                    |
+| "इस कोड पर पास मुफ़्त है"               | A ₹0 code cannot be an order; it points at the button that does issue it                           |
+| परिवार · a QR per phone · भेजें         | Slots 2–4, each opened by the other phone's own camera; भेजें sends the QR as a picture            |
+| What भेजें did, in one line             | The QR went as a picture, or the link did, or it is copied — a closed sheet, nothing               |
+| "पास इस फ़ोन पर लग गया" / did not       | What a scanned QR did, on the phone that scanned it                                                |
+| "यह पास किसी और फ़ोन पर पहले लग चुका"   | Decision 005's reconciliation, said once, in one line                                              |
+| भारत में बैठकर आज़माइए                  | The counter, testable from India                                                                   |
 
 ## घर.4 · पास आ गया — the welcome, once per pass
 

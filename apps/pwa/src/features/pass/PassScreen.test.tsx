@@ -4,7 +4,7 @@ import { stubCanvas } from './canvas.fixture.js';
 import { answer, online, trustedSigner } from './signing.fixture.js';
 
 /**
- * घर.4 as a traveller meets it (decision 018): the phones, a code, the total, and the one
+ * घर.4 as a traveller meets it (decision 018): the phones, a code, the bill, and the one
  * button that fits the total — then the family's QRs. Tested against a mocked `redeem` and
  * `bind`, with passes signed by a key generated inside the test.
  */
@@ -60,8 +60,14 @@ describe('घर.4', () => {
     }
     fireEvent.click(screen.getByRole('button', { name: /3 फ़ोन/ }));
     expect(screen.getByText('कुल').nextElementSibling?.textContent).toBe('₹399');
-    // UPI is not open: the buttons say so and are not live.
-    expect(screen.getByRole('button', { name: /UPI/ }).hasAttribute('disabled')).toBe(true);
+    // The bill names what is bought at its list price, and the button carries the same amount.
+    expect(
+      screen.getByText('दुबई साथी पास · 14 दिन · 3 फ़ोन').nextElementSibling?.textContent,
+    ).toBe('₹399');
+    // Buying is not open: the button says so and is not live.
+    expect(screen.getByRole('button', { name: '₹399 भुगतान करें' }).hasAttribute('disabled')).toBe(
+      true,
+    );
     expect(screen.getByText(/ख़रीदना अभी चालू नहीं/)).toBeTruthy();
   });
 
@@ -90,7 +96,7 @@ describe('घर.4', () => {
     const free = await screen.findByRole('button', { name: 'पास लें — मुफ़्त' });
     expect(screen.getByText('कुल').nextElementSibling?.textContent).toBe('मुफ़्त');
     expect(screen.getByText('SS7K3M2X · 100% छूट')).toBeTruthy();
-    expect(screen.queryByRole('button', { name: /UPI/ })).toBeNull();
+    expect(screen.queryByRole('button', { name: /भुगतान करें/ })).toBeNull();
 
     fireEvent.click(free);
     // The pass lands, and घर.4 is the welcome until it is read (decision 022); the flow below
@@ -168,8 +174,12 @@ describe('घर.4', () => {
     typeCode('SS7K3M2X');
     await screen.findByText('SS7K3M2X · 50% छूट');
     expect(screen.getByText('कुल').nextElementSibling?.textContent).toBe('₹149');
+    // The discount is its own line on the bill, as the rupees it took off.
+    expect(screen.getByText('SS7K3M2X · 50% छूट').nextElementSibling?.textContent).toBe('−₹150');
     expect(screen.getByText(/बाक़ी ₹149 ख़रीद खुलने पर/)).toBeTruthy();
-    expect(screen.getByRole('button', { name: /UPI/ }).hasAttribute('disabled')).toBe(true);
+    expect(screen.getByRole('button', { name: '₹149 भुगतान करें' }).hasAttribute('disabled')).toBe(
+      true,
+    );
     expect(screen.queryByRole('button', { name: 'पास लें — मुफ़्त' })).toBeNull();
     expect(entitlement().paid).toBeUndefined();
     // Choosing more phones re-prices from the same rule: ₹399 at 50% is ₹199.
@@ -300,55 +310,58 @@ describe('घर.4', () => {
 });
 
 /**
- * "Start again" (18 September): the one control that takes a pass off a phone, so that the same
- * pass can be bought a second time while the money flow is being proved. It sits behind
- * `VITE_TESTING_TOOLS` and is never one tap — a release that takes something off a traveller's
- * phone is a defect this project has already paid for once.
+ * The one pay button (30 September): Checkout with every method the account takes, so there is
+ * nothing to choose on this screen but how many phones.
  */
-describe('start again, while the money flow is being proved', () => {
-  /** A phone that has already paid, as घर.4 finds it on the next open. */
-  function alreadyPaid() {
+describe('paying', () => {
+  it('charges the total on the button and hands it to the purchase', async () => {
+    vi.stubEnv('VITE_PURCHASE_LIVE', 'true');
+    const signer = await trustedSigner();
+    let close: (outcome: { kind: 'closed' }) => void = () => undefined;
+    const buyPass = vi.fn(
+      () =>
+        new Promise<{ kind: 'closed' }>((resolve) => {
+          close = resolve;
+        }),
+    );
+    const preloadCheckout = vi.fn();
+    const warmOrder = vi.fn();
+    vi.doMock('./purchase.js', async (original) => ({
+      ...(await original<typeof import('./purchase.js')>()),
+      buyPass,
+      preloadCheckout,
+      warmOrder,
+    }));
+    await show(undefined, signer);
+    // The handover is warmed before the tap: the script and the function, on opening.
+    expect(preloadCheckout).toHaveBeenCalled();
+    expect(warmOrder).toHaveBeenCalled();
+    fireEvent.click(screen.getByRole('button', { name: /2 फ़ोन/ }));
+    const pay = screen.getByRole('button', { name: '₹299 भुगतान करें' });
+    expect(pay.hasAttribute('disabled')).toBe(false);
+    expect(screen.queryByText(/ख़रीदना अभी चालू नहीं/)).toBeNull();
+    expect(screen.getByText('UPI · कार्ड · नेट बैंकिंग · वॉलेट')).toBeTruthy();
+    // Only one way to pay: the QR button for someone else is gone, Checkout offers that itself.
+    expect(screen.queryByRole('button', { name: /QR/ })).toBeNull();
+
+    fireEvent.click(pay);
+    // The button itself says the payment page is on its way, on the tap.
+    expect(screen.getByRole('button', { name: 'भुगतान का पन्ना खुल रहा है…' })).toBeTruthy();
+    expect(buyPass).toHaveBeenCalledWith({
+      slots: 2,
+      code: undefined,
+      name: 'Dubaisaathi',
+      description: 'दुबई साथी पास · 14 दिन · 2 फ़ोन',
+    });
+    close({ kind: 'closed' });
+    await screen.findByText('भुगतान पूरा नहीं हुआ — जब चाहें फिर से कोशिश कीजिए');
+    vi.doUnmock('./purchase.js');
+  });
+
+  it('offers nothing that takes the pass off a phone that has paid', async () => {
     localStorage.setItem('saathi.entitlement', JSON.stringify({ paid: true, slot: 1, slots: 1 }));
-  }
-
-  it('is not on the screen at all unless the switch is set', async () => {
-    alreadyPaid();
-    vi.resetModules();
+    vi.stubEnv('VITE_TESTING_TOOLS', 'true');
     await show();
-    expect(screen.queryByRole('button', { name: /फिर से शुरू/ })).toBeNull();
-  });
-
-  it('asks first, and the first tap removes nothing', async () => {
-    alreadyPaid();
-    vi.stubEnv('VITE_TESTING_TOOLS', 'true');
-    vi.resetModules();
-    const { entitlement } = await show();
-    fireEvent.click(screen.getByRole('button', { name: /फिर से शुरू/ }));
-    expect(screen.getByText(/होटल और दस्तावेज़ वहीं रहेंगे/)).toBeTruthy();
-    expect(entitlement().paid).toBe(true);
-  });
-
-  it('takes the pass off on the second tap, with the open order', async () => {
-    alreadyPaid();
-    localStorage.setItem('saathi.order', JSON.stringify({ orderId: 'o1' }));
-    vi.stubEnv('VITE_TESTING_TOOLS', 'true');
-    vi.resetModules();
-    const { entitlement } = await show();
-    fireEvent.click(screen.getByRole('button', { name: /फिर से शुरू/ }));
-    fireEvent.click(screen.getByRole('button', { name: 'पास हटाएँ' }));
-    expect(entitlement().paid).toBeUndefined();
-    expect(localStorage.getItem('saathi.order')).toBeNull();
-    // Back to a screen that can buy: the phone counts are in front of him again.
-    expect(await screen.findByRole('button', { name: /1 फ़ोन/ })).toBeTruthy();
-  });
-
-  it('keeps the pass when the answer is no', async () => {
-    alreadyPaid();
-    vi.stubEnv('VITE_TESTING_TOOLS', 'true');
-    vi.resetModules();
-    const { entitlement } = await show();
-    fireEvent.click(screen.getByRole('button', { name: /फिर से शुरू/ }));
-    fireEvent.click(screen.getByRole('button', { name: 'रहने दें' }));
-    expect(entitlement().paid).toBe(true);
+    expect(screen.queryByRole('button', { name: /फिर से शुरू|हटाएँ/ })).toBeNull();
   });
 });

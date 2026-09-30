@@ -79,10 +79,11 @@ The phone never decides it has paid. Checkout closing is not a payment, and a `h
 is script on a page anyone can edit. The **webhook is the authority**, and the only thing the app
 trusts is a signature it verifies itself.
 
-- Checkout's script is loaded **on demand**, when a buy button is tapped — never at boot, never
-  as a build dependency. This app installs and runs with the network off, and a payment page on
-  somebody else's CDN may not become part of that. A script that will not load is one honest
-  line (`भुगतान का पन्ना नहीं खुल पाया`), not an exception.
+- Checkout's script is loaded **on demand**, when घर.4 opens with buying possible (see the
+  30 September addendum) — never at boot, never as a build dependency. This app installs and
+  runs with the network off, and a payment page on somebody else's CDN may not become part of
+  that. A script that will not load is one honest line (`भुगतान का पन्ना नहीं खुल पाया`), not an
+  exception.
 - After Checkout closes, the phone polls `status` on a short backoff capped at about a minute.
   Closed without paying gets a glance rather than the full minute — but it does get a glance,
   because a traveller may have paid in their UPI app and then dismissed our page.
@@ -106,3 +107,33 @@ somebody to trust it later.
 `PASS_SIGNING_KEY` on `webhook` (`order` needs `PASS_SIGNING_KEY` too, to re-sign on `status`).
 None of them is in the repo, and a missing webhook secret is a 503 with a reason rather than a
 crash — an unconfigured function must not silently eat a real payment.
+
+## Addendum, 30 September — one pay button, every method; the testing control is gone
+
+The owner's instruction. घर.4's two buttons (`UPI से — इसी फ़ोन पर` and `QR — कोई और भरे`) are
+replaced by **one**: `₹{amount} भुगतान करें`, under a bill that names what is bought at its list
+price, a code's discount as its own line, and the total. It opens Checkout with **no method
+restriction**, so every method the Razorpay account accepts is offered — UPI apps, a UPI ID,
+cards, netbanking and wallets — and the screen says so under the button, with who takes the
+money and what happens once it is paid. `buyPass` and `openCheckout` no longer take a method.
+
+The QR button went because it did not earn a second button. On the traveller's own phone
+Checkout shows the list of UPI apps anyway, and a son in Pune paying from his own phone is
+Checkout's own UPI QR option, one tap inside the same page. Two buttons for one payment was a
+choice the traveller had to make before they could see what either did.
+
+**The handover is made smooth** (the owner, same day: "the Razorpay handover takes a bit of
+time"). Nothing the server checks is dropped — the order is still created by `order`, and the
+pass still comes only from the webhook and the status poll — but the waits no longer queue up
+behind the tap. While घर.4 is open on an unpaid phone with buying live, `preloadCheckout()`
+fetches Checkout's script and `warmOrder()` sends the `order` function a bare `OPTIONS` (its CORS
+answer, which cannot create, price or read anything) to spare the tap a cold start; both again
+when the signal returns, and neither with the radio off. At the tap `buyPass` starts the script
+and the order together, so a cold tap waits for the slower of the two, not both in turn, and
+the button itself reads "भुगतान का पन्ना खुल रहा है…" from the tap. The script is still never
+loaded at boot: only a screen about to take money asks for it.
+
+The testing control — "इस फ़ोन पर फिर से शुरू करें (परीक्षण)", behind `VITE_TESTING_TOOLS` — is
+removed from the product, with its switch, its strings and `forgetEntitlement`. The owner saw it
+on production; a control that takes a pass off a phone has no place on a traveller's screen,
+whatever switch it hides behind.
