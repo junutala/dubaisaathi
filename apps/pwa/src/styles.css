@@ -577,7 +577,7 @@ button:not(:disabled) {
   min-width: 0;
 }
 .pillar-roman {
-  margin-bottom: 2px;
+  margin-bottom: 6px;
   font-size: 12px;
   font-weight: 700;
   line-height: 1.35;
@@ -613,7 +613,7 @@ button:not(:disabled) {
   }
   .pillar-blurb {
     font-size: 13px;
-    margin-top: 5px;
+    margin-top: 2px;
   }
 }
 @container (max-height: 76px) {

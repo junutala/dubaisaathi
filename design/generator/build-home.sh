@@ -7,7 +7,7 @@ cat <<T
     <div style="position: relative; flex: 1; border-radius: 26px; overflow: hidden; background: $4; display: flex; align-items: flex-end; padding: 14px 20px; box-sizing: border-box;">
       <div style="position: absolute; right: -18px; top: -14px; opacity: 0.16;">$($6 170 "$5" 1.1)</div>
       <div data-pillar-stack style="position: relative; display: flex; flex-direction: column; max-width: 250px; min-width: 0;">
-        <span style="font-size: 12px; font-weight: 700; line-height: 1.35; letter-spacing: 0.16em; text-transform: uppercase; color: $5; opacity: 0.7; margin-bottom: 2px;">$2</span>
+        <span style="font-size: 12px; font-weight: 700; line-height: 1.35; letter-spacing: 0.16em; text-transform: uppercase; color: $5; opacity: 0.7; margin-bottom: 6px;">$2</span>
         <span class="disp" style="font-size: 34px; font-weight: 700; line-height: 1; color: $5; letter-spacing: -0.01em;">$1</span>
         <span style="font-size: 13px; line-height: 1.35; color: $5; opacity: 0.85; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">$3</span>
       </div>
