@@ -22,7 +22,8 @@
  * `--rows <file>` publishes from a file of the same rows instead of the network. It exists so the
  * pack can be rebuilt, and the mapping exercised, by someone who does not hold the service role
  * key — and so the committed pack is always the output of this tool rather than of a one-off
- * script nobody can run again.
+ * script nobody can run again. A rows file is merged into the published pack (30 September): its
+ * outlets replace their namesakes or are added, and none it does not mention is ever dropped.
  */
 import { readFile, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
@@ -30,6 +31,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { toRestaurant, type ReportRow } from './toRestaurant.ts';
 import { dishesFromReading, type MenuReading } from './readings.ts';
+import { mergeOutlets } from './mergeOutlets.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(here, '..', '..', '..', 'data', 'restaurants', 'restaurants.v1.json');
@@ -133,16 +135,30 @@ async function main(): Promise<void> {
     );
   }
 
+  // Supabase holds every approved report, so reading it rewrites the pack whole. A rows file is
+  // one desk's slice, so it is merged into what is published and never takes an outlet away.
+  const fromFile = process.argv.includes('--rows');
+  const published =
+    fromFile && existsSync(OUT)
+      ? ((JSON.parse(await readFile(OUT, 'utf8')) as { restaurants?: typeof outlets })
+          .restaurants ?? [])
+      : [];
+  const restaurants = fromFile ? mergeOutlets(published, outlets) : outlets;
+
   const pack = {
     contentVersion: 1,
     status: 'collected',
     publishedAt: new Date().toISOString(),
     source: 'field_reports where status = approved',
-    restaurants: outlets,
+    restaurants,
   };
   await writeFile(OUT, `${JSON.stringify(pack, null, 2)}\n`, 'utf8');
 
-  console.log(`${String(outlets.length)} outlets → ${OUT}`);
+  console.log(
+    fromFile
+      ? `${String(outlets.length)} from the file, ${String(restaurants.length)} outlets in all → ${OUT}`
+      : `${String(outlets.length)} outlets → ${OUT}`,
+  );
   for (const line of dropped) console.log(`  dropped: ${line}`);
 }
 
