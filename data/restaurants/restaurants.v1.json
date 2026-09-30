@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-30T10:17:29.224Z",
+  "publishedAt": "2026-09-30T10:27:54.666Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -158678,6 +158678,1564 @@
       "hours": {
         "open24": true
       }
+    },
+    {
+      "id": "1e92028e-3f48-4238-8af9-b495af281dd2",
+      "name": {
+        "en": "Paratha King",
+        "hi": "Paratha King",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2449801,
+        "lng": 55.3065751
+      },
+      "areaId": "karama",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian", "vrat"],
+      "phone": "04 397 9110",
+      "confirmedDishes": [
+        {
+          "name": {
+            "en": "Paratha King Special (Sweet Paratha / Puran Poli)",
+            "hi": "Paratha King Special (Sweet Paratha / Puran Poli)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Seven Grains Paratha",
+            "hi": "Seven Grains Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Mexican Paratha",
+            "hi": "Mexican Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Italian Paratha",
+            "hi": "Italian Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "A,B,C Paratha",
+            "hi": "A,B,C Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Hara Bhara Paratha",
+            "hi": "Hara Bhara Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Bengali Paratha",
+            "hi": "Bengali Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Paneer Tikka Paratha",
+            "hi": "Paneer Tikka Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Cheese with Garlic Paratha",
+            "hi": "Cheese with Garlic Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Chilli Milli Paratha",
+            "hi": "Chilli Milli Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Chinese Paratha (Chinese Noodles)",
+            "hi": "Chinese Paratha (Chinese Noodles)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Schezwan Paratha",
+            "hi": "Schezwan Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Pahadi Paratha",
+            "hi": "Pahadi Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Cocktail Paratha",
+            "hi": "Cocktail Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Plain Mushroom Paratha",
+            "hi": "Plain Mushroom Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Plain Corn Paratha",
+            "hi": "Plain Corn Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Plain Cheese Paratha",
+            "hi": "Plain Cheese Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Chilli Cheese Paratha",
+            "hi": "Chilli Cheese Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Plain Paneer Paratha",
+            "hi": "Plain Paneer Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Koki Paratha",
+            "hi": "Koki Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Jaipuri Paratha",
+            "hi": "Jaipuri Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Chocolate Paratha",
+            "hi": "Chocolate Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Shakkar Paratha",
+            "hi": "Shakkar Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Our Speciality Parathas"
+        },
+        {
+          "name": {
+            "en": "Paratha Basket (Alu, Mooli, Onion, Methi)",
+            "hi": "Paratha Basket (Alu, Mooli, Onion, Methi)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 40,
+          "section": "Paratha Baskets (4 Parathas)"
+        },
+        {
+          "name": {
+            "en": "Premium Basket (Paneer, Cheese, Mushroom, Corn)",
+            "hi": "Premium Basket (Paneer, Cheese, Mushroom, Corn)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 45,
+          "section": "Paratha Baskets (4 Parathas)"
+        },
+        {
+          "name": {
+            "en": "Alu Bhujia Paratha (Sunday)",
+            "hi": "Alu Bhujia Paratha (Sunday)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Everyday Is Special"
+        },
+        {
+          "name": {
+            "en": "Methi Malai Mattar Paratha (Monday)",
+            "hi": "Methi Malai Mattar Paratha (Monday)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Everyday Is Special"
+        },
+        {
+          "name": {
+            "en": "Alu Achari Paratha (Tuesday)",
+            "hi": "Alu Achari Paratha (Tuesday)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Everyday Is Special"
+        },
+        {
+          "name": {
+            "en": "Masaledar Paratha (Wednesday)",
+            "hi": "Masaledar Paratha (Wednesday)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Everyday Is Special"
+        },
+        {
+          "name": {
+            "en": "Mughalai Mattar Paratha (Thursday)",
+            "hi": "Mughalai Mattar Paratha (Thursday)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Everyday Is Special"
+        },
+        {
+          "name": {
+            "en": "Alu Chatpata Paratha (Friday)",
+            "hi": "Alu Chatpata Paratha (Friday)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Everyday Is Special"
+        },
+        {
+          "name": {
+            "en": "Bermi Paratha (Saturday)",
+            "hi": "Bermi Paratha (Saturday)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Everyday Is Special"
+        },
+        {
+          "name": {
+            "en": "Paratha Combo: Alu Onion Tomato + Paneer Tikka (Sunday)",
+            "hi": "Paratha Combo: Alu Onion Tomato + Paneer Tikka (Sunday)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 24,
+          "section": "Paratha Combos"
+        },
+        {
+          "name": {
+            "en": "Paratha Combo: Alu Gobi + Methi Spring Onion (Monday)",
+            "hi": "Paratha Combo: Alu Gobi + Methi Spring Onion (Monday)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 24,
+          "section": "Paratha Combos"
+        },
+        {
+          "name": {
+            "en": "Paratha Combo: Alu Garlic + Hara Bhara (Tuesday)",
+            "hi": "Paratha Combo: Alu Garlic + Hara Bhara (Tuesday)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 24,
+          "section": "Paratha Combos"
+        },
+        {
+          "name": {
+            "en": "Paratha Combo: Alu Pudina + Pahadi (Wednesday)",
+            "hi": "Paratha Combo: Alu Pudina + Pahadi (Wednesday)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 24,
+          "section": "Paratha Combos"
+        },
+        {
+          "name": {
+            "en": "Paratha Combo: Alu Palak + Sprout Onion Tomato (Thursday)",
+            "hi": "Paratha Combo: Alu Palak + Sprout Onion Tomato (Thursday)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 24,
+          "section": "Paratha Combos"
+        },
+        {
+          "name": {
+            "en": "Paratha Combo: Alu Spring Onion + Methi Garlic (Friday)",
+            "hi": "Paratha Combo: Alu Spring Onion + Methi Garlic (Friday)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 24,
+          "section": "Paratha Combos"
+        },
+        {
+          "name": {
+            "en": "Paratha Combo: Alu Methi + Onion Paneer (Saturday)",
+            "hi": "Paratha Combo: Alu Methi + Onion Paneer (Saturday)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 24,
+          "section": "Paratha Combos"
+        },
+        {
+          "name": {
+            "en": "Coconut",
+            "hi": "Coconut",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Nariyel Ke Parathe (Coconut)"
+        },
+        {
+          "name": {
+            "en": "Coconut with Alu",
+            "hi": "Coconut with Alu",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Nariyel Ke Parathe (Coconut)"
+        },
+        {
+          "name": {
+            "en": "Coconut with Palak",
+            "hi": "Coconut with Palak",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Nariyel Ke Parathe (Coconut)"
+        },
+        {
+          "name": {
+            "en": "Coconut with Cheese",
+            "hi": "Coconut with Cheese",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Nariyel Ke Parathe (Coconut)"
+        },
+        {
+          "name": {
+            "en": "Coconut with Paneer",
+            "hi": "Coconut with Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Nariyel Ke Parathe (Coconut)"
+        },
+        {
+          "name": {
+            "en": "Coconut with Sugar",
+            "hi": "Coconut with Sugar",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Nariyel Ke Parathe (Coconut)"
+        },
+        {
+          "name": {
+            "en": "Plain Alu",
+            "hi": "Plain Alu",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Alu Ke Parathe (Potatoes)"
+        },
+        {
+          "name": {
+            "en": "Alu with Pudina",
+            "hi": "Alu with Pudina",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Alu Ke Parathe (Potatoes)"
+        },
+        {
+          "name": {
+            "en": "Alu with Onion & Tomato",
+            "hi": "Alu with Onion & Tomato",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Alu Ke Parathe (Potatoes)"
+        },
+        {
+          "name": {
+            "en": "Alu with Gobi",
+            "hi": "Alu with Gobi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Alu Ke Parathe (Potatoes)"
+        },
+        {
+          "name": {
+            "en": "Alu with Methi",
+            "hi": "Alu with Methi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Alu Ke Parathe (Potatoes)"
+        },
+        {
+          "name": {
+            "en": "Alu with Palak",
+            "hi": "Alu with Palak",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Alu Ke Parathe (Potatoes)"
+        },
+        {
+          "name": {
+            "en": "Alu with Garlic",
+            "hi": "Alu with Garlic",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Alu Ke Parathe (Potatoes)"
+        },
+        {
+          "name": {
+            "en": "Alu with Spring Onion",
+            "hi": "Alu with Spring Onion",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Alu Ke Parathe (Potatoes)"
+        },
+        {
+          "name": {
+            "en": "Alu with Green Peas",
+            "hi": "Alu with Green Peas",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Alu Ke Parathe (Potatoes)"
+        },
+        {
+          "name": {
+            "en": "Alu with Sprout",
+            "hi": "Alu with Sprout",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Alu Ke Parathe (Potatoes)"
+        },
+        {
+          "name": {
+            "en": "Alu with Mushroom",
+            "hi": "Alu with Mushroom",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Alu Ke Parathe (Potatoes)"
+        },
+        {
+          "name": {
+            "en": "Alu with Corn",
+            "hi": "Alu with Corn",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Alu Ke Parathe (Potatoes)"
+        },
+        {
+          "name": {
+            "en": "Alu with Cheese",
+            "hi": "Alu with Cheese",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Alu Ke Parathe (Potatoes)"
+        },
+        {
+          "name": {
+            "en": "Alu with Paneer",
+            "hi": "Alu with Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Alu Ke Parathe (Potatoes)"
+        },
+        {
+          "name": {
+            "en": "Corn",
+            "hi": "Corn",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Makai Ke Parathe (Corn)"
+        },
+        {
+          "name": {
+            "en": "Corn with Alu",
+            "hi": "Corn with Alu",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Makai Ke Parathe (Corn)"
+        },
+        {
+          "name": {
+            "en": "Corn with Palak",
+            "hi": "Corn with Palak",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Makai Ke Parathe (Corn)"
+        },
+        {
+          "name": {
+            "en": "Corn with Methi",
+            "hi": "Corn with Methi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Makai Ke Parathe (Corn)"
+        },
+        {
+          "name": {
+            "en": "Corn with Cheese",
+            "hi": "Corn with Cheese",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Makai Ke Parathe (Corn)"
+        },
+        {
+          "name": {
+            "en": "Corn with Paneer",
+            "hi": "Corn with Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Makai Ke Parathe (Corn)"
+        },
+        {
+          "name": {
+            "en": "Plain Gobi",
+            "hi": "Plain Gobi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Gobi Ke Parathe (Cauliflower)"
+        },
+        {
+          "name": {
+            "en": "Gobi with Pudina",
+            "hi": "Gobi with Pudina",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Gobi Ke Parathe (Cauliflower)"
+        },
+        {
+          "name": {
+            "en": "Gobi with Methi",
+            "hi": "Gobi with Methi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Gobi Ke Parathe (Cauliflower)"
+        },
+        {
+          "name": {
+            "en": "Gobi with Garlic",
+            "hi": "Gobi with Garlic",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Gobi Ke Parathe (Cauliflower)"
+        },
+        {
+          "name": {
+            "en": "Gobi with Spring Onion",
+            "hi": "Gobi with Spring Onion",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Gobi Ke Parathe (Cauliflower)"
+        },
+        {
+          "name": {
+            "en": "Gobi with Sprout",
+            "hi": "Gobi with Sprout",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Gobi Ke Parathe (Cauliflower)"
+        },
+        {
+          "name": {
+            "en": "Gobi with Green Peas",
+            "hi": "Gobi with Green Peas",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Gobi Ke Parathe (Cauliflower)"
+        },
+        {
+          "name": {
+            "en": "Gobi with Mushroom",
+            "hi": "Gobi with Mushroom",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Gobi Ke Parathe (Cauliflower)"
+        },
+        {
+          "name": {
+            "en": "Gobi with Corn",
+            "hi": "Gobi with Corn",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Gobi Ke Parathe (Cauliflower)"
+        },
+        {
+          "name": {
+            "en": "Gobi with Cheese",
+            "hi": "Gobi with Cheese",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Gobi Ke Parathe (Cauliflower)"
+        },
+        {
+          "name": {
+            "en": "Gobi with Paneer",
+            "hi": "Gobi with Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Gobi Ke Parathe (Cauliflower)"
+        },
+        {
+          "name": {
+            "en": "Plain Sprout",
+            "hi": "Plain Sprout",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Sprout Ke Parathe (Green Grams)"
+        },
+        {
+          "name": {
+            "en": "Sprout with Pudina",
+            "hi": "Sprout with Pudina",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Sprout Ke Parathe (Green Grams)"
+        },
+        {
+          "name": {
+            "en": "Sprout with Onion & Tomato",
+            "hi": "Sprout with Onion & Tomato",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Sprout Ke Parathe (Green Grams)"
+        },
+        {
+          "name": {
+            "en": "Sprout with Cheese",
+            "hi": "Sprout with Cheese",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Sprout Ke Parathe (Green Grams)"
+        },
+        {
+          "name": {
+            "en": "Sprout with Paneer",
+            "hi": "Sprout with Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Sprout Ke Parathe (Green Grams)"
+        },
+        {
+          "name": {
+            "en": "Cabbage",
+            "hi": "Cabbage",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Cabbage Ke Parathe"
+        },
+        {
+          "name": {
+            "en": "Cabbage with Onion & Tomato",
+            "hi": "Cabbage with Onion & Tomato",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Cabbage Ke Parathe"
+        },
+        {
+          "name": {
+            "en": "Cabbage with Methi",
+            "hi": "Cabbage with Methi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Cabbage Ke Parathe"
+        },
+        {
+          "name": {
+            "en": "Cabbage with Green Peas",
+            "hi": "Cabbage with Green Peas",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Cabbage Ke Parathe"
+        },
+        {
+          "name": {
+            "en": "Cabbage with Cheese",
+            "hi": "Cabbage with Cheese",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Cabbage Ke Parathe"
+        },
+        {
+          "name": {
+            "en": "Cabbage with Paneer",
+            "hi": "Cabbage with Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Cabbage Ke Parathe"
+        },
+        {
+          "name": {
+            "en": "Plain Onion",
+            "hi": "Plain Onion",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Pyaaz Ke Parathe (Onions)"
+        },
+        {
+          "name": {
+            "en": "Onion with Pudina",
+            "hi": "Onion with Pudina",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Pyaaz Ke Parathe (Onions)"
+        },
+        {
+          "name": {
+            "en": "Onion with Methi",
+            "hi": "Onion with Methi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Pyaaz Ke Parathe (Onions)"
+        },
+        {
+          "name": {
+            "en": "Onion with Palak",
+            "hi": "Onion with Palak",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Pyaaz Ke Parathe (Onions)"
+        },
+        {
+          "name": {
+            "en": "Onion with Garlic",
+            "hi": "Onion with Garlic",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Pyaaz Ke Parathe (Onions)"
+        },
+        {
+          "name": {
+            "en": "Onion with Mushroom",
+            "hi": "Onion with Mushroom",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Pyaaz Ke Parathe (Onions)"
+        },
+        {
+          "name": {
+            "en": "Onion with Corn",
+            "hi": "Onion with Corn",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Pyaaz Ke Parathe (Onions)"
+        },
+        {
+          "name": {
+            "en": "Onion with Cheese",
+            "hi": "Onion with Cheese",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Pyaaz Ke Parathe (Onions)"
+        },
+        {
+          "name": {
+            "en": "Onion with Paneer",
+            "hi": "Onion with Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Pyaaz Ke Parathe (Onions)"
+        },
+        {
+          "name": {
+            "en": "Plain Mooli",
+            "hi": "Plain Mooli",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Mooli Ke Parathe (Radish)"
+        },
+        {
+          "name": {
+            "en": "Mooli with Methi",
+            "hi": "Mooli with Methi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Mooli Ke Parathe (Radish)"
+        },
+        {
+          "name": {
+            "en": "Mooli with Palak",
+            "hi": "Mooli with Palak",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Mooli Ke Parathe (Radish)"
+        },
+        {
+          "name": {
+            "en": "Mooli with Garlic",
+            "hi": "Mooli with Garlic",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Mooli Ke Parathe (Radish)"
+        },
+        {
+          "name": {
+            "en": "Mooli with Spring Onion",
+            "hi": "Mooli with Spring Onion",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Mooli Ke Parathe (Radish)"
+        },
+        {
+          "name": {
+            "en": "Mooli with Mushroom",
+            "hi": "Mooli with Mushroom",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Mooli Ke Parathe (Radish)"
+        },
+        {
+          "name": {
+            "en": "Mooli with Cheese",
+            "hi": "Mooli with Cheese",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Mooli Ke Parathe (Radish)"
+        },
+        {
+          "name": {
+            "en": "Mooli with Paneer",
+            "hi": "Mooli with Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Mooli Ke Parathe (Radish)"
+        },
+        {
+          "name": {
+            "en": "Plain Methi",
+            "hi": "Plain Methi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Methi Ke Parathe (Fenugreek)"
+        },
+        {
+          "name": {
+            "en": "Methi with Garlic",
+            "hi": "Methi with Garlic",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Methi Ke Parathe (Fenugreek)"
+        },
+        {
+          "name": {
+            "en": "Methi with Spring Onion",
+            "hi": "Methi with Spring Onion",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Methi Ke Parathe (Fenugreek)"
+        },
+        {
+          "name": {
+            "en": "Methi with Green Peas",
+            "hi": "Methi with Green Peas",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Methi Ke Parathe (Fenugreek)"
+        },
+        {
+          "name": {
+            "en": "Methi with Mushroom",
+            "hi": "Methi with Mushroom",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Methi Ke Parathe (Fenugreek)"
+        },
+        {
+          "name": {
+            "en": "Methi with Corn",
+            "hi": "Methi with Corn",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Methi Ke Parathe (Fenugreek)"
+        },
+        {
+          "name": {
+            "en": "Methi with Cheese",
+            "hi": "Methi with Cheese",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Methi Ke Parathe (Fenugreek)"
+        },
+        {
+          "name": {
+            "en": "Methi with Paneer",
+            "hi": "Methi with Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Methi Ke Parathe (Fenugreek)"
+        },
+        {
+          "name": {
+            "en": "Plain Palak",
+            "hi": "Plain Palak",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Palak Ke Parathe (Spinach)"
+        },
+        {
+          "name": {
+            "en": "Palak with Garlic",
+            "hi": "Palak with Garlic",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Palak Ke Parathe (Spinach)"
+        },
+        {
+          "name": {
+            "en": "Palak with Spring Onion",
+            "hi": "Palak with Spring Onion",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Palak Ke Parathe (Spinach)"
+        },
+        {
+          "name": {
+            "en": "Palak with Mushroom",
+            "hi": "Palak with Mushroom",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Palak Ke Parathe (Spinach)"
+        },
+        {
+          "name": {
+            "en": "Palak with Corn",
+            "hi": "Palak with Corn",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Palak Ke Parathe (Spinach)"
+        },
+        {
+          "name": {
+            "en": "Palak with Cheese",
+            "hi": "Palak with Cheese",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Palak Ke Parathe (Spinach)"
+        },
+        {
+          "name": {
+            "en": "Palak with Paneer",
+            "hi": "Palak with Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Palak Ke Parathe (Spinach)"
+        },
+        {
+          "name": {
+            "en": "Plain Green Peas",
+            "hi": "Plain Green Peas",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Mattar Ke Parathe (Green Peas)"
+        },
+        {
+          "name": {
+            "en": "Green Peas with Garlic",
+            "hi": "Green Peas with Garlic",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Mattar Ke Parathe (Green Peas)"
+        },
+        {
+          "name": {
+            "en": "Green Peas with Onion & Tomato",
+            "hi": "Green Peas with Onion & Tomato",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Mattar Ke Parathe (Green Peas)"
+        },
+        {
+          "name": {
+            "en": "Green Peas with Spring Onion",
+            "hi": "Green Peas with Spring Onion",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Mattar Ke Parathe (Green Peas)"
+        },
+        {
+          "name": {
+            "en": "Green Peas with Mushroom",
+            "hi": "Green Peas with Mushroom",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Mattar Ke Parathe (Green Peas)"
+        },
+        {
+          "name": {
+            "en": "Green Peas with Corn",
+            "hi": "Green Peas with Corn",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Mattar Ke Parathe (Green Peas)"
+        },
+        {
+          "name": {
+            "en": "Green Peas with Cheese",
+            "hi": "Green Peas with Cheese",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Mattar Ke Parathe (Green Peas)"
+        },
+        {
+          "name": {
+            "en": "Green Peas with Paneer",
+            "hi": "Green Peas with Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Mattar Ke Parathe (Green Peas)"
+        },
+        {
+          "name": {
+            "en": "Plain Rajma",
+            "hi": "Plain Rajma",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Rajma Ke Parathe (Kidney Beans)"
+        },
+        {
+          "name": {
+            "en": "Rajma with Onion & Tomato",
+            "hi": "Rajma with Onion & Tomato",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Rajma Ke Parathe (Kidney Beans)"
+        },
+        {
+          "name": {
+            "en": "Rajma with Spring Onion",
+            "hi": "Rajma with Spring Onion",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Rajma Ke Parathe (Kidney Beans)"
+        },
+        {
+          "name": {
+            "en": "Rajma with Cheese",
+            "hi": "Rajma with Cheese",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Rajma Ke Parathe (Kidney Beans)"
+        },
+        {
+          "name": {
+            "en": "Rajma with Paneer",
+            "hi": "Rajma with Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Rajma Ke Parathe (Kidney Beans)"
+        },
+        {
+          "name": {
+            "en": "Veg. Hyderabadi Biryani",
+            "hi": "Veg. Hyderabadi Biryani",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Chawal Ki Deg Se (Rice Dishes)"
+        },
+        {
+          "name": {
+            "en": "Tawa Pulao",
+            "hi": "Tawa Pulao",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Chawal Ki Deg Se (Rice Dishes)"
+        },
+        {
+          "name": {
+            "en": "Veg. Pulao",
+            "hi": "Veg. Pulao",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Chawal Ki Deg Se (Rice Dishes)"
+        },
+        {
+          "name": {
+            "en": "Dal Khichdi",
+            "hi": "Dal Khichdi",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "vrat"],
+          "priceAed": 20,
+          "section": "Chawal Ki Deg Se (Rice Dishes)"
+        },
+        {
+          "name": {
+            "en": "Palak Khichdi",
+            "hi": "Palak Khichdi",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "vrat"],
+          "priceAed": 20,
+          "section": "Chawal Ki Deg Se (Rice Dishes)"
+        },
+        {
+          "name": {
+            "en": "Rajma Chawal",
+            "hi": "Rajma Chawal",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Chawal Ki Deg Se (Rice Dishes)"
+        },
+        {
+          "name": {
+            "en": "Dal Chawal",
+            "hi": "Dal Chawal",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Chawal Ki Deg Se (Rice Dishes)"
+        },
+        {
+          "name": {
+            "en": "Gulab Jamun (2 Pcs)",
+            "hi": "Gulab Jamun (2 Pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Desserts"
+        },
+        {
+          "name": {
+            "en": "Gajar Halwa (Plate)",
+            "hi": "Gajar Halwa (Plate)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Desserts"
+        },
+        {
+          "name": {
+            "en": "Samosa Plate (2 Pcs)",
+            "hi": "Samosa Plate (2 Pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Snacks & Beverages"
+        },
+        {
+          "name": {
+            "en": "Samosa Chaat",
+            "hi": "Samosa Chaat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Snacks & Beverages"
+        },
+        {
+          "name": {
+            "en": "Masala Papad",
+            "hi": "Masala Papad",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Snacks & Beverages"
+        },
+        {
+          "name": {
+            "en": "Roasted Papad",
+            "hi": "Roasted Papad",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Snacks & Beverages"
+        },
+        {
+          "name": {
+            "en": "Water (Small)",
+            "hi": "Water (Small)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Snacks & Beverages"
+        },
+        {
+          "name": {
+            "en": "Water (Big)",
+            "hi": "Water (Big)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 4,
+          "section": "Snacks & Beverages"
+        },
+        {
+          "name": {
+            "en": "Soft Drink",
+            "hi": "Soft Drink",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Snacks & Beverages"
+        },
+        {
+          "name": {
+            "en": "Tea",
+            "hi": "Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Snacks & Beverages"
+        },
+        {
+          "name": {
+            "en": "Coffee",
+            "hi": "Coffee",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Snacks & Beverages"
+        },
+        {
+          "name": {
+            "en": "Lassi: Sweet / Salt",
+            "hi": "Lassi: Sweet / Salt",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Snacks & Beverages"
+        },
+        {
+          "name": {
+            "en": "Lassi: Mango / Strawberry",
+            "hi": "Lassi: Mango / Strawberry",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Snacks & Beverages"
+        },
+        {
+          "name": {
+            "en": "Juices: Orange / Apple / Cocktail",
+            "hi": "Juices: Orange / Apple / Cocktail",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Snacks & Beverages"
+        },
+        {
+          "name": {
+            "en": "Juices: Carrot / Pineapple",
+            "hi": "Juices: Carrot / Pineapple",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Snacks & Beverages"
+        }
+      ]
     }
   ]
 }
