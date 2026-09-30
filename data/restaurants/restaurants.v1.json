@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-30T13:07:29.163Z",
+  "publishedAt": "2026-09-30T16:16:05.430Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -164925,6 +164925,1758 @@
           },
           "tags": ["vegetarian"],
           "section": "Tea and Snacks"
+        }
+      ]
+    },
+    {
+      "id": "f1e67b51-7bec-4a39-90d0-6b1fdf5a4d7a",
+      "name": {
+        "en": "Royal Rasoi Restaurant",
+        "hi": "Royal Rasoi Restaurant",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2618589,
+        "lng": 55.2950793
+      },
+      "areaId": "bur-dubai",
+      "kitchen": "pure-veg",
+      "tags": ["vegetarian", "vrat", "jain"],
+      "phone": "056 148 7919",
+      "dietary": {
+        "vrat": "yes",
+        "jain": "yes"
+      },
+      "confirmedDishes": [
+        {
+          "name": {
+            "en": "Kooki Paratha",
+            "hi": "Kooki Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Aloo Paratha",
+            "hi": "Aloo Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Aloo Methi Paratha",
+            "hi": "Aloo Methi Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Plain Paratha",
+            "hi": "Plain Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Gobi Paratha",
+            "hi": "Gobi Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Moong Paratha",
+            "hi": "Moong Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Methi Paratha",
+            "hi": "Methi Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Paneer Paratha",
+            "hi": "Paneer Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Aloo Pyaaz Paratha",
+            "hi": "Aloo Pyaaz Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "RR Special Paratha",
+            "hi": "RR Special Paratha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Poori Bhaji",
+            "hi": "Poori Bhaji",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8.5,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Chole Bhature",
+            "hi": "Chole Bhature",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Thepla (2 Pcs)",
+            "hi": "Thepla (2 Pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Poha (Jain / Regular)",
+            "hi": "Poha (Jain / Regular)",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "jain"],
+          "priceAed": 5,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Misal Pav",
+            "hi": "Misal Pav",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Sada Dosa",
+            "hi": "Sada Dosa",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Masala Dosa",
+            "hi": "Masala Dosa",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Idli (3 Pcs)",
+            "hi": "Idli (3 Pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Onion Uthappa",
+            "hi": "Onion Uthappa",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Breakfast"
+        },
+        {
+          "name": {
+            "en": "Flavored Pani Puri (6 Pcs)",
+            "hi": "Flavored Pani Puri (6 Pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Flavored Pani Puri (6 Pcs) - Take Away",
+            "hi": "Flavored Pani Puri (6 Pcs) - Take Away",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8.5,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Sev Puri",
+            "hi": "Sev Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Bhel Puri",
+            "hi": "Bhel Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Dahi Puri",
+            "hi": "Dahi Puri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Papdi Chat",
+            "hi": "Papdi Chat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Dabeli",
+            "hi": "Dabeli",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Vada Pav",
+            "hi": "Vada Pav",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Samosa Pav",
+            "hi": "Samosa Pav",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Samosa",
+            "hi": "Samosa",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Moong Dal Kachori",
+            "hi": "Moong Dal Kachori",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "RR Special Bhel",
+            "hi": "RR Special Bhel",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Samosa Chat",
+            "hi": "Samosa Chat",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Samosa Chat With Chole",
+            "hi": "Samosa Chat With Chole",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Raj Kachori",
+            "hi": "Raj Kachori",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Dahi Bhalla",
+            "hi": "Dahi Bhalla",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Chaat"
+        },
+        {
+          "name": {
+            "en": "Veg. Grill Sandwich",
+            "hi": "Veg. Grill Sandwich",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Sandwich, Pizza & Frankie"
+        },
+        {
+          "name": {
+            "en": "Bombay Sandwich",
+            "hi": "Bombay Sandwich",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Sandwich, Pizza & Frankie"
+        },
+        {
+          "name": {
+            "en": "Veg. Pizza",
+            "hi": "Veg. Pizza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Sandwich, Pizza & Frankie"
+        },
+        {
+          "name": {
+            "en": "Cheese Pizza",
+            "hi": "Cheese Pizza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Sandwich, Pizza & Frankie"
+        },
+        {
+          "name": {
+            "en": "Mushroom Pizza",
+            "hi": "Mushroom Pizza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Sandwich, Pizza & Frankie"
+        },
+        {
+          "name": {
+            "en": "Paneer Pizza",
+            "hi": "Paneer Pizza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Sandwich, Pizza & Frankie"
+        },
+        {
+          "name": {
+            "en": "Paneer Frankie",
+            "hi": "Paneer Frankie",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Sandwich, Pizza & Frankie"
+        },
+        {
+          "name": {
+            "en": "Veg. Frankie",
+            "hi": "Veg. Frankie",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Sandwich, Pizza & Frankie"
+        },
+        {
+          "name": {
+            "en": "Pav Bhaji",
+            "hi": "Pav Bhaji",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Pav Bhaji Special"
+        },
+        {
+          "name": {
+            "en": "Paneer Pav Bhaji",
+            "hi": "Paneer Pav Bhaji",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Pav Bhaji Special"
+        },
+        {
+          "name": {
+            "en": "Extra Pav",
+            "hi": "Extra Pav",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Pav Bhaji Special"
+        },
+        {
+          "name": {
+            "en": "Harabhara Kabab",
+            "hi": "Harabhara Kabab",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Paneer Chilly Dry",
+            "hi": "Paneer Chilly Dry",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Paneer Pakoda",
+            "hi": "Paneer Pakoda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Veg. Kabab",
+            "hi": "Veg. Kabab",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Starters"
+        },
+        {
+          "name": {
+            "en": "Sweet Corn Soup",
+            "hi": "Sweet Corn Soup",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Soup"
+        },
+        {
+          "name": {
+            "en": "Tomato Soup",
+            "hi": "Tomato Soup",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Soup"
+        },
+        {
+          "name": {
+            "en": "Veg. Manchow Soup",
+            "hi": "Veg. Manchow Soup",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Soup"
+        },
+        {
+          "name": {
+            "en": "Jeera Aloo",
+            "hi": "Jeera Aloo",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 11,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Sarson Ka Saag",
+            "hi": "Sarson Ka Saag",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Dal Baati Churma (Baati - 2 Pcs)",
+            "hi": "Dal Baati Churma (Baati - 2 Pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Bhindi Do Pyaza",
+            "hi": "Bhindi Do Pyaza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Veg. Kadai",
+            "hi": "Veg. Kadai",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Veg. Kolhapuri",
+            "hi": "Veg. Kolhapuri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Veg. Jaipuri",
+            "hi": "Veg. Jaipuri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Methi Mutter Malai",
+            "hi": "Methi Mutter Malai",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Palak Paneer",
+            "hi": "Palak Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Palak Mushroom",
+            "hi": "Palak Mushroom",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Mutter Paneer",
+            "hi": "Mutter Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Paneer Bhurji",
+            "hi": "Paneer Bhurji",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Kadai Paneer",
+            "hi": "Kadai Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Malai Kofta",
+            "hi": "Malai Kofta",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Mushroom Masala",
+            "hi": "Mushroom Masala",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Paneer Jaipuri",
+            "hi": "Paneer Jaipuri",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Paneer Chatpata",
+            "hi": "Paneer Chatpata",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Veg. Kofta",
+            "hi": "Veg. Kofta",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Lasani Palak",
+            "hi": "Lasani Palak",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Baigan Bharta",
+            "hi": "Baigan Bharta",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Paneer Tikka Masala",
+            "hi": "Paneer Tikka Masala",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Paneer Do Pyaza",
+            "hi": "Paneer Do Pyaza",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Paneer Pasanda",
+            "hi": "Paneer Pasanda",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Aloo Mutter",
+            "hi": "Aloo Mutter",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Shahi Paneer",
+            "hi": "Shahi Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Sev Tomato",
+            "hi": "Sev Tomato",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Spl. Keera Misal",
+            "hi": "Spl. Keera Misal",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Chana Masala",
+            "hi": "Chana Masala",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Gobhi Aloo",
+            "hi": "Gobhi Aloo",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Aloo Methi",
+            "hi": "Aloo Methi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Sabji Miloni",
+            "hi": "Sabji Miloni",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Main Course"
+        },
+        {
+          "name": {
+            "en": "Plain Rice",
+            "hi": "Plain Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Jeera Rice",
+            "hi": "Jeera Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Vegetable Pulao",
+            "hi": "Vegetable Pulao",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Masala Pulao",
+            "hi": "Masala Pulao",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Masala Khichdi",
+            "hi": "Masala Khichdi",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "vrat"],
+          "priceAed": 12,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Veg. Biryani",
+            "hi": "Veg. Biryani",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Mushroom Pulao",
+            "hi": "Mushroom Pulao",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Paneer Pulao",
+            "hi": "Paneer Pulao",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Curd Rice",
+            "hi": "Curd Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 10,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Dal Fry",
+            "hi": "Dal Fry",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 12,
+          "section": "Dal"
+        },
+        {
+          "name": {
+            "en": "Dal Tadka",
+            "hi": "Dal Tadka",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Dal"
+        },
+        {
+          "name": {
+            "en": "Dal Makhni",
+            "hi": "Dal Makhni",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Dal"
+        },
+        {
+          "name": {
+            "en": "Rajma Masala",
+            "hi": "Rajma Masala",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Dal"
+        },
+        {
+          "name": {
+            "en": "Kadi",
+            "hi": "Kadi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Dal"
+        },
+        {
+          "name": {
+            "en": "Makai Roti",
+            "hi": "Makai Roti",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Roti"
+        },
+        {
+          "name": {
+            "en": "Bajra Roti (Rotla)",
+            "hi": "Bajra Roti (Rotla)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Roti"
+        },
+        {
+          "name": {
+            "en": "Phulka Roti",
+            "hi": "Phulka Roti",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Roti"
+        },
+        {
+          "name": {
+            "en": "Full Thali",
+            "hi": "Full Thali",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Full Thali"
+        },
+        {
+          "name": {
+            "en": "Veg. Manchurian (Dry / Gravy)",
+            "hi": "Veg. Manchurian (Dry / Gravy)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Gobi Manchurian",
+            "hi": "Gobi Manchurian",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg. Fried Rice",
+            "hi": "Veg. Fried Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg. Schezwan Fried Rice",
+            "hi": "Veg. Schezwan Fried Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg. Hakka Noodles",
+            "hi": "Veg. Hakka Noodles",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg. Schezwan Noodles",
+            "hi": "Veg. Schezwan Noodles",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Paneer Rice",
+            "hi": "Paneer Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Mushroom Rice",
+            "hi": "Mushroom Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Mix. Veg Rice",
+            "hi": "Mix. Veg Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Mushroom Manchurian",
+            "hi": "Mushroom Manchurian",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Mushroom Chilly",
+            "hi": "Mushroom Chilly",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Paneer Manchurian",
+            "hi": "Paneer Manchurian",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Veg. Momos",
+            "hi": "Veg. Momos",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 16,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Paneer Chilly Momos",
+            "hi": "Paneer Chilly Momos",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Chowmin Noodles",
+            "hi": "Chowmin Noodles",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Chinese"
+        },
+        {
+          "name": {
+            "en": "Water (Small)",
+            "hi": "Water (Small)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Water (Big)",
+            "hi": "Water (Big)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Soft Drink",
+            "hi": "Soft Drink",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 3,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Masala Tea",
+            "hi": "Masala Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Fresh Milk Tea",
+            "hi": "Fresh Milk Tea",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Coffee",
+            "hi": "Coffee",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Plain Lassi",
+            "hi": "Plain Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Rose Lassi",
+            "hi": "Rose Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Mango Lassi",
+            "hi": "Mango Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Kesar Pista Lassi",
+            "hi": "Kesar Pista Lassi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 8,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Butter Milk",
+            "hi": "Butter Milk",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 1.5,
+          "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Sabudana Khichdi",
+            "hi": "Sabudana Khichdi",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "vrat"],
+          "priceAed": 10,
+          "section": "Upwas Food"
+        },
+        {
+          "name": {
+            "en": "Sabudana Vada",
+            "hi": "Sabudana Vada",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "vrat"],
+          "priceAed": 10,
+          "section": "Upwas Food"
+        },
+        {
+          "name": {
+            "en": "Aloo Bhaji Sukhi",
+            "hi": "Aloo Bhaji Sukhi",
+            "aliases": []
+          },
+          "tags": ["vegetarian", "vrat"],
+          "priceAed": 10,
+          "section": "Upwas Food"
+        },
+        {
+          "name": {
+            "en": "Papdi (200 gms)",
+            "hi": "Papdi (200 gms)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Namkeen - 200 Gms"
+        },
+        {
+          "name": {
+            "en": "Gathiya (200 gms)",
+            "hi": "Gathiya (200 gms)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Namkeen - 200 Gms"
+        },
+        {
+          "name": {
+            "en": "Bhavnagari Gathiya (200 gms)",
+            "hi": "Bhavnagari Gathiya (200 gms)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Namkeen - 200 Gms"
+        },
+        {
+          "name": {
+            "en": "Masala Sev (200 gms)",
+            "hi": "Masala Sev (200 gms)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Namkeen - 200 Gms"
+        },
+        {
+          "name": {
+            "en": "Sev (200 gms)",
+            "hi": "Sev (200 gms)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Namkeen - 200 Gms"
+        },
+        {
+          "name": {
+            "en": "Salted Bundi (200 gms)",
+            "hi": "Salted Bundi (200 gms)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Namkeen - 200 Gms"
+        },
+        {
+          "name": {
+            "en": "Namak Para (200 gms)",
+            "hi": "Namak Para (200 gms)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Namkeen - 200 Gms"
+        },
+        {
+          "name": {
+            "en": "Matri (200 gms)",
+            "hi": "Matri (200 gms)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Namkeen - 200 Gms"
+        },
+        {
+          "name": {
+            "en": "Malai Burfi",
+            "hi": "Malai Burfi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 60,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Rose Burfi",
+            "hi": "Rose Burfi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 60,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Malai Pedha",
+            "hi": "Malai Pedha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 60,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Kesar Pedha",
+            "hi": "Kesar Pedha",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 60,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Milk Cake",
+            "hi": "Milk Cake",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 60,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Kesar Jalebi",
+            "hi": "Kesar Jalebi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 45,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Sweet Bundi",
+            "hi": "Sweet Bundi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 40,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Mohanthal",
+            "hi": "Mohanthal",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 50,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Gajar Halwa",
+            "hi": "Gajar Halwa",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 80,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Moong Dal Halwa",
+            "hi": "Moong Dal Halwa",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 80,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Besan Laddu",
+            "hi": "Besan Laddu",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 50,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Churma Laddu",
+            "hi": "Churma Laddu",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 50,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Motichur Laddu",
+            "hi": "Motichur Laddu",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 50,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Bundi Laddu",
+            "hi": "Bundi Laddu",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 40,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Dry Fruit Mix (Sugar Free)",
+            "hi": "Dry Fruit Mix (Sugar Free)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 100,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Chandrakala",
+            "hi": "Chandrakala",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 60,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Gujiya",
+            "hi": "Gujiya",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 60,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Sweet Khaja",
+            "hi": "Sweet Khaja",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 50,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Pista Burfi (Dry Fruit)",
+            "hi": "Pista Burfi (Dry Fruit)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 100,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Kaju Katli (Dry Fruit)",
+            "hi": "Kaju Katli (Dry Fruit)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 90,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Rose Laddoo (Dry Fruit)",
+            "hi": "Rose Laddoo (Dry Fruit)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 100,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Ras Malai (2 Pcs)",
+            "hi": "Ras Malai (2 Pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Chamcham (2 Pcs)",
+            "hi": "Chamcham (2 Pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Malai Sandwich (2 Pcs)",
+            "hi": "Malai Sandwich (2 Pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 7,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Rasgulla (2 Pcs)",
+            "hi": "Rasgulla (2 Pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Gulabjamun (2 Pcs)",
+            "hi": "Gulabjamun (2 Pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Balushahi (2 Pcs)",
+            "hi": "Balushahi (2 Pcs)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Shrikhand",
+            "hi": "Shrikhand",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 50,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Fresh Paneer",
+            "hi": "Fresh Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Angoori Rabdi (100 Ml Box)",
+            "hi": "Angoori Rabdi (100 Ml Box)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 5,
+          "section": "Indian Sweet"
+        },
+        {
+          "name": {
+            "en": "Monthly Tiffin - 2 Times Dining Table",
+            "hi": "Monthly Tiffin - 2 Times Dining Table",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 550,
+          "section": "Monthly Tiffan"
+        },
+        {
+          "name": {
+            "en": "Monthly Tiffin - 1 Times Dining Table",
+            "hi": "Monthly Tiffin - 1 Times Dining Table",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 350,
+          "section": "Monthly Tiffan"
+        },
+        {
+          "name": {
+            "en": "Monthly Tiffin - Parcel 2 Time",
+            "hi": "Monthly Tiffin - Parcel 2 Time",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 450,
+          "section": "Monthly Tiffan"
+        },
+        {
+          "name": {
+            "en": "Monthly Tiffin - Parcel 1 Time",
+            "hi": "Monthly Tiffin - Parcel 1 Time",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 250,
+          "section": "Monthly Tiffan"
         }
       ]
     }
