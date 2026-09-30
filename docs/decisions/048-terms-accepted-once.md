@@ -75,3 +75,15 @@ That we never sell data; how long question-log text, बोलना's sentences
 messages are kept (no retention job exists for them); whether prices include taxes; a delivery
 time for a pass after payment. The processors behind बोलना and the board reader are described, not
 named: rule 25 keeps model and vendor names off the traveller's screens.
+
+## Addendum, 30 September — घर's foot, and the blocks
+
+- The small print shares one row with the build line at the very foot of घर, so it costs the
+  blocks 12px rather than 40px; on a 667px phone घर still does not scroll.
+- The blocks' Roman caption printed over the name whenever the blocks lost height — the caption
+  was pinned to the block's top, the name to its foot, and the type followed the _screen's_
+  height, which knows nothing of the offline question or this line. The caption, the name and the
+  blurb are now one stack at the foot of the block, sized by a container query on the block's
+  own height (rule 15). They cannot meet at any height; the viewport-height steps are gone.
+- Wallets are not enabled on the Razorpay account (the owner): the terms say UPI, card or
+  netbanking, and nothing else.

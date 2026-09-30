@@ -504,20 +504,25 @@ button:not(:disabled) {
   text-align: center;
   line-height: 1;
 }
-/* The small print (decision 048): the smallest type on घर, last of all, above the bar. Its tap
-   area reaches into the gap above it and the padding below, so it clears 48px (rule 26) while
-   drawing one line. */
+/* The foot of घर (decision 048): the build and the small print on one row, the smallest type on
+   घर, last of all above the bar. The link's tap area reaches into the gap above the row and the
+   padding below it, so it clears 48px (rule 26) while drawing one 10px line. */
+.home-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  column-gap: 8px;
+  margin: -14px 0 -12px;
+}
 .home-legal {
   display: flex;
   align-items: center;
-  justify-content: center;
   min-height: 48px;
-  margin: -18px 0 -12px;
   font-size: 10px;
   letter-spacing: 0.02em;
   line-height: 1.35;
   color: var(--muted);
-  text-align: center;
   text-decoration: none;
 }
 .pillars {
@@ -536,10 +541,20 @@ button:not(:disabled) {
   min-height: 72px;
   border-radius: 26px;
   overflow: hidden;
+  text-align: start;
+}
+/* The block is its own measure: the type inside answers to the height this block actually got,
+   not to the screen's. The screen's height never knew what else was on घर — the offline
+   question, the small print — and that is how the caption came to print over the name. The
+   measure is this inner box rather than the button, because a button's own box does not report
+   its height to a container query the way a plain box does. */
+.pillar-body {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: flex-end;
-  padding: 20px 22px;
-  text-align: start;
+  padding: 14px 20px;
+  container-type: size;
 }
 .pillar:active {
   filter: brightness(1.08);
@@ -551,22 +566,24 @@ button:not(:disabled) {
   opacity: 0.16;
   pointer-events: none;
 }
-.pillar-roman {
-  position: absolute;
-  left: 22px;
-  top: 18px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  opacity: 0.7;
-}
+/* The caption, the name and the blurb are one stack, in that order, at the foot of the block. The
+   caption used to be pinned to the block's top while the name sat at its foot, and any height the
+   blocks gave up brought one into the other; in one stack they cannot meet at any height. */
 .pillar-text {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 2px;
   max-width: 250px;
+  min-width: 0;
+}
+.pillar-roman {
+  margin-bottom: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.7;
 }
 .pillar-name {
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
@@ -586,70 +603,33 @@ button:not(:disabled) {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-/* The blocks gave up height to the pass tile (decision 018) and again to बोलना, the fourth block,
-   on 17 September — four in the column where there were three, so every one of them is a quarter
-   of the space instead of a third. The name is bottom-aligned and the Roman caption is pinned to
-   the top of the block, so on a shorter screen one climbs into the other unless the type follows
-   the screen down. Measured on a real render at every step: the clearance between the caption and
-   the name stays positive from a 1000px display to a 640px phone. The last step gives up the
-   blurb, because a quarter of a 667px phone has room for the name or for a sentence, not both. */
-@media (max-height: 900px) {
-  .pillar {
-    padding: 16px 20px;
-  }
-  .pillar-roman {
-    top: 14px;
-    left: 20px;
-  }
+/* The stack follows the block down, in steps sized so it always fits the block it is in: each
+   step's stack is shorter than the smallest block that step serves. Below 76px of room the
+   blurb goes, because a short block has room for the name or for a sentence, not both (rule 15);
+   the last step fits the 72px floor. */
+@container (max-height: 96px) {
   .pillar-name {
-    font-size: 36px;
+    font-size: 34px;
   }
   .pillar-blurb {
     font-size: 13px;
     margin-top: 5px;
   }
 }
-@media (max-height: 820px) {
-  .pillar {
-    padding: 14px 20px;
-  }
-  .pillar-roman {
-    top: 12px;
-    left: 20px;
-  }
+@container (max-height: 76px) {
   .pillar-name {
     font-size: 30px;
   }
   .pillar-blurb {
-    font-size: 12.5px;
-    margin-top: 4px;
+    display: none;
   }
 }
-@media (max-height: 780px) {
-  .pillar {
-    padding: 12px 18px;
-  }
+@container (max-height: 58px) {
   .pillar-roman {
-    top: 10px;
-    left: 18px;
     font-size: 11px;
   }
   .pillar-name {
     font-size: 26px;
-  }
-  .pillar-blurb {
-    margin-top: 3px;
-  }
-}
-@media (max-height: 720px) {
-  .pillar {
-    padding: 11px 18px;
-  }
-  .pillar-roman {
-    top: 9px;
-  }
-  .pillar-blurb {
-    display: none;
   }
 }
 
@@ -2791,11 +2771,11 @@ button:not(:disabled) {
   }
   .pillar {
     min-height: 320px;
+  }
+  .pillar-body {
     padding: 18px 16px;
   }
   .pillar-roman {
-    top: 16px;
-    left: 16px;
     font-size: 11px;
     letter-spacing: 0.12em;
   }

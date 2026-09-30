@@ -1,12 +1,14 @@
 #!/bin/bash
 source "$(dirname "$0")/_chrome.sh"
 tile() { # name roman blurb bg fg iconfn
+# The caption, the name and the blurb are one stack at the foot of the block, the caption first:
+# pinned to the block's top it printed over the name whenever the blocks gave up height.
 cat <<T
-    <div style="position: relative; flex: 1; border-radius: 26px; overflow: hidden; background: $4; display: flex; align-items: flex-end; padding: 16px 20px; box-sizing: border-box;">
+    <div style="position: relative; flex: 1; border-radius: 26px; overflow: hidden; background: $4; display: flex; align-items: flex-end; padding: 14px 20px; box-sizing: border-box;">
       <div style="position: absolute; right: -18px; top: -14px; opacity: 0.16;">$($6 170 "$5" 1.1)</div>
-      <span style="position: absolute; left: 20px; top: 14px; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: $5; opacity: 0.7;">$2</span>
-      <div style="position: relative; display: flex; flex-direction: column; gap: 2px; max-width: 250px; min-width: 0;">
-        <span class="disp" style="font-size: 36px; font-weight: 700; line-height: 1; color: $5; letter-spacing: -0.01em;">$1</span>
+      <div data-pillar-stack style="position: relative; display: flex; flex-direction: column; max-width: 250px; min-width: 0;">
+        <span style="font-size: 12px; font-weight: 700; line-height: 1.35; letter-spacing: 0.16em; text-transform: uppercase; color: $5; opacity: 0.7; margin-bottom: 2px;">$2</span>
+        <span class="disp" style="font-size: 34px; font-weight: 700; line-height: 1; color: $5; letter-spacing: -0.01em;">$1</span>
         <span style="font-size: 13px; line-height: 1.35; color: $5; opacity: 0.85; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">$3</span>
       </div>
     </div>
@@ -308,7 +310,7 @@ $(tier '4 फ़ोन' '₹499' "$line" "$card")
       <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px;"><span style="font-size: 16px; font-weight: 700; color: $ink;">कुल</span><span class="disp" style="font-size: 26px; font-weight: 700; color: $ink; line-height: 1.1;">₹149</span></div>
     </div>
     <span style="display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; border-radius: 14px; background: $marigold; color: $onMarigold; font-size: 17px; font-weight: 700;">$(lock 20 "$onMarigold" 1.9)₹149 भुगतान करें</span>
-    <span style="font-size: 13px; font-weight: 600; color: $ink; text-align: center;">UPI · कार्ड · नेट बैंकिंग · वॉलेट</span>
+    <span style="font-size: 13px; font-weight: 600; color: $ink; text-align: center;">UPI · कार्ड · नेट बैंकिंग</span>
     <span style="font-size: 12px; color: $muted; text-align: center; line-height: 1.4;">Razorpay से सुरक्षित भुगतान — कार्ड की जानकारी हम तक नहीं आती</span>
     <span style="font-size: 12px; color: $muted; text-align: center; line-height: 1.4;">भुगतान होते ही पास इसी फ़ोन पर लग जाता है</span>
   </div>

@@ -102,10 +102,13 @@ export function HomeScreen({ tile }: { readonly tile: HomeTileState }) {
             <span className="pillar-mark">
               <Icon name={pillar.icon} size={170} strokeWidth={1.1} />
             </span>
-            <span className="pillar-roman">{t(pillar.roman)}</span>
-            <span className="pillar-text">
-              <span className="pillar-name">{t(pillar.key)}</span>
-              <span className="pillar-blurb">{t(pillar.blurb)}</span>
+            {/* The block's own measure: its stack sizes to the height the block got. */}
+            <span className="pillar-body">
+              <span className="pillar-text">
+                <span className="pillar-roman">{t(pillar.roman)}</span>
+                <span className="pillar-name">{t(pillar.key)}</span>
+                <span className="pillar-blurb">{t(pillar.blurb)}</span>
+              </span>
             </span>
           </button>
         ))}
@@ -146,20 +149,24 @@ export function HomeScreen({ tile }: { readonly tile: HomeTileState }) {
       {HOME_TILES.filter((def) => def.visible(tile)).map((def) => (
         <HomeTile key={def.id} tile={def} state={tile} />
       ))}
-      {/* Which build this is, and — the half that was missing — whether it is the one the
-          server is serving. Standing on घर, the phone asks and says so: नवीनतम, or that it is
-          catching up. Nobody should have to refresh a screen to find out, and nobody should
-          have to be told by us that their phone is out of date. */}
-      <span className="home-build">
-        {t('home.build', { build: BUILD })}
-        {fresh !== 'unknown' && ` · ${t(fresh === 'current' ? 'home.latest' : 'home.catchingUp')}`}
-      </span>
-      {/* The small print, last of all (the owner, 30 September: "keep it as a small print, just
+      {/* The foot of घर, one row: which build this is, and the small print.
+          The build half says whether it is the one the server is serving — standing on घर, the
+          phone asks and says so: नवीनतम, or that it is catching up. Nobody should have to refresh
+          a screen to find out.
+          The small print is last of all (the owner, 30 September: "keep it as a small print, just
           to cover us legally"). The website's address is in the words; the tap opens the same
-          terms bundled here, so they read with the radio off (decision 048). */}
-      <a className="home-legal" href={href({ screen: 'terms' })}>
-        {t('terms.smallPrint')}
-      </a>
+          terms bundled here, so they read with the radio off (decision 048). One row rather than
+          two, because every pixel here is taken from the blocks, and घर never scrolls. */}
+      <span className="home-foot">
+        <span className="home-build">
+          {t('home.build', { build: BUILD })}
+          {fresh !== 'unknown' &&
+            ` · ${t(fresh === 'current' ? 'home.latest' : 'home.catchingUp')}`}
+        </span>
+        <a className="home-legal" href={href({ screen: 'terms' })}>
+          {t('terms.smallPrint')}
+        </a>
+      </span>
     </div>
   );
 }

@@ -160,7 +160,7 @@ export const en: Record<StringKey, string> = {
   'pass.more': 'More than four? Talk to us on WhatsApp ›',
   'pass.pay': 'Pay ₹{amount}',
   'pass.payWorking': 'Opening the payment page…',
-  'pass.payMethods': 'UPI · Cards · Netbanking · Wallets',
+  'pass.payMethods': 'UPI · Cards · Netbanking',
   'pass.paySecure': 'Paid securely through Razorpay — your card details never reach us',
   'pass.payNext': 'The pass installs on this phone as soon as you pay',
   'pass.notLive': 'Buying is not open yet — Saathi stays free until it is.',
@@ -610,7 +610,7 @@ export const en: Record<StringKey, string> = {
   'terms.pass.p2':
     'A pass lasts 14 days, counted from landing in Dubai — not from the day it is bought. Price: 1 phone ₹{p1}, 2 phones ₹{p2}, 3 phones ₹{p3}, 4 phones ₹{p4}.',
   'terms.pass.p3':
-    'It is a one-time payment. No subscription; nothing is charged again by itself. Payment is through Razorpay — UPI, card, netbanking or wallet, whichever Razorpay’s page offers.',
+    'It is a one-time payment. No subscription; nothing is charged again by itself. Payment is through Razorpay — UPI, card or netbanking.',
   'terms.pass.p4':
     'On a pass for 2 to 4 phones, the other phones join by scanning a QR, and all of them end together.',
   'terms.pass.p5':

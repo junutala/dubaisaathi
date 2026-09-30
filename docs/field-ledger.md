@@ -61,15 +61,15 @@ Since 28 September (decision 046): four places, each an icon with its word under
 
 ## घर
 
-| Field                                         | Why it is there                                                                                 |
-| --------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| खाना · जाना · जानना                           | The three things the app does; everything else is a child of one                                |
-| बोलना, the fourth block, online               | The same weight as the three, in its own plum; on घर only when it can work, tap → घर.5          |
-| Roman caption and one-line blurb              | जाना and जानना are one letter apart; the caption and the line keep them apart                   |
-| The blurb goes below a 720px phone            | Four blocks leave a quarter of the screen each — the name, or a clipped sentence, not both      |
-| The pass tile, at the foot                    | The money, visible while it matters, gone once paid; one line per state, tap → घर.4             |
-| इंटरनेट नहीं था — क्यों?, after no signal     | The log sees no signal but not why: a tunnel and data kept off are two needs (043); once a day  |
-| नियम, निजता और रिफ़ंड — saafarsaathi.in/terms | The small print (048): where the terms are, for the traveller who wants them later; tap → घर.10 |
+| Field                                                        | Why it is there                                                                                 |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| खाना · जाना · जानना                                          | The three things the app does; everything else is a child of one                                |
+| बोलना, the fourth block, online                              | The same weight as the three, in its own plum; on घर only when it can work, tap → घर.5          |
+| Roman caption and one-line blurb                             | जाना and जानना are one letter apart; the caption and the line keep them apart                   |
+| Caption, name, blurb: one stack; blurb goes on a short block | They can never meet; a block too short for both keeps the name, not a clipped sentence          |
+| The pass tile, at the foot                                   | The money, visible while it matters, gone once paid; one line per state, tap → घर.4             |
+| इंटरनेट नहीं था — क्यों?, after no signal                    | The log sees no signal but not why: a tunnel and data kept off are two needs (043); once a day  |
+| नियम, निजता और रिफ़ंड — saafarsaathi.in/terms                | The small print (048): where the terms are, for the traveller who wants them later; tap → घर.10 |
 
 ## घर.1 · मेरा होटल
 
@@ -133,7 +133,7 @@ are retired: its numbers are जानना's red line, its feedback form is pa
 | कुल · the total, large                  | What is owed after the code, from the one price rule — the same figure the button charges          |
 | पास लें — मुफ़्त                        | A ₹0 total: the pass, issued and installed on the spot                                             |
 | ₹149 भुगतान करें (a lock)               | One button above ₹0: Checkout with every method the account takes; says it is opening from the tap |
-| UPI · कार्ड · नेट बैंकिंग · वॉलेट       | Which ways to pay work, before the tap — a card holder does not assume UPI only                    |
+| UPI · कार्ड · नेट बैंकिंग               | Which ways to pay work, before the tap — a card holder does not assume UPI only                    |
 | "Razorpay से सुरक्षित भुगतान"           | Who takes the money, and that card details never reach us — asked before anyone pays               |
 | "भुगतान होते ही पास इसी फ़ोन पर"        | What happens after paying, so nobody waits for an email or a code that is not coming               |
 | "ख़रीदना अभी चालू नहीं है"              | Said plainly while buying is switched off                                                          |
