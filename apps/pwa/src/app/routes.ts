@@ -26,6 +26,9 @@ export type Route =
   // traveller typed where nothing was found, carried in so they never type it twice.
   | { readonly screen: 'share' }
   | { readonly screen: 'contribute'; readonly about?: string }
+  // घर.10 · नियम और शर्तें — the terms, privacy and refunds (decision 048), from the landing page,
+  // the one-time notice and the small print at the foot of घर
+  | { readonly screen: 'terms' }
   // 1.1 / 1.2 · खाना — one screen; a dish in the box is what makes it 1.2
   | { readonly screen: 'food'; readonly dish?: string }
   // 1.3 · the kitchen, which is its menu (the separate outlet screen went on 24 September)
@@ -78,6 +81,8 @@ export function parseRoute(hash: string): Route {
       return arg
         ? { screen: 'contribute', about: decodeURIComponent(arg) }
         : { screen: 'contribute' };
+    case 'terms':
+      return { screen: 'terms' };
     case 'food':
       return arg ? { screen: 'food', dish: decodeURIComponent(arg) } : { screen: 'food' };
     case 'outlet':
@@ -141,6 +146,8 @@ export function href(route: Route): string {
       return route.about === undefined || route.about === ''
         ? '#/contribute'
         : `#/contribute/${encodeURIComponent(route.about)}`;
+    case 'terms':
+      return '#/terms';
     case 'food':
       return route.dish === undefined ? '#/food' : `#/food/${encodeURIComponent(route.dish)}`;
     case 'menu':
@@ -203,6 +210,7 @@ export function pillarOf(route: Route): Pillar {
     case 'bolnaBoard':
     case 'share':
     case 'contribute':
+    case 'terms':
       return 'home';
   }
 }

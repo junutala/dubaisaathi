@@ -23,6 +23,8 @@ import {
 } from '../features/pass/index.js';
 import { ConsentScreen } from '../features/landing/ConsentScreen.js';
 import { LandingScreen } from '../features/landing/LandingScreen.js';
+import { acceptTerms, hasAcceptedTerms } from '../features/landing/consent.js';
+import { TermsScreen } from '../features/terms/index.js';
 import { currentLocation } from '../lib/location.js';
 import {
   DocumentAddScreen,
@@ -56,12 +58,6 @@ import { noteScreen } from '../features/ask/index.js';
  */
 const STARTED_KEY = 'saathi.started';
 
-/**
- * The traveller accepted how their words are used (decision 045): on the landing page for a new
- * phone, on a one-time screen for a phone that started before the notice existed.
- */
-const CONSENT_KEY = 'saathi.dataConsent';
-
 function remembered(key: string): boolean {
   try {
     return localStorage.getItem(key) !== null;
@@ -86,7 +82,8 @@ export function App() {
   // design exists to avoid.
   const { online } = useSettings();
   const [started, setStarted] = useState(() => remembered(STARTED_KEY));
-  const [consented, setConsented] = useState(() => remembered(CONSENT_KEY));
+  // The data-use line and today's terms, accepted together (decisions 045 and 048).
+  const [consented, setConsented] = useState(hasAcceptedTerms);
   const [route, setRoute] = useState<Route>(() => {
     // `?code=…` from an advertisement is read once and taken off the URL before the route is,
     // so it reaches घर.4's field rather than the router (decision 018).
@@ -231,13 +228,33 @@ export function App() {
     if (behindTheGate && isGated()) navigate({ screen: 'pass' });
   }, [route]);
 
+  /**
+   * The terms, read before the app has started — from the landing page or the one-time notice
+   * (decision 048). Like those two, no strip and no bar yet; back returns to the page that sent
+   * the traveller here, which is still waiting for its one button.
+   */
+  if ((!started || !consented) && route.screen === 'terms') {
+    return (
+      <div className="screen">
+        <main className="body">
+          <TermsScreen
+            onBack={() => {
+              window.location.replace('#/');
+            }}
+          />
+        </main>
+      </div>
+    );
+  }
+
   if (!started) {
     return (
       <div className="screen">
         <LandingScreen
           onReady={() => {
-            // शुरू करें is also the acceptance of the line above it (decision 045).
-            remember(CONSENT_KEY);
+            // शुरू करें is also the acceptance of the lines above it: what we keep (decision
+            // 045) and the terms (decision 048).
+            acceptTerms();
             remember(STARTED_KEY);
             setConsented(true);
             setStarted(true);
@@ -252,7 +269,7 @@ export function App() {
       <div className="screen">
         <ConsentScreen
           onAccept={() => {
-            remember(CONSENT_KEY);
+            acceptTerms();
             setConsented(true);
           }}
         />
@@ -305,6 +322,7 @@ export function App() {
         {route.screen === 'know' && <KnowScreen tab={route.tab ?? 'places'} />}
         {route.screen === 'tip' && <TopicScreen tipId={route.tipId} />}
         {route.screen === 'place' && <PlaceScreen placeId={route.placeId} hotel={hotel} />}
+        {route.screen === 'terms' && <TermsScreen />}
       </main>
       <TabBar current={barOf(route)} />
     </div>

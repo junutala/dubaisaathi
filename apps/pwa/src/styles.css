@@ -504,6 +504,22 @@ button:not(:disabled) {
   text-align: center;
   line-height: 1;
 }
+/* The small print (decision 048): the smallest type on घर, last of all, above the bar. Its tap
+   area reaches into the gap above it and the padding below, so it clears 48px (rule 26) while
+   drawing one line. */
+.home-legal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin: -18px 0 -12px;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+  color: var(--muted);
+  text-align: center;
+  text-decoration: none;
+}
 .pillars {
   flex: 1;
   display: flex;
@@ -940,6 +956,22 @@ button:not(:disabled) {
   color: var(--muted);
   line-height: 1.5;
   text-align: center;
+}
+/* The terms, in one line with the way to read them, above the same button (decision 048). The
+   link is a control, so it is a 48px target (rule 26) though it reads as a word in the line. */
+.terms-line {
+  margin: 0 0 8px;
+  color: var(--muted);
+  line-height: 1.5;
+  text-align: center;
+}
+.terms-line-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  margin: -14px 0;
+  font-weight: 700;
+  color: var(--marigoldText);
 }
 .landing-brand {
   flex: 1;
@@ -2688,6 +2720,52 @@ button:not(:disabled) {
   font-size: 17px;
   font-weight: 800;
 }
+/* ---- घर.10 · नियम और शर्तें (decision 048) --------------------------------------------- */
+
+.terms {
+  gap: 16px;
+  padding-bottom: 28px;
+}
+.terms-updated {
+  margin: 0;
+}
+.terms-part {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.terms-group {
+  margin: 8px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+.terms-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+/* जाना's line, set apart: it is the one thing a traveller must not find out at a kerb. */
+.terms-callout {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--goSoft);
+  color: var(--goText);
+}
+.terms-head {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+.terms-p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+
 /* ---- a tablet, or a laptop: last, so these rules win over the phone's ------------------ */
 
 /* A tablet, or a laptop. The screens are a phone's, and stay one column: on a wider display the

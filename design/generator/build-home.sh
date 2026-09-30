@@ -41,6 +41,12 @@ cat <<A
   </div>
 A
 }
+# The small print at the very foot of घर (decision 048; the owner, 30 September: "keep it as a small
+# print, just to cover us legally"). The smallest type on the screen, under the pass tile and above
+# the bar; the website's address in the words, and a tap opens घर.10, the same terms, offline.
+smallprint() {
+  echo "  <span data-small-print style=\"display: block; margin: -4px 16px 8px 16px; font-size: 10px; letter-spacing: 0.02em; line-height: 1.35; color: $muted; text-align: center;\">नियम, निजता और रिफ़ंड — saafarsaathi.in/terms</span>"
+}
 # ---- घर: $1 out, $2 pass state, $3 hotel, $4 tile trial|warm|paid, $5 signal on|off, $6 ask|''
 # बोलना is the fourth block from 17 September, at the owner's instruction: the same shape and the
 # same type as the three, in its own plum. It is on घर only where the strip says ऑनलाइन, because
@@ -66,6 +72,7 @@ case "$4" in
   warm)  passtile '4 घंटे बाक़ी · पास लें' '14 दिन का पास — एक बार, कोई सब्सक्रिप्शन नहीं' yes ;;
   paid)  passtile 'पास · 12 दिन बाक़ी · परिवार के लिए QR' 'इस सफ़र में कुछ बंद नहीं होगा' no ;;
 esac
+smallprint
 bar home
 close_screen
 } > "$OUT/$1"
@@ -102,6 +109,7 @@ cat <<H
       <span style="font-size: 12.5px; color: $muted;">खाने की जगहें, मेट्रो-बस का नक़्शा, दुबई की जगहें — सब फ़ोन पर रहेगा।</span>
     </div>
     <span style="font-size: 12.5px; line-height: 1.5; color: $muted; text-align: center;">खाना, जाना, जानना और बोलना में आप जो लिखते, बोलते या पढ़वाते हैं, उसे हम Saathi को बेहतर बनाने के लिए रख सकते हैं — सिर्फ़ लिखा हुआ, आपकी आवाज़ या फ़ोटो नहीं. यह आपके नाम या नंबर से नहीं जुड़ता.</span>
+    <span style="font-size: 12.5px; line-height: 1.5; color: $muted; text-align: center;">जारी रखकर आप नियम और शर्तें मानते हैं। <span style="font-weight: 700; color: $marigoldText;">नियम और शर्तें पढ़ें</span></span>
     <span style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 14px; background: $line; color: $muted; font-size: 16px; font-weight: 700;">मंज़ूर है, शुरू करें</span>
   </div>
 </div>
@@ -405,3 +413,60 @@ H
 bar contribute
 close_screen
 } > "$OUT/HomeContribute.dc.html"
+
+# ---- L · लैंडिंग › एक बात, एक बार — the one-time notice (decisions 045 and 048), for a phone that was
+# already past the landing page: the data-use line and the terms, one button. It comes back only
+# when the terms change, and then once.
+{
+cat "$(dirname "$0")/_head.txt"
+cat <<H
+<div style="width: 390px; height: 844px; background: $ground; color: $ink; display: flex; flex-direction: column; overflow: hidden; padding: 0 24px; box-sizing: border-box;">
+  <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 12px; text-align: center; padding-top: 16px;">
+    $(logo 64)
+    $(wordmark 40 "$ink" "$marigold" "$marigoldText" yes)
+    <span class="disp" style="font-size: 21px; font-weight: 700; line-height: 1.25; color: $tealText;">एक बात, एक बार</span>
+    <span style="font-size: 15px; line-height: 1.55; color: $ink;">खाना, जाना, जानना और बोलना में आप जो लिखते, बोलते या पढ़वाते हैं, उसे हम Saathi को बेहतर बनाने के लिए रख सकते हैं — सिर्फ़ लिखा हुआ, आपकी आवाज़ या फ़ोटो नहीं. यह आपके नाम या नंबर से नहीं जुड़ता.</span>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 12px; padding-bottom: 32px;">
+    <span style="font-size: 12.5px; line-height: 1.5; color: $muted; text-align: center;">जारी रखकर आप नियम और शर्तें मानते हैं। <span style="font-weight: 700; color: $marigoldText;">नियम और शर्तें पढ़ें</span></span>
+    $(btn 'मंज़ूर है, आगे बढ़ें' "$marigold" "$onMarigold")
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
+H
+} > "$OUT/Consent.dc.html"
+
+# ---- घर.10 · नियम और शर्तें (decision 048) — the terms, privacy and refunds, bundled so they read
+# with the radio off; the same words as saafarsaathi.in/terms. Reached from the landing page, the
+# one-time notice and घर's small print. जाना's line is set apart, in its own hue: it is not a map
+# of every address (the owner, 30 September). Drawn at its top; the rest scrolls.
+tpara() { echo "<span style=\"font-size: 14.5px; line-height: 1.55; color: ${2:-$ink};\">$1</span>"; }
+thead() { echo "<span style=\"font-size: 16px; font-weight: 800; line-height: 1.35; color: ${2:-$ink};\">$1</span>"; }
+{
+open_screen
+strip running set
+header docs "$marigold" 'नियम और शर्तें'
+cat <<H
+  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 14px; padding: 6px 16px 12px 16px;">
+    <span style="font-size: 13px; color: $muted;">आख़िरी बदलाव: 30 सितंबर 2026</span>
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      $(thead 'Dubaisaathi क्या है')
+      $(tpara 'Dubaisaathi दुबई में भारतीय यात्रियों के लिए एक जानकारी-डेस्क है: खाना, जाना, जानना और बोलना। इसे Sixera Software Solutions चलाती है।')
+      $(tpara 'यह होटल या फ़्लाइट बुक नहीं करता, खाना नहीं पहुँचाता, रेस्टोरेंट का बाज़ार नहीं है, और हर बात का जवाब देने वाला चैटबॉट नहीं है।')
+    </div>
+    <div data-terms-go style="display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border-radius: 14px; background: $j_soft;">
+      $(thead 'जाना — सिर्फ़ हमारी सूची की जगहें' "$j_text")
+      $(tpara 'जाना हर पते वाला ऑफ़लाइन नक्शा नहीं है। रास्ता सिर्फ़ उन जगहों का मिलता है जो हमारी सूची में हैं।' "$j_text")
+      $(tpara 'सूची से बाहर की जगह लिखने पर रास्ता नहीं मिलता। ऐप बताता है कि यह जगह अभी साथी के पास नहीं है, और “टैक्सी से जाएँ” दबाने पर आपके लिखे शब्द बड़े अक्षरों में दिखाता है, टैक्सी ड्राइवर को दिखाने के लिए — बिना अरबी पते और बिना किराए के अंदाज़े के।' "$j_text")
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      $(thead 'खाना')
+      $(tpara 'खाना में सिर्फ़ वे रसोइयाँ हैं जिनका मेनू हमारे अपने लोगों ने पढ़ा है — दुकान पर जाकर, या रसोई के अपने ऑनलाइन मेनू से।')
+    </div>
+  </div>
+H
+bar none
+close_screen
+} > "$OUT/HomeTerms.dc.html"

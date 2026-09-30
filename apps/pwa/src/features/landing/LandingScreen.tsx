@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSettings } from '../../app/settings.js';
 import { Icon } from '../../app/shell/icons.js';
 import { Logo, Wordmark } from '../../app/shell/Logo.js';
+import { TermsLine } from './TermsLine.js';
 import { LOCALES, LOCALE_LABEL } from '../../i18n/index.js';
 import { precacheCached, precacheTotal } from './precache.js';
 
@@ -104,9 +105,11 @@ export function LandingScreen({ onReady }: { readonly onReady: () => void }) {
         </span>
       </div>
 
-      {/* What we keep, said once, above the one button that starts the app — which is also the
-          traveller accepting it (decision 045). No second screen, no decline, never again. */}
+      {/* What we keep, and the terms, said once above the one button that starts the app — which
+          is also the traveller accepting both (decisions 045 and 048). No decline, never again
+          for the same terms. */}
       <p className="small consent-line">{t('consent.line')}</p>
+      <TermsLine />
       <button
         type="button"
         className="btn btn-primary"

@@ -15,8 +15,8 @@ SCREENS = pathlib.Path(__file__).parent / 'screens'
 PILLARS = ['खाना', 'जाना', 'जानना']
 # बोलना — घर's fourth block from 17 September, and the one screen that needs a signal.
 SPEAK = 'बोलना'
-# The landing page and the names sheet are not screens with chrome.
-NO_CHROME = {'Landing', 'Names'}
+# The landing page, the one-time notice after it and the names sheet are not screens with chrome.
+NO_CHROME = {'Landing', 'Consent', 'Names'}
 # घर.n screens and the pillars' children; everything else is home or a state of it.
 HOME = {'Home', 'HomeDark', 'HomeTrial', 'HomePaid'}
 # The data-use line on the landing page (decision 045), word for word as the app carries it.
@@ -25,6 +25,14 @@ CONSENT_LINE = (
     'बनाने के लिए रख सकते हैं — सिर्फ़ लिखा हुआ, आपकी आवाज़ या फ़ोटो नहीं. यह आपके नाम या नंबर '
     'से नहीं जुड़ता.'
 )
+# The terms (decision 048): the line above the one button on the landing page and the one-time
+# notice, the small print at the foot of घर, and on घर.10 the owner's line that जाना is not a map of
+# every address. घर.10's prose names बोलना as a word in a sentence, as the data-use line does.
+TERMS_LINE = 'जारी रखकर आप नियम और शर्तें मानते हैं।'
+TERMS_READ = 'नियम और शर्तें पढ़ें'
+SMALL_PRINT = 'नियम, निजता और रिफ़ंड — saafarsaathi.in/terms'
+TERMS_GO = 'जाना हर पते वाला ऑफ़लाइन नक्शा नहीं है'
+TERMS_BOARDS = {'HomeTerms'}
 # The lockup's word, the same in both interface languages (decision 021).
 NAME_MARK = 'Dubaisaathi'
 BACK_ICON = 'M15 5l-7 7 7 7'
@@ -96,7 +104,7 @@ def main() -> int:
         # The landing page's data-use line names बोलना in a sentence (decision 045); that is the
         # word, not the block, so the line itself is taken out before looking.
         named = text.replace(CONSENT_LINE, '')
-        if SPEAK in named and name not in HOME:
+        if SPEAK in named and name not in HOME and name not in TERMS_BOARDS:
             fail(name, 'बोलना outside घर — its block is on घर and its screens have no board')
 
         # Rule 2: red is reserved. Since 28 September it is spent on one thing — जानना's emergency
@@ -104,6 +112,17 @@ def main() -> int:
         outside = re.sub(r'<div data-sos .*?</div>', '', text, flags=re.S)
         if re.search(r'#B3261E|#F2B8B5|#FCE8E6|#3A1614|#C62B2B|#D32F2F|#E53935|\bred\b', outside, re.IGNORECASE):
             fail(name, 'red on a screen — red is spent on जानना\'s emergency line and nothing else')
+
+        # Rule 36: the terms are accepted with the same one button, and read before it (decision
+        # 048): the line and its link above the button on the landing page and the notice.
+        if name in ('Landing', 'Consent'):
+            line, button = text.find(TERMS_LINE), text.rfind('मंज़ूर है,')
+            if line < 0 or TERMS_READ not in text:
+                fail(name, 'no terms line — "%s" and "%s" above the button' % (TERMS_LINE, TERMS_READ))
+            elif button < 0 or line > button:
+                fail(name, 'the terms line is not above the one button')
+        if name in TERMS_BOARDS and TERMS_GO not in text:
+            fail(name, 'the terms do not say जाना is not a map of every address')
 
         if name in NO_CHROME:
             continue
@@ -216,6 +235,12 @@ def main() -> int:
                 fail(name, 'home has no pass tile')
             elif not (last < tile < bar):
                 fail(name, 'the pass tile is not between the blocks and the bar')
+            # Rule 36: the small print is the last thing on घर, under the pass tile, above the bar.
+            small = text.find(SMALL_PRINT)
+            if small < 0:
+                fail(name, 'home has no small print to the terms')
+            elif not (tile < small < bar):
+                fail(name, 'the small print is not between the pass tile and the bar')
 
         # Rule 19: ज़रूरी जानकारी is retired (decision 046). Its name is on no board, its
         # capsules are gone, and घर.2 is the bar's दस्तावेज़ — the documents list and जोड़ें.

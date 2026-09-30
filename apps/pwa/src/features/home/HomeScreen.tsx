@@ -1,5 +1,5 @@
 import { useSettings } from '../../app/settings.js';
-import { navigate, type Route } from '../../app/routes.js';
+import { href, navigate, type Route } from '../../app/routes.js';
 import { Icon, type IconName } from '../../app/shell/icons.js';
 import type { StringKey } from '../../i18n/index.js';
 import { BUILD } from '../../app/version.js';
@@ -154,6 +154,12 @@ export function HomeScreen({ tile }: { readonly tile: HomeTileState }) {
         {t('home.build', { build: BUILD })}
         {fresh !== 'unknown' && ` · ${t(fresh === 'current' ? 'home.latest' : 'home.catchingUp')}`}
       </span>
+      {/* The small print, last of all (the owner, 30 September: "keep it as a small print, just
+          to cover us legally"). The website's address is in the words; the tap opens the same
+          terms bundled here, so they read with the radio off (decision 048). */}
+      <a className="home-legal" href={href({ screen: 'terms' })}>
+        {t('terms.smallPrint')}
+      </a>
     </div>
   );
 }
