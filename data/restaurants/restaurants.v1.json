@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-30T17:02:37.664Z",
+  "publishedAt": "2026-09-30T17:19:32.346Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -186668,6 +186668,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 12,
           "section": "Fresh Fruit Juices"
         },
         {
@@ -186677,6 +186678,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 16,
           "section": "Fresh Fruit Juices"
         },
         {
@@ -186686,6 +186688,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 12,
           "section": "Fresh Fruit Juices"
         },
         {
@@ -186695,6 +186698,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 8,
           "section": "Fresh Fruit Juices"
         },
         {
@@ -186704,6 +186708,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 12,
           "section": "Fresh Fruit Juices"
         },
         {
@@ -186713,6 +186718,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 13,
           "section": "Fresh Fruit Juices"
         },
         {
@@ -186722,6 +186728,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 16,
           "section": "Fresh Fruit Juices"
         },
         {
@@ -186731,6 +186738,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 16,
           "section": "Special Milkshakes"
         },
         {
@@ -186740,6 +186748,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 16,
           "section": "Special Milkshakes"
         },
         {
@@ -186749,6 +186758,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 16,
           "section": "Special Milkshakes"
         },
         {
@@ -186758,6 +186768,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 16,
           "section": "Special Milkshakes"
         },
         {
@@ -186767,6 +186778,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 18,
           "section": "Special Milkshakes"
         },
         {
@@ -186776,6 +186788,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 20,
           "section": "Special Milkshakes"
         },
         {
@@ -187815,6 +187828,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 13,
           "section": "China Town"
         },
         {
@@ -188484,6 +188498,7 @@
             "aliases": []
           },
           "tags": ["vegetarian", "vrat"],
+          "priceAed": 13,
           "section": "Rice & Pulao"
         },
         {
