@@ -12,7 +12,6 @@ import { waitingPins, type WaitingPin } from './pins.js';
 import { Logo, Wordmark } from './Logo.js';
 import { shrink, MENU } from './shrink.js';
 import { isPdf, pdfPages } from './pdfPages.js';
-import { BUILD } from './version.js';
 import { readMenu } from './readMenu.js';
 import type { Candidate } from './dishCandidates.js';
 import { sendReport, startSync, syncReports, type SyncOutcome } from './sync.js';
@@ -759,8 +758,6 @@ export function CaptureScreen({
           />
         </Section>
       </details>
-      {/* Which build this is, so "did my fix reach the phone?" is answerable by looking. */}
-      <p className="build">{BUILD}</p>
     </div>
   );
 }

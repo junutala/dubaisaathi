@@ -4,6 +4,7 @@ import { MenusWanted } from './MenusWanted.js';
 import { PinScreen } from './PinScreen.js';
 import { collectorName } from './collector.js';
 import { useStrings } from './strings.js';
+import { BUILD } from './version.js';
 
 /**
  * Two screens in one app, and one flow through them (decision 029).
@@ -140,6 +141,9 @@ export function App() {
           }}
         />
       )}
+      {/* Which build this is, on every screen, so "did my fix reach the phone?" is answerable
+          by looking — whichever of the three screens the phone opens on. */}
+      <p className="build">{BUILD}</p>
     </>
   );
 }
