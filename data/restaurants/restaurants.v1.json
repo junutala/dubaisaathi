@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-30T17:15:00.223Z",
+  "publishedAt": "2026-09-30T17:19:32.346Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -187828,6 +187828,7 @@
             "aliases": []
           },
           "tags": ["vegetarian"],
+          "priceAed": 13,
           "section": "China Town"
         },
         {
@@ -188497,6 +188498,7 @@
             "aliases": []
           },
           "tags": ["vegetarian", "vrat"],
+          "priceAed": 13,
           "section": "Rice & Pulao"
         },
         {
