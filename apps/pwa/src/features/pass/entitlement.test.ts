@@ -3,7 +3,6 @@ import { CONFIRMATIONS_NEEDED } from './dubai.js';
 import {
   endsAt,
   entitlement,
-  forgetEntitlement,
   noteLocationReading,
   PAID_HOURS,
   recordPayment,
@@ -32,7 +31,6 @@ function phoneClock(offsetMinutes: number) {
 
 beforeEach(() => {
   localStorage.clear();
-  forgetEntitlement();
   vi.restoreAllMocks();
   phoneClock(-330); // India, UTC+5:30
 });

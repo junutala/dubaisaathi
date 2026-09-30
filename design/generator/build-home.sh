@@ -266,10 +266,11 @@ bar docs
 close_screen
 } > "$OUT/HomeDocView.dc.html"
 
-# ---- घर.4 · पास — one flow: the counter, the phones, the code, the total, the button
+# ---- घर.4 · पास — one flow: the counter, the phones, the code, the bill, the one pay button
+# (30 September: one Razorpay Checkout with every method the account takes; the QR button went)
 tier() { # devices price border bg
 cat <<T
-      <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: 14px; border: 1.5px solid $3; background: $4;"><span style="font-size: 15px; font-weight: 600; color: $ink;">$1</span><span class="disp" style="font-size: 20px; font-weight: 700; color: $ink;">$2</span></div>
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 5px 14px; border-radius: 14px; border: 1.5px solid $3; background: $4;"><span style="font-size: 15px; font-weight: 600; color: $ink;">$1</span><span class="disp" style="font-size: 20px; font-weight: 700; color: $ink;">$2</span></div>
 T
 }
 {
@@ -277,28 +278,31 @@ open_screen
 strip ending set
 header ticket "$marigold" 'पास'
 cat <<H
-  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 10px; padding: 6px 16px 12px 16px;">
-    <div style="display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; border-radius: 16px; background: $marigoldSoft;">
+  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 6px; padding: 0 16px 4px 16px;">
+    <div style="display: flex; flex-direction: column; gap: 4px; padding: 10px 16px; border-radius: 16px; background: $marigoldSoft;">
       <span style="font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: $marigoldText;">अभी</span>
       <span class="disp" style="font-size: 22px; font-weight: 700; color: $ink;">दुबई का मुफ़्त दिन — 4 घंटे बाक़ी</span>
       <div style="height: 6px; border-radius: 3px; background: $ground;"><div style="width: 17%; height: 6px; border-radius: 3px; background: $marigold;"></div></div>
       <span style="font-size: 13px; color: $ink; line-height: 1.4;">पास 14 दिन चलता है, दुबई पहुँचने से गिनकर। एक बार का दाम, कोई सब्सक्रिप्शन नहीं।</span>
     </div>
     $(label '14 दिन · कितने फ़ोन?')
-    <div style="display: flex; flex-direction: column; gap: 6px;">
+    <div style="display: flex; flex-direction: column; gap: 5px;">
 $(tier '1 फ़ोन' '₹199' "$line" "$card")
 $(tier '2 फ़ोन' '₹299' "$marigold" "$ground")
 $(tier '3 फ़ोन' '₹399' "$line" "$card")
 $(tier '4 फ़ोन' '₹499' "$line" "$card")
     </div>
-    <div style="display: flex; align-items: center; gap: 10px; padding: 0 6px 0 14px; min-height: 50px; border-radius: 14px; background: $card; border: 1px solid $line;"><span style="font-size: 12.5px; font-weight: 700; color: $muted; width: 84px;">कोड</span><span style="flex: 1; font-size: 16px; font-weight: 600; letter-spacing: 0.08em; color: $ink;">SS-7K3M2X</span><span style="padding: 10px 14px; border-radius: 10px; background: $marigold; color: $onMarigold; font-size: 14px; font-weight: 700;">लगाएँ</span></div>
-    <div style="display: flex; align-items: baseline; gap: 10px; padding: 12px 14px; border-radius: 14px; background: $card; border: 1px solid $line;"><span style="flex: 1; font-size: 15px; font-weight: 600; color: $ink;">कुल</span><span class="disp" style="font-size: 24px; font-weight: 700; color: $ink;">₹149</span><span style="font-size: 14px; color: $muted; text-decoration: line-through;">₹299</span></div>
-    <span style="font-size: 12.5px; color: $muted;">SS-7K3M2X · 50% छूट</span>
-    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
-      $(btn 'UPI से — इसी फ़ोन पर' "$marigold" "$onMarigold")
-      $(obtn "$(qr 20 "$ink" 1.9)QR — कोई और भरे")
+    <div style="display: flex; align-items: center; gap: 10px; padding: 0 6px 0 14px; min-height: 42px; border-radius: 14px; background: $card; border: 1px solid $line;"><span style="font-size: 12.5px; font-weight: 700; color: $muted; width: 84px;">कोड</span><span style="flex: 1; font-size: 16px; font-weight: 600; letter-spacing: 0.08em; color: $ink;">SS-7K3M2X</span><span style="padding: 6px 14px; border-radius: 10px; background: $marigold; color: $onMarigold; font-size: 14px; font-weight: 700;">लगाएँ</span></div>
+    <div style="display: flex; flex-direction: column; gap: 4px; padding: 8px 16px; border-radius: 16px; background: $card; border: 1px solid $line;">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: 14px; color: $ink;"><span>दुबई साथी पास · 14 दिन · 2 फ़ोन</span><span style="font-weight: 600;">₹299</span></div>
+      <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: 14px; color: $tealText;"><span>SS-7K3M2X · 50% छूट</span><span style="font-weight: 600;">−₹150</span></div>
+      <div style="border-top: 1px dashed $line; margin: 2px 0;"></div>
+      <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px;"><span style="font-size: 16px; font-weight: 700; color: $ink;">कुल</span><span class="disp" style="font-size: 26px; font-weight: 700; color: $ink; line-height: 1.1;">₹149</span></div>
     </div>
-    <span style="font-size: 12.5px; color: $muted; text-align: center;">बाक़ी ₹149 ख़रीद खुलने पर देना होगा — कोड याद रहेगा</span>
+    <span style="display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; border-radius: 14px; background: $marigold; color: $onMarigold; font-size: 17px; font-weight: 700;">$(lock 20 "$onMarigold" 1.9)₹149 भुगतान करें</span>
+    <span style="font-size: 13px; font-weight: 600; color: $ink; text-align: center;">UPI · कार्ड · नेट बैंकिंग · वॉलेट</span>
+    <span style="font-size: 12px; color: $muted; text-align: center; line-height: 1.4;">Razorpay से सुरक्षित भुगतान — कार्ड की जानकारी हम तक नहीं आती</span>
+    <span style="font-size: 12px; color: $muted; text-align: center; line-height: 1.4;">भुगतान होते ही पास इसी फ़ोन पर लग जाता है</span>
   </div>
 H
 bar none

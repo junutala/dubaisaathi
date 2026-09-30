@@ -38,7 +38,7 @@ async function load() {
 
 /** A Checkout that answers the way the traveller is said to have answered it. */
 function checkout(how: 'pays' | 'closes' | 'throws') {
-  const opened: { key: string; order_id: string; amount: number; method?: unknown }[] = [];
+  const opened: { key: string; order_id: string; amount: number; restricted: boolean }[] = [];
   Object.defineProperty(window, 'Razorpay', {
     configurable: true,
     value: class {
@@ -68,7 +68,7 @@ function checkout(how: 'pays' | 'closes' | 'throws') {
           key: this.options.key,
           order_id: this.options.order_id,
           amount: this.options.amount,
-          method: this.options.method,
+          restricted: 'method' in this.options,
         });
         if (how === 'pays') this.options.handler();
         else this.options.modal.ondismiss();
@@ -128,8 +128,62 @@ describe('creating an order', () => {
   });
 });
 
+describe('the handover to Razorpay', () => {
+  const scripts = () =>
+    document.head.querySelectorAll('script[src="https://checkout.razorpay.com/v1/checkout.js"]');
+
+  it('starts the script and the order together, so a cold tap waits for one, not both', async () => {
+    const { buyPass } = await load();
+    let reply: (response: Response) => void = () => undefined;
+    const calls: string[] = [];
+    vi.stubGlobal('fetch', (url: string) => {
+      calls.push(url);
+      return new Promise<Response>((resolve) => {
+        reply = resolve;
+      });
+    });
+
+    const buying = buyPass({ slots: 1, name: 'दुबई साथी', description: 'पास' });
+    // The order is out and has not answered, and the script is already on its way.
+    expect(calls).toHaveLength(1);
+    expect(scripts()).toHaveLength(1);
+
+    reply(new Response(JSON.stringify({}), { status: 500 }));
+    expect(await buying).toEqual({ kind: 'failed' });
+  });
+
+  it('preloads the script once however often घर.4 asks, and not at all offline', async () => {
+    const { preloadCheckout } = await load();
+    online(false);
+    preloadCheckout();
+    expect(scripts()).toHaveLength(0);
+    online(true);
+    preloadCheckout();
+    preloadCheckout();
+    preloadCheckout();
+    expect(scripts()).toHaveLength(1);
+  });
+
+  it('warms the order function with a request that cannot create anything', async () => {
+    const { warmOrder } = await load();
+    const calls: { url: string; method: string | undefined; body: unknown }[] = [];
+    vi.stubGlobal('fetch', (url: string, init?: RequestInit) => {
+      calls.push({ url, method: init?.method, body: init?.body });
+      return Promise.resolve(new Response(null, { status: 200 }));
+    });
+    warmOrder();
+    expect(calls).toHaveLength(1);
+    expect(calls[0]?.url).toMatch(/\/functions\/v1\/order$/);
+    expect(calls[0]?.method).toBe('OPTIONS');
+    expect(calls[0]?.body).toBeUndefined();
+    online(false);
+    warmOrder();
+    expect(calls).toHaveLength(1);
+  });
+});
+
 describe('the payment screen', () => {
-  it('opens on the order with UPI preselected, and leaves it open for the QR button', async () => {
+  it('opens on the order with no method restriction, so every method the account takes shows', async () => {
     const { buyPass } = await load();
     answer((_path, body) =>
       body.action === 'create'
@@ -139,20 +193,15 @@ describe('the payment screen', () => {
     const opened = checkout('closes');
     vi.useFakeTimers();
 
-    const upi = buyPass({ slots: 2, method: 'upi', name: 'दुबई साथी', description: 'पास' });
+    const buying = buyPass({ slots: 2, name: 'दुबई साथी', description: 'पास' });
     await vi.advanceTimersByTimeAsync(20_000);
-    expect(await upi).toEqual({ kind: 'closed' });
+    expect(await buying).toEqual({ kind: 'closed' });
     expect(opened[0]).toMatchObject({
       key: 'rzp_test_key',
       order_id: 'order_TESTAAAA',
       amount: 29_900,
-      method: { upi: true },
+      restricted: false,
     });
-
-    const qr = buyPass({ slots: 2, method: 'any', name: 'दुबई साथी', description: 'पास' });
-    await vi.advanceTimersByTimeAsync(20_000);
-    expect(await qr).toEqual({ kind: 'closed' });
-    expect(opened[1]?.method).toBeUndefined();
   });
 
   it('gives an honest outcome when the script will not load, rather than throwing', async () => {
@@ -168,9 +217,9 @@ describe('the payment screen', () => {
       return node;
     });
 
-    expect(
-      await buyPass({ slots: 1, method: 'upi', name: 'दुबई साथी', description: 'पास' }),
-    ).toEqual({ kind: 'unreachable' });
+    expect(await buyPass({ slots: 1, name: 'दुबई साथी', description: 'पास' })).toEqual({
+      kind: 'unreachable',
+    });
     // The order was made and is still recoverable: the money was never asked for, but the
     // order is the phone's receipt for having asked.
     expect(openOrder()?.orderId).toBe(ORDER.orderId);
@@ -181,9 +230,9 @@ describe('the payment screen', () => {
     const { buyPass } = await load();
     answer(() => ({ json: { ...ORDER, amountInr: 199, slots: 1 } }));
     checkout('throws');
-    expect(
-      await buyPass({ slots: 1, method: 'upi', name: 'दुबई साथी', description: 'पास' }),
-    ).toEqual({ kind: 'unreachable' });
+    expect(await buyPass({ slots: 1, name: 'दुबई साथी', description: 'पास' })).toEqual({
+      kind: 'unreachable',
+    });
   });
 });
 
@@ -202,7 +251,7 @@ describe('after Checkout closes', () => {
     checkout('pays');
     vi.useFakeTimers();
 
-    const buying = buyPass({ slots: 3, method: 'upi', name: 'दुबई साथी', description: 'पास' });
+    const buying = buyPass({ slots: 3, name: 'दुबई साथी', description: 'पास' });
     await vi.advanceTimersByTimeAsync(60_000);
     expect(await buying).toEqual({ kind: 'paid', slots: 3 });
 
@@ -242,7 +291,7 @@ describe('after Checkout closes', () => {
     checkout('pays');
     vi.useFakeTimers();
 
-    const buying = buyPass({ slots: 1, method: 'upi', name: 'दुबई साथी', description: 'पास' });
+    const buying = buyPass({ slots: 1, name: 'दुबई साथी', description: 'पास' });
     await vi.advanceTimersByTimeAsync(60_000);
     expect(await buying).toEqual({ kind: 'failed' });
     expect(entitlement().paid).toBeUndefined();
@@ -258,7 +307,7 @@ describe('after Checkout closes', () => {
     checkout('pays');
     vi.useFakeTimers();
 
-    const buying = buyPass({ slots: 1, method: 'upi', name: 'दुबई साथी', description: 'पास' });
+    const buying = buyPass({ slots: 1, name: 'दुबई साथी', description: 'पास' });
     await vi.advanceTimersByTimeAsync(120_000);
     expect(await buying).toEqual({ kind: 'pending' });
     // Still remembered: the pass is late, not lost.

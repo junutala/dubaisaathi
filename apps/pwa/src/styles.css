@@ -1476,29 +1476,81 @@ button:not(:disabled) {
 .pass-line-good {
   color: var(--tealText);
 }
-.total {
+/* The bill: what is bought, a code's discount, and the total the button charges. */
+.bill {
   display: flex;
-  align-items: baseline;
-  gap: 10px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: var(--tile);
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: var(--card);
   border: 1px solid var(--line);
 }
-.total-label {
-  flex: 1;
-  font-size: 15px;
-  font-weight: 600;
+.bill-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14.5px;
+  line-height: 1.4;
 }
-.total-amount {
-  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
-  font-size: 24px;
+.bill-what {
+  min-width: 0;
+}
+.bill-amount {
+  font-weight: 600;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.bill-off {
+  color: var(--tealText);
+}
+.bill-rule {
+  height: 0;
+  margin: 2px 0;
+  border: 0;
+  border-top: 1px dashed var(--line);
+}
+.bill-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.bill-total-label {
+  font-size: 16px;
   font-weight: 700;
 }
-.total-list {
-  font-size: 14px;
-  color: var(--muted);
-  text-decoration: line-through;
+.bill-total-amount {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+.pay {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pay .pay-btn {
+  margin-bottom: 4px;
+}
+.pay p {
+  margin: 0;
+}
+.pay-btn {
+  width: 100%;
+  min-height: 56px;
+  font-size: 17px;
+}
+.pay-methods {
+  margin: 0;
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--ink);
 }
 .qr-card {
   display: flex;
@@ -2249,18 +2301,6 @@ button:not(:disabled) {
 
 /* ---- 1.4 · क़दम दर क़दम -------------------------------------------------------------------- */
 
-.total {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
-}
-.total-label {
-  font-size: 12.5px;
-  opacity: 0.72;
-}
 .legs {
   display: flex;
   flex-direction: column;
