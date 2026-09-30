@@ -34,3 +34,21 @@ be read through Drive's text recognition, and one file had been named `007` for 
   set aside.
 - **Review sets `menu_in_app_at`** on any form whose menu is published from somewhere other than
   its own pages, so it does not stay on the list.
+
+## Addendum — a cover is kept apart, and any form opens by its number (30 September)
+
+The owner, the morning after the Karama walk: _"even the outlets where I have pictured the first
+page are now missing on my outlet apps."_ The pin had stored the cover as the menu's page 0, so the
+server counted the form as having a menu and it left the list — with no way back to it to add its
+pages.
+
+- **The pin takes the cover in its own slot** (`front`, which no shop photograph has used since 23
+  September). A form with only a cover has no menu page and stays on the list.
+- **The Menus screen opens any pinned form by the number on its paper**, whether the list carries
+  it or not. That reaches the forms pinned before this change, whose cover is still page 0; the
+  pages added land after it.
+- **The camera stays open** (the owner: _"forty times I have to move between screens"_): अगला
+  takes a page and stays, जमा करें takes the last and closes, हो गया closes. It is the phone's own
+  camera inside the app; when the phone refuses it, the screen says what it said and falls back to
+  the phone's camera one page at a time.
+- **The QR and WhatsApp options on the pin are gone**; the note stays.

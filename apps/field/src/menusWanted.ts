@@ -24,6 +24,57 @@ export interface WantedForm {
   readonly wanted: string | null;
   /** Whether the form has a picture of its own: the cover or page taken at the counter. */
   readonly picture: boolean;
+  /**
+   * The cover as the pin screen has taken it since 30 September — apart from the menu's pages, in
+   * the pin's own slot — as a data URL, when the server has one.
+   */
+  readonly cover?: string | null;
+}
+
+interface Pin {
+  readonly formSerial: string | null;
+  readonly lat: number;
+  readonly lng: number;
+  readonly capturedAt: string;
+  readonly front: string | null;
+}
+
+/** Every pin still waiting on the desk, with its cover when it has one. */
+async function fetchPins(): Promise<readonly Pin[]> {
+  const answer = await fetch(ENDPOINT, { headers: outletHeaders() });
+  if (!answer.ok) throw new Error(`server said ${String(answer.status)}`);
+  return ((await answer.json()) as { pins: Pin[] }).pins;
+}
+
+/** A form number as it is printed: "81" and "0081" are the same form. */
+export function normalSerial(typed: string): string {
+  const trimmed = typed.trim();
+  return /^\d{1,4}$/.test(trimmed) ? trimmed.padStart(4, '0') : trimmed;
+}
+
+/**
+ * Any pinned form, by the number on its paper (the owner, 30 September): a form whose only picture
+ * was its cover had left the Menus list, because the server counted that picture as a menu, and
+ * there was then no way to reach it to add its pages. Null when no pin carries that number; a
+ * thrown error when the server cannot be asked.
+ */
+export async function findForm(typed: string): Promise<WantedForm | null> {
+  const serial = normalSerial(typed);
+  const listed = keptList().find((form) => form.formSerial === serial);
+  if (listed !== undefined) return listed;
+  const pin = (await fetchPins()).find((one) => one.formSerial === serial);
+  if (pin === undefined) return null;
+  return {
+    formSerial: serial,
+    name: null,
+    lat: pin.lat,
+    lng: pin.lng,
+    capturedAt: pin.capturedAt,
+    notes: null,
+    wanted: null,
+    picture: true,
+    cover: pin.front,
+  };
 }
 
 const KEPT = 'saathi.menusWanted';
@@ -40,7 +91,21 @@ export function keptList(): readonly WantedForm[] {
 export async function fetchList(): Promise<readonly WantedForm[]> {
   const answer = await fetch(`${ENDPOINT}?open=1`, { headers: outletHeaders() });
   if (!answer.ok) throw new Error(`server said ${String(answer.status)}`);
-  const { forms } = (await answer.json()) as { forms: WantedForm[] };
+  const { forms: open } = (await answer.json()) as { forms: WantedForm[] };
+  // Covers taken apart from the pages (30 September) live in the pin's own slot, which the list
+  // does not carry: they are joined on here, so a form can still be told from its neighbours.
+  const covers = new Map<string, string>();
+  try {
+    for (const pin of await fetchPins()) {
+      if (pin.formSerial !== null && pin.front !== null) covers.set(pin.formSerial, pin.front);
+    }
+  } catch {
+    /* the list stands without its covers */
+  }
+  const forms = open.map((form) => {
+    const cover = covers.get(form.formSerial);
+    return cover === undefined ? form : { ...form, cover };
+  });
   try {
     localStorage.setItem(KEPT, JSON.stringify(forms));
   } catch {

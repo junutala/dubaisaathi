@@ -181,10 +181,11 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   (the owner, 23 September: photographing shops in Dubai is a risk he will not take, and there is no
   camera on that screen for the shop) —
   the GPS is watched from the moment his screen opens, so there is no button for it. **The menu's
-  pages are another matter** (the owner, 25 September): up to forty optional pictures of them on the pin (fifteen until 29 September),
-  or two ticks — photographed on the phone, downloaded from the QR — saying where it is instead,
-  a camera held close to the counter's WhatsApp number, and one optional note for what the counter
-  said ("WhatsApp 050… and we will send it"). Later, at a
+  pages are another matter** (the owner, 30 September): a **cover**, one picture to know the
+  outlet by, kept apart from the pages so a form with only a cover stays on the Menus list; and
+  the **full menu**, up to forty pages taken in a camera that stays open inside the app — अगला
+  for the next page, जमा करें for the last — and one optional note for what the counter said
+  ("WhatsApp 050… and we will send it"). The QR and WhatsApp options are gone. Later, at a
   desk, the menu (photos or a PDF) is added to that pin from the collectors' app's Menus list
   (decision 041). **There is no paper form** (decision 042): the name, the kind of kitchen, Jain
   and the dishes and prices are read off the menu card at review, and nothing is asked of a

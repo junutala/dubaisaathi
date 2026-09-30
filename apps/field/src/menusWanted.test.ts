@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cloneKeepingBlobs } from './blobHarness.js';
 import { db } from './db.js';
-import { metresBetween, sendPages } from './menusWanted.js';
+import { metresBetween, normalSerial, sendPages } from './menusWanted.js';
 
 /**
  * Menus wanted (27 September). What must hold: a page he photographed stays on the phone until the
@@ -99,5 +99,13 @@ describe('pages for a form', () => {
     const outcome = await sendPages('0027');
     expect(outcome.ok).toBe(false);
     expect(await db.wantedPages.count()).toBe(2);
+  });
+});
+
+describe('normalSerial', () => {
+  it('reads a form number as the paper prints it', () => {
+    expect(normalSerial('81')).toBe('0081');
+    expect(normalSerial(' 0081 ')).toBe('0081');
+    expect(normalSerial('swades')).toBe('swades');
   });
 });
