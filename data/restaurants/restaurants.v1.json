@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-30T10:11:43.176Z",
+  "publishedAt": "2026-09-30T10:17:29.224Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -158273,6 +158273,406 @@
           "tags": ["vegetarian"],
           "priceAed": 14,
           "section": "Drinks"
+        },
+        {
+          "name": {
+            "en": "Mawa Pista Barfi (per Kg)",
+            "hi": "Mawa Pista Barfi (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 97,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Mawa Badam Barfi (per Kg)",
+            "hi": "Mawa Badam Barfi (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 89,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Coconut Barfi (per Kg)",
+            "hi": "Coconut Barfi (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 80,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Spl Milk Cake (per Kg)",
+            "hi": "Spl Milk Cake (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 93,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Khoya Ka Dum (per Kg)",
+            "hi": "Khoya Ka Dum (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 100,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Kesari Peda (per Kg)",
+            "hi": "Kesari Peda (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 93,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Mawa Peda (per Kg)",
+            "hi": "Mawa Peda (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 73,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Mathura Peda (per Kg)",
+            "hi": "Mathura Peda (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 95,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Kashmiri Chum Chum (per Kg)",
+            "hi": "Kashmiri Chum Chum (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 97,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Chocolate Barfi (per Kg)",
+            "hi": "Chocolate Barfi (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 97,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Boondi Ladoo (per Kg)",
+            "hi": "Boondi Ladoo (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 63,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Besan Ladoo (per Kg)",
+            "hi": "Besan Ladoo (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 63,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Rawa Ladoo (per Kg)",
+            "hi": "Rawa Ladoo (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 63,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Balushahi (per Pc)",
+            "hi": "Balushahi (per Pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Gujiya (per Pc)",
+            "hi": "Gujiya (per Pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 6,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Mohanthal (per Kg)",
+            "hi": "Mohanthal (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 70,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Kaju Katli (per Kg)",
+            "hi": "Kaju Katli (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 101,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Badam Barfi (per Kg)",
+            "hi": "Badam Barfi (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 130,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Kaju Kesar Katli (per Kg)",
+            "hi": "Kaju Kesar Katli (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 125,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Kaju Biscuit (per Kg)",
+            "hi": "Kaju Biscuit (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 130,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Badam Roll (per Kg)",
+            "hi": "Badam Roll (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 130,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Kaju Pista Roll (per Kg)",
+            "hi": "Kaju Pista Roll (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 125,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Kaju Pudding (per Kg)",
+            "hi": "Kaju Pudding (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 134,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Kaju Dilkhush (per Kg)",
+            "hi": "Kaju Dilkhush (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 134,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Anjeer Barfi (per Kg)",
+            "hi": "Anjeer Barfi (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 124,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Khajoor Barfi (per Kg)",
+            "hi": "Khajoor Barfi (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 124,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Kaju Sangam (per Kg)",
+            "hi": "Kaju Sangam (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 97,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Pista Khajoor (per Kg)",
+            "hi": "Pista Khajoor (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 124,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Badam Khajoor (per Kg)",
+            "hi": "Badam Khajoor (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 124,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Walnut Katli (per Kg)",
+            "hi": "Walnut Katli (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 134,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Pinni (per Kg)",
+            "hi": "Pinni (per Kg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 70,
+          "section": "Indian Sweets"
+        },
+        {
+          "name": {
+            "en": "Sweet Box - 260 Gram Normal Mix",
+            "hi": "Sweet Box - 260 Gram Normal Mix",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Sweet Boxes"
+        },
+        {
+          "name": {
+            "en": "Sweet Box - 500 Gram Normal Mix",
+            "hi": "Sweet Box - 500 Gram Normal Mix",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 40,
+          "section": "Sweet Boxes"
+        },
+        {
+          "name": {
+            "en": "Sweet Box - 1 KG Normal Mix",
+            "hi": "Sweet Box - 1 KG Normal Mix",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 80,
+          "section": "Sweet Boxes"
+        },
+        {
+          "name": {
+            "en": "Sweet Box - 260 Gram Deluxe Mix",
+            "hi": "Sweet Box - 260 Gram Deluxe Mix",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 27,
+          "section": "Sweet Boxes"
+        },
+        {
+          "name": {
+            "en": "Sweet Box - 500 Gram Deluxe Mix",
+            "hi": "Sweet Box - 500 Gram Deluxe Mix",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 53,
+          "section": "Sweet Boxes"
+        },
+        {
+          "name": {
+            "en": "Sweet Box - 1 KG Deluxe Mix",
+            "hi": "Sweet Box - 1 KG Deluxe Mix",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 103,
+          "section": "Sweet Boxes"
+        },
+        {
+          "name": {
+            "en": "Sweet Box - 260 Gram Special Mix",
+            "hi": "Sweet Box - 260 Gram Special Mix",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 31,
+          "section": "Sweet Boxes"
+        },
+        {
+          "name": {
+            "en": "Sweet Box - 500 Gram Special Mix",
+            "hi": "Sweet Box - 500 Gram Special Mix",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 58,
+          "section": "Sweet Boxes"
+        },
+        {
+          "name": {
+            "en": "Sweet Box - 1 KG Special Mix",
+            "hi": "Sweet Box - 1 KG Special Mix",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 115,
+          "section": "Sweet Boxes"
         }
       ],
       "hours": {
