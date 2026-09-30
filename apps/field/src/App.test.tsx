@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { act, cleanup, render } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
 import { App } from './App.js';
 import { BUILD } from './version.js';
 
@@ -28,13 +28,11 @@ beforeEach(() => {
 });
 
 afterEach(async () => {
-  // Each screen starts its own fetches and IndexedDB reads on mount. Let them land while the page
-  // still exists: one that resolves after the file's environment is torn down calls setState on
-  // a window that is gone, and vitest reports it as an unhandled error against the whole run.
-  await act(async () => {
-    await new Promise((resolve) => setTimeout(resolve, 50));
-  });
   cleanup();
+  // Each screen reads the phone's own database as it opens, and the answer can arrive after the
+  // test has ended. Let it land while the page is still here: arriving after the file's page is
+  // torn down, it failed CI on 30 September.
+  await new Promise((resolve) => setTimeout(resolve, 100));
   vi.unstubAllGlobals();
 });
 
