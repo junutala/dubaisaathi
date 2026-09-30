@@ -1,7 +1,7 @@
 {
   "contentVersion": 1,
   "status": "collected",
-  "publishedAt": "2026-09-30T05:29:42.723Z",
+  "publishedAt": "2026-09-30T06:20:06.270Z",
   "source": "field_reports where status = approved",
   "restaurants": [
     {
@@ -113400,6 +113400,1404 @@
           "tags": ["vegetarian"],
           "priceAed": 1.5,
           "section": "Beverages"
+        }
+      ]
+    },
+    {
+      "id": "c5ebfcc9-61bf-4d44-ba34-7bef00545aa3",
+      "name": {
+        "en": "Godavari Andhra Restaurant",
+        "hi": "Godavari Andhra Restaurant",
+        "aliases": []
+      },
+      "location": {
+        "lat": 25.2469044,
+        "lng": 55.3046717
+      },
+      "areaId": "karama",
+      "kitchen": "mixed",
+      "tags": [],
+      "phone": "04 234 8348",
+      "confirmedDishes": [
+        {
+          "name": {
+            "en": "Pandaga Bhojanam (Veg)",
+            "hi": "Pandaga Bhojanam (Veg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Andhra Meals Thali"
+        },
+        {
+          "name": {
+            "en": "Godavari Spl Bhojanam (Veg)",
+            "hi": "Godavari Spl Bhojanam (Veg)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 32,
+          "section": "Andhra Meals Thali"
+        },
+        {
+          "name": {
+            "en": "Kodi Koora Bhojanam",
+            "hi": "Kodi Koora Bhojanam",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 35,
+          "section": "Andhra Meals Thali"
+        },
+        {
+          "name": {
+            "en": "Mutton Bhojanam",
+            "hi": "Mutton Bhojanam",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 36,
+          "section": "Andhra Meals Thali"
+        },
+        {
+          "name": {
+            "en": "Fish Pulusu Bhojanam",
+            "hi": "Fish Pulusu Bhojanam",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 36,
+          "section": "Andhra Meals Thali"
+        },
+        {
+          "name": {
+            "en": "Jala Thali",
+            "hi": "Jala Thali",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 45,
+          "section": "Andhra Meals Thali"
+        },
+        {
+          "name": {
+            "en": "Gaja Thali",
+            "hi": "Gaja Thali",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 47,
+          "section": "Andhra Meals Thali"
+        },
+        {
+          "name": {
+            "en": "Curd Rice",
+            "hi": "Curd Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Godavari Exclusives"
+        },
+        {
+          "name": {
+            "en": "Ghee Sambar Rice",
+            "hi": "Ghee Sambar Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Godavari Exclusives"
+        },
+        {
+          "name": {
+            "en": "Ghee Sambar Rice (with Chicken Fry, Pickle & Papad)",
+            "hi": "Ghee Sambar Rice (with Chicken Fry, Pickle & Papad)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 26,
+          "section": "Godavari Exclusives"
+        },
+        {
+          "name": {
+            "en": "Ghee Rasam Rice",
+            "hi": "Ghee Rasam Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Godavari Exclusives"
+        },
+        {
+          "name": {
+            "en": "Ghree Rasam Rice (with Chicken Fry, Pickle & Papad)",
+            "hi": "Ghree Rasam Rice (with Chicken Fry, Pickle & Papad)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 26,
+          "section": "Godavari Exclusives"
+        },
+        {
+          "name": {
+            "en": "Muddapappu Neyyi Annam",
+            "hi": "Muddapappu Neyyi Annam",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Godavari Exclusives"
+        },
+        {
+          "name": {
+            "en": "Muddapappu Neyyi Annam (with Chicken Fry, Pachadi, Sambar & Papad)",
+            "hi": "Muddapappu Neyyi Annam (with Chicken Fry, Pachadi, Sambar & Papad)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 30,
+          "section": "Godavari Exclusives"
+        },
+        {
+          "name": {
+            "en": "Chintapandu Pulihora",
+            "hi": "Chintapandu Pulihora",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Godavari Exclusives"
+        },
+        {
+          "name": {
+            "en": "Pappucharu Annam",
+            "hi": "Pappucharu Annam",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Godavari Exclusives"
+        },
+        {
+          "name": {
+            "en": "Karivepaku Podi Ghee Rice",
+            "hi": "Karivepaku Podi Ghee Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Godavari Exclusives"
+        },
+        {
+          "name": {
+            "en": "Gunpowder Ghee Rice",
+            "hi": "Gunpowder Ghee Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 20,
+          "section": "Godavari Exclusives"
+        },
+        {
+          "name": {
+            "en": "Kodi Sambar Rice",
+            "hi": "Kodi Sambar Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 21,
+          "section": "Godavari Exclusives"
+        },
+        {
+          "name": {
+            "en": "Guttivankaya Koora (Saturday)",
+            "hi": "Guttivankaya Koora (Saturday)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 14,
+          "section": "Godavari Specials"
+        },
+        {
+          "name": {
+            "en": "Ragi Mudda (2pc)",
+            "hi": "Ragi Mudda (2pc)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 13,
+          "section": "Godavari Specials"
+        },
+        {
+          "name": {
+            "en": "Ragi Mudda With Guttivankaya",
+            "hi": "Ragi Mudda With Guttivankaya",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Godavari Specials"
+        },
+        {
+          "name": {
+            "en": "Ragi Mudda With Chicken Pulusu",
+            "hi": "Ragi Mudda With Chicken Pulusu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 29,
+          "section": "Godavari Specials"
+        },
+        {
+          "name": {
+            "en": "Kheema Masala",
+            "hi": "Kheema Masala",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 35,
+          "section": "Godavari Specials"
+        },
+        {
+          "name": {
+            "en": "Nellore Fish Pulusu",
+            "hi": "Nellore Fish Pulusu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 29,
+          "section": "Godavari Specials"
+        },
+        {
+          "name": {
+            "en": "Natu Kodi Vepudu",
+            "hi": "Natu Kodi Vepudu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Godavari Specials"
+        },
+        {
+          "name": {
+            "en": "Nato Kodi Pulusu",
+            "hi": "Nato Kodi Pulusu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 26,
+          "section": "Godavari Specials"
+        },
+        {
+          "name": {
+            "en": "Natu Kodi Curry",
+            "hi": "Natu Kodi Curry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 29,
+          "section": "Godavari Specials"
+        },
+        {
+          "name": {
+            "en": "Srikanya Chicken Fry Piece Pulao",
+            "hi": "Srikanya Chicken Fry Piece Pulao",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Andhra Pulaos"
+        },
+        {
+          "name": {
+            "en": "Nellore Mutton Pulao",
+            "hi": "Nellore Mutton Pulao",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 30,
+          "section": "Andhra Pulaos"
+        },
+        {
+          "name": {
+            "en": "Natu Kodi Pulao",
+            "hi": "Natu Kodi Pulao",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 30,
+          "section": "Andhra Pulaos"
+        },
+        {
+          "name": {
+            "en": "Koonseema Kodi Pulao",
+            "hi": "Koonseema Kodi Pulao",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Andhra Pulaos"
+        },
+        {
+          "name": {
+            "en": "Raju Gari Kodi Pulao",
+            "hi": "Raju Gari Kodi Pulao",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Andhra Pulaos"
+        },
+        {
+          "name": {
+            "en": "Andhra Biryani (Pulao) Veg",
+            "hi": "Andhra Biryani (Pulao) Veg",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Andhra Pulaos"
+        },
+        {
+          "name": {
+            "en": "Andhra Pulao With Chicken Curry",
+            "hi": "Andhra Pulao With Chicken Curry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 32,
+          "section": "Andhra Pulaos"
+        },
+        {
+          "name": {
+            "en": "Andhra Paneer Vepudu",
+            "hi": "Andhra Paneer Vepudu",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Veg Starter"
+        },
+        {
+          "name": {
+            "en": "Gobi 65",
+            "hi": "Gobi 65",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 24,
+          "section": "Veg Starter"
+        },
+        {
+          "name": {
+            "en": "Veg Manchurian",
+            "hi": "Veg Manchurian",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Veg Starter"
+        },
+        {
+          "name": {
+            "en": "Chilli Paneer Fry",
+            "hi": "Chilli Paneer Fry",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Veg Starter"
+        },
+        {
+          "name": {
+            "en": "Paneer Pepper Fry",
+            "hi": "Paneer Pepper Fry",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Veg Starter"
+        },
+        {
+          "name": {
+            "en": "Chili Gobi",
+            "hi": "Chili Gobi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Veg Starter"
+        },
+        {
+          "name": {
+            "en": "Mushroom 65",
+            "hi": "Mushroom 65",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Veg Starter"
+        },
+        {
+          "name": {
+            "en": "Chili Mushroom",
+            "hi": "Chili Mushroom",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Veg Starter"
+        },
+        {
+          "name": {
+            "en": "Gobi Manchurian",
+            "hi": "Gobi Manchurian",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Veg Starter"
+        },
+        {
+          "name": {
+            "en": "Mutton Fry",
+            "hi": "Mutton Fry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 31,
+          "section": "Mutton Starter"
+        },
+        {
+          "name": {
+            "en": "Pepper Mutton Fry",
+            "hi": "Pepper Mutton Fry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 33,
+          "section": "Mutton Starter"
+        },
+        {
+          "name": {
+            "en": "Kaju Mamsam Vepudu",
+            "hi": "Kaju Mamsam Vepudu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 35,
+          "section": "Mutton Starter"
+        },
+        {
+          "name": {
+            "en": "Hyd Style Kadak Mutton Fry",
+            "hi": "Hyd Style Kadak Mutton Fry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 35,
+          "section": "Mutton Starter"
+        },
+        {
+          "name": {
+            "en": "Spicy Fried Chicken",
+            "hi": "Spicy Fried Chicken",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 30,
+          "section": "Chicken Starter"
+        },
+        {
+          "name": {
+            "en": "Chicken Majestic",
+            "hi": "Chicken Majestic",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 29,
+          "section": "Chicken Starter"
+        },
+        {
+          "name": {
+            "en": "Andhra Chili Chicken Dry (With Bone)",
+            "hi": "Andhra Chili Chicken Dry (With Bone)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Chicken Starter"
+        },
+        {
+          "name": {
+            "en": "Andhra Chili Chicken Dry (Boneless)",
+            "hi": "Andhra Chili Chicken Dry (Boneless)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Chicken Starter"
+        },
+        {
+          "name": {
+            "en": "Andhra Chicken Vepudu",
+            "hi": "Andhra Chicken Vepudu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Chicken Starter"
+        },
+        {
+          "name": {
+            "en": "Kodi Vepudu (Boneless)",
+            "hi": "Kodi Vepudu (Boneless)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Chicken Starter"
+        },
+        {
+          "name": {
+            "en": "Pepper Chicken",
+            "hi": "Pepper Chicken",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 25,
+          "section": "Chicken Starter"
+        },
+        {
+          "name": {
+            "en": "Karivepaku Podi Chicken Vepudu",
+            "hi": "Karivepaku Podi Chicken Vepudu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 26,
+          "section": "Chicken Starter"
+        },
+        {
+          "name": {
+            "en": "Guntur Chicken Roast (Spicy)",
+            "hi": "Guntur Chicken Roast (Spicy)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 26,
+          "section": "Chicken Starter"
+        },
+        {
+          "name": {
+            "en": "Garlic Chicken Fry",
+            "hi": "Garlic Chicken Fry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 27,
+          "section": "Chicken Starter"
+        },
+        {
+          "name": {
+            "en": "Chicken Lollipop (8pc)",
+            "hi": "Chicken Lollipop (8pc)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Chicken Starter"
+        },
+        {
+          "name": {
+            "en": "Chicken 65 (Boneless)",
+            "hi": "Chicken 65 (Boneless)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Chicken Starter"
+        },
+        {
+          "name": {
+            "en": "Gongura Chicken Vepudu",
+            "hi": "Gongura Chicken Vepudu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Chicken Starter"
+        },
+        {
+          "name": {
+            "en": "Kaju Kodi Vepudu",
+            "hi": "Kaju Kodi Vepudu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 30,
+          "section": "Chicken Starter"
+        },
+        {
+          "name": {
+            "en": "Avakaya Chicken Fry",
+            "hi": "Avakaya Chicken Fry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 30,
+          "section": "Chicken Starter"
+        },
+        {
+          "name": {
+            "en": "Tawa Fish Fry",
+            "hi": "Tawa Fish Fry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 26,
+          "section": "Seafood Starter"
+        },
+        {
+          "name": {
+            "en": "King Fish Fry",
+            "hi": "King Fish Fry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 26,
+          "section": "Seafood Starter"
+        },
+        {
+          "name": {
+            "en": "Apollo Fish",
+            "hi": "Apollo Fish",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Seafood Starter"
+        },
+        {
+          "name": {
+            "en": "Fish 65",
+            "hi": "Fish 65",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Seafood Starter"
+        },
+        {
+          "name": {
+            "en": "Nethili Fish Fry",
+            "hi": "Nethili Fish Fry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Seafood Starter"
+        },
+        {
+          "name": {
+            "en": "Chili Fish",
+            "hi": "Chili Fish",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Seafood Starter"
+        },
+        {
+          "name": {
+            "en": "Chili Prawns",
+            "hi": "Chili Prawns",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 33,
+          "section": "Seafood Starter"
+        },
+        {
+          "name": {
+            "en": "Rajahmundry Prawns Fry",
+            "hi": "Rajahmundry Prawns Fry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 32,
+          "section": "Seafood Starter"
+        },
+        {
+          "name": {
+            "en": "Loose Prawns",
+            "hi": "Loose Prawns",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 35,
+          "section": "Seafood Starter"
+        },
+        {
+          "name": {
+            "en": "Gongura Prawns Fry",
+            "hi": "Gongura Prawns Fry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 33,
+          "section": "Seafood Starter"
+        },
+        {
+          "name": {
+            "en": "Gongura Pappu",
+            "hi": "Gongura Pappu",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Avakaya Pappu",
+            "hi": "Avakaya Pappu",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Dal Palak",
+            "hi": "Dal Palak",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 15,
+          "section": "Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Dal Tadka/Fry",
+            "hi": "Dal Tadka/Fry",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Veg Chettinadu",
+            "hi": "Veg Chettinadu",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 21,
+          "section": "Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Veg Kadai",
+            "hi": "Veg Kadai",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Veg Hyderabadi",
+            "hi": "Veg Hyderabadi",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 22,
+          "section": "Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Kaju Tomato",
+            "hi": "Kaju Tomato",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Kaju Paneer",
+            "hi": "Kaju Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 24,
+          "section": "Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Kadai Paneer",
+            "hi": "Kadai Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 24,
+          "section": "Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Paneer Butter Masala",
+            "hi": "Paneer Butter Masala",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 24,
+          "section": "Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Palak Paneer",
+            "hi": "Palak Paneer",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 24,
+          "section": "Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Mushroom Masala",
+            "hi": "Mushroom Masala",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Andhra Chili Chicken Gravy (With Bone)",
+            "hi": "Andhra Chili Chicken Gravy (With Bone)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Non-Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Andhra Chicken Curry",
+            "hi": "Andhra Chicken Curry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 23,
+          "section": "Non-Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Andhra Chicken Pulusu",
+            "hi": "Andhra Chicken Pulusu",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 24,
+          "section": "Non-Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Telangana Chicken Curry",
+            "hi": "Telangana Chicken Curry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 26,
+          "section": "Non-Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Butter Chicken Masala",
+            "hi": "Butter Chicken Masala",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 26,
+          "section": "Non-Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Andhra Gongura Chicken",
+            "hi": "Andhra Gongura Chicken",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Non-Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Chicken Pepper Masala",
+            "hi": "Chicken Pepper Masala",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Non-Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Nellore Mutton Curry",
+            "hi": "Nellore Mutton Curry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Non-Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Kadapa Mutton Pulusu (Spicy)",
+            "hi": "Kadapa Mutton Pulusu (Spicy)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 30,
+          "section": "Non-Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Andhra Gongura Mutton",
+            "hi": "Andhra Gongura Mutton",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 30,
+          "section": "Non-Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Rajahmundry Prawns Curry",
+            "hi": "Rajahmundry Prawns Curry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 30,
+          "section": "Non-Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Gongura Prawns Curry",
+            "hi": "Gongura Prawns Curry",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 32,
+          "section": "Non-Veg Main Course"
+        },
+        {
+          "name": {
+            "en": "Godavari Exclusive 3G Biryani (Serves 1-2)",
+            "hi": "Godavari Exclusive 3G Biryani (Serves 1-2)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 40,
+          "section": "Godavari Exclusive Biryani"
+        },
+        {
+          "name": {
+            "en": "Godavari Exclusive Disco Biryani (Serves 1)",
+            "hi": "Godavari Exclusive Disco Biryani (Serves 1)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 33,
+          "section": "Godavari Exclusive Biryani"
+        },
+        {
+          "name": {
+            "en": "Chicken Dum Biryani (Serves 1)",
+            "hi": "Chicken Dum Biryani (Serves 1)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 24,
+          "section": "Chicken Biryani"
+        },
+        {
+          "name": {
+            "en": "Chicken Dum Biryani (Serves 2)",
+            "hi": "Chicken Dum Biryani (Serves 2)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 37,
+          "section": "Chicken Biryani"
+        },
+        {
+          "name": {
+            "en": "Chicken Fry Biryani",
+            "hi": "Chicken Fry Biryani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 26,
+          "section": "Chicken Biryani"
+        },
+        {
+          "name": {
+            "en": "Chicken Jhakas Masala Biryani",
+            "hi": "Chicken Jhakas Masala Biryani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Chicken Biryani"
+        },
+        {
+          "name": {
+            "en": "Natu Kodi Biryani",
+            "hi": "Natu Kodi Biryani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 30,
+          "section": "Chicken Biryani"
+        },
+        {
+          "name": {
+            "en": "Natu Kodi Jhakas Masala Biryani",
+            "hi": "Natu Kodi Jhakas Masala Biryani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 33,
+          "section": "Chicken Biryani"
+        },
+        {
+          "name": {
+            "en": "Gongura Chicken Biryani",
+            "hi": "Gongura Chicken Biryani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 27,
+          "section": "Chicken Biryani"
+        },
+        {
+          "name": {
+            "en": "Avakaya Chicken Biryani",
+            "hi": "Avakaya Chicken Biryani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Chicken Biryani"
+        },
+        {
+          "name": {
+            "en": "Chicken 65 Biryani (Boneless)",
+            "hi": "Chicken 65 Biryani (Boneless)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Chicken Biryani"
+        },
+        {
+          "name": {
+            "en": "AN-TE-RA Mutton Biryani (Serves 1)",
+            "hi": "AN-TE-RA Mutton Biryani (Serves 1)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Mutton Biryani"
+        },
+        {
+          "name": {
+            "en": "AN-TE-RA Mutton Biryani (Serves 2)",
+            "hi": "AN-TE-RA Mutton Biryani (Serves 2)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 42,
+          "section": "Mutton Biryani"
+        },
+        {
+          "name": {
+            "en": "Mutton Fry Biryani",
+            "hi": "Mutton Fry Biryani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Mutton Biryani"
+        },
+        {
+          "name": {
+            "en": "Mutton Kheema Biryani",
+            "hi": "Mutton Kheema Biryani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 31,
+          "section": "Mutton Biryani"
+        },
+        {
+          "name": {
+            "en": "Mutton Jhakas Masala Biryani",
+            "hi": "Mutton Jhakas Masala Biryani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 30,
+          "section": "Mutton Biryani"
+        },
+        {
+          "name": {
+            "en": "Gongura Mutton Biryani",
+            "hi": "Gongura Mutton Biryani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 30,
+          "section": "Mutton Biryani"
+        },
+        {
+          "name": {
+            "en": "Fish Biryani",
+            "hi": "Fish Biryani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 28,
+          "section": "Seafood Biryani"
+        },
+        {
+          "name": {
+            "en": "Prawns Fry Biryani",
+            "hi": "Prawns Fry Biryani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 30,
+          "section": "Seafood Biryani"
+        },
+        {
+          "name": {
+            "en": "Gongura Prawns Biryani",
+            "hi": "Gongura Prawns Biryani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 33,
+          "section": "Seafood Biryani"
+        },
+        {
+          "name": {
+            "en": "Veg Biryani",
+            "hi": "Veg Biryani",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Veg & Egg Biryani"
+        },
+        {
+          "name": {
+            "en": "Veg Jhakas Masala Biryani",
+            "hi": "Veg Jhakas Masala Biryani",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 26,
+          "section": "Veg & Egg Biryani"
+        },
+        {
+          "name": {
+            "en": "Spl Banjara Hills Veg Biryani",
+            "hi": "Spl Banjara Hills Veg Biryani",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 25,
+          "section": "Veg & Egg Biryani"
+        },
+        {
+          "name": {
+            "en": "Paneer Biryani",
+            "hi": "Paneer Biryani",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 24,
+          "section": "Veg & Egg Biryani"
+        },
+        {
+          "name": {
+            "en": "Mushroom Biryani",
+            "hi": "Mushroom Biryani",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 24,
+          "section": "Veg & Egg Biryani"
+        },
+        {
+          "name": {
+            "en": "Egg Biryani",
+            "hi": "Egg Biryani",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Veg & Egg Biryani"
+        },
+        {
+          "name": {
+            "en": "Biryani Rice",
+            "hi": "Biryani Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 17,
+          "section": "Veg & Egg Biryani"
+        },
+        {
+          "name": {
+            "en": "Fried Egg (2pc)",
+            "hi": "Fried Egg (2pc)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 7,
+          "section": "Egg Specials"
+        },
+        {
+          "name": {
+            "en": "Double Omelette (Kodi Guddu Attu)",
+            "hi": "Double Omelette (Kodi Guddu Attu)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 13,
+          "section": "Egg Specials"
+        },
+        {
+          "name": {
+            "en": "Egg Burji (Kodi Guddu Porutu)",
+            "hi": "Egg Burji (Kodi Guddu Porutu)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 17,
+          "section": "Egg Specials"
+        },
+        {
+          "name": {
+            "en": "Chili Egg",
+            "hi": "Chili Egg",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 18,
+          "section": "Egg Specials"
+        },
+        {
+          "name": {
+            "en": "Spiced Garlic Egg Fry (Vellulli Karam)",
+            "hi": "Spiced Garlic Egg Fry (Vellulli Karam)",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 19,
+          "section": "Egg Specials"
+        },
+        {
+          "name": {
+            "en": "Egg Masala",
+            "hi": "Egg Masala",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 20,
+          "section": "Egg Specials"
+        },
+        {
+          "name": {
+            "en": "Veg Fried Rice",
+            "hi": "Veg Fried Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 18,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Chicken Fried Rice",
+            "hi": "Chicken Fried Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 24,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Double Egg Fried Rice",
+            "hi": "Double Egg Fried Rice",
+            "aliases": []
+          },
+          "tags": [],
+          "priceAed": 22,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Mushroom Fried Rice",
+            "hi": "Mushroom Fried Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 23,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Zeera Rice",
+            "hi": "Zeera Rice",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 19,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Steamed Rice (With Rasam)",
+            "hi": "Steamed Rice (With Rasam)",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 9,
+          "section": "Rice"
+        },
+        {
+          "name": {
+            "en": "Whole Wheat Chapati/Phulka",
+            "hi": "Whole Wheat Chapati/Phulka",
+            "aliases": []
+          },
+          "tags": ["vegetarian"],
+          "priceAed": 2,
+          "section": "Indian Breads"
         }
       ]
     }
