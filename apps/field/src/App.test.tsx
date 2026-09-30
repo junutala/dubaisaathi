@@ -27,8 +27,12 @@ beforeEach(() => {
   });
 });
 
-afterEach(() => {
+afterEach(async () => {
   cleanup();
+  // Each screen reads the phone's own database as it opens, and the answer can arrive after the
+  // test has ended. Let it land while the page is still here: arriving after the file's page is
+  // torn down, it failed CI on 30 September.
+  await new Promise((resolve) => setTimeout(resolve, 100));
   vi.unstubAllGlobals();
 });
 
