@@ -33,6 +33,8 @@ export interface ReadDish {
   readonly veg?: boolean | null;
   /** True only where the card marks the dish for a fast (vrat, upvas, farali). */
   readonly vrat?: boolean | null;
+  /** True only where the card marks the dish Jain — its own mark, or "Jain" in its name. */
+  readonly jain?: boolean | null;
   readonly section?: string | null;
 }
 
@@ -75,6 +77,7 @@ export function dishesFromReading(reading: MenuReading): readonly ReportDish[] {
       tags: [
         ...(dish.veg === true ? ['vegetarian'] : []),
         ...(isVratDish({ name, vrat: dish.vrat }) ? ['vrat'] : []),
+        ...(dish.jain === true ? ['jain'] : []),
       ],
       ...(price === null ? {} : { priceAed: price }),
       ...(section === '' ? {} : { section }),
