@@ -462,7 +462,7 @@ describe('QR कोड', () => {
     vi.stubEnv('VITE_QR_PAY_LIVE', 'true');
     const signer = await trustedSigner();
     const passes = await signer.family(1);
-    let pay: () => void = () => undefined;
+    const payer: { pay?: () => void } = {};
     vi.doMock('./purchase.js', async (original) => {
       const real = await original<typeof import('./purchase.js')>();
       return {
@@ -475,7 +475,7 @@ describe('QR कोड', () => {
           }),
         watchOrder: () =>
           new Promise((resolve) => {
-            pay = () => {
+            payer.pay = () => {
               void import('./entitlement.js')
                 .then(({ installPass }) => installPass(passes[0]!))
                 .then(() => {
@@ -490,8 +490,14 @@ describe('QR कोड', () => {
     await show(undefined, signer);
     fireEvent.click(screen.getByRole('button', { name: 'QR कोड' }));
     await screen.findByRole('img', { name: 'भुगतान का QR कोड' });
-    pay();
-    await screen.findByRole('button', { name: 'साथी खोलिए' });
+    // The screen starts asking after the order in an effect after the QR is drawn; paying before
+    // that effect has run would resolve nothing. Wait until it is watching, as a phone would be.
+    await waitFor(() => {
+      expect(payer.pay).toBeDefined();
+    });
+    payer.pay!();
+    // Installing the pass verifies its signature and writes IndexedDB: slow on a loaded runner.
+    await screen.findByRole('button', { name: 'साथी खोलिए' }, { timeout: 5_000 });
     expect(screen.queryByRole('img', { name: 'भुगतान का QR कोड' })).toBeNull();
     vi.doUnmock('./purchase.js');
   });

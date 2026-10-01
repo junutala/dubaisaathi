@@ -416,14 +416,31 @@
       days.append(bar);
     }
 
-    table(
-      'via',
-      [
-        ['Came through', false],
-        ['Phones', true],
-      ],
-      Object.entries(s.arrivedVia || {}).sort((a, b) => b[1] - a[1]),
-    );
+    // Each way in followed to what its phones did (migration 0025); the plain count if it failed.
+    if (Array.isArray(m.acquisition)) {
+      table(
+        'via',
+        [
+          ['Came through', false],
+          ['Phones', true],
+          ['Searched खाना', true],
+          ['Used offline', true],
+          ['Came back', true],
+          ['Began paying', true],
+          ['Paid', true],
+        ],
+        m.acquisition.map((a) => [a.via, a.phones, a.food, a.offline, a.returned, a.began, a.paid]),
+      );
+    } else {
+      table(
+        'via',
+        [
+          ['Came through', false],
+          ['Phones', true],
+        ],
+        Object.entries(s.arrivedVia || {}).sort((a, b) => b[1] - a[1]),
+      );
+    }
 
     table(
       'asks',

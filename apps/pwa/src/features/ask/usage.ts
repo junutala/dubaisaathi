@@ -97,12 +97,23 @@ function write(key: string, value: string): void {
 
 /**
  * How this phone came to us, read once from the address it was first opened at: `?via=` on a
- * link or a QR (the website, a counter card, an agent's list), a family pass handed over by QR,
- * or nobody — typed in or found. Only letters, digits and hyphens are kept.
+ * link or a QR (the website, a counter card, an agent's list), an ad's `utm_` tags (source,
+ * campaign, content — "meta-khaana1-surat"), a family pass handed over by QR, or nobody — typed in
+ * or found. Only letters, digits and hyphens are kept.
  */
 export function arrivalSource(url: URL): string {
   const via = (url.searchParams.get('via') ?? '').toLowerCase();
   if (/^[a-z0-9-]{1,40}$/.test(via)) return via;
+  const tagged = ['utm_source', 'utm_campaign', 'utm_content']
+    .map((key) => url.searchParams.get(key) ?? '')
+    .filter((part) => part !== '')
+    .join('-')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 40)
+    .replace(/-+$/, '');
+  if (tagged !== '') return tagged;
   if (url.hash.startsWith('#/pass/')) return 'family-pass';
   return 'direct';
 }
