@@ -5053,7 +5053,7 @@
       "tags": [],
       "phone": "04 546 8181",
       "delivers": "yes",
-      "deliveryPhone": "04 546 8181 · 050 379 7949",
+      "deliveryPhone": "04 546 8181 · 04 546 6056 · 050 379 7949 · 050 398 9875",
       "dietary": {
         "jain": "no",
         "vrat": "no",
@@ -57911,7 +57911,9 @@
           "priceAed": 2,
           "section": "Hot Drinks"
         }
-      ]
+      ],
+      "deliveryPhone": "+971 52 411 8210",
+      "delivers": "yes"
     },
     {
       "id": "9d43d009-b505-4e47-bc6d-bb1cc64eb6ad",
@@ -66248,7 +66250,9 @@
           "priceAed": 1.5,
           "section": "HOT BEVERAGES"
         }
-      ]
+      ],
+      "deliveryPhone": "04 370 7975 · 050 185 8167",
+      "delivers": "yes"
     },
     {
       "id": "5cf8956d-f024-44c8-88fc-f7c81fd8035d",
@@ -105127,7 +105131,13 @@
           "priceAed": 19,
           "section": "Mini Tiffin"
         }
-      ]
+      ],
+      "hours": {
+        "everyDay": {
+          "opens": "07:30",
+          "closes": "23:30"
+        }
+      }
     },
     {
       "id": "bc9f341c-7c4a-4579-81a5-3be62ff4d4b0",
@@ -105142,7 +105152,7 @@
       },
       "areaId": "karama",
       "kitchen": "pure-veg",
-      "tags": ["vegetarian"],
+      "tags": ["vegetarian", "jain"],
       "phone": "050 819 7900",
       "deliveryPhone": "050 819 7900",
       "delivers": "yes",
@@ -105657,7 +105667,10 @@
           "priceAed": 6,
           "section": "Drinks"
         }
-      ]
+      ],
+      "dietary": {
+        "jain": "yes"
+      }
     },
     {
       "id": "57486a27-abf5-424c-bcf5-4b41c51d083c",
@@ -105672,7 +105685,7 @@
       },
       "areaId": "karama",
       "kitchen": "pure-veg",
-      "tags": ["vegetarian", "vrat"],
+      "tags": ["vegetarian", "vrat", "jain"],
       "phone": "054 345 7114",
       "deliveryPhone": "054 345 7114",
       "delivers": "yes",
@@ -107797,7 +107810,10 @@
           "priceAed": 3,
           "section": "Hot Beverages"
         }
-      ]
+      ],
+      "dietary": {
+        "jain": "yes"
+      }
     },
     {
       "id": "c82723c1-46bc-4e4b-8928-be0f84b63230",
@@ -122152,7 +122168,13 @@
           "priceAed": 21,
           "section": "Packaged Foods"
         }
-      ]
+      ],
+      "hours": {
+        "everyDay": {
+          "opens": "07:00",
+          "closes": "23:30"
+        }
+      }
     },
     {
       "id": "90f5e062-88e7-48a0-a410-630d92f51f37",
@@ -137547,7 +137569,9 @@
           "priceAed": 15,
           "section": "Veg Hyderabadi Special Dishes"
         }
-      ]
+      ],
+      "deliveryPhone": "04 583 3308 · 054 367 8607",
+      "delivers": "yes"
     },
     {
       "id": "a266a005-86dd-4c68-8d6b-ba846aada5ce",
@@ -139414,7 +139438,8 @@
           "priceAed": 2.5,
           "section": "Beverages & Juices"
         }
-      ]
+      ],
+      "delivers": "yes"
     },
     {
       "id": "772cde5d-dbc6-48b8-846f-ed8448c0a3e6",
@@ -142102,7 +142127,9 @@
           "priceAed": 3,
           "section": "Tea Items"
         }
-      ]
+      ],
+      "deliveryPhone": "04 357 0080 · 050 899 7013",
+      "delivers": "yes"
     },
     {
       "id": "e1ea7c90-2d8c-4556-82f2-dc3451a0413e",
@@ -142117,7 +142144,7 @@
       },
       "areaId": "karama",
       "kitchen": "pure-veg",
-      "tags": ["vegetarian", "vrat"],
+      "tags": ["vegetarian", "vrat", "jain"],
       "phone": "04 887 7690",
       "deliveryPhone": "04 8877690",
       "delivers": "yes",
@@ -144342,7 +144369,10 @@
           "priceAed": 5,
           "section": "Hot Dessert"
         }
-      ]
+      ],
+      "dietary": {
+        "jain": "yes"
+      }
     },
     {
       "id": "7bf8b175-7e4d-427a-8ca0-b50da1528b74",
@@ -148169,7 +148199,13 @@
           "priceAed": 28,
           "section": "Biriyani 12 Noon - 12 Mid Night"
         }
-      ]
+      ],
+      "hours": {
+        "everyDay": {
+          "opens": "06:00",
+          "closes": "00:00"
+        }
+      }
     },
     {
       "id": "ea1f1de2-6cfb-4d3b-a346-5bf791b3a144",
@@ -160903,10 +160939,10 @@
       },
       "areaId": "karama",
       "kitchen": "pure-veg",
-      "tags": ["vegetarian", "jain"],
+      "tags": ["vegetarian", "jain", "no-onion", "no-garlic"],
       "dietary": {
         "jain": "yes",
-        "noOnionGarlic": "on-request"
+        "noOnionGarlic": "yes"
       },
       "confirmedDishes": [
         {
@@ -171124,7 +171160,7 @@
       },
       "areaId": "bur-dubai",
       "kitchen": "pure-veg",
-      "tags": ["vegetarian", "vrat"],
+      "tags": ["vegetarian", "vrat", "jain"],
       "phone": "04 351 1466",
       "confirmedDishes": [
         {
@@ -173227,7 +173263,10 @@
           "priceAed": 3,
           "section": "Coffee or Tea ?"
         }
-      ]
+      ],
+      "dietary": {
+        "jain": "yes"
+      }
     },
     {
       "id": "7d5035c6-fca5-4bd7-a5c1-1e63f0af2a0d",
@@ -186635,12 +186674,12 @@
       },
       "areaId": "bur-dubai",
       "kitchen": "pure-veg",
-      "tags": ["vegetarian", "vrat"],
+      "tags": ["vegetarian", "vrat", "jain"],
       "phone": "058 650 1071",
       "deliveryPhone": "058 650 1071",
       "delivers": "yes",
       "dietary": {
-        "jain": "on-request"
+        "jain": "yes"
       },
       "confirmedDishes": [
         {
@@ -190646,7 +190685,13 @@
           "priceAed": 17,
           "section": "Farsan / Namkeen"
         }
-      ]
+      ],
+      "hours": {
+        "everyDay": {
+          "opens": "07:30",
+          "closes": "22:30"
+        }
+      }
     },
     {
       "id": "19018b17-ed5e-4fa5-84b4-a77cff0fabe9",
