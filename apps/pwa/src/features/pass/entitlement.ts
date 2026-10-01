@@ -34,6 +34,14 @@ const KEY = 'saathi.entitlement';
 export const PURCHASE_IS_LIVE = import.meta.env.VITE_PURCHASE_LIVE === 'true';
 
 /**
+ * Whether घर.4 offers "QR कोड" — a Payment Link someone else scans and pays (decision 049). Its
+ * own switch because it needs the `link` action on `order`, `payment_link.paid` in `webhook` and
+ * migration 0024 on the server first: a control that is there before its server is a promise
+ * broken on the tap. It needs buying to be open as well. `VITE_QR_PAY_LIVE=true` at build time.
+ */
+export const QR_PAY_IS_LIVE = PURCHASE_IS_LIVE && import.meta.env.VITE_QR_PAY_LIVE === 'true';
+
+/**
  * Whether the gate may close — and it is a separate switch on purpose (decision 019).
  *
  * These were one switch, and one switch cannot express the state the product is actually in:

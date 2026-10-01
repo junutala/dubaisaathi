@@ -47,6 +47,15 @@ export const POLL_DELAYS_MS = [2000, 3000, 5000, 8000, 12000, 15000, 15000] as c
 /** A traveller who closed Checkout without paying is not made to watch the full minute. */
 const GLANCE = 2;
 
+/**
+ * A Razorpay Payment Link for an order, drawn as घर.4's "QR कोड" so someone else can pay it
+ * (decision 049). Kept on the remembered order, so the same QR comes back with the radio off.
+ */
+export interface PayLink {
+  readonly url: string;
+  readonly expiresAt: string;
+}
+
 /** What `order` `create` handed back. The key is the publishable half; the secret stays there. */
 export interface OpenOrder {
   readonly orderId: string;
@@ -55,6 +64,7 @@ export interface OpenOrder {
   readonly amountInr: number;
   readonly slots: number;
   readonly code?: string;
+  readonly link?: PayLink;
 }
 
 /** The one-word refusals `order` sends that घर.4 has a line for. */
@@ -83,6 +93,15 @@ export type PurchaseOutcome =
   | { readonly kind: 'pending' }
   /** The payment screen itself never opened. */
   | { readonly kind: 'unreachable' }
+  | { readonly kind: 'refused'; readonly reason: PurchaseRefusal }
+  | { readonly kind: 'offline' }
+  | { readonly kind: 'failed' };
+
+/** How "QR कोड" ends: the link to draw, or one of the endings a purchase already has a line for. */
+export type LinkOutcome =
+  | { readonly kind: 'link'; readonly order: OpenOrder; readonly link: PayLink }
+  /** The order behind a remembered QR had been paid already: the pass is installed. */
+  | { readonly kind: 'paid'; readonly slots: number }
   | { readonly kind: 'refused'; readonly reason: PurchaseRefusal }
   | { readonly kind: 'offline' }
   | { readonly kind: 'failed' };
@@ -123,6 +142,24 @@ export function openOrder(): OpenOrder | null {
   }
 }
 
+/** A link is handed out only while somebody still has time to scan it and pay. */
+const LINK_MARGIN_MS = 15 * 60_000;
+
+function linkIsLive(link: PayLink | undefined): link is PayLink {
+  return link !== undefined && Date.parse(link.expiresAt) - LINK_MARGIN_MS > Date.now();
+}
+
+function readLink(raw: unknown): PayLink | null {
+  if (typeof raw !== 'object' || raw === null) return null;
+  const row = raw as Record<string, unknown>;
+  return typeof row.url === 'string' &&
+    row.url.startsWith('https://') &&
+    typeof row.expiresAt === 'string' &&
+    !Number.isNaN(Date.parse(row.expiresAt))
+    ? { url: row.url, expiresAt: row.expiresAt }
+    : null;
+}
+
 function rememberOrder(order: OpenOrder): void {
   try {
     localStorage.setItem(KEY, JSON.stringify(order));
@@ -155,6 +192,7 @@ function readOrder(raw: unknown): OpenOrder | null {
   ) {
     return null;
   }
+  const link = readLink(row.link);
   return {
     orderId: row.orderId,
     aggregatorOrderId: row.aggregatorOrderId,
@@ -162,7 +200,19 @@ function readOrder(raw: unknown): OpenOrder | null {
     amountInr: row.amountInr,
     slots: row.slots,
     ...(typeof row.code === 'string' ? { code: row.code } : {}),
+    ...(link === null ? {} : { link }),
   };
+}
+
+/**
+ * The remembered order, when it is for exactly what the traveller has chosen now — the same
+ * phones and the same code — so the pay button and "QR कोड" both collect on it rather than
+ * leaving a QR out in a family chat for an order this phone has stopped asking about.
+ */
+function matchingOrder(slots: number, code: string | undefined): OpenOrder | null {
+  const order = openOrder();
+  if (order?.slots !== slots) return null;
+  return (order.code ?? '') === (code ?? '') ? order : null;
 }
 
 function asRefusal(reason: unknown): PurchaseRefusal | null {
@@ -412,9 +462,14 @@ export async function buyPass(options: {
   // two rather than for both in a row. Nothing is skipped: the order is still made on the
   // server, and the pass still comes only from the webhook.
   const script = offline() ? null : loadCheckout();
-  const created = await createOrder(options.slots, options.code);
-  if (created.kind !== 'order') return created;
-  const order = created.order;
+  // A QR for this very purchase may be out already (decision 049): Checkout collects on that same
+  // order, so whichever is paid first settles it and this phone is still asking about it.
+  let order = matchingOrder(options.slots, options.code);
+  if (order === null) {
+    const created = await createOrder(options.slots, options.code);
+    if (created.kind !== 'order') return created;
+    order = created.order;
+  }
   // Remembered before Checkout opens: a traveller who pays and then loses the tab has paid.
   rememberOrder(order);
 
@@ -433,6 +488,109 @@ export async function buyPass(options: {
     opened === 'closed' ? POLL_DELAYS_MS.slice(0, GLANCE) : POLL_DELAYS_MS,
   );
   return settled.kind === 'pending' && opened === 'closed' ? { kind: 'closed' } : settled;
+}
+
+/** `order` `link`: the Payment Link for one of this phone's orders, or why there is none. */
+async function askLink(
+  orderId: string,
+): Promise<
+  { readonly kind: 'link'; readonly link: PayLink } | { readonly kind: 'stale' | 'failed' }
+> {
+  let body: Record<string, unknown>;
+  try {
+    const response = await fetch(ORDER, {
+      method: 'POST',
+      headers: supabaseHeaders(),
+      body: JSON.stringify({ action: 'link', deviceId: deviceId(), orderId }),
+    });
+    body = (await response.json()) as Record<string, unknown>;
+  } catch {
+    return { kind: 'failed' };
+  }
+  // The order is paid, failed, gone, or its link has run out: not one to draw a QR for.
+  if (body.reason === 'no-order' || body.reason === 'not-open' || body.reason === 'link-expired') {
+    return { kind: 'stale' };
+  }
+  const link = readLink({ url: body.shortUrl, expiresAt: body.expiresAt });
+  return link === null ? { kind: 'failed' } : { kind: 'link', link };
+}
+
+/**
+ * "QR कोड" (decision 049): a Payment Link for this purchase, for someone else to scan and pay.
+ *
+ * The order is the same one the pay button uses — the remembered one when it is for the same
+ * phones and code, a new one otherwise — so the price is the server's, never this phone's, and
+ * the pass comes the way every pass comes: the webhook signs it and `status` hands it over. With
+ * the radio off a QR already made for this purchase is drawn again from memory; nothing new is
+ * asked for.
+ */
+export async function paymentLink(slots: number, code?: string): Promise<LinkOutcome> {
+  let order = matchingOrder(slots, code);
+  if (offline()) {
+    return order !== null && linkIsLive(order.link)
+      ? { kind: 'link', order, link: order.link }
+      : { kind: 'offline' };
+  }
+
+  // Twice at most: a remembered order the server no longer calls open is replaced once.
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    if (order === null) {
+      const created = await createOrder(slots, code);
+      if (created.kind !== 'order') return created;
+      order = created.order;
+      rememberOrder(order);
+    }
+    const asked = await askLink(order.orderId);
+    if (asked.kind === 'link') {
+      const kept = { ...order, link: asked.link };
+      rememberOrder(kept);
+      return { kind: 'link', order: kept, link: asked.link };
+    }
+    if (asked.kind === 'failed') return { kind: 'failed' };
+    // Not open any more. It may be because it was paid: that pass is installed, not dropped.
+    const settled = await settleFrom(order, await orderStatus(order.orderId));
+    if (settled !== null && settled.kind === 'paid') return settled;
+    forgetOrder();
+    order = null;
+  }
+  return { kind: 'failed' };
+}
+
+/** A wait that ends early when the screen that asked for it goes away. */
+function pause(ms: number, signal: AbortSignal): Promise<void> {
+  return new Promise<void>((resolve) => {
+    const timer = setTimeout(done, ms);
+    function done() {
+      clearTimeout(timer);
+      signal.removeEventListener('abort', done);
+      resolve();
+    }
+    signal.addEventListener('abort', done);
+  });
+}
+
+/** While the QR is on screen: a quick first look, then every ten seconds, for as long as it is. */
+export const QR_POLL_DELAYS_MS = [3000, 5000, 10000] as const;
+
+/**
+ * Asks after the order for as long as its QR is on screen — the son in Pune may take ten minutes
+ * to find his phone — and installs the pass the moment the webhook has signed it. `null` when the
+ * screen closed first: the order stays remembered, and the next open of the app asks again.
+ */
+export async function watchOrder(
+  order: OpenOrder,
+  signal: AbortSignal,
+): Promise<PurchaseOutcome | null> {
+  // Read through a call each time: the signal changes while this function is awaiting.
+  const closed = () => signal.aborted;
+  for (let look = 0; !closed(); look += 1) {
+    await pause(QR_POLL_DELAYS_MS[Math.min(look, QR_POLL_DELAYS_MS.length - 1)] ?? 10000, signal);
+    if (closed()) return null;
+    const settled = await settleFrom(order, await orderStatus(order.orderId));
+    // A pass that landed is kept and reported even if the screen closed in that same moment.
+    if (settled !== null) return settled;
+  }
+  return null;
 }
 
 /**

@@ -341,7 +341,7 @@ describe('paying', () => {
     expect(pay.hasAttribute('disabled')).toBe(false);
     expect(screen.queryByText(/ख़रीदना अभी चालू नहीं/)).toBeNull();
     expect(screen.getByText('UPI · कार्ड · नेट बैंकिंग')).toBeTruthy();
-    // Only one way to pay: the QR button for someone else is gone, Checkout offers that itself.
+    // "QR कोड" waits for its own switch (decision 049): buying alone does not bring it.
     expect(screen.queryByRole('button', { name: /QR/ })).toBeNull();
 
     fireEvent.click(pay);
@@ -363,5 +363,163 @@ describe('paying', () => {
     vi.stubEnv('VITE_TESTING_TOOLS', 'true');
     await show();
     expect(screen.queryByRole('button', { name: /फिर से शुरू|हटाएँ/ })).toBeNull();
+  });
+});
+
+/**
+ * "QR कोड" — someone else pays (decision 049): a Payment Link for this purchase, drawn large on
+ * this phone, sent on WhatsApp with no number in it, and asked after until the pass lands.
+ */
+describe('QR कोड', () => {
+  const LINK = 'https://rzp.io/rzp/TESTQR01';
+  const ORDER = {
+    orderId: '99999999-9999-4999-8999-999999999999',
+    aggregatorOrderId: 'order_TESTAAAA',
+    keyId: 'rzp_test_key',
+    amountInr: 299,
+    slots: 2,
+  };
+
+  it('is not there without VITE_QR_PAY_LIVE, nor with it while buying is shut', async () => {
+    vi.stubEnv('VITE_PURCHASE_LIVE', 'true');
+    await show();
+    expect(screen.getByRole('button', { name: '₹199 भुगतान करें' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'QR कोड' })).toBeNull();
+    cleanup();
+
+    vi.unstubAllEnvs();
+    vi.stubEnv('VITE_QR_PAY_LIVE', 'true');
+    await show();
+    expect(screen.queryByRole('button', { name: 'QR कोड' })).toBeNull();
+  });
+
+  it('sits under the pay button once both switches are on', async () => {
+    vi.stubEnv('VITE_PURCHASE_LIVE', 'true');
+    vi.stubEnv('VITE_QR_PAY_LIVE', 'true');
+    await show();
+    const pay = screen.getByRole('button', { name: '₹199 भुगतान करें' });
+    const qr = screen.getByRole('button', { name: 'QR कोड' });
+    expect(pay.compareDocumentPosition(qr) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(qr.className).toContain('btn-ghost');
+  });
+
+  it('draws the link, says what it is for, and sends it on WhatsApp with no number', async () => {
+    vi.stubEnv('VITE_PURCHASE_LIVE', 'true');
+    vi.stubEnv('VITE_QR_PAY_LIVE', 'true');
+    const signer = await trustedSigner();
+    const paymentLink = vi.fn(() =>
+      Promise.resolve({
+        kind: 'link' as const,
+        order: { ...ORDER, link: { url: LINK, expiresAt: '2099-01-01T00:00:00.000Z' } },
+        link: { url: LINK, expiresAt: '2099-01-01T00:00:00.000Z' },
+      }),
+    );
+    const watchOrder = vi.fn<(order: { orderId: string }, signal: AbortSignal) => Promise<null>>(
+      () => new Promise<null>(() => undefined),
+    );
+    vi.doMock('./purchase.js', async (original) => ({
+      ...(await original<typeof import('./purchase.js')>()),
+      paymentLink,
+      watchOrder,
+      preloadCheckout: vi.fn(),
+      warmOrder: vi.fn(),
+    }));
+    await show(undefined, signer);
+    fireEvent.click(screen.getByRole('button', { name: /2 फ़ोन/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'QR कोड' }));
+    expect(paymentLink).toHaveBeenCalledWith(2, undefined);
+
+    // The QR is drawn on the phone from the link itself: the same encoder as ऐप शेयर.
+    const drawn = await screen.findByRole('img', { name: 'भुगतान का QR कोड' });
+    const { qrPath } = await import('./qr.js');
+    expect(drawn.querySelector('path')?.getAttribute('d')).toBe(qrPath(LINK).d);
+    expect(screen.getByText('₹299')).toBeTruthy();
+    expect(screen.getByText('दुबई साथी पास · 14 दिन · 2 फ़ोन')).toBeTruthy();
+    expect(screen.getByText(/इसे स्कैन करके भुगतान करें, पास इसी फ़ोन पर आ जाएगा/)).toBeTruthy();
+    expect(screen.getByText('UPI · कार्ड · नेट बैंकिंग')).toBeTruthy();
+    expect(document.body.textContent).not.toMatch(/wallet|वॉलेट/i);
+
+    const send = screen.getByRole('link', { name: 'WhatsApp पर भेजें' });
+    const href = send.getAttribute('href') ?? '';
+    expect(href.startsWith('https://wa.me/?text=')).toBe(true);
+    const text = decodeURIComponent(href.slice('https://wa.me/?text='.length));
+    expect(text).toBe(`मेरा दुबई साथी पास, ₹299 — इस लिंक से भुगतान कर दीजिए: ${LINK}`);
+
+    // Asked after while it is up; back to the flow stops that and keeps the flow intact.
+    expect(watchOrder).toHaveBeenCalledWith(
+      expect.objectContaining({ orderId: ORDER.orderId }),
+      expect.any(AbortSignal),
+    );
+    const signal = watchOrder.mock.calls[0]![1];
+    fireEvent.click(screen.getByRole('button', { name: 'वापस — ख़ुद भुगतान करें' }));
+    expect(signal.aborted).toBe(true);
+    expect(screen.getByRole('button', { name: '₹299 भुगतान करें' })).toBeTruthy();
+    vi.doUnmock('./purchase.js');
+  });
+
+  it('lands the pass while the QR is up: the welcome takes the screen', async () => {
+    vi.stubEnv('VITE_PURCHASE_LIVE', 'true');
+    vi.stubEnv('VITE_QR_PAY_LIVE', 'true');
+    const signer = await trustedSigner();
+    const passes = await signer.family(1);
+    let pay: () => void = () => undefined;
+    vi.doMock('./purchase.js', async (original) => {
+      const real = await original<typeof import('./purchase.js')>();
+      return {
+        ...real,
+        paymentLink: () =>
+          Promise.resolve({
+            kind: 'link' as const,
+            order: { ...ORDER, slots: 1, amountInr: 199 },
+            link: { url: LINK, expiresAt: '2099-01-01T00:00:00.000Z' },
+          }),
+        watchOrder: () =>
+          new Promise((resolve) => {
+            pay = () => {
+              void import('./entitlement.js')
+                .then(({ installPass }) => installPass(passes[0]!))
+                .then(() => {
+                  resolve({ kind: 'paid', slots: 1 });
+                });
+            };
+          }),
+        preloadCheckout: vi.fn(),
+        warmOrder: vi.fn(),
+      };
+    });
+    await show(undefined, signer);
+    fireEvent.click(screen.getByRole('button', { name: 'QR कोड' }));
+    await screen.findByRole('img', { name: 'भुगतान का QR कोड' });
+    pay();
+    await screen.findByRole('button', { name: 'साथी खोलिए' });
+    expect(screen.queryByRole('img', { name: 'भुगतान का QR कोड' })).toBeNull();
+    vi.doUnmock('./purchase.js');
+  });
+
+  it('draws in English too', async () => {
+    localStorage.setItem('saathi.locale', 'en');
+    vi.stubEnv('VITE_PURCHASE_LIVE', 'true');
+    vi.stubEnv('VITE_QR_PAY_LIVE', 'true');
+    const signer = await trustedSigner();
+    vi.doMock('./purchase.js', async (original) => ({
+      ...(await original<typeof import('./purchase.js')>()),
+      paymentLink: () =>
+        Promise.resolve({
+          kind: 'link' as const,
+          order: ORDER,
+          link: { url: LINK, expiresAt: '2099-01-01T00:00:00.000Z' },
+        }),
+      watchOrder: () => new Promise<null>(() => undefined),
+      preloadCheckout: vi.fn(),
+      warmOrder: vi.fn(),
+    }));
+    await show(undefined, signer);
+    fireEvent.click(screen.getByRole('button', { name: 'QR code' }));
+    await screen.findByRole('img', { name: 'Payment QR code' });
+    const href = screen.getByRole('link', { name: 'Send on WhatsApp' }).getAttribute('href') ?? '';
+    expect(decodeURIComponent(href)).toContain(
+      `My Dubai Saathi pass, ₹299 — please pay with this link: ${LINK}`,
+    );
+    vi.doUnmock('./purchase.js');
   });
 });

@@ -1607,6 +1607,71 @@ button:not(:disabled) {
   align-self: flex-start;
 }
 
+/* ---- घर.4 · QR कोड — someone else pays (decision 049) ------------------------------------ */
+/* Secondary to the one pay button: outlined, and a little shorter than it. */
+.pay-qr-btn {
+  width: 100%;
+  min-height: 48px;
+}
+.pay-qr {
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+.pay-qr .lbl {
+  align-self: stretch;
+  text-align: left;
+}
+.pay-qr p {
+  margin: 0;
+}
+.pay-qr-amount {
+  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.pay-qr-what {
+  font-size: 14px;
+  color: var(--muted);
+}
+/* White ground and a quiet zone, as on ऐप शेयर: a QR on a dark card does not scan in either theme. */
+.pay-qr-code {
+  background: #ffffff;
+  color: #141826;
+  border-radius: 18px;
+  padding: 10px;
+  /* Large enough to scan off a phone held out to another, small enough that the whole screen —
+     the waiting line and the way back included — sits above the bar at 390×844. */
+  width: min(100%, 212px);
+  border: 1px solid var(--line);
+}
+.pay-qr-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.pay-qr-line {
+  font-size: 15px;
+  line-height: 1.45;
+  text-wrap: balance;
+}
+/* Small, as the owner asked: a link under the QR, not a second button competing with it. */
+.pay-qr-send {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--tealText);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.pay-qr .btn {
+  align-self: stretch;
+}
+
 /* What the pass gives, where the tiers used to be (decision 022). */
 .gives {
   list-style: none;

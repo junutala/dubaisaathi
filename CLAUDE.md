@@ -626,6 +626,9 @@ delivery app".
    and `VITE_GATE_LIVE` (default false) is the only thing `isGated` reads, so buying is open
    while no traveller is ever gated. There is no control that takes a pass off a phone — the
    testing one went on 30 September; a fresh browser profile is how to see घर.4 unpaid again.
+   **"QR कोड" — someone else pays** (decision 049) went live on 1 October: migration 0024
+   applied, `order` (v11) and `webhook` (v10) deployed, `VITE_QR_PAY_LIVE=true` on the pwa
+   service. `docs/handoff/qr-pay-deploy.md` records the order it was done in.
 3. **Content.** `restaurants.v1.json` is empty and खाना runs on the fixture; the collectors'
    app is live and the pipeline publishes approved reports. `attractions.v1.json` is unchecked
    on the ground; every row has `checkedAt`. **This is what decision 025 is waiting for.**

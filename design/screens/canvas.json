@@ -110,8 +110,17 @@
    "page": "all"
   },
   {
-   "file": "HomePassWelcome.dc.html",
+   "file": "HomePassQr.dc.html",
    "x": 2820,
+   "y": 1000,
+   "w": 390,
+   "h": 844,
+   "title": "घर.4 · पास › QR कोड",
+   "page": "all"
+  },
+  {
+   "file": "HomePassWelcome.dc.html",
+   "x": 3290,
    "y": 1000,
    "w": 390,
    "h": 844,
@@ -120,7 +129,7 @@
   },
   {
    "file": "HomeShare.dc.html",
-   "x": 3290,
+   "x": 3760,
    "y": 1000,
    "w": 390,
    "h": 844,
@@ -129,7 +138,7 @@
   },
   {
    "file": "HomeContribute.dc.html",
-   "x": 3760,
+   "x": 4230,
    "y": 1000,
    "w": 390,
    "h": 844,
@@ -138,7 +147,7 @@
   },
   {
    "file": "HomeTerms.dc.html",
-   "x": 4230,
+   "x": 4700,
    "y": 1000,
    "w": 390,
    "h": 844,
