@@ -647,7 +647,7 @@ is the second: that is the website's form, and nothing else reads it yet.
 
 ## Marketing — where the campaign's assets live
 
-**The marketing assets live on the branch `claude/optimistic-gauss-92eucb`, in `marketing/`, and
+**The marketing assets live on the branch `marketing-assets`, in `marketing/`, and
 not on `main`** (the owner, 1 October). Fetch that branch before making or changing any
 campaign material; never recreate what is already there.
 
@@ -680,7 +680,7 @@ decision 006 — 14 days, "₹199 se" — never "30 days". No competitor is name
 
 Practical: the Higgsfield account is on the free plan — Nano Banana 2 runs on it, GPT Image and
 Recraft refuse ("Requires basic plan"). Higgsfield's image host is blocked by this container's
-network policy, so a generated image reaches the repo by the owner uploading it to the branch.
+network policy, so a generated image reaches the repo by the owner uploading it to `marketing-assets`.
 The Meta ad account is "Arun Kumar" (INR); the Dubaisaathi Page must be attached to it before an
 ad can run under it.
 
