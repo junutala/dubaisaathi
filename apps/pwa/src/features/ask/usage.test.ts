@@ -32,6 +32,23 @@ describe('usage, recorded for the owner', () => {
     expect(arrivalSource(new URL('https://dubai.saafarsaathi.in/?via=<script>'))).toBe('direct');
   });
 
+  it("reads an ad's utm tags as one short tag, so each town's ad set is its own row", () => {
+    const ad = new URL(
+      'https://dubai.saafarsaathi.in/?utm_source=Meta&utm_medium=paid&utm_campaign=khaana1&utm_content=Surat#/',
+    );
+    expect(arrivalSource(ad)).toBe('meta-khaana1-surat');
+    // `via` wins when both are there; anything outside letters, digits and hyphens is dropped.
+    expect(arrivalSource(new URL('https://dubai.saafarsaathi.in/?via=site&utm_source=meta'))).toBe(
+      'site',
+    );
+    expect(
+      arrivalSource(new URL('https://dubai.saafarsaathi.in/?utm_source=meta&utm_content=<b>x</b>')),
+    ).toBe('meta-b-x-b');
+    expect(
+      arrivalSource(new URL(`https://dubai.saafarsaathi.in/?utm_source=${'a'.repeat(60)}`)),
+    ).toBe('a'.repeat(40));
+  });
+
   it('counts a day in Dubai time, not the phone clock', () => {
     // 16:00 UTC is 20:00 in Dubai on the 25th; 21:00 UTC is already 01:00 on the 26th there.
     expect(dubaiDay(new Date(Date.UTC(2026, 8, 25, 16, 0)))).toBe('2026-09-25');
