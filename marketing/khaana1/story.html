@@ -2,7 +2,7 @@
 <html lang="hi">
   <head>
     <meta charset="utf-8" />
-    <title>Khaana 1 · feed 4:5</title>
+    <title>Khaana 1 · story 9:16</title>
     <style>
       @font-face {
         font-family: Mukta;
@@ -35,7 +35,7 @@
       }
       body {
         width: 1080px;
-        height: 1350px;
+        height: 1920px;
         overflow: hidden;
         font-family: Mukta, sans-serif;
         background: #d9c7a8;
@@ -43,16 +43,16 @@
       .poster {
         position: relative;
         width: 1080px;
-        height: 1350px;
+        height: 1920px;
         background:
-          url(photo.png) center -80px / 1080px auto no-repeat,
-          #d9c7a8;
+          url(photo.png) center 0 / 1250px auto no-repeat,
+          var(--sand);
       }
       /* The problem, over the sky. */
       .problem {
         position: absolute;
         inset: 0 0 auto 0;
-        padding: 44px 56px 120px;
+        padding: 250px 56px 150px;
         background: linear-gradient(
           to bottom,
           rgba(247, 243, 236, 0.94) 0%,
@@ -74,7 +74,8 @@
       .answer {
         position: absolute;
         inset: auto 0 0 0;
-        height: 400px;
+        height: 640px;
+        padding-bottom: 300px;
         padding: 40px 56px 44px;
         background: var(--food);
         color: var(--onFood);
@@ -107,7 +108,7 @@
       .cta {
         position: absolute;
         left: 56px;
-        bottom: 44px;
+        bottom: 300px;
         display: inline-block;
         padding: 18px 30px;
         border-radius: 999px;
@@ -121,7 +122,7 @@
       .phone {
         position: absolute;
         right: 52px;
-        bottom: 34px;
+        bottom: 290px;
         width: 330px;
         height: 600px;
         padding: 12px;
