@@ -134,6 +134,14 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   built when purchase goes live, not before. Never gated means never forced. Prices: ₹199 / ₹299 / ₹399 / ₹499 for
   1–4 phones, 14 days from landing (decision 006). Buying needs the order endpoint and the
   aggregator, which do not exist yet; until they do the buttons say so and nothing is gated.
+  **Parked, not decided** (the owner, 1 October): what happens on day 14 for a paid traveller —
+  a gate, a goodwill extension ("we are extending your pass by 14 days — tell your family"), or
+  nothing; ending a pass when the phone is read **in India** (never merely "outside Dubai": a
+  Sharjah hotel or an Abu Dhabi day trip is still the trip), so the next trip is a new purchase —
+  `leftAt` is recorded today and read by nothing; and a referral ("5 friends' phones open the app
+  from your link", counted by arrival tag, never by taps on share). The 14 days stay because they
+  leave the owner room to choose — a pass "for the whole trip" never ends for a resident. **The
+  first thing settled once there is a paid userbase.** Build none of it before then.
 - **खाना is dish first.** The dish is the search, the place is the answer: kitchens where a
   collector confirmed it first, kitchens of its kind after, nearest first. A constraint the
   traveller states (pure veg, Jain, no onion-garlic, vrat, open now) is honoured; a taste is
