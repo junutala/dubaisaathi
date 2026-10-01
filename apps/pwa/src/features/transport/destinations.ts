@@ -103,7 +103,7 @@ export function carriesMoreThanThePlace(typed: string, matched: string | undefin
   ]) {
     for (const keyword of list) for (const word of keyword.folded.split(' ')) known.add(word);
   }
-  for (const alias of intentCorpus.placeByAlias.keys()) {
+  for (const alias of intentCorpus.nearAliases.keys()) {
     for (const word of alias.split(' ')) known.add(word);
   }
   // The glue a traveller writes around the words that carry meaning. Without it "mujhe karama

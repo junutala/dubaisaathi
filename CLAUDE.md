@@ -65,10 +65,11 @@ This file is the working summary; the concept doc wins on any detail it covers.
   checking that a screen works, ask what finishes the task, not what leaves it.
 - **A claim ships with its data, never before it** (decision 025). A sentence on the website or
   a screen the app cannot honour the moment someone opens it is not marketing that is slightly
-  early — it is this product's one promise, broken on the first tap. `restaurants.v1.json` is
-  still empty, so खाना's headline claim may not go live. **जाना's data is now in** — the RTA's
-  own August 2025 feed, converted on 22 September — so that half of decision 025 is answered on
-  the facts; whether the claim goes up is still the owner's word, not this file's.
+  early — it is this product's one promise, broken on the first tap. Both halves of decision 025
+  are now answered on the facts: **खाना has 106 kitchens** (Karama 62, Bur Dubai 29, Meena Bazaar
+  13 — 55 vegetarian, 27 vrat, 7 Jain; 1 October), and **जाना has the RTA's own August 2025
+  feed**. The owner put खाना's claim up on 1 October, in the first Meta campaign, worded to the
+  data: "Bur Dubai ke curated Indian restaurants — vrat aur veg".
 - **No competitor is ever named**, anywhere — not the website, not the app, not `apps/field`.
   The owner's standing position: we do not give other brands coverage inside our own product.
   Name the category instead — "on no delivery app" — which is also the clearer sentence for a
@@ -153,10 +154,14 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   phone without it. The steps carry the RTA's own network: every bus route, both metro lines,
   the tram, the direction the vehicle is headed, and the first and last departure from the stop
   the traveller boards at (decision 017). **A walk never crosses the Creek; the abra does**, for a
-  dirham in cash (decision 036).
+  dirham in cash (decision 036). **Every metro and tram station and every bus stop is somewhere
+  to go** (decision 050): a station by its name or a near spelling, a bus stop by its own name
+  typed out, bays folded into one destination, and the RTA's "Al" optional — "Rashidiya" is "Al
+  Rashidiya". A curated place still answers for its own stops.
 - **जानना is knowing, on tabs** (decision 037, 25 September), **under one slim red line**:
   "आपातकाल: पुलिस 999 · एम्बुलेंस 998 · आग 997" and सब नंबर, above the tabs (decision 046) — the
-  only red in the product, spent where a traveller who is out already is. **जगहें**: attractions with hours,
+  only red in the product, spent where a traveller who is out already is. **जगहें**: 40 attractions (1 October; 25 added from desk research,
+  temples and the Gurudwara among them, none yet checked on the ground) with hours,
   ticket, how long, whom to ring, a Hindi blurb and a जाना button; no hotels or homestays; a line
   at the bottom lets the traveller name a place we missed, into the question log. **सफ़र** (3.3):
   topics for getting around: what never to pack (khus khus, paan, some medicines), metro manners,
@@ -232,6 +237,9 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
 8. **Scope guard.** Dubai Saathi is _not_ hotel/flight booking, food delivery, a restaurant
    marketplace, an itinerary planner, a content portal, or a general AI chatbot. Push back on
    requests that drift there.
+   **The audience is the budget traveller** (the owner, 1 October): the family staying around
+   Bur Dubai, Karama and Deira, not the visitor in a Marina hotel at a thousand dollars a night,
+   who does not need us. Content follows them — no push to cover Marina or Al Barsha kitchens.
 
 ## Stack
 
@@ -556,10 +564,9 @@ The screens are the design source of truth and live in `design/`:
 `npm run verify` is green.
 
 **Nothing launches before 25 September, and not then unless the data is in** (decision 025).
-That is the owner's ruling and it governs the website's copy: `restaurants.v1.json` holds zero
-rows, so खाना's headline claim may not go live until real kitchens are published. जाना's half is
-answered — the RTA's August 2025 feed went in on 22 September, replacing the 2021 edition. No competitor is ever named anywhere — say "no
-delivery app".
+Both halves are now in — 106 kitchens in खाना, the RTA's August 2025 feed in जाना — and the first
+campaign went live on 1 October (see "Marketing"). No competitor is ever named anywhere — say
+"no delivery app".
 
 ### What happened on 17–18 September
 
@@ -629,13 +636,15 @@ delivery app".
    **"QR कोड" — someone else pays** (decision 049) went live on 1 October: migration 0024
    applied, `order` (v11) and `webhook` (v10) deployed, `VITE_QR_PAY_LIVE=true` on the pwa
    service. `docs/handoff/qr-pay-deploy.md` records the order it was done in.
-3. **Content.** `restaurants.v1.json` is empty and खाना runs on the fixture; the collectors'
-   app is live and the pipeline publishes approved reports. `attractions.v1.json` is unchecked
-   on the ground; every row has `checkedAt`. **This is what decision 025 is waiting for.**
-4. **बोलना's deployment.** The `listen` edge function is written and is not deployed, and its
-   secret `SARVAM_API_KEY` is not set — both are the lead's to do. Until they are, the block is
-   there when the phone is online and the screen says, in one line, that बोलना is not switched on
-   yet; nothing else is affected.
+3. **Content.** `restaurants.v1.json` holds 106 kitchens from the owner's walks. Only 7 carry
+   opening hours, so "खुला है" answers for 7: the owner is filling hours, phones and dietary
+   answers from the menu cards in a spreadsheet exported on 1 October (one row per outlet, keyed
+   by the outlet id), to be imported back. `attractions.v1.json` holds 40 rows, none checked on
+   the ground; every row has `checkedAt`. Not every kitchen's menu pages are on the
+   `menu-pages` branch: it holds only the latest pull.
+4. **बोलना is deployed** (`listen`, and `readboard` for घर.7). It works only with a signal, and
+   in a hotel the traveller has free Wi-Fi — so it, not an offline phrasebook, is how a traveller
+   tells the desk "mera AC kharaab hai" (the owner, 1 October).
 5. **Sprint 2**: the owner's
    "I'm on this bus" toggle — a countdown of stops to alight with a buzz one stop before,
    built on the leg's stop sequence and GPS, with the timetable's running times as the fallback
@@ -672,8 +681,8 @@ campaign material; never recreate what is already there.
   — the owner's earlier pillar images and the promo film.
 
 The campaign as agreed: Hinglish; towns in Gujarat (Surat, Rajkot) and Maharashtra (Nashik,
-Kolhapur), one ad set per state; ₹500 a day for 7 days, then extend the better one; optimised for
-link clicks. The link carries `utm_source=meta&utm_campaign=khaana1&utm_content=<town>`; the
+Kolhapur), one ad set per state; 7 days, then extend the better one; optimised for link clicks.
+The link carries `utm_source=meta&utm_campaign=khaana1&utm_content=<state>`; the
 app reads it as the phone's arrival tag and /admin's "How phones came to us" follows each tag to
 खाना searches, offline use, return visits and payment (migration 0025). The claim honours
 decision 006 — 14 days, "₹199 se" — never "30 days". No competitor is named.
@@ -681,8 +690,18 @@ decision 006 — 14 days, "₹199 se" — never "30 days". No competitor is name
 Practical: the Higgsfield account is on the free plan — Nano Banana 2 runs on it, GPT Image and
 Recraft refuse ("Requires basic plan"). Higgsfield's image host is blocked by this container's
 network policy, so a generated image reaches the repo by the owner uploading it to `marketing-assets`.
-The Meta ad account is "Arun Kumar" (INR); the Dubaisaathi Page must be attached to it before an
-ad can run under it.
+The Meta ad account is "Arun Kumar" (INR). The Dubaisaathi Page (1259517903919457) advertises
+directly — it did not need attaching first. No Instagram account is linked, so ads run on Facebook
+only (the owner's choice for the first campaign).
+
+**The first campaign, live since 1 October:** "Khaana 1 · vrat · Gujarat + Maharashtra"
+(52608771121397), Traffic, optimised for link clicks, Facebook only. Two ad sets at ₹325 a day
+each — Gujarat (20 km around Surat and Rajkot) and Maharashtra (20 km around Nashik and
+Kolhapur) — ending 8 October 23:59 IST, about ₹4,900 in all (the owner raised it from ₹3,500 for
+the long weekend). One ad each, the 4:5 poster, declared AI-made (the photo is). The links carry
+`utm_content=gujarat` / `maharashtra`, so /admin shows `meta-khaana1-gujarat` and
+`meta-khaana1-maharashtra`. Interest targeting was not set: the tool cannot look up Meta's
+interest ids, and invented ones break an ad set.
 
 ## The spike, for the record
 

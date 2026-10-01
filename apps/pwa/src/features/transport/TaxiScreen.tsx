@@ -45,7 +45,9 @@ export function TaxiScreen({
   if (typed === undefined && !place) return null;
 
   const name = place ? localName(place.name, locale) : (typed ?? '');
-  const other = place ? (locale === 'hi' ? place.name.en : place.name.hi) : undefined;
+  const otherName = place ? (locale === 'hi' ? place.name.en : place.name.hi) : undefined;
+  // A stop the RTA names only in English carries that one name; it is not said twice.
+  const other = otherName === name ? undefined : otherName;
   const arabic = place?.name.ar;
   const address = [name, other, arabic]
     .filter((part): part is string => part !== undefined && part !== '')

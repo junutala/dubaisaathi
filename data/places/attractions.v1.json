@@ -1,7 +1,7 @@
 {
-  "contentVersion": 1,
-  "publishedAt": "2026-09-16T00:00:00Z",
-  "note": "Hours, tickets and phone numbers as known on 16 September 2026 and NOT yet checked by a person on the ground. Every row carries checkedAt; update it when someone confirms. Categories: landmark, mall, souk, beach, park. `website` is the attraction's own site, for the traveller to read more and book; there is no photograph in the pack, by decision (16 September).",
+  "contentVersion": 2,
+  "publishedAt": "2026-10-01T00:00:00Z",
+  "note": "Hours, tickets and phone numbers as known on 16 September 2026 (the first fifteen) and 1 October 2026 (the rest, from desk research) and NOT yet checked by a person on the ground. Every row carries checkedAt; update it when someone confirms. Categories: landmark, mall, souk, beach, park. `website` is the attraction's own site, for the traveller to read more and book; there is no photograph in the pack, by decision (16 September).",
   "attractions": [
     {
       "placeId": "burj-khalifa",
@@ -284,6 +284,476 @@
         "en": "per crossing"
       },
       "durationHours": 0.5
+    },
+    {
+      "placeId": "hindu-temple-jebel-ali",
+      "category": "landmark",
+      "blurb": {
+        "hi": "दुबई का सबसे बड़ा हिंदू मंदिर, 2022 में खुला — शिव, कृष्ण, गणेश समेत सोलह देवताओं के दर्शन एक ही जगह। शाम 7:30 की आरती ज़रूर देखें। कंधे और घुटने ढके कपड़े पहनें, जूते बाहर उतारें; बगल में ही गुरुद्वारा है।",
+        "en": "Dubai's largest Hindu temple, opened in 2022 — Shiva, Krishna, Ganesh and sixteen deities under one roof. Stay for the 7:30 pm aarti. Cover shoulders and knees and leave shoes outside; the Gurudwara is next door."
+      },
+      "hoursText": {
+        "hi": "6:00 – 20:30, रोज़ · आरती 19:30",
+        "en": "6:00 – 20:30, daily · aarti 19:30"
+      },
+      "ticketAed": 0,
+      "ticketNote": {
+        "hi": "प्रवेश मुफ़्त · त्योहारों पर ऑनलाइन बुकिंग करें",
+        "en": "Free entry · book online for festival days"
+      },
+      "durationHours": 1.5,
+      "website": "https://www.hindutempledubai.com",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "gurunanak-darbar",
+      "category": "landmark",
+      "blurb": {
+        "hi": "जेबेल अली में मंदिर के ठीक बगल में बना बड़ा गुरुद्वारा। दोपहर और शाम को लंगर मिलता है — सादा, शाकाहारी और मुफ़्त। अंदर सिर ढकें; रुमाल वहीं मिल जाता है।",
+        "en": "The big Gurudwara right next to the Jebel Ali Hindu temple. Langar is served at lunch and in the evening — simple, vegetarian and free. Cover your head inside; scarves are provided."
+      },
+      "hoursText": {
+        "hi": "रोज़ खुला · लंगर 11:30 से और शाम 19:00 से",
+        "en": "Open daily · langar from 11:30 and from 19:00"
+      },
+      "ticketAed": 0,
+      "ticketNote": {
+        "hi": "प्रवेश और लंगर मुफ़्त",
+        "en": "Free entry and langar"
+      },
+      "phone": "+971 4 882 7550",
+      "durationHours": 1,
+      "website": "https://www.gurudwaradubai.com",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "krishna-mandir-bur-dubai",
+      "category": "landmark",
+      "blurb": {
+        "hi": "बर दुबई की 'हिंदी गली' में 1958 से चल रहा पुराना कृष्ण मंदिर। शिव मंदिर अब जेबेल अली चला गया है, पर कृष्ण जी यहीं हैं। गली में फूल, प्रसाद, चूड़ियाँ मिलती हैं; पास ही कपड़ा बाज़ार और अब्रा घाट है।",
+        "en": "The old Krishna temple in Bur Dubai's 'Hindi Lane', running since 1958. The Shiva temple has moved to Jebel Ali, but Krishna stays here. The lane sells flowers, prasad and bangles; the Textile Souk and the abra are steps away."
+      },
+      "hoursText": {
+        "hi": "दर्शन लगभग 6:30 – 11:15 और 17:00 – 19:30 · आरती 7:00 और 19:15",
+        "en": "Darshan about 6:30 – 11:15 and 17:00 – 19:30 · aarti 7:00 and 19:15"
+      },
+      "ticketAed": 0,
+      "durationHours": 0.75,
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "spice-souk",
+      "category": "souk",
+      "blurb": {
+        "hi": "देरा की पुरानी गलियों में केसर, इलायची, ड्राई फ्रूट, खजूर और अरबी इत्र की दुकानें। गोल्ड सूक बगल में ही है, दोनों एक साथ देख लें। मोलभाव ज़रूर करें और नकद रखें — केसर सस्ता दिखे तो असली है या नहीं, पूछ लें।",
+        "en": "Saffron, cardamom, dry fruit, dates and Arabic perfume in Deira's old lanes. The Gold Souk is next door — see both together. Bargain, carry cash, and be wary of saffron that looks too cheap."
+      },
+      "hoursText": {
+        "hi": "लगभग 9:00 – 22:00 · कई दुकानें दोपहर 13:00 – 16:00 बंद",
+        "en": "About 9:00 – 22:00 · many shops shut 13:00 – 16:00"
+      },
+      "ticketAed": 0,
+      "durationHours": 1,
+      "website": "https://www.visitdubai.com/en/places-to-visit/the-spice-souk",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "textile-souk",
+      "category": "souk",
+      "blurb": {
+        "hi": "बर दुबई की ढकी हुई पुरानी गलियाँ — साड़ी, दुपट्टे, पश्मीना, कढ़ाई वाले कपड़े और सस्ते सुवेनियर। दाम आधे से शुरू करके मोलभाव करें, नकद पर छूट ज़्यादा मिलती है। यहीं से अब्रा पकड़कर एक दिरहम में देरा के मसाला और गोल्ड सूक पहुँचें।",
+        "en": "Bur Dubai's covered old lanes — saris, dupattas, pashmina, embroidered cloth and cheap souvenirs. Start bargaining at half, cash gets a better price. Take the one-dirham abra from here to Deira's Spice and Gold Souks."
+      },
+      "hoursText": {
+        "hi": "लगभग 10:00 – 22:00 · दोपहर 13:00 – 16:00 कई दुकानें बंद · शुक्रवार शाम से",
+        "en": "About 10:00 – 22:00 · many shops shut 13:00 – 16:00 · Friday from the afternoon"
+      },
+      "ticketAed": 0,
+      "durationHours": 1.5,
+      "website": "https://www.visitdubai.com/en/places-to-visit/the-textile-souk",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "al-seef",
+      "category": "landmark",
+      "blurb": {
+        "hi": "क्रीक किनारे पुराने दुबई जैसा बना बाज़ार और घूमने की जगह — मिट्टी के रंग की गलियाँ, लकड़ी की नावें, कैफ़े। शाम को ठंडी हवा में टहलने के लिए सबसे अच्छी। अल फ़हीदी और अब्रा घाट पैदल दूरी पर हैं।",
+        "en": "A creekside promenade built to look like old Dubai — sand-coloured lanes, wooden dhows, cafés. Best for an evening walk when the breeze comes in. Al Fahidi and the abra are a short walk away."
+      },
+      "hoursText": {
+        "hi": "हमेशा खुला · दुकानें 10:00 – 22:00 (शुक्र–रवि 23:00)",
+        "en": "Always open · shops 10:00 – 22:00 (Fri–Sun 23:00)"
+      },
+      "ticketAed": 0,
+      "durationHours": 1.5,
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "la-mer",
+      "category": "beach",
+      "blurb": {
+        "hi": "जुमेरा में साफ़-सुथरा बीच, लकड़ी के रास्ते, दीवारों पर रंगीन पेंटिंग और खाने-पीने की दुकानें। बीच पर जाना मुफ़्त है, नहाने का समय सुबह 8 बजे से सूरज ढलने तक। धूप तेज़ होती है — शाम 4 बजे के बाद जाएँ।",
+        "en": "A tidy beach in Jumeirah with boardwalks, murals and food stalls. The beach is free; swimming from 8 am to sunset. The sun is fierce — go after 4 pm."
+      },
+      "hoursText": {
+        "hi": "बीच हमेशा खुला · नहाना 8:00 से सूर्यास्त तक · दुकानें 10:00 – 24:00",
+        "en": "Beach always open · swimming 8:00 to sunset · shops 10:00 – 24:00"
+      },
+      "ticketAed": 0,
+      "durationHours": 2,
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "the-beach-jbr",
+      "category": "beach",
+      "blurb": {
+        "hi": "मरीना के पास लंबा, मुफ़्त बीच — सामने ऐन दुबई का बड़ा झूला दिखता है। पीछे द वॉक पर दुकानें और रेस्टोरेंट हैं, शाम को रौनक रहती है। लाइफ़गार्ड दिन में ही होते हैं, सूरज ढलने के बाद पानी में न जाएँ।",
+        "en": "A long free beach by the Marina, with the Ain Dubai wheel in view. The Walk behind it has shops and restaurants and is liveliest in the evening. Lifeguards only in daylight — stay out of the water after sunset."
+      },
+      "hoursText": {
+        "hi": "बीच हमेशा खुला · लाइफ़गार्ड सूर्योदय से सूर्यास्त · दुकानें 10:00 से",
+        "en": "Beach always open · lifeguards sunrise to sunset · shops from 10:00"
+      },
+      "ticketAed": 0,
+      "durationHours": 2,
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "kite-beach",
+      "category": "beach",
+      "blurb": {
+        "hi": "उम्म सुकेम का खुला, मुफ़्त बीच — सामने बुर्ज अल अरब दिखता है। पतंगबाज़ी वाली सर्फ़िंग, जॉगिंग ट्रैक और फ़ूड ट्रक। शाम 7 बजे के बाद पानी में जाना मना है।",
+        "en": "Umm Suqeim's open, free beach with the Burj Al Arab in view. Kitesurfers, a jogging track and food trucks. No swimming after 7 pm."
+      },
+      "hoursText": {
+        "hi": "बीच हमेशा खुला · दुकानें 10:00 – 22:00 · नहाना 19:00 तक",
+        "en": "Beach always open · shops 10:00 – 22:00 · swimming until 19:00"
+      },
+      "ticketAed": 0,
+      "durationHours": 2,
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "al-mamzar-beach",
+      "category": "beach",
+      "blurb": {
+        "hi": "देरा के पास घास, पेड़ और शांत बीच वाला बड़ा पार्क — परिवार के साथ पिकनिक के लिए अच्छा। सोमवार और बुधवार सिर्फ़ महिलाओं और बच्चों के लिए। गेट पर नोल कार्ड से पैसे कटते हैं, नकद नहीं चलता।",
+        "en": "A big park near Deira with lawns, trees and calm beaches — good for a family picnic. Mondays and Wednesdays are for women and children only. The gate takes a Nol card, not cash."
+      },
+      "hoursText": {
+        "hi": "8:00 – 22:00 (शुक्र–रवि 23:00)",
+        "en": "8:00 – 22:00 (Fri–Sun 23:00)"
+      },
+      "ticketAed": 5,
+      "ticketNote": {
+        "hi": "प्रति व्यक्ति · नोल कार्ड से · पार्किंग अलग",
+        "en": "Per person · by Nol card · parking extra"
+      },
+      "durationHours": 3,
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "creek-park",
+      "category": "park",
+      "blurb": {
+        "hi": "क्रीक किनारे बड़ा हरा पार्क — लॉन, झूले, साइकिल और डॉल्फ़िन शो एक ही जगह। बच्चों के साथ आधा दिन आराम से निकल जाता है। गेट पर पाँच दिरहम नोल कार्ड से कटते हैं, नकद नहीं लेते।",
+        "en": "A large green park on the Creek — lawns, play areas, cycling and the dolphin show in one place. Easily half a day with children. The 5-dirham gate fee is paid by Nol card, not cash."
+      },
+      "hoursText": {
+        "hi": "8:00 – 22:00 (गुरु–शनि 23:00)",
+        "en": "8:00 – 22:00 (Thu–Sat 23:00)"
+      },
+      "ticketAed": 5,
+      "ticketNote": {
+        "hi": "प्रति व्यक्ति · नोल कार्ड से · 2 साल से छोटे मुफ़्त",
+        "en": "Per person · by Nol card · under-2s free"
+      },
+      "durationHours": 3,
+      "website": "https://www.visitdubai.com/en/places-to-visit/creek-park",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "dubai-dolphinarium",
+      "category": "park",
+      "blurb": {
+        "hi": "क्रीक पार्क के अंदर ढका हुआ हॉल जहाँ डॉल्फ़िन और सील का 45 मिनट का शो होता है — बच्चों को बहुत पसंद आता है। शो दिन में तीन बार है, सीट पहले बुक कर लें। मंगलवार को शो नहीं होता; पार्क का गेट टिकट अलग लगता है।",
+        "en": "An indoor hall inside Creek Park with a 45-minute dolphin and seal show — children love it. Three shows a day; book seats ahead. No shows on Tuesdays, and the park's gate fee is extra."
+      },
+      "hoursText": {
+        "hi": "शो 11:00, 14:00, 18:00 · मंगलवार बंद",
+        "en": "Shows 11:00, 14:00, 18:00 · closed Tuesday"
+      },
+      "ticketAed": 89,
+      "ticketNote": {
+        "hi": "बड़े 89 · बच्चे (2–11) 45 · क्रीक पार्क गेट 5 दिरहम अलग",
+        "en": "Adult 89 · child (2–11) 45 · Creek Park gate AED 5 extra"
+      },
+      "phone": "+971 4 336 9773",
+      "durationHours": 1,
+      "website": "https://www.dubaidolphinarium.ae",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "dubai-garden-glow",
+      "category": "park",
+      "blurb": {
+        "hi": "रोशनी से सजी मूर्तियाँ, चलते-बोलते डायनासोर और रंगीन फ़ैंटेसी पार्क — बच्चों के साथ शाम बिताने की जगह। अब ज़बील पार्क के गेट 3 पर है, दुबई फ़्रेम के ठीक बगल में; दोनों एक ही शाम में देख सकते हैं। अँधेरा होने के बाद जाएँ, तभी रोशनी दिखती है।",
+        "en": "Light sculptures, moving dinosaurs and a colourful fantasy park — an evening out with children. It now sits at Zabeel Park Gate 3, right beside the Dubai Frame, so both fit in one evening. Go after dark, when the lights show."
+      },
+      "hoursText": {
+        "hi": "लगभग 16:00 – 21:00 · मंगलवार बंद (मौसम के हिसाब से बदलता है)",
+        "en": "About 16:00 – 21:00 · closed Tuesday (changes by season)"
+      },
+      "ticketAed": 74,
+      "ticketNote": {
+        "hi": "ग्लो + डायनासोर + फ़ैंटेसी पार्क · 3 साल से छोटे मुफ़्त",
+        "en": "Glow, Dinosaur and Fantasy parks · under-3s free"
+      },
+      "durationHours": 2.5,
+      "website": "https://www.dubaigardenglow.com",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "img-worlds",
+      "category": "landmark",
+      "blurb": {
+        "hi": "दुनिया के सबसे बड़े इनडोर थीम पार्कों में से एक — मार्वल, कार्टून नेटवर्क और डायनासोर वाले झूले, पूरी तरह एसी में। गर्मी के दिनों में बच्चों के लिए सबसे अच्छा। दोपहर 12 बजे खुलता है, पूरा दिन रखें।",
+        "en": "One of the world's largest indoor theme parks — Marvel, Cartoon Network and dinosaur rides, fully air-conditioned. Best with children on a hot day. Opens at noon; give it the whole day."
+      },
+      "hoursText": {
+        "hi": "12:00 – 22:00 (शुक्र–शनि 23:00)",
+        "en": "12:00 – 22:00 (Fri–Sat 23:00)"
+      },
+      "ticketAed": 345,
+      "ticketNote": {
+        "hi": "105 सेमी से छोटे बच्चे मुफ़्त · ऑनलाइन सस्ता मिलता है",
+        "en": "Children under 105 cm free · cheaper online"
+      },
+      "phone": "+971 4 403 8888",
+      "durationHours": 6,
+      "website": "https://www.imgworlds.com",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "legoland-dubai",
+      "category": "park",
+      "blurb": {
+        "hi": "2 से 12 साल के बच्चों के लिए लेगो से बना थीम पार्क — 40 से ज़्यादा झूले और लेगो की बनी दुबई की इमारतें। दुबई पार्क्स एंड रिज़ॉर्ट्स में है, शहर से लगभग 45 मिनट। बड़े बच्चों के लिए बगल का मोशनगेट बेहतर है।",
+        "en": "A LEGO theme park for children aged 2–12 — over 40 rides and Dubai's skyline in LEGO bricks. At Dubai Parks and Resorts, about 45 minutes from the city. Older children will prefer Motiongate next door."
+      },
+      "hoursText": {
+        "hi": "लगभग 10:00 – 18:00 (सप्ताहांत 19:00) · मौसम के हिसाब से बदलता है",
+        "en": "About 10:00 – 18:00 (weekends 19:00) · varies by season"
+      },
+      "ticketAed": 330,
+      "ticketNote": {
+        "hi": "गेट पर 330 · एक दिन पहले ऑनलाइन 295 · 3 साल से छोटे मुफ़्त",
+        "en": "330 at the gate · 295 online a day ahead · under-3s free"
+      },
+      "phone": "+971 4 820 0000",
+      "durationHours": 6,
+      "website": "https://www.legoland.com/dubai/",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "motiongate-dubai",
+      "category": "park",
+      "blurb": {
+        "hi": "हॉलीवुड फ़िल्मों पर बना थीम पार्क — श्रेक, कुंग फ़ू पांडा, हंगर गेम्स जैसे झूले, बड़े बच्चों और बड़ों के लिए। लेगोलैंड के बगल में, दुबई पार्क्स एंड रिज़ॉर्ट्स में। पानी की बोतल और टोपी साथ रखें, ज़्यादातर हिस्सा खुले में है।",
+        "en": "A theme park built on Hollywood films — Shrek, Kung Fu Panda, Hunger Games rides, for older children and adults. Next to LEGOLAND at Dubai Parks and Resorts. Carry water and a cap; most of it is outdoors."
+      },
+      "hoursText": {
+        "hi": "11:00 – 20:00 (शुक्र–शनि 21:00)",
+        "en": "11:00 – 20:00 (Fri–Sat 21:00)"
+      },
+      "ticketAed": 295,
+      "ticketNote": {
+        "hi": "3 साल से ऊपर सबका एक दाम · 3 से छोटे मुफ़्त · पार्किंग शामिल",
+        "en": "One price from age 3 · under-3s free · parking included"
+      },
+      "phone": "+971 4 820 0000",
+      "durationHours": 6,
+      "website": "https://www.dubaiparksandresorts.com/en/motiongatetm-dubai",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "aya-universe",
+      "category": "landmark",
+      "blurb": {
+        "hi": "वाफ़ी मॉल के अंदर रोशनी और परछाइयों की 12 कमरों वाली डिजिटल दुनिया — तारे, समुद्र, जंगल चारों ओर चलते दिखते हैं। एसी में है, गर्मी या शाम के लिए ठीक। फ़ोटो खूब आती हैं, पर फ़ोन की बैटरी भरी रखें।",
+        "en": "A 12-room digital world of light inside Wafi Mall — stars, sea and forest moving all around you. Air-conditioned, good for a hot afternoon or an evening. Great for photos; charge your phone first."
+      },
+      "hoursText": {
+        "hi": "10:00 – 22:00 (शुक्र–शनि 24:00) · आख़िरी एंट्री एक घंटा पहले",
+        "en": "10:00 – 22:00 (Fri–Sat 24:00) · last entry an hour before"
+      },
+      "ticketAed": 135,
+      "ticketNote": {
+        "hi": "3 साल से ऊपर सबका एक दाम · ऑनलाइन 95–125",
+        "en": "One price from age 3 · 95–125 online"
+      },
+      "durationHours": 1.5,
+      "website": "https://www.wafi.com/play/ayabyhyperspace/",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "dubai-safari-park",
+      "category": "park",
+      "blurb": {
+        "hi": "3,000 से ज़्यादा जानवरों वाला बड़ा चिड़ियाघर — शेर, जिराफ़, हाथी, और खुली गाड़ी में सफ़ारी। ठंडे मौसम (अक्टूबर से मई) में ही खुलता है; नया सीज़न 12 अक्टूबर 2026 से। सुबह जल्दी जाएँ, दोपहर में जानवर छाँव में छिप जाते हैं।",
+        "en": "A large zoo with over 3,000 animals — lions, giraffes, elephants and an open-vehicle safari. Open only in the cool season (October to May); the new season starts 12 October 2026. Go early — by noon the animals hide in the shade."
+      },
+      "hoursText": {
+        "hi": "मौसमी: 12 अक्टूबर 2026 से · सर्दियों में 9:00 – 20:00 · आख़िरी एंट्री एक घंटा पहले",
+        "en": "Seasonal: from 12 October 2026 · winter 9:00 – 20:00 · last entry an hour before"
+      },
+      "ticketAed": 50,
+      "ticketNote": {
+        "hi": "पिछले सीज़न का दाम · ट्रेन, शो और पार्किंग शामिल · बड़ी सफ़ारी अलग",
+        "en": "Last season's price · train, shows and parking included · Explorer safari extra"
+      },
+      "phone": "800 900",
+      "durationHours": 4,
+      "website": "https://dubaisafari.ae",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "etihad-museum",
+      "category": "landmark",
+      "blurb": {
+        "hi": "वह जगह जहाँ 1971 में यूएई देश बना — नया संग्रहालय, पुराना यूनियन हाउस और बड़ा झंडा। देश बनने की कहानी फ़िल्मों और पुरानी तस्वीरों में, अंग्रेज़ी में। टिकट सस्ता है और अंदर एसी, दोपहर बिताने के लिए अच्छा।",
+        "en": "Where the UAE was founded in 1971 — a modern museum, the original Union House and the great flag. The country's story in films and old photographs, in English. Cheap, air-conditioned, good for a hot afternoon."
+      },
+      "hoursText": {
+        "hi": "10:00 – 20:00, रोज़",
+        "en": "10:00 – 20:00, daily"
+      },
+      "ticketAed": 25,
+      "ticketNote": {
+        "hi": "बड़े 25 · विद्यार्थी 10 · 5 साल से छोटे मुफ़्त",
+        "en": "Adult 25 · student 10 · under-5s free"
+      },
+      "phone": "+971 4 515 5771",
+      "durationHours": 2,
+      "website": "https://etihadmuseum.dubaiculture.gov.ae",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "dubai-butterfly-garden",
+      "category": "park",
+      "blurb": {
+        "hi": "नौ ढके हुए गुंबदों में 15,000 तितलियाँ खुली उड़ती हैं — बच्चे हाथ पर बिठाकर देखते हैं। मिरेकल गार्डन के ठीक बगल में है, दोनों एक साथ देखें। अंदर ठंडक रहती है, इसलिए गर्मी में भी जा सकते हैं।",
+        "en": "15,000 butterflies flying free in nine covered domes — children get them to land on their hands. Right beside the Miracle Garden; see both together. It's cool inside, so fine even in summer."
+      },
+      "hoursText": {
+        "hi": "9:00 – 18:00, रोज़",
+        "en": "9:00 – 18:00, daily"
+      },
+      "ticketAed": 55,
+      "ticketNote": {
+        "hi": "सभी नौ गुंबद · 3 साल से छोटे मुफ़्त",
+        "en": "All nine domes · under-3s free"
+      },
+      "phone": "+971 4 422 8902",
+      "durationHours": 1,
+      "website": "https://www.dubaibutterflygarden.com",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "view-at-the-palm",
+      "category": "landmark",
+      "blurb": {
+        "hi": "पाम जुमेरा के बीच में पाम टॉवर की 52वीं मंज़िल से पूरा ताड़ के पेड़ जैसा द्वीप दिखता है। नीचे नख़ील मॉल है, वहीं से लिफ़्ट जाती है। दोपहर 3:30 तक टिकट सस्ता है, सूर्यास्त के समय महँगा।",
+        "en": "From the 52nd floor of the Palm Tower you see the whole palm-shaped island. The lift starts in Nakheel Mall below. Cheaper until 3:30 pm, dearer at sunset."
+      },
+      "hoursText": {
+        "hi": "लगभग 9:00 – 21:00 · सस्ता समय 10:00 – 15:30",
+        "en": "About 9:00 – 21:00 · off-peak 10:00 – 15:30"
+      },
+      "ticketAed": 100,
+      "ticketNote": {
+        "hi": "बड़े 100 · बच्चे (4–11) 69 · सूर्यास्त के समय 158/111",
+        "en": "Adult 100 · child (4–11) 69 · sunset slots 158/111"
+      },
+      "durationHours": 1,
+      "website": "https://www.theviewpalm.ae",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "dubai-hills-mall",
+      "category": "mall",
+      "blurb": {
+        "hi": "नया और खुला-खुला मॉल, जहाँ अंदर तेज़ रोलर कोस्टर 'स्टॉर्म कोस्टर' है। बच्चों के खेल, बड़ा हाइपरमार्केट और फ़ूड कोर्ट। मेट्रो सीधी नहीं जाती — मॉल ऑफ़ द एमिरेट्स स्टेशन से टैक्सी लें।",
+        "en": "A newer, airy mall with the fast indoor 'Storm Coaster' roller coaster. Children's play areas, a big hypermarket and a food court. No metro at the door — take a taxi from Mall of the Emirates station."
+      },
+      "hoursText": {
+        "hi": "10:00 – 22:00 (शुक्र–शनि 24:00)",
+        "en": "10:00 – 22:00 (Fri–Sat 24:00)"
+      },
+      "ticketAed": 0,
+      "ticketNote": {
+        "hi": "मॉल मुफ़्त · स्टॉर्म कोस्टर एक राइड लगभग 58",
+        "en": "Mall free · Storm Coaster about 58 a ride"
+      },
+      "durationHours": 2.5,
+      "website": "https://www.emaar.com/en/dubai-hills-mall",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "expo-city-dubai",
+      "category": "landmark",
+      "blurb": {
+        "hi": "एक्सपो 2020 की जगह, अब खुला शहर — अल वस्ल गुंबद पर शाम को रोशनी का शो, पानी का फ़व्वारा, बाग़। घूमना मुफ़्त है; कुछ पवेलियन और घूमने वाले टॉवर 'गार्डन इन द स्काई' का टिकट अलग। मेट्रो रेड लाइन से सीधे एक्सपो स्टेशन पहुँचें।",
+        "en": "The Expo 2020 site, now an open town — the light show on the Al Wasl dome in the evening, water features, gardens. Walking round is free; some pavilions and the 'Garden in the Sky' tower are ticketed. The Red Line metro goes straight to the Expo station."
+      },
+      "hoursText": {
+        "hi": "मैदान खुला · पवेलियन 10:00 – 18:00 · रोशनी का शो सूर्यास्त के बाद",
+        "en": "Grounds open · pavilions 10:00 – 18:00 · light show after sunset"
+      },
+      "ticketAed": 0,
+      "ticketNote": {
+        "hi": "घूमना मुफ़्त · गार्डन इन द स्काई 30 (12 साल तक मुफ़्त) · पवेलियन अलग",
+        "en": "Free to walk round · Garden in the Sky 30 (free to age 12) · pavilions extra"
+      },
+      "phone": "800 39762489",
+      "durationHours": 3,
+      "website": "https://www.expocitydubai.com",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "dragon-mart",
+      "category": "mall",
+      "blurb": {
+        "hi": "चीन के सामान का बहुत लंबा बाज़ार — खिलौने, बर्तन, कपड़े, इलेक्ट्रॉनिक, सब थोक जैसे दाम पर। इंटरनेशनल सिटी के बगल में; चलना बहुत पड़ता है, आरामदायक जूते पहनें। सामान की क्वालिटी देखकर ही लें, मोलभाव चलता है।",
+        "en": "A very long market of Chinese goods — toys, kitchenware, clothes, electronics at near-wholesale prices. Next to International City; there's a lot of walking, so wear comfortable shoes. Check quality before you buy; bargaining works."
+      },
+      "hoursText": {
+        "hi": "10:00 – 22:00 (शुक्र–शनि 23:00)",
+        "en": "10:00 – 22:00 (Fri–Sat 23:00)"
+      },
+      "ticketAed": 0,
+      "durationHours": 3,
+      "website": "https://www.dragonmart.ae",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "placeId": "hatta",
+      "category": "park",
+      "blurb": {
+        "hi": "दुबई से लगभग दो घंटे दूर पहाड़ों के बीच हरे पानी वाला बाँध, कयाक और पुराना हेरिटेज गाँव — पूरे दिन की सैर। आरटीए की बस से भी जा सकते हैं, पर सुबह जल्दी निकलें और शाम की आख़िरी बस का समय पहले देख लें। रास्ते में ओमान की सीमा के पास से गुज़रते हैं — पासपोर्ट साथ रखें।",
+        "en": "A green-water dam among mountains about two hours from Dubai, with kayaks and an old heritage village — a full-day trip. An RTA bus goes there, but leave early and check the last bus back first. The road runs near the Oman border — carry your passport."
+      },
+      "hoursText": {
+        "hi": "बाँध और गाँव दिन में खुले · कयाक लगभग 8:00 – 18:00",
+        "en": "Dam and village open in daylight · kayaks about 8:00 – 18:00"
+      },
+      "ticketAed": 0,
+      "ticketNote": {
+        "hi": "घूमना मुफ़्त · कयाक लगभग 60 (एक) / 120 (दो) · बस लगभग 25 एक तरफ़",
+        "en": "Free to visit · kayak about 60 single / 120 double · bus about 25 each way"
+      },
+      "durationHours": 8,
+      "checkedAt": "2026-10-01"
     }
   ]
 }

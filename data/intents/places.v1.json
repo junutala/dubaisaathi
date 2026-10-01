@@ -1,6 +1,6 @@
 {
-  "contentVersion": 4,
-  "publishedAt": "2026-09-16T00:00:00Z",
+  "contentVersion": 5,
+  "publishedAt": "2026-10-01T00:00:00Z",
   "places": [
     {
       "id": "karama",
@@ -425,14 +425,7 @@
         "en": "Jumeirah Beach",
         "hi": "जुमेरा बीच",
         "ar": "شاطئ جميرا",
-        "aliases": [
-          "jumeirah beach",
-          "जुमेरा बीच",
-          "जुमेराह बीच",
-          "jumeira beach",
-          "kite beach",
-          "काइट बीच"
-        ]
+        "aliases": ["jumeirah beach", "जुमेरा बीच", "जुमेराह बीच", "jumeira beach"]
       },
       "kind": "beach",
       "location": {
@@ -484,6 +477,639 @@
         "lat": 25.2632,
         "lng": 55.2984
       }
+    },
+    {
+      "id": "hindu-temple-jebel-ali",
+      "name": {
+        "en": "Hindu Temple, Jebel Ali",
+        "hi": "जेबेल अली मंदिर",
+        "ar": "المعبد الهندوسي جبل علي",
+        "aliases": [
+          "hindu temple",
+          "jebel ali temple",
+          "jabel ali mandir",
+          "jebel ali mandir",
+          "hindu mandir",
+          "temple dubai",
+          "dubai mandir",
+          "jebal ali temple",
+          "naya mandir",
+          "जेबेल अली मंदिर",
+          "जबल अली मंदिर",
+          "हिंदू मंदिर",
+          "दुबई मंदिर"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.0269,
+        "lng": 55.1132
+      },
+      "popularity": 13
+    },
+    {
+      "id": "gurunanak-darbar",
+      "name": {
+        "en": "Guru Nanak Darbar Gurudwara",
+        "hi": "गुरु नानक दरबार गुरुद्वारा",
+        "ar": "غورو ناناك دربار",
+        "aliases": [
+          "gurudwara",
+          "gurdwara",
+          "guru nanak darbar",
+          "gurunanak darbar",
+          "jebel ali gurudwara",
+          "sikh temple",
+          "गुरुद्वारा",
+          "गुरु नानक दरबार",
+          "गुरूद्वारा"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.0273,
+        "lng": 55.1133
+      },
+      "popularity": 26
+    },
+    {
+      "id": "krishna-mandir-bur-dubai",
+      "name": {
+        "en": "Shri Krishna Mandir, Bur Dubai",
+        "hi": "कृष्ण मंदिर, बर दुबई",
+        "ar": "معبد كريشنا بر دبي",
+        "aliases": [
+          "krishna mandir",
+          "krishna temple",
+          "shri krishna mandir",
+          "bur dubai mandir",
+          "bur dubai temple",
+          "old temple",
+          "purana mandir",
+          "hindi lane",
+          "kirshna mandir",
+          "कृष्ण मंदिर",
+          "श्री कृष्ण मंदिर",
+          "बर दुबई मंदिर",
+          "पुराना मंदिर"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.2647,
+        "lng": 55.2968
+      },
+      "popularity": 20
+    },
+    {
+      "id": "spice-souk",
+      "name": {
+        "en": "Spice Souk, Deira",
+        "hi": "मसाला बाज़ार, देरा",
+        "ar": "سوق التوابل",
+        "aliases": [
+          "spice souk",
+          "spice souq",
+          "spice market",
+          "masala market",
+          "masala bazar",
+          "masala souk",
+          "deira spice souk",
+          "spice souk deira",
+          "मसाला बाज़ार",
+          "मसाला बाजार",
+          "स्पाइस सूक",
+          "स्पाइस सूक़"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.267,
+        "lng": 55.2963
+      },
+      "popularity": 16
+    },
+    {
+      "id": "textile-souk",
+      "name": {
+        "en": "Textile Souk, Bur Dubai",
+        "hi": "कपड़ा बाज़ार, बर दुबई",
+        "ar": "سوق المنسوجات",
+        "aliases": [
+          "textile souk",
+          "textile souq",
+          "textile market",
+          "kapda bazar",
+          "kapda market",
+          "cloth market",
+          "bur dubai souk",
+          "old souk",
+          "meena bazaar",
+          "meena bazar",
+          "कपड़ा बाज़ार",
+          "कपड़ा बाजार",
+          "टेक्सटाइल सूक",
+          "मीना बाज़ार"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.2637,
+        "lng": 55.2949
+      },
+      "popularity": 19
+    },
+    {
+      "id": "al-seef",
+      "name": {
+        "en": "Al Seef",
+        "hi": "अल सीफ़",
+        "ar": "السيف",
+        "aliases": [
+          "al seef",
+          "alseef",
+          "al saif",
+          "al sif",
+          "seef",
+          "souk al seef",
+          "al seef creek",
+          "अल सीफ़",
+          "अल सीफ",
+          "सीफ़"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.2651,
+        "lng": 55.3036
+      },
+      "popularity": 18
+    },
+    {
+      "id": "la-mer",
+      "name": {
+        "en": "La Mer",
+        "hi": "ला मेर",
+        "ar": "لا مير",
+        "aliases": [
+          "la mer",
+          "lamer",
+          "la mere",
+          "lamar beach",
+          "la mer beach",
+          "ला मेर",
+          "ला मैर",
+          "लामेर"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.2267,
+        "lng": 55.2557
+      },
+      "popularity": 17
+    },
+    {
+      "id": "the-beach-jbr",
+      "name": {
+        "en": "The Beach, JBR",
+        "hi": "जेबीआर बीच",
+        "ar": "ذا بيتش جي بي آر",
+        "aliases": [
+          "jbr",
+          "jbr beach",
+          "the beach",
+          "the beach jbr",
+          "the walk",
+          "jbr walk",
+          "jumeirah beach residence",
+          "jbr bich",
+          "जेबीआर",
+          "जेबीआर बीच",
+          "द बीच"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.0759,
+        "lng": 55.1312
+      },
+      "popularity": 14
+    },
+    {
+      "id": "kite-beach",
+      "name": {
+        "en": "Kite Beach",
+        "hi": "काइट बीच",
+        "ar": "شاطئ كايت",
+        "aliases": [
+          "kite beach",
+          "kite bich",
+          "kites beach",
+          "kait beach",
+          "umm suqeim beach",
+          "काइट बीच",
+          "काईट बीच"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.1648,
+        "lng": 55.2073
+      },
+      "popularity": 24
+    },
+    {
+      "id": "al-mamzar-beach",
+      "name": {
+        "en": "Al Mamzar Beach Park",
+        "hi": "अल ममज़र बीच पार्क",
+        "ar": "حديقة شاطئ الممزر",
+        "aliases": [
+          "al mamzar",
+          "mamzar",
+          "mamzar beach",
+          "mamzar park",
+          "al mamzar beach park",
+          "mumzar",
+          "अल ममज़र",
+          "ममज़र",
+          "ममजर बीच"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.3039,
+        "lng": 55.349
+      },
+      "popularity": 30
+    },
+    {
+      "id": "creek-park",
+      "name": {
+        "en": "Creek Park",
+        "hi": "क्रीक पार्क",
+        "ar": "حديقة الخور",
+        "aliases": [
+          "creek park",
+          "dubai creek park",
+          "crik park",
+          "creek garden",
+          "cable car park",
+          "क्रीक पार्क",
+          "क्रिक पार्क"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.2367,
+        "lng": 55.326
+      },
+      "popularity": 27
+    },
+    {
+      "id": "dubai-dolphinarium",
+      "name": {
+        "en": "Dubai Dolphinarium",
+        "hi": "डॉल्फ़िन शो, दुबई",
+        "ar": "دبي دولفيناريوم",
+        "aliases": [
+          "dolphinarium",
+          "dubai dolphinarium",
+          "dolphin show",
+          "dolfin show",
+          "dolphin seal show",
+          "dolphinerium",
+          "डॉल्फ़िन शो",
+          "डॉल्फिन शो",
+          "डॉल्फ़िनेरियम"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.2346,
+        "lng": 55.3267
+      },
+      "popularity": 23
+    },
+    {
+      "id": "dubai-garden-glow",
+      "name": {
+        "en": "Dubai Garden Glow",
+        "hi": "गार्डन ग्लो",
+        "ar": "حديقة دبي المتوهجة",
+        "aliases": [
+          "garden glow",
+          "dubai garden glow",
+          "glow garden",
+          "glow park",
+          "dinosaur park",
+          "garden glo",
+          "गार्डन ग्लो",
+          "ग्लो गार्डन",
+          "डायनासोर पार्क"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.2347,
+        "lng": 55.299
+      },
+      "popularity": 25
+    },
+    {
+      "id": "img-worlds",
+      "name": {
+        "en": "IMG Worlds of Adventure",
+        "hi": "आईएमजी वर्ल्ड",
+        "ar": "عالم آي إم جي للمغامرات",
+        "aliases": [
+          "img",
+          "img worlds",
+          "img world",
+          "img worlds of adventure",
+          "img world dubai",
+          "aai em ji",
+          "marvel park",
+          "आईएमजी",
+          "आईएमजी वर्ल्ड",
+          "आई एम जी"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.0824,
+        "lng": 55.3197
+      },
+      "popularity": 21
+    },
+    {
+      "id": "legoland-dubai",
+      "name": {
+        "en": "LEGOLAND Dubai",
+        "hi": "लेगोलैंड दुबई",
+        "ar": "ليغولاند دبي",
+        "aliases": [
+          "legoland",
+          "lego land",
+          "legoland dubai",
+          "lego park",
+          "legolend",
+          "dubai parks",
+          "dubai parks and resorts",
+          "लेगोलैंड",
+          "लेगो लैंड",
+          "दुबई पार्क्स"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 24.9168,
+        "lng": 55.0114
+      },
+      "popularity": 28
+    },
+    {
+      "id": "motiongate-dubai",
+      "name": {
+        "en": "MOTIONGATE Dubai",
+        "hi": "मोशनगेट दुबई",
+        "ar": "موشنجيت دبي",
+        "aliases": [
+          "motiongate",
+          "motion gate",
+          "motiongate dubai",
+          "motion get",
+          "hollywood park",
+          "मोशनगेट",
+          "मोशन गेट"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 24.9218,
+        "lng": 55.0039
+      },
+      "popularity": 29
+    },
+    {
+      "id": "aya-universe",
+      "name": {
+        "en": "AYA Universe",
+        "hi": "आया यूनिवर्स",
+        "ar": "آيا يونيفرس",
+        "aliases": ["aya", "aya universe", "aya dubai", "aaya", "आया", "आया यूनिवर्स"]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.2289,
+        "lng": 55.3192
+      },
+      "popularity": 31
+    },
+    {
+      "id": "dubai-safari-park",
+      "name": {
+        "en": "Dubai Safari Park",
+        "hi": "दुबई सफ़ारी पार्क",
+        "ar": "دبي سفاري بارك",
+        "aliases": [
+          "safari park",
+          "dubai safari",
+          "dubai safari park",
+          "zoo",
+          "dubai zoo",
+          "chidiyaghar",
+          "safari",
+          "सफ़ारी पार्क",
+          "सफारी पार्क",
+          "चिड़ियाघर",
+          "दुबई सफ़ारी"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.1775,
+        "lng": 55.4494
+      },
+      "popularity": 15
+    },
+    {
+      "id": "etihad-museum",
+      "name": {
+        "en": "Etihad Museum",
+        "hi": "इत्तिहाद म्यूज़ियम",
+        "ar": "متحف الاتحاد",
+        "aliases": [
+          "etihad museum",
+          "ittihad museum",
+          "union house",
+          "etihaad museum",
+          "इत्तिहाद म्यूज़ियम",
+          "एतिहाद म्यूज़ियम",
+          "इतिहाद संग्रहालय"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.2386,
+        "lng": 55.256
+      },
+      "popularity": 35
+    },
+    {
+      "id": "dubai-butterfly-garden",
+      "name": {
+        "en": "Dubai Butterfly Garden",
+        "hi": "बटरफ़्लाई गार्डन",
+        "ar": "حديقة الفراشات دبي",
+        "aliases": [
+          "butterfly garden",
+          "dubai butterfly garden",
+          "titli garden",
+          "titli park",
+          "butterfly park",
+          "butterfli garden",
+          "बटरफ़्लाई गार्डन",
+          "बटरफ्लाई गार्डन",
+          "तितली गार्डन",
+          "तितली पार्क"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.0618,
+        "lng": 55.2465
+      },
+      "popularity": 32
+    },
+    {
+      "id": "view-at-the-palm",
+      "name": {
+        "en": "The View at The Palm",
+        "hi": "द व्यू, पाम",
+        "ar": "ذا فيو آت ذا بالم",
+        "aliases": [
+          "the view",
+          "view at the palm",
+          "palm view",
+          "palm tower",
+          "the view palm",
+          "द व्यू",
+          "पाम टॉवर"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.1143,
+        "lng": 55.1387
+      },
+      "popularity": 33
+    },
+    {
+      "id": "dubai-hills-mall",
+      "name": {
+        "en": "Dubai Hills Mall",
+        "hi": "दुबई हिल्स मॉल",
+        "ar": "دبي هيلز مول",
+        "aliases": [
+          "dubai hills mall",
+          "dubai hills",
+          "hills mall",
+          "storm coaster",
+          "dubai hill mall",
+          "दुबई हिल्स मॉल",
+          "दुबई हिल्स",
+          "हिल्स मॉल"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.1013,
+        "lng": 55.238
+      },
+      "popularity": 34
+    },
+    {
+      "id": "expo-city-dubai",
+      "name": {
+        "en": "Expo City Dubai",
+        "hi": "एक्सपो सिटी",
+        "ar": "مدينة إكسبو دبي",
+        "aliases": [
+          "expo city",
+          "expo",
+          "expo 2020",
+          "expo city dubai",
+          "al wasl plaza",
+          "al wasl dome",
+          "garden in the sky",
+          "expo site",
+          "एक्सपो सिटी",
+          "एक्सपो",
+          "एक्सपो 2020",
+          "अल वस्ल प्लाज़ा"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 24.9614,
+        "lng": 55.1507
+      },
+      "popularity": 36
+    },
+    {
+      "id": "dragon-mart",
+      "name": {
+        "en": "Dragon Mart",
+        "hi": "ड्रैगन मार्ट",
+        "ar": "دراغون مارت",
+        "aliases": [
+          "dragon mart",
+          "dragonmart",
+          "dragan mart",
+          "china market",
+          "chinese market",
+          "sasta market",
+          "international city market",
+          "ड्रैगन मार्ट",
+          "ड्रेगन मार्ट",
+          "चाइना मार्केट"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 25.1739,
+        "lng": 55.4179
+      },
+      "popularity": 37
+    },
+    {
+      "id": "hatta",
+      "name": {
+        "en": "Hatta",
+        "hi": "हत्ता",
+        "ar": "حتا",
+        "aliases": [
+          "hatta",
+          "hata",
+          "hatta dam",
+          "hatta dam kayak",
+          "hatta mountains",
+          "hatta village",
+          "hatta heritage",
+          "हत्ता",
+          "हट्टा",
+          "हत्ता डैम",
+          "हत्ता बाँध"
+        ]
+      },
+      "kind": "landmark",
+      "location": {
+        "lat": 24.7847,
+        "lng": 56.1134
+      },
+      "popularity": 38
     }
   ]
 }

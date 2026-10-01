@@ -68,6 +68,9 @@ function findPlaces(tokens: readonly Token[], corpus: IntentCorpus): readonly Pl
         hits.push({ placeId: exact, spoken, confidence: 1, from: start, to });
         continue;
       }
+      // A window wider than any name a near spelling may reach is looked up exactly or not at
+      // all: only a bus stop's own name is that long, and it is reached by that name alone.
+      if (size > corpus.longestNear) continue;
       const near = corpus.placeBySkeleton.get(skeleton(window));
       if (near !== undefined) {
         hits.push({ placeId: near, spoken, confidence: 0.75, from: start, to });
@@ -86,7 +89,7 @@ function findPlaces(tokens: readonly Token[], corpus: IntentCorpus): readonly Pl
        * acting on it. Being sent to the wrong end of Dubai costs an hour and a fare; being asked
        * costs one tap.
        */
-      const closest = nearestPlace(window, corpus.placeByAlias, corpus.ordinaryWords);
+      const closest = nearestPlace(window, corpus.nearAliases, corpus.ordinaryWords);
       if (closest !== undefined) {
         hits.push({ placeId: closest, spoken, confidence: 0.75, from: start, to });
       }

@@ -269,7 +269,11 @@ export function fold(input: string): string {
 export const SKELETON_MIN = 3;
 
 export function skeleton(input: string): string {
-  return fold(input).replace(/[aeiou ]/g, '');
+  // "Al" is the article, not the name: Al Seef and Al Sufouh are not alike because both start
+  // with it, and "Barsha" is "Al Barsha" (the owner, 1 October).
+  return fold(input)
+    .replace(/^(?:al|el) /, '')
+    .replace(/[aeiou ]/g, '');
 }
 
 /**

@@ -280,15 +280,15 @@ are retired: its numbers are जानना's red line, its feedback form is pa
 
 ## 2.1 · जाना › कहाँ
 
-| Field                                             | Why it is there                                                     |
-| ------------------------------------------------- | ------------------------------------------------------------------- |
-| First open only: the reason for location          | Before the phone's own prompt                                       |
-| The box                                           | A place or an address, in either script                             |
-| "क्या आपका मतलब बुरजुमान है?" · हाँ               | A near spelling is a question, with the place's own Devanagari name |
-| "यह जगह अभी साथी के पास नहीं है" · टैक्सी से जाएँ | Never a dead end: the words go to a driver as they are              |
-| यह नहीं मिला? बताइए — हम जोड़ेंगे                 | And to us: opens सुझाव with the place already typed (046)           |
-| हाल में                                           | A tourist's week is four places over and over                       |
-| दुबई की जगहें                                     | Somewhere to tap before typing anything                             |
+| Field                                             | Why it is there                                                      |
+| ------------------------------------------------- | -------------------------------------------------------------------- |
+| First open only: the reason for location          | Before the phone's own prompt                                        |
+| The box                                           | A place, any station or bus stop (050), or an address, either script |
+| "क्या आपका मतलब बुरजुमान है?" · हाँ               | A near spelling is a question, with the place's own Devanagari name  |
+| "यह जगह अभी साथी के पास नहीं है" · टैक्सी से जाएँ | Never a dead end: the words go to a driver as they are               |
+| यह नहीं मिला? बताइए — हम जोड़ेंगे                 | And to us: opens सुझाव with the place already typed (046)            |
+| हाल में                                           | A tourist's week is four places over and over                        |
+| दुबई की जगहें                                     | Somewhere to tap before typing anything                              |
 
 ## 2.2 · जाना › विकल्प
 
