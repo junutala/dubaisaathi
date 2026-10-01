@@ -86,11 +86,32 @@
    * on this page points at the app with the same code, and the app's pass screen takes it
    * from there (decision 018). Nothing else about the page changes.
    */
-  const code = new URLSearchParams(window.location.search).get('code');
+  const arrivedWith = new URLSearchParams(window.location.search);
+  const code = arrivedWith.get('code');
   if (code) {
     for (const link of document.querySelectorAll('a[href^="https://dubai.saafarsaathi.in/"]')) {
       const target = new URL(link.getAttribute('href'));
       target.searchParams.set('code', code.toUpperCase());
+      link.setAttribute('href', target.toString());
+    }
+  }
+
+  /*
+   * An ad's tags ride along too (the owner, 1 October): a Meta ad lands here rather than on the
+   * app, because the app's first open downloads its offline kit and a reader from Facebook's own
+   * browser will not wait for it. Every "open the app" link then carries the ad's utm_ tags in
+   * place of `via=site`, so the app records the phone under the ad that brought it — the app reads
+   * `via` before the tags, which is why `via` goes.
+   */
+  const UTM = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
+  if (arrivedWith.get('utm_source')) {
+    for (const link of document.querySelectorAll('a[href^="https://dubai.saafarsaathi.in/"]')) {
+      const target = new URL(link.getAttribute('href'));
+      target.searchParams.delete('via');
+      for (const key of UTM) {
+        const value = arrivedWith.get(key);
+        if (value) target.searchParams.set(key, value);
+      }
       link.setAttribute('href', target.toString());
     }
   }
