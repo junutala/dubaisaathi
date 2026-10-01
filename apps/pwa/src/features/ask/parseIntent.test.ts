@@ -16,8 +16,12 @@ describe('the packs', () => {
     // A shared skeleton would make one place silently answer for another. Adding a place that
     // collides should fail here, so the alias is fixed deliberately rather than discovered by
     // a traveller in a taxi.
+    // Only places a near spelling can reach: a bus stop is matched by its own name alone, never
+    // by its skeleton, so two stops sounding alike can never answer for each other.
+    const reachable = new Set(intentCorpus.nearAliases.values());
     const owners = new Map<string, Set<string>>();
     for (const place of intentCorpus.places.values()) {
+      if (!reachable.has(place.id)) continue;
       for (const alias of [place.name.en, place.name.hi, ...place.name.aliases]) {
         const bones = skeleton(alias);
         if (bones.length < SKELETON_MIN) continue;

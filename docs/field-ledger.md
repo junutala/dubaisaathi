@@ -280,15 +280,15 @@ are retired: its numbers are जानना's red line, its feedback form is pa
 
 ## 2.1 · जाना › कहाँ
 
-| Field                                             | Why it is there                                                     |
-| ------------------------------------------------- | ------------------------------------------------------------------- |
-| First open only: the reason for location          | Before the phone's own prompt                                       |
-| The box                                           | A place or an address, in either script                             |
-| "क्या आपका मतलब बुरजुमान है?" · हाँ               | A near spelling is a question, with the place's own Devanagari name |
-| "यह जगह अभी साथी के पास नहीं है" · टैक्सी से जाएँ | Never a dead end: the words go to a driver as they are              |
-| यह नहीं मिला? बताइए — हम जोड़ेंगे                 | And to us: opens सुझाव with the place already typed (046)           |
-| हाल में                                           | A tourist's week is four places over and over                       |
-| दुबई की जगहें                                     | Somewhere to tap before typing anything                             |
+| Field                                             | Why it is there                                                      |
+| ------------------------------------------------- | -------------------------------------------------------------------- |
+| First open only: the reason for location          | Before the phone's own prompt                                        |
+| The box                                           | A place, any station or bus stop (050), or an address, either script |
+| "क्या आपका मतलब बुरजुमान है?" · हाँ               | A near spelling is a question, with the place's own Devanagari name  |
+| "यह जगह अभी साथी के पास नहीं है" · टैक्सी से जाएँ | Never a dead end: the words go to a driver as they are               |
+| यह नहीं मिला? बताइए — हम जोड़ेंगे                 | And to us: opens सुझाव with the place already typed (046)            |
+| हाल में                                           | A tourist's week is four places over and over                        |
+| दुबई की जगहें                                     | Somewhere to tap before typing anything                              |
 
 ## 2.2 · जाना › विकल्प
 
@@ -310,6 +310,7 @@ are retired: its numbers are जानना's red line, its feedback form is pa
 | पहली · आख़िरी · हर n मिनट में       | Is it still running, at this stop |
 | आम दिनों के समय, वीकेंड पर अलग      | The times are a weekday's         |
 | बस देखें / मेट्रो देखें · टैक्सी    | The other way, one tap            |
+| बैठ गए? स्टॉप गिनिए, on each ride   | Into 2.7, the countdown (051)     |
 | RTA attribution                     | The licence asks for it           |
 
 ## 2.4 · जाना › टैक्सी
@@ -321,6 +322,19 @@ are retired: its numbers are जानना's red line, its feedback form is pa
 | अंदाज़न किराया                  | So the meter is not a surprise                     |
 | Careem में खोलें · स्टोर से लें | The hand-off, and the store for a phone without it |
 | "सड़क से टैक्सी ले रहे हैं?"    | The same card works at the kerb                    |
+
+## 2.7 · जाना › सवारी
+
+| Field                                        | Why it is there                                                |
+| -------------------------------------------- | -------------------------------------------------------------- |
+| «… पर उतरना है»                              | The one thing the ride is for                                  |
+| n स्टॉप बाक़ी, large                         | Counted along the line's own stops: no bus or metro skips one  |
+| अगला स्टॉप आपका है, in marigold, with a buzz | The moment to move to the door, felt as well as seen           |
+| यही आपका स्टॉप है, with a second buzz        | Get off here                                                   |
+| GPS से / समय-सारणी से / आपके बताए स्टॉप से   | How the count knows, so a tunnel's guess is not read as a fact |
+| The stops, each one a tap                    | A wrong count is corrected by the traveller, not argued with   |
+| What the phone said: screen, GPS, buzz       | Never "your phone can't" before it has refused (CLAUDE.md)     |
+| सवारी ख़त्म                                  | Back to the steps                                              |
 
 ## 2.5 · जाना › जगह की इजाज़त नहीं
 

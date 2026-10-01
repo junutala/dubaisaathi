@@ -91,6 +91,7 @@ cat <<H
     <div style="display: flex; flex-direction: column; padding-top: 8px;">
 $(step walk 'पैदल 500 मी — BurJuman स्टेशन तक' 'होटल से बाएँ, Khalid Bin Al Waleed रोड पर। 7 मिनट।')
 $(step metro 'BurJuman से लाल लाइन, Expo की ओर' 'पहली ट्रेन 5:00 · आख़िरी 12:00 · हर 4 मिनट में')
+    <span style="align-self: flex-start; margin: -6px 0 8px 48px; padding: 8px 14px; border-radius: 999px; background: $tealSoft; color: $tealText; font-size: 14px; font-weight: 700;">बैठ गए? स्टॉप गिनिए</span>
 $(step metro 'Burj Khalifa / Dubai Mall स्टेशन पर उतरें' '6 स्टेशन · 14 मिनट')
 $(step walk 'पैदल 800 मी — मॉल के अंदर से' 'स्टेशन से ढका हुआ रास्ता, 12 मिनट। बुर्ज ख़लीफ़ा का प्रवेश मॉल के निचले तल पर।')
     </div>
@@ -105,6 +106,47 @@ H
 bar none
 close_screen
 } > "$OUT/J3.dc.html"
+
+# ---- 2.7 · जाना › सवारी — "I'm on this bus": the stops left, a buzz one stop before (decision 051)
+rstop() { # name state(passed|now|off|) tag
+  local border="1px solid $line" colour="$ink" weight=500 bg="$card"
+  case "$2" in
+    passed) colour="$muted"; bg='transparent' ;;
+    now) border="2px solid $teal"; weight=700 ;;
+    off) border="2px dashed $teal"; weight=700 ;;
+  esac
+cat <<T
+      <div style="display: flex; align-items: center; justify-content: space-between; min-height: 44px; padding: 10px 14px; border-radius: 12px; border: $border; background: $bg; color: $colour; font-size: 15px; font-weight: $weight; box-sizing: border-box;"><span>$1</span><span style="font-size: 12px; font-weight: 700; color: $tealText;">$3</span></div>
+T
+}
+{
+open_screen
+strip running set
+header metro "$teal" 'जाना' 'रेड लाइन › सवारी'
+cat <<H
+  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 8px; padding: 6px 16px 12px 16px;">
+    <div style="display: flex; flex-direction: column; gap: 6px; padding: 16px; border-radius: 18px; background: $marigoldSoft; color: $marigoldText; border: 2px solid $marigold;">
+      <span style="font-size: 15px; font-weight: 600;">Burj Khalifa / Dubai Mall पर उतरना है</span>
+      <span style="font-size: 26px; font-weight: 700; line-height: 1.2;">अगला स्टॉप आपका है — दरवाज़े के पास आ जाइए</span>
+      <span style="font-size: 12.5px; color: $muted;">GPS से</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+$(rstop 'BurJuman' passed '')
+$(rstop 'ADCB' passed '')
+$(rstop 'Al Jafiliya' passed '')
+$(rstop 'World Trade Centre' passed '')
+$(rstop 'Emirates Towers' passed '')
+$(rstop 'Financial Centre' now 'अभी')
+$(rstop 'Burj Khalifa / Dubai Mall' off '')
+    </div>
+    <span style="font-size: 12.5px; color: $muted; line-height: 1.45;">बस और मेट्रो हर स्टॉप पर रुकती हैं, इसलिए गिनती लाइन के साथ चलती है। ग़लत लगे तो उस स्टॉप को छुइए जहाँ आप अभी हैं।</span>
+    <span style="font-size: 12.5px; color: $muted; line-height: 1.45;">सवारी के दौरान स्क्रीन चालू रहेगी।</span>
+    $(obtn 'सवारी ख़त्म')
+  </div>
+H
+bar none
+close_screen
+} > "$OUT/J7.dc.html"
 
 # ---- 2.4 · जाना › टैक्सी (Careem hand-off)
 {

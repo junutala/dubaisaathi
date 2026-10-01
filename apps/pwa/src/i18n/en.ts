@@ -347,6 +347,27 @@ export const en: Record<StringKey, string> = {
   'steps.every': 'every {count} min',
   'steps.serviceNote': 'Times from the RTA timetable, for a normal weekday. Weekends can differ.',
   'steps.source': '{attribution}',
+  'steps.onBoard': 'On board? Count my stops',
+  'ride.trail': 'Ride',
+  'ride.getOff': 'Get off at {stop}',
+  'ride.left': '{count} stops to go',
+  'ride.leftOne': 'Your stop is next — move to the door',
+  'ride.here': 'This is your stop — get off here',
+  'ride.how.start': 'Counting from where you got on',
+  'ride.how.gps': 'By GPS',
+  'ride.how.timetable': 'No GPS here — counted by the timetable',
+  'ride.how.tapped': 'From the stop you marked',
+  'ride.every':
+    'Buses and the metro stop at every stop, so the count follows the line. If it looks wrong, tap the stop you are at.',
+  'ride.screenOn': 'The screen will stay on during the ride.',
+  'ride.screenOff':
+    'The phone would not keep the screen on ({why}). Keep it unlocked to hear the alert.',
+  'ride.buzzOff': 'The phone did not vibrate, so it beeps instead.',
+  'ride.gpsOff':
+    'The phone gave no location ({why}). The count follows the timetable — tap your stop to correct it.',
+  'ride.stopNow': 'now',
+  'ride.end': 'End ride',
+  'ride.notFound': 'This ride could not be found in the network on this phone.',
 
   'map.title': 'Map',
   'map.ways': 'Ways to go',

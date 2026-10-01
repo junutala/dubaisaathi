@@ -8,6 +8,8 @@ import {
 } from '@saathi/shared';
 import { fold, skeleton, SKELETON_MIN } from './normalise.js';
 import { COMMON_VERBS, GLUE, ROMAN_GLUE } from './glue.js';
+import { editsBetween } from './nearestPlace.js';
+import { isGeneric, type TransitPlace } from './transitPlaces.js';
 
 /**
  * The parser's vocabulary, built once from `data/intents/`. Places and keywords are content,
@@ -50,12 +52,20 @@ export interface IntentCorpus {
    */
   readonly ordinaryWords: ReadonlySet<string>;
   readonly places: ReadonlyMap<string, DubaiPlace>;
-  /** Folded alias → place id. The confident match. */
+  /** Folded alias → place id. The confident match — curated places, stations and bus stops. */
   readonly placeByAlias: ReadonlyMap<string, string>;
+  /**
+   * The aliases a near spelling may reach: the curated places and the named metro and tram
+   * stations, never the bus stops. Two and a half thousand stop names are reached by their own
+   * name or not at all (`transitPlaces.ts`).
+   */
+  readonly nearAliases: ReadonlyMap<string, string>;
   /** Consonant skeleton → place id, only where it is unambiguous. The "probably this" match. */
   readonly placeBySkeleton: ReadonlyMap<string, string>;
   /** Longest alias in words, so the matcher knows how wide a window to slide. */
   readonly longestPlace: number;
+  /** Longest alias a near spelling may reach, so wide windows are only ever looked up exactly. */
+  readonly longestNear: number;
   readonly intents: readonly Keyword<IntentKind>[];
   readonly modes: readonly Keyword<TransportMode>[];
   readonly foodTags: readonly Keyword<FoodTag>[];
@@ -91,7 +101,11 @@ function keywords<T extends string>(
  * Narrows both packs at the boundary and throws on anything malformed, so a bad pack fails
  * loudly at boot rather than quietly parsing every sentence as `unknown`.
  */
-export function buildCorpus(rawPlaces: unknown, rawKeywords: unknown): IntentCorpus {
+export function buildCorpus(
+  rawPlaces: unknown,
+  rawKeywords: unknown,
+  transit: readonly TransitPlace[] = [],
+): IntentCorpus {
   const placePack = rawPlaces as PlacePack;
   const pack = rawKeywords as KeywordPack;
 
@@ -131,13 +145,6 @@ export function buildCorpus(rawPlaces: unknown, rawKeywords: unknown): IntentCor
     }
   }
 
-  // A skeleton shared by two places tells us nothing, so it is dropped rather than guessed at.
-  const placeBySkeleton = new Map<string, string>();
-  for (const [bones, owners] of skeletons) {
-    const [only] = owners;
-    if (owners.size === 1 && only !== undefined) placeBySkeleton.set(bones, only);
-  }
-
   const intents = keywords<IntentKind>(pack.intents, KEYWORD_INTENTS, 'intent');
   const modes = keywords<TransportMode>(pack.modes, TRANSPORT_MODES, 'mode');
   const foodTags = keywords<FoodTag>(pack.foodTags, FOOD_TAGS, 'food tag');
@@ -163,11 +170,93 @@ export function buildCorpus(rawPlaces: unknown, rawKeywords: unknown): IntentCor
       .filter((word) => word !== '' && !placeByAlias.has(word)),
   );
 
+  // The network, after the curated places and never over them.
+  const curated = new Map(placeByAlias);
+  let longestNear = longestPlace;
+  const isCurated = (name: string): boolean => {
+    const forms = [fold(name), fold(name.replace(/^al\s+/i, ''))].filter((form) => form !== '');
+    for (const form of forms) {
+      if (curated.has(form)) return true;
+      if (form.length < 6) continue;
+      for (const alias of curated.keys()) {
+        if (alias.length >= 6 && editsBetween(form, alias, 1) <= 1) return true;
+      }
+    }
+    return false;
+  };
+  const owners = new Map<string, Set<string>>();
+  const kept: { readonly entry: TransitPlace; readonly aliases: readonly string[] }[] = [];
+  for (const entry of transit) {
+    // "BurJuman Metro Bus Stop" is BurJuman: the curated place already answers it, with a driver's
+    // Arabic and a neighbourhood the planner knows.
+    if (isCurated(entry.core)) continue;
+    const aliases: string[] = [];
+    for (const alias of [entry.place.name.en, entry.place.name.hi, ...entry.place.name.aliases]) {
+      const folded = fold(alias);
+      if (folded === '' || isGeneric(alias) || ordinaryWords.has(folded)) continue;
+      if (curated.has(folded) || aliases.includes(folded)) continue;
+      // One word is a name only when it is long enough not to be anything else.
+      if (!folded.includes(' ') && folded.length < 5) continue;
+      aliases.push(folded);
+      const owner = owners.get(folded) ?? new Set<string>();
+      owner.add(entry.place.id);
+      owners.set(folded, owner);
+    }
+    kept.push({ entry, aliases });
+  }
+  // A station's own name outranks a bus stop's: "Rashidiya" is Centrepoint metro's old name, and
+  // the bus station beside it does not make it ambiguous.
+  const stationAliases = new Set(
+    kept.filter(({ entry }) => entry.named).flatMap(({ aliases }) => aliases),
+  );
+  const stations = new Set(
+    kept.filter(({ entry }) => entry.named).map(({ entry }) => entry.place.id),
+  );
+  const ownedBy = (alias: string, named: boolean): boolean => {
+    const ids = [...(owners.get(alias) ?? [])].filter((id) => !named || stations.has(id));
+    return ids.length === 1;
+  };
+  for (const { entry, aliases } of kept) {
+    // A name two stops share — "Union Coop" is in Abu Hail and in Al Twar — names neither.
+    const own = aliases.filter((alias) =>
+      entry.named ? ownedBy(alias, true) : !stationAliases.has(alias) && ownedBy(alias, false),
+    );
+    if (own.length === 0) continue;
+    // The place carries the names it can be reached by, so what the pack says is what matches.
+    const kept_ = own.filter((alias) => alias !== fold(entry.place.name.en));
+    places.set(entry.place.id, {
+      ...entry.place,
+      name: { ...entry.place.name, aliases: kept_ },
+    });
+    for (const alias of own) {
+      placeByAlias.set(alias, entry.place.id);
+      const width = alias.split(' ').length;
+      longestPlace = Math.max(longestPlace, width);
+      if (!entry.named) continue;
+      curated.set(alias, entry.place.id);
+      longestNear = Math.max(longestNear, width);
+      const bones = skeleton(alias);
+      if (bones.length < SKELETON_MIN) continue;
+      const skeletonOwners = skeletons.get(bones) ?? new Set<string>();
+      skeletonOwners.add(entry.place.id);
+      skeletons.set(bones, skeletonOwners);
+    }
+  }
+
+  // A skeleton shared by two places tells us nothing, so it is dropped rather than guessed at.
+  const placeBySkeleton = new Map<string, string>();
+  for (const [bones, owners_] of skeletons) {
+    const [only] = owners_;
+    if (owners_.size === 1 && only !== undefined) placeBySkeleton.set(bones, only);
+  }
+
   return {
     places,
     placeByAlias,
+    nearAliases: curated,
     placeBySkeleton,
     longestPlace,
+    longestNear,
     ordinaryWords,
     intents,
     modes,

@@ -45,6 +45,7 @@ import {
   RouteOptionsScreen,
   RouteStepsScreen,
   TaxiScreen,
+  RideScreen,
 } from '../features/transport/index.js';
 import { KnowScreen, PlaceScreen, TopicScreen } from '../features/know/index.js';
 import { MapScreen, startMapKeeping } from '../features/map/index.js';
@@ -315,6 +316,16 @@ export function App() {
         {route.screen === 'options' && <RouteOptionsScreen placeId={route.placeId} hotel={hotel} />}
         {route.screen === 'steps' && (
           <RouteStepsScreen placeId={route.placeId} optionId={route.optionId} hotel={hotel} />
+        )}
+        {route.screen === 'ride' && (
+          <RideScreen
+            placeId={route.placeId}
+            optionId={route.optionId}
+            line={route.line}
+            direction={route.direction}
+            from={route.from}
+            to={route.to}
+          />
         )}
         {route.screen === 'taxi' && <TaxiScreen placeId={route.placeId} hotel={hotel} />}
         {route.screen === 'nolocation' && <LocationDeniedScreen hotel={hotel} />}
