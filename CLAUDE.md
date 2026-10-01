@@ -701,14 +701,18 @@ Practical: the Higgsfield account is on the free plan — Nano Banana 2 runs on 
 Recraft refuse ("Requires basic plan"). Higgsfield's image host is blocked by this container's
 network policy, so a generated image reaches the repo by the owner uploading it to `marketing-assets`.
 The Meta ad account is "Arun Kumar" (INR). The Dubaisaathi Page (1259517903919457) advertises
-directly — it did not need attaching first. No Instagram account is linked, so ads run on Facebook
-only (the owner's choice for the first campaign).
+directly — it did not need attaching first. No Instagram account is linked; the ad sets run on
+Meta's automatic placements (Facebook, Instagram under the Page's name, WhatsApp Status, Threads,
+partner apps) — the owner, 1 October: "leave it, more reach is fine".
 
 **The first campaign, live since 1 October:** "Khaana 1 · vrat · Gujarat + Maharashtra"
-(52608771121397), Traffic, optimised for link clicks, Facebook only. Two ad sets at ₹325 a day
+(52608771121397), Traffic, optimised for link clicks, automatic placements. Two ad sets at ₹325 a day
 each — Gujarat (20 km around Surat and Rajkot) and Maharashtra (20 km around Nashik and
 Kolhapur) — ending 8 October 23:59 IST, about ₹4,900 in all (the owner raised it from ₹3,500 for
-the long weekend). One ad each, the 4:5 poster, declared AI-made (the photo is). The links carry
+the long weekend). One ad each, the 4:5 poster, declared AI-made (the photo is), its button
+**Use App** (the owner: "Learn More" asks a traveller to learn when he wants to use; the first
+two "Learn More" ads are off, never deleted). Its first impression came at about 6 PM IST on
+1 October — a new Page waits hours, so a quiet first afternoon is not a fault. The links carry
 `utm_content=gujarat` / `maharashtra`, so /admin shows `meta-khaana1-gujarat` and
 `meta-khaana1-maharashtra`. Interest targeting was not set: the tool cannot look up Meta's
 interest ids, and invented ones break an ad set.
