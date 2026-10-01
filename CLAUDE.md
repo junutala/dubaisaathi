@@ -645,6 +645,45 @@ The question log is the thing to read first each morning: `voice_events` rows wi
 `nothing-in-pack` are places and dishes travellers asked for and did not get. `contact_messages`
 is the second: that is the website's form, and nothing else reads it yet.
 
+## Marketing — where the campaign's assets live
+
+**The marketing assets live on the branch `marketing-assets`, in `marketing/`, and
+not on `main`** (the owner, 1 October). Fetch that branch before making or changing any
+campaign material; never recreate what is already there.
+
+`marketing/khaana1/` — the first Meta campaign (खाना, 1 October):
+
+- `photo.png` — the campaign's photograph (Higgsfield, Nano Banana 2): the family of four in an
+  Al Fahidi lane — the father frowning at his phone, his wife, his mother in a saree, and their
+  **8-year-old daughter, the happy face**. **She is the brand's future ambassador** (the owner):
+  a later campaign has her find Dubai Saathi in India while her parents arrange everything else,
+  and tell her father it is a friend that can travel with them. Every later image of her must
+  keep this face. The owner's "Queen's Rival" poem belongs to that later campaign; it is not in
+  the repo — ask him for it.
+- `poster.html` (feed, 4:5, 1080×1350) and `story.html` (Stories/Reels, 9:16, 1080×1920), and
+  their renders `poster-feed-4x5.png` and `poster-story-9x16.png`. The type, the band and the app
+  screen are laid over the photo in HTML and rendered with Playwright, never by an image model,
+  so every letter is right. Copy, in Hinglish: "Maa ka vrat hai. / Biwi ko bas veg chahiye. /
+  Aur phone mein internet nahi." — "Bur Dubai ke curated Indian restaurants — vrat aur veg.
+  Wahan tak ka raasta bhi. Sab bina internet." — "India mein free try karein · ₹199 se, 14 din".
+- `app-vrat-offline.png` — the real app with the network off, placed in Karama: व्रत on,
+  साबूदाना खिचड़ी, ten places. Retake it from a fresh build when the pack changes.
+- `Khaana.png`, `Khaana_1.png`, `Jaana.png`, `Jaanna.png`, `ALL.png`, `youtube_production.mp4`
+  — the owner's earlier pillar images and the promo film.
+
+The campaign as agreed: Hinglish; towns in Gujarat (Surat, Rajkot) and Maharashtra (Nashik,
+Kolhapur), one ad set per state; ₹500 a day for 7 days, then extend the better one; optimised for
+link clicks. The link carries `utm_source=meta&utm_campaign=khaana1&utm_content=<town>`; the
+app reads it as the phone's arrival tag and /admin's "How phones came to us" follows each tag to
+खाना searches, offline use, return visits and payment (migration 0025). The claim honours
+decision 006 — 14 days, "₹199 se" — never "30 days". No competitor is named.
+
+Practical: the Higgsfield account is on the free plan — Nano Banana 2 runs on it, GPT Image and
+Recraft refuse ("Requires basic plan"). Higgsfield's image host is blocked by this container's
+network policy, so a generated image reaches the repo by the owner uploading it to `marketing-assets`.
+The Meta ad account is "Arun Kumar" (INR); the Dubaisaathi Page must be attached to it before an
+ad can run under it.
+
 ## The spike, for the record
 
 Offline Hindi speech was measured on a real phone in aeroplane mode on 13–15 September with
