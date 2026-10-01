@@ -154,7 +154,8 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   phone without it. The steps carry the RTA's own network: every bus route, both metro lines,
   the tram, the direction the vehicle is headed, and the first and last departure from the stop
   the traveller boards at (decision 017). **A walk never crosses the Creek; the abra does**, for a
-  dirham in cash (decision 036). **Every metro and tram station and every bus stop is somewhere
+  dirham in cash (decision 036). **On board, 2.7 · सवारी counts the stops** to the one the
+  traveller gets off at and buzzes one stop before (decision 051). **Every metro and tram station and every bus stop is somewhere
   to go** (decision 050): a station by its name or a near spelling, a bus stop by its own name
   typed out, bays folded into one destination, and the RTA's "Al" optional — "Rashidiya" is "Al
   Rashidiya". A curated place still answers for its own stops.
@@ -645,10 +646,11 @@ campaign went live on 1 October (see "Marketing"). No competitor is ever named a
 4. **बोलना is deployed** (`listen`, and `readboard` for घर.7). It works only with a signal, and
    in a hotel the traveller has free Wi-Fi — so it, not an offline phrasebook, is how a traveller
    tells the desk "mera AC kharaab hai" (the owner, 1 October).
-5. **Sprint 2**: the owner's
-   "I'm on this bus" toggle — a countdown of stops to alight with a buzz one stop before,
-   built on the leg's stop sequence and GPS, with the timetable's running times as the fallback
-   in the metro tunnels and the screen kept on.
+5. **Sprint 2's "I'm on this bus" is built** (decision 051, 1 October): **बैठ गए? स्टॉप गिनिए** on
+   each ride step of 2.3 opens **2.7 · सवारी** — the stops left, counted along the line's own stops
+   (no bus or metro in Dubai skips one, the owner), by GPS, by the timetable where GPS fails, or by
+   the traveller's own tap; a buzz and a beep when the next stop is theirs and again at it; the
+   screen kept on, and what the phone refused said on the screen.
 
 The question log is the thing to read first each morning: `voice_events` rows with
 `nothing-in-pack` are places and dishes travellers asked for and did not get. `contact_messages`

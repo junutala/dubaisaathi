@@ -39,6 +39,16 @@ export type Route =
   | { readonly screen: 'options'; readonly placeId: string }
   | { readonly screen: 'steps'; readonly placeId: string; readonly optionId: RouteOptionId }
   | { readonly screen: 'taxi'; readonly placeId: string }
+  /** 2.7 · सवारी — counting the stops of one ride leg, carried whole so a moving phone never re-plans it. */
+  | {
+      readonly screen: 'ride';
+      readonly placeId: string;
+      readonly optionId: RouteOptionId;
+      readonly line: string;
+      readonly direction?: 0 | 1;
+      readonly from: string;
+      readonly to: string;
+    }
   | { readonly screen: 'nolocation' }
   // 2.6 · नक्शा — the way there on our own map, offline (decision 035)
   | { readonly screen: 'map'; readonly placeId: string }
@@ -98,6 +108,19 @@ export function parseRoute(hash: string): Route {
       return arg && isOptionId(extra)
         ? { screen: 'steps', placeId: arg, optionId: extra }
         : { screen: 'go' };
+    case 'ride': {
+      const [option, line, direction, from, to] = (extra ?? '').split('~');
+      if (!arg || !isOptionId(option) || !line || !from || !to) return { screen: 'go' };
+      return {
+        screen: 'ride',
+        placeId: arg,
+        optionId: option,
+        line: decodeURIComponent(line),
+        ...(direction === '0' || direction === '1' ? { direction: direction === '0' ? 0 : 1 } : {}),
+        from: decodeURIComponent(from),
+        to: decodeURIComponent(to),
+      };
+    }
     case 'taxi':
       return arg ? { screen: 'taxi', placeId: arg } : { screen: 'go' };
     case 'nolocation':
@@ -158,6 +181,14 @@ export function href(route: Route): string {
       return `#/options/${route.placeId}`;
     case 'steps':
       return `#/steps/${route.placeId}/${route.optionId}`;
+    case 'ride':
+      return `#/ride/${route.placeId}/${[
+        route.optionId,
+        encodeURIComponent(route.line),
+        route.direction ?? '',
+        encodeURIComponent(route.from),
+        encodeURIComponent(route.to),
+      ].join('~')}`;
     case 'taxi':
       return `#/taxi/${route.placeId}`;
     case 'nolocation':
@@ -188,6 +219,7 @@ export function pillarOf(route: Route): Pillar {
     case 'go':
     case 'options':
     case 'steps':
+    case 'ride':
     case 'taxi':
     case 'nolocation':
       return 'go';
@@ -254,6 +286,7 @@ export function screenSeen(route: Route): {
       return { screen: route.screen, id: route.outletId, pillar };
     case 'options':
     case 'steps':
+    case 'ride':
     case 'taxi':
     case 'map':
     case 'place':

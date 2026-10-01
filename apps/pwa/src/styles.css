@@ -2446,6 +2446,89 @@ button:not(:disabled) {
   color: var(--goText);
   line-height: 1.4;
 }
+/* 2.3's way into the countdown, on each ride step: a pill under the step, never a full-width
+   button, so the steps still read as steps. */
+.leg-ride {
+  align-self: flex-start;
+  margin-top: 8px;
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--goSoft);
+  color: var(--goText);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* 2.7 · सवारी — the stop to get off at, and how many are left, said large. */
+.ride-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 18px;
+  background: var(--goSoft);
+  color: var(--goText);
+}
+.ride-card-near {
+  background: var(--marigoldSoft);
+  color: var(--marigoldText);
+  border: 2px solid var(--marigold);
+}
+.ride-off {
+  font-size: 15px;
+  font-weight: 600;
+}
+.ride-count {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.ride-stops {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ride-stop {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  text-align: start;
+  font-size: 15px;
+}
+.ride-stop-passed {
+  color: var(--muted);
+  background: transparent;
+}
+.ride-stop-now {
+  border: 2px solid var(--go);
+  font-weight: 700;
+}
+.ride-stop-off {
+  border: 2px dashed var(--go);
+  font-weight: 700;
+}
+.ride-stop-name {
+  flex: 1;
+  min-width: 0;
+}
+.ride-stop-tag {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--goText);
+}
+
 .leg-note {
   margin: 0;
   padding: 0 4px;

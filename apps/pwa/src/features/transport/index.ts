@@ -7,6 +7,7 @@ export { LocationDeniedScreen } from './LocationDeniedScreen.js';
 export { RouteOptionsScreen } from './RouteOptionsScreen.js';
 export { RouteStepsScreen } from './RouteStepsScreen.js';
 export { TaxiScreen } from './TaxiScreen.js';
+export { RideScreen } from './RideScreen.js';
 export { parseTransportPack, type TransportNetwork } from './network.js';
 export {
   currentFares,

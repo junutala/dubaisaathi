@@ -124,6 +124,28 @@ export function RouteStepsScreen({
                       {step.service !== undefined && (
                         <span className="leg-service">{step.service}</span>
                       )}
+                      {(leg.mode === 'metro' || leg.mode === 'bus' || leg.mode === 'tram') &&
+                        leg.line !== undefined && (
+                          <button
+                            type="button"
+                            className="leg-ride"
+                            onClick={() => {
+                              navigate({
+                                screen: 'ride',
+                                placeId,
+                                optionId,
+                                line: leg.line ?? '',
+                                ...(leg.direction === undefined
+                                  ? {}
+                                  : { direction: leg.direction }),
+                                from: leg.fromNodeId,
+                                to: leg.toNodeId,
+                              });
+                            }}
+                          >
+                            {t('steps.onBoard')}
+                          </button>
+                        )}
                     </span>
                   </div>
                 );

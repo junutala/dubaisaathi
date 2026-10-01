@@ -208,6 +208,7 @@ export function createTaskEngine(
           return;
         }
         case 'steps':
+        case 'ride':
         case 'taxi':
           if (go !== undefined) go.satisfied = true;
           else begin('transport_route', 'go', now, net, seen.id).satisfied = true;
