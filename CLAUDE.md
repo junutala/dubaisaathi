@@ -701,12 +701,14 @@ Practical: the Higgsfield account is on the free plan — Nano Banana 2 runs on 
 Recraft refuse ("Requires basic plan"). Higgsfield's image host is blocked by this container's
 network policy, so a generated image reaches the repo by the owner uploading it to `marketing-assets`.
 The Meta ad account is "Arun Kumar" (INR). The Dubaisaathi Page (1259517903919457) advertises
-directly — it did not need attaching first. No Instagram account is linked; the ad sets run on
-Meta's automatic placements (Facebook, Instagram under the Page's name, WhatsApp Status, Threads,
-partner apps) — the owner, 1 October: "leave it, more reach is fine".
+directly — it did not need attaching first. No Instagram account is linked. **The ad sets run on
+Facebook only — feed, stories and reels, on mobile** (the owner, 1 October evening). Automatic
+placements were tried first and sent 110 of the first 114 clicks to Audience Network — banners in
+other people's apps — and not one of the 15 phones that reached the app did anything; never put
+Audience Network back. WhatsApp Status cannot be had without Instagram Stories.
 
 **The first campaign, live since 1 October:** "Khaana 1 · vrat · Gujarat + Maharashtra"
-(52608771121397), Traffic, optimised for link clicks, automatic placements. Two ad sets at ₹325 a day
+(52608771121397), Traffic, optimised for link clicks, Facebook only. Two ad sets at ₹325 a day
 each — Gujarat (20 km around Surat and Rajkot) and Maharashtra (20 km around Nashik and
 Kolhapur) — ending 8 October 23:59 IST, about ₹4,900 in all (the owner raised it from ₹3,500 for
 the long weekend). One ad each, the 4:5 poster, declared AI-made (the photo is), its button
