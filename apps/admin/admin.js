@@ -530,6 +530,8 @@
       [number(r.fromAds), 'of them from ads'],
       [number(r.activePhones), 'phones used Saathi'],
       [number(r.questions), 'questions asked'],
+      [number(r.inDubai), 'phones opened in Dubai'],
+      [number(r.landed), 'landed in Dubai (confirmed)'],
       [percent(r.offlineShare), 'of use with no signal'],
       [number(r.siteVisits), 'website visits'],
       [number(r.siteStayed), 'stayed 10 seconds or more'],
@@ -566,10 +568,22 @@
         ['Searched खाना', true],
         ['Used offline', true],
         ['Came back', true],
+        ['Opened in Dubai', true],
+        ['Landed', true],
         ['Began paying', true],
         ['Paid', true],
       ],
-      (r.via || []).map((a) => [a.via, a.phones, a.food, a.offline, a.returned, a.began, a.paid]),
+      (r.via || []).map((a) => [
+        a.via,
+        a.phones,
+        a.food,
+        a.offline,
+        a.returned,
+        a.in_dubai,
+        a.landed,
+        a.began,
+        a.paid,
+      ]),
     );
 
     // The website's own visits (decision 053), by the way each reader came.
