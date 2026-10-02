@@ -974,8 +974,15 @@ footer .wrap {
   margin: 0;
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
   font-weight: 600;
-  font-size: 26px;
+  font-size: 24px;
   line-height: 1.25;
+}
+/* One line per thing the board says: a platform board is two directions, not one sentence. */
+.board-hindi span {
+  display: block;
+}
+.board-hindi span + span {
+  margin-top: 6px;
 }
 .board-play {
   display: inline-flex;
@@ -1009,6 +1016,9 @@ footer .wrap {
   border-top: 1px solid var(--line);
   font-size: 19px;
   text-align: right;
+}
+.board-ar {
+  display: block;
 }
 .board-arabic .board-label {
   text-align: left;

@@ -210,7 +210,7 @@
       if (!synth || typeof SpeechSynthesisUtterance === 'undefined') return tell('noVoice');
       const hindiVoice = () => synth.getVoices().find((v) => v.lang.toLowerCase().startsWith('hi'));
       const utterance = new SpeechSynthesisUtterance(
-        document.getElementById('board-hindi').textContent.trim(),
+        document.getElementById('board-hindi').textContent.replace(/\s+/g, ' ').trim(),
       );
       utterance.lang = 'hi-IN';
       const voice = hindiVoice();
