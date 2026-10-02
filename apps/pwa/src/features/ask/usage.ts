@@ -15,10 +15,12 @@ import { recordVoiceEvent, type Region } from './voiceEvent.js';
  */
 
 /** What a usage row says happened. `landed_on` on the server. */
-export type UsageEvent = 'opened' | 'arrived' | 'menu' | 'steps' | 'map' | 'topic' | 'place';
+export type UsageEvent =
+  'opened' | 'arrived' | 'menu' | 'steps' | 'map' | 'topic' | 'place' | 'staff';
 
 const OPENED_ON = 'saathi.usage.openedOn';
 const ARRIVED = 'saathi.usage.arrived';
+const STAFF = 'saathi.usage.staff';
 
 /** One usage row. `subject` is what was opened — an outlet, a place, a topic — never a person. */
 export function recordUsage(
@@ -119,10 +121,24 @@ export function arrivalSource(url: URL): string {
 }
 
 /**
+ * Our own phones are not travellers (the owner, 2 October: "most important is to leave my device
+ * out. Otherwise, the numbers will be inflated and we may draw wrong conclusions"). Opened once
+ * with `?staff=saathi`, a phone sends one `staff` row, and every count on /admin leaves that
+ * phone out from then on, its past included (migration 0027). Nothing changes on the phone.
+ */
+export function isStaffLink(url: URL): boolean {
+  return url.searchParams.get('staff') === 'saathi';
+}
+
+/**
  * On launch and whenever the app comes back into view: the first open ever says how the phone
  * arrived, and the first open of each Dubai day says it was used that day.
  */
 export function startUsageRecording(): () => void {
+  if (isStaffLink(new URL(window.location.href)) && read(STAFF) === null) {
+    write(STAFF, '1');
+    recordUsage('staff');
+  }
   const mark = () => {
     if (typeof document !== 'undefined' && document.visibilityState === 'hidden') return;
     if (read(ARRIVED) === null) {

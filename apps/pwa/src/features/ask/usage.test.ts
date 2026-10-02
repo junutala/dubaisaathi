@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { db } from '../../db/schema.js';
-import { arrivalSource, dubaiDay, startUsageRecording } from './usage.js';
+import { arrivalSource, dubaiDay, isStaffLink, startUsageRecording } from './usage.js';
 
 /**
  * The owner's count of how Saathi is used — never shown to the traveller. These pin what it
@@ -65,5 +65,20 @@ describe('usage, recorded for the owner', () => {
     expect(rows.map((row) => row.landedOn).sort()).toEqual(['arrived', 'opened']);
     // Every row says whether there was a signal: the offline share is the promise, measured.
     expect(rows.every((row) => typeof row.online === 'boolean')).toBe(true);
+  });
+
+  it('marks our own phone once from the staff link, and nothing else does', async () => {
+    expect(isStaffLink(new URL('https://dubai.saafarsaathi.in/?staff=saathi'))).toBe(true);
+    expect(isStaffLink(new URL('https://dubai.saafarsaathi.in/?staff=1'))).toBe(false);
+    expect(isStaffLink(new URL('https://dubai.saafarsaathi.in/?via=site'))).toBe(false);
+
+    window.history.replaceState(null, '', '/?staff=saathi');
+    startUsageRecording()();
+    startUsageRecording()();
+    window.history.replaceState(null, '', '/');
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    const staff = (await usageRows()).filter((row) => row.landedOn === 'staff');
+    // One row however often the link is opened: the server needs to hear it once.
+    expect(staff).toHaveLength(1);
   });
 });
