@@ -771,17 +771,60 @@
                 >
               </li>
             </ol>
-            <div class="phone">
+            <!--
+              The flow, shown rather than told (the owner, 2 October): a board in Arabic only, what
+              Saathi says it means, and the button that reads it aloud — with the visitor's own
+              phone voice, which is exactly what the app does. The Hindi is the app's output, so it
+              stays Hindi in both languages; no English line, because the app shows none yet.
+            -->
+            <div class="board-demo">
               <img
-                src="/shots/board.png"
-                data-hi-src="/shots/board.png"
-                data-en-src="/shots/en/board.png"
-                alt="बोर्ड पढ़ें"
-                width="780"
-                height="1560"
+                class="board-photo"
+                src="/shots/board-sign.jpg"
+                alt="ممنوع الأكل والشرب · غرامة ١٠٠ درهم"
+                width="1200"
+                height="840"
                 loading="lazy"
                 decoding="async"
               />
+              <p class="board-arrow">
+                <span class="hi">↓ Dubaisaathi ने पढ़ा</span
+                ><span class="en">↓ Dubaisaathi read it</span>
+              </p>
+              <div class="board-result">
+                <span class="board-label"
+                  ><span class="hi">हिंदी में</span><span class="en">In Hindi</span></span
+                >
+                <p class="board-hindi" id="board-hindi">
+                  यहाँ खाना-पीना मना है — 100 दिरहम जुर्माना।
+                </p>
+                <button type="button" class="board-play" id="board-play">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="20"
+                    height="20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z" />
+                    <path d="M15.5 9a4 4 0 0 1 0 6" />
+                    <path d="M18 6.5a7.5 7.5 0 0 1 0 11" />
+                  </svg>
+                  <span class="hi">हिंदी में सुनिए</span><span class="en">Hear it in Hindi</span>
+                </button>
+                <p class="board-said" id="board-said" aria-live="polite"></p>
+                <p class="board-arabic">
+                  <span class="board-label"
+                    ><span class="hi">बोर्ड पर अरबी में लिखा था</span
+                    ><span class="en">The board said, in Arabic</span></span
+                  >
+                  <span lang="ar" dir="rtl">ممنوع الأكل والشرب · غرامة ١٠٠ درهم</span>
+                </p>
+              </div>
             </div>
           </div>
           <h3 class="bolna-also">
