@@ -922,23 +922,8 @@ button:not(:disabled) {
   border-radius: 8px;
 }
 
-/* ---- L · लैंडिंग ----------------------------------------------------------------------- */
-
-.landing {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 0 24px 32px;
-}
-/* What we keep, in one quiet line above the button that accepts it (decision 045). */
-.consent-line {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.5;
-  text-align: center;
-}
-/* The terms, in one line with the way to read them, above the same button (decision 048). The
-   link is a control, so it is a 48px target (rule 26) though it reads as a word in the line. */
+/* The terms, in one line with the way to read them, under घर.4's pay button (decisions 048 and
+   057). The link is a control, so it is a 48px target (rule 26) though it reads as a word. */
 .terms-line {
   margin: 0 0 8px;
   color: var(--muted);
@@ -953,96 +938,6 @@ button:not(:disabled) {
   font-weight: 700;
   color: var(--marigoldText);
 }
-.landing-brand {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  text-align: center;
-  padding-top: 16px;
-}
-.landing-name {
-  font-size: 40px;
-  font-weight: 700;
-  line-height: 1.1;
-  margin: 0;
-}
-.landing-offline {
-  margin: 0;
-  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
-  /* The line names the three pillars now, so it is longer than "works without internet" was
-     and has to wrap on a phone without breaking between a pillar name and its neighbour. */
-  font-size: 21px;
-  font-weight: 700;
-  line-height: 1.25;
-  text-wrap: balance;
-  max-width: 19ch;
-  color: var(--tealText);
-}
-.landing-jobs {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin: 4px 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: 14.5px;
-  text-align: start;
-}
-.landing-jobs li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.landing-langs {
-  display: flex;
-  gap: 10px;
-  margin-top: 8px;
-}
-.landing-lang {
-  min-height: 40px;
-  padding: 0 14px;
-  border-radius: 999px;
-  border: 1.5px solid var(--line);
-  font-size: 14px;
-  font-weight: 600;
-}
-.landing-lang-on {
-  background: var(--ink);
-  color: var(--card);
-  border-color: var(--ink);
-}
-.landing-pack {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  background: var(--sand);
-  margin-bottom: 12px;
-}
-.landing-pack-head {
-  display: flex;
-  justify-content: space-between;
-  font-size: 13.5px;
-  font-weight: 600;
-}
-.landing-track {
-  display: block;
-  height: 6px;
-  border-radius: 3px;
-  background: var(--line);
-  overflow: hidden;
-}
-.landing-track > span {
-  display: block;
-  height: 100%;
-  background: var(--teal);
-  transition: width 0.3s ease;
-}
-
 /* ---- घर.1 · मेरा होटल ----------------------------------------------------------------- */
 
 /* Two steps, each one screen with nothing below the fold (decision 032) — measured at 360 × 672,

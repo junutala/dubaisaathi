@@ -11,26 +11,8 @@
  ],
  "artboards": [
   {
-   "file": "Landing.dc.html",
-   "x": 0,
-   "y": 0,
-   "w": 390,
-   "h": 844,
-   "title": "L · लैंडिंग",
-   "page": "all"
-  },
-  {
-   "file": "Consent.dc.html",
-   "x": 470,
-   "y": 0,
-   "w": 390,
-   "h": 844,
-   "title": "L · लैंडिंग › एक बात, एक बार",
-   "page": "all"
-  },
-  {
    "file": "Home.dc.html",
-   "x": 940,
+   "x": 0,
    "y": 0,
    "w": 390,
    "h": 844,
@@ -39,7 +21,7 @@
   },
   {
    "file": "HomeTrial.dc.html",
-   "x": 1410,
+   "x": 470,
    "y": 0,
    "w": 390,
    "h": 844,
@@ -48,7 +30,7 @@
   },
   {
    "file": "HomePaid.dc.html",
-   "x": 1880,
+   "x": 940,
    "y": 0,
    "w": 390,
    "h": 844,

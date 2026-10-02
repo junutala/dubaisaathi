@@ -179,7 +179,10 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   is never shown.
 - **No login, no account, no gate — but one line, accepted once** (decision 045): what is typed,
   said or read in खाना, जाना, जानना and बोलना is kept as text, tied to the phone's random id and
-  never to a name or a number; the landing page's "मंज़ूर है, शुरू करें" accepts it.
+  never to a name or a number. **There is no accept screen** (decision 057, the owner, 2 October:
+  opening a web page is not signing anything): the app opens on घर, and the terms are accepted
+  by paying, in one line under घर.4's pay button. **An ad's visitor lands on the ad's promise** —
+  `utm_campaign=khaana1` opens खाना with व्रत on, घर one step back.
   Entitlement is keyed to the device. A pass is a signed
   token verified offline (decision 005). Location is asked at first need with the reason on the
   screen; a refusal gets one screen saying what will not work and what still does.

@@ -56,24 +56,10 @@ export const en: Record<StringKey, string> = {
   'home.latest': 'latest',
   'home.catchingUp': 'updating…',
 
-  'consent.title': 'One thing, once',
-  'consent.line':
-    'What you type, say or have read in खाना, जाना, जानना and बोलना may be kept to make Saathi better — as text only, never your voice or photos. It is not linked to your name or number.',
-  'consent.accept': 'I accept — carry on',
-  'landing.offline': 'खाना · जाना · जानना — with you, without internet',
   'landing.job1': 'Places to eat, with no network',
   'landing.job2': 'Metro, bus and taxi routes, with no network',
   'landing.job3': 'The places of Dubai, in Hindi, with no network',
   'landing.job4': 'Your hotel and documents, on this phone',
-  'landing.preparing': 'Downloading the offline pack — once, now',
-  'landing.ready': 'Saathi is ready',
-  'landing.later': 'The offline pack comes down the next time you open Saathi',
-  'landing.laterWhen': 'Open it once more before you fly — on Wi-Fi, and it stays on your phone.',
-  'landing.tryIt': 'Turn off the internet and try it — everything works.',
-  'landing.packWhat':
-    'Places to eat, the metro and bus map, the places of Dubai — all on your phone.',
-  'landing.start': 'I accept — start',
-  'landing.noLogin': 'No login. No account.',
 
   'hotel.title': 'My hotel',
   'hotel.cardLead':
@@ -604,7 +590,7 @@ export const en: Record<StringKey, string> = {
   'sos.fire': 'Fire',
   'sos.all': 'All numbers',
 
-  'terms.acceptLine': 'By continuing you accept the terms and conditions.',
+  'terms.acceptLine': 'By paying you accept the terms and conditions.',
   'terms.read': 'Read the terms and conditions',
   'terms.smallPrint': 'Terms, privacy and refunds — saafarsaathi.in/terms',
   'terms.title': 'Terms and conditions',
@@ -652,7 +638,7 @@ export const en: Record<StringKey, string> = {
     'Anyone who has paid once is never locked out of the app. Your hotel and your documents are never behind a pass — they always open on your phone.',
   'terms.change.head': 'Changes to these terms',
   'terms.change.p1':
-    'These terms may change. When they do, the date above changes, and for a significant change the app asks you to accept once more.',
+    'These terms may change. When they do, the date above changes; the terms in force on the day you buy a pass are the ones that apply to it.',
   'terms.law.head': 'Law and courts',
   'terms.law.p1':
     'These terms are governed by the laws of India. Any dispute will be heard by the courts of Chennai.',

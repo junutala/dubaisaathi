@@ -1,5 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { barOf, parseRoute, pillarOf, screenSeen, type Route } from './routes.js';
+import {
+  barOf,
+  campaignLanding,
+  href,
+  parseRoute,
+  pillarOf,
+  screenSeen,
+  type Route,
+} from './routes.js';
 import { useSettings } from './settings.js';
 import { applyUpdateIfIdle, watchForUpdate } from './updates.js';
 import { offlineKitIsDue } from './offlineKit.js';
@@ -22,9 +30,6 @@ import {
   validity,
   watchEntitlement,
 } from '../features/pass/index.js';
-import { ConsentScreen } from '../features/landing/ConsentScreen.js';
-import { LandingScreen } from '../features/landing/LandingScreen.js';
-import { acceptTerms, hasAcceptedTerms } from '../features/landing/consent.js';
 import { TermsScreen } from '../features/terms/index.js';
 import { currentLocation } from '../lib/location.js';
 import {
@@ -54,42 +59,24 @@ import { ArabicScreen, BoardScreen, BolnaScreen } from '../features/speak/index.
 import { navigate } from './routes.js';
 import { noteLanding, noteScreen } from '../features/ask/index.js';
 
-/**
- * The landing page is shown once, on the first open, and never again. Recorded in localStorage
- * rather than in the database because it is read before the first paint.
- */
-const STARTED_KEY = 'saathi.started';
-
-function remembered(key: string): boolean {
-  try {
-    return localStorage.getItem(key) !== null;
-  } catch {
-    // Private mode: better to show the app than to trap someone on a notice for ever.
-    return true;
-  }
-}
-
-function remember(key: string): void {
-  try {
-    localStorage.setItem(key, new Date().toISOString());
-  } catch {
-    /* it will simply be shown once more */
-  }
-}
-
 export function App() {
   // Whether the phone has a connection, from the provider that already listens for `online` and
   // `offline`. घर's बोलना tile is not shown without one (decision 020), and it has to appear and
   // disappear as the signal does — a tile that lies about being available is the defect that
   // design exists to avoid.
   const { online } = useSettings();
-  const [started, setStarted] = useState(() => remembered(STARTED_KEY));
-  // The data-use line and today's terms, accepted together (decisions 045 and 048).
-  const [consented, setConsented] = useState(hasAcceptedTerms);
   const [route, setRoute] = useState<Route>(() => {
     // `?code=…` from an advertisement is read once and taken off the URL before the route is,
     // so it reaches घर.4's field rather than the router (decision 018).
     takeCodeFromUrl();
+    // An advertisement's visitor opens on what the ad promised (decision 057), with घर one step
+    // back, so the back button leads into the app rather than out of it.
+    const landing = campaignLanding(new URL(window.location.href));
+    if (landing !== null) {
+      window.history.replaceState(null, '', '#/');
+      window.history.pushState(null, '', href(landing));
+      return landing;
+    }
     return parseRoute(window.location.hash);
   });
   /** The hotel on the strip, read once and again whenever घर.1 saves. */
@@ -234,55 +221,6 @@ export function App() {
     if (behindTheGate && isGated()) navigate({ screen: 'pass' });
   }, [route]);
 
-  /**
-   * The terms, read before the app has started — from the landing page or the one-time notice
-   * (decision 048). Like those two, no strip and no bar yet; back returns to the page that sent
-   * the traveller here, which is still waiting for its one button.
-   */
-  if ((!started || !consented) && route.screen === 'terms') {
-    return (
-      <div className="screen">
-        <main className="body">
-          <TermsScreen
-            onBack={() => {
-              window.location.replace('#/');
-            }}
-          />
-        </main>
-      </div>
-    );
-  }
-
-  if (!started) {
-    return (
-      <div className="screen">
-        <LandingScreen
-          onReady={() => {
-            // शुरू करें is also the acceptance of the lines above it: what we keep (decision
-            // 045) and the terms (decision 048).
-            acceptTerms();
-            remember(STARTED_KEY);
-            setConsented(true);
-            setStarted(true);
-          }}
-        />
-      </div>
-    );
-  }
-
-  if (!consented) {
-    return (
-      <div className="screen">
-        <ConsentScreen
-          onAccept={() => {
-            acceptTerms();
-            setConsented(true);
-          }}
-        />
-      </div>
-    );
-  }
-
   const now = new Date(clock);
   const state = validity(now);
   const pass = entitlement();
@@ -315,7 +253,9 @@ export function App() {
         {route.screen === 'bolnaBoard' && <BoardScreen />}
         {route.screen === 'share' && <ShareScreen />}
         {route.screen === 'contribute' && <ContributeScreen about={route.about} />}
-        {route.screen === 'food' && <FoodListScreen dish={route.dish} hotel={hotel} />}
+        {route.screen === 'food' && (
+          <FoodListScreen dish={route.dish} diet={route.diet} hotel={hotel} />
+        )}
         {route.screen === 'menu' && <MenuScreen outletId={route.outletId} hotel={hotel} />}
         {route.screen === 'go' && <GoScreen placeId={route.placeId} />}
         {route.screen === 'options' && <RouteOptionsScreen placeId={route.placeId} hotel={hotel} />}

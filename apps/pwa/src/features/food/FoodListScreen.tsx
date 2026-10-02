@@ -38,16 +38,25 @@ const CHIPS: readonly { readonly id: Constraint; readonly key: StringKey }[] = [
 
 export function FoodListScreen({
   dish,
+  diet,
   hotel,
 }: {
   /** A dish handed in by the address bar, so a search survives a refresh. */
   readonly dish?: string | undefined;
+  /** A chip switched on by the address — how an advertisement lands on its promise (057). */
+  readonly diet?: Constraint | undefined;
   readonly hotel: SavedHotel | undefined;
 }) {
   const { t, locale } = useSettings();
   const [typed, setTyped] = useState(dish ?? '');
   const [query, setQuery] = useState(dish ?? '');
-  const [constraints, setConstraints] = useState<readonly Constraint[]>([]);
+  const [constraints, setConstraints] = useState<readonly Constraint[]>(
+    diet === undefined ? [] : [diet],
+  );
+
+  useEffect(() => {
+    if (diet !== undefined) setConstraints([diet]);
+  }, [diet]);
   const here = useHere(hotel);
 
   useEffect(() => {

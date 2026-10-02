@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { barOf, href, parseRoute, pillarOf } from './routes.js';
+import { barOf, campaignLanding, href, parseRoute, pillarOf } from './routes.js';
 
 describe('घर.10 · नियम और शर्तें on the router (decision 048)', () => {
   it('reads #/terms and writes it back the same', () => {
@@ -47,5 +47,29 @@ describe('2.7 · सवारी on the router (decision 051)', () => {
 
   it('belongs to जाना', () => {
     expect(pillarOf(ride)).toBe('go');
+  });
+});
+
+describe('an advertisement lands on its promise (decision 057)', () => {
+  const app = 'https://dubai.saafarsaathi.in/';
+
+  it('opens the vrat poster’s visitors on खाना with व्रत already on', () => {
+    const url = new URL(`${app}?utm_source=meta&utm_campaign=khaana1&utm_content=gujarat`);
+    expect(campaignLanding(url)).toEqual({ screen: 'food', diet: 'vrat' });
+  });
+
+  it('leaves everyone else, and any link that names a screen, where they were going', () => {
+    expect(campaignLanding(new URL(`${app}?via=site`))).toBeNull();
+    expect(campaignLanding(new URL(`${app}?utm_campaign=other`))).toBeNull();
+    expect(campaignLanding(new URL(`${app}?utm_campaign=khaana1#/go`))).toBeNull();
+    // Back on घर after landing, a reload stays on घर.
+    expect(campaignLanding(new URL(`${app}?utm_campaign=khaana1#/`))).toBeNull();
+  });
+
+  it('reads and writes the khaana list with a chip on', () => {
+    expect(href({ screen: 'food', diet: 'vrat' })).toBe('#/food-diet/vrat');
+    expect(parseRoute('#/food-diet/vrat')).toEqual({ screen: 'food', diet: 'vrat' });
+    expect(parseRoute('#/food-diet/pizza')).toEqual({ screen: 'food' });
+    expect(pillarOf({ screen: 'food', diet: 'vrat' })).toBe('food');
   });
 });

@@ -10,7 +10,7 @@ export const hi = {
   // catalogues (decision 021). The three pillar names stay in Devanagari; this is not one.
   'app.name': 'Dubaisaathi',
 
-  // The top strip, on every screen after the landing page
+  // The top strip, on every screen
   'strip.offline': 'ऑफ़लाइन',
   'strip.online': 'ऑनलाइन',
   'strip.pass': 'पास',
@@ -61,24 +61,11 @@ export const hi = {
   'home.latest': 'नवीनतम',
   'home.catchingUp': 'अपडेट हो रहा है…',
 
-  // L · लैंडिंग
-  'consent.title': 'एक बात, एक बार',
-  'consent.line':
-    'खाना, जाना, जानना और बोलना में आप जो लिखते, बोलते या पढ़वाते हैं, उसे हम Saathi को बेहतर बनाने के लिए रख सकते हैं — सिर्फ़ लिखा हुआ, आपकी आवाज़ या फ़ोटो नहीं. यह आपके नाम या नंबर से नहीं जुड़ता.',
-  'consent.accept': 'मंज़ूर है, आगे बढ़ें',
-  'landing.offline': 'खाना · जाना · जानना — आपके साथ, बिना इंटरनेट',
+  // घर.4's list of what the pass opens
   'landing.job1': 'खाने की जगहें, बिना नेटवर्क',
   'landing.job2': 'मेट्रो-बस-टैक्सी का रास्ता, बिना नेटवर्क',
   'landing.job3': 'दुबई की जगहें, हिंदी में, बिना नेटवर्क',
   'landing.job4': 'आपका होटल और दस्तावेज़, इसी फ़ोन में',
-  'landing.preparing': 'ऑफ़लाइन पैक आ रहा है — एक बार, अभी',
-  'landing.ready': 'साथी तैयार है',
-  'landing.later': 'ऑफ़लाइन पैक अगली बार खोलने पर आएगा',
-  'landing.laterWhen': 'दुबई जाने से पहले एक बार और खोलिए — वाई-फ़ाई पर, फिर फ़ोन में ही रहेगा।',
-  'landing.tryIt': 'इंटरनेट बंद करके देखिए — सब चलेगा।',
-  'landing.packWhat': 'खाने की जगहें, मेट्रो-बस का नक़्शा, दुबई की जगहें — सब फ़ोन पर रहेगा।',
-  'landing.start': 'मंज़ूर है, शुरू करें',
-  'landing.noLogin': 'कोई लॉगिन नहीं. कोई अकाउंट नहीं.',
 
   // घर.1 · मेरा होटल — whatever the traveller wants to keep, on the phone only
   'hotel.title': 'मेरा होटल',
@@ -616,9 +603,9 @@ export const hi = {
   'sos.fire': 'आग',
   'sos.all': 'सब नंबर',
 
-  // घर.10 · नियम और शर्तें (decision 048): accepted with the data-use line on the landing page,
+  // घर.10 · नियम और शर्तें (decision 048): accepted by paying for a pass (057),
   // read on this screen and at saafarsaathi.in/terms, /privacy and /refund, word for word.
-  'terms.acceptLine': 'जारी रखकर आप नियम और शर्तें मानते हैं।',
+  'terms.acceptLine': 'भुगतान करके आप नियम और शर्तें मानते हैं।',
   'terms.read': 'नियम और शर्तें पढ़ें',
   'terms.smallPrint': 'नियम, निजता और रिफ़ंड — saafarsaathi.in/terms',
   'terms.title': 'नियम और शर्तें',
@@ -666,7 +653,7 @@ export const hi = {
     'जिसने एक बार भुगतान किया, उसे ऐप से कभी बाहर नहीं किया जाता। आपका होटल और आपके दस्तावेज़ किसी पास के पीछे नहीं हैं — वे आपके फ़ोन पर हमेशा खुलते हैं।',
   'terms.change.head': 'इन नियमों में बदलाव',
   'terms.change.p1':
-    'ये नियम बदल सकते हैं। बदलेंगे तो ऊपर की तारीख़ बदलेगी, और बड़े बदलाव पर ऐप एक बार फिर मंज़ूरी माँगेगा।',
+    'ये नियम बदल सकते हैं। बदलेंगे तो ऊपर की तारीख़ बदलेगी; जो नियम उस दिन लागू हैं, वही पास ख़रीदने पर लागू होते हैं।',
   'terms.law.head': 'क़ानून और अदालत',
   'terms.law.p1':
     'ये नियम भारत के क़ानून के तहत हैं। कोई विवाद हो तो वह चेन्नई की अदालतों में सुना जाएगा।',
