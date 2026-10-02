@@ -8,6 +8,9 @@
   --accent-soft: #e1f2ef;
   --warn: #9a5b10;
   --warn-soft: #fdf0dc;
+  /* The running-totals chart's two series, validated as a pair for colour-blind readers. */
+  --s1: #2a78d6;
+  --s2: #eb6834;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -20,6 +23,8 @@
     --accent-soft: #0e2a27;
     --warn: #f2ac5c;
     --warn-soft: #3a2a14;
+    --s1: #3987e5;
+    --s2: #d95926;
   }
 }
 * {
@@ -299,4 +304,108 @@ h3 {
   display: block;
   color: var(--muted);
   font-size: 12px;
+}
+
+/* The period picker (decision 055): presets in one row, a from–to pair under them. */
+.span-pick {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-top: 10px;
+}
+.span-pick label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+}
+.span-pick input {
+  font: inherit;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--ink);
+}
+.period .window {
+  flex-wrap: wrap;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.key {
+  display: inline-block;
+  width: 14px;
+  height: 3px;
+  border-radius: 2px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+.key.s1 {
+  background: var(--s1);
+}
+.key.s2 {
+  background: var(--s2);
+}
+.cumulative svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 8px;
+}
+.cumulative .grid {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+.cumulative .axis {
+  fill: var(--muted);
+  font-size: 11px;
+}
+.cumulative .series {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.cumulative .series.s1 {
+  stroke: var(--s1);
+}
+.cumulative .series.s2 {
+  stroke: var(--s2);
+}
+.cumulative .dot {
+  stroke: var(--card);
+  stroke-width: 2;
+}
+.cumulative .dot.s1 {
+  fill: var(--s1);
+}
+.cumulative .dot.s2 {
+  fill: var(--s2);
+}
+.cumulative .hit {
+  fill: transparent;
+}
+.cumulative .end {
+  fill: var(--ink);
+  font-size: 12px;
+}
+details summary {
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* The passphrase card is a grid, which beat the hidden attribute: it stayed on screen after the
+   page had opened. */
+.gate[hidden] {
+  display: none;
+}
+/* Wide tables scroll inside their card on a phone instead of pushing the whole page sideways. */
+.scroll {
+  overflow-x: auto;
 }

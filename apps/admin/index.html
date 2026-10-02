@@ -39,10 +39,68 @@
       </form>
 
       <div id="board" hidden>
+        <section class="card period">
+          <h2>Period <span class="muted" id="period-label"></span></h2>
+          <div class="window" role="group" aria-label="Period">
+            <button type="button" class="ghost" data-span="today">Today</button>
+            <button type="button" class="ghost" data-span="yesterday">Yesterday</button>
+            <button type="button" class="ghost" data-span="week">Last 7 days</button>
+            <button type="button" class="ghost" data-span="campaign">Since the campaign</button>
+            <button type="button" class="ghost" data-span="all">All time</button>
+          </div>
+          <form id="span-form" class="span-pick">
+            <label>From <input type="date" id="span-from" required /></label>
+            <label>To <input type="date" id="span-to" required /></label>
+            <button type="submit" class="ghost">Show</button>
+          </form>
+          <p class="muted">
+            Indian days. Everything down to "Asked for" follows this period; our own phones are
+            never counted.
+          </p>
+        </section>
         <section class="card pitch">
           <h2>The line to share</h2>
           <p id="pitch"></p>
           <button type="button" id="copy" class="ghost">Copy</button>
+        </section>
+        <section class="card">
+          <h2>In this period</h2>
+          <p id="range-error" class="error" hidden></p>
+          <div class="tiles" id="tiles-range"></div>
+          <h3>Running totals <span class="muted">(added up day by day)</span></h3>
+          <div class="legend">
+            <span><i class="key s1"></i>First opens from ads</span>
+            <span><i class="key s2"></i>Website visits</span>
+          </div>
+          <div id="cumulative" class="cumulative"></div>
+          <details>
+            <summary class="muted">The same, as a table</summary>
+            <div class="scroll"><table id="daily"></table></div>
+          </details>
+        </section>
+        <section class="card">
+          <h2>
+            How phones came to us
+            <span class="muted"
+              >(phones whose first open fell in the period, followed to what they did afterwards;
+              "Came back" means opened on a second day)</span
+            >
+          </h2>
+          <div class="scroll"><table id="via"></table></div>
+        </section>
+        <section class="card">
+          <h2>
+            How readers used the website
+            <span class="muted"
+              >(saafarsaathi.in, each visit counted once; "Stayed" is 10 seconds or more on the
+              screen, "Scrolled" is a quarter of the page or more)</span
+            >
+          </h2>
+          <div class="scroll"><table id="site"></table></div>
+        </section>
+        <section class="card">
+          <h2>Asked for, and we did not have <span class="muted">(in the period)</span></h2>
+          <div class="scroll"><table id="asks"></table></div>
         </section>
 
         <section class="card">
@@ -88,45 +146,20 @@
         </section>
 
         <section>
-          <h2>Reach</h2>
+          <h2>
+            Reach <span class="muted">(all time and the last 7 days, whatever the period)</span>
+          </h2>
           <div class="tiles" id="tiles-reach"></div>
         </section>
 
         <section>
-          <h2>Use</h2>
+          <h2>Use <span class="muted">(all time)</span></h2>
           <div class="tiles" id="tiles-use"></div>
         </section>
 
         <section class="card">
           <h2>Phones each day <span class="muted">(Dubai days, last 14)</span></h2>
           <div id="days" class="bars"></div>
-        </section>
-
-        <section class="card">
-          <h2>
-            How phones came to us
-            <span class="muted"
-              >(each phone counted once, by its first open; "Came back" means opened on a second
-              day)</span
-            >
-          </h2>
-          <table id="via"></table>
-        </section>
-
-        <section class="card">
-          <h2>
-            How readers used the website
-            <span class="muted"
-              >(saafarsaathi.in, last 28 days, each visit counted once; "Stayed" is 10 seconds or
-              more on the screen, "Scrolled" is a quarter of the page or more)</span
-            >
-          </h2>
-          <table id="site"></table>
-        </section>
-
-        <section class="card">
-          <h2>Asked for, and we did not have <span class="muted">(last 30 days)</span></h2>
-          <table id="asks"></table>
         </section>
 
         <section class="card">

@@ -44,6 +44,23 @@ function same(a: string, b: string): boolean {
   return diff === 0;
 }
 
+/** The campaign's first day: what the page shows when it names no span (decision 055). */
+const CAMPAIGN_START = '2026-10-01';
+const DAY = /^\d{4}-\d{2}-\d{2}$/;
+
+/** Today in India, where the ads run and the owner reads the page. */
+function indianToday(): string {
+  return new Date(Date.now() + 330 * 60_000).toISOString().slice(0, 10);
+}
+
+/** The span the page asked for, as Indian days; anything malformed falls back to the campaign. */
+function dates(from: unknown, to: unknown): { from: string; to: string } {
+  const today = indianToday();
+  const end = typeof to === 'string' && DAY.test(to) && to <= today ? to : today;
+  const start = typeof from === 'string' && DAY.test(from) && from <= end ? from : CAMPAIGN_START;
+  return { from: start <= end ? start : end, to: end };
+}
+
 Deno.serve(async (request: Request): Promise<Response> => {
   const headers = cors(request.headers.get('origin'));
   const json = (body: unknown, status = 200) =>
@@ -56,9 +73,11 @@ Deno.serve(async (request: Request): Promise<Response> => {
   if (request.method !== 'POST') return json({ error: 'POST only' }, 405);
 
   let pass = '';
+  let span = dates(undefined, undefined);
   try {
-    const body = (await request.json()) as { pass?: unknown };
+    const body = (await request.json()) as { pass?: unknown; from?: unknown; to?: unknown };
     pass = typeof body.pass === 'string' ? body.pass.trim().toLowerCase() : '';
+    span = dates(body.from, body.to);
   } catch {
     return json({ error: 'not JSON' }, 400);
   }
@@ -69,7 +88,7 @@ Deno.serve(async (request: Request): Promise<Response> => {
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
     { auth: { persistSession: false } },
   );
-  const [base, week, month, reports, acquisition, site] = await Promise.all([
+  const [base, week, month, reports, acquisition, site, range] = await Promise.all([
     db.rpc('admin_metrics'),
     db.rpc('insight_metrics', { p_days: 7 }),
     db.rpc('insight_metrics', { p_days: 28 }),
@@ -80,6 +99,7 @@ Deno.serve(async (request: Request): Promise<Response> => {
       .limit(5),
     db.rpc('acquisition_metrics'),
     db.rpc('site_metrics', { p_days: 28 }),
+    db.rpc('range_metrics', { p_from: span.from, p_to: span.to }),
   ]);
   if (base.error) return json({ error: base.error.message }, 500);
   // Product intelligence (decision 043) rides beside the totals; if it fails the rest still shows.
@@ -96,5 +116,7 @@ Deno.serve(async (request: Request): Promise<Response> => {
     acquisition: acquisition.error ? null : acquisition.data,
     // What the website's readers did, by the way they came (migration 0026, decision 053).
     site: site.error ? null : site.data,
+    // Everything the date picker drives, for the span it asked for (migration 0028, decision 055).
+    range: range.error ? { error: range.error.message } : range.data,
   });
 });
