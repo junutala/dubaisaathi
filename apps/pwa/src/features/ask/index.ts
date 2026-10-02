@@ -12,6 +12,7 @@ export { recordVoiceEvent } from './voiceEvent.js';
 export { startVoiceEventSync } from './sync.js';
 export {
   arrivalSource,
+  noteLanding,
   openedInstalled,
   recordUsage,
   regionNow,

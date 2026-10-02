@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { db } from '../../db/schema.js';
-import { arrivalSource, dubaiDay, isStaffLink, startUsageRecording } from './usage.js';
+import { arrivalSource, dubaiDay, isStaffLink, noteLanding, startUsageRecording } from './usage.js';
 
 /**
  * The owner's count of how Saathi is used — never shown to the traveller. These pin what it
@@ -80,5 +80,16 @@ describe('usage, recorded for the owner', () => {
     const staff = (await usageRows()).filter((row) => row.landedOn === 'staff');
     // One row however often the link is opened: the server needs to hear it once.
     expect(staff).toHaveLength(1);
+  });
+
+  it('tells the server once that the phone landed in Dubai, with the day and nothing finer', async () => {
+    noteLanding(undefined);
+    noteLanding('2026-11-07T09:30:00.000Z');
+    noteLanding('2026-11-07T09:30:00.000Z');
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    const landed = (await usageRows()).filter((row) => row.landedOn === 'landed');
+    expect(landed).toHaveLength(1);
+    expect(landed[0]?.transcript).toBe('2026-11-07');
+    expect(landed[0]?.region).toBe('dubai');
   });
 });

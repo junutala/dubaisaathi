@@ -16,11 +16,12 @@ import { recordVoiceEvent, type Region } from './voiceEvent.js';
 
 /** What a usage row says happened. `landed_on` on the server. */
 export type UsageEvent =
-  'opened' | 'arrived' | 'menu' | 'steps' | 'map' | 'topic' | 'place' | 'staff';
+  'opened' | 'arrived' | 'menu' | 'steps' | 'map' | 'topic' | 'place' | 'staff' | 'landed';
 
 const OPENED_ON = 'saathi.usage.openedOn';
 const ARRIVED = 'saathi.usage.arrived';
 const STAFF = 'saathi.usage.staff';
+const LANDED = 'saathi.usage.landed';
 
 /** One usage row. `subject` is what was opened — an outlet, a place, a topic — never a person. */
 export function recordUsage(
@@ -118,6 +119,19 @@ export function arrivalSource(url: URL): string {
   if (tagged !== '') return tagged;
   if (url.hash.startsWith('#/pass/')) return 'family-pass';
   return 'direct';
+}
+
+/**
+ * The phone has landed in Dubai (the owner, 2 October: "add the Dubai arrivals to admin"). The
+ * pass already decides this — repeated readings inside Dubai, never one fix, the moment the trial
+ * starts — and kept it on the phone. Now it is said once to the server as well, so /admin can
+ * count the travellers who could pay, ad by ad. A phone that landed before this release says so
+ * on its next open. Only the day is sent, never a place.
+ */
+export function noteLanding(landedAt: string | undefined): void {
+  if (landedAt === undefined || read(LANDED) !== null) return;
+  write(LANDED, '1');
+  recordUsage('landed', landedAt.slice(0, 10), { region: 'dubai', installed: openedInstalled() });
 }
 
 /**

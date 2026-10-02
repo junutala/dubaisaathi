@@ -675,7 +675,9 @@ link again after clearing data, and never tap our own ads from a phone that shou
 **/admin reads by date** (decision 055, 2 October): a period at the top (Today, Yesterday, Last 7
 days, Since the campaign — the default — All time, or From–To, in Indian days) drives the line to
 share, the period's tiles, a running-totals chart and the via, website and asks tables, through
-`range_metrics()` (migration 0028).
+`range_metrics()` (migration 0028). **Dubai arrivals** (decision 056): "Opened in Dubai" (any
+open while the phone said Dubai, residents included) and "Landed" (the pass confirmed the arrival;
+a `landed` usage row, sent once) — only landed phones can pay, so payments wait on that column.
 
 The question log is the thing to read first each morning: `voice_events` rows with
 `nothing-in-pack` are places and dishes travellers asked for and did not get. `contact_messages`

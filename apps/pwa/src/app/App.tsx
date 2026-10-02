@@ -52,7 +52,7 @@ import { KnowScreen, PlaceScreen, TopicScreen } from '../features/know/index.js'
 import { MapScreen, startMapKeeping } from '../features/map/index.js';
 import { ArabicScreen, BoardScreen, BolnaScreen } from '../features/speak/index.js';
 import { navigate } from './routes.js';
-import { noteScreen } from '../features/ask/index.js';
+import { noteLanding, noteScreen } from '../features/ask/index.js';
 
 /**
  * The landing page is shown once, on the first open, and never again. Recorded in localStorage
@@ -212,7 +212,9 @@ export function App() {
    */
   useEffect(() => {
     const here = currentLocation();
-    noteLocationReading(here.kind === 'here' ? here.at : undefined);
+    const now = noteLocationReading(here.kind === 'here' ? here.at : undefined);
+    // A confirmed landing is told to the server once, for /admin's Dubai arrivals (decision 056).
+    if (now.pretendingDubai !== true) noteLanding(now.landedAt);
   }, [clock]);
 
   // Each screen shown, for the product-intelligence log's task rules (decision 043). Never read
