@@ -672,6 +672,11 @@ sends one `staff` row, and the metric functions read
 phone's identity — each browser, incognito window and cleared profile is a new id — so open the
 link again after clearing data, and never tap our own ads from a phone that should not count.
 
+**/admin reads by date** (decision 055, 2 October): a period at the top (Today, Yesterday, Last 7
+days, Since the campaign — the default — All time, or From–To, in Indian days) drives the line to
+share, the period's tiles, a running-totals chart and the via, website and asks tables, through
+`range_metrics()` (migration 0028).
+
 The question log is the thing to read first each morning: `voice_events` rows with
 `nothing-in-pack` are places and dishes travellers asked for and did not get. `contact_messages`
 is the second: that is the website's form, and nothing else reads it yet.

@@ -353,6 +353,271 @@
     void open(stored() || $('pass').value.trim().toLowerCase(), false);
   }
 
+  /*
+   * The period (decision 055): Indian days, "since the campaign" unless chosen otherwise. Every
+   * section down to "Asked for" is drawn from the span the server was asked for.
+   */
+  const CAMPAIGN_START = '2026-10-01';
+  const ALL_TIME_START = '2026-09-01';
+  const indianDay = (offsetDays) =>
+    new Date(Date.now() + 330 * 60_000 - offsetDays * 86_400_000).toISOString().slice(0, 10);
+  const SPANS = {
+    today: () => [indianDay(0), indianDay(0)],
+    yesterday: () => [indianDay(1), indianDay(1)],
+    week: () => [indianDay(6), indianDay(0)],
+    campaign: () => [CAMPAIGN_START, indianDay(0)],
+    all: () => [ALL_TIME_START, indianDay(0)],
+  };
+  const SPAN_NAMES = {
+    today: 'today',
+    yesterday: 'yesterday',
+    week: 'the last 7 days',
+    campaign: 'since the campaign',
+    all: 'all time',
+  };
+  let span = { name: 'campaign', from: CAMPAIGN_START, to: indianDay(0) };
+
+  const shortDay = (day) =>
+    new Date(day + 'T00:00:00Z').toLocaleDateString('en-IN', {
+      day: 'numeric',
+      month: 'short',
+      timeZone: 'UTC',
+    });
+
+  function spanLabel() {
+    const days =
+      span.from === span.to ? shortDay(span.from) : shortDay(span.from) + ' – ' + shortDay(span.to);
+    return span.name in SPAN_NAMES ? SPAN_NAMES[span.name] + ' · ' + days : days;
+  }
+
+  function choose(name) {
+    const [from, to] = SPANS[name]();
+    span = { name, from, to };
+    void open(stored() || $('pass').value.trim().toLowerCase(), false);
+  }
+
+  /* The running totals: two lines on one count axis, a point per Indian day, each point's own
+     value on hover. Colours are the validated pair in admin.css (--s1, --s2). */
+  function drawCumulative(daily) {
+    const box = $('cumulative');
+    box.replaceChildren();
+    if (daily.length === 0) {
+      box.append(el('p', 'No days in this period.', 'empty'));
+      return;
+    }
+    let ads = 0;
+    let site = 0;
+    const points = daily.map((d) => {
+      ads += Number(d.fromAds || 0);
+      site += Number(d.siteVisits || 0);
+      return { day: d.day, ads, site };
+    });
+    // Drawn at the card's own width, so the type stays readable on a phone.
+    const W = Math.max(300, Math.round(box.clientWidth || 600));
+    const H = W < 480 ? 180 : 200;
+    const L = 36;
+    const R = 84;
+    const T = 12;
+    const B = 28;
+    const top = Math.max(1, ...points.map((p) => Math.max(p.ads, p.site)));
+    const step = top <= 5 ? 1 : top <= 20 ? 5 : top <= 100 ? 20 : top <= 500 ? 100 : 500;
+    const ceiling = Math.ceil(top / step) * step;
+    const x = (i) =>
+      points.length === 1 ? L + (W - L - R) / 2 : L + (i * (W - L - R)) / (points.length - 1);
+    const y = (v) => T + (H - T - B) * (1 - v / ceiling);
+    const NS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    svg.setAttribute('role', 'img');
+    svg.setAttribute(
+      'aria-label',
+      'Running totals: ' +
+        points[points.length - 1].ads +
+        ' first opens from ads, ' +
+        points[points.length - 1].site +
+        ' website visits',
+    );
+    const add = (tag, attrs, text) => {
+      const node = document.createElementNS(NS, tag);
+      for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, String(v));
+      if (text !== undefined) node.textContent = text;
+      svg.append(node);
+      return node;
+    };
+    for (let v = 0; v <= ceiling; v += step) {
+      add('line', { x1: L, x2: W - R, y1: y(v), y2: y(v), class: 'grid' });
+      add('text', { x: L - 6, y: y(v) + 4, class: 'axis', 'text-anchor': 'end' }, String(v));
+    }
+    // As many day labels as fit, about 52px apart, so they never run into each other.
+    const room = Math.max(2, Math.floor((W - L - R) / 52));
+    const every = Math.max(1, Math.ceil(points.length / room));
+    points.forEach((p, i) => {
+      if (i % every === 0 || i === points.length - 1) {
+        add('text', { x: x(i), y: H - 8, class: 'axis', 'text-anchor': 'middle' }, shortDay(p.day));
+      }
+    });
+    // The two end labels, pushed apart when the totals are close so neither covers the other.
+    const last = points[points.length - 1];
+    let adsY = y(last.ads) + 4;
+    let siteY = y(last.site) + 4;
+    if (Math.abs(adsY - siteY) < 14) {
+      const middle = (adsY + siteY) / 2;
+      const upper = last.ads >= last.site ? 'ads' : 'site';
+      adsY = upper === 'ads' ? middle - 7 : middle + 7;
+      siteY = upper === 'ads' ? middle + 7 : middle - 7;
+    }
+    const endY = { ads: adsY, site: siteY };
+    for (const [key, cls, name] of [
+      ['ads', 's1', 'first opens from ads'],
+      ['site', 's2', 'website visits'],
+    ]) {
+      add('polyline', {
+        points: points.map((p, i) => x(i) + ',' + y(p[key])).join(' '),
+        class: 'series ' + cls,
+      });
+      points.forEach((p, i) => {
+        add('circle', { cx: x(i), cy: y(p[key]), r: 4, class: 'dot ' + cls });
+        const hit = add('circle', { cx: x(i), cy: y(p[key]), r: 11, class: 'hit' });
+        const tip = document.createElementNS(NS, 'title');
+        tip.textContent = shortDay(p.day) + ': ' + p[key] + ' ' + name + ' so far';
+        hit.append(tip);
+      });
+      add(
+        'text',
+        { x: x(points.length - 1) + 10, y: endY[key], class: 'end' },
+        last[key] + (key === 'ads' ? ' from ads' : ' visits'),
+      );
+    }
+    box.append(svg);
+  }
+
+  function drawRange(r) {
+    $('period-label').textContent = '(' + spanLabel() + ')';
+    for (const button of document.querySelectorAll('[data-span]')) {
+      button.classList.toggle('on', button.dataset.span === span.name);
+    }
+    $('span-from').value = span.from;
+    $('span-to').value = span.to;
+    const error = $('range-error');
+    error.hidden = true;
+    if (!r || r.error) {
+      error.textContent = 'This period could not be read: ' + ((r && r.error) || 'no answer');
+      error.hidden = false;
+      return;
+    }
+
+    // The sentence for an agent or an investor: only numbers the data can stand behind.
+    $('pitch').textContent =
+      number(r.firstOpens) +
+      ' first opens (' +
+      number(r.fromAds) +
+      ' from ads) · ' +
+      number(r.activePhones) +
+      ' phones used Saathi · ' +
+      number(r.siteVisits) +
+      ' website visits, ' +
+      number(r.siteToApp) +
+      ' went on to the app · ' +
+      percent(r.offlineShare) +
+      ' of use with no signal · ' +
+      number(r.questions) +
+      ' questions asked — ' +
+      spanLabel() +
+      '.';
+
+    tiles('tiles-range', [
+      [number(r.firstOpens), 'first opens'],
+      [number(r.fromAds), 'of them from ads'],
+      [number(r.activePhones), 'phones used Saathi'],
+      [number(r.questions), 'questions asked'],
+      [percent(r.offlineShare), 'of use with no signal'],
+      [number(r.siteVisits), 'website visits'],
+      [number(r.siteStayed), 'stayed 10 seconds or more'],
+      [number(r.siteToApp), 'went on to the app'],
+    ]);
+
+    const daily = r.daily || [];
+    drawCumulative(daily);
+    let ads = 0;
+    let site = 0;
+    table(
+      'daily',
+      [
+        ['Day', false],
+        ['First opens', true],
+        ['From ads', true],
+        ['From ads, so far', true],
+        ['Website visits', true],
+        ['Visits, so far', true],
+      ],
+      daily.map((d) => {
+        ads += Number(d.fromAds || 0);
+        site += Number(d.siteVisits || 0);
+        return [shortDay(d.day), d.firstOpens, d.fromAds, ads, d.siteVisits, site];
+      }),
+    );
+
+    // Each way in followed to what its phones did (migration 0025, now by period: 0028).
+    table(
+      'via',
+      [
+        ['Came through', false],
+        ['Phones', true],
+        ['Searched खाना', true],
+        ['Used offline', true],
+        ['Came back', true],
+        ['Began paying', true],
+        ['Paid', true],
+      ],
+      (r.via || []).map((a) => [a.via, a.phones, a.food, a.offline, a.returned, a.began, a.paid]),
+    );
+
+    // The website's own visits (decision 053), by the way each reader came.
+    table(
+      'site',
+      [
+        ['Came through', false],
+        ['Visits', true],
+        ['On a phone', true],
+        ['Median seconds', true],
+        ['Stayed', true],
+        ['Scrolled', true],
+        ['Reached बोलना', true],
+        ['Heard a board', true],
+        ['Opened the app', true],
+        ['WhatsApp', true],
+      ],
+      (r.site || []).map((v) => [
+        v.tag,
+        v.visits,
+        v.phones,
+        v.median_seconds,
+        v.stayed_10s,
+        v.scrolled,
+        v.reached_bolna,
+        v.heard_board,
+        v.opened_app,
+        v.whatsapp,
+      ]),
+    );
+
+    table(
+      'asks',
+      [
+        ['What they typed', false],
+        ['Where', false],
+        ['Times', true],
+        ['Phones', true],
+      ],
+      (r.asks || []).map((a) => [
+        a.text,
+        a.on === 'go' ? 'जाना' : a.on === 'food' ? 'खाना' : a.on,
+        a.times,
+        a.phones,
+      ]),
+    );
+  }
+
   function draw(m) {
     insights = m.insights || null;
     drawInsights();
@@ -363,23 +628,6 @@
     const opened = s.opened || {};
 
     $('stamp').textContent = 'as of ' + new Date(m.generatedAt).toLocaleString('en-IN');
-
-    // The sentence for an agent or an investor: only numbers the data can stand behind.
-    $('pitch').textContent =
-      number(s.downloads) +
-      ' downloads · ' +
-      number(s.activeLast7Days) +
-      ' phones used Saathi this week (' +
-      number(regions.dubai) +
-      ' in Dubai, ' +
-      number(regions.india) +
-      ' in India) · ' +
-      number(s.phonesThreePlusDays) +
-      ' came back on 3 or more days · ' +
-      percent(s.offlineShare) +
-      ' of use with no signal · ' +
-      number(s.searches) +
-      ' questions asked.';
 
     tiles('tiles-reach', [
       [number(s.downloads), 'downloads'],
@@ -416,78 +664,7 @@
       days.append(bar);
     }
 
-    // Each way in followed to what its phones did (migration 0025); the plain count if it failed.
-    if (Array.isArray(m.acquisition)) {
-      table(
-        'via',
-        [
-          ['Came through', false],
-          ['Phones', true],
-          ['Searched खाना', true],
-          ['Used offline', true],
-          ['Came back', true],
-          ['Began paying', true],
-          ['Paid', true],
-        ],
-        m.acquisition.map((a) => [a.via, a.phones, a.food, a.offline, a.returned, a.began, a.paid]),
-      );
-    } else {
-      table(
-        'via',
-        [
-          ['Came through', false],
-          ['Phones', true],
-        ],
-        Object.entries(s.arrivedVia || {}).sort((a, b) => b[1] - a[1]),
-      );
-    }
-
-    // The website's own visits (migration 0026, decision 053), by the way each reader came.
-    if (Array.isArray(m.site)) {
-      table(
-        'site',
-        [
-          ['Came through', false],
-          ['Visits', true],
-          ['On a phone', true],
-          ['Median seconds', true],
-          ['Stayed', true],
-          ['Scrolled', true],
-          ['Reached बोलना', true],
-          ['Heard a board', true],
-          ['Opened the app', true],
-          ['WhatsApp', true],
-        ],
-        m.site.map((v) => [
-          v.tag,
-          v.visits,
-          v.phones,
-          v.median_seconds,
-          v.stayed_10s,
-          v.scrolled,
-          v.reached_bolna,
-          v.heard_board,
-          v.opened_app,
-          v.whatsapp,
-        ]),
-      );
-    }
-
-    table(
-      'asks',
-      [
-        ['What they typed', false],
-        ['Where', false],
-        ['Times', true],
-        ['Phones', true],
-      ],
-      ((m.asks && m.asks.notInPack) || []).map((a) => [
-        a.text,
-        a.on === 'go' ? 'जाना' : a.on === 'food' ? 'खाना' : a.on,
-        a.times,
-        a.phones,
-      ]),
-    );
+    drawRange(m.range);
 
     const c = m.collection || {};
     const forms = c.forms || [];
@@ -547,7 +724,7 @@
           authorization: 'Bearer ' + KEY,
           apikey: KEY,
         },
-        body: JSON.stringify({ pass }),
+        body: JSON.stringify({ pass, from: span.from, to: span.to }),
       });
     } catch {
       error.textContent = 'No connection — try again when there is a signal.';
@@ -593,6 +770,19 @@
       drawInsights();
     });
   }
+  for (const button of document.querySelectorAll('[data-span]')) {
+    button.addEventListener('click', () => {
+      choose(button.dataset.span);
+    });
+  }
+  $('span-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const from = $('span-from').value;
+    const to = $('span-to').value;
+    if (!from || !to) return;
+    span = from <= to ? { name: '', from, to } : { name: '', from: to, to: from };
+    void open(stored() || $('pass').value.trim().toLowerCase(), false);
+  });
   $('run-agents').addEventListener('click', () => {
     void runAgents();
   });
