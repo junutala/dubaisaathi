@@ -39,16 +39,17 @@ Since 28 September (decision 046): four places, each an icon with its word under
 
 ## L · लैंडिंग
 
-| Field                                      | Why it is there                                                                                       |
-| ------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
-| The lockup, and the tagline                | Which app, and what it does: खाना · जाना · जानना, with you, without internet                          |
-| हिंदी / English                            | The interface language, chosen before anything else                                                   |
-| "ऑफ़लाइन पैक आ रहा है" + progress          | The app installing itself for the radio-off days                                                      |
-| The data-use line                          | What we keep — text, never voice or photos, not tied to a name (045)                                  |
-| "जारी रखकर आप नियम और शर्तें मानते हैं।"   | The one button accepts the terms too; said before it is pressed, not after (048)                      |
-| नियम और शर्तें पढ़ें                       | The terms before accepting them, bundled, offline; back returns here (048)                            |
-| मंज़ूर है, शुरू करें (live once installed) | The only action, and the acceptance of the line above it; live only when the app can keep its promise |
-| कोई लॉगिन नहीं. कोई अकाउंट नहीं.           | Removes the fear of a signup wall                                                                     |
+| Field                                    | Why it is there                                                                                   |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| The lockup, and the tagline              | Which app, and what it does: खाना · जाना · जानना, with you, without internet                      |
+| हिंदी / English                          | The interface language, chosen before anything else                                               |
+| "ऑफ़लाइन पैक आ रहा है" + progress        | The app installing itself for the radio-off days — from the second open on (052)                  |
+| "ऑफ़लाइन पैक अगली बार खोलने पर आएगा"     | A first open fetches nothing and waits for nothing; says when the pack will come, before the trip |
+| The data-use line                        | What we keep — text, never voice or photos, not tied to a name (045)                              |
+| "जारी रखकर आप नियम और शर्तें मानते हैं।" | The one button accepts the terms too; said before it is pressed, not after (048)                  |
+| नियम और शर्तें पढ़ें                     | The terms before accepting them, bundled, offline; back returns here (048)                        |
+| मंज़ूर है, शुरू करें                     | The only action, and the acceptance of the line above it; live at once on a first open (052)      |
+| कोई लॉगिन नहीं. कोई अकाउंट नहीं.         | Removes the fear of a signup wall                                                                 |
 
 ## The data-use notice, once (decisions 045 and 048)
 
