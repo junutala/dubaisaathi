@@ -47,7 +47,6 @@ import {
 } from '../features/info/index.js';
 import {
   GoScreen,
-  LocationDeniedScreen,
   RouteOptionsScreen,
   RouteStepsScreen,
   TaxiScreen,
@@ -273,7 +272,6 @@ export function App() {
           />
         )}
         {route.screen === 'taxi' && <TaxiScreen placeId={route.placeId} hotel={hotel} />}
-        {route.screen === 'nolocation' && <LocationDeniedScreen hotel={hotel} />}
         {route.screen === 'map' && <MapScreen placeId={route.placeId} hotel={hotel} />}
         {route.screen === 'know' && <KnowScreen tab={route.tab ?? 'places'} />}
         {route.screen === 'tip' && <TopicScreen tipId={route.tipId} />}

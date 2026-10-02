@@ -237,7 +237,6 @@ export const en: Record<StringKey, string> = {
   'food.none': 'Not found nearby.',
   'food.noneWhy': 'These are all the places we have so far. Everything nearby is below.',
   'food.notFood': 'Could not read “{text}”. Everything nearby is below.',
-  'food.noLocation': 'Location is refused, so distances cannot be shown.',
   'food.honest': 'Every answer was asked of a person. Where nobody asked, it says “ask”.',
   'food.kitchen.pure-veg': 'Pure veg',
   'food.kitchen.mixed': 'Mixed',
@@ -301,6 +300,7 @@ export const en: Record<StringKey, string> = {
 
   'options.from': 'My hotel',
   'options.fromHere': 'From here',
+  'options.fromStandIn': 'From {place}',
   'options.fromVirtual': 'From {place} · you are outside Dubai',
   'options.how': 'How to get there',
   'options.estimate': 'Time and fare are estimates. The taxi meter decides the taxi.',
@@ -394,16 +394,6 @@ export const en: Record<StringKey, string> = {
   'unit.stops': '{count} stops',
   'unit.direct': 'Direct · {km} km',
   'unit.walkM': '{m} m walk',
-
-  'noLocation.title': 'Location was refused',
-  'noLocation.why':
-    'Without your location Saathi cannot say how to get there from here, or what is nearby.',
-  'noLocation.still': 'Still works',
-  'noLocation.stillWhat': 'Routes from the hotel · places · the food list · documents',
-  'noLocation.settings': 'Open phone settings',
-  'noLocation.stillRefused':
-    'The phone still refused. In phone settings › site › location, allow Saathi, then press this button again.',
-  'noLocation.fromHotel': 'Show the way from the hotel',
 
   'know.label': 'Find a place',
   'know.placeholder': 'Find a place',

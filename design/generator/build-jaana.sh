@@ -175,28 +175,6 @@ bar none
 close_screen
 } > "$OUT/J4.dc.html"
 
-# ---- 2.5 · जाना › जगह की इजाज़त नहीं
-{
-open_screen
-strip running set
-header metro "$teal" 'जाना'
-cat <<H
-  <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 14px; padding: 24px 16px 12px 16px;">
-    <span style="width: 64px; height: 64px; border-radius: 999px; background: $marigoldSoft; display: flex; align-items: center; justify-content: center;">$(pin 32 "$marigold" 1.7)</span>
-    <span class="disp" style="font-size: 26px; font-weight: 700; color: $ink; line-height: 1.15;">जगह की इजाज़त नहीं मिली</span>
-    <span style="font-size: 15px; line-height: 1.5; color: $ink; text-wrap: pretty;">बिना आपकी जगह के साथी यह नहीं बता सकता कि यहाँ से कैसे जाएँ, या पास में क्या है।</span>
-    <div style="display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border-radius: 14px; background: $sand;">
-      <span style="font-size: 13.5px; font-weight: 700; color: $ink;">फिर भी चलेगा</span>
-      <span style="font-size: 13.5px; color: $muted; line-height: 1.45;">होटल से रास्ता · जगहों की जानकारी · खाने की सूची · दस्तावेज़</span>
-    </div>
-    $(btn 'फ़ोन की सेटिंग खोलें' "$marigold" "$onMarigold")
-    $(obtn 'होटल से रास्ता देखें')
-  </div>
-H
-bar none
-close_screen
-} > "$OUT/J5.dc.html"
-
 # ---- 2.6 · नक्शा — the way to a place on our own map, offline (decision 035). Reached from a
 # kitchen's नक्शा button, so it is drawn inside खाना; the same screen serves any place जाना knows.
 mchip() { # iconfn label on|off

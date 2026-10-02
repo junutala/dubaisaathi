@@ -315,14 +315,6 @@ are retired: its numbers are जानना's red line, its feedback form is pa
 | What the phone said: screen, GPS, buzz       | Never "your phone can't" before it has refused (CLAUDE.md)     |
 | सवारी ख़त्म                                  | Back to the steps                                              |
 
-## 2.5 · जाना › जगह की इजाज़त नहीं
-
-| Field                               | Why it is there                                             |
-| ----------------------------------- | ----------------------------------------------------------- |
-| What will not work, what still will | A refused permission is not a broken app                    |
-| फ़ोन की सेटिंग खोलें                | Asks again; says where the switch is only after a second no |
-| होटल से रास्ता देखें (with a pin)   | The hotel is a "from" when the phone will not be            |
-
 ## 2.6 · जाना › नक्शा — our own map, offline (decision 035)
 
 | Field                                                      | Why it is there                                                      |
