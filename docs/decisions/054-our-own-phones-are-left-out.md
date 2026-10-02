@@ -43,7 +43,9 @@ phones out, past rows included (migration 0027).
   hand, 2 October (decision 054)".
   - /admin then read 28 first opens, all from the ads.
   - It read no money and no passes, because every payment so far was the owner's own test.
-  - Two website visits he confirmed as his (10:50 and 10:51 IST) were removed from `site_visits`.
+  - Two website visits he confirmed as his (10:50 and 10:51 IST, about nine seconds each) are
+    still in `site_visits`, because the delete was not approved in the session. They are the
+    first rows of a new table and too small to mislead.
 
 ## What it cannot do
 
