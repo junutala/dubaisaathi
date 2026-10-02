@@ -506,12 +506,12 @@ dubaisaathi/
 │   ├── site/              # the one-page website at saafarsaathi.in — static, Hindi and English
 │   └── admin/             # the owner's page at admin.saafarsaathi.in — static, one call (040)
 ├── supabase/              # the backend (decision 011) — replaces apps/api
-│   ├── migrations/        # sixteen tables: devices, families, passes, orders, coupons,
+│   ├── migrations/        # seventeen tables: devices, families, passes, orders, coupons,
 │   │                      #   coupon_redemptions, voice_events, field_reports, field_photos,
 │   │                      #   contact_messages, content_packs, app_events, metric_snapshots,
-│   │                      #   insight_reports, board_readings, bolna_sentences
-│   ├── functions/         # fourteen: collect, contact, listen, translate, outlet, redeem, bind,
-│   │                      #   order, webhook, packs, maplink, admin, insights, readboard
+│   │                      #   insight_reports, board_readings, bolna_sentences, site_visits
+│   ├── functions/         # fifteen: collect, contact, listen, translate, outlet, redeem, bind,
+│   │                      #   order, webhook, packs, maplink, admin, insights, readboard, visit
 │   └── tests/             # SQL that checks what the schema must refuse
 └── packages/
     ├── shared/            # entity types shared by pwa and api — one definition, imported twice
@@ -659,6 +659,11 @@ campaign went live on 1 October (see "Marketing"). No competitor is ever named a
    (no bus or metro in Dubai skips one, the owner), by GPS, by the timetable where GPS fails, or by
    the traveller's own tap; a buzz and a beep when the next stop is theirs and again at it; the
    screen kept on, and what the phone refused said on the screen.
+
+**The website counts its own visits** (decision 053, 2 October): `site_visits`, written by the
+`visit` function from a beacon on saafarsaathi.in — time on screen, scroll, sections reached, taps,
+the arrival tag — no cookie, no IP, 180 days. /admin's "How readers used the website" reads it.
+Never add Google Analytics; the Meta Pixel waits until editing the ads is worth a review.
 
 The question log is the thing to read first each morning: `voice_events` rows with
 `nothing-in-pack` are places and dishes travellers asked for and did not get. `contact_messages`

@@ -69,7 +69,7 @@ Deno.serve(async (request: Request): Promise<Response> => {
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
     { auth: { persistSession: false } },
   );
-  const [base, week, month, reports, acquisition] = await Promise.all([
+  const [base, week, month, reports, acquisition, site] = await Promise.all([
     db.rpc('admin_metrics'),
     db.rpc('insight_metrics', { p_days: 7 }),
     db.rpc('insight_metrics', { p_days: 28 }),
@@ -79,6 +79,7 @@ Deno.serve(async (request: Request): Promise<Response> => {
       .order('created_at', { ascending: false })
       .limit(5),
     db.rpc('acquisition_metrics'),
+    db.rpc('site_metrics', { p_days: 28 }),
   ]);
   if (base.error) return json({ error: base.error.message }, 500);
   // Product intelligence (decision 043) rides beside the totals; if it fails the rest still shows.
@@ -93,5 +94,7 @@ Deno.serve(async (request: Request): Promise<Response> => {
     insights,
     reports: reports.data ?? [],
     acquisition: acquisition.error ? null : acquisition.data,
+    // What the website's readers did, by the way they came (migration 0026, decision 053).
+    site: site.error ? null : site.data,
   });
 });
