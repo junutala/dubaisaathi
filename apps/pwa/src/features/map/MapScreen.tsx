@@ -62,15 +62,10 @@ export function MapScreen({
     if (!destination) navigate({ screen: 'go' });
   }, [destination]);
   useEffect(() => {
-    if (origin.kind === 'none')
-      navigate(origin.denied ? { screen: 'nolocation' } : { screen: 'options', placeId });
-  }, [origin, placeId]);
-  useEffect(() => {
     void ensureMap();
   }, [online]);
 
-  const from: LatLng | undefined =
-    origin.kind === 'asking' || origin.kind === 'none' ? undefined : origin.at;
+  const from: LatLng | undefined = origin.kind === 'asking' ? undefined : origin.at;
   const options = useMemo(() => {
     if (!network || !destination || from === undefined) return [];
     return planRoutes(network, from, destination, currentFares());

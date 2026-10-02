@@ -3,7 +3,6 @@
  * planner, the pack and the permission dance stay the pillar's own business.
  */
 export { GoScreen } from './GoScreen.js';
-export { LocationDeniedScreen } from './LocationDeniedScreen.js';
 export { RouteOptionsScreen } from './RouteOptionsScreen.js';
 export { RouteStepsScreen } from './RouteStepsScreen.js';
 export { TaxiScreen } from './TaxiScreen.js';

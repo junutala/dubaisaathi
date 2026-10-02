@@ -185,7 +185,9 @@ the board is wrong and is regenerated from `design/generate-screens.sh`.
   `utm_campaign=khaana1` opens खाना with व्रत on, घर one step back.
   Entitlement is keyed to the device. A pass is a signed
   token verified offline (decision 005). Location is asked at first need with the reason on the
-  screen; a refusal gets one screen saying what will not work and what still does.
+  screen; **a refusal is never a screen** (decision 058, the owner, 2 October: "your over enthu
+  in being transparent is killing the app"). With no fix, a pillar measures from the hotel, else
+  from BurJuman, and the screen says only where from.
 - **A traveller in India sees Dubai.** A phone fix outside Dubai is not "no route": the three
   pillars measure from the saved hotel's pin, or from BurJuman when there is no hotel, and every
   row and the options screen say so ("आप दुबई से बाहर हैं"). The trial clock is separate and

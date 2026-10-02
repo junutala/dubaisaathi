@@ -40,13 +40,8 @@ export function RouteStepsScreen({
   const origin = useOrigin(hotel);
   const destination = placeById(placeId);
 
-  useEffect(() => {
-    if (origin.kind === 'none')
-      navigate(origin.denied ? { screen: 'nolocation' } : { screen: 'options', placeId });
-  }, [origin, placeId]);
-
   const option = useMemo(() => {
-    if (!network || !destination || origin.kind === 'asking' || origin.kind === 'none') return null;
+    if (!network || !destination || origin.kind === 'asking') return null;
     return (
       planRoutes(network, origin.at, destination, currentFares()).find((o) => o.id === optionId) ??
       null

@@ -1997,32 +1997,6 @@ button:not(:disabled) {
   border: 1px dashed var(--line);
 }
 
-/* 2.5 */
-.lost-mark {
-  width: 64px;
-  height: 64px;
-  border-radius: 999px;
-  background: var(--marigoldSoft);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.lost-heading {
-  margin: 0;
-  font-family: 'Anek Devanagari', 'Mukta', sans-serif;
-  font-size: 26px;
-  font-weight: 700;
-  line-height: 1.15;
-}
-.lost-still {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: var(--sand);
-}
-
 /* ---- 3.1 · जानना, 3.2 · a place ------------------------------------------------------- */
 
 .know-card {

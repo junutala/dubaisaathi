@@ -181,9 +181,6 @@ export function FoodListScreen({
                 ? t('food.nearVirtual', { place: VIRTUAL_HERE_NAME[locale] })
                 : t('food.nearby')}
         </p>
-        {here.denied && here.from === 'none' && (
-          <p className="muted small">{t('food.noLocation')}</p>
-        )}
 
         <div className="rows">
           {showing.hits.map((hit) => (

@@ -50,7 +50,6 @@ export type Route =
       readonly from: string;
       readonly to: string;
     }
-  | { readonly screen: 'nolocation' }
   // 2.6 · नक्शा — the way there on our own map, offline (decision 035)
   | { readonly screen: 'map'; readonly placeId: string }
   // 3.1 · जानना › जगहें, 3.3 · a tab of topics (decision 037), 3.2 · one place, 3.4 · one topic
@@ -151,8 +150,6 @@ export function parseRoute(hash: string): Route {
     }
     case 'taxi':
       return arg ? { screen: 'taxi', placeId: arg } : { screen: 'go' };
-    case 'nolocation':
-      return { screen: 'nolocation' };
     case 'map':
       return arg ? { screen: 'map', placeId: arg } : { screen: 'go' };
     case 'know':
@@ -220,8 +217,6 @@ export function href(route: Route): string {
       ].join('~')}`;
     case 'taxi':
       return `#/taxi/${route.placeId}`;
-    case 'nolocation':
-      return '#/nolocation';
     case 'map':
       return `#/map/${route.placeId}`;
     case 'know':
@@ -250,7 +245,6 @@ export function pillarOf(route: Route): Pillar {
     case 'steps':
     case 'ride':
     case 'taxi':
-    case 'nolocation':
       return 'go';
     case 'map':
       // A kitchen's map is still खाना: the traveller came from its menu and goes back to it.

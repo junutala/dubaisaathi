@@ -39,10 +39,6 @@ export function RouteOptionsScreen({
   const origin = useOrigin(hotel);
   const destination = placeById(placeId);
 
-  useEffect(() => {
-    if (origin.kind === 'none' && origin.denied) navigate({ screen: 'nolocation' });
-  }, [origin]);
-
   // A place id that is not in the pack can only have come from a hand-edited address bar. The
   // screen that knows what to do with an unknown place is 2.1.
   useEffect(() => {
@@ -50,7 +46,7 @@ export function RouteOptionsScreen({
   }, [destination]);
 
   const options = useMemo(() => {
-    if (!network || !destination || origin.kind === 'asking' || origin.kind === 'none') return null;
+    if (!network || !destination || origin.kind === 'asking') return null;
     return planRoutes(network, origin.at, destination, currentFares());
   }, [network, destination, origin]);
 
@@ -73,7 +69,9 @@ export function RouteOptionsScreen({
               {origin.kind === 'hotel'
                 ? `${hotel?.name ?? t('options.from')} · ${t('options.from')}`
                 : origin.kind === 'virtual'
-                  ? t('options.fromVirtual', { place: VIRTUAL_HERE_NAME[locale] })
+                  ? t(origin.abroad ? 'options.fromVirtual' : 'options.fromStandIn', {
+                      place: VIRTUAL_HERE_NAME[locale],
+                    })
                   : t('options.fromHere')}
             </span>
           </span>
@@ -86,11 +84,9 @@ export function RouteOptionsScreen({
 
         <p className="lbl">{t('options.how')}</p>
 
-        {options === null && origin.kind !== 'none' && (
-          <p className="muted center">{t('options.planning')}</p>
-        )}
+        {options === null && <p className="muted center">{t('options.planning')}</p>}
 
-        {(origin.kind === 'none' || (options !== null && options.length === 0)) && (
+        {options !== null && options.length === 0 && (
           <div className="stack-sm">
             <p className="trouble">{t('options.noRoute')}</p>
             <p className="muted small">{t('options.noRouteWhy')}</p>
@@ -112,7 +108,7 @@ export function RouteOptionsScreen({
         )}
 
         {/* The taxi is always there, even when nothing can be planned: it needs no location. */}
-        {(origin.kind === 'none' || (options !== null && options.length === 0)) && (
+        {options !== null && options.length === 0 && (
           <button
             type="button"
             className="btn btn-go"
