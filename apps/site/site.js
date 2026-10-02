@@ -341,6 +341,7 @@
 
   const visit = {
     id: '',
+    staff: false,
     tag: 'direct',
     device: 'laptop',
     shownMs: 0,
@@ -352,6 +353,7 @@
 
   function report() {
     if (!/(^|\.)saafarsaathi\.in$/.test(window.location.hostname) || visit.id === '') return;
+    if (visit.staff) return;
     const now = Date.now();
     const shown = visit.shownMs + (visit.shownSince > 0 ? now - visit.shownSince : 0);
     const body = JSON.stringify({
@@ -377,6 +379,24 @@
   }
 
   (function startCounting() {
+    /*
+     * Our own browsers are not readers (the owner, 2 October: "leave my device out"). Opened once
+     * with `?staff=saathi`, this browser stops counting itself here, and every "open the app" link
+     * carries the same mark so the app on this phone leaves itself out of /admin too.
+     */
+    try {
+      if (arrivedWith.get('staff') === 'saathi') localStorage.setItem('saafarsaathi.staff', '1');
+      visit.staff = localStorage.getItem('saafarsaathi.staff') === '1';
+    } catch {
+      visit.staff = arrivedWith.get('staff') === 'saathi';
+    }
+    if (visit.staff) {
+      for (const link of document.querySelectorAll('a[href^="https://dubai.saafarsaathi.in/"]')) {
+        const target = new URL(link.getAttribute('href'));
+        target.searchParams.set('staff', 'saathi');
+        link.setAttribute('href', target.toString());
+      }
+    }
     try {
       visit.id = sessionStorage.getItem('saafarsaathi.visit') || '';
       if (visit.id === '') {

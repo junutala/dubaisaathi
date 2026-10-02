@@ -665,6 +665,12 @@ campaign went live on 1 October (see "Marketing"). No competitor is ever named a
 the arrival tag — no cookie, no IP, 180 days. /admin's "How readers used the website" reads it.
 Never add Google Analytics; the Meta Pixel waits until editing the ads is worth a review.
 
+**Our own phones are left out of every count** (decision 054, 2 October): a browser opened once
+with `?staff=saathi` (the app or the website) sends one `staff` row, and the metric functions read
+`*_counted` views that drop such phones, past included (migration 0027). A web app cannot read a
+phone's identity — each browser, incognito window and cleared profile is a new id — so open the
+link again after clearing data, and never tap our own ads from a phone that should not count.
+
 The question log is the thing to read first each morning: `voice_events` rows with
 `nothing-in-pack` are places and dishes travellers asked for and did not get. `contact_messages`
 is the second: that is the website's form, and nothing else reads it yet.
