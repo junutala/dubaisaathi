@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#1A2456" />
+    <link rel="icon" type="image/png" href="/icon.png" />
+    <link rel="stylesheet" href="/fonts.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Our own phone — Dubaisaathi</title>
+  </head>
+  <body>
+    <!--
+      Our own browsers are not readers (the owner, 2 October; decision 054). Opening this page marks
+      this browser at once — no link parameter has to survive a redirect or a chat app — and says
+      so on the screen, so whoever opened it can see that it took. The button then opens the app
+      with the same mark. Linked from nowhere, and not indexed.
+    -->
+    <main class="legal">
+      <div class="wrap">
+        <h1 id="staff-said">…</h1>
+        <p class="terms-p" id="staff-why"></p>
+        <p>
+          <a class="btn btn-go btn-big" href="https://dubai.saafarsaathi.in/?staff=saathi"
+            >ऐप खोलें · Open the app</a
+          >
+        </p>
+        <p class="terms-p">
+          Open this page once in every browser you use — Chrome, the laptop, and again after
+          clearing data or in an incognito window. Never tap our own ads from a phone that should
+          not count.
+        </p>
+      </div>
+    </main>
+    <script>
+      (function () {
+        const said = document.getElementById('staff-said');
+        const why = document.getElementById('staff-why');
+        try {
+          localStorage.setItem('saafarsaathi.staff', '1');
+          const kept = localStorage.getItem('saafarsaathi.staff') === '1';
+          said.textContent = kept
+            ? '✓ This browser is not counted'
+            : '✗ This browser could not be marked';
+          why.textContent = kept
+            ? 'The website no longer counts visits from this browser. Now tap the button to mark the app in this browser too.'
+            : 'It does not keep anything for this site (a private window?). Open this page in a normal window.';
+        } catch {
+          said.textContent = '✗ This browser could not be marked';
+          why.textContent =
+            'It refused to keep anything for this site (a private window?). Open this page in a normal window.';
+        }
+      })();
+    </script>
+  </body>
+</html>
