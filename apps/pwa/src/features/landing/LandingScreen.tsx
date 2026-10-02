@@ -5,6 +5,7 @@ import { Logo, Wordmark } from '../../app/shell/Logo.js';
 import { TermsLine } from './TermsLine.js';
 import { LOCALES, LOCALE_LABEL } from '../../i18n/index.js';
 import { precacheCached, precacheTotal } from './precache.js';
+import { offlineKitIsDue } from '../../app/offlineKit.js';
 
 /**
  * L · लैंडिंग — the first open, and the only place the offline pack is waited for.
@@ -16,6 +17,9 @@ import { precacheCached, precacheTotal } from './precache.js';
  * the app anyway; everything the traveller can see is in the bundle.
  *
  * And it says what offline means, in big words, because it is the one reason to install.
+ *
+ * On a phone's first open the kit is not fetched at all (decision 052): the button is live at
+ * once, and the box says the pack comes down the next time Saathi is opened — before the trip.
  */
 type Phase = 'preparing' | 'ready';
 
@@ -24,10 +28,12 @@ const POLL_MS = 400;
 
 export function LandingScreen({ onReady }: { readonly onReady: () => void }) {
   const { t, locale, setLocale } = useSettings();
-  const [phase, setPhase] = useState<Phase>('preparing');
+  const [later] = useState(() => !offlineKitIsDue());
+  const [phase, setPhase] = useState<Phase>(later ? 'ready' : 'preparing');
   const [fraction, setFraction] = useState(0);
 
   useEffect(() => {
+    if (later) return;
     let live = true;
     let total: number | null = null;
     const done = () => {
@@ -57,7 +63,7 @@ export function LandingScreen({ onReady }: { readonly onReady: () => void }) {
       window.clearInterval(poll);
       window.clearTimeout(giveUp);
     };
-  }, []);
+  }, [later]);
 
   return (
     <div className="landing">
@@ -93,17 +99,26 @@ export function LandingScreen({ onReady }: { readonly onReady: () => void }) {
         </div>
       </div>
 
-      <div className="landing-pack">
-        <span className="landing-pack-head">
-          <span>{phase === 'ready' ? t('landing.ready') : t('landing.preparing')}</span>
-        </span>
-        <span className="landing-track">
-          <span style={{ width: `${String(Math.round(fraction * 100))}%` }} />
-        </span>
-        <span className="muted small">
-          {phase === 'ready' ? t('landing.tryIt') : t('landing.packWhat')}
-        </span>
-      </div>
+      {later ? (
+        <div className="landing-pack">
+          <span className="landing-pack-head">
+            <span>{t('landing.later')}</span>
+          </span>
+          <span className="muted small">{t('landing.laterWhen')}</span>
+        </div>
+      ) : (
+        <div className="landing-pack">
+          <span className="landing-pack-head">
+            <span>{phase === 'ready' ? t('landing.ready') : t('landing.preparing')}</span>
+          </span>
+          <span className="landing-track">
+            <span style={{ width: `${String(Math.round(fraction * 100))}%` }} />
+          </span>
+          <span className="muted small">
+            {phase === 'ready' ? t('landing.tryIt') : t('landing.packWhat')}
+          </span>
+        </div>
+      )}
 
       {/* What we keep, and the terms, said once above the one button that starts the app — which
           is also the traveller accepting both (decisions 045 and 048). No decline, never again

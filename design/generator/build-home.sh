@@ -84,7 +84,7 @@ homescreen HomeTrial.dc.html ending none warm off ask
 homescreen HomePaid.dc.html running set paid on
 THEME=dark; source "$(dirname "$0")/_chrome.sh"; homescreen HomeDark.dc.html running set trial on; THEME=light; source "$(dirname "$0")/_chrome.sh"
 
-# ---- L · लैंडिंग (first open, the pack comes down)
+# ---- L · लैंडिंग (first open: nothing to wait for — the pack comes down on the second, decision 052)
 {
 cat "$(dirname "$0")/_head.txt"
 cat <<H
@@ -106,13 +106,12 @@ cat <<H
   </div>
   <div style="display: flex; flex-direction: column; gap: 12px; padding-bottom: 32px;">
     <div style="display: flex; flex-direction: column; gap: 8px; padding: 14px 16px; border-radius: 16px; background: $sand;">
-      <div style="display: flex; justify-content: space-between; font-size: 13.5px; font-weight: 600; color: $ink;"><span>ऑफ़लाइन पैक आ रहा है — एक बार, अभी</span></div>
-      <div style="height: 6px; border-radius: 3px; background: $line;"><div style="width: 62%; height: 6px; border-radius: 3px; background: $teal;"></div></div>
-      <span style="font-size: 12.5px; color: $muted;">खाने की जगहें, मेट्रो-बस का नक़्शा, दुबई की जगहें — सब फ़ोन पर रहेगा।</span>
+      <div style="display: flex; justify-content: space-between; font-size: 13.5px; font-weight: 600; color: $ink;"><span>ऑफ़लाइन पैक अगली बार खोलने पर आएगा</span></div>
+      <span style="font-size: 12.5px; color: $muted;">दुबई जाने से पहले एक बार और खोलिए — वाई-फ़ाई पर, फिर फ़ोन में ही रहेगा।</span>
     </div>
     <span style="font-size: 12.5px; line-height: 1.5; color: $muted; text-align: center;">खाना, जाना, जानना और बोलना में आप जो लिखते, बोलते या पढ़वाते हैं, उसे हम Saathi को बेहतर बनाने के लिए रख सकते हैं — सिर्फ़ लिखा हुआ, आपकी आवाज़ या फ़ोटो नहीं. यह आपके नाम या नंबर से नहीं जुड़ता.</span>
     <span style="font-size: 12.5px; line-height: 1.5; color: $muted; text-align: center;">जारी रखकर आप नियम और शर्तें मानते हैं। <span style="font-weight: 700; color: $marigoldText;">नियम और शर्तें पढ़ें</span></span>
-    <span style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 14px; background: $line; color: $muted; font-size: 16px; font-weight: 700;">मंज़ूर है, शुरू करें</span>
+    <span style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 14px; background: $marigold; color: $onMarigold; font-size: 16px; font-weight: 700;">मंज़ूर है, शुरू करें</span>
   </div>
 </div>
 </x-dc>

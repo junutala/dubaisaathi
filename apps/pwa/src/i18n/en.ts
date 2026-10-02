@@ -67,6 +67,8 @@ export const en: Record<StringKey, string> = {
   'landing.job4': 'Your hotel and documents, on this phone',
   'landing.preparing': 'Downloading the offline pack — once, now',
   'landing.ready': 'Saathi is ready',
+  'landing.later': 'The offline pack comes down the next time you open Saathi',
+  'landing.laterWhen': 'Open it once more before you fly — on Wi-Fi, and it stays on your phone.',
   'landing.tryIt': 'Turn off the internet and try it — everything works.',
   'landing.packWhat':
     'Places to eat, the metro and bus map, the places of Dubai — all on your phone.',

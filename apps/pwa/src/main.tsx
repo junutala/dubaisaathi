@@ -6,6 +6,7 @@ import { loadTransportPack } from './db/content.js';
 import { parseTransportPack } from './features/transport/index.js';
 import { requestPersistentStorage } from './db/schema.js';
 import { applyPendingUpdate, startUpdateChecks } from './app/updates.js';
+import { decideOfflineKit, registerOfflineKit } from './app/offlineKit.js';
 import { loadPacks, packBody, startPackSync } from './features/content/index.js';
 import {
   arrivalSource,
@@ -22,6 +23,12 @@ import './styles.css';
 
 const root = document.getElementById('root');
 if (!root) throw new Error('no #root');
+
+// Whether this open fetches the offline kit — the precache and the street map — or leaves it for
+// the phone's second open (decision 052). Decided before anything paints, because the landing
+// page and the map both follow it.
+decideOfflineKit();
+void registerOfflineKit();
 
 // Before anything paints: if a new build was downloaded in an earlier session, this is the
 // "next launch" it was waiting for. Reloads once and never returns.

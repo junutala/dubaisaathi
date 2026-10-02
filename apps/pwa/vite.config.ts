@@ -41,6 +41,9 @@ export default defineConfig({
     versionFile(),
     VitePWA({
       registerType: 'prompt',
+      // Registered by the app, not by an injected script: the offline kit waits for a phone's
+      // second open (decision 052), and `app/offlineKit.ts` decides when that is.
+      injectRegister: false,
       // The icons ship in the bundle so the home-screen icon is there before the first launch
       // finishes, and stays there with the radio off. `maskable` is padded to 80% because
       // Android crops a circle out of it and would otherwise cut the pin's tip off.

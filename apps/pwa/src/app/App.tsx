@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { barOf, parseRoute, pillarOf, screenSeen, type Route } from './routes.js';
 import { useSettings } from './settings.js';
 import { applyUpdateIfIdle, watchForUpdate } from './updates.js';
+import { offlineKitIsDue } from './offlineKit.js';
 import { TopStrip } from './shell/TopStrip.js';
 import { TabBar } from './shell/TabBar.js';
 import { HomeScreen } from '../features/home/HomeScreen.js';
@@ -148,7 +149,9 @@ export function App() {
     const stopReconcile = startPassReconcile();
     const stopOutbox = startOutboxSync();
     const stopCard = startCardRetry();
-    const stopMap = startMapKeeping();
+    // The street map waits for the phone's second open, like the rest of the offline kit
+    // (decision 052); opening नक्शा still fetches it on the spot.
+    const stopMap = offlineKitIsDue() ? startMapKeeping() : () => undefined;
     return () => {
       stopMap();
       stopCoupon();
