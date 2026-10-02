@@ -181,6 +181,68 @@
    * places, which is a pair that drifts apart the first time somebody edits one of them.
    */
 
+  /*
+   * The board demo's button reads the Hindi aloud with the visitor's own phone voice — what the
+   * app does on घर.7, so the demo is the feature rather than a recording of it. Always attempted,
+   * never decided in advance (CLAUDE.md): voice lists are often empty until something has been
+   * spoken, so only a phone that has tried and refused is told it has no Hindi voice.
+   */
+  const play = document.getElementById('board-play');
+  if (play) {
+    const BOARD_SAID = {
+      noVoice: [
+        'इस फ़ोन में हिंदी आवाज़ नहीं मिली — ऊपर लिखा हिंदी पढ़ लीजिए।',
+        'This phone has no Hindi voice — read the Hindi above instead.',
+      ],
+      failed: [
+        'फ़ोन ने आवाज़ नहीं दी — ऊपर लिखा हिंदी पढ़ लीजिए।',
+        'The phone gave no sound — read the Hindi above instead.',
+      ],
+    };
+    const boardSaid = document.getElementById('board-said');
+    const tell = (key) => {
+      boardSaid.textContent =
+        key === '' ? '' : BOARD_SAID[key][root.getAttribute('lang') === 'hi' ? 0 : 1];
+    };
+    play.addEventListener('click', () => {
+      tell('');
+      const synth = window.speechSynthesis;
+      if (!synth || typeof SpeechSynthesisUtterance === 'undefined') return tell('noVoice');
+      const hindiVoice = () => synth.getVoices().find((v) => v.lang.toLowerCase().startsWith('hi'));
+      const utterance = new SpeechSynthesisUtterance(
+        document.getElementById('board-hindi').textContent.replace(/\s+/g, ' ').trim(),
+      );
+      utterance.lang = 'hi-IN';
+      const voice = hindiVoice();
+      if (voice) utterance.voice = voice;
+      let done = false;
+      const finish = (key) => {
+        if (done) return;
+        done = true;
+        clearTimeout(timer);
+        play.removeAttribute('aria-busy');
+        tell(key);
+      };
+      const timer = setTimeout(() => {
+        synth.cancel();
+        finish('failed');
+      }, 15000);
+      utterance.onstart = () => play.setAttribute('aria-busy', 'true');
+      utterance.onend = () => finish('');
+      utterance.onerror = (event) => {
+        // A second tap cancels the first reading; that is not the phone refusing.
+        if (event.error === 'interrupted' || event.error === 'canceled') {
+          done = true;
+          clearTimeout(timer);
+          return;
+        }
+        finish(hindiVoice() ? 'failed' : 'noVoice');
+      };
+      synth.cancel();
+      synth.speak(utterance);
+    });
+  }
+
   const curtain = document.getElementById('bolna');
   const stillPlease = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (curtain && 'IntersectionObserver' in window && !stillPlease.matches) {
