@@ -236,17 +236,6 @@ a {
 .hero .phone {
   grid-area: phone;
 }
-.kicker {
-  display: inline-block;
-  padding: 5px 12px;
-  border-radius: 999px;
-  background: var(--tealSoft);
-  color: var(--tealText);
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
 h1 {
   font-family: 'Anek Devanagari', 'Mukta', sans-serif;
   font-weight: 600;
@@ -255,13 +244,32 @@ h1 {
   margin: 14px 0 12px;
   letter-spacing: -0.01em;
 }
-/* "Dubai" is the place; the line under it is the promise, and the promise is the line that has
-   to be read. Struck out in the deep marigold rather than the bright one: at 64px the bright
-   marigold sits at about 2.4:1 on cream, which is under the 3:1 that large type needs, and a
-   headline nobody can read is not striking. This one clears 4.5:1 and still shouts. */
+/* The hero says who it is for before what it does (the owner, 2 October): a reader from an ad
+   gives the page a second, and the pill that used to say "for Indian travellers" was the line they
+   skipped. The question is the headline; the two answers under it are smaller, so the question is
+   what lands. Three catchwords carry colour, no more: the four tiles under them already spend four
+   hues, and a line where every word is coloured has none that stands out. The marigold is the
+   deep one — the bright one is under 3:1 on cream at this size. */
 .headline-turn {
   display: block;
+  font-size: 0.6em;
+  line-height: 1.2;
+  margin-top: 0.35em;
+  color: var(--ink);
+}
+.hl-place {
   color: var(--food);
+}
+.hl-use {
+  color: var(--go);
+}
+/* "Too" is the point of the third line: the app is for the traveller with a signal as well, and
+   the offline promise is the reason to keep it — so the promise is underlined, not shouted. */
+.hl-net {
+  color: var(--food);
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
 }
 /* The three words as three small tiles: the app's home blocks in miniature, each with its own
    icon, set a touch askew as if placed by hand. The brand as a mark, not a line of type. */
