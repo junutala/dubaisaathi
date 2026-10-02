@@ -17,7 +17,7 @@
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
-const PASS_SHA256 = '6f9d616517e970d80597f3079f255b850e2846533e91954929fc3adaf610a991';
+const PASS_SHA256 = 'fc16abbdf9eaad7297d3d7d99add0a00007fa21296f2d6217da50bfc42f341eb';
 
 const ORIGINS = ['https://admin.saafarsaathi.in', 'https://admin-production-976c.up.railway.app'];
 
