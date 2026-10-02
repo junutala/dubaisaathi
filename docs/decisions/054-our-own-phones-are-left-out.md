@@ -47,6 +47,15 @@ phones out, past rows included (migration 0027).
     still in `site_visits`, because the delete was not approved in the session. They are the
     first rows of a new table and too small to mislead.
 
+## A page that shows it took (same day)
+
+The owner opened the link on his three devices, and his next two website visits were still
+counted: a `?staff=saathi` that did not arrive left nothing to see, so neither of us could tell.
+**saafarsaathi.in/staff** replaces the link. Opening it marks that browser at once, with no
+parameter to lose on the way, and says on the screen whether it took ("✓ This browser is not
+counted"). Its button opens the app with `?staff=saathi`. A phone still running an older app
+keeps the mark through its update, because the app reloads the same address.
+
 ## What it cannot do
 
 - An id is forgotten with the browser's data, so a cleared or new browser counts until it opens
