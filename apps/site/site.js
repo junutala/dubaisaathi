@@ -312,6 +312,7 @@
           form.reset();
           apply(root.getAttribute('lang'));
           said('sent');
+          tapped('contact-sent');
         } else {
           said(response.status === 429 ? 'many' : 'failed');
         }
@@ -322,4 +323,147 @@
       button.disabled = false;
     });
   }
+
+  /*
+   * The visit counter (the owner, 2 October; decision 053). What one visit did — how long the
+   * page was on the screen, how far down it was read, which sections reached the screen, what was
+   * pressed — sent to our own `visit` function, on arrival, whenever the tab is hidden, and on a
+   * tap that leaves the page. Each report is the whole visit so far, so a lost one costs nothing.
+   *
+   * A visit is a random id kept for this tab only: no cookie, no IP, no name, nothing that joins
+   * to the app on the phone. The tag is named the way the app names an arrival
+   * (`arrivalSource`), so the website's readers and the phones they became line up on /admin.
+   */
+  function tapped(what) {
+    visit.taps.add(what);
+    report();
+  }
+
+  const visit = {
+    id: '',
+    tag: 'direct',
+    device: 'laptop',
+    shownMs: 0,
+    shownSince: 0,
+    scroll: 0,
+    reached: new Set(),
+    taps: new Set(),
+  };
+
+  function report() {
+    if (!/(^|\.)saafarsaathi\.in$/.test(window.location.hostname) || visit.id === '') return;
+    const now = Date.now();
+    const shown = visit.shownMs + (visit.shownSince > 0 ? now - visit.shownSince : 0);
+    const body = JSON.stringify({
+      visit: visit.id,
+      tag: visit.tag,
+      device: visit.device,
+      lang: root.getAttribute('lang') === 'en' ? 'en' : 'hi',
+      seconds: Math.round(shown / 1000),
+      scroll: visit.scroll,
+      reached: [...visit.reached],
+      taps: [...visit.taps],
+    });
+    const VISIT = 'https://pixlnjmpksmfqheotinp.supabase.co/functions/v1/visit';
+    try {
+      // A beacon outlives the page; text/plain keeps it a simple request with no preflight.
+      if (navigator.sendBeacon(VISIT, new Blob([body], { type: 'text/plain' }))) return;
+    } catch {
+      /* no beacon in this browser: the fetch below */
+    }
+    fetch(VISIT, { method: 'POST', body, keepalive: true, mode: 'no-cors' }).catch(() => {
+      /* nothing to tell a reader: counting is ours, not theirs */
+    });
+  }
+
+  (function startCounting() {
+    try {
+      visit.id = sessionStorage.getItem('saafarsaathi.visit') || '';
+      if (visit.id === '') {
+        visit.id = Array.from(crypto.getRandomValues(new Uint8Array(12)), (b) =>
+          b.toString(36).padStart(2, '0'),
+        ).join('');
+        sessionStorage.setItem('saafarsaathi.visit', visit.id);
+      }
+    } catch {
+      visit.id = Array.from(crypto.getRandomValues(new Uint8Array(12)), (b) =>
+        b.toString(36).padStart(2, '0'),
+      ).join('');
+    }
+
+    const via = (arrivedWith.get('via') || '').toLowerCase();
+    const tagged = ['utm_source', 'utm_campaign', 'utm_content']
+      .map((key) => arrivedWith.get(key) || '')
+      .filter((part) => part !== '')
+      .join('-')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 40)
+      .replace(/-+$/, '');
+    visit.tag = /^[a-z0-9-]{1,40}$/.test(via) ? via : tagged || 'direct';
+
+    const touch = window.matchMedia('(pointer: coarse)').matches;
+    const short = Math.min(window.screen.width, window.screen.height);
+    visit.device = !touch ? 'laptop' : short < 600 ? 'phone' : 'tablet';
+
+    if (document.visibilityState === 'visible') visit.shownSince = Date.now();
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        visit.shownSince = Date.now();
+        return;
+      }
+      if (visit.shownSince > 0) visit.shownMs += Date.now() - visit.shownSince;
+      visit.shownSince = 0;
+      report();
+    });
+    window.addEventListener('pagehide', report);
+
+    const measure = () => {
+      const page = document.documentElement.scrollHeight;
+      const seen = window.scrollY + window.innerHeight;
+      visit.scroll = Math.max(visit.scroll, Math.min(100, Math.round((seen / page) * 100)));
+    };
+    measure();
+    window.addEventListener('scroll', measure, { passive: true });
+
+    if ('IntersectionObserver' in window) {
+      const seen = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          visit.reached.add(entry.target.id);
+          seen.unobserve(entry.target);
+        }
+      });
+      for (const id of [
+        'try',
+        'watch',
+        'pillars',
+        'bolna',
+        'pass',
+        'more',
+        'partners',
+        'contact',
+      ]) {
+        const section = document.getElementById(id);
+        if (section) seen.observe(section);
+      }
+    }
+
+    document.addEventListener('click', (event) => {
+      const target = event.target instanceof Element ? event.target : null;
+      if (!target) return;
+      if (target.closest('a[href^="https://dubai.saafarsaathi.in/"]')) tapped('open-app');
+      else if (target.closest('#board-play')) tapped('hear-board');
+      else if (target.closest('.wa-float')) tapped('whatsapp');
+      else if (target.closest('#share-wa')) tapped('share');
+      else if (target.closest('[data-lang-toggle]')) tapped('lang');
+    });
+
+    // Some in-app browsers close without ever saying the page was hidden: two reports early on,
+    // so a reader who leaves that way is still counted with roughly how long they stayed.
+    report();
+    setTimeout(report, 10000);
+    setTimeout(report, 45000);
+  })();
 })();

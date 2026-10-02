@@ -67,6 +67,7 @@ export const TERMS_PAGES: readonly TermsPage[] = [
       },
       { head: 'privacy.place.head', paras: ['privacy.place.p1'] },
       { head: 'privacy.usage.head', paras: ['privacy.usage.p1'] },
+      { head: 'privacy.site.head', paras: ['privacy.site.p1'] },
       { head: 'privacy.pay.head', paras: ['privacy.pay.p1'] },
       { head: 'privacy.msg.head', paras: ['privacy.msg.p1'] },
       { head: 'privacy.delete.head', paras: ['privacy.delete.p1'] },

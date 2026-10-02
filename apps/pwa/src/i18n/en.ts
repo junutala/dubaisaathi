@@ -608,7 +608,7 @@ export const en: Record<StringKey, string> = {
   'terms.read': 'Read the terms and conditions',
   'terms.smallPrint': 'Terms, privacy and refunds — saafarsaathi.in/terms',
   'terms.title': 'Terms and conditions',
-  'terms.updated': 'Last updated: 30 September 2026',
+  'terms.updated': 'Last updated: 2 October 2026',
   'terms.about.head': 'What Dubaisaathi is',
   'terms.about.p1':
     'Dubaisaathi is an information desk for Indian travellers in Dubai: खाना, जाना, जानना and बोलना. It is run by Coupontouch Loyalty Solutions.',
@@ -680,6 +680,9 @@ export const en: Record<StringKey, string> = {
   'privacy.usage.head': 'How the app is used',
   'privacy.usage.p1':
     'Which screens opened, how long the app was used, whether there was internet, and whether the phone is Android or iPhone also come with the same id. No IP address and no location is kept with them. They are deleted after 180 days.',
+  'privacy.site.head': 'On this website',
+  'privacy.site.p1':
+    'saafarsaathi.in counts how long the page was on the screen, how far down it was read, which buttons were pressed, whether it was a phone or a laptop, and which ad or link brought you. It comes with a random number made for this tab only — no cookie, no IP address, no name. It is deleted after 180 days.',
   'privacy.pay.head': 'Payment',
   'privacy.pay.p1':
     'Payment is taken by Razorpay; your full card or bank details never reach us. Razorpay tells us who paid — a UPI id or a few digits of a card, for example. That is deleted after 30 days.',

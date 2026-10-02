@@ -442,6 +442,37 @@
       );
     }
 
+    // The website's own visits (migration 0026, decision 053), by the way each reader came.
+    if (Array.isArray(m.site)) {
+      table(
+        'site',
+        [
+          ['Came through', false],
+          ['Visits', true],
+          ['On a phone', true],
+          ['Median seconds', true],
+          ['Stayed', true],
+          ['Scrolled', true],
+          ['Reached बोलना', true],
+          ['Heard a board', true],
+          ['Opened the app', true],
+          ['WhatsApp', true],
+        ],
+        m.site.map((v) => [
+          v.tag,
+          v.visits,
+          v.phones,
+          v.median_seconds,
+          v.stayed_10s,
+          v.scrolled,
+          v.reached_bolna,
+          v.heard_board,
+          v.opened_app,
+          v.whatsapp,
+        ]),
+      );
+    }
+
     table(
       'asks',
       [
