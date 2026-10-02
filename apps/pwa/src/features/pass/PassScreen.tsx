@@ -31,6 +31,7 @@ import {
 } from './purchase.js';
 import { installFromToken } from './scan.js';
 import type { SignedPass } from './signedPass.js';
+import { TermsLine } from '../terms/index.js';
 
 /** 1–4 phones, ₹199 plus ₹100 per extra phone, 14 days from landing (decision 006). */
 const PHONES = [1, 2, 3, 4] as const;
@@ -566,6 +567,7 @@ export function PassScreen({ token }: { readonly token?: string | undefined }) {
                 )}
                 <p className="pay-methods">{t('pass.payMethods')}</p>
                 <p className="muted small center">{t('pass.paySecure')}</p>
+                <TermsLine />
                 <p className="muted small center">{t('pass.payNext')}</p>
               </div>
             )}

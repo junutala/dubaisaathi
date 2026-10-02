@@ -41,7 +41,7 @@ export function offlineKitDue(opens: number, hasWorker: boolean, installed: bool
 
 let due = true;
 
-/** Read once, before anything paints; the landing page and the map follow what it decided. */
+/** Read once, before anything paints; the map follows what it decided. */
 export function decideOfflineKit(): boolean {
   const hasWorker = 'serviceWorker' in navigator && navigator.serviceWorker.controller !== null;
   let installed = false;

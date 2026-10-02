@@ -37,29 +37,6 @@ Since 28 September (decision 046): four places, each an icon with its word under
 | -------------------------------- | ------------------------------------------------------------------- |
 | ← · pillar icon · name · › trail | Where am I, how did I get here, how do I leave — without being told |
 
-## L · लैंडिंग
-
-| Field                                    | Why it is there                                                                                   |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| The lockup, and the tagline              | Which app, and what it does: खाना · जाना · जानना, with you, without internet                      |
-| हिंदी / English                          | The interface language, chosen before anything else                                               |
-| "ऑफ़लाइन पैक आ रहा है" + progress        | The app installing itself for the radio-off days — from the second open on (052)                  |
-| "ऑफ़लाइन पैक अगली बार खोलने पर आएगा"     | A first open fetches nothing and waits for nothing; says when the pack will come, before the trip |
-| The data-use line                        | What we keep — text, never voice or photos, not tied to a name (045)                              |
-| "जारी रखकर आप नियम और शर्तें मानते हैं।" | The one button accepts the terms too; said before it is pressed, not after (048)                  |
-| नियम और शर्तें पढ़ें                     | The terms before accepting them, bundled, offline; back returns here (048)                        |
-| मंज़ूर है, शुरू करें                     | The only action, and the acceptance of the line above it; live at once on a first open (052)      |
-| कोई लॉगिन नहीं. कोई अकाउंट नहीं.         | Removes the fear of a signup wall                                                                 |
-
-## The data-use notice, once (decisions 045 and 048)
-
-| Field                                    | Why it is there                                                                                |
-| ---------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| एक बात, एक बार                           | Says this is asked once, for a phone that started before the landing page carried the line     |
-| The data-use line                        | The same line the landing page carries, word for word                                          |
-| The terms line, and नियम और शर्तें पढ़ें | The same as the landing page's; the reason a phone that accepted 045 sees this once more (048) |
-| मंज़ूर है, आगे बढ़ें                     | The one action; it never comes back                                                            |
-
 ## घर
 
 | Field                                                        | Why it is there                                                                                 |
@@ -121,37 +98,38 @@ are retired: its numbers are जानना's red line, its feedback form is pa
 
 ## घर.4 · पास
 
-| Field                                   | Why it is there                                                                                    |
-| --------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| अभी: the state, the line, the rule      | What the dot means, in words                                                                       |
-| 1–4 फ़ोन · ₹199 / 299 / 399 / 499       | The phones, chosen first; above four, WhatsApp                                                     |
-| "इस कोड पर एक ही फ़ोन चलता है"          | A single code locks the phones to one; said, not discovered                                        |
-| कोड · लगाएँ                             | A code from an advertisement or an operator; pre-filled when the URL brought it                    |
-| The code's line                         | Unknown, not yet, ended, used up, used here, needs a moment of network — one each                  |
-| "आपकी दरख़्वास्त पहुँच गई"              | The moment a code goes out: the wait is visible, so nobody presses twice                           |
-| The bill: पास · 14 दिन · N फ़ोन · ₹list | What is being bought, named, at its list price — the first line of any honest bill                 |
-| "SSW9VASX · 50% छूट −₹150"              | What the code gave, as the rupees it took off, so the total is not a mystery                       |
-| कुल · the total, large                  | What is owed after the code, from the one price rule — the same figure the button charges          |
-| पास लें — मुफ़्त                        | A ₹0 total: the pass, issued and installed on the spot                                             |
-| ₹149 भुगतान करें (a lock)               | One button above ₹0: Checkout with every method the account takes; says it is opening from the tap |
-| QR कोड (a QR glyph), under the button   | Someone elsewhere pays — only while `VITE_QR_PAY_LIVE` and buying are both on (049)                |
-| UPI · कार्ड · नेट बैंकिंग               | Which ways to pay work, before the tap — a card holder does not assume UPI only                    |
-| "Razorpay से सुरक्षित भुगतान"           | Who takes the money, and that card details never reach us — asked before anyone pays               |
-| "भुगतान होते ही पास इसी फ़ोन पर"        | What happens after paying, so nobody waits for an email or a code that is not coming               |
-| "ख़रीदना अभी चालू नहीं है"              | Said plainly while buying is switched off                                                          |
-| Renew (not built yet)                   | Never gated is never forced, not never sold to — ships with purchase and an extendable pass (046)  |
-| "बाक़ी ₹149 ख़रीद खुलने पर"             | Only while buying is off: a partial code's balance and the code wait for buying to open            |
-| "भुगतान का पन्ना खुल रहा है"            | The moment the pay button goes out: the wait is visible, so nobody presses twice                   |
-| "पास लग गया"                            | The webhook signed it and the phone verified it — the one line that ends the flow                  |
-| "भुगतान पूरा नहीं हुआ"                  | Checkout closed with nothing paid; not an error, and not a dead end                                |
-| "भुगतान का पन्ना नहीं खुल पाया"         | Razorpay's script would not load on this network; said, not blamed on the phone                    |
-| "भुगतान की पुष्टि हो रही है"            | Paid and the webhook has not caught up; the order is kept and asked about again                    |
-| "इस कोड पर पास मुफ़्त है"               | A ₹0 code cannot be an order; it points at the button that does issue it                           |
-| परिवार · a QR per phone · भेजें         | Slots 2–4, each opened by the other phone's own camera; भेजें sends the QR as a picture            |
-| What भेजें did, in one line             | The QR went as a picture, or the link did, or it is copied — a closed sheet, nothing               |
-| "पास इस फ़ोन पर लग गया" / did not       | What a scanned QR did, on the phone that scanned it                                                |
-| "यह पास किसी और फ़ोन पर पहले लग चुका"   | Decision 005's reconciliation, said once, in one line                                              |
-| भारत में बैठकर आज़माइए                  | The counter, testable from India                                                                   |
+| Field                                                             | Why it is there                                                                                    |
+| ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| अभी: the state, the line, the rule                                | What the dot means, in words                                                                       |
+| 1–4 फ़ोन · ₹199 / 299 / 399 / 499                                 | The phones, chosen first; above four, WhatsApp                                                     |
+| "इस कोड पर एक ही फ़ोन चलता है"                                    | A single code locks the phones to one; said, not discovered                                        |
+| कोड · लगाएँ                                                       | A code from an advertisement or an operator; pre-filled when the URL brought it                    |
+| The code's line                                                   | Unknown, not yet, ended, used up, used here, needs a moment of network — one each                  |
+| "आपकी दरख़्वास्त पहुँच गई"                                        | The moment a code goes out: the wait is visible, so nobody presses twice                           |
+| The bill: पास · 14 दिन · N फ़ोन · ₹list                           | What is being bought, named, at its list price — the first line of any honest bill                 |
+| "SSW9VASX · 50% छूट −₹150"                                        | What the code gave, as the rupees it took off, so the total is not a mystery                       |
+| कुल · the total, large                                            | What is owed after the code, from the one price rule — the same figure the button charges          |
+| पास लें — मुफ़्त                                                  | A ₹0 total: the pass, issued and installed on the spot                                             |
+| ₹149 भुगतान करें (a lock)                                         | One button above ₹0: Checkout with every method the account takes; says it is opening from the tap |
+| QR कोड (a QR glyph), under the button                             | Someone elsewhere pays — only while `VITE_QR_PAY_LIVE` and buying are both on (049)                |
+| UPI · कार्ड · नेट बैंकिंग                                         | Which ways to pay work, before the tap — a card holder does not assume UPI only                    |
+| "Razorpay से सुरक्षित भुगतान"                                     | Who takes the money, and that card details never reach us — asked before anyone pays               |
+| "भुगतान करके आप नियम और शर्तें मानते हैं।" · नियम और शर्तें पढ़ें | Paying is the one moment anything is agreed to (057); said before the tap, the terms one tap away  |
+| "भुगतान होते ही पास इसी फ़ोन पर"                                  | What happens after paying, so nobody waits for an email or a code that is not coming               |
+| "ख़रीदना अभी चालू नहीं है"                                        | Said plainly while buying is switched off                                                          |
+| Renew (not built yet)                                             | Never gated is never forced, not never sold to — ships with purchase and an extendable pass (046)  |
+| "बाक़ी ₹149 ख़रीद खुलने पर"                                       | Only while buying is off: a partial code's balance and the code wait for buying to open            |
+| "भुगतान का पन्ना खुल रहा है"                                      | The moment the pay button goes out: the wait is visible, so nobody presses twice                   |
+| "पास लग गया"                                                      | The webhook signed it and the phone verified it — the one line that ends the flow                  |
+| "भुगतान पूरा नहीं हुआ"                                            | Checkout closed with nothing paid; not an error, and not a dead end                                |
+| "भुगतान का पन्ना नहीं खुल पाया"                                   | Razorpay's script would not load on this network; said, not blamed on the phone                    |
+| "भुगतान की पुष्टि हो रही है"                                      | Paid and the webhook has not caught up; the order is kept and asked about again                    |
+| "इस कोड पर पास मुफ़्त है"                                         | A ₹0 code cannot be an order; it points at the button that does issue it                           |
+| परिवार · a QR per phone · भेजें                                   | Slots 2–4, each opened by the other phone's own camera; भेजें sends the QR as a picture            |
+| What भेजें did, in one line                                       | The QR went as a picture, or the link did, or it is copied — a closed sheet, nothing               |
+| "पास इस फ़ोन पर लग गया" / did not                                 | What a scanned QR did, on the phone that scanned it                                                |
+| "यह पास किसी और फ़ोन पर पहले लग चुका"                             | Decision 005's reconciliation, said once, in one line                                              |
+| भारत में बैठकर आज़माइए                                            | The counter, testable from India                                                                   |
 
 ## घर.4 · पास › QR कोड — someone else pays (decision 049)
 
@@ -243,7 +221,7 @@ are retired: its numbers are जानना's red line, its feedback form is pa
 
 | Field                                    | Why it is there                                                                                       |
 | ---------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| आख़िरी बदलाव: 30 सितंबर 2026             | Which terms these are; the version a phone accepted is this date                                      |
+| आख़िरी बदलाव: 2 अक्टूबर 2026             | Which terms these are; the ones in force on the day a pass is bought (057)                            |
 | Dubaisaathi क्या है                      | Who runs it and what it is not — no booking, no delivery, no government link; RTA as the data source  |
 | जाना — सिर्फ़ हमारी सूची की जगहें, apart | The owner's line: not a map of every address, and exactly what happens to a place not on the list     |
 | खाना · जानना · बोलना और बोर्ड पढ़ना      | What each can promise: read off a card, checked on a day, translated by a machine                     |

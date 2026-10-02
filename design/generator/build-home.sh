@@ -84,42 +84,6 @@ homescreen HomeTrial.dc.html ending none warm off ask
 homescreen HomePaid.dc.html running set paid on
 THEME=dark; source "$(dirname "$0")/_chrome.sh"; homescreen HomeDark.dc.html running set trial on; THEME=light; source "$(dirname "$0")/_chrome.sh"
 
-# ---- L · लैंडिंग (first open: nothing to wait for — the pack comes down on the second, decision 052)
-{
-cat "$(dirname "$0")/_head.txt"
-cat <<H
-<div style="width: 390px; height: 844px; background: $ground; color: $ink; display: flex; flex-direction: column; overflow: hidden; padding: 0 24px; box-sizing: border-box;">
-  <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 12px; text-align: center; padding-top: 16px;">
-    $(logo 80)
-    $(wordmark 40 "$ink" "$marigold" "$marigoldText" yes)
-    <span class="disp" style="font-size: 21px; font-weight: 700; line-height: 1.25; color: $tealText; text-wrap: balance;">खाना · जाना · जानना — आपके साथ, बिना इंटरनेट</span>
-    <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; text-align: start; margin-top: 4px;">
-      <span style="display: flex; align-items: center; gap: 8px;">$(check 18 "$teal" 2.4)खाने की जगहें, बिना नेटवर्क</span>
-      <span style="display: flex; align-items: center; gap: 8px;">$(check 18 "$teal" 2.4)मेट्रो-बस-टैक्सी का रास्ता, बिना नेटवर्क</span>
-      <span style="display: flex; align-items: center; gap: 8px;">$(check 18 "$teal" 2.4)दुबई की जगहें, हिंदी में, बिना नेटवर्क</span>
-      <span style="display: flex; align-items: center; gap: 8px;">$(check 18 "$teal" 2.4)आपका होटल और दस्तावेज़, इसी फ़ोन में</span>
-    </div>
-    <div style="display: flex; gap: 10px; margin-top: 8px;">
-      <span style="padding: 8px 14px; border-radius: 999px; background: $ink; color: $ground; font-size: 14px; font-weight: 700;">हिंदी</span>
-      <span style="padding: 8px 14px; border-radius: 999px; border: 1.5px solid $line; color: $ink; font-size: 14px; font-weight: 600;">English</span>
-    </div>
-  </div>
-  <div style="display: flex; flex-direction: column; gap: 12px; padding-bottom: 32px;">
-    <div style="display: flex; flex-direction: column; gap: 8px; padding: 14px 16px; border-radius: 16px; background: $sand;">
-      <div style="display: flex; justify-content: space-between; font-size: 13.5px; font-weight: 600; color: $ink;"><span>ऑफ़लाइन पैक अगली बार खोलने पर आएगा</span></div>
-      <span style="font-size: 12.5px; color: $muted;">दुबई जाने से पहले एक बार और खोलिए — वाई-फ़ाई पर, फिर फ़ोन में ही रहेगा।</span>
-    </div>
-    <span style="font-size: 12.5px; line-height: 1.5; color: $muted; text-align: center;">खाना, जाना, जानना और बोलना में आप जो लिखते, बोलते या पढ़वाते हैं, उसे हम Saathi को बेहतर बनाने के लिए रख सकते हैं — सिर्फ़ लिखा हुआ, आपकी आवाज़ या फ़ोटो नहीं. यह आपके नाम या नंबर से नहीं जुड़ता.</span>
-    <span style="font-size: 12.5px; line-height: 1.5; color: $muted; text-align: center;">जारी रखकर आप नियम और शर्तें मानते हैं। <span style="font-weight: 700; color: $marigoldText;">नियम और शर्तें पढ़ें</span></span>
-    <span style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 14px; background: $marigold; color: $onMarigold; font-size: 16px; font-weight: 700;">मंज़ूर है, शुरू करें</span>
-  </div>
-</div>
-</x-dc>
-</body>
-</html>
-H
-} > "$OUT/Landing.dc.html"
-
 # ---- घर.1 · मेरा होटल, step one: the card (decision 032). Both sides of the reception's card, the
 # pin, and Submit — on the first screen, because a pin below the fold is a pin nobody presses.
 field() { # label value muted?
@@ -313,6 +277,7 @@ $(tier '4 फ़ोन' '₹499' "$line" "$card")
     <span style="display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; border-radius: 14px; border: 1.5px solid $line; color: $ink; font-size: 15px; font-weight: 600;">$(qr 20 "$ink" 1.9)QR कोड</span>
     <span style="font-size: 13px; font-weight: 600; color: $ink; text-align: center;">UPI · कार्ड · नेट बैंकिंग</span>
     <span style="font-size: 12px; color: $muted; text-align: center; line-height: 1.4;">Razorpay से सुरक्षित भुगतान — कार्ड की जानकारी हम तक नहीं आती</span>
+    <span style="font-size: 12px; color: $muted; text-align: center; line-height: 1.4;">भुगतान करके आप नियम और शर्तें मानते हैं। <span style="color: $tealText; text-decoration: underline;">नियम और शर्तें पढ़ें</span></span>
     <span style="font-size: 12px; color: $muted; text-align: center; line-height: 1.4;">भुगतान होते ही पास इसी फ़ोन पर लग जाता है</span>
   </div>
 H
@@ -442,30 +407,6 @@ H
 bar contribute
 close_screen
 } > "$OUT/HomeContribute.dc.html"
-
-# ---- L · लैंडिंग › एक बात, एक बार — the one-time notice (decisions 045 and 048), for a phone that was
-# already past the landing page: the data-use line and the terms, one button. It comes back only
-# when the terms change, and then once.
-{
-cat "$(dirname "$0")/_head.txt"
-cat <<H
-<div style="width: 390px; height: 844px; background: $ground; color: $ink; display: flex; flex-direction: column; overflow: hidden; padding: 0 24px; box-sizing: border-box;">
-  <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 12px; text-align: center; padding-top: 16px;">
-    $(logo 64)
-    $(wordmark 40 "$ink" "$marigold" "$marigoldText" yes)
-    <span class="disp" style="font-size: 21px; font-weight: 700; line-height: 1.25; color: $tealText;">एक बात, एक बार</span>
-    <span style="font-size: 15px; line-height: 1.55; color: $ink;">खाना, जाना, जानना और बोलना में आप जो लिखते, बोलते या पढ़वाते हैं, उसे हम Saathi को बेहतर बनाने के लिए रख सकते हैं — सिर्फ़ लिखा हुआ, आपकी आवाज़ या फ़ोटो नहीं. यह आपके नाम या नंबर से नहीं जुड़ता.</span>
-  </div>
-  <div style="display: flex; flex-direction: column; gap: 12px; padding-bottom: 32px;">
-    <span style="font-size: 12.5px; line-height: 1.5; color: $muted; text-align: center;">जारी रखकर आप नियम और शर्तें मानते हैं। <span style="font-weight: 700; color: $marigoldText;">नियम और शर्तें पढ़ें</span></span>
-    $(btn 'मंज़ूर है, आगे बढ़ें' "$marigold" "$onMarigold")
-  </div>
-</div>
-</x-dc>
-</body>
-</html>
-H
-} > "$OUT/Consent.dc.html"
 
 # ---- घर.10 · नियम और शर्तें (decision 048) — the terms, privacy and refunds, bundled so they read
 # with the radio off; the same words as saafarsaathi.in/terms. Reached from the landing page, the

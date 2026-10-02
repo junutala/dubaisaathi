@@ -26,11 +26,12 @@ export type Route =
   // traveller typed where nothing was found, carried in so they never type it twice.
   | { readonly screen: 'share' }
   | { readonly screen: 'contribute'; readonly about?: string }
-  // घर.10 · नियम और शर्तें — the terms, privacy and refunds (decision 048), from the landing page,
-  // the one-time notice and the small print at the foot of घर
+  // घर.10 · नियम और शर्तें — the terms, privacy and refunds (decision 048), from the small print at
+  // the foot of घर and the line beside घर.4's pay button
   | { readonly screen: 'terms' }
-  // 1.1 / 1.2 · खाना — one screen; a dish in the box is what makes it 1.2
-  | { readonly screen: 'food'; readonly dish?: string }
+  // 1.1 / 1.2 · खाना — one screen; a dish in the box is what makes it 1.2. `diet` opens it with one
+  // of its chips already on, which is how an advertisement lands on what it promised (057).
+  | { readonly screen: 'food'; readonly dish?: string; readonly diet?: Diet }
   // 1.3 · the kitchen, which is its menu (the separate outlet screen went on 24 September)
   | { readonly screen: 'menu'; readonly outletId: string }
   // 2.1 · जाना, with the box already filled when a place was handed in
@@ -56,6 +57,31 @@ export type Route =
   | { readonly screen: 'know'; readonly tab?: KnowTab }
   | { readonly screen: 'place'; readonly placeId: string }
   | { readonly screen: 'tip'; readonly tipId: string };
+
+/** The खाना chips an address may switch on. Kept here, like the tab names below, for the router. */
+export type Diet = 'veg' | 'jain' | 'noOnionGarlic' | 'vrat';
+const DIETS: readonly string[] = ['veg', 'jain', 'noOnionGarlic', 'vrat'] satisfies Diet[];
+
+function isDiet(value: string | undefined): value is Diet {
+  return value !== undefined && DIETS.includes(value);
+}
+
+/**
+ * Where an advertisement's visitor lands (the owner, 2 October; decision 057): on what the ad
+ * promised, not on घर. The vrat poster opens खाना with व्रत already on. Read from the ad's own
+ * `utm_campaign`, so the ads themselves never change — and only when the link has no hash.
+ */
+const CAMPAIGN_LANDINGS: Readonly<Record<string, Route>> = {
+  khaana1: { screen: 'food', diet: 'vrat' },
+};
+
+export function campaignLanding(url: URL): Route | null {
+  // Only a link with no screen in it at all: घर, once landed on, is `#/`, so a reload or a
+  // relaunch from it stays on घर rather than landing on the ad again.
+  if (url.hash !== '') return null;
+  const campaign = (url.searchParams.get('utm_campaign') ?? '').toLowerCase();
+  return CAMPAIGN_LANDINGS[campaign] ?? null;
+}
 
 /** Kept here rather than imported, so the router does not load a feature to read an address. */
 const KNOW_TAB_NAMES: readonly string[] = ['places', 'travel', 'shopping'] satisfies KnowTab[];
@@ -95,6 +121,8 @@ export function parseRoute(hash: string): Route {
       return { screen: 'terms' };
     case 'food':
       return arg ? { screen: 'food', dish: decodeURIComponent(arg) } : { screen: 'food' };
+    case 'food-diet':
+      return isDiet(arg) ? { screen: 'food', diet: arg } : { screen: 'food' };
     case 'outlet':
       // A link saved before 24 September opens the kitchen, which is its menu now.
       return arg ? { screen: 'menu', outletId: arg } : { screen: 'food' };
@@ -172,7 +200,8 @@ export function href(route: Route): string {
     case 'terms':
       return '#/terms';
     case 'food':
-      return route.dish === undefined ? '#/food' : `#/food/${encodeURIComponent(route.dish)}`;
+      if (route.dish !== undefined) return `#/food/${encodeURIComponent(route.dish)}`;
+      return route.diet === undefined ? '#/food' : `#/food-diet/${route.diet}`;
     case 'menu':
       return `#/menu/${route.outletId}`;
     case 'go':
